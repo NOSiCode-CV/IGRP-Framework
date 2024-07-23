@@ -1,11 +1,7 @@
 package nosi.core.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.HttpHeaders;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Core;
@@ -16,6 +12,12 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public final class OAuth2OpenIdAuthenticationManager {
@@ -29,33 +31,32 @@ public final class OAuth2OpenIdAuthenticationManager {
 	private OAuth2OpenIdAuthenticationManager() {}
 
 	public static void authorizationCodeSwap(HttpServletRequest request) {
-		String error = request.getParameter("error");
-		String authCode = request.getParameter("code");
-		String sessionState = request.getParameter("session_state");
-		HttpSession session = request.getSession();
+
+		final var error = request.getParameter("error");
 		if (error != null && !error.equals("null") && !error.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. ERROR: (" + error + ").");
+
+		final var authCode = request.getParameter("code");
+		final var sessionState = request.getParameter("session_state");
+		final var session = request.getSession();
+		final var settings = ApplicationManager.loadConfig();
 		
-		Properties settings = ApplicationManager.loadConfig();
-		
-		Map<String, String> m = swap(authCode, sessionState, settings);
+		final var m = generateToken(authCode, settings);
 		if(m.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap.");
 		
-		String token = m.get("access_token");
+		final var token = m.get("access_token");
 		if (token == null)
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Token não encontrado.");
 
-		String idToken = m.get("id_token");
-		sessionState = m.get("session_state");
-		String refresh_token = m.get("refresh_token");
+		final var idToken = m.get("id_token");
+		final var refreshToken = m.get("refresh_token");
 
-		Map<String, String> userInfo = oAuth2GetUserInfoByToken(token, settings);
-
-		String email = Optional.ofNullable(userInfo.get("email")).map(String::trim).map(String::toLowerCase).orElse("");
-		String uid = userInfo.get("sub");
-		String name = userInfo.get("name");
-		String phone_number = userInfo.get("phone_number");
+		final var userInfo = oAuth2GetUserInfoByToken(token, settings);
+		final var email = Optional.ofNullable(userInfo.get("email")).map(String::trim).map(String::toLowerCase).orElse("");
+		final var uid = userInfo.get("sub");
+		final var name = userInfo.getOrDefault("name","");
+		final var phone_number = userInfo.get("phone_number");
 
 		User user = null;
 		
@@ -64,7 +65,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		if (uid == null && Core.isNotNull(email) || user == null)
 			user = new User().find().andWhere("email", "=", email).one();
 
-		final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+		final var env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
 				ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
 
 		if (user != null) {
@@ -72,7 +73,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 			if (user.getStatus() != 1)
 				throw new IllegalStateException("Este utilizador " + user.getName() + " ("+user.getEmail()+") encontra-se desativado.");
 
-			Profile profile = new Profile().getByUser(user.getId());
+			final var profile = new Profile().getByUser(user.getId());
 			if(profile == null)
 				throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador: "+user.getUser_name());
 			
@@ -82,11 +83,11 @@ public final class OAuth2OpenIdAuthenticationManager {
 			session.setAttribute("_oidcIdToken", idToken);
 			session.setAttribute("_oidcState", sessionState);
 
-			user.setValid_until(refresh_token);
+			user.setValid_until(refreshToken);
 			user.setOidcIdToken(idToken);
 			user.setOidcState(sessionState);
 			user.setIsAuthenticated(1);
-			user.setRefreshToken(refresh_token);
+			user.setRefreshToken(refreshToken);
 			user = user.update();
 		} else if ("dev".equalsIgnoreCase(env)) {
 			User newUser = new User();
@@ -100,10 +101,10 @@ public final class OAuth2OpenIdAuthenticationManager {
 			newUser.setUpdated_at(System.currentTimeMillis());
 			newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 			newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-			newUser.setValid_until(refresh_token);
+			newUser.setValid_until(refreshToken);
 			newUser.setOidcIdToken(idToken);
 			newUser.setOidcState(sessionState);
-			newUser.setRefreshToken(refresh_token);
+			newUser.setRefreshToken(refreshToken);
 			newUser = newUser.insert();
 			if(newUser == null)
 				throw new IllegalStateException("Ocorreu um erro ao adicionar o utilizador: "+name);
@@ -116,74 +117,78 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 	}
 
-	private static Map<String, String> swap(String code, String sessionState, Properties settings) {
-		Map<String, String> m = new HashMap<>();
-		Client curl = ClientBuilder.newClient();
+	private static Map<String, String> generateToken(String code, Properties settings) {
 		try {
 
-			String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-			String client_secret = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.value());
-			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.value());
-			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
+			final var client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
+			final var client_secret = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.value());
+			final var endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.value());
+			final var redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 
-			Form postData = new Form()
-					.param("grant_type", "authorization_code")
-					.param("code", code)
-					.param("redirect_uri", redirect_uri)
-					.param("scope", "openid email profile");
+			final var body = "grant_type=authorization_code&code=" + URLEncoder.encode(code, StandardCharsets.UTF_8)
+							 + "&redirect_uri=" + URLEncoder.encode(redirect_uri, StandardCharsets.UTF_8)
+							 + "&scope=" + URLEncoder.encode("openid email profile", StandardCharsets.UTF_8);
 
-			try (jakarta.ws.rs.core.Response r = curl.target(endpoint)
-					.request("application/x-www-form-urlencoded")
-					.header("Accept", "application/json")
-					.header("Authorization", "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()))
-					.post(Entity.form(postData), jakarta.ws.rs.core.Response.class)) {
+			final var authorization = "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes(StandardCharsets.UTF_8));
 
-				if (r.getStatus() == 200) {
-					String resultPost = r.readEntity(String.class);
-					JSONObject jToken = new JSONObject(resultPost);
-					String token = (String) jToken.get("access_token");
-					String id_token = (String) jToken.get("id_token");
-					String refresh_token = jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
-					m.put("access_token", token);
-					m.put("id_token", id_token);
-					m.put("session_state", sessionState);
-					m.put("refresh_token", refresh_token);
-				}
+			final var request = HttpRequest.newBuilder()
+					.uri(URI.create(endpoint))
+					.header(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded")
+					.header(HttpHeaders.ACCEPT, "application/json")
+					.header(HttpHeaders.AUTHORIZATION, authorization)
+					.POST(HttpRequest.BodyPublishers.ofString(body))
+					.build();
+
+			final var response = HttpClient.newBuilder()
+					.version(HttpClient.Version.HTTP_2)
+					.build()
+					.send(request, HttpResponse.BodyHandlers.ofString());
+
+			if (response.statusCode() == 200) {
+				final var jToken = new JSONObject(response.body());
+				final var token = (String) jToken.get("access_token");
+				final var idToken = (String) jToken.get("id_token");
+				final var refreshToken = jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
+
+				final var m = new HashMap<String, String>();
+				m.put("access_token", token);
+				m.put("id_token", idToken);
+				m.put("refresh_token", refreshToken);
+				return m;
 			}
 
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
-		} finally {
-			curl.close();
 		}
-		return m;
+		return Map.of();
 	}
 
 	private static Map<String, String> oAuth2GetUserInfoByToken(String token, Properties settings) {
-		Map<String, String> uid = new HashMap<>();
-		Client curl = ClientBuilder.newClient();
 		try {
-			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_USER.value());
-			jakarta.ws.rs.core.Response r = curl.target(endpoint)
-					.request()
-					.header("Accept", "application/json")
-					.header("Authorization", "Bearer " + token)
-					.get(jakarta.ws.rs.core.Response.class);
-			if (r.getStatus() == 200) {
-				String result = r.readEntity(String.class);
-				JSONObject jToken = new JSONObject(result);
+			final var endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_USER.value());
+
+			final var request = HttpRequest.newBuilder()
+					.uri(URI.create(endpoint))
+					.header(HttpHeaders.ACCEPT, "application/json")
+					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+					.GET()
+					.build();
+
+			final var response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			if (response.statusCode() == 200) {
+				final var jToken = new JSONObject(response.body());
+				final var uid = new HashMap<String, String>();
 				uid.put("sub", getAttributeStringValue(jToken, "sub"));
 				uid.put("email", getAttributeStringValue(jToken, "email"));
 				uid.put("birthdate", getAttributeStringValue(jToken, "birthdate"));
 				uid.put("name", getAttributeStringValue(jToken, "name"));
 				uid.put("phone_number", getAttributeStringValue(jToken, "phone_number"));
+				return uid;
 			}
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
-		} finally {
-			curl.close();
 		}
-		return uid;
+		return Map.of();
 	}
 
 	private static String getAttributeStringValue(JSONObject obj, String attribute) {
@@ -194,7 +199,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		}
 	}
 	
-	public static Optional<String> signOut(User currentUser, Properties configs, HttpServletRequest request) {
+	public static Optional<String> signOut(User currentUser, Properties configs) {
 
 		final String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
 				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : configs.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());

@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -16,6 +18,7 @@ import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 import nosi.webapps.igrp.dao.ActivityExecute;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.TaskAccess;
 
 /**
@@ -69,7 +72,7 @@ public class GenericActivitiIGRP {
 
 		return myProcessAccess.stream()
 				.filter(p -> allowTask(p.getProccessKey(), p))
-				.map(ActivityExecute::getProcessid).distinct().collect(Collectors.toList());
+				.map(ActivityExecute::getProcessid).distinct().toList();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -97,42 +100,50 @@ public class GenericActivitiIGRP {
 	 */
 	public List<ActivityExecute> getMyProccessInstances(String[] filterProcessIDs) {
 		final String[] process = this.getMyProcessKey();
-		if (process.length > 0)
-			return new ActivityExecute().find().keepConnection()
-					.where("organization", "=", Core.getCurrentOrganization())
-					.andWhere("proccessKey", "in", process)
+		if (process.length > 0) {
+			 ActivityExecute activityExecute = new ActivityExecute().find().keepConnection();
+
+			if(new Organization().find().where("organization","=",Core.getCurrentOrganization()).getCount()==0)
+				activityExecute.where("organization", "=", Core.getCurrentOrganization());
+
+			activityExecute.andWhere("proccessKey", "in", process)
 					.andWhere("processid", "in", filterProcessIDs)
 					.andWhere("application.dad", "=", Core.getCurrentDad())
-					.all();
+					.orderByDesc("id");
+            return activityExecute.all().stream()
+					.collect(Collectors.toMap(
+							ActivityExecute::getProcessid, // key - the field on which you want distinct activities
+							Function.identity(),      // value - the activity itself
+							(existing, replacement) -> existing)) // if a value already exists for a key, keep the existing
+					.values()
+					.stream()
+					.toList();
+		}
 		return null;
 	}
 
 	private String[] getMyProcessKey() {
-
-		final List<TaskAccess> taskAccessList = new TaskAccess().find()
+		final List<Map<String, Object>> taskAccessList = new TaskAccess().find()
 				.where("organization","=",Core.getCurrentOrganization())
 				.andWhere("profileType","=",Core.getCurrentProfile())
-				.andWhere("profileType.application.dad","=",Core.getCurrentDad())
+				.groupBy("processName")
 				.keepConnection()
-				.all();
+				.allColumns("processName");
 
 		if (taskAccessList == null)
 			return new String[] {};
 
-		return taskAccessList.stream().map(TaskAccess::getProcessName).distinct().toArray(String[]::new);
+		return taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(String[]::new);
 	}
 
 	
 	public boolean filterAccess(ProcessDefinitionService p) {
         if (null == p || p.getKey() == null)
             return false;
-        if ("igrp_studio".equalsIgnoreCase(Core.getCurrentApp().getDad()))
+        final String currentDad = Core.getCurrentDad();
+		if ("igrp_studio".equalsIgnoreCase(currentDad) || "igrp".equalsIgnoreCase(currentDad))
             return true;
-		return new TaskAccess().getTaskAccess().stream()
-				.anyMatch(a -> null != a && (
-								p.getKey().equals(a.getProcessName()) || ("Start" + p.getKey()).equals(a.getTaskName())
-						)
-				);
+		return new TaskAccess().hasTaskAccess(p.getKey());
 
     }
 

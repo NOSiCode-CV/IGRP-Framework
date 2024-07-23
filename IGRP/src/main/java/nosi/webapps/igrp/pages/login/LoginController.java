@@ -69,7 +69,7 @@ public class LoginController extends Controller {
 		try {
 			final var currentUser = Core.getCurrentUser();
 			DBAuthenticationManager.signOut(currentUser, Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
-			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(currentUser, this.configApp.getMainSettings(), Igrp.getInstance().getRequest());
+			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(currentUser, this.configApp.getMainSettings());
 			if(signOutUrl.isPresent())
 				return redirectToUrl(signOutUrl.get());
 		} catch (Exception e) {

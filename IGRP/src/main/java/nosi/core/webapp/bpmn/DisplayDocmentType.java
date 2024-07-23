@@ -7,13 +7,15 @@ import java.util.List;
 
 import nosi.core.gui.components.IGRPFormList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.FileField;
-import nosi.core.gui.fields.HiddenField;
-import nosi.core.gui.fields.LinkField;
-import nosi.core.gui.fields.TextField;
+import nosi.core.gui.fields.*;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.bpmn.FormlistDocument.Formlist_documento_task;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static nosi.core.i18n.Translator.gt;
 
 /**
  * Emanuel
@@ -123,14 +125,16 @@ public class DisplayDocmentType{
 					}
 					ft.setFormlist_documento_task_descricao(new Pair(descricao,descricao));
 					ft.setFormlist_documento_task_documento(new Pair(td.getTipo(),td.getTipo()));
-					if(td.getLink()!=null)
+					if(td.getLink()!=null && Core.isNotNull(td.getLink().getLink())){
 						ft.setFormlist_documento_task_mostrar(new Pair(td.getLink().getLink(),td.getLink().getLink_desc()));
+						ft.setFormlist_documento_user(new Pair(td.getUser(),td.getUser()));
+					}
 					else
 						ft.setFormlist_documento_task_mostrar(new Pair("#",""));
 					ft.setFormlist_documento_task_nome(new Pair(nome,nome));
 					String r = this.getObrigatoriedade(td.getRequired());
 					ft.setFormlist_documento_task_obrigatoriedade(new Pair(r,r));
-					ft.setFormlist_documento_user(new Pair(this.userName,this.userName));
+
 					ft.setFormlist_documento_doc_id(new Pair(""+td.getFileId(), ""+td.getFileId()));
 					data.add(ft);
 				}
@@ -155,14 +159,15 @@ public class DisplayDocmentType{
 						nome = td.getRepTemplate().getName();
 					}
 					ft.setFormlist_documento_output_task_descricao(new Pair(descricao,descricao));
-					if(td.getLink()!=null)
+					if(td.getLink()!=null && Core.isNotNull(td.getLink().getLink())){
 						ft.setFormlist_documento_output_task_mostrar(new Pair(td.getLink().getLink(),td.getLink().getLink_desc()));
-					else
+						ft.setFormlist_documento_output_user(new Pair(td.getUser(),td.getUser()));
+					}else
 						ft.setFormlist_documento_output_task_mostrar(new Pair("#",""));
 					ft.setFormlist_documento_output_task_nome(new Pair(nome,nome));
 					String r = this.getObrigatoriedade(td.getRequired());
 					ft.setFormlist_documento_output_task_obrigatoriedade(new Pair(r,r));
-					ft.setFormlist_documento_output_user(new Pair(this.userName,this.userName));
+
 					data.add(ft);
 				}
 			});
@@ -184,9 +189,9 @@ public class DisplayDocmentType{
 		formlist_documento_task_descricao.setLabel(gt("Descrição"));
 		formlist_documento_task_descricao.propertie().add("name","p_formlist_documento_task_descricao").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
 		
-		formlist_documento_task_obrigatoriedade = new TextField(null,"formlist_documento_task_obrigatoriedade");
+		formlist_documento_task_obrigatoriedade = new PlainTextField(null,"formlist_documento_task_obrigatoriedade");
 		formlist_documento_task_obrigatoriedade.setLabel(gt("Obrigatoriedade"));
-		formlist_documento_task_obrigatoriedade.propertie().add("name","p_formlist_documento_task_obrigatoriedade").add("type","text").add("maxlength","30").add("required","false").add("desc","true");
+		formlist_documento_task_obrigatoriedade.propertie().add("name","p_formlist_documento_task_obrigatoriedade").add("type","plaintext").add("disable_output_escaping","true").add("html_class","").add("maxlength","30").add("required","false").add("desc","true");
 		
 		formlist_documento_task_documento = new FileField(null,"formlist_documento_task_documento");
 		formlist_documento_task_documento.setLabel(gt("Documento"));
@@ -197,7 +202,7 @@ public class DisplayDocmentType{
 		formlist_documento_task_mostrar.propertie().add("name","p_formlist_documento_task_mostrar").add("type","link").add("target","_newtab").add("maxlength","10000").add("desc","true");
 		
 		formlist_documento_user = new TextField(null,"formlist_documento_user");	
-		formlist_documento_user.setLabel(gt("Utilizador"));					
+		formlist_documento_user.setLabel(gt("Submeteu"));
 		formlist_documento_user.propertie().add("name","p_formlist_documento_user").add("type","text").add("maxlength","10000").add("desc","true");
 		
 		formlist_documento_doc_id = new HiddenField(null,"formlist_documento_doc_id");	
@@ -209,11 +214,12 @@ public class DisplayDocmentType{
 		formlist_documento_task.addField(formlist_documento_task_obrigatoriedade);
 		formlist_documento_task.addField(formlist_documento_id_tp_doc);
 		formlist_documento_task.addField(formlist_documento_user);
-		
+		formlist_documento_task.addField(formlist_documento_task_mostrar);
+
 		if(this.isShowInputFile()) {
 			formlist_documento_task.addField(formlist_documento_task_documento);
-		}else	
-			formlist_documento_task.addField(formlist_documento_task_mostrar);
+		}
+
 	}
 	
 	private void addField_(IGRPFormList formlist_documento_task) {
@@ -226,16 +232,16 @@ public class DisplayDocmentType{
 		formlist_documento_output_task_descricao.setLabel(gt("Descrição"));
 		formlist_documento_output_task_descricao.propertie().add("name","p_formlist_documento_output_task_descricao").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
 		
-		formlist_documento_output_task_obrigatoriedade = new TextField(null,"formlist_documento_output_task_obrigatoriedade");
+		formlist_documento_output_task_obrigatoriedade = new PlainTextField(null,"formlist_documento_output_task_obrigatoriedade");
 		formlist_documento_output_task_obrigatoriedade.setLabel(gt("Obrigatoriedade"));
-		formlist_documento_output_task_obrigatoriedade.propertie().add("name","p_formlist_documento_output_task_obrigatoriedade").add("type","text").add("maxlength","30").add("required","false").add("desc","true");
+		formlist_documento_output_task_obrigatoriedade.propertie().add("name","p_formlist_documento_output_task_obrigatoriedade").add("type","plaintext").add("disable_output_escaping","true").add("html_class","").add("maxlength","30").add("required","false").add("desc","true");
 		
 		formlist_documento_output_task_mostrar = new LinkField(null,"formlist_documento_output_task_mostrar");	
 		formlist_documento_output_task_mostrar.setLabel(gt("Mostrar"));					
 		formlist_documento_output_task_mostrar.propertie().add("name","p_formlist_documento_output_task_mostrar").add("type","link").add("target","_newtab").add("maxlength","10000").add("desc","true");
 		
 		formlist_documento_output_user = new TextField(null,"formlist_documento_output_user");	
-		formlist_documento_output_user.setLabel(gt("Utilizador"));					
+		formlist_documento_output_user.setLabel(gt("Submeteu"));
 		formlist_documento_output_user.propertie().add("name","p_formlist_documento_output_user").add("type","text").add("maxlength","10000").add("desc","true");
 
 		formlist_documento_task.addField(formlist_documento_output_task_nome);
@@ -245,8 +251,10 @@ public class DisplayDocmentType{
 		formlist_documento_task.addField(formlist_documento_output_task_mostrar);
 	}
 
+	public static final String GREEN = "#449d44";
+	public static final String RED = "#d43f3a";
 	private String getObrigatoriedade(int required) {
-		return required==1?"Sim":"Nao";
+		return required==1?Core.colorStateTableTemplate("Sim",RED):Core.colorStateTableTemplate("Nao",GREEN);
 	}
 	
 	public void setUserName(String userName) {

@@ -427,64 +427,57 @@ public abstract class QueryHelper implements QueryInterface{
 	@Override
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
-		Connection conn = nosi.core.webapp.databse.helpers.Connection.getConnection(this.getConnectionName());
-		if(conn!=null) {
-			try {
+		try (Connection conn = nosi.core.webapp.databse.helpers.Connection.getConnection(this.getConnectionName())) {
+			if (conn != null) {
 				conn.setAutoCommit(this.isAutoCommit);
-			} catch (SQLException e1) {
-				this.setError(null, e1);
-			}
-			NamedParameterStatement q = null;
-			if(this instanceof QueryInsert) {
-				try {
-					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSqlExecute(),this.retuerningKeys);
-					}else {
-						q = new NamedParameterStatement(conn ,this.getSqlExecute(),Statement.RETURN_GENERATED_KEYS);
-					}
-					this.setParameters(q);	
-					Core.log("SQL:"+q.getSql());
-					r.setSql(q.getSql());
-					r.setKeyValue(q.executeInsert(this.tableName));
-				} catch (SQLException e) {
-					this.setError(r,e);
+				if (this instanceof QueryInsert) {
+					executeInsertQuery(conn, r);
+				} else {
+					executeUpdateQuery(conn, r);
 				}
-			}else {
-				try {
-					String sqlEx = this.getSqlExecute();
-					q = new NamedParameterStatement(conn, sqlEx);
-					this.setParameters(q);
-					r.setSql(q.getSql());
-					Core.log("SQL:"+q.getSql());
-					r.setKeyValue(q.executeUpdate());
-				} catch (SQLException e) {
-					this.setError(r,e);
-				}
-			}
-			try {
-				if(!this.isAutoCommit)
+				if (!this.isAutoCommit) {
 					conn.commit();
-			} catch (SQLException e) {
-				this.setError(r,e);
-			}finally {
-				try {
-					if(q!=null)
-						q.close();
-				} catch (SQLException e) {
-					this.setError(r, e);
 				}
 			}
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		} catch (SQLException e) {
+			this.setError(r, e);
 		}
 		this.resetQuery();
 		this.whereIsCall = false;
 		return r;
 	}
-	
+
+	private void executeInsertQuery(Connection conn, ResultSet r) throws SQLException {
+		try (NamedParameterStatement q = createStatementForInsert(conn)) {
+			this.setParameters(q);
+			Core.log("SQL:" + q.getSql());
+			r.setSql(q.getSql());
+			r.setKeyValue(q.executeInsert(this.tableName));
+		} catch (SQLException e) {
+			this.setError(r, e);
+		}
+	}
+
+	private NamedParameterStatement createStatementForInsert(Connection conn) throws SQLException {
+		if (this.retuerningKeys != null) {
+			return new NamedParameterStatement(conn, this.getSqlExecute(), this.retuerningKeys);
+		} else {
+			return new NamedParameterStatement(conn, this.getSqlExecute(), Statement.RETURN_GENERATED_KEYS);
+		}
+	}
+
+	private void executeUpdateQuery(Connection conn, ResultSet r) throws SQLException {
+		try (NamedParameterStatement q = new NamedParameterStatement(conn, this.getSqlExecute())) {
+			this.setParameters(q);
+			Core.log("SQL:" + q.getSql());
+			r.setSql(q.getSql());
+			r.setKeyValue(q.executeUpdate());
+		} catch (SQLException e) {
+			this.setError(r, e);
+		}
+	}
+
+
 
 	protected void resetQuery() {
 		this.columnsValue = new ArrayList<>();//restart mapped columns

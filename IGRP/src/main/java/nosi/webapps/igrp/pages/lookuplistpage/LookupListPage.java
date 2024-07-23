@@ -1,16 +1,18 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
 
+import nosi.core.gui.components.IGRPTable;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.validation.Valid;
-
-import nosi.core.gui.components.IGRPTable;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.SeparatorList;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 public class LookupListPage extends Model{		
+
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 
 	@RParam(rParamName = "p_associar_pagina")
 	private String associar_pagina;
@@ -78,6 +80,13 @@ public class LookupListPage extends Model{
 		return this.table_1;
 	}
 
+	
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
+	}
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
+	}
 	
 	public void setAssociar_pagina(String associar_pagina){
 		this.associar_pagina = associar_pagina;
@@ -168,12 +177,26 @@ private Pair type_doc;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;
 		}
+		public void setFormlist_1_id(String key){
+			this.setFormlist_1_id(key, key);
+		}
+		public void setFormlist_1_id(String key, String value){
+			this.formlist_1_id= new Pair(key, value);
+		}
+
 		public Pair getFormlist_1_id(){
 			return this.formlist_1_id;
 		}
 		public void setCheckbox(Pair checkbox){
 			this.checkbox = checkbox;
 		}
+		public void setCheckbox(String key){
+			this.setCheckbox(key, key);
+		}
+		public void setCheckbox(String key, String value){
+			this.checkbox= new Pair(key, value);
+		}
+
 		public Pair getCheckbox(){
 			return this.checkbox;
 		}
@@ -181,6 +204,13 @@ private Pair type_doc;
 		public void setCheckbox_check(Pair checkbox_check){
 			this.checkbox_check = checkbox_check;
 		}
+		public void setCheckbox_check(String key){
+			this.setCheckbox_check(key, key);
+		}
+		public void setCheckbox_check(String key, String value){
+			this.checkbox_check= new Pair(key, value);
+		}
+
 		public Pair getCheckbox_check(){
 			return this.checkbox_check;
 		}
@@ -188,6 +218,13 @@ private Pair type_doc;
 		public void setObrigatorio(Pair obrigatorio){
 			this.obrigatorio = obrigatorio;
 		}
+		public void setObrigatorio(String key){
+			this.setObrigatorio(key, key);
+		}
+		public void setObrigatorio(String key, String value){
+			this.obrigatorio= new Pair(key, value);
+		}
+
 		public Pair getObrigatorio(){
 			return this.obrigatorio;
 		}
@@ -195,6 +232,13 @@ private Pair type_doc;
 		public void setObrigatorio_check(Pair obrigatorio_check){
 			this.obrigatorio_check = obrigatorio_check;
 		}
+		public void setObrigatorio_check(String key){
+			this.setObrigatorio_check(key, key);
+		}
+		public void setObrigatorio_check(String key, String value){
+			this.obrigatorio_check= new Pair(key, value);
+		}
+
 		public Pair getObrigatorio_check(){
 			return this.obrigatorio_check;
 		}
@@ -202,6 +246,13 @@ private Pair type_doc;
 		public void setTipo(Pair tipo){
 			this.tipo = tipo;
 		}
+		public void setTipo(String key){
+			this.setTipo(key, key);
+		}
+		public void setTipo(String key, String value){
+			this.tipo= new Pair(key, value);
+		}
+
 		public Pair getTipo(){
 			return this.tipo;
 		}
@@ -209,6 +260,13 @@ private Pair type_doc;
 		public void setNome(Pair nome){
 			this.nome = nome;
 		}
+		public void setNome(String key){
+			this.setNome(key, key);
+		}
+		public void setNome(String key, String value){
+			this.nome= new Pair(key, value);
+		}
+
 		public Pair getNome(){
 			return this.nome;
 		}
@@ -216,6 +274,13 @@ private Pair type_doc;
 		public void setDescricao_documento(Pair descricao_documento){
 			this.descricao_documento = descricao_documento;
 		}
+		public void setDescricao_documento(String key){
+			this.setDescricao_documento(key, key);
+		}
+		public void setDescricao_documento(String key, String value){
+			this.descricao_documento= new Pair(key, value);
+		}
+
 		public Pair getDescricao_documento(){
 			return this.descricao_documento;
 		}
@@ -223,6 +288,13 @@ private Pair type_doc;
 		public void setType_doc(Pair type_doc){
 			this.type_doc = type_doc;
 		}
+		public void setType_doc(String key){
+			this.setType_doc(key, key);
+		}
+		public void setType_doc(String key, String value){
+			this.type_doc= new Pair(key, value);
+		}
+
 		public Pair getType_doc(){
 			return this.type_doc;
 		}
