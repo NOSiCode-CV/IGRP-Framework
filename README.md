@@ -1,16 +1,16 @@
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/README.md)
 
-[<img src="docs/root-images/logo_igrpweb_2.png">](http://www.igrp.cv)
+[<img src="docs/root-images/logo_igrp.png">](http://www.igrp.cv)
 
 ## :loudspeaker: About
 
-IGRP**Web** is a platform developed by the Operational Nucleus for the Information Society (NOSi) to create web applications, based on business steps, processes, automatic code generation and incorporation of the Once-Only-Principle, written in Java.
+IGRP is a platform developed by the Operational Nucleus for the Information Society (NOSi) to create web applications, based on business steps, processes, automatic code generation and incorporation of the Once-Only-Principle, written in Java.
 
-The IGRP**Web** core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache 2.0 license. Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
+The IGRP core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache 2.0 license. Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
 
-## :key: Why use IGRP**Web?**
+## :key: Why use IGRP?
 
-IGRPWeb allows to:
+IGRP allows to:
 
 - Independently create an unlimited number of applications;
 
@@ -138,7 +138,7 @@ These customizable properties allow you to set up the project to connect to your
 After generating the project, if you need to modify these properties later on, you can find and update them in the project's configuration file or relevant configuration classes, depending on how the archetype structures the generated project.
 
 
-## :ballot_box_with_check: Contributing to IGRPWeb
+## :ballot_box_with_check: Contributing to IGRP
 
 Follow [Contributing guidelines](CONTRIBUTING.md) for more details on how to contribute in the community and how to is the process of submitting pull requests, bugs fixing, patches.
 
@@ -149,7 +149,6 @@ Remember pull requests, bug fixes and new applications development are always en
 For general help using IGRP Framework, please refer to [the official IGRP Framework documentation](https://docs.igrp.cv). For additional help, you can use one of these channels to ask a question:
 
 - [GitHub](https://https://github.com/NOSiCode-CV/IGRP-Framework) (Bug reports, Contributions)
-- [Feedback section](https://igrpweb.canny.io) (Roadmap, Feature requests)
 - [YouTube Channel](https://www.youtube.com/playlist?list=PL4WRKYdHA5CZRna6eclQvL9q2UI3878vs) (Learn from Video Tutorials)
 
 ## :memo: License
