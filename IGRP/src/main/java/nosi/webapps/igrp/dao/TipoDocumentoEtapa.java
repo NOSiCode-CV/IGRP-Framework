@@ -50,7 +50,11 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 	private IGRPLink link;
 	@Transient
 	private Integer fileId;
-	
+	//User that added the document
+	@Transient
+	private String user;
+
+
 	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
 		this();
 		this.tipo = tipo;
@@ -155,5 +159,11 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 	}
 	
 	
+	public String getUser() {
+		return user;
+	}
 
+	public void setUser(String user) {
+		this.user = user;
+	}
 }

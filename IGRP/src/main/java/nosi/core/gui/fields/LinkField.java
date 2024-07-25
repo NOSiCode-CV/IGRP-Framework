@@ -42,7 +42,7 @@ public class LinkField extends AbstractField {
 
 	@Override
 	public Object getValue() {
-		link = super.getValue().toString();
+		link = super.getValue()+"";
 		if (this.params != null) {
 			this.params.forEach((key, value) -> link += "&" + key + "=" + value);
 		}

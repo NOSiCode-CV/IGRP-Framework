@@ -476,7 +476,7 @@
 				<xsl:when test="@type = 'plaintext'">
 					<div class="{$sizeClass} form-group ">
 						<xsl:call-template name="field-wrapper"/>
-						<xsl:value-of select="$fieldValue"/>
+						<xsl:value-of select="$fieldValue" disable-output-escaping="yes"/>
 					</div>
 				</xsl:when>
 				<!--<xsl:when test="contains(@type,'vkb_')">

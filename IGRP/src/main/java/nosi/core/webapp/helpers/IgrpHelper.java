@@ -1,5 +1,7 @@
 package nosi.core.webapp.helpers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,6 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
@@ -80,12 +85,12 @@ public final class IgrpHelper {
 	
 
 	public static String getValue(Object model,String name){
-		String value = "";
+		String value = null;
 		if(model!=null && name!=null && !name.isEmpty()){
-			value = "";
 			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
 		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
 		    	if(m.getName().equals(methodName)){
+					value = "";
 			    	try {
 						final Object invoke = m.invoke(model);
 						if(invoke !=null) {
@@ -95,14 +100,8 @@ public final class IgrpHelper {
 			    			}else {
 			    				if(m.getReturnType().getSimpleName().equals("UploadFile")) {
 			    					UploadFile upload = (UploadFile) invoke;
-			    					if(upload!=null) {
-			    						value = upload.getSubmittedFileName();
-			    					}else {
-			    						TempFile tempFile = TempFileHelper.getTempFile(Model.getParamFileId(name));
-			    						if(tempFile!=null)
-			    							value = tempFile.getName();
-			    					}
-			    				}else {
+                                    value = upload.getSubmittedFileName();
+                                }else {
 				    				value = ""+ invoke;
 				    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
 				    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
@@ -192,5 +191,11 @@ public final class IgrpHelper {
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String convertToJsonString(InputStream inputStream) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		var data = objectMapper.readValue(inputStream, new TypeReference<>() {});
+		return new Gson().toJson(data);
 	}
 }

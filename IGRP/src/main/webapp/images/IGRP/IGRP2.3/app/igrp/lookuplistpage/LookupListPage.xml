@@ -37,13 +37,22 @@
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Lista de Pagina Para Lookup</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-powerpoint-o" request_fields="" refresh_submit="false" refresh_components="" maxlength="50">
+                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-powerpoint-o" request_fields="" refresh_submit="false" refresh_components="" adbcli="" notvalidatefields="false" maxlength="50">
                     <label>Associar Página</label>
                     <value/>
                 </associar_pagina>
-                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-word-o" request_fields="" refresh_submit="false" refresh_components="" maxlength="50">
+                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-word-o" request_fields="" refresh_submit="false" refresh_components="" adbcli="" notvalidatefields="false" maxlength="50">
                     <label>Associar Documentos</label>
                     <value/>
                 </associar_documentos>
@@ -51,7 +60,7 @@
         </tabcontent_1>
         <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -73,35 +82,35 @@
                         </option>
                     </list>
                 </env_fk>
-                <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Título</label>
-                    <value>Sit laudantium amet labore sit</value>
+                    <value>Iste ipsum adipiscing officia natus</value>
                 </page_descr>
-                <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Code</label>
-                    <value>Dolor perspiciatis aperiam aliqua laudantium</value>
+                    <value>Omnis mollit amet ipsum perspiciatis</value>
                 </page>
             </fields>
             <tools-bar>
-                <item id="button_a6fd_a12c" type="form" code="" class="primary" rel="pesquisar" refresh_components="">
+                <item id="button_a6fd_a12c" type="form" code="" class="primary" rel="pesquisar" refresh_components="table_1">
                     <title>Pesquisar</title>
                     <app>igrp</app>
-                    <page>Dominio</page>
+                    <page>LookupListPage</page>
                     <link>index</link>
-                    <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
-                    <target>submit</target>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml?</parameter>
+                    <target>submit_ajax</target>
                     <img>primary|fa-search</img>
-                    <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
                 </item>
             </tools-bar>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar" refresh_components="">
+            <item type="specific" code="" rel="gravar" refresh_components="formlist_1">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>LookupListPage</page>
                 <link>index</link>
-                <target>submit</target>
+                <target>submit_ajax</target>
                 <img>primary|fa-save</img>
                 <preview>../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
             </item>
@@ -109,12 +118,12 @@
         <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
             <fields>
                 <checkbox name="p_checkbox" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" check="true" desc="true">
-                    <label></label>
+                    <label>Ativo?</label>
                 </checkbox>
                 <obrigatorio name="p_obrigatorio" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" check="true" desc="true">
                     <label>Obrigatório?</label>
                 </obrigatorio>
-                <tipo name="p_tipo" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="" delimiter=";" tags="false" desc="true">
+                <tipo name="p_tipo" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="" delimiter=";" tags="false" load_service_data="false" desc="true">
                     <label>Tipo</label>
                     <list>
                         <option/>
@@ -136,10 +145,10 @@
                         </option>
                     </list>
                 </tipo>
-                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                <nome name="p_nome" type="plaintext" disable_output_escaping="false" html_class="" maxlength="30" right="false" desc="true">
                     <label>Nome</label>
                 </nome>
-                <descricao_documento name="p_descricao_documento" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                <descricao_documento name="p_descricao_documento" type="plaintext" disable_output_escaping="false" html_class="" maxlength="30" right="false" desc="true">
                     <label>Descrição</label>
                 </descricao_documento>
                 <type_doc name="p_type_doc" type="hidden" maxlength="250" java-type="String" tag="type_doc" desc="true"/>
@@ -148,73 +157,73 @@
                 <value>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
-                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <checkbox_check name="p_checkbox_check">1</checkbox_check>
                         <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
-                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <obrigatorio_check name="p_obrigatorio_check">1</obrigatorio_check>
                         <tipo name="p_tipo" desc="true">2</tipo>
-                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Amet aliqua stract labore sed</nome>
-                        <nome_desc name="p_nome_desc">Amet aliqua stract labore sed</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Rem sit mollit ipsum laudantiu</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Rem sit mollit ipsum laudantiu</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-0cb4_8310</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-0cb4_8310</type_doc_desc>
+                        <tipo_check name="p_tipo_check">2</tipo_check>
+                        <nome name="p_nome" desc="true">Adipiscing sit iste ipsum sit</nome>
+                        <nome_check name="p_nome_check">Adipiscing sit iste ipsum sit</nome_check>
+                        <descricao_documento name="p_descricao_documento" desc="true">Sit elit sit omnis totam</descricao_documento>
+                        <descricao_documento_check name="p_descricao_documento_check">Sit elit sit omnis totam</descricao_documento_check>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-174f_b981</type_doc>
+                        <type_doc_check name="p_type_doc_check">hidden-174f_b981</type_doc_check>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
-                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <checkbox_check name="p_checkbox_check">1</checkbox_check>
                         <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
-                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <obrigatorio_check name="p_obrigatorio_check">1</obrigatorio_check>
                         <tipo name="p_tipo" desc="true">2</tipo>
-                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Sit ipsum lorem anim omnis</nome>
-                        <nome_desc name="p_nome_desc">Sit ipsum lorem anim omnis</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Consectetur voluptatem rem mol</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Consectetur voluptatem rem mol</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-f051_d59c</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-f051_d59c</type_doc_desc>
+                        <tipo_check name="p_tipo_check">2</tipo_check>
+                        <nome name="p_nome" desc="true">Doloremque aperiam labore sed</nome>
+                        <nome_check name="p_nome_check">Doloremque aperiam labore sed</nome_check>
+                        <descricao_documento name="p_descricao_documento" desc="true">Amet unde elit mollit unde</descricao_documento>
+                        <descricao_documento_check name="p_descricao_documento_check">Amet unde elit mollit unde</descricao_documento_check>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-5598_270f</type_doc>
+                        <type_doc_check name="p_type_doc_check">hidden-5598_270f</type_doc_check>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
-                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <checkbox_check name="p_checkbox_check">1</checkbox_check>
                         <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
-                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <obrigatorio_check name="p_obrigatorio_check">1</obrigatorio_check>
                         <tipo name="p_tipo" desc="true">2</tipo>
-                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Consectetur sit aperiam deseru</nome>
-                        <nome_desc name="p_nome_desc">Consectetur sit aperiam deseru</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Unde amet consectetur stract r</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Unde amet consectetur stract r</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-675c_d0e1</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-675c_d0e1</type_doc_desc>
+                        <tipo_check name="p_tipo_check">2</tipo_check>
+                        <nome name="p_nome" desc="true">Aliqua sit consectetur dolorem</nome>
+                        <nome_check name="p_nome_check">Aliqua sit consectetur dolorem</nome_check>
+                        <descricao_documento name="p_descricao_documento" desc="true">Aliqua sed dolor totam omnis</descricao_documento>
+                        <descricao_documento_check name="p_descricao_documento_check">Aliqua sed dolor totam omnis</descricao_documento_check>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-fbb9_2489</type_doc>
+                        <type_doc_check name="p_type_doc_check">hidden-fbb9_2489</type_doc_check>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
-                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <checkbox_check name="p_checkbox_check">1</checkbox_check>
                         <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
-                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <obrigatorio_check name="p_obrigatorio_check">1</obrigatorio_check>
                         <tipo name="p_tipo" desc="true">2</tipo>
-                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Amet doloremque amet officia a</nome>
-                        <nome_desc name="p_nome_desc">Amet doloremque amet officia a</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Stract adipiscing sit dolor el</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Stract adipiscing sit dolor el</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-2581_ff61</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-2581_ff61</type_doc_desc>
+                        <tipo_check name="p_tipo_check">2</tipo_check>
+                        <nome name="p_nome" desc="true">Stract labore consectetur iste</nome>
+                        <nome_check name="p_nome_check">Stract labore consectetur iste</nome_check>
+                        <descricao_documento name="p_descricao_documento" desc="true">Iste stract iste elit amet</descricao_documento>
+                        <descricao_documento_check name="p_descricao_documento_check">Iste stract iste elit amet</descricao_documento_check>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-a622_283d</type_doc>
+                        <type_doc_check name="p_type_doc_check">hidden-a622_283d</type_doc_check>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
-                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <checkbox_check name="p_checkbox_check">1</checkbox_check>
                         <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
-                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <obrigatorio_check name="p_obrigatorio_check">1</obrigatorio_check>
                         <tipo name="p_tipo" desc="true">2</tipo>
-                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Doloremque voluptatem rem adip</nome>
-                        <nome_desc name="p_nome_desc">Doloremque voluptatem rem adip</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Doloremque sit lorem laudantiu</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Doloremque sit lorem laudantiu</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-4eed_6a77</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-4eed_6a77</type_doc_desc>
+                        <tipo_check name="p_tipo_check">2</tipo_check>
+                        <nome name="p_nome" desc="true">Deserunt accusantium dolor und</nome>
+                        <nome_check name="p_nome_check">Deserunt accusantium dolor und</nome_check>
+                        <descricao_documento name="p_descricao_documento" desc="true">Stract doloremque omnis sit pe</descricao_documento>
+                        <descricao_documento_check name="p_descricao_documento_check">Stract doloremque omnis sit pe</descricao_documento_check>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-f942_0e67</type_doc>
+                        <type_doc_check name="p_type_doc_check">hidden-f942_0e67</type_doc_check>
                     </row>
                 </value>
             </table>
@@ -232,37 +241,37 @@
             <table>
                 <value>
                     <row>
-                        <descricao name="p_descricao">Unde rem voluptatem unde amet</descricao>
-                        <nome_pagina name="p_nome_pagina">Officia omnis stract consectet</nome_pagina>
-                        <id name="p_id" tag="id">hidden-01b4_098b</id>
+                        <descricao name="p_descricao">Voluptatem accusantium totam l</descricao>
+                        <nome_pagina name="p_nome_pagina">Voluptatem sit totam laudantiu</nome_pagina>
+                        <id name="p_id" tag="id">hidden-ab0a_abb6</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Lorem doloremque labore stract</descricao>
-                        <nome_pagina name="p_nome_pagina">Laudantium officia mollit sit</nome_pagina>
-                        <id name="p_id" tag="id">hidden-ab62_bb02</id>
+                        <descricao name="p_descricao">Deserunt iste anim consectetur</descricao>
+                        <nome_pagina name="p_nome_pagina">Mollit natus sit iste labore</nome_pagina>
+                        <id name="p_id" tag="id">hidden-76e7_6b17</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Adipiscing mollit voluptatem m</descricao>
-                        <nome_pagina name="p_nome_pagina">Iste ipsum magna aperiam molli</nome_pagina>
-                        <id name="p_id" tag="id">hidden-db17_218a</id>
+                        <descricao name="p_descricao">Consectetur aperiam rem amet l</descricao>
+                        <nome_pagina name="p_nome_pagina">Lorem unde aperiam stract dolo</nome_pagina>
+                        <id name="p_id" tag="id">hidden-483d_8cac</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Natus anim sit sed natus</descricao>
-                        <nome_pagina name="p_nome_pagina">Aperiam consectetur omnis natu</nome_pagina>
-                        <id name="p_id" tag="id">hidden-af62_7002</id>
+                        <descricao name="p_descricao">Magna consectetur totam offici</descricao>
+                        <nome_pagina name="p_nome_pagina">Labore deserunt aliqua dolor s</nome_pagina>
+                        <id name="p_id" tag="id">hidden-d80d_635b</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Adipiscing unde sit ut accusan</descricao>
-                        <nome_pagina name="p_nome_pagina">Laudantium accusantium mollit</nome_pagina>
-                        <id name="p_id" tag="id">hidden-eee0_6f0d</id>
+                        <descricao name="p_descricao">Totam voluptatem magna ipsum i</descricao>
+                        <nome_pagina name="p_nome_pagina">Unde magna consectetur sit sit</nome_pagina>
+                        <id name="p_id" tag="id">hidden-e707_d9a4</id>
                     </row>
                 </value>
             </table>
         </table_1>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <hidden name="p_taskId" type="hidden" maxlength="30" java-type="" tag="taskid"/>
-                <hidden name="p_processId" type="hidden" maxlength="30" java-type="" tag="processid"/>
+                <hidden name="p_taskId" type="hidden" maxlength="30" java-type="" tooltip="false" disable_copy_paste="false" tag="taskid"/>
+                <hidden name="p_processId" type="hidden" maxlength="30" java-type="" tooltip="false" disable_copy_paste="false" tag="processid"/>
             </fields>
         </form_2>
     </content>

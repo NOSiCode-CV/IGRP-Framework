@@ -25,7 +25,7 @@ public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private static Logger LOGGER = LogManager.getLogger(LoginController.class);
+	private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
 
 	public Response actionLogin() throws Exception {
 
@@ -67,14 +67,16 @@ public class LoginController extends Controller {
 
 	public Response actionLogout() throws Exception {
 		try {
-			DBAuthenticationManager.signOut(Core.getCurrentUser(), Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
-			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(Core.getCurrentUser(), this.configApp.getMainSettings(), Igrp.getInstance().getRequest());
+			final var currentUser = Core.getCurrentUser();
+			DBAuthenticationManager.signOut(currentUser, Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(currentUser, this.configApp.getMainSettings());
 			if(signOutUrl.isPresent())
 				return redirectToUrl(signOutUrl.get());
 		} catch (Exception e) {
 			Core.setMessageError(gt("Ocorreu um erro no logout."));
 			LOGGER.error(e.getMessage(), e);
 		}
+
 		return this.redirect("igrp", "login", "login");
 	}
 
@@ -117,25 +119,23 @@ public class LoginController extends Controller {
 	}
 
 	private boolean loginWithDb(String username, String password) {
-		boolean success = false;
 		try {
-			success = DBAuthenticationManager.authenticate(username, password, Igrp.getInstance().getRequest());
+			return DBAuthenticationManager.authenticate(username, password, Igrp.getInstance().getRequest());
 		} catch (Exception e) {
 			Core.setMessageError(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
 		}
-		return success;
+		return false;
 	}
 
 	private boolean loginWithLdap(String username, String password) {
-		boolean success = false;
 		try {
-			success = LdapAuthenticationManager.authenticate(username, password, this.configApp.getMainSettings(), Igrp.getInstance().getRequest());
+			return LdapAuthenticationManager.authenticate(username, password, this.configApp.getMainSettings(), Igrp.getInstance().getRequest());
 		} catch (Exception e) {
 			Core.setMessageError(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
 		}
-		return success;
+		return false;
 	}
 
 	private Optional<Response> createResponseForRetrieveAccount() throws Exception {

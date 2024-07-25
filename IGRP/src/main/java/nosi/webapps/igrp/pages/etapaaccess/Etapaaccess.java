@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages.etapaaccess;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Etapaaccess extends Model{		
 
@@ -35,7 +34,8 @@ public class Etapaaccess extends Model{
 		private String id_check;
 		private String descricao;
 		private String processid;
-		private String task_description;
+		private String task_id;
+		private Integer env_fk;
 		public void setId(String id){
 			this.id = id;
 		}
@@ -63,11 +63,18 @@ public class Etapaaccess extends Model{
 			return this.processid;
 		}
 
-		public void setTask_description(String task_description){
-			this.task_description = task_description;
+		public void setTask_id(String task_id){
+			this.task_id = task_id;
 		}
-		public String getTask_description(){
-			return this.task_description;
+		public String getTask_id(){
+			return this.task_id;
+		}
+
+		public void setEnv_fk(Integer env_fk){
+			this.env_fk = env_fk;
+		}
+		public Integer getEnv_fk(){
+			return this.env_fk;
 		}
 
 	}

@@ -1,13 +1,20 @@
 package nosi.core.webapp.helpers;
 
 import nosi.core.webapp.Core;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Menu;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Map;
 
 /**
  * @author Marcel Iekiny Apr 18, 2017
  */
-public final class Route { 
-	
+public final class Route {
+
+	static final String deployedWarName = Core.getDeployedWarName();
 	private Route() {}
 
 	public static String toUrl(String app, String page, String action_, String qs,int isPublic) {
@@ -59,8 +66,19 @@ public final class Route {
 					url = "webapps?r="+Core.encryptPublicPage(app+"/"+page+"/"+action).replace(" ", "+")+qs+"&isPublic=2"+(qs.contains("target")?"":"&target=_blank");
 				}
 				else {
-					url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
-				}
+					//Checks if the App of the page is from a different instance, with a custom dad
+                    if (!app.equals(dad) && !app.equals("igrp") && !app.equals("igrp_studio") && !app.equals("tutorial") && !app.equals("portondinosilha") && !app.equals("inps_porton") && !app.equals("undefined") ) {
+                        Map<String, Object> appMap =new Application().find().where("dad","=",app).oneColumns("externo","url");
+						if(appMap!=null && Core.isNotNullMultiple(appMap.get("url"),appMap.get("externo")) && appMap.get("externo").equals(2) && !deployedWarName.equals((String) appMap.get("url"))){
+							url = new Menu().buildExternalUrl((String) appMap.get("url"),app, page,action)+qs;
+						}else
+							url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
+                    } else {
+                        url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
+                    }
+
+
+                }
 			}
 		}
 		return url.replace("&&", "&");
@@ -96,7 +114,7 @@ public final class Route {
 	public static String toUrl(String app, String page, String action, String[] paramNames, String[] paramValues) {
 		StringBuilder aux = new StringBuilder();
 		for (int i = 0; i < paramNames.length; i++) {
-			if (i > 0 && i < paramNames.length)
+			if (i > 0)
 				aux.append("&");
 			aux.append(paramNames[i]).append("=").append(paramValues[i]);
 		}

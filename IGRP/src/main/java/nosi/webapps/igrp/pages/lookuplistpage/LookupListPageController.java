@@ -1,6 +1,9 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -8,9 +11,6 @@ import java.util.List;
 
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.RepTemplate;
@@ -23,41 +23,48 @@ import java.util.ArrayList;
 		
 public class LookupListPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		LookupListPage model = new LookupListPage();
+		var model = new LookupListPage();
 		model.load();
-		LookupListPageView view = new LookupListPageView();
+		var view = new LookupListPageView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT '1' as checkbox,'1' as obrigatorio,'2' as tipo,'Magna totam laudantium perspic' as nome,'Aperiam ut unde elit magna' as descricao_documento,'hidden-17ca_43e1' as type_doc "));
-		model.loadTable_1(Core.query(null,"SELECT 'Stract sit aliqua stract magna' as descricao,'Omnis stract aperiam omnis ist' as nome_pagina,'hidden-493a_6cc3' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT '1' as checkbox,'1' as obrigatorio,'2' as tipo,'Lorem officia amet officia ali' as nome,'Sed elit iste adipiscing magna' as descricao_documento,'hidden-f3bf_a236' as type_doc "));
+		model.loadTable_1(Core.query(null,"SELECT 'Elit iste stract labore adipis' as descricao,'Doloremque mollit voluptatem i' as nome_pagina,'hidden-d86a_2bd8' as id "));
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
-		ArrayList<LookupListPage.Table_1> lista1 = new ArrayList<>();
-	
-		List<Action> listActions = new Action().find()
-											   .andWhere("application", "=",Core.toInt(model.getEnv_fk()))
-											   .andWhere("status", "=", 1)
-											   .andWhere("page", "like", model.getPage())
-											   .andWhere("page_descr", "like",model.getPage_descr())
-											   .andWhere("isComponent", "=",(short)0)
-											   .all();
-		
-		for(Action ac : listActions){
-			LookupListPage.Table_1 table1 = new LookupListPage.Table_1();
-			table1.setId(""+ac.getId());
-			table1.setNome_pagina(ac.getPage());
-			table1.setDescricao(ac.getPage_descr());
-			lista1.add(table1);
+        if (Core.getParam("onlyDocs",false).equals("true")) {
+            view.associar_pagina.setVisible(false);
+        } else {
+			ArrayList<LookupListPage.Table_1> lista1 = new ArrayList<>();
+            List<Action> listActions = new Action().find()
+                    .andWhere("application", "=",Core.toInt(model.getEnv_fk()))
+                    .andWhere("status", "=", 1)
+                    .andWhere("page", "like", model.getPage()+"%")
+                    .andWhere("page_descr", "like",model.getPage_descr()+"%")
+                    .andWhere("isComponent", "=",(short)0)
+                    .all();
+
+            for(Action ac : listActions){
+                LookupListPage.Table_1 table1 = new LookupListPage.Table_1();
+                table1.setId(""+ac.getId());
+                table1.setNome_pagina(ac.getPage());
+                table1.setDescricao(ac.getPage_descr());
+                lista1.add(table1);
+            }
+			view.env_fk.setLabel("Aplicação");
+			view.env_fk.setValue(new Application().getListApps());
+			view.table_1.addData(lista1);
+        }
+		if(Core.isNullMultiple(model.getProcessid(),model.getTaskid())){
+			model.setTaskid(Core.getParam("p_general_id"));
+			model.setProcessid(Core.getParam("p_process_id"));
 		}
-		model.setTaskid(Core.getParam("p_general_id"));
-		model.setProcessid(Core.getParam("p_process_id"));
-		if(Core.isNull(model.getProcessid()) && Core.isNull(model.getTaskid())) {			
-          view.associar_documentos.setVisible(false);
-		}else {
-			
+		if(Core.isNotNullMultiple(model.getProcessid(),model.getTaskid())) {
+			view.sectionheader_1_text.setValue("Etapa: "+model.getTaskid());
 			List<LookupListPage.Formlist_1> formList = new ArrayList<>();
 			
 			List<TipoDocumento> tipoDocumentos = new TipoDocumento().find()
@@ -102,7 +109,7 @@ public class LookupListPageController extends Controller {
 					LookupListPage.Formlist_1 row = new LookupListPage.Formlist_1();
 					row.setDescricao_documento(new Pair(repTemplate.getName(), repTemplate.getName()));
 					row.setFormlist_1_id(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
-					row.setNome(new Pair(repTemplate.getCode(), repTemplate.getCode())); 
+					row.setNome(new Pair(repTemplate.getCode(), "REPORT code: "+repTemplate.getCode()));
 					row.setCheckbox(new Pair(repTemplate.getId() + "", "-1")); 
 					row.setObrigatorio(new Pair("1", "0")); 
 					
@@ -119,22 +126,20 @@ public class LookupListPageController extends Controller {
 							row.setObrigatorio(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
 							row.setObrigatorio_check(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
 						}
-						row.setTipo(new Pair(tipoDocumentoEtapas.getTipo(), tipoDocumentoEtapas.getTipo()));
-					} 
-					
+
+					}
+					row.setTipo(new Pair("OUT", "OUT"));
 					formList.add(row);
 				}
 			}
 			
 			model.setFormlist_1(formList);
-			
-		}
-		
+			view.tipo.setQuery(Core.query(null,"SELECT 'IN' as ID,'Input' as NAME UNION SELECT 'OUT' as ID,'Output' as NAME "),"--- Selecionar Tipo Documento ---");
+			view.btn_gravar.addParameter("p_env_fk",model.getEnv_fk());
+		}else
+			view.associar_documentos.setVisible(false);
+
 		view.id.setParam(true);
-		view.env_fk.setLabel("Aplicação");
-        view.tipo.setQuery(Core.query(null,"SELECT 'IN' as ID,'Input' as NAME UNION SELECT 'OUT' as ID,'Output' as NAME "),"--- Selecionar Tipo Documento ---");
-		view.env_fk.setValue(new Application().getListApps());
-		view.table_1.addData(lista1);
 		view.btn_pesquisar.setLink("index");
 		/*----#end-code----*/
 		view.setModel(model);
@@ -142,7 +147,7 @@ public class LookupListPageController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		LookupListPage model = new LookupListPage();
+		var model = new LookupListPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -151,9 +156,10 @@ public class LookupListPageController extends Controller {
 		  return this.forward("igrp","LookupListPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		try {
-			boolean result  = true;
+			boolean result  = false;
 			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 				
 				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
@@ -171,14 +177,14 @@ public class LookupListPageController extends Controller {
 							 line++; 
 							 if(row.getCheckbox().getKey().equals(row.getCheckbox_check().getKey())) { // If Checked 
 								 if(row.getTipo().getKey() == null || row.getTipo().getKey().isEmpty()) { 
-									 Core.setMessageWarning("A " + line + "ª linha (Nome Documento: " + row.getNome().getValue() + ") não foi processada. Favor escolher o tipo de documento."); 
+									 Core.setMessageError("A " + line + "ª linha (Nome Documento: " + row.getNome().getValue() + ") não foi processada. Por favor escolher o tipo de documento.");
 									 continue; 
 								 }
 								 if(row.getTipo().getKey().equalsIgnoreCase("IN")) { 
 										result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "tipo_documento_fk");
 									}else 
 										if(row.getTipo().getKey().equalsIgnoreCase("OUT")) { 
-											RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", "" + row.getNome().getValue()).one(); 
+											RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", row.getNome().getValue()).one();
 											if(repTemplate != null) 
 												result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "report_fk");
 											else 
@@ -198,28 +204,29 @@ public class LookupListPageController extends Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		this.addQueryString("onlyDocs",Core.getParam("onlyDocs"));
 		/*----#end-code----*/
 		return this.redirect("igrp","LookupListPage","index", this.queryString());	
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		LookupListPage model = new LookupListPage();
+		var model = new LookupListPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","LookupListPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (pesquisar)  *//* End-Code-Block  */
 		/*----#start-code(pesquisar)----*/
 		
 				/*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
+		return this.redirect("igrp","LookupListPage","index", this.queryString());	
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
 	
@@ -233,27 +240,23 @@ public class LookupListPageController extends Controller {
 				if(relation_type_id.equalsIgnoreCase("report_fk")) {
 					doc = new TipoDocumentoEtapa().find()
 							.andWhere("processId", "= ",  model.getProcessid())
-							.andWhere("tipo", "=", p_tipo_fk)
-							.andWhere("required", "=", p_obrigatorio_fk)
 							.andWhere("taskId", "=", model.getTaskid())
-							.andWhere("status", "=", 0)
 							.andWhere("repTemplate.id", "=", Core.toInt(p_checkbox_fk))
 							.one(); 
 				}
 				if(relation_type_id.equalsIgnoreCase("tipo_documento_fk")) {
 					doc = new TipoDocumentoEtapa().find()
 							.andWhere("processId", "= ",  model.getProcessid())
-							.andWhere("tipo", "=", p_tipo_fk)
-							.andWhere("required", "=", p_obrigatorio_fk)
 							.andWhere("taskId", "=", model.getTaskid())
-							.andWhere("status", "=", 0)
 							.andWhere("tipoDocumento.id", "=", Core.toInt(p_checkbox_fk))
 							.one(); 
 				}
 						
 				if(doc != null) {
 					doc.setStatus(1);
-					doc = doc.update(); 
+					doc.setTipo(p_tipo_fk);
+					doc.setRequired(p_obrigatorio_fk);
+					doc = doc.update();
 					success = doc != null && !doc.hasError(); 
 				}else { 
 					doc = new TipoDocumentoEtapa(); 
@@ -290,9 +293,8 @@ public class LookupListPageController extends Controller {
 		int required = 0;
 		try {
 			required = Core.toInt(v);
-		}catch(IndexOutOfBoundsException e) {
-			required = 0;
-		}
+		}catch(IndexOutOfBoundsException ignored) {
+        }
 		return required;
 	}
 	
