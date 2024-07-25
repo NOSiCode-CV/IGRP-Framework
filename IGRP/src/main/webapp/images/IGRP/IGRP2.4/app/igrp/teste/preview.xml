@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="app.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.4</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>undefined</page>
+    <app>generator</app>
+    <plsql>
+        <action>undefined</action>
+        <package_instance>simple_global_oracle_1</package_instance>
+        <package_db>nosi.webapps.gexp</package_db>
+        <package_html>Lista_expediente</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>/IGRP/images/IGRP/IGRP2.4/core/formgen/util/preserve.jsonundefined</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>IGRP 2.4 Dashboard</title>
+        <page_header type="page_header_basic" xml-type="page_header" title="IGRP 2.4 Dashboard" gen-type="container" gen-group="">
+            <fields>
+                <page_header_description name="p_page_header_description" type="text" maxlength="4000">
+                    <label/>
+                    <value>Ipsum irure enim ad tempor ad ipsum et ipsum cupidatat laborum velit consequat.</value>
+                </page_header_description>
+            </fields>
+        </page_header>
+        <form_1 type="form" xml-type="form" title="Form" gen-type="container" gen-group="">
+            <fields>
+                <form_1_select_1 name="p_form_1_select_1" type="select" placeholder="" multiple="false" tags="false" load_service_data="false" domain="" maxlength="250" required="false" change="false" disabled="false" java-type="">
+                    <label>Select</label>
+                    <list>
+                        <option>
+                            <text>--</text>
+                            <value/>
+                        </option>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </form_1_select_1>
+                <form_1_select_choices_1 name="p_form_1_select_choices_1" type="select_choices" placeholder="" multiple="false" tags="false" load_service_data="false" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false">
+                    <label>Select_choices</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </form_1_select_choices_1>
+                <form_1_select2_1 name="p_form_1_select2_1" type="select2" placeholder="" multiple="false" tags="false" load_service_data="false" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false">
+                    <label>Select2</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </form_1_select2_1>
+            </fields>
+        </form_1>
+    </content>
+    <blockly></blockly>
+</rows>

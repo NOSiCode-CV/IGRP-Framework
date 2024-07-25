@@ -510,7 +510,7 @@ ul#list-reports {
     padding-right: 10px;
     padding-bottom: 12px;
     padding-left: 16px;
-    /* 
+    /*
 	/* min-height: 46px; */
 
 }
@@ -606,7 +606,7 @@ body.sidebar-off .navbar-brand {
 	width: 100%;
 	padding: 0 6px;
   }
-  
+
 .igrp-sidebar-menu-search-wrapper-icon {
 	transition: background .5s;
 	padding: 20px 6px;
@@ -709,7 +709,7 @@ background: rgba(0,0,0,.15)
 .treeview>a.active {
 	font-size: 15px;
 	/*border-right: 4px solid #fafafa;*/
-	/*padding-top: 8px !important; 
+	/*padding-top: 8px !important;
   padding-bottom: 8px !important;
  */
 }

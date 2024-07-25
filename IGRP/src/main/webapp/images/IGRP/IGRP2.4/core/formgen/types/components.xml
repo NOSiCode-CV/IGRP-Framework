@@ -23,7 +23,7 @@
 	</headers>
 
 	<containers>
-		
+
 		<item hidden="true">
 			<icon type='fa'>square-o</icon>
 			<type>container</type>
@@ -32,7 +32,7 @@
 			<hasField>false</hasField>
 			<group>example</group>
 		</item>
-		
+
 		<item>
 			<icon type='fa'>square-o</icon>
 			<type>container</type>
@@ -222,7 +222,7 @@
 			<hasField>false</hasField>
 			<group>map</group>
 		</item>
-		
+
 		<item hidden="true">
 			<icon type='fa'>map-o</icon>
 			<type>container</type>
@@ -232,7 +232,7 @@
 			<hasField></hasField>
 			<group>map</group>
 		</item>
-		
+
 		<item>
 			<icon type='fa'>map-marker</icon>
 			<type>container</type>
@@ -263,7 +263,7 @@
 		</item>
 
 		<item>
-			
+
 			<icon type='fa'>line-chart</icon>
 			<type>container</type>
 			<name>chart-line</name>
@@ -300,7 +300,7 @@
 			<group>dashboard</group>
 			<accept></accept>
 		</item>
-		
+
 		<item>
 			<icon type='fa'>sort-numeric-asc</icon>
 			<type>container</type>
@@ -341,7 +341,7 @@
 		</item>
 		<item>
 			<!-- Widget Teste-->
-				<icon type='fa'>cog </icon> 
+				<icon type='fa'>cog </icon>
 				<type>container</type>
 				<name>widget</name>
 				<label>Widget</label>
@@ -436,7 +436,7 @@
 			<name>number</name>
 			<label>Number</label>
 		</item>
-		
+
 		<item>
 			<icon type='fa'>calendar</icon>
 			<type>date</type>
@@ -450,10 +450,10 @@
 			<type>time</type>
 			<name>time</name>
 			<label>Time</label>
-		</item> 
+		</item>
 
 		<item>
-			<icon type='fa'>at</icon>		
+			<icon type='fa'>at</icon>
 			<type>email</type>
 			<name>email</name>
 			<label>E-mail</label>
@@ -469,6 +469,24 @@
 			<type>select</type>
 			<name>select</name>
 			<label>Select</label>
+		</item>
+		<item>
+			<icon type='fa'>caret-square-o-down</icon>
+			<type>inputPhone</type>
+			<name>inputPhone</name>
+			<label>inputPhone</label>
+		</item>
+		<item>
+			<icon type='fa'>caret-square-o-down</icon>
+			<type>select2</type>
+			<name>select2</name>
+			<label>Select2</label>
+		</item>
+		<item>
+			<icon type='fa'>caret-square-o-down</icon>
+			<type>select_choices</type>
+			<name>select_choices</name>
+			<label>Select Choices</label>
 		</item>
 		<item>
 			<icon type='fa'>sliders</icon>
@@ -602,7 +620,7 @@
 			<name>spinners</name>
 			<label>Spinners</label>
 		</item>
-		
+
 		<!--<item>
 			<icon type='fa'>pencil-square</icon>
 			<type>map_layer</type>
@@ -615,7 +633,7 @@
 			<name>map_widget</name>
 			<label>Map Widget</label>
 		</item>-->
-	
+
 	</fields>
 	<pages>
 		<page>

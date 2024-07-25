@@ -1,0 +1,18 @@
+<div class="form-group col-sm-#[size]# #[right]# " item-name="#tag#" item-type="#type#" #[required]#>
+    <label class="form-label">Select input with buttons &amp; Flag with number</label>
+    <div class="input-group" data-input-flag="" #[required]#>
+      <button class="btn btn-light border" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <img alt="flag img" height="20" class="country-flagimg rounded" />
+        <span class="ms-2 country-codeno">+ 1</span>
+      </button>
+      <input type="text" class="form-control rounded-end flag-input" value="" placeholder="Enter number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+      <div class="dropdown-menu w-100">
+        <div class="p-2 px-3 pt-1 searchlist-input">
+          <input type="text" class="form-control form-control-sm border search-countryList" placeholder="Search country name or country code..." />
+        </div>
+        <ul class="list-unstyled dropdown-menu-list mb-0">
+          <!-- Los elementos de la lista se llenarán dinámicamente con flag-input.init.js -->
+        </ul>
+      </div>
+    </div>
+  </div>
