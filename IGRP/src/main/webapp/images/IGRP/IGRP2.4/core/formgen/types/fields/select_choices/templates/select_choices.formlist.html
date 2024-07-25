@@ -1,0 +1,17 @@
+<xsl:if test="not(#tag#/@visible)">
+  <td style="text-align: #[align]#;" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#" item-type="#type#">
+    
+    <xsl:apply-templates mode="igrp-formlist-select-field" select="./#tag#">
+			<xsl:with-param name="parent-id" select="'#parent.tag#'"/>
+      <xsl:with-param name="change" select="'#[change]#'"/>
+      <xsl:with-param name="tags" select="'#[tags]#'"/>
+      <xsl:with-param name="maxlength" select="'#[maxlength]#'"/>
+      <xsl:with-param name="multiple" select="'#[multiple]#'"/>
+      <xsl:with-param name="desclabel" select="'#[desclabel]#'"/>
+      <xsl:with-param name="load_service_data" select="'#[load_service_data]#'"/>
+      <xsl:with-param name="delimiter" select="'#[delimiter]#'"/>
+		</xsl:apply-templates>
+
+  </td>
+</xsl:if>
+
