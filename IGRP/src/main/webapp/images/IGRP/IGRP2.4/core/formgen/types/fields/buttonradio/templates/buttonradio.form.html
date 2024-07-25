@@ -1,0 +1,16 @@
+<div class="btn-group col-sm-#[size]# #[right]#" role="group" item-name="#tag#" item-type="#type#" aria-label="Basic radio toggle button group" #[required]#>
+    <xsl:for-each select="#list.path#/option">
+        <input type="radio" class="btn-check" id="{../../@name}-{position()}" name="{../../@name}">
+            <xsl:call-template name="setAttributes">
+                <xsl:with-param name="field" select="//#path#"/>
+            </xsl:call-template>
+            <xsl:if test="@selected='true'">
+                <xsl:attribute name="checked">checked</xsl:attribute>
+            </xsl:if>
+        </input>
+        <label class="btn btn-outline-secondary mb-0" for="{../../@name}-{position()}">
+            <span><xsl:value-of select="text"/></span>
+        </label>
+    </xsl:for-each>
+</div>
+
