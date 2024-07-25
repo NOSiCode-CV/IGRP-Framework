@@ -112,9 +112,9 @@ public class BPMNExecution extends Controller{
                processServiceRest.addVariable(task.getTaskDefinitionKey() + "_" + key, "local", "string", value[0]);
             });
 			taskServiceRest.getTaskServiceRest().addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",task.getId());
+			taskServiceRest.getTaskServiceRest().submitVariables(task.getId());
 			processServiceRest.addVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI+"_"+task.getId(),"string",content);
 			processServiceRest.submitVariables(task.getProcessInstanceId());
-			taskServiceRest.getTaskServiceRest().updateVariables(task.getId(),task.getTaskDefinitionKey()+"_p_task_id");
 		}
 		formData.addVariable("userName", Core.getCurrentUser().getUser_name());
 		formData.addVariable("profile", Core.getCurrentProfile());

@@ -3347,7 +3347,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
 					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
+			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3358,7 +3358,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
 					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
+			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3370,7 +3370,7 @@ public final class Core {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_ID))
 					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
+			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3398,7 +3398,7 @@ public final class Core {
 	 */
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey, String processInstanceId) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
-				.getHistoryOfProccessInstanceId(processDefinitionKey, processInstanceId, false);
+				.getHistoryOfProccessInstanceId(processDefinitionKey, processInstanceId, false,true);
 		if (task1 != null && !task1.isEmpty()) {
 			return task1.get(task1.size() - 1).getVariables();
 		}
@@ -3412,7 +3412,7 @@ public final class Core {
 	 */
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
-				.getHistoryOfProccessInstanceId(processDefinitionKey);
+				.getHistoryOfProccessInstanceId( processDefinitionKey, null,false, true);
 		if (task1 != null && !task1.isEmpty()) {
 			return task1.get(task1.size() - 1).getVariables();
 		}
@@ -3469,9 +3469,8 @@ public final class Core {
 		TaskServiceRest taskRest = new TaskServiceRest();
 		TaskService task = taskRest.getTask(taskId);
 		if (task != null) {
-
-			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, scope, type, value);
-			taskRest.updateVariables(taskId,task.getTaskDefinitionKey() + "_" + variableName);
+			final TaskVariables variable = new TaskVariables(task.getTaskDefinitionKey() + "_" + variableName, scope, type, ((type.equals("integer") && value != null) ?Core.toInt(value.toString()): value), null);
+			taskRest.updateVariables(taskId,task.getTaskDefinitionKey() + "_" + variableName, variable);
 		}
 	}
 
@@ -3503,6 +3502,7 @@ public final class Core {
 	public static Object getTaskVariable(String taskDefinitionKey, String variableName) {
 		String id = Core.getExecutionId();
 		TaskVariables variav= new TaskServiceRest().getVariableByExecId(id,taskDefinitionKey + "_" + variableName);
+
 		if (variav != null) {
 			return variav.getValue();
 		}
@@ -3721,30 +3721,30 @@ public final class Core {
 		return null;
 	}
 
-	/**
-	 * Add variable of type long to the process task
-	 * 
-	 * @param taskDefinitionKey
-	 *            identification of task
-	 * @param variableName
-	 *            name of parameter
-	 * @param value
-	 *            value of parameter
-	 */
-	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
-		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
-		if (Core.isNotNull(taskId)) {
-			TaskServiceRest taskRest = new TaskServiceRest();
-			TaskService task = taskRest.getTask(taskId);
-			task.setId(taskId);
-			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString());
-			taskRest.updateVariables(taskId,task.getTaskDefinitionKey() + "_" + variableName);
-			ProcessInstanceServiceRest processInstance = new ProcessInstanceServiceRest();
-			processInstance.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string",
-					value.toString());
-			processInstance.submitVariables(task.getProcessInstanceId());
-		}
-	}
+//	/** TO be Removed
+//	 * Add variable of type long to the process task
+//	 *
+//	 * @param taskDefinitionKey
+//	 *            identification of task
+//	 * @param variableName
+//	 *            name of parameter
+//	 * @param value
+//	 *            value of parameter
+//	 */
+//	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
+//		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
+//		if (Core.isNotNull(taskId)) {
+//			TaskServiceRest taskRest = new TaskServiceRest();
+//			TaskService task = taskRest.getTask(taskId);
+//			task.setId(taskId);
+//			final TaskVariables variable = new TaskVariables(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString(), null);
+//			taskRest.updateVariables(taskId,task.getTaskDefinitionKey() + "_" + variableName, variable);
+//			ProcessInstanceServiceRest processInstance = new ProcessInstanceServiceRest();
+//			processInstance.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string",
+//					value.toString());
+//			processInstance.submitVariables(task.getProcessInstanceId());
+//		}
+//	}
 
 	/**
 	 * @param wsdlUrl

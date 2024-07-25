@@ -421,7 +421,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 	// Adiciona variaveis para completar tarefa
 	
 	public void addVariable(String name, String scope, String type, Object value, String valueUrl) {
-		this.variables.add(new TaskVariables(name, scope, type, value, null));
+		this.variables.add(new TaskVariables(name, scope, type,  ((type.equals("integer") && value != null) ?Core.toInt(value.toString()): value), null));
 	}
 
 	public void addVariable(String name, String scope, String type, Object value) {
@@ -432,7 +432,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 	}
 
 	public void addVariable(String name, String type, Object value) {
-		this.variables.add(new TaskVariables(name, "local", type, value, null));
+		this.variables.add(new TaskVariables(name, "local", type, ((type.equals("integer") && value != null) ?Core.toInt(value.toString()): value), null));
 	}
 
 	public boolean submitVariables(String taskId) {
@@ -444,11 +444,17 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return r;
 	}
 
-	public boolean updateVariables(String taskId,String variableName) {
-
-		Response response = this.getRestRequest().put("runtime/tasks/" + taskId + "/variables/"+variableName,
+	public boolean updateVariables(String taskId,String variableName, TaskVariables variable) {
+		this.variables.add(variable);
+		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
 				ResponseConverter.convertDaoToJson(this.variables));
-		boolean r = response != null && response.getStatus() == 201;
+		//If confliting must try to update with put
+		if (response != null && response.getStatus() == 409){
+			response = this.getRestRequest().put("runtime/tasks/" + taskId + "/variables/"+variableName,
+					ResponseConverter.convertDaoToJson(variable));
+		}
+
+		boolean r = response != null && (response.getStatus() == 200 ||response.getStatus() == 201) ;
 		if(response != null)
 			response.close();
 		return r;

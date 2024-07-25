@@ -114,20 +114,19 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 	}
 
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceIdFinished(String processDefinitionKey) {
-		return this.getHistoryOfProccessInstanceId(processDefinitionKey,null, true);
+		return this.getHistoryOfProccessInstanceId(processDefinitionKey,null, true,false);
 	}
 
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey) {
-		return this.getHistoryOfProccessInstanceId(processDefinitionKey, null, false);
+		return this.getHistoryOfProccessInstanceId(processDefinitionKey, null, false,false);
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey,String processInstanceId,
-			boolean isFinished) {
+			boolean isFinished, boolean includeVar) {
 		List<HistoricProcessInstance> d = new ArrayList<>();
 		this.addFilterUrl("processDefinitionKey", processDefinitionKey);
-		this.addFilterUrl("includeProcessVariables", "true");
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
 		if(Core.isNotNull(processInstanceId)) {
 			this.addFilterUrl("processInstanceId", processInstanceId);
 		}
