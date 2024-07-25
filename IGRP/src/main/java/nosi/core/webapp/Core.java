@@ -9,6 +9,7 @@ import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.i18n.Translator;
 import nosi.core.integration.pdex.email.PdexEmailGateway;
 import nosi.core.integration.pdex.email.PdexEmailGatewayPayloadDTO;
 import nosi.core.mail.EmailMessage;
@@ -25,6 +26,7 @@ import nosi.core.webapp.databse.helpers.*;
 import nosi.core.webapp.helpers.*;
 import nosi.core.webapp.helpers.datehelper.IGRPDateFromTo;
 import nosi.core.webapp.helpers.datehelper.IGRPDaysOff;
+import nosi.core.webapp.helpers.mime_type.MimeType;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
 import nosi.core.webapp.uploadfile.UploadFile;
@@ -34,6 +36,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.*;
+import org.apache.commons.lang3.time.StopWatch;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -407,13 +410,13 @@ public final class Core {
 		return new QueryDelete(connectionName, displayError, tracingError).delete(schemaName, tableName);
 	}
 
-	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(Config_env env, String sql) {
+	public static ResultSet executeQuery(Config_env env, String sql) {
 		QuerySelect q = new QuerySelect();
 		q.setSql(sql);
 		return q.executeQuery(env);
 	}
 
-	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(String connectionName, String sql) {
+	public static ResultSet executeQuery(String connectionName, String sql) {
 		QuerySelect q = new QuerySelect();
 		q.setSql(sql);
 		return q.executeQuery(Connection.getConnection(connectionName));
@@ -541,8 +544,8 @@ public final class Core {
 	 * @param email
 	 * @return {@code User().find().andWhere("username", "=", email).one();}
 	 */
-	public static nosi.webapps.igrp.dao.User findUserByEmail(String email) {
-		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+	public static User findUserByEmail(String email) {
+		User user = new User();
 		user.setReadOnly(true);
 		return user.findIdentityByEmail(email);
 	}
@@ -553,8 +556,8 @@ public final class Core {
 	 * @param id
 	 * @return {@code new User().findOne(id)}
 	 */
-	public static nosi.webapps.igrp.dao.User findUserById(Integer id) {
-		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+	public static User findUserById(Integer id) {
+		User user = new User();
 		user.setReadOnly(true);
 		return user.findOne(id);
 	}
@@ -565,8 +568,8 @@ public final class Core {
 	 * @param id
 	 * @return {@code new User().findOne(id)}
 	 */
-	public static nosi.webapps.igrp.dao.User findUserById(BigInteger id) {
-		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+	public static User findUserById(BigInteger id) {
+		User user = new User();
 		user.setReadOnly(true);
 		return user.findOne(id);
 	}
@@ -577,8 +580,8 @@ public final class Core {
 	 * @param userName
 	 * @return {@code User().find().andWhere("username", "=", userName).one();}
 	 */
-	public static nosi.webapps.igrp.dao.User findUserByUsername(String userName) {
-		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+	public static User findUserByUsername(String userName) {
+		User user = new User();
 		user.setReadOnly(true);
 		return user.findIdentityByUsername(userName);
 	}
@@ -591,7 +594,7 @@ public final class Core {
 	 * @param outputFormat
 	 * @return {@code java.sql.Date DateHelper.formatDate(data,inputFormat,outputFormat);}
 	 */
-	public static java.sql.Date formatDate(String data, String inputFormat, String outputFormat) {
+	public static Date formatDate(String data, String inputFormat, String outputFormat) {
 		return DateHelper.formatDate(data, inputFormat, outputFormat);
 	}
 
@@ -674,7 +677,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getConfig(String name) {
-		nosi.webapps.igrp.dao.Config c = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", name).one();
+		Config c = new Config().find().andWhere("name", "=", name).one();
 		return c != null ? c.getValue() : null;
 	}
 
@@ -810,7 +813,7 @@ public final class Core {
 	 * 
 	 * @return java.util.Calendar.getInstance()
 	 */
-	public static java.util.Calendar getCurrentDateCalendar() {
+	public static Calendar getCurrentDateCalendar() {
 		return DateHelper.getCurrentDateCalendar();
 	}
 
@@ -896,10 +899,10 @@ public final class Core {
 	 * 
 	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
 	 */
-	public static nosi.webapps.igrp.dao.User getCurrentUser() {
+	public static User getCurrentUser() {
 		if (null == Igrp.getInstance() || null == Igrp.getInstance().getUser())
 			return null;
-		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
+		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		if (user != null)
 			user.setReadOnly(true);
 		return user;
@@ -921,7 +924,7 @@ public final class Core {
 	 * @param domainsName domain code name
 	 * @return {@code List<Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
+	public static List<Domain> findDomainByCode(String domainsName) {
 		return findDomainByCode(domainsName, "");
 	}
 
@@ -934,9 +937,9 @@ public final class Core {
 	 * @param domainNames array of domain codes for the specified applicationCode
 	 * @return {@code List<Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCodes(String applicationCode, String... domainNames) {
+	public static List<Domain> findDomainByCodes(String applicationCode, String... domainNames) {
 
-		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		Domain domain = new Domain();
 		domain.setReadOnly(true);
 
 		final String[] distinctValues = Arrays.stream(domainNames).distinct().toArray(String[]::new);
@@ -962,8 +965,8 @@ public final class Core {
 	 *            dad/code of the application
 	 * @return {@code List< of Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainName, String applicationCode) {
-		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+	public static List<Domain> findDomainByCode(String domainName, String applicationCode) {
+		Domain domain = new Domain();
 		domain.setReadOnly(true);
 		if (isNullOrZero(applicationCode))
 			return domain.find()
@@ -993,8 +996,8 @@ public final class Core {
 	 *            id of the application
 	 * @return {@code List< of Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainName, Integer applicationId) {
-		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+	public static List<Domain> findDomainByCode(String domainName, Integer applicationId) {
+		Domain domain = new Domain();
 		domain.setReadOnly(true);
 		return domain.find().where("valor !=''").andWhere("dominio", "=", domainName).andWhere("status", "=", "ATIVE")
 				.andWhere("application.id", "=", applicationId).orderBy("ordem").all();
@@ -1078,7 +1081,7 @@ public final class Core {
 		if (!Core.isNotNullMultiple(domainsName, key))
 			return "";
 
-		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		Domain domain = new Domain();
 		domain.setReadOnly(true);
 		final Domain oneDomain = domain.find().where("valor !=''")
 				.andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
@@ -1103,7 +1106,7 @@ public final class Core {
 
 		if (!Core.isNotNullMultiple(domainsName, key))
 			return "";
-		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		Domain domain = new Domain();
 		domain.setReadOnly(true);
 		final Domain oneDomain = domain.find().where("valor !=''")
 				.andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
@@ -1128,7 +1131,7 @@ public final class Core {
 
 		if (!Core.isNotNullMultiple(domainsName, key))
 			return "";
-		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		Domain domain = new Domain();
 		domain.setReadOnly(true);
 		final Domain oneDomain = domain.find().where("valor !=''")
 				.andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
@@ -1242,7 +1245,7 @@ public final class Core {
 					return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
 							.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
 				}
-			} catch (javax.servlet.ServletException e) {
+			} catch (ServletException e) {
 				e.printStackTrace();
 			}
 		}
@@ -1791,7 +1794,7 @@ public final class Core {
 	}
 
 	public static String gt(String value) {
-		return nosi.core.i18n.Translator.gt(value);
+		return Translator.gt(value);
 	}
 
 	/**
@@ -1831,7 +1834,7 @@ public final class Core {
 		Client curl = ClientBuilder.newClient();
 		Invocation.Builder ib = curl.target(url).request(mediaType);
 		if (httpHeaders != null && !httpHeaders.isEmpty()) {
-			for (Map.Entry<String, Object> obj : httpHeaders.entrySet()) {
+			for (Entry<String, Object> obj : httpHeaders.entrySet()) {
 				ib.header(obj.getKey(), obj.getValue());
 			}
 		}
@@ -1856,7 +1859,7 @@ public final class Core {
 		Client curl = ClientBuilder.newClient();
 		Invocation.Builder ib = curl.target(url).request(mediaType);
 		if (httpHeaders != null && !httpHeaders.isEmpty()) {
-			for (Map.Entry<String, Object> obj : httpHeaders.entrySet()) {
+			for (Entry<String, Object> obj : httpHeaders.entrySet()) {
 				ib.header(obj.getKey(), obj.getValue());
 			}
 		}
@@ -3315,9 +3318,9 @@ public final class Core {
 		String taskId = Core.getParamTaskId();
 		String taskExecutionId = Core.getParam(BPMNConstants.PRM_TASK_EXECUTION_ID);
 		if (Core.isNull(taskExecutionId)) {
-			List<HistoricTaskService> task = new TaskServiceIGRP().getTaskServiceRest().getHistory(taskId);
+			List<HistoricTaskService> task = new TaskServiceIGRP().getTaskServiceRest().getHistory(taskId,false);
 			taskExecutionId = (task != null && !task.isEmpty()) ? task.get(task.size() - 1).getExecutionId()
-					: taskExecutionId;
+					: "";
 		}
 		Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, taskExecutionId);
 		return taskExecutionId;
@@ -3379,8 +3382,6 @@ public final class Core {
 	private static String getProcessInstaceByTask(String taskId) {
 		TaskServiceRest taskRest = new TaskServiceRest();
 		taskRest.addFilterUrl("taskId", taskId);
-		taskRest.addFilterUrl("includeTaskLocalVariables", "true");
-		taskRest.addFilterUrl("includeProcessVariables", "true");
 		List<HistoricTaskService> taskHistory = taskRest.getHistory();
 		if (taskHistory != null && !taskHistory.isEmpty()) {
 			return taskHistory.get(0).getProcessInstanceId();
@@ -3468,11 +3469,9 @@ public final class Core {
 		TaskServiceRest taskRest = new TaskServiceRest();
 		TaskService task = taskRest.getTask(taskId);
 		if (task != null) {
-			if (scope.equalsIgnoreCase("global"))
-				new ProcessInstanceServiceRest().deleteVariable(task.getProcessInstanceId(),
-						task.getTaskDefinitionKey() + "_" + variableName);
+
 			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, scope, type, value);
-			taskRest.submitVariables(taskId);
+			taskRest.updateVariables(taskId,task.getTaskDefinitionKey() + "_" + variableName);
 		}
 	}
 
@@ -3485,16 +3484,12 @@ public final class Core {
 	public static String getTaskVariable(String variableName) {
 		if (Core.isNull(variableName))
 			return "";
-		String id = getParamTaskId();
-		TaskService task = new TaskServiceRest().getTask(id);
-		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
-			return !variav.isEmpty() ? "" + variav.get(variav.size() - 1).getValue() : "";
+		HistoricVariablesService htask = new TaskServiceRest().getVarByProcId(Core.getProcessInstaceByTask(),variableName);
+		if (htask != null && htask.getVariable()!=null) {
+			return htask.getVariable().getValue()+"";
 		}
 		return "";
+
 	}
 
 	/**
@@ -3504,15 +3499,16 @@ public final class Core {
 	 * @param variableName
 	 * @return
 	 */
-	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
-			return !variav.isEmpty() ? "" + variav.get(variav.size() - 1).getValue() : "";
+
+	public static Object getTaskVariable(String taskDefinitionKey, String variableName) {
+		String id = Core.getExecutionId();
+		TaskVariables variav= new TaskServiceRest().getVariableByExecId(id,taskDefinitionKey + "_" + variableName);
+		if (variav != null) {
+			return variav.getValue();
 		}
 		return "";
+
+
 	}
 
 	/**
@@ -3611,7 +3607,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
-		return Core.getTaskVariable(taskDefinitionKey, variableName);
+		return ""+Core.getTaskVariable(taskDefinitionKey, variableName);
 	}
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
@@ -3620,7 +3616,7 @@ public final class Core {
 	}
 
 	public static Boolean getTaskVariableBoolean(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		Object v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Boolean.valueOf(true) : Boolean.valueOf(false);
 	}
 
@@ -3630,8 +3626,8 @@ public final class Core {
 	}
 
 	public static Double getTaskVariableDouble(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toDouble(v) : Double.valueOf(0);
+		Object v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.isNotNull(v) ? (Double) v: Double.valueOf(0);
 	}
 
 	public static Integer getTaskVariableInt(String variableName) {
@@ -3640,7 +3636,7 @@ public final class Core {
 	}
 
 	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
 		return Core.isNotNull(v) ? Core.toInt(v) : Integer.valueOf(0);
 	}
 
@@ -3650,7 +3646,7 @@ public final class Core {
 	}
 
 	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
 		return Core.isNotNull(v) ? Core.toShort(v) : Short.valueOf((short) 0);
 	}
 
@@ -3660,17 +3656,17 @@ public final class Core {
 	}
 
 	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
 		return Core.isNotNull(v) ? Core.toLong(v) : Long.valueOf(0);
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
 		return Core.ToDate(v, "yyyy-mm-dd");
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName, String format) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
 		return Core.ToDate(v, format);
 	}
 
@@ -3685,7 +3681,7 @@ public final class Core {
 	}
 
 	public static byte[] getTaskVariableByte(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
 		return v.getBytes();
 	}
 
@@ -3694,44 +3690,32 @@ public final class Core {
 			return null;
 		String id = getParamTaskId();
 		TaskService task = new TaskServiceRest().getTask(id);
-		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
+		Object variahb = Core.getTaskVariable(task.getTaskDefinitionKey(),variableName);
+		if (Core.isNotNull(variahb)) {
+			return variahb;
 		}
 		return null;
 	}
 
 	public static Object getTaskVariableSerializable(String taskDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
+		Object variahb = Core.getTaskVariable(taskDefinitionKey,variableName);
+		if (Core.isNotNull(variahb)) {
+			return variahb;
 		}
 		return null;
 	}
 
 	public static String getTaskVariableId(String taskDefinitionKey) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
-					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
-		}
-		return "";
+		return Core.getTaskVariable(taskDefinitionKey,"p_task_id")+"";
+
 	}
 
 	public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {
 		String id = Core.getExecutionId();
 		if (Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new TaskServiceRest().getHistory(taskDefinitionKey, id);
+			List<TaskVariables> task1 = new TaskServiceRest().getListVarByExecId(id);
 			if (task1 != null && !task1.isEmpty()) {
-				return task1.get(task1.size() - 1).getVariables();
+				return task1;
 			}
 		}
 		return null;
@@ -3754,7 +3738,7 @@ public final class Core {
 			TaskService task = taskRest.getTask(taskId);
 			task.setId(taskId);
 			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString());
-			taskRest.submitVariables(taskId);
+			taskRest.updateVariables(taskId,task.getTaskDefinitionKey() + "_" + variableName);
 			ProcessInstanceServiceRest processInstance = new ProcessInstanceServiceRest();
 			processInstance.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string",
 					value.toString());
@@ -3856,7 +3840,7 @@ public final class Core {
 	 * @return
 	 */
 	@Deprecated
-	public static String ToChar(java.sql.Date date, String formatOut) {
+	public static String ToChar(Date date, String formatOut) {
 		return DateHelper.convertDateToString(date, formatOut);
 	}
 
@@ -3901,7 +3885,7 @@ public final class Core {
 	 * @param formatIn
 	 * @return DateHelper.convertStringToDate
 	 */
-	public static java.sql.Date ToDate(String date, String formatIn) {
+	public static Date ToDate(String date, String formatIn) {
 		return DateHelper.convertStringToDate(date, formatIn);
 	}
 
@@ -3912,7 +3896,7 @@ public final class Core {
 	 * 
 	 * @return DateHelper.convertStringToDate
 	 */
-	public static java.sql.Date ToDate(String date) {
+	public static Date ToDate(String date) {
 		return DateHelper.convertStringToDate(date, Core.DD_MM_YYYY);
 	}
 
@@ -3923,7 +3907,7 @@ public final class Core {
 	 * @param formatOut
 	 * @return DateHelper.formatDate
 	 */
-	public static java.sql.Date ToDate(String date, String formatIn, String formatOut) {
+	public static Date ToDate(String date, String formatIn, String formatOut) {
 		return DateHelper.formatDate(date, formatIn, formatOut);
 	}
 
@@ -3955,7 +3939,7 @@ public final class Core {
 	 * @param formatOut
 	 * @return return formattDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
 	 */
-	public static java.sql.Date convertTimeStampToDateSQL(String timeStampDate, String formatOut) {
+	public static Date convertTimeStampToDateSQL(String timeStampDate, String formatOut) {
 		return DateHelper.convertTimeStampToDate(timeStampDate, formatOut);
 	}
 
@@ -3967,7 +3951,7 @@ public final class Core {
 	 * @param sqlDate
 	 * @return a java.util.Date
 	 */
-	public static java.util.Date dateToDateUtil(java.sql.Date sqlDate) {
+	public static java.util.Date dateToDateUtil(Date sqlDate) {
 
 		return new java.util.Date(sqlDate.getTime());
 
@@ -3979,7 +3963,7 @@ public final class Core {
 	 * @param utilDate
 	 * @return a java.sql.Date
 	 */
-	public static java.sql.Date dateUtilToDate(java.util.Date utilDate) {
+	public static Date dateUtilToDate(java.util.Date utilDate) {
 		return DateHelper.utilDateToSqlDate(utilDate);
 	}
 
@@ -3989,7 +3973,7 @@ public final class Core {
 	 * @param date
 	 * @return strDate with a format declared in the class Cons
 	 */
-	public static String dateToString(java.sql.Date date) {
+	public static String dateToString(Date date) {
 		return DateHelper.convertDateToString(date, Cons.DATE_FORMAT.getValue());
 	}
 
@@ -4921,7 +4905,7 @@ public final class Core {
 	}
 
 	public static void lockProccess(String codeOrg, String codeProf, String userName, String procId, String taskId) {
-		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
+		User user = new User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
 		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(), org, prof, user,

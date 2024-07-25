@@ -7,7 +7,8 @@ import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
-import nosi.core.webapp.activit.rest.entities.TaskVariables;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
@@ -17,6 +18,7 @@ import nosi.core.webapp.helpers.TempFileHelper;
 import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.xml.DomXML;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -29,7 +31,6 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -75,22 +76,18 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
-
-		final HistoricTaskService hts = Core.getTaskHistory(taskId);
-		if (hts == null || hts.getVariables() == null)
+	public void loadFromTask(String taskDefinitionKey) throws IllegalArgumentException, IllegalAccessException {
+		final HistoricTaskService hts = Core.getTaskHistory(taskDefinitionKey);
+		if (hts == null)
 			return;
 
-		final List<TaskVariables> taskVariables = hts.getVariables()
-				.stream()
-				.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
-				.collect(Collectors.toList());
-		if(taskVariables.isEmpty()){
+		final Object taskVariable = Core.getTaskVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId());
+		if(Core.isNull(taskVariable)){
 			this.load();
 			return;
 		}
 
-		final String json = taskVariables.get(0).getValue().toString();
+		final String json = taskVariable.toString();
 		if (Core.isNotNull(json)) {
 			final CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
 			if (custom.getRows() != null) {
@@ -115,6 +112,7 @@ public abstract class Model { // IGRP super model
 			}
 		}
 		this.load();
+
 	}
 
 	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {

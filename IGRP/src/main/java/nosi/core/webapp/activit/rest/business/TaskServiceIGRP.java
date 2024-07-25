@@ -106,9 +106,13 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 						&& taskAccess.getTaskName().equals(taskService.getTaskDefinitionKey()));
 	}
 
-	public List<TaskServiceQuery> queryHistoryTask() {
+	public List<TaskServiceQuery> queryHistoryTask(){
+		return queryHistoryTask(null);
+	}
+
+	public List<TaskServiceQuery> queryHistoryTask(String processKey) {
 		final List<TaskServiceQuery> tasks = taskServiceRest.queryHistoryTask();
-		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
+		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess(processKey);
 
 		final String[] processInstanceIds = tasks.stream()
 				.filter(tsq -> this.filterAvailableTaskAccess(tsq, myTaskAccess))
