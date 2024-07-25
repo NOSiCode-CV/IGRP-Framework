@@ -1,0 +1,39 @@
+[data-style="light"]{ 
+    h4, p, a, h5{
+        color:#333333!important;
+    }
+
+}
+[data-style="link-primary"] {
+    h4, p, a, h5{
+        color:#333333!important;
+    }
+}
+[data-style="success"] {
+    .bg-success{
+        background-color:rgba(255,255,255,.5)!important;
+
+    }
+    .text-success{
+        color:rgba(255,255,255,.5)!important;
+
+    }
+}
+[data-style="primary"] {
+    .bg-primary{
+        background-color:var(--vz-progress-bg)!important;
+    }
+    .text-primary{
+        color:var(--vz-progress-bg)!important;
+    }
+}
+[data-style="info"] {
+    .bg-info{
+        background-color:rgba(255,255,255,.5)!important;
+
+    }
+    .text-info{
+        color:rgba(255,255,255,.5)!important;
+
+    }
+}

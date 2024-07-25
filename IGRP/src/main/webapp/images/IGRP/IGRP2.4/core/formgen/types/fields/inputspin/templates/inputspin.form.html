@@ -1,0 +1,17 @@
+<div class="form-group col-sm-#[size]# #[right]# " item-name="#tag#" item-type="#type#">    
+    <label for="{#path#/@name}">
+        #label.val#
+        #[tooltip]#
+    </label>
+    <div style="display: block">
+        <div class="input-step step-#[class]# full-width">
+            <button type="button" class="minus material-shadow" name="#name.attr#">–</button>       
+            <input type="number" #[required]# class="form-control" value="{#path#/value}" min="#[min]#" max="#[max]#" readonly="true">
+                <xsl:call-template name="setAttributes">
+                    <xsl:with-param name="field" select="#path#"/>
+                </xsl:call-template>
+            </input>
+            <button type="button" class="plus material-shadow" name="#name.attr#">+</button>
+        </div>
+    </div>
+</div>

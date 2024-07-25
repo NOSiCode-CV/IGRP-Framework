@@ -1,5 +1,4 @@
-<xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:template name="igrp-table-fields-checkbox-td" mode="igrp-table-fields-checkbox-td" match="*">
 		<xsl:param name="tag" select="name()"/>
@@ -65,7 +64,7 @@
 
 		<xsl:variable name="description-name" select="concat($tag,'_desc')"/>
 		<xsl:variable name="description" select="../*[name() = $description-name]"/>
-		
+
 		<a href="{normalize-space(.)}" class=" link-{$class} d-flex align-items-center" sharpadbclient="{$adbcli}" target-fields="{$target_fields}" target="{$target}" request-fields="{$request_fields}" name="{$tag}">
 			<xsl:if test="$icon-lib and $icon-position = 'left'">
 				<i class=" fa {$icon} me-2"/>
@@ -88,13 +87,13 @@
 
 		<xsl:if test=" $show-title = 'true' or $search = 'true' or $has-filter='true' or table/context-menu/item[@type='action']">
 			<div class="card-header d-flex align-items-center py-2">
-				
+
 				<xsl:if test="$show-title = 'true'">
 					<h3 class="card-title me-auto my-2">
 						<xsl:value-of select="$title"/>
 					</h3>
 				</xsl:if>
-				
+
 				<div class="ms-auto d-flex gap-2 align-items-center">
 					<xsl:if test="$length-change = 'true'">
 						<div class="d-flex align-items-center">
@@ -117,7 +116,7 @@
 					<xsl:if test="$has-filter = 'true' and ./fields/*[@filter='true']">
 						<div>
 							<a   class="btn btn-light  d-flex align-items-center" href="#{name()}-filter-fields" data-bs-toggle="collapse" aria-controls="{name()}-filter-fields" aria-expanded="false">
-								<i class="ri-sound-module-line"></i> 
+								<i class="ri-sound-module-line"></i>
 							</a>
 						</div>
 					</xsl:if>
@@ -136,7 +135,7 @@
 
 		<xsl:if test="$fields">
 			<xsl:variable name="field-col-class" select="'col-12 col-sm-6 col-md-4 col-lg-3 '"/>
-			<div class="card-filter border-top pb-3 px-3 collapse bg-light-subtle" id="{name(.)}-filter-fields" remote-filter="Gestao_de_expedientes.xml"> 
+			<div class="card-filter border-top pb-3 px-3 collapse bg-light-subtle" id="{name(.)}-filter-fields" remote-filter="Gestao_de_expedientes.xml">
 				<div class=" row py-3 clearfix fields gy-3" role="form">
 					<xsl:for-each select="$fields">
 						<xsl:choose>
@@ -201,6 +200,8 @@
 									</xsl:apply-templates>
 								</div>
 							</xsl:when>
+
+                            <!-- #select -->
 							<xsl:when test="@type = 'select'">
 								<div class="{$field-col-class}">
 									<xsl:apply-templates mode="igrp-form-select-field" select=".">
@@ -212,6 +213,8 @@
 									</xsl:apply-templates>
 								</div>
 							</xsl:when>
+                            <!-- ##select -->
+
 							<xsl:otherwise>
 								<div class="{$field-col-class}">
 									<xsl:apply-templates mode="igrp-form-field" select=".">
