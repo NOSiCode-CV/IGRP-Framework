@@ -1,0 +1,11 @@
+[data-style="light"]{ 
+    h4, p, a, h5{
+        color:#333333!important;
+    }
+
+}
+[data-style="link-primary"] {
+    h4, p, a, h5{
+        color:#333333!important;
+    }
+}
