@@ -166,6 +166,14 @@
 			<group>content</group>
 		</item>
 		<item>
+			<icon type='fa'>address-card-o</icon>
+			<type>container</type>
+			<name>project_task</name>
+			<label>Project task</label>
+			<!-- <accept>text,email,number,date</accept> -->
+			<group>content</group>
+		</item>
+		<item>
 			<icon type='fa'>window-maximize</icon>
 			<type>container</type>
 			<name>form</name>
