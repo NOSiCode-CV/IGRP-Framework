@@ -12,18 +12,14 @@ import javax.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXB;
+
+import nosi.core.webapp.activit.rest.entities.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.binding.tasks_process.TaskOfProcess;
 import nosi.core.webapp.activit.rest.binding.tasks_process.UserTask;
-import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
-import nosi.core.webapp.activit.rest.entities.TaskVariableDetails;
-import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.activit.rest.helpers.ActivitiConstants;
 import nosi.core.webapp.activit.rest.request.RestRequest;
 import nosi.core.webapp.helpers.FileHelper;
@@ -36,9 +32,9 @@ import nosi.core.webapp.webservices.helpers.ResponseError;
  */
 public class TaskServiceRest extends GenericActivitiRest {
 
-	public TaskService getTaskByExecutionId(String id) {
+	public TaskService getTaskByExecutionId(String executionId) {
 		this.clearFilterUrl();
-		this.addFilterUrl("executionId", id);
+		this.addFilterUrl("executionId", executionId);
 		List<TaskService> tasks = this.getTasks();
 		return tasks != null ? tasks.get(0) : null;
 	}
@@ -213,20 +209,29 @@ public class TaskServiceRest extends GenericActivitiRest {
 	}
 
 	public List<HistoricTaskService> getHistory(String taskId) {
-		this.clearFilterUrl();
-		this.addFilterUrl("taskId", taskId);
-		this.addFilterUrl("includeTaskLocalVariables", "true");
-		this.addFilterUrl("includeProcessVariables", "true");
-		this.addFilterUrl("finished", "true");
-		return this.getHistory();
+		return getHistory(taskId, true);
 	}
 
-	public List<HistoricTaskService> getHistory(String taskDefinitionKey, String executionId) {
+	public List<HistoricTaskService> getHistory(String taskId, boolean includeVar) {
+		this.clearFilterUrl();
+		this.addFilterUrl("taskId", taskId);
+		this.addFilterUrl("includeTaskLocalVariables", String.valueOf(includeVar));
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
+		this.addFilterUrl("finished", "true");
+		return this.getHistory();
+
+	}
+
+	public List<HistoricTaskService> getHistory(String taskId, String executionId) {
+		return getHistory(taskId, executionId,false);
+	}
+
+	public List<HistoricTaskService> getHistory(String taskDefinitionKey, String executionId, boolean includeVar) {
 		this.clearFilterUrl();
 		this.addFilterUrl("taskDefinitionKey", taskDefinitionKey);
 		this.addFilterUrl("executionId", executionId);
-		this.addFilterUrl("includeTaskLocalVariables", "true");
-		this.addFilterUrl("includeProcessVariables", "true");
+		this.addFilterUrl("includeTaskLocalVariables", String.valueOf(includeVar));
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
 		this.addFilterUrl("finished", "true");
 		return this.getHistory();
 	}
@@ -272,7 +277,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskServiceQuery>>() {
 						}.getType()).stream().map(TaskServiceQuery.class::cast).collect(Collectors.toList());
 			
-				if (d != null && !d.isEmpty()) {
+				if (!d.isEmpty()) {
 					HashMap<String,ProcessDefinitionService> mProc = new HashMap<>();
 					d.forEach(t -> {
 						String processName;
@@ -313,19 +318,13 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	public boolean submitTaskFile(Part file, String taskId, String file_desc) throws IOException {
 		boolean r = false;
-		Response response = null;
-		try {
-			response = this.getRestRequest().post(
-					"runtime/tasks/" + taskId + "/variables?name=" + file_desc + "&type=binary&scope=local", file);
-			file.delete();
-			r = response!=null && response.getStatus() == 201;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally {
-			if(response!=null) {
-				response.close();
-			}
-		}
+        try (Response response = this.getRestRequest().post(
+                "runtime/tasks/" + taskId + "/variables?name=" + file_desc + "&type=binary&scope=local", file)) {
+            file.delete();
+            r = response != null && response.getStatus() == 201;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		file.delete();
 		return r;
 	}
@@ -422,7 +421,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 	// Adiciona variaveis para completar tarefa
 	
 	public void addVariable(String name, String scope, String type, Object value, String valueUrl) {
-		this.variables.add(new TaskVariables(name, scope, type, value, null));
+		this.variables.add(new TaskVariables(name, scope, type,  ((type.equals("integer") && value != null) ?Core.toInt(value.toString()): value), null));
 	}
 
 	public void addVariable(String name, String scope, String type, Object value) {
@@ -433,14 +432,30 @@ public class TaskServiceRest extends GenericActivitiRest {
 	}
 
 	public void addVariable(String name, String type, Object value) {
-		this.variables.add(new TaskVariables(name, "local", type, value, null));
+		this.variables.add(new TaskVariables(name, "local", type, ((type.equals("integer") && value != null) ?Core.toInt(value.toString()): value), null));
 	}
 
-	public boolean submitVariables(String taskId) {		
+	public boolean submitVariables(String taskId) {
 		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
 				ResponseConverter.convertDaoToJson(this.variables)); 
 		boolean r = response != null && response.getStatus() == 201;
 		if(response != null) 
+			response.close();
+		return r;
+	}
+
+	public boolean updateVariables(String taskId,String variableName, TaskVariables variable) {
+		this.variables.add(variable);
+		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
+				ResponseConverter.convertDaoToJson(this.variables));
+		//If confliting must try to update with put
+		if (response != null && response.getStatus() == 409){
+			response = this.getRestRequest().put("runtime/tasks/" + taskId + "/variables/"+variableName,
+					ResponseConverter.convertDaoToJson(variable));
+		}
+
+		boolean r = response != null && (response.getStatus() == 200 ||response.getStatus() == 201) ;
+		if(response != null)
 			response.close();
 		return r;
 	}
@@ -578,5 +593,80 @@ public class TaskServiceRest extends GenericActivitiRest {
 		}
 		return !t.isEmpty() ? t.get(0) : null;
 	}
+
+	public TaskVariables getVariableByExecId(String executionId, String variableName) {
+		TaskVariables t = new TaskVariables();
+		Response response = this.getRestRequest().get("runtime/executions/"+executionId+"/variables/",variableName);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				t = (TaskVariables) ResponseConverter.convertJsonToDao(contentResp, TaskVariables.class);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return t;
+	}
+
+	public List<TaskVariables> getListVarByExecId(String executionId) {
+		List<TaskVariables> t = new ArrayList<>();
+		Response response = this.getRestRequest().get("runtime/executions/"+executionId+"/variables");
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				t = ResponseConverter
+						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskVariables>>() {
+						}.getType()).stream().map(TaskVariables.class::cast).collect(Collectors.toList());
+
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return t;
+	}
+
+	public HistoricVariablesService getVarByProcId(String procId, String variableName) {
+		this.clearFilterUrl();
+		this.setFilterUrl("processInstanceId="+procId);
+		this.addFilterUrl("variableName", variableName);
+		List<HistoricVariablesService> tasks = this.getListVarByProcId();
+		return (tasks != null && !tasks.isEmpty()) ? tasks.get(0) : null;
+	}
+
+	public List<HistoricVariablesService> getListVarByProcId() {
+		List<HistoricVariablesService> t = new ArrayList<>();
+		Response response = this.getRestRequest().get("history/historic-variable-instances?"+this.getFilterUrl());
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				t = ResponseConverter
+						.convertJsonToListDao(contentResp, "data", new TypeToken<List<HistoricVariablesService>>() {
+						}.getType()).stream().map(HistoricVariablesService.class::cast).collect(Collectors.toList());
+
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return t;
+	}
+
 
 }

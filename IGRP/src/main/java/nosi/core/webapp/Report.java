@@ -342,7 +342,6 @@ public class Report extends Controller{
 	  }
 	/**
 	 * @param contraprova
-	 * @param dad
 	 * @param outType PDF_SAVE, XSLXML_SAVE
 	 * @param toDownload
 	 * @return
