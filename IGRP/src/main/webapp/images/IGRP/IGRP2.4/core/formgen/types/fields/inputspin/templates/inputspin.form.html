@@ -1,0 +1,11 @@
+<div class="col-sm-#[size]# #[right]# " item-name="#tag#" item-type="#type#" >
+    <div class="input-step">
+        <button type="button" class="minus material-shadow" name="#name.attr#">–</button>
+        <input type="number" class="product-quantity" #[required]# value="0" min="0" max="100" >
+            <xsl:call-template name="setAttributes">
+                <xsl:with-param name="field" select="#path#"/>
+            </xsl:call-template>
+        </input>
+        <button type="button" class="plus material-shadow" name="#name.attr#">+</button>
+    </div>
+</div>
