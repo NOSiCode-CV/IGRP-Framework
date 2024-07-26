@@ -26,7 +26,6 @@ import nosi.core.webapp.databse.helpers.*;
 import nosi.core.webapp.helpers.*;
 import nosi.core.webapp.helpers.datehelper.IGRPDateFromTo;
 import nosi.core.webapp.helpers.datehelper.IGRPDaysOff;
-import nosi.core.webapp.helpers.mime_type.MimeType;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
 import nosi.core.webapp.uploadfile.UploadFile;
@@ -36,7 +35,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.*;
-import org.apache.commons.lang3.time.StopWatch;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -77,7 +75,7 @@ import java.util.stream.IntStream;
 /**
  * The core of the IGRP, here you can find all the main functions and helper
  * function useful like toInt, parceInt, isNotNull...
- * 
+ *
  * author: Emanuel Pereira 13 Nov 2017
  */
 public final class Core {
@@ -109,7 +107,7 @@ public final class Core {
 
 	/**
 	 * Add Hidden field to form
-	 * 
+	 *
 	 * @param name
 	 *            parameter name
 	 * @param value
@@ -126,7 +124,7 @@ public final class Core {
 	/**
 	 * set attibute in session
 	 * {@code Igrp.getInstance().getRequest().getSession().setAttribute(key, value);}
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -137,7 +135,7 @@ public final class Core {
 	/**
 	 * Returns the applications host + /IGRP/app/webapps Example:
 	 * "http://<hostname>/<warName>/app/webapps"
-	 * 
+	 *
 	 * @return "http://<hostname>/<warName>/app/webapps"
 	 */
 
@@ -148,7 +146,7 @@ public final class Core {
 
 	/**
 	 * Check permition transaction for current user
-	 * 
+	 *
 	 * @param transaction
 	 * @return
 	 */
@@ -160,7 +158,7 @@ public final class Core {
 	 * Format a date string and return to the formatOut another date String Example
 	 * of use
 	 * {@code Core.convertDate("11-10-2017", "dd-MM-yyyy", "dd-MM-yyyy h:mm")}
-	 * 
+	 *
 	 * @param date
 	 * @param formatIn
 	 * @param outputFormat
@@ -172,7 +170,7 @@ public final class Core {
 
 	/**
 	 * Convert string date into Timestamp
-	 * 
+	 *
 	 * @param date
 	 * @param formatIn
 	 * @return
@@ -191,7 +189,7 @@ public final class Core {
 		} else {
 			User user = new User();
 			user.setName(name);
-			user.setPass_hash(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"));
+			user.setPass_hash(nosi.core.webapp.User.encryptToHash(username + password, "SHA-256"));
 			user.setEmail(email.toLowerCase().trim());
 			user.setUser_name(username);
 			user.setStatus(1);
@@ -248,7 +246,7 @@ public final class Core {
 
 	/**
 	 * @deprecated Use ToTimestamp Convert string date into Timestamp
-	 * 
+	 *
 	 * @param date
 	 * @param formatIn
 	 * @return
@@ -264,7 +262,7 @@ public final class Core {
 
 	/**
 	 * Decrypt string based on secret key
-	 * 
+	 *
 	 * @param content
 	 *            content of string to decrypt
 	 * @param secretKey
@@ -280,7 +278,7 @@ public final class Core {
 
 	/**
 	 * Encrypt a string
-	 * 
+	 *
 	 * @param content
 	 */
 	public static String encrypt(String content) {
@@ -293,7 +291,7 @@ public final class Core {
 
 	/**
 	 * Encrypt a string with a secret key
-	 * 
+	 *
 	 * @param content
 	 *            string content
 	 * @param secretKey
@@ -312,7 +310,7 @@ public final class Core {
 
 	/**
 	 * Return default connection string related to dad
-	 * 
+	 *
 	 * @param dad
 	 *            application code
 	 */
@@ -322,7 +320,7 @@ public final class Core {
 
 	/**
 	 * Return Query of type BaseQueryInterface
-	 * 
+	 *
 	 * @param tableName
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
@@ -332,7 +330,7 @@ public final class Core {
 
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection
-	 * 
+	 *
 	 * @param connectionName
 	 *            connection name
 	 * @param tableName
@@ -345,7 +343,7 @@ public final class Core {
 
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection and schema
-	 * 
+	 *
 	 * @param connectionName
 	 *            connection name
 	 * @param schemaName
@@ -360,7 +358,7 @@ public final class Core {
 
 	/**
 	 * Return Query of type BaseQueryInterface
-	 * 
+	 *
 	 * @param tableName
 	 * @param displayError
 	 *            display error if true
@@ -374,7 +372,7 @@ public final class Core {
 
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection
-	 * 
+	 *
 	 * @param connectionName
 	 *            connection name
 	 * @param tableName
@@ -386,13 +384,13 @@ public final class Core {
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
 	public static BaseQueryInterface delete(String connectionName, String tableName, boolean displayError,
-			boolean tracingError) {
+											boolean tracingError) {
 		return new QueryDelete(connectionName, displayError, tracingError).delete(tableName);
 	}
 
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection and schema
-	 * 
+	 *
 	 * @param connectionName
 	 *            connection name
 	 * @param schemaName
@@ -406,7 +404,7 @@ public final class Core {
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
 	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName,
-			boolean displayError, boolean tracingError) {
+											boolean displayError, boolean tracingError) {
 		return new QueryDelete(connectionName, displayError, tracingError).delete(schemaName, tableName);
 	}
 
@@ -424,7 +422,7 @@ public final class Core {
 
 	/**
 	 * Find Application By Dad
-	 * 
+	 *
 	 * @param dad
 	 * @return {@code new Application().findByDad(dad);}
 	 */
@@ -436,7 +434,7 @@ public final class Core {
 
 	/**
 	 * List all Application that user has access
-	 * 
+	 *
 	 */
 	public static Map<Object, Object> getListApps() {
 		return new Application().getListApps();
@@ -444,9 +442,9 @@ public final class Core {
 
 	/**
 	 * List pages By id_application
-	 * 
+	 *
 	 * @param appId
-	 * 
+	 *
 	 */
 	public static HashMap<Integer, String> getListActions(int appId) {
 
@@ -465,9 +463,9 @@ public final class Core {
 
 	/**
 	 * find page By id_page
-	 * 
+	 *
 	 * @param pageId
-	 * 
+	 *
 	 */
 	public static Action getInfoPage(int pageId) {
 		if (Core.isNotNull(pageId)) {
@@ -480,7 +478,7 @@ public final class Core {
 
 	/**
 	 * Find Application By ID
-	 * 
+	 *
 	 * @param id
 	 * @return {@code new Application().findOne(id);}
 	 */
@@ -492,7 +490,7 @@ public final class Core {
 
 	/**
 	 * Find Organization By Code
-	 * 
+	 *
 	 * @param code
 	 * @return
 	 */
@@ -504,7 +502,7 @@ public final class Core {
 
 	/**
 	 * Find Organization By ID
-	 * 
+	 *
 	 * @param id
 	 * @return {@code new Organization().findOne(id);}
 	 */
@@ -516,7 +514,7 @@ public final class Core {
 
 	/**
 	 * Find ProfileType() By Code
-	 * 
+	 *
 	 * @param code
 	 * @return
 	 */
@@ -528,7 +526,7 @@ public final class Core {
 
 	/**
 	 * Find ProfileType() By ID
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -540,7 +538,7 @@ public final class Core {
 
 	/**
 	 * Find User by email
-	 * 
+	 *
 	 * @param email
 	 * @return {@code User().find().andWhere("username", "=", email).one();}
 	 */
@@ -552,7 +550,7 @@ public final class Core {
 
 	/**
 	 * Find User by ID
-	 * 
+	 *
 	 * @param id
 	 * @return {@code new User().findOne(id)}
 	 */
@@ -564,7 +562,7 @@ public final class Core {
 
 	/**
 	 * Find User by ID
-	 * 
+	 *
 	 * @param id
 	 * @return {@code new User().findOne(id)}
 	 */
@@ -576,7 +574,7 @@ public final class Core {
 
 	/**
 	 * Find User by Username
-	 * 
+	 *
 	 * @param userName
 	 * @return {@code User().find().andWhere("username", "=", userName).one();}
 	 */
@@ -588,7 +586,7 @@ public final class Core {
 
 	/**
 	 * Format date and return to Type Date
-	 * 
+	 *
 	 * @param data
 	 * @param inputFormat
 	 * @param outputFormat
@@ -599,7 +597,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return {@code return new Gson().fromJson(json, type);}
 	 */
 	public static Object fromJson(String json, Type type) {
@@ -618,7 +616,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param isRemoved
 	 *            - true removesAttribute after requested
@@ -671,7 +669,7 @@ public final class Core {
 
 	/**
 	 * Get Config Property
-	 * 
+	 *
 	 * @param name
 	 *            of the config property
 	 * @return
@@ -683,7 +681,7 @@ public final class Core {
 
 	/**
 	 * Get Current Application
-	 * 
+	 *
 	 * @return {@code Core.findApplicationByDad(Core.getCurrentDad())}
 	 */
 	public static Application getCurrentApp() {
@@ -692,7 +690,7 @@ public final class Core {
 
 	/**
 	 * Get Current Application Dad on Cookie
-	 * 
+	 *
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDad() {
@@ -701,7 +699,7 @@ public final class Core {
 
 	/**
 	 * Get Current Application Dad on the URL Example: dad/app/action
-	 * 
+	 *
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDadParam() {
@@ -711,16 +709,16 @@ public final class Core {
 		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
-		
+
 		switch (isPublic) {
-			case 1:			
+			case 1:
 				break;
 			case 2:
 				r = Core.decryptPublicPage(r);
 				break;
 			default:
 				r = Core.decrypt(r);
-				break;		
+				break;
 		}
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[0] : "igrp";
@@ -733,25 +731,25 @@ public final class Core {
 		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
-		
+
 		switch (isPublic) {
-			case 1:			
+			case 1:
 				break;
 			case 2:
 				r = Core.decryptPublicPage(r);
 				break;
 			default:
 				r = Core.decrypt(r);
-				break;		
+				break;
 		}
-			
+
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[1] : "igrp";
 	}
 
 	/**
 	 * Get Current Datetime (dd/MM/yyyy HH:mm:ss)
-	 * 
+	 *
 	 * @return dd/MM/yyyy HH:mm:ss
 	 */
 	public static String getCurrentDataTime() {
@@ -760,7 +758,7 @@ public final class Core {
 
 	/**
 	 * Get Current Datetime (dd-MM-yyyy)
-	 * 
+	 *
 	 * @return {@code DateHelper.getCurrentDate("dd-MM-yyyy");}
 	 */
 	public static String getCurrentDate() {
@@ -769,7 +767,7 @@ public final class Core {
 
 	/**
 	 * Get Current Datetime (User defined output format)
-	 * 
+	 *
 	 * @param outputFormat
 	 * @return {@code DateHelper.getCurrentDate(outputFormat);}
 	 */
@@ -787,7 +785,7 @@ public final class Core {
 
 	/**
 	 * Return the current time in java.sql.Date format
-	 * 
+	 *
 	 * @return new java.sql.Date(System.currentTimeMillis())
 	 */
 	public static Date getCurrentDateSql() {
@@ -796,7 +794,7 @@ public final class Core {
 
 	/**
 	 * Use getCurrentDateCalendar Return the current time in java.util.Date format
-	 * 
+	 *
 	 * @return new java.util.Date(System.currentTimeMillis())
 	 */
 
@@ -806,11 +804,11 @@ public final class Core {
 
 	/**
 	 * Calendar calendar = getCurrentDateCalendar() {@code
-	 *  "Current Calendar's Year: calendar.get(Calendar.YEAR)); 
-	    "Current Calendar's Day: calendar.get(Calendar.DATE)); 
-	    "Current MINUTE: " calendar.get(Calendar.MINUTE)); 
-	    "Current SECOND: " calendar.get(Calendar.SECOND)); }
-	 * 
+	 *  "Current Calendar's Year: calendar.get(Calendar.YEAR));
+	"Current Calendar's Day: calendar.get(Calendar.DATE));
+	"Current MINUTE: " calendar.get(Calendar.MINUTE));
+	"Current SECOND: " calendar.get(Calendar.SECOND)); }
+	 *
 	 * @return java.util.Calendar.getInstance()
 	 */
 	public static Calendar getCurrentDateCalendar() {
@@ -850,7 +848,7 @@ public final class Core {
 
 	/**
 	 * Get current Organization ID
-	 * 
+	 *
 	 * @return {@code Organization integer ID}
 	 */
 	public static Integer getCurrentOrganization() {
@@ -859,7 +857,7 @@ public final class Core {
 
 	/**
 	 * Get current Profile ID
-	 * 
+	 *
 	 * @return Profile integer ID
 	 */
 	public static Integer getCurrentProfile() {
@@ -868,7 +866,7 @@ public final class Core {
 
 	/**
 	 * Get current App ID
-	 * 
+	 *
 	 * @return App integer ID
 	 */
 	public static Integer getCurrentAppId() {
@@ -877,7 +875,7 @@ public final class Core {
 
 	/**
 	 * Get current Profile Code
-	 * 
+	 *
 	 * @return Profile String Code
 	 */
 
@@ -887,7 +885,7 @@ public final class Core {
 
 	/**
 	 * Get current Organization Code
-	 * 
+	 *
 	 * @return {@code Organization String Code}
 	 */
 	public static String getCurrentOrganizationCode() {
@@ -896,7 +894,7 @@ public final class Core {
 
 	/**
 	 * Get current user and than use then .getName() or getEmail or getUser_name;
-	 * 
+	 *
 	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
 	 */
 	public static User getCurrentUser() {
@@ -920,7 +918,7 @@ public final class Core {
 	 * @category DOMAIN
 	 *           <p>
 	 * Find Active Domains by domain code name and app is null
-	 * 
+	 *
 	 * @param domainsName domain code name
 	 * @return {@code List<Domains> }
 	 */
@@ -958,7 +956,7 @@ public final class Core {
 	 * @category DOMAIN
 	 *           <p>
 	 *           Find Active Domains by domain code name and app
-	 * 
+	 *
 	 * @param domainName
 	 *            domain code name
 	 * @param applicationCode
@@ -989,7 +987,7 @@ public final class Core {
 	 * @category DOMAIN
 	 *           <p>
 	 *           Find Active Domains by domain code name and app id
-	 * 
+	 *
 	 * @param domainName
 	 *            domain code name
 	 * @param applicationId
@@ -1010,7 +1008,7 @@ public final class Core {
 	 *           to the current aplication and whose state is active, or an empty
 	 *           map if the domain is not found. An empty map is returned also if
 	 *           the domain exists and does not have values.
-	 * 
+	 *
 	 * @param domainName
 	 *            domain/code name
 	 * @return a {@code Map<String, String>} of this domain with key as
@@ -1028,7 +1026,7 @@ public final class Core {
 	 *           state is active, or an empty map if the domain is not found. An
 	 *           empty map is returned also if the domain exists and does not have
 	 *           values.
-	 * 
+	 *
 	 * @param domainName
 	 *            domain/code name
 
@@ -1050,7 +1048,7 @@ public final class Core {
 	 *           to the application with id = {@code applicationId} and whose state
 	 *           is active or an empty map if the domain is not found. An empty map
 	 *           is returned also if the domain exists and does not have values.
-	 * 
+	 *
 	 * @param domainName
 	 *            domain/code name
 	 * @param applicationId
@@ -1070,7 +1068,7 @@ public final class Core {
 	 * @category DOMAIN
 	 *           <p>
 	 *           Find the Value/Decription ok a domay key
-	 * 
+	 *
 	 * @param domainsName
 	 *            domain code name
 	 * @param key
@@ -1094,7 +1092,7 @@ public final class Core {
 	 * @category DOMAIN
 	 *           <p>
 	 *           Find the Value/Decription ok a domay key
-	 * 
+	 *
 	 * @param domainsName
 	 *            domain code name
 	 * @param key
@@ -1119,7 +1117,7 @@ public final class Core {
 	 * @category DOMAIN
 	 *           <p>
 	 *           Find the Value/Decription ok a domay key
-	 * 
+	 *
 	 * @param domainsName
 	 *            domain code name
 	 * @param key
@@ -1146,7 +1144,7 @@ public final class Core {
 
 	/**
 	 * @deprecated Use getFileByUuid(
-	 * 
+	 *
 	 * @param fileId
 	 * @return
 	 */
@@ -1157,7 +1155,7 @@ public final class Core {
 
 	/**
 	 * Retrieve the file
-	 * 
+	 *
 	 * @param uuid
 	 *            Uuid
 	 * @return nosi.webapps.igrp.dao.Clob
@@ -1168,7 +1166,7 @@ public final class Core {
 
 	/**
 	 * Returns the filename saved
-	 * 
+	 *
 	 * @param uuid
 	 *            Uuid
 	 * @return FileName
@@ -1270,8 +1268,8 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Use getLinkFileByUuid() Link to get file
-	 * 
-	 * 
+	 *
+	 *
 	 * @param p_id
 	 *            Unique file id
 	 * @return
@@ -1288,8 +1286,8 @@ public final class Core {
 
 	/**
 	 * Link to a get file
-	 * 
-	 * 
+	 *
+	 *
 	 * @param uuid
 	 *            Unique file id
 	 * @return link
@@ -1309,7 +1307,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Use getLinkFileByUuid()
-	 * 
+	 *
 	 * @param p_id
 	 * @return
 	 */
@@ -1328,10 +1326,10 @@ public final class Core {
 
 	/**
 	 * This method you can invoking using Link or Button.
-	 * 
+	 *
 	 * Example with filter id=2:
 	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
-	 * 
+	 *
 	 * @param reportCode
 	 *            The unique code that identifies Report
 	 * @return
@@ -1342,10 +1340,10 @@ public final class Core {
 
 	/**
 	 * This method you can invoking using Link or Button.
-	 * 
+	 *
 	 * Example with filter id=2:
 	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
-	 * 
+	 *
 	 * @param reportCode
 	 *            The unique code that identifies Report
 	 * @param isPublic
@@ -1358,7 +1356,7 @@ public final class Core {
 
 	/**
 	 * Get Report for Response redirect {@code .addParam } for filtering
-	 * 
+	 *
 	 * @param reportCode
 	 *            The unique code that identifies Report
 	 * @param report
@@ -1399,8 +1397,7 @@ public final class Core {
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(IGRPLink partial) {
-		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + ""
-				+ partial.getLink();
+		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + partial.getLink();
 	}
 
 	/**
@@ -1409,11 +1406,11 @@ public final class Core {
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(String partial) {
-		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial;
+		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + partial;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param contraProva
 	 *            - code of proof of the document report
 	 * @return link with hostname to see the document report
@@ -1423,7 +1420,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param contraProva
 	 *            - code of proof of the document report
 	 * @param appID
@@ -1443,7 +1440,7 @@ public final class Core {
 
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
-	 * 
+	 *
 	 * @param name of the string name remove the attribute after get it
 	 * @return {@code v!=null?v.toString():"";}
 	 */
@@ -1451,7 +1448,7 @@ public final class Core {
 		return getParam(name,"");
 	}
 	/**
-	 * 
+	 *
 	 * @param name of the string to be get in th request getParameter, will remove the attribute after getting it
 	 * @param defaultParam is the string to be returned if no param is found
 	 * @return
@@ -1461,12 +1458,12 @@ public final class Core {
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
 		return (v != null && !v.equals("null")) ? v + "" : defaultParam;
-		
+
 	}
 
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
-	 * 
+	 *
 	 * @param name
 	 *            of the string name
 	 * @param isRemoved
@@ -1499,7 +1496,7 @@ public final class Core {
 
 	/**
 	 * {@code String[] value = Igrp.getInstance().getRequest().getParameterValues(name);}
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return value
@@ -1513,7 +1510,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1529,7 +1526,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
@@ -1539,7 +1536,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return {@code Map<String, String[]>}
 	 */
 	public static Map<String, String[]> getParameters() {
@@ -1548,7 +1545,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1564,7 +1561,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
@@ -1575,7 +1572,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1591,7 +1588,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
@@ -1602,7 +1599,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1618,7 +1615,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
@@ -1628,7 +1625,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1641,7 +1638,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code Core.getAttribute(name, true);}
@@ -1653,7 +1650,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1669,7 +1666,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
@@ -1680,7 +1677,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1696,7 +1693,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toBigDecimal(x):BigDecimal.ZERO;}
@@ -1707,7 +1704,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @param isRemoved
@@ -1723,7 +1720,7 @@ public final class Core {
 
 	/**
 	 * Core.getParam first
-	 * 
+	 *
 	 * @param name
 	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toBigInteger(x):BigInteger.ZERO;}
@@ -1748,7 +1745,7 @@ public final class Core {
 
 	/**
 	 * Receive multiple params and get one of these params that's not null
-	 * 
+	 *
 	 * @param strings
 	 * @return
 	 */
@@ -1760,14 +1757,14 @@ public final class Core {
 			System.arraycopy(strings, 1, newStrings, 0, newStrings.length);
 			return getSwitchNotNullValue(newStrings);
 		} else if (strings.length == 1 && Core.isNotNull(strings[0])){
-				return strings[0];
+			return strings[0];
 		}
 		return "";
 	}
 
 	/**
 	 * Get UUID
-	 * 
+	 *
 	 * @return
 	 */
 	public static String getUUID() {
@@ -1799,7 +1796,7 @@ public final class Core {
 
 	/**
 	 * Consume a REST API Json using get
-	 * 
+	 *
 	 * @param <T>
 	 * @param url
 	 * @param result
@@ -1811,7 +1808,7 @@ public final class Core {
 
 	/**
 	 * Consume a REST API using get
-	 * 
+	 *
 	 * @param url
 	 * @param mediaType
 	 * @param result
@@ -1823,7 +1820,7 @@ public final class Core {
 
 	/**
 	 * Consume a REST API using Get
-	 * 
+	 *
 	 * @param url
 	 * @param mediaType
 	 * @param httpHeaders
@@ -1845,7 +1842,7 @@ public final class Core {
 
 	/**
 	 * Consume a REST API using post
-	 * 
+	 *
 	 * @param url
 	 * @param content
 	 * @param mediaType
@@ -1855,7 +1852,7 @@ public final class Core {
 	 * @return
 	 */
 	public static <T> T httpPost(String url, Object content, String[] mediaType, Map<String, Object> httpHeaders,
-			String entityMediaType, Class<T> result) {
+								 String entityMediaType, Class<T> result) {
 		Client curl = ClientBuilder.newClient();
 		Invocation.Builder ib = curl.target(url).request(mediaType);
 		if (httpHeaders != null && !httpHeaders.isEmpty()) {
@@ -1869,7 +1866,7 @@ public final class Core {
 
 	/**
 	 * Consume a REST API using post
-	 * 
+	 *
 	 * @param url
 	 * @param content
 	 * @param mediaType
@@ -1878,7 +1875,7 @@ public final class Core {
 	 * @return
 	 */
 	public static <T> T httpPost(String url, Object content, String[] mediaType, String entityMediaType,
-			Class<T> result) {
+								 Class<T> result) {
 		return httpPost(url, content, mediaType, null, entityMediaType, result);
 	}
 
@@ -1896,7 +1893,7 @@ public final class Core {
 
 	/**
 	 * Queey insert
-	 * 
+	 *
 	 * @param connectionName
 	 * @param tableName
 	 * @return {@code new QueryInsert(connectionName).insert(tableName);}
@@ -1915,18 +1912,18 @@ public final class Core {
 
 	/**
 	 * Queey insert
-	 * 
+	 *
 	 * @param connectionName
 	 * @param tableName
 	 * @return {@code new QueryInsert(connectionName).insert(tableName);}
 	 */
 	public static BaseQueryInterface insert(String connectionName, String tableName, boolean displayError,
-			boolean tracingError) {
+											boolean tracingError) {
 		return new QueryInsert(connectionName, displayError, tracingError).insert(tableName);
 	}
 
 	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName,
-			boolean displayError, boolean tracingError) {
+											boolean displayError, boolean tracingError) {
 		return new QueryInsert(connectionName, displayError, tracingError).insert(schemaName, tableName);
 	}
 
@@ -1957,10 +1954,10 @@ public final class Core {
 	/**
 	 * Checks if it's a int First {@code isNotNull(value)} than a try catch
 	 * numberFormatException
-	 * 
+	 *
 	 * @param value
 	 * @return {@code double v = Integer.parseInt(value.toString());
-				return ((v == Math.floor(v)) && !Double.isInfinite(v));}
+	return ((v == Math.floor(v)) && !Double.isInfinite(v));}
 	 */
 	public static boolean isInt(Object value) {
 		if (isNotNull(value)) {
@@ -1976,7 +1973,7 @@ public final class Core {
 
 	/**
 	 * Checks if it's not null or ""
-	 * 
+	 *
 	 * @param value
 	 * @return {@code value!=null && !value.equals("");}
 	 */
@@ -1987,7 +1984,7 @@ public final class Core {
 	/**
 	 * Checks if it's not null or "" for multiple values
 	 * Core.isNotNullMultiple(a,b,c,d)
-	 * 
+	 *
 	 * @param values
 	 * @return {@code value!=null && !value.equals("");}
 	 */
@@ -2006,7 +2003,7 @@ public final class Core {
 
 	/**
 	 * Checks if it's not null or not 0 First {@code Core.isNotNull(value)}
-	 * 
+	 *
 	 * @param value
 	 * @return {@code Integer.valueOf(value.toString())!=0;}
 	 */
@@ -2016,7 +2013,7 @@ public final class Core {
 
 	/**
 	 * Checks if it's null or ""
-	 * 
+	 *
 	 * @param value
 	 * @return {@code value==null || value.equals("");}
 	 */
@@ -2026,7 +2023,7 @@ public final class Core {
 
 	/**
 	 * Checks if it's empty for string values or null otherwise.
-	 * 
+	 *
 	 * @param values
 	 *            The values to be checked
 	 * @return {@code true} if all elements are null, or empty for string values.
@@ -2041,7 +2038,7 @@ public final class Core {
 
 	/**
 	 * Checks if it's null or 0
-	 * 
+	 *
 	 * @param value
 	 * @return {@code if(value instanceof Number) return new BigDecimal(String.valueOf(value)).compareTo(BigDecimal.ZERO) == 0}<br>
 	 *         {@code else isNull(value)}
@@ -2053,10 +2050,10 @@ public final class Core {
 
 	/**
 	 * This method is used to add a message log
-	 * 
+	 *
 	 * @param msg
 	 *            This is the message
-	 * 
+	 *
 	 */
 	public static void log(String msg) {
 		if (Igrp.getInstance() != null && Igrp.getInstance().getLog() != null)
@@ -2065,7 +2062,7 @@ public final class Core {
 
 	/**
 	 * send a simple email with charset UTF-8 and mimetype html...
-	 * 
+	 *
 	 * @param from
 	 * @param to
 	 * @param subject
@@ -2079,7 +2076,7 @@ public final class Core {
 
 	/**
 	 * send a simple email ...
-	 * 
+	 *
 	 * @param from
 	 * @param to
 	 * @param subject
@@ -2093,7 +2090,7 @@ public final class Core {
 	 * @return true or false
 	 */
 	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
-			File[] attachs, String replyTo) {
+							   File[] attachs, String replyTo) {
 		return mail(from, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
 
@@ -2111,13 +2108,13 @@ public final class Core {
 	 * @return
 	 */
 	public static boolean mail_v2(String from, String to, String subject, String msg, String charset, String mimetype,
-			Attachment[] attachs, String replyTo) {
+								  Attachment[] attachs, String replyTo) {
 		return mail_v2(from, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
 
 	/**
 	 * Send mail with default email of igrp
-	 * 
+	 *
 	 * @param to
 	 * @param subject
 	 * @param msg
@@ -2130,7 +2127,7 @@ public final class Core {
 	 * @return
 	 */
 	public static boolean mail(String to, String subject, String msg, String charset, String mimetype, File[] attachs,
-			String replyTo) {
+							   String replyTo) {
 		Properties setting = ConfigApp.getInstance().getMainSettings();
 		String email = setting.getProperty("mail.user");
 		return mail(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
@@ -2138,7 +2135,7 @@ public final class Core {
 
 	/**
 	 * Send mail with default email of igrp
-	 * 
+	 *
 	 * @param to
 	 * @param subject
 	 * @param msg
@@ -2151,7 +2148,7 @@ public final class Core {
 	 * @return
 	 */
 	public static boolean mail_v2(String to, String subject, String msg, String charset, String mimetype,
-			Attachment[] attachs, String replyTo) {
+								  Attachment[] attachs, String replyTo) {
 		Properties setting = ConfigApp.getInstance().getMainSettings();
 		String email = setting.getProperty("mail.user");
 		return mail_v2(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
@@ -2173,7 +2170,7 @@ public final class Core {
 	 * @return
 	 */
 	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
-			File[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
+							   File[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
 		try {
@@ -2212,7 +2209,7 @@ public final class Core {
 	 * @return
 	 */
 	public static boolean mail_v2(String from, String to, String subject, String msg, String charset, String mimetype,
-			Attachment[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
+								  Attachment[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
 		try {
@@ -2250,7 +2247,7 @@ public final class Core {
 	 * @return
 	 */
 	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
-			File[] attachs, String replyTo, Properties customConfig) {
+							   File[] attachs, String replyTo, Properties customConfig) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
 		try {
@@ -2287,7 +2284,7 @@ public final class Core {
 	 * @return
 	 */
 	public static boolean mail_v2(String from, String to, String subject, String msg, String charset, String mimetype,
-			Attachment[] attachs, String replyTo, Properties customConfig) {
+								  Attachment[] attachs, String replyTo, Properties customConfig) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
 		try {
@@ -2308,30 +2305,30 @@ public final class Core {
 		}
 		return result;
 	}
-	
+
 	/**
-	 * @param endpoint PDEX Email Gateway URL 
-	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
-	 * @param payload The Message 
+	 * @param endpoint PDEX Email Gateway URL
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN"
+	 * @param payload The Message
 	 * @return boolean success true|false
 	 */
 	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload) {
 		return new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue, payload).send();
 	}
-	
+
 	/**
-	 * @param endpoint PDEX Email Gateway URL 
-	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
-	 * @param payload The Message 
-	 * @param errors A List of errors if occurs 
+	 * @param endpoint PDEX Email Gateway URL
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN"
+	 * @param payload The Message
+	 * @param errors A List of errors if occurs
 	 * @return boolean success true|false
 	 */
 	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload, List<String> errors) {
 		boolean success = false;
-		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue); 
-		sender.setPayload(payload); 
-		if(!(success = sender.send()) && errors != null) 
-			errors.addAll(sender.getErrors()); 
+		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue);
+		sender.setPayload(payload);
+		if(!(success = sender.send()) && errors != null)
+			errors.addAll(sender.getErrors());
 		return success;
 	}
 
@@ -2352,7 +2349,7 @@ public final class Core {
 	/**
 	 * Maps source to destination - http://modelmapper.org/getting-started/ Example
 	 * here: http://modelmapper.org/examples/flattening/
-	 * 
+	 *
 	 * @param source
 	 * @param destination
 	 */
@@ -2363,7 +2360,7 @@ public final class Core {
 
 	/**
 	 * Example input = "Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ" will return This is a funky String
-	 * 
+	 *
 	 * @param input
 	 * @return a normalize text
 	 */
@@ -2400,7 +2397,7 @@ public final class Core {
 	}
 
 	public static QueryInterface query(String connectionName, String sql, Class<?> className, boolean displayError,
-			boolean tracingError) {
+									   boolean tracingError) {
 		return new QuerySelect(connectionName, displayError, tracingError).select(sql, className);
 	}
 
@@ -2415,7 +2412,7 @@ public final class Core {
 	 * @return A xml result
 	 */
 	public static String remoteComboBoxXml(BaseQueryInterface query, String tag_name, String[] selected,
-			String prompt) {
+										   String prompt) {
 		Map<Object, Object> map = new LinkedHashMap<>();
 		StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		xml.append("<").append(tag_name).append(">");
@@ -2492,7 +2489,7 @@ public final class Core {
 
 	/**
 	 * @deprecated Deprecated use updateFile with uuid
-	 * 
+	 *
 	 * @param content
 	 * @param name
 	 * @param mime_type
@@ -2519,7 +2516,7 @@ public final class Core {
 
 	/**
 	 * update a file to the Igrp core DataBase and return true or false ...
-	 * 
+	 *
 	 * @param content
 	 * @param name
 	 * @param mime_type
@@ -2557,7 +2554,7 @@ public final class Core {
 
 	/**
 	 * update a file to the Igrp core DataBase and return true or false ...
-	 * 
+	 *
 	 * @param file
 	 * @param uuid
 	 * @return true|false
@@ -2583,7 +2580,7 @@ public final class Core {
 	/**
 	 * by UUID - update a file to the Igrp core DataBase and return true or false
 	 * ...
-	 * 
+	 *
 	 * @param parameterName
 	 * @param uuid
 	 * @return
@@ -2598,7 +2595,7 @@ public final class Core {
 	/**
 	 * by UUID - update a file to the Igrp core DataBase and return true or false
 	 * ...
-	 * 
+	 *
 	 * @param upFile
 	 *            UploadFile
 	 * @param uuid
@@ -2614,7 +2611,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Deprecated use updateFile with uuid
-	 * 
+	 *
 	 * @param parameterName
 	 * @param description
 	 * @param id
@@ -2630,7 +2627,7 @@ public final class Core {
 	/**
 	 * by UUID - update a file to the Igrp core DataBase and return true or false
 	 * ...
-	 * 
+	 *
 	 * @param parameterName
 	 * @param description
 	 * @param uuid
@@ -2646,7 +2643,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Deprecated use updateFile with uuid
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param mime_type
@@ -2660,7 +2657,7 @@ public final class Core {
 	/**
 	 * by UUID - update a file to the Igrp core DataBase and return true or false
 	 * ...
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param mime_type
@@ -2674,7 +2671,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Deprecated use updateFile with uuid
-	 * 
+	 *
 	 * @param bytes
 	 * @param name
 	 * @param mime_type
@@ -2704,7 +2701,7 @@ public final class Core {
 
 	/**
 	 * update a file to the Igrp core DataBase and return true or false ...
-	 * 
+	 *
 	 * @param bytes
 	 * @param name
 	 * @param mime_type
@@ -2733,7 +2730,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Deprecated use updateFile with uuid
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param mime_type
@@ -2758,7 +2755,7 @@ public final class Core {
 
 	/**
 	 * update a file to the Igrp core DataBase and return true or false ...
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param mime_type
@@ -2784,7 +2781,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Deprecated use updateFile with uuid
-	 * 
+	 *
 	 * @param part
 	 * @param name
 	 * @param id
@@ -2812,7 +2809,7 @@ public final class Core {
 
 	/**
 	 * update a Part of file to the Igrp core DataBase and return true or false ...
-	 * 
+	 *
 	 * @param part
 	 * @param name
 	 * @param uuid
@@ -2840,9 +2837,9 @@ public final class Core {
 
 	/**
 	 * @deprecated Use saveFileNGetUuid
-	 * 
+	 *
 	 *             Insert a file to the Igrp core DataBase and return an Id ...
-	 * 
+	 *
 	 * @param content
 	 *            byte[]
 	 * @param name
@@ -2876,7 +2873,7 @@ public final class Core {
 
 	/**
 	 * Insert a file to the Igrp core DataBase and return an UUId ...
-	 * 
+	 *
 	 * @param content
 	 *            byte[]
 	 * @param name
@@ -2906,14 +2903,14 @@ public final class Core {
 	/**
 	 * @deprecated Use saveFileNGetUuid() Insert a Part to the Igrp core DataBase
 	 *             and return an Id ...
-	 * 
-	 *             {@code  	 
-				try {
-				List<Part> parts = Core.getFiles();
-				for(int i=0;i<parts.size();i++) { String desription = ""; int fileId
+	 *
+	 *             {@code
+	try {
+	List<Part> parts = Core.getFiles();
+	for(int i=0;i<parts.size();i++) { String desription = ""; int fileId
 	 *             = Core.saveFile(parts.get(i)); } } catch (ServletException e) {
 	 *             e.printStackTrace(); }}
-	 * 
+	 *
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
 	 */
@@ -2926,14 +2923,14 @@ public final class Core {
 
 	/**
 	 * Insert a Part to the Igrp core DataBase and return an UUId ...
-	 * 
-	 * {@code  	 
-				try {
-				List<Part> parts = Core.getFiles();
-				for(int i=0;i<parts.size();i++) { String desription = ""; int fileId
+	 *
+	 * {@code
+	try {
+	List<Part> parts = Core.getFiles();
+	for(int i=0;i<parts.size();i++) { String desription = ""; int fileId
 	 * = Core.saveFile(parts.get(i)); } } catch (ServletException e) {
 	 * e.printStackTrace(); }}
-	 * 
+	 *
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
 	 */
@@ -2946,7 +2943,7 @@ public final class Core {
 	/**
 	 * @deprecated Use saveFileNGetUuid() Insert a file to the Igrp core DataBase
 	 *             and return an Id ...
-	 * 
+	 *
 	 * @param file
 	 * @return in ID
 	 */
@@ -2957,7 +2954,7 @@ public final class Core {
 
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
-	 * 
+	 *
 	 * @param file
 	 * @return String UUID
 	 */
@@ -2968,7 +2965,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Use saveFileNGetUuid()
-	 * 
+	 *
 	 * @param parameterName
 	 * @return
 	 * @throws Exception
@@ -2995,7 +2992,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Use saveFileNGetUuid()
-	 * 
+	 *
 	 * @param parameterName
 	 * @param description
 	 * @return
@@ -3016,7 +3013,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Use saveFileNGetUuid()
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param mime_type
@@ -3033,7 +3030,7 @@ public final class Core {
 	@Deprecated
 	/**
 	 * Use saveFileNGetUuid()
-	 * 
+	 *
 	 * @param bytes
 	 * @param name
 	 * @param mime_type
@@ -3067,9 +3064,9 @@ public final class Core {
 			clob = clob.insert();
 			clob.showMessage();
 			if (!clob.hasError() && !(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())) {
-					clob.setEstado("AP");
-					clob.update();
-				
+				clob.setEstado("AP");
+				clob.update();
+
 			}
 			return clob.getUuid();
 		}
@@ -3080,7 +3077,7 @@ public final class Core {
 	/**
 	 * Use saveFileNGetUuid() Insert a file to the Igrp core DataBase and return an
 	 * Id ...
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param mime_type
@@ -3103,7 +3100,7 @@ public final class Core {
 
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param mime_type
@@ -3128,7 +3125,7 @@ public final class Core {
 	/**
 	 * Use saveFileNGetUuid() Insert a Part file to the Igrp core DataBase and
 	 * return an Id ...
-	 * 
+	 *
 	 * @param part
 	 * @param name
 	 * @return in ID
@@ -3154,7 +3151,7 @@ public final class Core {
 
 	/**
 	 * Insert a Part file to the Igrp core DataBase and return an Id ...
-	 * 
+	 *
 	 * @param part
 	 * @param name
 	 * @return String UUID
@@ -3194,7 +3191,7 @@ public final class Core {
 
 	/**
 	 * Shows a custom error flash message
-	 * 
+	 *
 	 * @param msg
 	 *            Custom message string
 	 */
@@ -3207,7 +3204,7 @@ public final class Core {
 
 	/**
 	 * Add Message Info
-	 * 
+	 *
 	 * @param msg
 	 *            custom message
 	 */
@@ -3220,7 +3217,7 @@ public final class Core {
 
 	/**
 	 * Add Message Info With Link
-	 * 
+	 *
 	 * @param msg
 	 *            custom message
 	 * @param link
@@ -3235,7 +3232,7 @@ public final class Core {
 
 	/**
 	 * Add Message Info With Link
-	 * 
+	 *
 	 * @param msg
 	 *            custom message
 	 * @param app
@@ -3248,7 +3245,7 @@ public final class Core {
 	public static void setMessageInfoLink(String msg, String app, String page, String action) {
 		if(Igrp.getInstance() != null && Core.isNull(Core.getParam("igrp.test.bdd",false)))
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK,
-				gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
+					gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
 		else
 			System.out.print("[INFO] "+ gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
 	}
@@ -3265,7 +3262,7 @@ public final class Core {
 
 	/**
 	 * Shows a custom success flash message
-	 * 
+	 *
 	 * @param msg
 	 *            Custom message string
 	 */
@@ -3278,7 +3275,7 @@ public final class Core {
 
 	/**
 	 * Shows a custom confirm flash message
-	 * 
+	 *
 	 * @param msg
 	 *            Custom message string
 	 */
@@ -3291,7 +3288,7 @@ public final class Core {
 
 	/**
 	 * Shows a confirm flash message "Deseja realmente realizar esta operação?"
-	 * 
+	 *
 	 */
 	public static void setMessageConfirm() {
 		Core.setMessageConfirm(FlashMessage.MSG_CONFIRM);
@@ -3299,7 +3296,7 @@ public final class Core {
 
 	/**
 	 * Add Message Warning
-	 * 
+	 *
 	 * @param msg
 	 *            custom message
 	 */
@@ -3353,7 +3350,7 @@ public final class Core {
 	}
 
 	public static String getProcessVariable(String processDefinitionKey, String processInstanceId,
-			String variableName) {
+											String variableName) {
 		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey, processInstanceId);
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
@@ -3391,7 +3388,7 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param processDefinitionKey
 	 * @param processInstanceId
 	 * @return List of TaskVariables
@@ -3437,7 +3434,7 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param obj
 	 * @param json
 	 * @return
@@ -3458,7 +3455,7 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param variableName
 	 * @param scope
 	 * @param type
@@ -3476,7 +3473,7 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param variableName
 	 * @return
 	 */
@@ -3485,7 +3482,7 @@ public final class Core {
 			return "";
 		HistoricVariablesService htask = new TaskServiceRest().getVarByProcId(Core.getProcessInstaceByTask(),variableName);
 		if (htask != null && htask.getVariable()!=null) {
-			return htask.getVariable().getValue()+"";
+			return (String) htask.getVariable().getValue();
 		}
 		return "";
 
@@ -3493,12 +3490,11 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param taskDefinitionKey
 	 * @param variableName
 	 * @return
 	 */
-
 	public static Object getTaskVariable(String taskDefinitionKey, String variableName) {
 		String id = Core.getExecutionId();
 		TaskVariables variav= new TaskServiceRest().getVariableByExecId(id,taskDefinitionKey + "_" + variableName);
@@ -3513,7 +3509,7 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param variableName
 	 * @param value
 	 */
@@ -3523,7 +3519,7 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param variableName
 	 * @param value
 	 */
@@ -3601,13 +3597,13 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * 
+	 *
 	 * @param taskDefinitionKey
 	 * @param variableName
 	 * @return
 	 */
 	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
-		return ""+Core.getTaskVariable(taskDefinitionKey, variableName);
+		return (String) Core.getTaskVariable(taskDefinitionKey, variableName);
 	}
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
@@ -3636,7 +3632,7 @@ public final class Core {
 	}
 
 	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
+		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toInt(v) : Integer.valueOf(0);
 	}
 
@@ -3646,7 +3642,7 @@ public final class Core {
 	}
 
 	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
+		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toShort(v) : Short.valueOf((short) 0);
 	}
 
@@ -3656,17 +3652,17 @@ public final class Core {
 	}
 
 	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
+		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toLong(v) : Long.valueOf(0);
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
+		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.ToDate(v, "yyyy-mm-dd");
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName, String format) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
+		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.ToDate(v, format);
 	}
 
@@ -3681,7 +3677,7 @@ public final class Core {
 	}
 
 	public static byte[] getTaskVariableByte(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName)+"";
+		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
 		return v.getBytes();
 	}
 
@@ -3690,9 +3686,9 @@ public final class Core {
 			return null;
 		String id = getParamTaskId();
 		TaskService task = new TaskServiceRest().getTask(id);
-		Object variahb = Core.getTaskVariable(task.getTaskDefinitionKey(),variableName);
-		if (Core.isNotNull(variahb)) {
-			return variahb;
+		Object variable = Core.getTaskVariable(task.getTaskDefinitionKey(),variableName);
+		if (Core.isNotNull(variable)) {
+			return variable;
 		}
 		return null;
 	}
@@ -3706,7 +3702,7 @@ public final class Core {
 	}
 
 	public static String getTaskVariableId(String taskDefinitionKey) {
-		return Core.getTaskVariable(taskDefinitionKey,"p_task_id")+"";
+		return (String) Core.getTaskVariable(taskDefinitionKey,"p_task_id");
 
 	}
 
@@ -3758,7 +3754,7 @@ public final class Core {
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
-			Map<String, Object> bodyContent) {
+										Map<String, Object> bodyContent) {
 		SoapClient sc = new SoapClient(wsdlUrl);
 		sc.setHeaders(headers);
 		sc.doRequest(namespaces, bodyContent);
@@ -3781,7 +3777,7 @@ public final class Core {
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
-			Map<String, Object> bodyContent, String soapProtocolVersion) {
+										Map<String, Object> bodyContent, String soapProtocolVersion) {
 		SoapClient sc = new SoapClient(wsdlUrl);
 		sc.setHeaders(headers);
 		sc.setSoapProtocolVersion(soapProtocolVersion);
@@ -3804,7 +3800,7 @@ public final class Core {
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
-			Map<String, Object> bodyContent, String soapNameSpace, String soapProtocolVersion) {
+										Map<String, Object> bodyContent, String soapNameSpace, String soapProtocolVersion) {
 		SoapClient sc = new SoapClient(wsdlUrl);
 		sc.setHeaders(headers);
 		sc.setSoapNameSpace(soapNameSpace);
@@ -3821,7 +3817,7 @@ public final class Core {
 	 *            A Map of soap request headers
 	 * @param rawEnvelope
 	 *            String of raw request envelope
-	 * 
+	 *
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> headers, String rawEnvelope) {
@@ -3834,7 +3830,7 @@ public final class Core {
 
 	/**
 	 * use dateToString
-	 * 
+	 *
 	 * @param date
 	 * @param formatOut
 	 * @return
@@ -3846,7 +3842,7 @@ public final class Core {
 
 	/**
 	 * Please use dateToString
-	 * 
+	 *
 	 * @param date
 	 * @param formatOut
 	 * @return
@@ -3858,7 +3854,7 @@ public final class Core {
 
 	/**
 	 * Please use dateToString
-	 * 
+	 *
 	 * @param date
 	 * @param formatOut
 	 * @return
@@ -3869,7 +3865,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param date
 	 * @param formatIn
 	 * @param formatOut
@@ -3880,7 +3876,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param date
 	 * @param formatIn
 	 * @return DateHelper.convertStringToDate
@@ -3891,9 +3887,9 @@ public final class Core {
 
 	/**
 	 * FormatIn is dd-MM-yyyy
-	 * 
+	 *
 	 * @param date
-	 * 
+	 *
 	 * @return DateHelper.convertStringToDate
 	 */
 	public static Date ToDate(String date) {
@@ -3901,7 +3897,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param date
 	 * @param formatIn
 	 * @param formatOut
@@ -3912,7 +3908,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param timeStampDate
 	 * @param formatOut
 	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
@@ -3923,7 +3919,7 @@ public final class Core {
 
 	/**
 	 * Deprecated use convertTimeStampToDateString
-	 * 
+	 *
 	 * @param timeStampDate
 	 * @param formatOut
 	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
@@ -3934,7 +3930,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param timeStampDate
 	 * @param formatOut
 	 * @return return formattDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
@@ -3947,7 +3943,7 @@ public final class Core {
 	// _____________________________________________________________________
 	/**
 	 * Receives java.sql.Date and returns it as utilDate
-	 * 
+	 *
 	 * @param sqlDate
 	 * @return a java.util.Date
 	 */
@@ -3959,7 +3955,7 @@ public final class Core {
 
 	/**
 	 * Receives java.util.Date and returns it as java.sql.Date
-	 * 
+	 *
 	 * @param utilDate
 	 * @return a java.sql.Date
 	 */
@@ -3969,7 +3965,7 @@ public final class Core {
 
 	/**
 	 * Receives java.util.Date and returns it as string
-	 * 
+	 *
 	 * @param date
 	 * @return strDate with a format declared in the class Cons
 	 */
@@ -3990,7 +3986,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * Generic method intended to use with The Date Time API from java 8. Please
 	 * ensure the correct {@link DateTimeFormatter} is provided for the date type
 	 * passes as argument.
@@ -4003,7 +3999,7 @@ public final class Core {
 	 * <li>{@link ZonedDateTime}
 	 * <li>{@link Instant}
 	 * </ul>
-	 * 
+	 *
 	 * @param <T>
 	 * @param date
 	 *            the date object to parse as a string
@@ -4034,7 +4030,7 @@ public final class Core {
 	/**
 	 * Obtains an instance of {@code IGRPDaysOff}. Provide methods to add dates and
 	 * build a string from those dates.
-	 * 
+	 *
 	 * @return {@code IGRPDaysOff}, not null
 	 * @category DateUtils
 	 */
@@ -4050,24 +4046,24 @@ public final class Core {
 	 * get the start and end dates.
 	 * <p>
 	 * Use case example:
-	 * 
+	 *
 	 * <pre>
 	 * IGRPDateFromTo dateFromTo = Core.dateFromTo("02-06-2021 / 30-06-2021");
-	 * 
+	 *
 	 * {@link Optional}<{@link LocalDateTime}> from = dateFromTo.from();
 	 * {@link Optional}<{@link LocalDateTime}> to = dateFromTo.to();
-	 * 	
+	 *
 	 * if(from.isPresent()) 
 	 *	{@link LocalDateTime} from = from.get();
-	 *	
+	 *
 	 * if(to.isPresent()) 
 	 *	{@link LocalDateTime} to = to.get();
 	 * </pre>
-	 * 
+	 *
 	 * @param dateFromTo
 	 *            the string representation from which the start and end dates are
 	 *            obtained.
-	 * 
+	 *
 	 * @return {@code IGRPDateFromTo}, not null
 	 * @category DateUtils
 	 */
@@ -4136,7 +4132,7 @@ public final class Core {
 
 	/**
 	 * Receives a date in a default string with a sent format
-	 * 
+	 *
 	 * @param strDate
 	 * @param formatIn
 	 * @return a java.util.Date with a specified format
@@ -4156,7 +4152,7 @@ public final class Core {
 	/**
 	 * Receives two java.util.Date and returns them as a concatenated string whit
 	 * the default separator
-	 * 
+	 *
 	 * @param beginDate
 	 * @param endDate
 	 * @return two strDates separated by a separator and each one in a format
@@ -4178,14 +4174,14 @@ public final class Core {
 	 *         format declared in the class Cons
 	 */
 	public static String dateBeginEndUtilToDateFromToStr(java.util.Date beginDate, java.util.Date endDate,
-			String separator) {
+														 String separator) {
 		return dateBeginEndStrToDateFromToStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
 				dateToString(endDate, Cons.DATE_FORMAT.getValue()), separator);
 	}
 
 	/**
 	 * Receives two dates in a default string format with the default separator
-	 * 
+	 *
 	 * @param beginDateStr
 	 * @param endDateStr
 	 * @return a string date from/to format
@@ -4196,7 +4192,7 @@ public final class Core {
 
 	/**
 	 * Receives two dates in a default string format with a specified separator
-	 * 
+	 *
 	 * @param beginDateStr
 	 * @param endDateStr
 	 * @param separator
@@ -4231,7 +4227,7 @@ public final class Core {
 	/**
 	 * Receives a date from/to in a default model string format with a separator
 	 * param
-	 * 
+	 *
 	 * @param dateFromToStr
 	 * @param separator
 	 * @return the substring or the first date of the date from/to
@@ -4254,7 +4250,7 @@ public final class Core {
 	/**
 	 * Receives a date from/to in a default string format separated whit the default
 	 * separator
-	 * 
+	 *
 	 * @param dateFromToStr
 	 * @return the substring or the end date of the date from/to
 	 */
@@ -4278,7 +4274,7 @@ public final class Core {
 	/**
 	 * Receives a String with special characters and returns it as a normalized
 	 * string {@code Core.normalizeText(string).replaceAll("[^-a-zA-Z0-9\\s]", "")}
-	 * 
+	 *
 	 * @param string
 	 * @return normalizedString
 	 */
@@ -4293,10 +4289,10 @@ public final class Core {
 	/**
 	 * Verifies if the Core.isBigDecimal and if true, than returns BigDecimal parse
 	 * of it, else returns 0
-	 * 
+	 *
 	 * @param value
 	 * @return new BigDecimal(value) or 0
-	 * 
+	 *
 	 */
 	public static BigDecimal toBigDecimal(String value) {
 		return toBigDecimal(value, new BigDecimal(0.0));
@@ -4316,10 +4312,10 @@ public final class Core {
 	/**
 	 * Verifies if the Core.isBigInteger and if true, than returns BigInteger parse
 	 * of it, else returns 0
-	 * 
+	 *
 	 * @param value
 	 * @return new BigInteger(value) or 0
-	 * 
+	 *
 	 */
 	public static BigInteger toBigInteger(String value) {
 		return toBigInteger(value, new BigInteger("0"));
@@ -4339,10 +4335,10 @@ public final class Core {
 	/**
 	 * Verifies if the Core.isDouble and if true, than returns double parse of it,
 	 * else returns 0
-	 * 
+	 *
 	 * @param value
 	 * @return Double.parseDouble(value) or 0
-	 * 
+	 *
 	 */
 	public static Double toDouble(String value) {
 		return toDouble(value, 0.0);
@@ -4353,7 +4349,7 @@ public final class Core {
 			try {
 				return Double.parseDouble(value);
 			} catch (NumberFormatException ignored) {
-				
+
 			}
 		}
 		return defaultValue;
@@ -4362,10 +4358,10 @@ public final class Core {
 	/**
 	 * Verifies if the String is a Float, than returns the parse of it, else returns
 	 * 0
-	 * 
+	 *
 	 * @param value
 	 * @return Float.parseFloat(value) or 0
-	 * 
+	 *
 	 */
 	public static Float toFloat(String value) {
 		return toFloat(value, 0);
@@ -4385,10 +4381,10 @@ public final class Core {
 	/**
 	 * Verifies if Core.isInt and if true, than returns integer parse of it, else
 	 * returns 0
-	 * 
+	 *
 	 * @param value
 	 * @return Integer.parseInt(value) or 0
-	 * 
+	 *
 	 */
 	public static Integer toInt(String value) {
 		return toInt(value, 0);
@@ -4397,11 +4393,11 @@ public final class Core {
 	/**
 	 * Verifies if Core.isInt and if true, than returns integer parse of it else
 	 * returns defaultValue
-	 * 
+	 *
 	 * @param value
 	 * @param defaultValue
 	 * @return Integer.parseInt(value) or defaultValue
-	 * 
+	 *
 	 */
 	public static Integer toInt(String value, int defaultValue) {
 		if (Core.isNotNull(value)) {
@@ -4435,7 +4431,7 @@ public final class Core {
 			try {
 				return Long.parseLong(value);
 			} catch (NumberFormatException ignored) {
-				
+
 			}
 		}
 		return defaultValue;
@@ -4445,7 +4441,7 @@ public final class Core {
 	 * Example of use
 	 * {@code final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
 	+				"descricao");}
-	 * 
+	 *
 	 * @param values
 	 * @param keyField
 	 * @param valueField
@@ -4459,7 +4455,7 @@ public final class Core {
 	 * Example of use
 	 * {@code final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
 	+				"descricao", "-- Selecionar --");}
-	 * 
+	 *
 	 * @param values
 	 * @param keyField
 	 * @param valueField
@@ -4498,18 +4494,18 @@ public final class Core {
 	}
 
 	public static BaseQueryInterface update(String connectionName, String tableName, boolean displayError,
-			boolean tracingError) {
+											boolean tracingError) {
 		return new QueryUpdate(connectionName, displayError, tracingError).update(tableName);
 	}
 
 	public static BaseQueryInterface update(String connectionName, String schemaName, String tableName,
-			boolean displayError, boolean tracingError) {
+											boolean displayError, boolean tracingError) {
 		return new QueryUpdate(connectionName, displayError, tracingError).update(schemaName, tableName);
 	}
 
 	/**
 	 * Upload a file from a upload field with the tag given
-	 * 
+	 *
 	 * @param tag
 	 *            p_file
 	 * @return class UploadedFile
@@ -4521,8 +4517,8 @@ public final class Core {
 
 	/**
 	 * Upload all files from a all the upload field
-	 * 
-	 * 
+	 *
+	 *
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple() {
@@ -4532,7 +4528,7 @@ public final class Core {
 
 	/**
 	 * Upload multiple files from a multiple upload field with the tag given
-	 * 
+	 *
 	 * @param tag
 	 *            p_file
 	 * @return {@code List<UploadedFile>}
@@ -4548,7 +4544,7 @@ public final class Core {
 
 	/**
 	 * Return the link to use in IGRP
-	 * 
+	 *
 	 * @param app
 	 * @param page
 	 * @param action
@@ -4562,7 +4558,7 @@ public final class Core {
 	 * Convert int array to String array Example:
 	 * {@code convertArrayIntToArrayString(new int[]{1,2,3}); ->
 	 * String[]{"1","2","3"};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4581,7 +4577,7 @@ public final class Core {
 	 * Convert float array to String array Example:
 	 * {@code convertArrayFloatToArrayString(new float[]{1.0,2,3}); ->
 	 * String[]{"1.0","2","3"};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4600,7 +4596,7 @@ public final class Core {
 	 * Convert double array to String array Example:
 	 * {@code convertArrayDoubleToArrayString(new double[]{1,2,3}); ->
 	 * String[]{"1","2","3"};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4619,7 +4615,7 @@ public final class Core {
 	 * Convert short array to String array Example:
 	 * {@code convertArrayShortToArrayString(new short[]{1,2,3}); ->
 	 * String[]{"1","2","3"};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4638,7 +4634,7 @@ public final class Core {
 	 * Convert Object array to String array Example:
 	 * {@code convertArrayObjectToArrayString(new Integer[]{1,2,3}); ->
 	 * String[]{"1","2","3"};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4657,7 +4653,7 @@ public final class Core {
 	 * Convert Object array to primitive int array Example:
 	 * {@code convertArrayObjectToArrayInt(new String[]{"1","2","3"}); ->
 	 * int[]{1,2,3};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4676,7 +4672,7 @@ public final class Core {
 	 * Convert Object array to primitive short array Example:
 	 * {@code convertArrayObjectToArrayPShort(new String[]{"1","2","3"}); ->
 	 * short[]{1,2,3};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4695,7 +4691,7 @@ public final class Core {
 	 * Convert Object array to primitive float array Example:
 	 * {@code convertArrayObjectToArrayPFloat(new String[]{"1","2","3"}); ->
 	 * float[]{1,2,3};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4714,7 +4710,7 @@ public final class Core {
 	 * Convert Object array to primitive double array Example:
 	 * {@code convertArrayObjectToArrayPDouble(new String[]{"1","2","3"}); ->
 	 * double[]{1,2,3};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4733,7 +4729,7 @@ public final class Core {
 	 * Convert Object array to Integer array Example:
 	 * {@code convertArrayObjectToArrayInteger(new String[]{"1","2","3"}); ->
 	 * Integer[]{1,2,3};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4752,7 +4748,7 @@ public final class Core {
 	 * Convert Object array to Float array Example:
 	 * {@code convertArrayObjectToArrayFloat(new String[]{"1","2","3"}); ->
 	 * Float[]{1.0,2.0,3.0};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4771,7 +4767,7 @@ public final class Core {
 	 * Convert Object array to Double array Example:
 	 * {@code convertArrayObjectToArrayDouble(new String[]{"1","2","3"}); ->
 	 * Double[]{1,2,3};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4790,7 +4786,7 @@ public final class Core {
 	 * Convert Object array to Short array Example:
 	 * {@code convertArrayObjectToArrayShort(new String[]{"1","2","3"}); ->
 	 * String[]{1,2,3};}
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -4807,13 +4803,13 @@ public final class Core {
 
 	/**
 	 * Compare 2 arrays if there are the same size
-	 * 
+	 *
 	 * @param array1
 	 * @param array2
 	 * @return {@code
 	 *  if(Core.isNotNullMultiple(array1,array2))
-			r = array1.length==array2.length;
-		 return r;}
+	r = array1.length==array2.length;
+	return r;}
 	 */
 	public static boolean isArraySameSize(Object[] array1, Object[] array2) {
 		boolean r = false;
@@ -4825,14 +4821,14 @@ public final class Core {
 
 	/**
 	 * Extracts from a list of checkboxs, the checked and unchecked
-	 * 
+	 *
 	 * Example import nosi.core.webapp.helpers.CheckBoxHelper;
 	 * {@code CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_menu"), Core.getParamArray("p_menu_check"));
 	 * cb.getUncheckedIds();
 	 * cb.getChekedIds()
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * @param allValues
 	 *            list of the values of all values
 	 * @param checkedValues
@@ -4846,7 +4842,7 @@ public final class Core {
 	/**
 	 * This method is intended to get the values checked and unchecked from a
 	 * checkbox field in a table.
-	 * 
+	 *
 	 * @param field
 	 *            checkbox field
 	 * @return a CheckBoxHelper object that contains the checked/Unchecked values
@@ -4868,7 +4864,7 @@ public final class Core {
 
 	/**
 	 * Get Session to programming custom CRUD
-	 * 
+	 *
 	 * @param connectionName
 	 * @return
 	 */
@@ -5188,7 +5184,7 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param processKey
 	 * @return
 	 */
@@ -5230,7 +5226,7 @@ public final class Core {
 	 * @return stateValue
 	 */
 	public static String buildStateValueForSsoAutentika(String tipo, String id, String appDad, String orgCode,
-			String profCode, Map<String, String> params) {
+														String profCode, Map<String, String> params) {
 		String stateValue = "<TIPO>/<ID>/<APP>;<ORG>;<PROF>/<PARAM=VALUE>";
 		if (tipo != null && !tipo.isEmpty() && id != null && !id.isEmpty()) {
 			stateValue = stateValue.replace("<TIPO>", tipo).replace("<ID>", id);
@@ -5263,7 +5259,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String buildStateValueForSsoAutentikaWhenPage(String page, String appDad, String orgCode,
-			String profCode, Map<String, String> params) {
+																String profCode, Map<String, String> params) {
 		Action action = Core.loadPageInfo(appDad, page);
 		if (action != null)
 			return Core.buildStateValueForSsoAutentika("PAGE", action.getId() + "", appDad, orgCode, profCode, params);
@@ -5374,7 +5370,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getValidAutentikaUrlForSso(String url, String tipo, String tipoId, String dad,
-			Map<String, String> params) {
+													Map<String, String> params) {
 		if (url == null || url.isEmpty())
 			return null;
 		String orgCode = Core.getCurrentOrganizationCode();
@@ -5397,7 +5393,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getValidAutentikaUrlForSso(String url, String tipo, String tipoId, String dad, String orgCode,
-			String profCode, Map<String, String> params) {
+													String profCode, Map<String, String> params) {
 		if (url == null || url.isEmpty())
 			return null;
 		String stateValue = Core.buildStateValueForSsoAutentika(tipo, tipoId, dad, orgCode, profCode, params);
@@ -5416,11 +5412,11 @@ public final class Core {
 			sessionId = s.getSessionId();
 		return sessionId;
 	}
-	
+
 	/**
 	 * Link to a Certificate file
-	 * 
-	 * 
+	 *
+	 *
 	 * @param uuid
 	 *            Unique signature id
 	 * @return link
@@ -5435,8 +5431,8 @@ public final class Core {
 
 	/**
 	 * Link to a Signed data file
-	 * 
-	 * 
+	 *
+	 *
 	 * @param uuid
 	 *            Unique signature id
 	 * @return link
@@ -5448,29 +5444,29 @@ public final class Core {
 			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadData&uuid=" + uuid);
 
 	}
-	
-	
+
+
 	/**
 	 * Will save a propertie useful for caching in a dead file .properties, data like values for statbox and other statistics that you don't need to do count in SQL every time.
-	 * 
+	 *
 	 * @param p
 	 * @param caller
 	 * @param moreArgs
 	 */
 	public static void saveProp4Cache(Properties p, Class<?> caller, String moreArgs) {
 		p.setProperty("t", LocalDateTime.now().toString());
-		 try (FileOutputStream output = new FileOutputStream("temp/"+caller.getName()+moreArgs+".properties")) {
-	            // Save the properties to a file in the temp directory
-	            p.store(output, caller.getSimpleName());
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		
+		try (FileOutputStream output = new FileOutputStream("temp/"+caller.getName()+moreArgs+".properties")) {
+			// Save the properties to a file in the temp directory
+			p.store(output, caller.getSimpleName());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	/**
 	 * Will check if the properties in cache was saved more than 30 minutes ago by default
 	 * Tip: use prop.getProperty("t") to retrieve the last time updated and "m" to retrive in minutes;
-	 * 
+	 *
 	 * @param caller is used to get the full name of the class to be the filename saved 
 	 * @param moreArgs is to complement more arguments for example different profiles
 	 * @return
@@ -5479,10 +5475,10 @@ public final class Core {
 		return loadProp4Cache(caller,moreArgs,null);
 	}
 	/**
-	 * 
+	 *
 	 * Will check if the properties in cache was saved more than the moreArgs minutes ago 
 	 * Tip: use prop.getProperty("t") to retrieve the last time updated and "m" to retrive in minutes;
-	 * 
+	 *
 	 * @param caller is used to get the full name of the class to be the filename saved 
 	 * @param moreArgs is to complement more arguments for example different profiles
 	 * @param expirationTime is the minutes to be checked for the document to be considered expired
@@ -5497,21 +5493,21 @@ public final class Core {
 			if(!propCached.isEmpty()) {
 				LocalDateTime timestamp = LocalDateTime.parse(propCached.getProperty("t"));
 				LocalDateTime now = LocalDateTime.now();
-				
+
 				long minutesElapsed = ChronoUnit.MINUTES.between(timestamp, now);
-				
+
 				if (minutesElapsed > EXPIRATION_TIME) {
 					return new Properties(); // os dados expiraram
 				}
 				propCached.setProperty("m", ""+minutesElapsed);
 			}
-			
+
 			return propCached;
-		
+
 
 		} catch (Exception e) {
 			System.out.println("loadProp4Cache "+e.getMessage());
-		} 
+		}
 		return propCached;
 	}
 

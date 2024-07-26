@@ -290,11 +290,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String appDad = this.runtimeTask.getTask().getTenantId();
 		String taskDefinition = this.runtimeTask.getTask().getTaskDefinitionKey();
 		String processDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();	
-		boolean isDetails = this.runtimeTask.isDetails();
-		if(isDetails) {			
-			return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
-		}
-		return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
+		//boolean isDetails = this.runtimeTask.isDetails();
+        return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
 	}
 
 
@@ -308,9 +305,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 									 .andWhere("processKey", "=", task.getProcessDefinitionKey())
 									.one();
 		String json = "";
-		if(task.getVariables()!=null) {
-			List<TaskVariables> variav = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
-			json = !variav.isEmpty() ?variav.get(0).getValue().toString():"";
+		final Object taskVariable = Core.getTaskVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + task.getId());
+		if(Core.isNotNull(taskVariable)){
+			json=taskVariable.toString();
 		}
 		if(Core.isNotNull(json)) {
 			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);

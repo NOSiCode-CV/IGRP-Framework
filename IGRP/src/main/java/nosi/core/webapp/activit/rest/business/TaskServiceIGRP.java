@@ -69,12 +69,10 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 			 return tasks; 
 		if(myTaskAccess.size()<3) {
 			for(TaskAccess t:myTaskAccess) {
-				long tim = System.currentTimeMillis();
 				if(t.getTaskName().equals("Start"+t.getProcessName()))
 					continue;
 				taskServiceRest.addFilterBody("taskDefinitionKey", t.getTaskName());
 				tasks.addAll(taskServiceRest.queryTasks());
-				System.out.println(this.getClass().getSimpleName()+" "+t.getTaskName()+" postbdTimee time: " + ( System.currentTimeMillis()-tim) + " milliseconds "+tasks.size());
 			}
 		}else {
 			tasks  = taskServiceRest.queryTasks(); 
