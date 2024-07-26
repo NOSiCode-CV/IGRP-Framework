@@ -3487,7 +3487,6 @@ public final class Core {
 		return "";
 
 	}
-
 	/**
 	 * @category BPMN
 	 *
@@ -3495,7 +3494,17 @@ public final class Core {
 	 * @param variableName
 	 * @return
 	 */
-	public static Object getTaskVariable(String taskDefinitionKey, String variableName) {
+	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
+		return (String) getTaskVariableRaw(taskDefinitionKey,variableName);
+	}
+	/**
+	 * @category BPMN
+	 *
+	 * @param taskDefinitionKey
+	 * @param variableName
+	 * @return
+	 */
+	public static Object getTaskVariableRaw(String taskDefinitionKey, String variableName) {
 		String id = Core.getExecutionId();
 		TaskVariables variav= new TaskServiceRest().getVariableByExecId(id,taskDefinitionKey + "_" + variableName);
 
@@ -3503,8 +3512,6 @@ public final class Core {
 			return variav.getValue();
 		}
 		return "";
-
-
 	}
 
 	/**
@@ -3603,7 +3610,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
-		return (String) Core.getTaskVariable(taskDefinitionKey, variableName);
+		return (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 	}
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
@@ -3612,7 +3619,7 @@ public final class Core {
 	}
 
 	public static Boolean getTaskVariableBoolean(String taskDefinitionKey, String variableName) {
-		Object v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		Object v = Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Boolean.valueOf(true) : Boolean.valueOf(false);
 	}
 
@@ -3622,7 +3629,7 @@ public final class Core {
 	}
 
 	public static Double getTaskVariableDouble(String taskDefinitionKey, String variableName) {
-		Object v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		Object v = Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? (Double) v: Double.valueOf(0);
 	}
 
@@ -3632,7 +3639,7 @@ public final class Core {
 	}
 
 	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toInt(v) : Integer.valueOf(0);
 	}
 
@@ -3642,7 +3649,7 @@ public final class Core {
 	}
 
 	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toShort(v) : Short.valueOf((short) 0);
 	}
 
@@ -3652,17 +3659,17 @@ public final class Core {
 	}
 
 	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toLong(v) : Long.valueOf(0);
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return Core.ToDate(v, "yyyy-mm-dd");
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName, String format) {
-		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return Core.ToDate(v, format);
 	}
 
@@ -3677,7 +3684,7 @@ public final class Core {
 	}
 
 	public static byte[] getTaskVariableByte(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariable(taskDefinitionKey, variableName);
+		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 		return v.getBytes();
 	}
 
@@ -3686,7 +3693,7 @@ public final class Core {
 			return null;
 		String id = getParamTaskId();
 		TaskService task = new TaskServiceRest().getTask(id);
-		Object variable = Core.getTaskVariable(task.getTaskDefinitionKey(),variableName);
+		Object variable = Core.getTaskVariableRaw(task.getTaskDefinitionKey(),variableName);
 		if (Core.isNotNull(variable)) {
 			return variable;
 		}
@@ -3694,7 +3701,7 @@ public final class Core {
 	}
 
 	public static Object getTaskVariableSerializable(String taskDefinitionKey, String variableName) {
-		Object variahb = Core.getTaskVariable(taskDefinitionKey,variableName);
+		Object variahb = Core.getTaskVariableRaw(taskDefinitionKey,variableName);
 		if (Core.isNotNull(variahb)) {
 			return variahb;
 		}
@@ -3702,7 +3709,7 @@ public final class Core {
 	}
 
 	public static String getTaskVariableId(String taskDefinitionKey) {
-		return (String) Core.getTaskVariable(taskDefinitionKey,"p_task_id");
+		return (String) Core.getTaskVariableRaw(taskDefinitionKey,"p_task_id");
 
 	}
 
