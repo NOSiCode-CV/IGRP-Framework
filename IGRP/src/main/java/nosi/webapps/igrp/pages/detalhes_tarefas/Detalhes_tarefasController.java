@@ -37,7 +37,7 @@ public class Detalhes_tarefasController extends Controller {
 		if(Core.isNotNull(taskDefinitionKey)) {
 			taskQuery.addFilterBody("taskDefinitionKey", taskDefinitionKey);
 		}
-		taskQuery.addFilterBody("includeProcessVariables", "true");
+	//	taskQuery.addFilterBody("includeProcessVariables", "true");
 		String content = "";
 
 		List<TaskServiceQuery> queryHistoryTask = taskQuery.queryHistoryTask(processDefinitionKey);
