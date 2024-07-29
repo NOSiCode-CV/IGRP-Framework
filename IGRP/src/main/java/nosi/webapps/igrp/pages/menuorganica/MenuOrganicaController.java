@@ -3,6 +3,7 @@ package nosi.webapps.igrp.pages.menuorganica;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import nosi.core.config.ConfigDBIGRP;
@@ -13,11 +14,8 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.CheckBoxHelper;
-import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.*;
+
 
 import java.util.Comparator;
 		
@@ -72,9 +70,8 @@ public class MenuOrganicaController extends Controller {
 					table.setMenu_check(-1);
 				}
 
-				Menu aux = m.find().andWhere("id", "=", m.getId()).one();
-				if (aux.getApplication() != null && aux.getApplication().getId() != env_fk) {
-					table.setDescricao(m.getDescr() + " [" + aux.getApplication().getDad() + "]");
+				if(m.getFlg_base()==1 && (m.getApplication() != null && m.getApplication().getId() != env_fk)){
+					table.setDescricao(m.getDescr() + " [" +  m.getApplication().getDad() + "]");
 					table.setApp("public");
 				} else {
 					table.setDescricao(m.getDescr());

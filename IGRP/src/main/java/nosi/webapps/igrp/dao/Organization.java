@@ -197,8 +197,8 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	public List<Menu> getOrgMenu(Integer appId,Integer orgId) {		
 			List<Menu> myMenu = new ArrayList<>();			
 			//First shows all the app pages than all the public pages in the menu
-			String sqlMenuByApp = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  FROM tbl_menu m WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk=:env_fk";
-			String sqlPublicMenu = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk<>:env_fk AND m.flg_base=1";
+			String sqlMenuByApp = "SELECT m.env_fk,env.dad ,m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  FROM tbl_menu m INNER JOIN tbl_env env ON  env.id =m.env_fk WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk=:env_fk";
+			String sqlPublicMenu = "SELECT m.env_fk,env.dad,m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m INNER JOIN tbl_env env ON  env.id =m.env_fk WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk<>:env_fk AND m.flg_base=1 ";
 			ResultSet.Record recorde = Core.query(this.getConnectionName(),sqlMenuByApp)
 										  .union()
 										  .select(sqlPublicMenu)
@@ -213,6 +213,11 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 				m.setId(row.getInt("id"));
 				m.setFlg_base(row.getInt("flg_base"));
 				m.setInserted(row.getInt("isInserted")==1);
+
+				 Application app = new Application();
+							 app.setId(row.getInt("env_fk"));
+							 app.setDad(row.getString("dad"));
+				m.setApplication(app);
 				myMenu.add(m);
 			});
 			return myMenu;
@@ -222,8 +227,8 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	public List<Menu> getPerfilMenu(Integer orgId,Integer profId) {
 		List<Menu> myMenu = new ArrayList<>();			
 		//First shows all the app pages than all the public pages in the menu
-		String sqlMenuByOrg = " SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND prof_type_fk=:prof_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
-							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id AND p.type='MEN' AND p.org_fk=:org_fk"
+		String sqlMenuByOrg = " SELECT m.env_fk,env.dad,m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND prof_type_fk=:prof_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
+							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id INNER JOIN tbl_env env ON env.id =m.env_fk AND p.type='MEN' AND p.org_fk=:org_fk"
 							+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
 							+ " WHERE (m.action_fk is not null or link is not null) AND m.status=1";
 		ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByOrg)
@@ -237,6 +242,10 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 			m.setId(row.getInt("id"));
 			m.setFlg_base(row.getInt("flg_base"));
 			m.setInserted(row.getInt("isInserted")==1);
+			Application app = new Application();
+						app.setId(row.getInt("env_fk"));
+						app.setDad(row.getString("dad"));
+			m.setApplication(app);
 			myMenu.add(m);
 		});
 		return myMenu;
@@ -298,8 +307,8 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	public List<Menu> getOrgMenuByUser(Integer orgId, Integer userId) {
 		List<Menu> myMenu = new ArrayList<>();			
 		//First shows all the app pages than all the public pages in the menu
-		String sqlMenuByOrg = " SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN_USER' AND org_fk=:org_fk AND user_fk=:user_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
-							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id AND p.type='MEN' AND p.org_fk=:org_fk"
+		String sqlMenuByOrg = " SELECT m.env_fk,env.dad, m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN_USER' AND org_fk=:org_fk AND user_fk=:user_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
+							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id INNER JOIN tbl_env env ON  env.id =m.env_fk AND p.type='MEN' AND p.org_fk=:org_fk"
 							+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
 							+ " WHERE (m.action_fk is not null or link is not null) AND m.status=1";
 		ResultSet.Record recorde = Core.query(this.getConnectionName(),sqlMenuByOrg)
@@ -313,6 +322,10 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 			m.setId(row.getInt("id"));
 			m.setFlg_base(row.getInt("flg_base"));
 			m.setInserted(row.getInt("isInserted")==1);
+			Application app = new Application();
+				app.setId(row.getInt("env_fk"));
+				app.setDad(row.getString("dad"));
+			m.setApplication(app);
 			myMenu.add(m);
 		});
 		return myMenu;
