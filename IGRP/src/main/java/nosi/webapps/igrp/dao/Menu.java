@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import nosi.base.ActiveRecord.RestrictionImpl;
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -208,10 +209,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	}
 
 	public boolean getPermissionMen(String app, String page) {
-
-		Long m = new Menu().find().andWhere("application", "=", Core.findApplicationByDad(app).getId())
-				.andWhere("action", "=", new Action().findByPage(page, app).getId()).andWhere("status", "=", 1)
-				.orWhere("flg_base", "=", 1).getCount();
+		RestrictionImpl r = new RestrictionImpl(Menu.class, "obj_" +Menu.class.getSimpleName().toLowerCase());
+		Long m = new Menu().find().setShowConsoleSql(true)
+				.where("action.page", "=", page)
+				.andWhere(r.equals("application.dad",  app)
+						.and().equals("status",  1)
+						.or().equals("flg_base", 1))
+				.getCount();
 		return m > 0;
 	}
 

@@ -118,14 +118,14 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 	}
 	
 	public boolean getPermissionPage(String dad,String app, Integer action) {
-		Share s= new Share().find()
+		Long s= new Share().find()
 			.where("env.dad", "=", dad)
 			.andWhere("owner.dad", "=",app)
 			.andWhere("type_fk", "=",action)
 			.andWhere("type", "=", "PAGE")
 			.andWhere("status", "=", 1)
-			.one();
-		return s!=null;
+			.getCount();
+		return s>0;
 	}
 	public boolean isTransactionShared(Integer transactionId,Integer appId, Integer appIdOwner) {
 		if(transactionId==null)
