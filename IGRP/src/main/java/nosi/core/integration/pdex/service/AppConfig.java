@@ -12,6 +12,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.HttpHeaders;
 
+import org.glassfish.jersey.client.ClientProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -43,10 +44,10 @@ public class AppConfig extends PdexServiceTemplate{
 			url += "/user_apps?email=" + URLEncoder.encode(uid, "utf-8");
 
 			// Set timeout values
-			Client client = ClientBuilder.newBuilder()
-					.connectTimeout(5, TimeUnit.SECONDS) // Connection timeout
-					.readTimeout(5, TimeUnit.SECONDS)    // Read timeout
-					.build();
+			Client client = ClientBuilder.newClient()
+					.property(ClientProperties.CONNECT_TIMEOUT, 5000) // Connection timeout in milliseconds
+					.property(ClientProperties.READ_TIMEOUT, 5000);
+
 			WebTarget webTarget = client.target(url); 
 			Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token);
 			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
