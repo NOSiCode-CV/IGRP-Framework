@@ -3,6 +3,7 @@ package nosi.core.integration.pdex.service;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -26,7 +27,7 @@ public class AppConfig extends PdexServiceTemplate{
 	public AppConfig() {
 		super();
 		 cacheControl.setNoCache(false);
-		 cacheControl.setMaxAge(120); // Cache for 60 seconds
+		 cacheControl.setMaxAge(120); // Cache for 120 seconds
 	
 	}	
 	CacheControl cacheControl = new CacheControl();
@@ -39,11 +40,15 @@ public class AppConfig extends PdexServiceTemplate{
 			if(url == null || url.isEmpty()|| token == null || token.isEmpty())  //!ping(url, DEFAULT_TIMEOUT) 
 				return allApps; 
 			
-			url += "/user_apps?email=" + URLEncoder.encode(uid, "utf-8"); 
-			
-			Client client = ClientBuilder.newClient(); 
+			url += "/user_apps?email=" + URLEncoder.encode(uid, "utf-8");
+
+			// Set timeout values
+			Client client = ClientBuilder.newBuilder()
+					.connectTimeout(5, TimeUnit.SECONDS) // Connection timeout
+					.readTimeout(5, TimeUnit.SECONDS)    // Read timeout
+					.build();
 			WebTarget webTarget = client.target(url); 
-			Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
+			Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token);
 			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
 			json = response.readEntity(String.class); 
 			client.close();
