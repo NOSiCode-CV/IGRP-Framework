@@ -342,12 +342,11 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getPermissionApp(dadID,userID) ;
 	}
 	public boolean getPermissionApp(Integer dadID, Integer userID) {
-		long p = new Profile().find().limit(1)
+		long p = new Profile().find().limit(1).keepConnection()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", userID)
 				.andWhere("type_fk", "=",dadID)
 				.getCount() ;
-		
 		return p > 0;
 	}
 
@@ -369,7 +368,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.email", "=", email)
-				.andWhere("type_fk", ">", 1).all();
+				.andWhere("type_fk", ">", 1)
+				.all();
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
 				.filter(distinctByKey(Profile::getType_fk)) 
@@ -379,9 +379,9 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		}
 		return null;
 	}
-	
+
 	public List<Profile> getAllProfile(String dad) {
-		List<Profile> list = new Profile().find()
+		List<Profile> list = new Profile().find().keepConnection()
 				.andWhere("type", "=", "ENV")
 				.andWhere("type_fk", ">", 1)
 				.andWhere("organization.application.dad", "=", dad)
@@ -390,13 +390,23 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<User> getAllUsers(String dad) {
-		List<Profile> list = this.getAllProfile(dad);
-		List<User> users = null; 
-		if(list != null)
-			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).distinct().collect(Collectors.toList()); 
-		return users; 
+		List<Map<String,Object>> list = new Profile().find().keepConnection()
+			.andWhere("type", "=", "ENV")
+			.andWhere("type_fk", ">", 1)
+			.andWhere("organization.application.dad", "=", dad)
+			.groupBy("user")
+			.allColumns("user");
+
+		List<User> users = null;
+			if(list != null){
+			Integer[] userArray = list.stream()
+					.map(map -> (Integer) map.get("user"))
+					.toArray(Integer[]::new);
+			users = new User().find().where("user_name","!=","root").andWhere("id", "IN",userArray).all();
+		}
+		return users;
 	}
-	
+
 	
 	public List<User> getUsersByIds(String dad, Integer[] ids) {
 		List<User> users = null;

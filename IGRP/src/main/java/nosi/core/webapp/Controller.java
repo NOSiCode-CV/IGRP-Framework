@@ -638,7 +638,7 @@ public class Controller {
         this.setQueryString(queryString);
         Response resp = new Response();
         resp.setType(3);
-        resp.setUrl(Route.toUrl(app, page, action, qs));
+        resp.setUrl(Route.toUrl(app, page, action, addParamDad(qs)));
         return resp;
     }
 

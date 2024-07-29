@@ -84,7 +84,7 @@ public class GenericActivitiIGRP {
 		if (process.length > 0) {
 			 ActivityExecute activityExecute = new ActivityExecute().find().keepConnection();
 
-			if(new Organization().find().where("organization","=",Core.getCurrentOrganization()).getCount()==0)
+			if(new Organization().find().where("organization","=",Core.getCurrentOrganization()).limit(1).getCount()==0)
 				activityExecute.where("organization", "=", Core.getCurrentOrganization());
 
 			activityExecute.andWhere("proccessKey", "in", process)
