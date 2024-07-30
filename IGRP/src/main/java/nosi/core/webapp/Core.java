@@ -623,8 +623,8 @@ public final class Core {
 	 * @return
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
-		if (Igrp.getInstance() != null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
-			String v = null;
+		if ((Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  && Igrp.getInstance().getRequest().getAttribute(name) != null) {
+			String v;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
 			else
@@ -1454,11 +1454,10 @@ public final class Core {
 	 * @return
 	 */
 	public static String getParam(String name,String defaultParam) {
-		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
 		return (v != null && !v.equals("null")) ? v + "" : defaultParam;
-
 	}
 
 	/**
@@ -1471,7 +1470,7 @@ public final class Core {
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
-		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null) ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
 		return v != null && !v.equals("null") ? v.toString() : "";
@@ -1502,7 +1501,7 @@ public final class Core {
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
-		String[] value = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
+		String[] value = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
 		if (value == null)
 			value = Core.getAttributeArray(name);
 		return value;
@@ -1633,8 +1632,10 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name, boolean isRemoved) {
-		Object x = Core.getAttribute(name, isRemoved);
-		return x;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		if (Core.isNull(v))
+			v = Core.getAttribute(name, isRemoved);
+		return v;
 	}
 
 	/**
@@ -1644,8 +1645,10 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name) {
-		Object x = Core.getAttribute(name, true);
-		return x;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		if (Core.isNull(v))
+			v = Core.getAttribute(name, true);
+		return v;
 	}
 
 	/**
@@ -1994,7 +1997,7 @@ public final class Core {
 		if (values != null) {
 			for (Object value : values) {
 				r = Core.isNotNull(value);
-				if (r == false)
+				if (!r)
 					break;
 			}
 		}
@@ -3619,7 +3622,7 @@ public final class Core {
 	}
 
 	public static Boolean getTaskVariableBoolean(String taskDefinitionKey, String variableName) {
-		Object v = Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Boolean.valueOf(true) : Boolean.valueOf(false);
 	}
 
@@ -3629,8 +3632,8 @@ public final class Core {
 	}
 
 	public static Double getTaskVariableDouble(String taskDefinitionKey, String variableName) {
-		Object v = Core.getTaskVariableRaw(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? (Double) v: Double.valueOf(0);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.isNotNull(v) ? Core.toDouble(v) : Double.valueOf(0);
 	}
 
 	public static Integer getTaskVariableInt(String variableName) {
@@ -3639,7 +3642,7 @@ public final class Core {
 	}
 
 	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toInt(v) : Integer.valueOf(0);
 	}
 
@@ -3649,7 +3652,7 @@ public final class Core {
 	}
 
 	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toShort(v) : Short.valueOf((short) 0);
 	}
 
@@ -3659,17 +3662,17 @@ public final class Core {
 	}
 
 	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toLong(v) : Long.valueOf(0);
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.ToDate(v, "yyyy-mm-dd");
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName, String format) {
-		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.ToDate(v, format);
 	}
 
@@ -3684,7 +3687,7 @@ public final class Core {
 	}
 
 	public static byte[] getTaskVariableByte(String taskDefinitionKey, String variableName) {
-		String v = (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return v.getBytes();
 	}
 
@@ -3709,7 +3712,7 @@ public final class Core {
 	}
 
 	public static String getTaskVariableId(String taskDefinitionKey) {
-		return (String) Core.getTaskVariableRaw(taskDefinitionKey,"p_task_id");
+		return Core.getTaskVariable(taskDefinitionKey,"p_task_id");
 
 	}
 
@@ -4302,13 +4305,13 @@ public final class Core {
 	 *
 	 */
 	public static BigDecimal toBigDecimal(String value) {
-		return toBigDecimal(value, new BigDecimal(0.0));
+		return toBigDecimal(value, new BigDecimal("0.0"));
 	}
 
 	public static BigDecimal toBigDecimal(String value, BigDecimal defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new BigDecimal(value.toString());
+				return new BigDecimal(value);
 			} catch (NumberFormatException ignored) {
 
 			}
@@ -4331,7 +4334,7 @@ public final class Core {
 	public static BigInteger toBigInteger(String value, BigInteger defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new BigInteger(value.toString());
+				return new BigInteger(value);
 			} catch (NumberFormatException e) {
 				return defaultValue;
 			}
@@ -4518,8 +4521,7 @@ public final class Core {
 	 * @return class UploadedFile
 	 */
 	public static UploadedFile upload(String tag) {
-		UploadedFile uF = UploadedFile.getInstance(tag);
-		return uF;
+       return UploadedFile.getInstance(tag);
 	}
 
 	/**
@@ -4529,8 +4531,7 @@ public final class Core {
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple() {
-		List<UploadedFile> uF = UploadedFile.getInstances();
-		return uF;
+       return UploadedFile.getInstances();
 	}
 
 	/**
@@ -4541,8 +4542,7 @@ public final class Core {
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple(String tag) {
-		List<UploadedFile> uF = UploadedFile.getInstances(tag);
-		return uF;
+       return UploadedFile.getInstances(tag);
 	}
 
 	public static boolean validateQuery(Config_env config_env, String query) {
@@ -4933,19 +4933,19 @@ public final class Core {
 	}
 
 	public static boolean isHttpPost() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.POST.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.POST.toString());
 	}
 
 	public static boolean isHttpGet() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.GET.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.GET.toString());
 	}
 
 	public static boolean isHttpPut() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.PUT.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.PUT.toString());
 	}
 
 	public static boolean isHttpDelete() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.DELETE.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.DELETE.toString());
 	}
 
 	public static long calculateYears(String data) {
@@ -5217,8 +5217,7 @@ public final class Core {
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
-		StartProcess startProcess = bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
-		return startProcess;
+       return bpmnExecuteValidacao.executeTask(task, parts, myCustomPermission);
 	}
 
 	/**
@@ -5519,9 +5518,9 @@ public final class Core {
 	}
 
 	public static String colorStateTableTemplate(String textValue, String colorFont) {
-		return getTemplate(colorFont + "1a", textValue, colorFont);
+			return colorStateTableTemplate(colorFont + "1a", textValue, colorFont);
 	}
-	public static String getTemplate(String bg, String value, String color) {
+	public static String colorStateTableTemplate(String bg, String value, String color) {
 		//return value;
 		return "<div style=\"background-color: " + bg + ";\n"
 				+ "  color: " + color + ";\n"

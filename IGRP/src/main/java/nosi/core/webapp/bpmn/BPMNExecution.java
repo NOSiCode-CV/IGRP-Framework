@@ -91,8 +91,15 @@ public class BPMNExecution extends Controller{
 	public StartProcess executeStartProcess(String processDefinitionId) {
 		return this.executeStartProcess(processDefinitionId, null);
 	}
-
-	public StartProcess exeuteTask(TaskService task, List<Part> parts, String myCustomPermission) {
+	/**
+	 * @return executeTask(task,parts,myCustomPermission);
+	 * @deprecated (Use executeTask)
+	 */
+	@Deprecated
+	public StartProcess exeuteTask(TaskService task, List<Part> parts, String myCustomPermission){
+		return executeTask(task,parts,myCustomPermission);
+	}
+	public StartProcess executeTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		FormDataServiceRest formData = new FormDataServiceRest();
 		ProcessInstanceServiceRest processServiceRest = new ProcessInstanceServiceRest();	
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();

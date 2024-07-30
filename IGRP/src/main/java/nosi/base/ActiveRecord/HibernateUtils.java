@@ -1,9 +1,12 @@
 package nosi.base.ActiveRecord;
 
 import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -15,6 +18,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Emanuel
@@ -25,7 +29,7 @@ public class HibernateUtils {
 
    private static final Logger LOG = LogManager.getLogger(HibernateUtils.class);
 
-   private static final Map<String, SessionFactory> SESSION_FACTORY = new HashMap<>();
+   private static final Map<String, SessionFactory> SESSION_FACTORY = new ConcurrentHashMap<>();
    private static final SessionFactory SESSION_FACTORY_IGRP;
    public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP;
 
@@ -53,17 +57,29 @@ public class HibernateUtils {
 
       final String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
 
-      SessionFactory sessionFactory = SESSION_FACTORY.computeIfAbsent(connectionName, sf -> buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
+      return SESSION_FACTORY.compute(connectionName, (key, existingSessionFactory) -> {
+         if (existingSessionFactory == null || !existingSessionFactory.isOpen()) {
+            return buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
+         }
+         return existingSessionFactory;
+      });
+   }
 
-      if (sessionFactory != null && sessionFactory.isOpen())
-         return sessionFactory;
-
+   public static Session getSession(String connectionName) {
+      SessionFactory sessionFactory = getSessionFactory(connectionName);
+      if (sessionFactory != null) {
+         if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
+             && sessionFactory.getCurrentSession().isOpen()) {
+            return sessionFactory.getCurrentSession();
+         }
+         sessionFactory.close();
       removeSessionFactory(connectionName);
+         sessionFactory = getSessionFactory(connectionName);
+         if (sessionFactory != null)
+            return sessionFactory.getCurrentSession();
 
-      sessionFactory = buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
-      SESSION_FACTORY.put(connectionName, sessionFactory);
-
-      return sessionFactory;
+      }
+      throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
    }
 
    private static SessionFactory buildSessionFactory(String cfgName) {
@@ -89,8 +105,7 @@ public class HibernateUtils {
    }
 
    private static StandardServiceRegistryBuilder getServiceRegistryBuilder(String cfgName) {
-      final Properties properties = getProperties(cfgName.replace(SUFIX_HIBERNATE_CONFIG, ".properties"));
-      return new StandardServiceRegistryBuilder().applySettings(properties).configure(cfgName);
+      return new StandardServiceRegistryBuilder().applySettings(getProperties(cfgName.replace(SUFIX_HIBERNATE_CONFIG, ".properties"))).configure(cfgName);
    }
 
    public static Map<String, Object> getSettings(String cfgName) {
@@ -111,6 +126,7 @@ public class HibernateUtils {
 
    public static void closeAllConnection() {
       SESSION_FACTORY.values().forEach(SessionFactory::close);
+      SESSION_FACTORY.clear();
       if (SESSION_FACTORY_IGRP != null)
          SESSION_FACTORY_IGRP.close();
    }
@@ -144,9 +160,7 @@ public class HibernateUtils {
     */
    private static void processEnvironmentVariables(Properties properties) {
 
-      // TODO 13/02/2024 18:38 Later create module to handle all main.xml properties as env vars
-      final String envVarScanningValue = System.getenv("IGRP_ENV_VARIABLE_SCAN");
-      if (!Boolean.parseBoolean(envVarScanningValue))
+      if (!ConfigCommonMainConstants.isEnvironmentVariableScanActive())
          return;
 
       LOG.info("Loading environment variables for database access...");
@@ -157,7 +171,7 @@ public class HibernateUtils {
             String environmentVariableName = propertyValue.substring(2, propertyValue.length() - 1);
             String environmentVariableValue = System.getenv(environmentVariableName);
             if (environmentVariableValue != null)
-               properties.setProperty(propertyKey, environmentVariableValue);
+               properties.setProperty(propertyKey, environmentVariableValue.trim());
             else
                LOG.error("Environment Variable: {} not found", environmentVariableName);
          }

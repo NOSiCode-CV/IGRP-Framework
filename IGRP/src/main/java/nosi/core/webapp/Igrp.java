@@ -14,11 +14,12 @@ import javax.xml.bind.DatatypeConverter;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 import nosi.core.webapp.security.EncrypDecrypt;
+import org.apache.logging.log4j.ThreadContext;
 
 
 public final class Igrp{
 	
-	private static IgrpThreadLocal appInstance = new IgrpThreadLocal();
+	private static final IgrpThreadLocal appInstance = new IgrpThreadLocal();
 
 	private HttpServlet servlet;
 	private HttpServletRequest request;
@@ -61,6 +62,7 @@ public final class Igrp{
 	 
     public static void remove() {
     	appInstance.cleanUp();
+    	ThreadContext.clearAll(); // Log4j MDC clear all context resources
     }
 	 
 	// Inicialize the web app components

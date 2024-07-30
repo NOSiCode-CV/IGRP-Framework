@@ -500,6 +500,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) { 
 		List<TaskService> list = new ArrayList<>();
+		if(Core.isNotNull(xml)) {
 		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replace("activiti:formKey",
 				"formKey");
 			if (Core.isNotNull(xml_)) { 
@@ -545,6 +546,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 					}
 				}
 			}
+		}
 		return list;
 	}
 
