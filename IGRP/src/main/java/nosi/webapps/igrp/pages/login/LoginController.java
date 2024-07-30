@@ -55,7 +55,7 @@ public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private Properties settings;
+	private final Properties settings;
 
 	public LoginController() {
 		settings = this.configApp.getMainSettings();
@@ -99,7 +99,7 @@ public class LoginController extends Controller {
 
 		String aux = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
 		boolean isDb = this.getConfig().getAutenticationType().equals("db");
-		if ((aux != null && !aux.isEmpty() && aux.equals("true")) || isDb) {
+		if ((aux != null && aux.equals("true")) || isDb) {
 			view.user.setLabel("Username");
 			view.user.propertie().setProperty("type", "text");
 		}
@@ -288,13 +288,13 @@ public class LoginController extends Controller {
 				 * !user.getPass_hash().equals(password))) { user.setPass_hash(password); //
 				 * Anyway !!! update the user's password and encrypt it ... user.update(); }
 				 */
-				/** Begin create user session **/
+				//Begin create user session
 
 				success = createSessionLdapAuthentication(user) && userIsAuthenticatedFlag(user);
 
 				sso(username, password, user);
 
-				/** End create user session **/
+				// End create user session
 
 			} else {
 				if (this.getConfig().getEnvironment().equals(ConfigCommonMainConstants.IGRP_ENV_DEV.value())) { // auto
@@ -302,7 +302,7 @@ public class LoginController extends Controller {
 					User newUser = new User();
 					newUser.setUser_name(username.trim().toLowerCase());
 
-					if (personArray != null && !personArray.isEmpty())
+					if (!personArray.isEmpty())
                        for (LdapPerson p : personArray) {
                           if (p.getName() != null && !p.getName().isEmpty())
                              newUser.setName(p.getName());
@@ -334,11 +334,11 @@ public class LoginController extends Controller {
 
 				} else {
 					success = false;
-					Core.setMessageError(gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
+					Core.setMessageError(gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.")+" ("+username+")");
 				}
 			}
 		} else
-			Core.setMessageError(gt("A sua conta ou palavra-passe está incorreta."));
+			Core.setMessageError(gt("A sua conta ou palavra-passe está incorreta.")+" ("+username+")");
 
 		return success;
 	}

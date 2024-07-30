@@ -11,14 +11,10 @@ import nosi.core.webapp.Response;//
 import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.Tuple;
+
+import nosi.webapps.igrp.dao.*;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
@@ -35,13 +31,6 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Historic;
-import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Modulo;
-import nosi.webapps.igrp.dao.Share;
-import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.pages.dominio.DomainHeper;
 
 /*----#end-code----*/
@@ -89,7 +78,7 @@ public class PageController extends Controller {
 				model.setComponente(a.getIsComponent());
 				if (a.getNomeModulo() != null && !a.getNomeModulo().isEmpty())
 					model.setModulo(a.getNomeModulo());
-				Application app = Core.findApplicationById(a.getApplication().getId());
+				Application app = a.getApplication();
 				if (app != null && app.getAction() != null)
 					model.setPrimeira_pagina(idPage.equals(app.getAction().getId()) ? 1 : 0);
 			}
@@ -142,6 +131,7 @@ public class PageController extends Controller {
 
 		/****** EDITANDO UMA PÁGINA ********/
 
+		final User currentUser = Core.getCurrentUser();
 		if (idPage != 0) {
 
 			action = action.findOne(idPage);
@@ -162,13 +152,13 @@ public class PageController extends Controller {
 				Core.setMessageSuccess("Página atualizada com sucesso.");
 
 				Historic historicPage = new Historic();
-				historicPage.setNome(Core.getCurrentUser().getName());
-				historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+				historicPage.setNome(Objects.requireNonNull(currentUser).getName());
+				historicPage.setIdUtilizador(currentUser.getId());
 				historicPage.setPage(action);
 				historicPage.setDescricao("Informações da Página Alterada");
 				historicPage.insert();
 
-				Application app2 = Core.findApplicationById(action.getApplication().getId());
+				Application app2 = action.getApplication();
 
 				if (model.getPrimeira_pagina() == 1) {
 					app2.setAction(action);
@@ -181,7 +171,7 @@ public class PageController extends Controller {
 				Core.setMessageError();
 
 			this.addQueryString("p_id_page", idPage);
-			return this.redirect("igrp", "page", "index", this.queryString());
+			return this.renderView(pageView);
 
 			/****** ADICIONANDO NOVA PÁGINA ********/
 
@@ -220,8 +210,8 @@ public class PageController extends Controller {
 			action = action.insert();
 
 			Historic historicPage = new Historic();
-			historicPage.setNome(Core.getCurrentUser().getName());
-			historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+			historicPage.setNome(Objects.requireNonNull(currentUser).getName());
+			historicPage.setIdUtilizador(currentUser.getId());
 			historicPage.setDescricao("Criação da página");
 			historicPage.setPage(action);
 			historicPage.insert();
@@ -256,13 +246,11 @@ public class PageController extends Controller {
 				}
 				Core.setMessageSuccess();
 				if (model.getPrimeira_pagina() == 1) {
-					Application app2 = Core.findApplicationById(action.getApplication().getId());
+					Application app2 = action.getApplication();
 					app2.setAction(action);
 					app2.update();
 				}
-
-				this.addQueryString("p_env_fk", model.getEnv_fk());
-				return this.redirect("igrp", "page", "index", this.queryString());
+				return this.renderView(pageView);
 
 			} else {
 				Core.setMessageError();
@@ -283,8 +271,8 @@ public class PageController extends Controller {
 				recover.update();
 
 				Historic historicPage = new Historic();
-				historicPage.setNome(Core.getCurrentUser().getName());
-				historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+				historicPage.setNome(Objects.requireNonNull(currentUser).getName());
+				historicPage.setIdUtilizador(currentUser.getId());
 				historicPage.setPage(recover);
 				historicPage.setDescricao("Página Recuperada");
 				historicPage.insert();
@@ -319,7 +307,7 @@ public class PageController extends Controller {
 		eliminarPage.update();
 		
 		Historic historicPage = new Historic();
-		historicPage.setNome(Core.getCurrentUser().getName());
+		historicPage.setNome(Objects.requireNonNull(Core.getCurrentUser()).getName());
 		historicPage.setIdUtilizador(Core.getCurrentUser().getId());
 		historicPage.setPage(eliminarPage);
 		historicPage.setDescricao("Página Eliminada.");
@@ -337,6 +325,9 @@ public class PageController extends Controller {
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
+
+	final PageView pageView = new PageView();
+
 	public Response actionSetModuloEditar(Page model) {
 		String xml = "<content>" + "<editar_modulo>"
 				+ StringEscapeUtils.escapeXml11(
@@ -413,7 +404,7 @@ public class PageController extends Controller {
 							+ "</message>");
 			}
 			Historic historicPage = new Historic();
-			historicPage.setNome(Core.getCurrentUser().getName());
+				historicPage.setNome(Objects.requireNonNull(Core.getCurrentUser()).getName());
 			historicPage.setIdUtilizador(Core.getCurrentUser().getId());
 			historicPage.setPage(ac);
 			historicPage.setDescricao("Alterações no Gerador.");

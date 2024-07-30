@@ -5,7 +5,9 @@ package nosi.core.config;
  */
 public enum ConfigCommonMainConstants { 
 	
-	
+   // IGRP_ENV_VARIABLE_SCAN is a variable used to activate environment variable scanning, possible values: true or false
+   // If not specified igrp will assume is false
+   IGRP_ENV_VARIABLE_SCAN("IGRP_ENV_VARIABLE_SCAN"),
 	IGRP_ENV("igrp.env"),
 	IGRP_ENV_DEV("dev"),
 	IGRP_ENV_TEST("test"),
@@ -63,9 +65,9 @@ public enum ConfigCommonMainConstants {
 	IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH("igrp.embedded.server.servlet.context-path"),
 	IGRP_EMBEDDED_SERVER_HTTP_PORT("igrp.embedded.server.http.port"),
 	
-	IGRP_LOGIN_TEMPLATE("igrp.login.template")
+   IGRP_LOGIN_TEMPLATE("igrp.login.template"),
 	
-	; 
+   IGRP_SECRET_KEY("igrp.secret.key");
 	
 	private final String value; 
 	
@@ -77,4 +79,11 @@ public enum ConfigCommonMainConstants {
 		return value;
 	}
 	
+   public String getEnvironmentVariable() {
+      return System.getenv(this.name());
+   }
+
+   public static boolean isEnvironmentVariableScanActive() {
+      return Boolean.parseBoolean(System.getenv(IGRP_ENV_VARIABLE_SCAN.name()));
+   }
 }

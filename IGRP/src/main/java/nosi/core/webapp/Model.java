@@ -7,8 +7,6 @@ import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
@@ -18,7 +16,6 @@ import nosi.core.webapp.helpers.TempFileHelper;
 import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.xml.DomXML;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.time.StopWatch;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -200,7 +197,7 @@ public abstract class Model { // IGRP super model
 						? m.getAnnotation(RParam.class).rParamName()
 						: m.getName();
 
-				final Object o = Core.getParam(name); // default case use the name of field
+				final Object o = Core.getParamObject(name); // default case use the name of field
 				String aux = null;
 				if (o != null) {
 					if (o.getClass().isArray()) {

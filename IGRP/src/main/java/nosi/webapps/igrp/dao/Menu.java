@@ -70,7 +70,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	@Transient
 	private boolean isInserted;
 	@Transient
-	private static final String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
+	private static final String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.id,m_sub.orderby,m_sub.descr,m_sub.target,m_sub.status,m_sub.menu_icon,m_sub.link,"
 			+ " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai,"
 			+ " ac.page,ac.action,ac.versao,ac.tipo,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile,env_a.externo as external,env_a.url as url, "
 			+ " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu "
@@ -82,7 +82,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 			+ " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
 			+ " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status";
 	@Transient
-	private static final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
+	private static final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.id,m_sub.orderby,m_sub.descr,m_sub.target,m_sub.status,m_sub.menu_icon,m_sub.link,"
 			+ " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai,"
 			+ " ac.page,ac.action,ac.versao,ac.tipo,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile,env_a.externo as external,env_a.url as url, "
 			+ " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu "
@@ -240,7 +240,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		final Integer currentProfile = Core.getCurrentProfile();
 		final String deployedWarName = Core.getDeployedWarName();
 		final String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-		Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
+		final Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
 				.addInt("org_fk", currentOrganization).addInt("prof_type_fk", currentProfile)
 				.addString("dad", currentDad).addInt("status", 1).addInt("org_fk", currentOrganization)
 				.addInt("prof_type_fk", currentProfile).addString("dad", currentDad).addInt("status", 1)
