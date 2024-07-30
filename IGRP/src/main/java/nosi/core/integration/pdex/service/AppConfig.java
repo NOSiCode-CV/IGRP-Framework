@@ -12,6 +12,7 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.HttpHeaders;
 
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,7 +28,7 @@ public class AppConfig extends PdexServiceTemplate{
 	public AppConfig() {
 		super();
 		 cacheControl.setNoCache(false);
-		 cacheControl.setMaxAge(120); // Cache for 60 seconds
+		 cacheControl.setMaxAge(120); // Cache for 120 seconds
 	
 	}	
 	CacheControl cacheControl = new CacheControl();
@@ -42,7 +43,11 @@ public class AppConfig extends PdexServiceTemplate{
 			
 			url += "/user_apps?email=" + URLEncoder.encode(uid, StandardCharsets.UTF_8);
 			
-			Client client = ClientBuilder.newClient(); 
+			// Set timeout values
+			Client client = ClientBuilder.newClient();
+//					.property(ClientProperties.CONNECT_TIMEOUT, 5000) // Connection timeout in milliseconds
+//					.property(ClientProperties.READ_TIMEOUT, 5000);
+
 			WebTarget webTarget = client.target(url); 
 			Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 			jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 

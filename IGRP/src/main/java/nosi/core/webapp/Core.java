@@ -1319,7 +1319,7 @@ public final class Core {
 	public static Response getLinkReport(String reportCode, Object report) {
 		Report rep = new Report();
 		if (report instanceof QueryString) {
-			((QueryString<String, Object>) report).getQueryString().forEach((key, value) -> rep.addParam(key, value));
+			((QueryString<String, Object>) report).getQueryString().forEach(rep::addParam);
 		} else if (report instanceof Report) {
 			return new Report().invokeReport(reportCode, (Report) report);
 		}
@@ -1330,7 +1330,7 @@ public final class Core {
 	public static Response getLinkReportPDF(String reportCode, Object report) {
 		Report rep = new Report();
 		if (report instanceof QueryString) {
-			((QueryString<String, Object>) report).getQueryString().forEach((key, value) -> rep.addParam(key, value));
+			((QueryString<String, Object>) report).getQueryString().forEach(rep::addParam);
 		} else if (report instanceof Report) {
 			return new Report().invokeReportPDF(reportCode, (Report) report);
 		}
@@ -3247,9 +3247,9 @@ public final class Core {
 		String taskId = Core.getParamTaskId();
 		String taskExecutionId = Core.getParam(BPMNConstants.PRM_TASK_EXECUTION_ID);
 		if (Core.isNull(taskExecutionId)) {
-			List<HistoricTaskService> task = new TaskServiceIGRP().getTaskServiceRest().getHistory(taskId);
+			List<HistoricTaskService> task = new TaskServiceIGRP().getTaskServiceRest().getHistory(taskId,false);
 			taskExecutionId = (task != null && !task.isEmpty()) ? task.get(task.size() - 1).getExecutionId()
-					: taskExecutionId;
+					: "";
 		}
 		Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, taskExecutionId);
 		return taskExecutionId;
@@ -3310,8 +3310,6 @@ public final class Core {
 	private static String getProcessInstaceByTask(String taskId) {
 		TaskServiceRest taskRest = new TaskServiceRest();
 		taskRest.addFilterUrl("taskId", taskId);
-		taskRest.addFilterUrl("includeTaskLocalVariables", "true");
-		taskRest.addFilterUrl("includeProcessVariables", "true");
 		List<HistoricTaskService> taskHistory = taskRest.getHistory();
 		if (taskHistory != null && !taskHistory.isEmpty()) {
 			return taskHistory.get(0).getProcessInstanceId();
@@ -3328,7 +3326,7 @@ public final class Core {
 	 */
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey, String processInstanceId) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
-				.getHistoryOfProccessInstanceId(processDefinitionKey, processInstanceId, false);
+				.getHistoryOfProccessInstanceId(processDefinitionKey, processInstanceId, false,true);
 		if (task1 != null && !task1.isEmpty()) {
 			return task1.get(task1.size() - 1).getVariables();
 		}
@@ -3342,7 +3340,7 @@ public final class Core {
 	 */
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
-				.getHistoryOfProccessInstanceId(processDefinitionKey);
+				.getHistoryOfProccessInstanceId( processDefinitionKey, null,false, true);
 		if (task1 != null && !task1.isEmpty()) {
 			return task1.get(task1.size() - 1).getVariables();
 		}
@@ -3397,11 +3395,8 @@ public final class Core {
 		TaskServiceRest taskRest = new TaskServiceRest();
 		TaskService task = taskRest.getTask(taskId);
 		if (task != null) {
-			if (scope.equalsIgnoreCase("global"))
-				new ProcessInstanceServiceRest().deleteVariable(task.getProcessInstanceId(),
-						task.getTaskDefinitionKey() + "_" + variableName);
-			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, scope, type, value);
-			taskRest.submitVariables(taskId);
+			final TaskVariables variable = new TaskVariables(task.getTaskDefinitionKey() + "_" + variableName, scope, type, ((type.equals("integer") && value != null) ?Core.toInt(value.toString()): value), null);
+			taskRest.updateVariables(taskId,task.getTaskDefinitionKey() + "_" + variableName, variable);
 		}
 	}
 
@@ -3414,14 +3409,9 @@ public final class Core {
 	public static String getTaskVariable(String variableName) {
 		if (Core.isNull(variableName))
 			return "";
-		String id = getParamTaskId();
-		TaskService task = new TaskServiceRest().getTask(id);
-		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.toList();
-			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
+		HistoricVariablesService htask = new TaskServiceRest().getVarByProcId(Core.getProcessInstaceByTask(),variableName);
+		if (htask != null && htask.getVariable()!=null) {
+			return (String) htask.getVariable().getValue();
 		}
 		return "";
 	}
@@ -3434,12 +3424,21 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.toList();
-			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
+		return (String) getTaskVariableRaw(taskDefinitionKey,variableName);
+	}
+	/**
+	 * @category BPMN
+	 *
+	 * @param taskDefinitionKey
+	 * @param variableName
+	 * @return
+	 */
+	public static Object getTaskVariableRaw(String taskDefinitionKey, String variableName) {
+		String id = Core.getExecutionId();
+		TaskVariables variav= new TaskServiceRest().getVariableByExecId(id,taskDefinitionKey + "_" + variableName);
+
+		if (variav != null) {
+			return variav.getValue();
 		}
 		return "";
 	}
@@ -3540,7 +3539,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
-		return Core.getTaskVariable(taskDefinitionKey, variableName);
+		return (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
 	}
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
@@ -3623,73 +3622,38 @@ public final class Core {
 			return null;
 		String id = getParamTaskId();
 		TaskService task = new TaskServiceRest().getTask(id);
-		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.toList();
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
+		Object variable = Core.getTaskVariableRaw(task.getTaskDefinitionKey(),variableName);
+		if (Core.isNotNull(variable)) {
+			return variable;
 		}
 		return null;
 	}
 
 	public static Object getTaskVariableSerializable(String taskDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.toList();
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
+		Object variahb = Core.getTaskVariableRaw(taskDefinitionKey,variableName);
+		if (Core.isNotNull(variahb)) {
+			return variahb;
 		}
 		return null;
 	}
 
 	public static String getTaskVariableId(String taskDefinitionKey) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
-					.toList();
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
-		}
-		return "";
+		return Core.getTaskVariable(taskDefinitionKey,"p_task_id");
+
 	}
 
 	public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {
 		String id = Core.getExecutionId();
 		if (Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new TaskServiceRest().getHistory(taskDefinitionKey, id);
+			List<TaskVariables> task1 = new TaskServiceRest().getListVarByExecId(id);
 			if (task1 != null && !task1.isEmpty()) {
-				return task1.get(task1.size() - 1).getVariables();
+				return task1;
 			}
 		}
 		return null;
 	}
 
-	/**
-	 * Add variable of type long to the process task
-	 * 
-	 * @param taskDefinitionKey
-	 *            identification of task
-	 * @param variableName
-	 *            name of parameter
-	 * @param value
-	 *            value of parameter
-	 */
-	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
-		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
-		if (Core.isNotNull(taskId)) {
-			TaskServiceRest taskRest = new TaskServiceRest();
-			TaskService task = taskRest.getTask(taskId);
-			task.setId(taskId);
-			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString());
-			taskRest.submitVariables(taskId);
-			ProcessInstanceServiceRest processInstance = new ProcessInstanceServiceRest();
-			processInstance.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string",
-					value.toString());
-			processInstance.submitVariables(task.getProcessInstanceId());
-		}
-	}
+
 
 	/**
 	 * @param wsdlUrl
@@ -4245,7 +4209,7 @@ public final class Core {
 	 * 
 	 */
 	public static BigDecimal toBigDecimal(String value) {
-		return toBigDecimal(value, new BigDecimal(0.0));
+		return toBigDecimal(value, new BigDecimal("0.0"));
 	}
 
 	public static BigDecimal toBigDecimal(String value, BigDecimal defaultValue) {
@@ -5256,7 +5220,6 @@ public final class Core {
 	/**
 	 * @param dad
 	 * @param appOwner
-	 * @param action
 	 * @return
 	 */
 	public static boolean isSharedPage(String dad, String appOwner, String page) {
@@ -5427,7 +5390,7 @@ public final class Core {
 	 * 
 	 * @param caller is used to get the full name of the class to be the filename saved 
 	 * @param moreArgs is to complement more arguments for example different profiles
-	 * @param experirationTime is the minutes to be checked for the document to be considered expired
+	 * @param expirationTime is the minutes to be checked for the document to be considered expired
 	 * @return
 	 */
 	public static Properties loadProp4Cache(Class<?> caller, String moreArgs,Integer expirationTime) {

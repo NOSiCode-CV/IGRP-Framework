@@ -13,6 +13,7 @@ import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -68,19 +69,18 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
-
-		final var hts = Core.getTaskHistory(taskId);
-		if (hts == null || hts.getVariables() == null)
+	public void loadFromTask(String taskDefinitionKey) throws IllegalArgumentException, IllegalAccessException {
+		final HistoricTaskService hts = Core.getTaskHistory(taskDefinitionKey);
+		if (hts == null)
 			return;
 
-		final var json = hts.getVariables().stream()
-				.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
-				.findFirst()
-				.map(TaskVariables::getValue)
-				.map(Object::toString)
-				.orElse("");
+		final Object taskVariable = Core.getTaskVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId());
+		if(Core.isNull(taskVariable)){
+			this.load();
+			return;
+		}
 
+		final String json = taskVariable.toString();
 		if (Core.isNotNull(json)) {
 			final var customVariableIGRP = new Gson().fromJson(json, CustomVariableIGRP.class);
 			if (customVariableIGRP.getRows() != null) {

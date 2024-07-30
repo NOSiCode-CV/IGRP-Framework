@@ -72,9 +72,8 @@ public class MenuOrganicaController extends Controller {
 					table.setMenu_check(-1);
 				}
 
-				Menu aux = m.find().andWhere("id", "=", m.getId()).one();
-				if (aux.getApplication() != null && aux.getApplication().getId() != env_fk) {
-					table.setDescricao(m.getDescr() + " [" + aux.getApplication().getDad() + "]");
+				if(m.getFlg_base()==1 && (m.getApplication() != null && m.getApplication().getId() != env_fk)){
+					table.setDescricao(m.getDescr() + " [" +  m.getApplication().getDad() + "]");
 					table.setApp("public");
 				} else {
 					table.setDescricao(m.getDescr());
@@ -212,7 +211,7 @@ public class MenuOrganicaController extends Controller {
              success = this.insertMenu(chekedIds, "MEN", model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
              List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).orderByAsc("id")
                      .all();
-             if (profilesOfOrg != null && profilesOfOrg.size() > 0) {
+             if (profilesOfOrg != null && !profilesOfOrg.isEmpty()) {
                 ProfileType p = profilesOfOrg.get(0);
                 success = this.insertMenu(chekedIds, "MEN", p.getOrganization().getId(), p.getId(),
                         this.userAdmin.getId());
