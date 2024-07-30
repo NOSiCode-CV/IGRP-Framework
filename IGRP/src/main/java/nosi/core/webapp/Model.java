@@ -200,7 +200,7 @@ public abstract class Model { // IGRP super model
 						? m.getAnnotation(RParam.class).rParamName()
 						: m.getName();
 
-				Object o = Core.getParam(name); // default case use the name of field
+				final Object o = Core.getParamObject(name); // default case use the name of field
 				String aux = null;
 				if (o != null) {
 					if (o.getClass().isArray()) {
