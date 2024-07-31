@@ -210,7 +210,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
 	public boolean getPermissionMen(String app, String page) {
 		RestrictionImpl r = new RestrictionImpl(Menu.class, "obj_" +Menu.class.getSimpleName().toLowerCase());
-		Long m = new Menu().find().setShowConsoleSql(true)
+		Long m = new Menu().find()
 				.where("action.page", "=", page)
 				.andWhere(r.equals("application.dad",  app)
 						.and().equals("status",  1)
