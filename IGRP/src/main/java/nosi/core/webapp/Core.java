@@ -1580,7 +1580,10 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name, boolean isRemoved) {
-       return Core.getAttribute(name, isRemoved);
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		if (Core.isNull(v))
+			v = Core.getAttribute(name, isRemoved);
+		return v;
 	}
 
 	/**
@@ -1590,7 +1593,10 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name) {
-       return Core.getAttribute(name, true);
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		if (Core.isNull(v))
+			v = Core.getAttribute(name, true);
+		return v;
 	}
 
 	/**
