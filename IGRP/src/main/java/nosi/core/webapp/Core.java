@@ -101,7 +101,6 @@ public final class Core {
 		}
 	}
 
-	public static final String NO_PERMITION_MSG = "No permission";
 	public static final String DD_MM_YYYY = "dd-MM-yyyy";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
@@ -601,23 +600,25 @@ public final class Core {
 
 	/**
 	 * 
-	 * @param name
-	 * @param isRemoved
-	 *            - true removesAttribute after requested
-	 * @return
+	 * @param name of the parameter to be retrived
+	 * @param isRemoved - true removesAttribute after requested
+	 * @return the parameter if found or null
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
-		if ((Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  && Igrp.getInstance().getRequest().getAttribute(name) != null) {
-			String v;
-			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
-				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
-			else
-				v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-			if (isRemoved)
-				Igrp.getInstance().getRequest().removeAttribute(name);
-			return v;
-		}
-		return null;
+		return Optional.ofNullable(Igrp.getInstance())
+				.map(Igrp::getRequest)
+				.map(request -> request.getAttribute(name))
+				.map(attribute -> {
+					String v;
+					if (attribute instanceof Object[])
+						v = ((Object[]) attribute)[0].toString();
+					else
+						v = (String) attribute;
+					if (isRemoved)
+						Igrp.getInstance().getRequest().removeAttribute(name);
+					return v;
+				})
+				.orElse(null);
 	}
 
 	public static String[] getAttributeArray(String name) {
@@ -2287,7 +2288,7 @@ public final class Core {
 	/**
 	 * Maps source to destination - http://modelmapper.org/getting-started/ Example
 	 * here: http://modelmapper.org/examples/flattening/
-	 * 
+	 *
 	 * @param source
 	 * @param destination
 	 */
@@ -2352,10 +2353,10 @@ public final class Core {
 	public static String remoteComboBoxXml(BaseQueryInterface query, String tag_name, String[] selected,
 			String prompt) {
 		Map<Object, Object> map = new LinkedHashMap<>();
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		xml += "<" + tag_name + ">";
+		StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+		xml.append("<").append(tag_name).append(">");
 		if (prompt != null) {
-			xml += "<option><text>" + prompt + "</text><value></value></option>";
+			xml.append("<option><text>").append(prompt).append("</text><value></value></option>");
 		}
 		List<Tuple> list = query.getResultList();
 		if (list != null && !list.isEmpty()) {
@@ -2369,20 +2370,20 @@ public final class Core {
 		}
 		for (Object k : map.keySet()) {
 			Object v = map.get(k);
-			xml += "<option ";
+			xml.append("<option ");
 
 			if (selected != null)
 				for (String obj : selected) {
 					if (obj.equals(k)) {
-						xml += " selected=\"selected\" ";
+						xml.append(" selected=\"selected\" ");
 						break;
 					}
 				}
-			xml += ">";
-			xml += "<text>" + v + "</text><value>" + k + "</value></option>";
+			xml.append(">");
+			xml.append("<text>").append(v).append("</text><value>").append(k).append("</value></option>");
 		}
-		xml += "</" + tag_name + ">";
-		return xml;
+		xml.append("</").append(tag_name).append(">");
+		return xml.toString();
 	}
 
 	public static RemoteXML remoteXml() {
@@ -5468,7 +5469,6 @@ public final class Core {
 			return colorStateTableTemplate(colorFont + "1a", textValue, colorFont);
 	}
 	public static String colorStateTableTemplate(String bg, String value, String color) {
-		//return value;
 		return "<div style=\"background-color: " + bg + ";\n"
 				+ "  color: " + color + ";\n"
 				+ "  padding: 0.35em 0.65em;\n"
