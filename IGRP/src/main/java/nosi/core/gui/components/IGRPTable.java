@@ -44,6 +44,7 @@ package nosi.core.gui.components;
     </table>
 </table_1>
  */
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -181,22 +182,27 @@ public class IGRPTable extends IGRPComponent{
 	}
 	
 	protected void includeRowTotal() { 
-		Map<String, Float> m = new HashMap<>(); 
+		Map<String, String> m = new HashMap<>();
 		boolean hasOneFieldTotal = false; 
 		for(Field field : this.fields) {
 			final String total_footer_or_col =  field.propertie().getProperty(this instanceof IGRPFormList ? "total_col" : "total_footer"); 
 			if(total_footer_or_col != null && total_footer_or_col.equalsIgnoreCase("true")) {
+				final boolean isFloat = field.propertie().getProperty("java-type").equalsIgnoreCase("Double") || field.propertie().getProperty("java-type").equalsIgnoreCase("Float");
 				List<?> all = new ArrayList<>();
 					if(this.modelList != null)
-						all=this.modelList; 
+						all=this.modelList;
 					else if(this.data != null)
 						all=this.data;
-				float total = 0;
-				for(Object obj : all) { 
-					String val = IgrpHelper.getValue(obj, field.getName()); 
-					total += Core.toFloat(val); 
+				BigDecimal total = BigDecimal.valueOf(0);
+				Double totalD = 0.0;
+				for(Object obj : all) {
+					String val = IgrpHelper.getValue(obj, field.getName());
+					if(isFloat)
+						totalD += Core.toDouble(val);
+					else
+						total=total.add(new BigDecimal(val));
 				}
-				m.put(field.getName(), total); 
+				m.put(field.getName(),isFloat?totalD.toString():total+"");
 				hasOneFieldTotal = true; 
 			}else 
 				m.put(field.getName(), null);
@@ -204,11 +210,11 @@ public class IGRPTable extends IGRPComponent{
 		if(!m.isEmpty() && hasOneFieldTotal) {
 			this.xml.startElement("row");
 			this.xml.writeAttribute("total", "yes"); 
-			for(Entry<String, Float> e : m.entrySet()) {
+			for(Entry<String, String> e : m.entrySet()) {
 				this.xml.startElement(e.getKey());
 				this.xml.writeAttribute("name", "p_" + e.getKey()); 
 				if(e.getValue() != null)
-					this.xml.text(e.getValue() + ""); 
+					this.xml.text(e.getValue() );
 				this.xml.endElement();
 			}
 			this.xml.endElement();
