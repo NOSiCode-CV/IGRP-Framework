@@ -51,6 +51,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
