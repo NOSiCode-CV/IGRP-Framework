@@ -6,6 +6,7 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -70,11 +71,24 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	private Application aplicacao;
 	
 	public User(){}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return getStatus() == user.getStatus() && getCreated_at() == user.getCreated_at() && getUpdated_at() == user.getUpdated_at() && Objects.equals(getId(), user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPass_hash(), user.getPass_hash()) && Objects.equals(getUserProfile(), user.getUserProfile()) && Objects.equals(getValid_until(), user.getValid_until()) && Objects.equals(getRemarks(), user.getRemarks()) && Objects.equals(getActivation_key(), user.getActivation_key()) && Objects.equals(getUser_name(), user.getUser_name()) && Objects.equals(getPhoto_id(), user.getPhoto_id()) && Objects.equals(getSignature_id(), user.getSignature_id()) && Objects.equals(getMobile(), user.getMobile()) && Objects.equals(getPhone(), user.getPhone()) && Objects.equals(getPassword_reset_token(), user.getPassword_reset_token()) && Objects.equals(getAuth_key(), user.getAuth_key()) && Objects.equals(getCni(), user.getCni()) && Objects.equals(getOidcIdToken(), user.getOidcIdToken()) && Objects.equals(getOidcState(), user.getOidcState()) && Objects.equals(getRefreshToken(), user.getRefreshToken()) && Objects.equals(getIsAuthenticated(), user.getIsAuthenticated());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getName(), getEmail(), getPass_hash(), getUserProfile(), getValid_until(), getStatus(), getRemarks(), getActivation_key(), getUser_name(), getPhoto_id(), getSignature_id(), getMobile(), getPhone(), getPassword_reset_token(), getAuth_key(), getCni(), getCreated_at(), getUpdated_at(), getOidcIdToken(), getOidcState(), getRefreshToken(), getIsAuthenticated());
+	}
+
 	public User(String name, String email, String pass_hash, String userProfile, String valid_until,
-			int status, String remarks, String activation_key, String user_name, String photo_id, String signature_id,
-			String mobile, String phone, String password_reset_token, String auth_key, long created_at,
-			long updated_at) {
+				int status, String remarks, String activation_key, String user_name, String photo_id, String signature_id,
+				String mobile, String phone, String password_reset_token, String auth_key, long created_at,
+				long updated_at) {
 		super();
 		this.name = name;
 		this.email = email;
