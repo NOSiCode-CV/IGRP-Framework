@@ -478,10 +478,12 @@ public class DataSourceController extends Controller {
 	}
 	
 	private String getTaskKey(DataSource model, final Application app) {
-		final List<TaskService> task = new TaskServiceRest().getTasksByProcessKey(model.getProcesso(), app.getDad())
-				.stream().filter(n -> n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa()))
-				.toList();
-		return !task.isEmpty() ? task.get(0).getFormKey() : "";
+		return new TaskServiceRest().getTasksByProcessKey(model.getProcesso(), app.getDad())
+				.stream()
+				.filter(task -> task.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa()))
+				.findFirst()
+				.map(TaskService::getFormKey)
+				.orElse("");
 	}
 	
 	/*----#end-code----*/
