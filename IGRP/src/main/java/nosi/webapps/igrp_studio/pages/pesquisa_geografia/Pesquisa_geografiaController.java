@@ -144,7 +144,7 @@ public class Pesquisa_geografiaController extends Controller {
 			
 			try {
 				tab_geo.setNivel(local.optString("nivel"));
-				}catch (Exception e) {}
+				}catch (Exception ignored) {}
 			tab_geo.setTreemenu_1_child("1"); 
 			int aux = 0; 
 			try {
@@ -152,7 +152,7 @@ public class Pesquisa_geografiaController extends Controller {
 				if(Core.isNull(tab_geo.getNivel()))
 					tab_geo.setNivel("1");				
 				aux = Core.toBigDecimal(tab_geo.getNivel()).intValue(); 
-			} catch (Exception e) {} 
+			} catch (Exception ignored) {}
 			
 			if(view != null && this.p_nivel != 0 && aux != 0) {  
 				if(aux < this.p_nivel) 
