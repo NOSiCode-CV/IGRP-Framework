@@ -20,7 +20,6 @@ import nosi.webapps.igrp.dao.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 		
@@ -202,7 +201,7 @@ public class PartilhageralController extends Controller {
 			boolean flag = false;
 			for (String obj : cp.getChekedIds()) {
 				for (Share s : shares) {
-					if (new String(s.getType_fk() + "").equals(obj)) {
+					if ((s.getType_fk() + "").equals(obj)) {
 						s.setStatus(1);
 						s = s.update();
 						flag = true;

@@ -2,7 +2,7 @@ package nosi.webapps.igrp_studio.pages.webreport;
 
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -15,7 +15,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
 import com.google.gson.Gson;
@@ -631,7 +631,7 @@ public class WebReportController extends Controller {
 					}
 				}
 			}
-		} catch (ServletException e) {
+		} catch (ServletException ignored) {
 		
 		}
 		String link = "?r=igrp_studio/WebReport/get-image&p_file_name="+fileName+"&env="+env;
