@@ -3,7 +3,6 @@ package nosi.webapps.igrp.pages.session;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
@@ -11,8 +10,6 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
-
-import static nosi.core.i18n.Translator.gt;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,40 +52,39 @@ public class SessionController extends Controller {
 				endDate = aux[1].trim();
 			}
 		}
-		
-		switch(dbName) {
-			case "oracle": 
-				sql1 = "SELECT TO_CHAR (a.starttime, 'dd-mm-yyyy') as EixoX, COUNT (*) " + 
-						"FROM tbl_session a " + 
-						(Core.isNotNullMultiple(startDate,endDate)?
-								"WHERE a.starttime BETWEEN TO_DATE ('" + startDate + "', 'dd-mm-yyyy') AND TO_DATE ('" + endDate + "', 'dd-mm-yyyy') ":"") + 
-						"GROUP BY EixoX " + 
-						"ORDER BY 1";
-				
-				sql2 = "SELECT b.dad || ' - ' || b.name applicao, TO_CHAR (a.starttime, 'dd-mm-yyyy hh24:mi') data_, COUNT (*) " + 
-						"FROM tbl_session a, tbl_env b " + 
-						(Core.isNotNullMultiple(startDate,endDate)?
-								"WHERE b.id = a.env_fk AND a.starttime BETWEEN TO_DATE ('" + startDate + " 08', 'dd-mm-yyyy hh24') AND TO_DATE ('" + endDate + " 09', 'dd-mm-yyyy hh24') ":"") + 
-						"GROUP BY applicao, data_ " + 
-						"ORDER BY 1, 2";
-			break;
 
-			case "mysql","h2","postgresql": 
-			default:
-				sql1 = "SELECT TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') as EixoX, COUNT (*) as valor " + 
-						"FROM tbl_session a "+
-						(Core.isNotNullMultiple(startDate,endDate)?
-							"WHERE TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') BETWEEN '" + startDate + "' AND '" + endDate + "' ":"")+
-						"GROUP BY EixoX " + 
-						"ORDER BY 1 ";
-				
-				sql2 = "SELECT b.dad || ' - ' || b.name applicao, TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') data_, COUNT (*) " + 
-						"FROM tbl_session a, tbl_env b " + 
-						(Core.isNotNullMultiple(startDate,endDate)?
-								"WHERE b.id = a.env_fk AND TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') BETWEEN '" + startDate + "' AND '" + endDate + "' " :"")+ 
-						"GROUP BY applicao, data_ " + 
-						"ORDER BY 1, 2";
-		}
+       sql2 = switch (dbName) {
+          case "oracle" -> {
+             sql1 = "SELECT TO_CHAR (a.starttime, 'dd-mm-yyyy') as EixoX, COUNT (*) " +
+                    "FROM tbl_session a " +
+                    (Core.isNotNullMultiple(startDate, endDate) ?
+                            "WHERE a.starttime BETWEEN TO_DATE ('" + startDate + "', 'dd-mm-yyyy') AND TO_DATE ('" + endDate + "', 'dd-mm-yyyy') " : "") +
+                    "GROUP BY EixoX " +
+                    "ORDER BY 1";
+
+             yield "SELECT b.dad || ' - ' || b.name applicao, TO_CHAR (a.starttime, 'dd-mm-yyyy hh24:mi') data_, COUNT (*) " +
+                   "FROM tbl_session a, tbl_env b " +
+                   (Core.isNotNullMultiple(startDate, endDate) ?
+                           "WHERE b.id = a.env_fk AND a.starttime BETWEEN TO_DATE ('" + startDate + " 08', 'dd-mm-yyyy hh24') AND TO_DATE ('" + endDate + " 09', 'dd-mm-yyyy hh24') " : "") +
+                   "GROUP BY applicao, data_ " +
+                   "ORDER BY 1, 2";
+          }
+          default -> {
+             sql1 = "SELECT TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') as EixoX, COUNT (*) as valor " +
+                    "FROM tbl_session a " +
+                    (Core.isNotNullMultiple(startDate, endDate) ?
+                            "WHERE TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') BETWEEN '" + startDate + "' AND '" + endDate + "' " : "") +
+                    "GROUP BY EixoX " +
+                    "ORDER BY 1 ";
+
+             yield "SELECT b.dad || ' - ' || b.name applicao, TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') data_, COUNT (*) " +
+                   "FROM tbl_session a, tbl_env b " +
+                   (Core.isNotNullMultiple(startDate, endDate) ?
+                           "WHERE b.id = a.env_fk AND TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') BETWEEN '" + startDate + "' AND '" + endDate + "' " : "") +
+                   "GROUP BY applicao, data_ " +
+                   "ORDER BY 1, 2";
+          }
+       };
 		
 		
 		
@@ -127,9 +123,9 @@ public class SessionController extends Controller {
 				Session.Table_1 table = new Session.Table_1();			
 				Date auxEndTime = new Date(s.getEndTime());
 				Date auxStartTime = new Date(s.getStartTime());				
-				table.setData_fim_t(""+auxFormat.format(auxEndTime));
-				table.setData_inicio_t(""+auxFormat.format(auxStartTime));
-				table.setAplicacao_t(""+s.getApplication().getDad());
+				table.setData_fim_t(auxFormat.format(auxEndTime));
+				table.setData_inicio_t(auxFormat.format(auxStartTime));
+				table.setAplicacao_t(s.getApplication().getDad());
 				table.setIp(s.getIpAddress());
 				table.setUtilizadort(s.getUserName());
 				data.add(table);

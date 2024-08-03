@@ -162,8 +162,8 @@ public class TransacaoOrganicaController extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 
-	private User userAdmin = new User().getUserAdmin();
-	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
+	private final User userAdmin = new User().getUserAdmin();
+	private final ProfileType profAdmin = new ProfileType().getProfileAdmin();
 	static final String TRANS_USER = "TRANS_USER";
 	static final String TRANS = "TRANS";
 	private void deleteOldTransactions(TransacaoOrganica model,List<String> ids) {

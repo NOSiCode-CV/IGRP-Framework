@@ -5,7 +5,7 @@ import nosi.core.webapp.View;
 
 public class HomeView extends View{
 	public String title;
-	private IGRPHome home;
+	private final IGRPHome home;
 	public HomeView(){
 		this.home = new IGRPHome("home");
 	}

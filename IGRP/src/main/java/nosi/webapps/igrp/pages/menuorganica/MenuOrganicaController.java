@@ -118,7 +118,7 @@ public class MenuOrganicaController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
 			this.saveMenu(model);
 		}
 		this.addQueryString("app", Core.getParam("env_fk", false));
@@ -152,15 +152,8 @@ public class MenuOrganicaController extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 
-	private User userAdmin = new User().getUserAdmin();
-	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
-
-	static class SortbyStatus implements Comparator<MenuOrganica.Table_1> {
-		public int compare(MenuOrganica.Table_1 a, MenuOrganica.Table_1 b) {
-			return b.getMenu() - a.getMenu();
-		}
-
-	}
+	private final User userAdmin = new User().getUserAdmin();
+	private final ProfileType profAdmin = new ProfileType().getProfileAdmin();
 
 	private void saveMenu(MenuOrganica model) {
 		String[] p_menu = Core.getParamArray("p_menu_fk");
@@ -236,27 +229,23 @@ public class MenuOrganicaController extends Controller {
 	}
 
 	private List<String> filterIds(MenuOrganica model, List<String> chekedIds) {
-		List<Profile> profiles = null;
-       switch (model.getType()) {
-          case "org":
-             profiles = new Profile().find().andWhere("organization", "=", model.getId())
-                     .andWhere("profileType", "=", this.profAdmin.getId()).andWhere("type", "=", "MEN")
-                     .andWhere("user", "=", this.userAdmin.getId()).all();
-             break;
-          case "perfil":
-             ProfileType pt = new ProfileType().findOne(model.getId());
-             profiles = new Profile().find().andWhere("organization", "=", pt.getOrganization().getId())
-                     .andWhere("profileType", "=", pt.getId()).andWhere("type", "=", "MEN")
-                     .andWhere("user", "=", this.userAdmin.getId()).all();
-             break;
-          case "user":
-             profiles = new Profile().find().andWhere("organization", "=", Core.getParamInt("org_id"))
-                     .andWhere("profileType", "=", Core.getParamInt("prof_id")).andWhere("type", "=", "MEN_USER")
-                     .andWhere("user", "=", Core.getParamInt("user_id")).all();
-             break;
-       }
-		List<Integer> ids = profiles != null ? profiles.stream().map(Profile::getType_fk).collect(Collectors.toList())
-				: null;
+		List<Profile> profiles = switch (model.getType()) {
+			case "org" -> new Profile().find().andWhere("organization", "=", model.getId())
+					.andWhere("profileType", "=", this.profAdmin.getId()).andWhere("type", "=", "MEN")
+					.andWhere("user", "=", this.userAdmin.getId()).all();
+			case "perfil" -> {
+				ProfileType pt = new ProfileType().findOne(model.getId());
+				yield new Profile().find().andWhere("organization", "=", pt.getOrganization().getId())
+						.andWhere("profileType", "=", pt.getId()).andWhere("type", "=", "MEN")
+						.andWhere("user", "=", this.userAdmin.getId()).all();
+			}
+			case "user" -> new Profile().find().andWhere("organization", "=", Core.getParamInt("org_id"))
+					.andWhere("profileType", "=", Core.getParamInt("prof_id")).andWhere("type", "=", "MEN_USER")
+					.andWhere("user", "=", Core.getParamInt("user_id")).all();
+			default -> null;
+		};
+
+		List<Integer> ids = profiles != null ? profiles.stream().map(Profile::getType_fk).toList() : null;
 		return chekedIds.stream().filter(m -> ids != null && !ids.contains(Core.toInt(m))).collect(Collectors.toList());
 	}
 

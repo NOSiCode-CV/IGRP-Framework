@@ -33,7 +33,7 @@ public class PesquisarOrganica extends Model{
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String descricao;
 		private String estado;
 		private int p_id;
