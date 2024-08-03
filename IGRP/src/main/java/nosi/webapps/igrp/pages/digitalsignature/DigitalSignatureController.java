@@ -43,7 +43,7 @@ public class DigitalSignatureController extends Controller {
 
 		xml = xml + "<signedUuid>" + DigitalSignatureServices.saveSignatureNGetUuid() + "</signedUuid>";
 
-		log.info("[xml=]" + xml);
+       log.info("[xml=]{}", xml);
 
 		return this.renderView(xml);
 	}
@@ -55,8 +55,8 @@ public class DigitalSignatureController extends Controller {
 			CertificatedSignatures cs = new CertificatedSignatures();
 
 			cs = ds.getSignedByUuid(uuid);
-			
-			log.info("[Certificate=]"+cs.getCertificate());
+
+           log.info("[Certificate=]{}", cs.getCertificate());
 
 			if (Core.isNotNullOrZero(cs))
 				return this.xSend(Base64.getDecoder().decode(cs.getCertificate()), cs.getName(), cs.getMime_type(),
@@ -86,6 +86,6 @@ public class DigitalSignatureController extends Controller {
 
 	
 
-	private static Logger log = LogManager.getLogger(DigitalSignatureController.class);
+	private static final Logger log = LogManager.getLogger(DigitalSignatureController.class);
 	/*----#end-code----*/
 }

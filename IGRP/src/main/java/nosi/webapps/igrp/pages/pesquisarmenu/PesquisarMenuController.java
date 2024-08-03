@@ -386,23 +386,16 @@ public class PesquisarMenuController extends Controller {
 
 		String flag = "portuguese_flag.png";
 		 I18n coreLang = Igrp.getInstance().getI18nManager().getCoreLanguage();
-		 if(coreLang!=null) {
-				String lang = coreLang.getBundle().getLocale().getLanguage();
-				switch (lang) {
-				case "pt":
-					flag = "portuguese_flag.png";
-					break;
-				case "es":
-					flag = "spanish_flag.png";
-					break;
-				case "fr":
-					flag = "french_flag.png";
-					break;
-				case "en":
-					flag = "english_flag.png";
-					break;
-				}
-		 }
+		if (coreLang != null) {
+			String lang = coreLang.getBundle().getLocale().getLanguage();
+			flag = switch (lang) {
+				case "pt" -> "portuguese_flag.png";
+				case "es" -> "spanish_flag.png";
+				case "fr" -> "french_flag.png";
+				case "en" -> "english_flag.png";
+				default -> flag;
+			};
+		}
 
 		topMenu.addItem("Settings", "igrp", "Settings", "index", "modal", flag, "webapps?r=");
 		if (isStartProc) {
