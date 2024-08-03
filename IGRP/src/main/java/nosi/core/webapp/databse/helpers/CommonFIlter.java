@@ -393,14 +393,14 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface limit(int limit) {
 		if(limit > 0)
-			this.sql+=" LIMIT "+limit;
+			this.limit=limit;
 		return this;
 	}
 
 	@Override
 	public QueryInterface offset(int offset) {
 		if(offset > 0)
-			this.sql+=" OFFSET "+offset;
+			this.offset=offset;
 		return this;
 	}
 

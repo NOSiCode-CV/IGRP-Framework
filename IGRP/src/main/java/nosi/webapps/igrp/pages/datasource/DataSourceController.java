@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.datasource;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+//
+//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -480,8 +480,8 @@ public class DataSourceController extends Controller {
 	private String getTaskKey(DataSource model, final Application app) {
 		final List<TaskService> task = new TaskServiceRest().getTasksByProcessKey(model.getProcesso(), app.getDad())
 				.stream().filter(n -> n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa()))
-				.collect(Collectors.toList());
-		return Objects.nonNull(task) && !task.isEmpty() ? task.get(0).getFormKey() : "";
+				.toList();
+		return !task.isEmpty() ? task.get(0).getFormKey() : "";
 	}
 	
 	/*----#end-code----*/

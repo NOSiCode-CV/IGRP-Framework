@@ -43,6 +43,7 @@ public class QuerySelect extends CommonFIlter{
 	//Validate sql query
 	public boolean validateQuery(Config_env config,String sql) {
 		boolean isValid = false;
+		this.limit=1;
 		if(Core.isNotNull(sql)) {
 			this.configEnv = config;
 			Session session = this.getSession();
@@ -54,7 +55,8 @@ public class QuerySelect extends CommonFIlter{
 					String sql_ = sql.replaceAll(":\\w+", "null");
 					Core.log("SQL Query: "+sql_);
 					Query query = session.createNativeQuery(sql_,Tuple.class);
-					query.setHint(QueryHints.HINT_READONLY, true);
+					if(!this.keepConnection)
+						query.setHint(QueryHints.HINT_READONLY, true);
 					query.getResultList();
 					isValid = true;
 				}catch(Exception e) {
@@ -100,7 +102,13 @@ public class QuerySelect extends CommonFIlter{
 				Query query = session.createNativeQuery(this.getSql(),Tuple.class);	
 				if(!this.keepConnection)
 					query.setHint(QueryHints.HINT_READONLY, true);
-				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+				if(this.offset > -1) {
+					query.setFirstResult(offset);
+				}
+				if(this.limit > -1) {
+					query.setMaxResults(limit);
+				}
+				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {
 					 if(col.getDefaultValue()!=null) {
 						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
@@ -133,7 +141,14 @@ public class QuerySelect extends CommonFIlter{
 				}
 				Core.log("SQL Query:"+this.getSql());
 				Query query = session.createQuery(this.getSql(),entity);
-				query.setHint(QueryHints.HINT_READONLY, true);
+				if(!this.keepConnection)
+					query.setHint(QueryHints.HINT_READONLY, true);
+				if(this.offset > -1) {
+					query.setFirstResult(offset);
+				}
+				if(this.limit > -1) {
+					query.setMaxResults(limit);
+				}
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -164,8 +179,15 @@ public class QuerySelect extends CommonFIlter{
 					transaction.begin();
 				}
 				Core.log("SQL Query:"+this.getSql());
-				Query query = session.createQuery(this.getSql(),entity);	
-				query.setHint(QueryHints.HINT_READONLY, true);
+				Query query = session.createQuery(this.getSql(),entity);
+				if(!this.keepConnection)
+					query.setHint(QueryHints.HINT_READONLY, true);
+				if(this.offset > -1) {
+					query.setFirstResult(offset);
+				}
+				if(this.limit > -1) {
+					query.setMaxResults(limit);
+				}
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -186,7 +208,8 @@ public class QuerySelect extends CommonFIlter{
 	
 	@Override
 	public Tuple getSingleResult() {
-		List<Tuple> list = this.getResultList();		
+		this.limit(1);
+		List<Tuple> list = this.getResultList();
 		if(list!=null && !list.isEmpty())
 			return list.get(0);
 		return null;
@@ -229,7 +252,8 @@ public class QuerySelect extends CommonFIlter{
 				}
 				Core.log("SQL Query:"+this.getSql());
 				query = session.createQuery(this.getSql(), this.className);
-				query.setHint(QueryHints.HINT_READONLY, true);
+				if(!this.keepConnection)
+					query.setHint(QueryHints.HINT_READONLY, true);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
