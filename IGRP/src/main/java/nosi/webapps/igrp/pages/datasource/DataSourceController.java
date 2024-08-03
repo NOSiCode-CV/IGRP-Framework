@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.datasource;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+//
+//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -12,7 +12,6 @@ import nosi.core.webapp.Response;//
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -481,7 +480,7 @@ public class DataSourceController extends Controller {
 		final List<TaskService> task = new TaskServiceRest().getTasksByProcessKey(model.getProcesso(), app.getDad())
 				.stream().filter(n -> n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa()))
 				.collect(Collectors.toList());
-		return Objects.nonNull(task) && !task.isEmpty() ? task.get(0).getFormKey() : "";
+		return !task.isEmpty() ? task.get(0).getFormKey() : "";
 	}
 	
 	/*----#end-code----*/

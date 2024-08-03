@@ -53,7 +53,10 @@ public abstract class QueryHelper implements QueryInterface{
 	protected boolean keepConnection = false;
 	protected EntityManager em = null;
 	protected OperationType operationType;
-	
+
+	protected int limit = -1;
+	protected int offset= -1;
+
 	protected QueryHelper(Object connectionName) {
 		this();
 		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env) {
