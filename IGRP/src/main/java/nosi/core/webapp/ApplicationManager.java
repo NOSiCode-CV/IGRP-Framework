@@ -278,7 +278,7 @@ public final class ApplicationManager {
 			return Optional.empty();
 		String returnRoute = (String) session.getAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
 		session.removeAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
-		if(!(returnRoute instanceof String))// || returnRoute == null)
+		if(returnRoute == null)// || returnRoute == null)
 			return Optional.empty();
 		JSONObject json = new JSONObject(returnRoute);
 		String appCode = json.optString("appCode");
