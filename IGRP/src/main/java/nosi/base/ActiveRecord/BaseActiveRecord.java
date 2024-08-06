@@ -1232,6 +1232,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				if(!this.keepConnection)
 					query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
+
+				if (this.limit > -1) {
+					query.setMaxResults(limit);
+				}
 				result = query.getSingleResult();
 				if(!this.keepConnection)
 					transaction.commit();

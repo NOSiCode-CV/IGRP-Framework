@@ -42,7 +42,7 @@ public class HomeController extends Controller {
 							orgCode = allContext[1] != null && !allContext[1].isEmpty() ? allContext[1] : null; 
 							profCode = allContext[2] != null && !allContext[2].isEmpty() ? allContext[2] : null; 
 							// inject session and cookie 
-							if(orgCode != null && profCode != null)
+							//if(orgCode != null && profCode != null)
 								/*injectOrgNProf(orgCode, profCode)*/; 
 						}
 					}

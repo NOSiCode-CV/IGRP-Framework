@@ -20,12 +20,12 @@ public class PesquisarOrganicaController extends Controller {
 		PesquisarOrganica model = new PesquisarOrganica();
 		ArrayList<PesquisarOrganica.Table_1> lista = new ArrayList<>();
 		
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")){
 			model.load();
 		}		
 		//Preenchendo a tabela
 		for(Organization org:new Organization().find().andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null).all()){
-			PesquisarOrganica.Table_1 table1 = new PesquisarOrganica().new Table_1();
+			PesquisarOrganica.Table_1 table1 = new PesquisarOrganica.Table_1();
 			table1.setDescricao(org.getName());
 			table1.setEstado(org.getStatus()==1?"Ativo":"Inativo");
 			table1.setP_id(org.getId());
@@ -41,15 +41,6 @@ public class PesquisarOrganicaController extends Controller {
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
-
-	
-	public void actionEidtar() throws IOException{
-		
-	}
-	
-	public void actionEliminar() throws IOException{
-		
-	}
 	
 	public Response actionMenu() throws IOException{
 		/*----#START-PRESERVED-AREA(MENU)----*/
@@ -64,11 +55,6 @@ public class PesquisarOrganicaController extends Controller {
 		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=org");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
-	public void actionEtapa() throws IOException{
-		
-	}
-	
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	

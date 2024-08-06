@@ -13,7 +13,7 @@ import nosi.core.gui.fields.HiddenField;
 
 public class AutosubmitformView extends View {
 
-	public IGRPForm form_1;
+	public final IGRPForm form_1;
 
 	public AutosubmitformView() {
 

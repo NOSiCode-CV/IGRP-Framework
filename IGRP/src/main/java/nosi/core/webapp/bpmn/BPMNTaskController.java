@@ -304,9 +304,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 									 .andWhere("processKey", "=", task.getProcessDefinitionKey())
 									.one();
 		String json = "";
-		if(task.getVariables()!=null) {
-			List<TaskVariables> variav = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).toList();
-			json = !variav.isEmpty() ?variav.get(0).getValue().toString():"";
+		final Object taskVariable = Core.getTaskVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + task.getId());
+		if(Core.isNotNull(taskVariable)){
+			json=taskVariable.toString();
 		}
 		if(Core.isNotNull(json)) {
 			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);

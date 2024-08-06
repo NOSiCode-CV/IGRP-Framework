@@ -589,7 +589,7 @@ public class NovoUtilizadorController extends Controller {
 				new NovoUtilizadorView().perfil, null));
 	}
 
-	private Properties settings = this.configApp.getMainSettings();
+	private final Properties settings = this.configApp.getMainSettings();
 
 	/*----#end-code----*/
 }

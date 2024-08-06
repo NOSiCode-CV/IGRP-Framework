@@ -3,6 +3,7 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -77,6 +78,20 @@ public class TempFile extends IGRPBaseActiveRecord<TempFile> implements Serializ
 	public void setDate_created(Date date_created) {
 		this.date_created = date_created;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		TempFile tempFile = (TempFile) o;
+		return getSize() == tempFile.getSize() && Objects.equals(getUuid(), tempFile.getUuid()) && Objects.equals(getName(), tempFile.getName()) && Objects.equals(getMime_type(), tempFile.getMime_type()) && Objects.deepEquals(getContent(), tempFile.getContent()) && Objects.equals(getDate_created(), tempFile.getDate_created());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getUuid(), getName(), getMime_type(), Arrays.hashCode(getContent()), getSize(), getDate_created());
+	}
+
 	@Override
 	public TempFile findOne(Object value) {
 		return this.find().where("uuid","=",value).one();

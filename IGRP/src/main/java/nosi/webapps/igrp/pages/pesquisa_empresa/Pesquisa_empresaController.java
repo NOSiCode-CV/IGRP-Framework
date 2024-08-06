@@ -36,7 +36,7 @@ public class Pesquisa_empresaController extends Controller {
 		
 		if(Core.isNotNull(model.getNif()) || Core.isNotNull(model.getNome_da_firma())) {
 			
-			List<PesquisaEmpresa> empresas = PesquisaEmpresaService.pesquisaEmpresa(model.getNif().trim(),URLEncoder.encode(model.getNome_da_firma().toUpperCase().trim(), StandardCharsets.UTF_8.toString()));
+			List<PesquisaEmpresa> empresas = PesquisaEmpresaService.pesquisaEmpresa(model.getNif().trim(),URLEncoder.encode(model.getNome_da_firma().toUpperCase().trim(), StandardCharsets.UTF_8));
 			
 			for(PesquisaEmpresa empresa : empresas) {
 				Pesquisa_empresa.Table_1 tab = new Pesquisa_empresa.Table_1();

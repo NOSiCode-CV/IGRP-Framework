@@ -93,7 +93,7 @@ public class _CONS_PROCController extends Controller {
 					taskQuery.addFilterBody("size", ""+model.getSize_registos());
 			
 				
-				List<TaskServiceQuery> tasks = taskQuery.queryHistoryTask();		
+				List<TaskServiceQuery> tasks = taskQuery.queryHistoryTask(model.getTipo_processo());
 				
 				for(TaskServiceQuery task:tasks ) {
 					_CONS_PROC.Table_1 t = new _CONS_PROC.Table_1();
