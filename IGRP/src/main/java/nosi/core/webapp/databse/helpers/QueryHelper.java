@@ -15,6 +15,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
@@ -53,6 +54,9 @@ public abstract class QueryHelper implements QueryInterface{
 	protected EntityManager em = null;
 	protected OperationType operationType;
 	
+	protected int limit = -1;
+	protected int offset= -1;
+
 	protected QueryHelper(Object connectionName) {
 		this();
 		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env ) {

@@ -37,7 +37,7 @@ public final class LdapAuthenticationManager {
 			if (user != null) {
 				Profile profile = new Profile().getByUser(user.getId());
 				if(profile == null)
-					throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador.");
+					throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador."+"("+username+")");
 				AuthenticationManager.createSecurityContext(user, request.getSession(false));
 				AuthenticationManager.afterLogin(profile, user, request);
 
@@ -46,7 +46,7 @@ public final class LdapAuthenticationManager {
 			} else {
 				final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ? ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : config.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
 				if(!ConfigCommonMainConstants.IGRP_ENV_DEV.value().equals(env))
-					throw new IllegalStateException("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.");
+					throw new IllegalStateException("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."+"("+username+")");
 				User newUser = new User();
 				newUser.setUser_name(username.trim().toLowerCase());
 				if ( !personArray.isEmpty()) {

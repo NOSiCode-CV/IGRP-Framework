@@ -37,7 +37,7 @@ public class Lista_terfa_de_processoController extends Controller {
 			taskQuery.addFilterBody("processInstanceId",processInstanceId);
 			List<Lista_terfa_de_processo.Table_1> listTasks = new ArrayList<>();
 			
-			for(TaskServiceQuery task : taskQuery.queryHistoryTask()) {
+			for(TaskServiceQuery task : taskQuery.queryHistoryTask(processKey)) {
 				Lista_terfa_de_processo.Table_1 t = new Lista_terfa_de_processo.Table_1();
 				t.setN_tarefa(task.getId());				
 				t.setDescricao_tarefa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());

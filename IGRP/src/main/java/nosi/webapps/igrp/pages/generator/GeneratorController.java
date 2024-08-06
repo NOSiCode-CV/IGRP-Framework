@@ -16,7 +16,7 @@ import java.io.File;
 public class GeneratorController extends Controller{
 	
 	
-	private SecureRandom r= new SecureRandom();
+	private final SecureRandom r= new SecureRandom();
 	public Response actionIndex() throws IOException{		
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		this.isNoCached=true;		

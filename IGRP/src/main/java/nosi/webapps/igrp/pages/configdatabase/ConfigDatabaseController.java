@@ -494,12 +494,11 @@ public class ConfigDatabaseController extends Controller {
 			    	Element element = i.get(0);
 			 
 			    	   List<Element> listElemts = element.elements(); 
-			    	  for (int pos = 0; pos < listElemts.size(); pos++) {
-						Element property = listElemts.get(pos);
-					
+           for (Element property : listElemts) {
 			    		   String attrName = property.attributeValue("name");
 			    		   if(attrName != null) {
-			    			   if(attrName.equals("hibernate.connection.url")) { 
+                 switch (attrName) {
+                    case "hibernate.connection.url":
 			    				   if(saveProps(config)) {
 			    					   element.remove(property);
 			    					   DefaultComment dElem = new DefaultComment(property, "hibernate.connection.driver_class,.url,.username,.password and .dialect now in "+config.getName()+"."+config.getApplication().getDad().toLowerCase()+".properties");
@@ -509,34 +508,39 @@ public class ConfigDatabaseController extends Controller {
 			    					   foundUrl=true;			    					   
 			    					   property.setText(Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			    				   }
-			    			   }else if(attrName.equals("hibernate.connection.username")) { 
+                       break;
+                    case "hibernate.connection.username":
 			    				   if(saveProps(config))
 			    					   element.remove(property);
 			    				   else{
 			    					   foundUser=true;
 			    					   property.setText(Core.decrypt(config.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 									}
-			    			   }else if(attrName.equals("hibernate.connection.password")) { 
+                       break;
+                    case "hibernate.connection.password":
 			    				   if(saveProps(config))
 			    					   element.remove(property);
 			    				   else{
 			    					   foundPass=true;
 			    					   property.setText(Core.decrypt(config.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 									}
-			    			   }else if(attrName.equals("hibernate.connection.driver_class")) { 
+                       break;
+                    case "hibernate.connection.driver_class":
 			    				   if(saveProps(config))
 			    					   element.remove(property);
 			    				   else{
 			    					   foundDriver=true;
 			    					   property.setText(Core.decrypt(config.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 									}
-			    			   }else if(attrName.equals("hibernate.dialect")) {
+                       break;
+                    case "hibernate.dialect":
 			    				   if(saveProps(config))
 			    					   element.remove(property);
 			    				   else{
 			    					   foundDialect=true;
 			    					   property.setText(config.getName_db());
 									}
+                       break;
 			    			   }
 			    		   }
 			    	   }

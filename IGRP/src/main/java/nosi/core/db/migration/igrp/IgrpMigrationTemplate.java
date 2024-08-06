@@ -71,9 +71,9 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	protected List<String> bpmns = new ArrayList<>();
 	
 	private static final String REPORT_BPMN_FILE_PATH_NAME = "nosi/core/db/migration/igrp";
-	private final String ACTIVITI_ENDPOINT_NAME = "url_ativiti_connection";
-	private final String ACTIVITI_USERNAME_PARAM_NAME = "ativiti_user";
-	private final String ACTIVITI_PASSWORD_PARAM_NAME = "ativiti_password";
+	private static final String ACTIVITI_ENDPOINT_NAME = "url_ativiti_connection";
+	private static final String ACTIVITI_USERNAME_PARAM_NAME = "ativiti_user";
+	private static final String ACTIVITI_PASSWORD_PARAM_NAME = "ativiti_password";
 	
 	private boolean isAppExists = true;
 	protected String dbEngineName;
@@ -124,19 +124,20 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 			if(rs.next()) {
 				this.app.setId(rs.getInt("id"));
 				rs.close();
-				psInsertOrUpdate = context.getConnection().prepareStatement("UPDATE public.tbl_env SET description=?, img_src=?, name=?, status=?, template=? WHERE dad = ?");
+				psInsertOrUpdate = context.getConnection().prepareStatement("UPDATE public.tbl_env SET description=?, externo=?, img_src=?, name=?, status=?, template=? WHERE dad = ?");
 				psInsertOrUpdate.setString(1,this.app.getDescription());
-				psInsertOrUpdate.setString(2, this.app.getImg_src());
-				psInsertOrUpdate.setString(3, this.app.getName());
-				psInsertOrUpdate.setInt(4, this.app.getStatus());
-				psInsertOrUpdate.setString(5, this.app.getTemplateRaw());
-				psInsertOrUpdate.setString(6, this.app.getDad());
+				psInsertOrUpdate.setInt(2, Core.isNotNullOrZero(this.app.getExternal())?this.app.getExternal(): 0);
+				psInsertOrUpdate.setString(3, this.app.getImg_src());
+				psInsertOrUpdate.setString(4, this.app.getName());
+				psInsertOrUpdate.setInt(5, this.app.getStatus());
+				psInsertOrUpdate.setString(6, this.app.getTemplateRaw());
+				psInsertOrUpdate.setString(7, this.app.getDad());
 				psInsertOrUpdate.executeUpdate(); 
 			}else {
 				isAppExists = false;
 				psInsertOrUpdate = context.getConnection().prepareStatement("INSERT INTO public.tbl_env(description, externo, img_src, name, status, template, dad) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS); 
 				psInsertOrUpdate.setString(1,this.app.getDescription());
-				psInsertOrUpdate.setInt(2, 0);
+				psInsertOrUpdate.setInt(2, Core.isNotNullOrZero(this.app.getExternal())?this.app.getExternal(): 0);
 				psInsertOrUpdate.setString(3, this.app.getImg_src());
 				psInsertOrUpdate.setString(4, this.app.getName());
 				psInsertOrUpdate.setInt(5, this.app.getStatus());
@@ -479,7 +480,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					psInsertOrUpdate.setObject(14, loadIdByConnectionNameIdentify(context, reportSource.getConfig_env().getConnection_identify()));
 					psInsertOrUpdate.setInt(15, this.loadUserIdByUid(context, reportSource.getUser_created().getUser_name()));
 					psInsertOrUpdate.setInt(16, this.loadUserIdByUid(context, reportSource.getUser_updated().getUser_name()));
-					psInsertOrUpdate.setString(17, reportSource.getSource_identify() != null && !reportSource.getSource_identify().equals(null) ? reportSource.getSource_identify() : null);
+					psInsertOrUpdate.setString(17, (reportSource.getSource_identify() != null && !reportSource.getSource_identify().equals("null")) ? reportSource.getSource_identify() : null);
 					psInsertOrUpdate.executeUpdate(); 
 				}
 			}finally {
@@ -666,9 +667,9 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 						psInsertOrUpdate.setInt(2, documentoEtapa.getRequired());
 						psInsertOrUpdate.setInt(3, documentoEtapa.getStatus());
 						psInsertOrUpdate.setString(4, documentoEtapa.getTaskId());
-						psInsertOrUpdate.setObject(5, idTipoDocumento != null ? idTipoDocumento : null);
+						psInsertOrUpdate.setObject(5, idTipoDocumento);
 						psInsertOrUpdate.setString(6, documentoEtapa.getTipo());
-						psInsertOrUpdate.setObject(7, idRepTemplate != null ?  idRepTemplate : null);
+						psInsertOrUpdate.setObject(7, idRepTemplate);
 						psInsertOrUpdate.setInt(8, idTipoDocumentoEtapa);
 						psInsertOrUpdate.executeUpdate();
 					}else {
@@ -677,9 +678,9 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 						psInsertOrUpdate.setInt(2, documentoEtapa.getRequired());
 						psInsertOrUpdate.setInt(3, documentoEtapa.getStatus());
 						psInsertOrUpdate.setString(4, documentoEtapa.getTaskId());
-						psInsertOrUpdate.setObject(5, idTipoDocumento != null ? idTipoDocumento : null);
+						psInsertOrUpdate.setObject(5, idTipoDocumento);
 						psInsertOrUpdate.setString(6, documentoEtapa.getTipo());
-						psInsertOrUpdate.setObject(7, idRepTemplate != null ?  idRepTemplate : null);
+						psInsertOrUpdate.setObject(7, idRepTemplate);
 						psInsertOrUpdate.executeUpdate();
 					}
 			}finally {
@@ -736,7 +737,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	}
 	
 	private boolean deployBPMNToEngine(String endpoint, String httpAuthorizationHeaderValue, String fileName, InputStream inputStream) {
-		boolean success = false; 
+		boolean success;
 		Client client = ClientBuilder.newClient();
 		try {
 			WebTarget webTarget = client.target(endpoint).path("repository/deployments").queryParam("tenantId", this.app.getDad()); 

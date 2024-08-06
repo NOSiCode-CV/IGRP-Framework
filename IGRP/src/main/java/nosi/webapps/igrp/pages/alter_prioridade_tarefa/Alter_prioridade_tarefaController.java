@@ -51,7 +51,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 				ProcessInstancesService history = new ProcessInstanceServiceRest().historicProcess(task.getProcessInstanceId());
 				model.setData_inicio_da_tarefa(Core.isNotNull(task.getCreateTime())?Core.dateToString(task.getCreateTime(),"yyyy-MM-dd HH:mm:ss"):"");
 				model.setDescricao_da_tarefa(Core.getSwitchNotNullValue(task.getDescription(),task.getName()));
-				model.setPrioridade_da_tarefa(listPrioridade.get(""+task.getPriority()).toString());
+				model.setPrioridade_da_tarefa(listPrioridade.get("" + task.getPriority()));
 				model.setTarefa_atribuida_a(task.getAssignee());
 				model.setTarefa_atribuida_por(task.getOwner());
 				

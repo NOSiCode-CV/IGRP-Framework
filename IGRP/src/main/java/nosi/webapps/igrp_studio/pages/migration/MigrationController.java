@@ -470,20 +470,13 @@ public class MigrationController extends Controller {
 				for(int j = 0; j < repSources.size(); j++) {
 					RepSource dataSource = repSources.get(j);
 					auxContent.append("\t	User userCreated").append(i).append("_").append(j).append(" = new User();").append("\n");
-					auxContent.append("\t	userCreated" + i + "_" + j  + ".setUser_name(\"" + dataSource.getUser_created().getUser_name() +  "\");" + "\n");
-					auxContent.append("\t	User userUpdated" + i + "_" + j  + " = new User();" + "\n");
-					auxContent.append("\t	userUpdated" + i + "_" + j  + ".setUser_name(\"" + dataSource.getUser_updated().getUser_name() +  "\");" + "\n");
-					auxContent.append("\t	Config_env configEnv" + i + "_" + j  + " = new Config_env();" + "\n");
+					auxContent.append("\t	userCreated").append(i).append("_").append(j).append(".setUser_name(\"").append(dataSource.getUser_created().getUser_name()).append("\");").append("\n");
+					auxContent.append("\t	User userUpdated").append(i).append("_").append(j).append(" = new User();").append("\n");
+					auxContent.append("\t	userUpdated").append(i).append("_").append(j).append(".setUser_name(\"").append(dataSource.getUser_updated().getUser_name()).append("\");").append("\n");
+					auxContent.append("\t	Config_env configEnv").append(i).append("_").append(j).append(" = new Config_env();").append("\n");
 					if(dataSource.getConfig_env()!=null)
-						auxContent.append("\t	configEnv" + i + "_" + j  + ".setConnection_identify(\"" + dataSource.getConfig_env().getConnection_identify() +  "\");" + "\n");
-					auxContent.append("\t	this.repDataSources.add(" + 
-							"new RepSource(\"" + dataSource.getName() + "\", \"" + dataSource.getType() + "\", "
-							+ dataSource.getType_fk() + ", \"" + dataSource.getType_name() + "\", \"" + dataSource.getType_query().replaceAll("[\\n\\r]", " ") + "\", " + dataSource.getStatus() + ","
-							+ " Core.ToDate(\"" + Core.dateToString(dataSource.getDt_created(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), "
-							+ " Core.ToDate(\"" + Core.dateToString(dataSource.getDt_updated(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), "
-							+ "userCreated" + i + "_" + j  + ", userUpdated" + i + "_" + j  + ", configEnv" + i + "_" + j  + ", env" + i + ", "
-							+ "\"" + dataSource.getSource_identify() + "\" , \"" + dataSource.getTaskid() + "\", \"" + dataSource.getProcessid() + "\", \"" + dataSource.getFormkey() + "\")"
-							+ ");\n");
+						auxContent.append("\t	configEnv").append(i).append("_").append(j).append(".setConnection_identify(\"").append(dataSource.getConfig_env().getConnection_identify()).append("\");").append("\n");
+					auxContent.append("\t	this.repDataSources.add(" + "new RepSource(\"").append(dataSource.getName()).append("\", \"").append(dataSource.getType()).append("\", ").append(dataSource.getType_fk()).append(", \"").append(dataSource.getType_name()).append("\", \"").append(dataSource.getType_query().replaceAll("[\\n\\r]", " ")).append("\", ").append(dataSource.getStatus()).append(",").append(" Core.ToDate(\"").append(Core.dateToString(dataSource.getDt_created(), "yyyy-MM-dd")).append("\", \"yyyy-MM-dd\"), ").append(" Core.ToDate(\"").append(Core.dateToString(dataSource.getDt_updated(), "yyyy-MM-dd")).append("\", \"yyyy-MM-dd\"), ").append("userCreated").append(i).append("_").append(j).append(", userUpdated").append(i).append("_").append(j).append(", configEnv").append(i).append("_").append(j).append(", env").append(i).append(", ").append("\"").append(dataSource.getSource_identify()).append("\" , \"").append(dataSource.getTaskid()).append("\", \"").append(dataSource.getProcessid()).append("\", \"").append(dataSource.getFormkey()).append("\")").append(");\n");
 				}
 				
 				//Assoc. Report with DataSource 
@@ -647,7 +640,6 @@ public class MigrationController extends Controller {
 	}
 	
 	private void prepareMigrationLocation() {
-		@SuppressWarnings("unchecked")
 		Map<String, Object> configs = HibernateUtils.getSettings();
 		StringBuilder location = new StringBuilder(migrationLocation);
 		String folder = IgrpMigrationAPI.getDbEngineNameFromDsn((String) configs.get(AvailableSettings.URL));

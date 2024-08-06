@@ -69,12 +69,10 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 			 return tasks; 
 		if(myTaskAccess.size()<3) {
 			for(TaskAccess t:myTaskAccess) {
-				long tim = System.currentTimeMillis();
 				if(t.getTaskName().equals("Start"+t.getProcessName()))
 					continue;
 				taskServiceRest.addFilterBody("taskDefinitionKey", t.getTaskName());
 				tasks.addAll(taskServiceRest.queryTasks());
-				System.out.println(this.getClass().getSimpleName()+" "+t.getTaskName()+" postbdTimee time: " + ( System.currentTimeMillis()-tim) + " milliseconds "+tasks.size());
 			}
 		}else {
 			tasks  = taskServiceRest.queryTasks(); 
@@ -106,8 +104,12 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 	}
 
 	public List<TaskServiceQuery> queryHistoryTask() {
+		return queryHistoryTask(null);
+	}
+
+	public List<TaskServiceQuery> queryHistoryTask(String processKey) {
 		final List<TaskServiceQuery> tasks = taskServiceRest.queryHistoryTask();
-		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
+		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess(processKey);
 
 		final String[] processInstanceIds = tasks.stream()
 				.filter(tsq -> this.filterAvailableTaskAccess(tsq, myTaskAccess))

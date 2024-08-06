@@ -36,10 +36,10 @@ public class Detalhes_tarefasController extends Controller {
 		if(Core.isNotNull(taskDefinitionKey)) {
 			taskQuery.addFilterBody("taskDefinitionKey", taskDefinitionKey);
 		}
-		taskQuery.addFilterBody("includeProcessVariables", "true");
+
 		String content = ""; 
 		
-		List<TaskServiceQuery> queryHistoryTask = taskQuery.queryHistoryTask();
+		List<TaskServiceQuery> queryHistoryTask = taskQuery.queryHistoryTask(processDefinitionKey);
 		if(!queryHistoryTask.isEmpty())
 			content = generateCustomFormTask(queryHistoryTask.get(0));//because for unique task
 		
@@ -53,8 +53,14 @@ public class Detalhes_tarefasController extends Controller {
 	private String generateCustomFormTask(TaskServiceQuery task) throws InstantiationException {	
 		String content = "";
 		try {
-			String packageName =  "nosi.webapps."+task.getTenantId().toLowerCase()+".process."+task.getProcessDefinitionKey().toLowerCase();
-			Class<?> c = Class.forName(packageName+"."+BPMNConstants.PREFIX_TASK+task.getTaskDefinitionKey()+"Controller");
+			String packageName = String.format("nosi.webapps.%s.process.%s",
+					task.getTenantId().toLowerCase(),
+					task.getProcessDefinitionKey().toLowerCase());
+			String className = String.format("%s.%s%sController",
+					packageName,
+					BPMNConstants.PREFIX_TASK,
+					task.getTaskDefinitionKey());
+			Class<?> c = Class.forName(className);
 			Method method = c.getMethod("details",TaskServiceQuery.class);
 			content = (String) method.invoke(c.getDeclaredConstructor().newInstance(), task);
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

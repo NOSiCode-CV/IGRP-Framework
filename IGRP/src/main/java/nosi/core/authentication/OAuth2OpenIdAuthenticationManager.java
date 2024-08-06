@@ -113,7 +113,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 			session.setAttribute("_oidcIdToken", idToken);
 			session.setAttribute("_oidcState", sessionState);
 		} else
-			throw new IllegalStateException("Caro "+name+" ("+email+") não está convidado para para nenhuma aplicação. Contactar o administrador!");
+			throw new IllegalStateException("Caro "+((name!=null && !name.equals("null"))?name+" ":"")+email+" não está convidado para para nenhuma aplicação. Contactar o administrador!");
 
 	}
 
