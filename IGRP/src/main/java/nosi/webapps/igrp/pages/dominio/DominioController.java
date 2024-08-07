@@ -8,7 +8,6 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
-import java.util.LinkedHashMap;
 import java.util.List;
 import nosi.core.webapp.Core.MimeType;
 import nosi.core.config.Config;
@@ -37,37 +36,36 @@ public class DominioController extends Controller {
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
-		/*----#start-code(index)----*/			
-		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=dominio"));
-        view.aplicacao.setValue(DomainHeper.getApplications());
-		String dad = Core.getCurrentDad();		
-  		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {	
-           	model.setApp(Core.findApplicationByDad(dad).getId());
-  			model.setAplicacao(model.getApp());
-  	        view.aplicacao.propertie().add("disabled","true");			
-  		}
-  		Integer app=model.getAplicacao();
-//  		Mudar para value para mostrar escolhido logo
-     	 final BaseQueryInterface domainQuery = DomainHeper.getDomainQuery(app);
-		if(domainQuery.getSingleResult()==null) {
-			LinkedHashMap<Object,Object> mapDom=new LinkedHashMap<>();
-	     	mapDom.put(null,gt("++ Adicione um domínio ++"));
-			view.lst_dominio.setValue(mapDom);
-		}else
-			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));
+		/*----#start-code(index)----*/
+
+		model.setDocumento(this.getConfig().getResolveUrl("tutorial", "Listar_documentos", "index&p_type=dominio"));
+		view.aplicacao.setValue(DomainHeper.getApplications());
+		String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			model.setApp(Core.findApplicationByDad(dad).getId());
+			model.setAplicacao(model.getApp());
+			view.aplicacao.propertie().add("disabled", "true");
+		}
+
+		Integer app = model.getAplicacao();
+		// Mudar para value para mostrar escolhido logo
+
+		final BaseQueryInterface domainQuery = DomainHeper.getDomainQuery(app);
+		view.lst_dominio.setQuery(domainQuery, gt("-- Selecione/Adicione um domínio --"));
 
 		if (Core.isNotNull(model.getLst_dominio()) && Core.isNull(Core.getParam("error_saving_item")))
 			model.setFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(), app));
-      
-		if(Core.isNotNullOrZero(app)) {
-			 view.btn_gravar_domain.addParameter("p_aplicacao",app);
-			 view.btn_guardar_item_domain.addParameter("p_aplicacao",app);
+
+		if (Core.isNotNullOrZero(app)) {
+			view.btn_gravar_domain.addParameter("p_aplicacao", app);
+			view.btn_guardar_item_domain.addParameter("p_aplicacao", app);
 		} else
 			view.btn_download.setVisible(false);
 
-        view.btn_gravar_domain.setVisible(Core.isNull(model.getLst_dominio()));           
-     	view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
-     	//cod pa table de lista de dominio
+		view.btn_gravar_domain.setVisible(Core.isNull(model.getLst_dominio()));
+		view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
+
+		// cod pa table de lista de dominio
 		if (Core.isNotNull(model.getAplicacao())) {
 			view.table_1.setVisible(true);
 			model.loadTable_1(Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
