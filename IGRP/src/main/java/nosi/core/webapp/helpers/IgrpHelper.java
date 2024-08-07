@@ -14,9 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Model;
 import nosi.core.webapp.uploadfile.UploadFile;
-import nosi.webapps.igrp.dao.TempFile;
+
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
