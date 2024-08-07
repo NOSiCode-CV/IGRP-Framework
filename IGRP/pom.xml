@@ -657,6 +657,7 @@
                      <tomee.serialization.class.whitelist />
                      <tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
                      <openejb.system.apps>true</openejb.system.apps>
+                     <openejb.jmx.active>false</openejb.jmx.active>
                      <tomee.remote.support>true</tomee.remote.support>
                   </systemVariables>
                   	<libs>
