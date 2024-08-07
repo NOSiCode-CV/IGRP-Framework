@@ -18,9 +18,6 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class Connection {
 
-	public Connection() {
-		
-	}
 	public static String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName.toString();

@@ -26,13 +26,13 @@ import nosi.core.webapp.helpers.Route;
 public abstract class View  implements IHeaderConfig{
 	
 	private Controller context;
-	private Page page; // representa o main layout de uma view
+	private final Page page; // representa o main layout de uma view
 	private String title;
 	private String target;	
 	private String pageTitle;
 	protected Model model;
 	
-	private Map<String, Object> currentModels;
+	private final Map<String, Object> currentModels;
 	
 	protected View(){
 		this.currentModels = new HashMap<>();
