@@ -52,7 +52,11 @@ public class DominioController extends Controller {
 
 		final BaseQueryInterface domainQuery = DomainHeper.getDomainQuery(app);
 		view.lst_dominio.setQuery(domainQuery, gt("-- Selecione/Adicione um domínio --"));
-
+		if(view.lst_dominio.getListOptions()==null){
+			LinkedHashMap<Object,Object> mapDom=new LinkedHashMap<>();
+			mapDom.put(null,gt("++ Adicione um domínio ++"));
+			view.lst_dominio.setValue(mapDom);
+		}
 		if (Core.isNotNull(model.getLst_dominio()) && Core.isNull(Core.getParam("error_saving_item")))
 			model.setFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(), app));
 
