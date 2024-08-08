@@ -1,6 +1,13 @@
 package nosi.webapps.igrp.pages.pesquisa_cae;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.List;
 import java.util.Properties;
@@ -25,6 +32,7 @@ public class Pesquisa_caeController extends Controller {
 		Pesquisa_cae model = new Pesquisa_cae();
 		model.load();
 		Pesquisa_caeView view = new Pesquisa_caeView();
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		
 			List<Pesquisa_cae.Treemenu_1> treemenu_1 = this.pesquisaCae("1");
@@ -35,16 +43,30 @@ public class Pesquisa_caeController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-	
+	/*
+	public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentException, IllegalAccessException{
+		String p_id = Core.getParam("p_id");
+		String p_active = Core.getParam("p_active");
+		Pesquisa_cae model = new Pesquisa_cae();
+		
+		//Your code here
+		Response response = new Response();
+		response.setContentType(Response.FORMAT_XML);
+		response.setContent("your message");
+		return response;
+		
+	}
+	*//* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
+/*----#start-code(custom_actions)----*/
 
 	public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentException, IllegalAccessException{
 		String p_id = Core.getParam("p_id");
 		String jsonLookup = Core.getParam("jsonLookup");
 		StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-                                              + " <treemenu_1> "
-                                              + "<table>"
-                                              + "<value>");
-		
+				+ " <treemenu_1> "
+				+ "<table>"
+				+ "<value>");
+
 		if(Core.isNotNull(jsonLookup)) {
 			try {
 				jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
@@ -53,23 +75,22 @@ public class Pesquisa_caeController extends Controller {
 			}
 			Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
 			params.forEach((key, value) -> {
-               if (value.equals("treemenu_1_tmid"))
-                  id_cae = key.toString();
-               else if (value.equals("treemenu_1_link_desc"))
-                  des_cae = key.toString();
-            });
+				if (value.equals("treemenu_1_tmid"))
+					id_cae = key.toString();
+				else if (value.equals("treemenu_1_link_desc"))
+					des_cae = key.toString();
+			});
 		}
 		List<Treemenu_1> lista = this.pesquisaCae(p_id);
-		for(Pesquisa_cae.Treemenu_1 li : lista) {			
-			
+		for(Pesquisa_cae.Treemenu_1 li : lista) {
+
 			xml.append(getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), p_id, li.getTreemenu_1_child(), des_cae, id_cae));
 		}
 		xml.append("</value>" + "</table>" + "</treemenu_1>");
 		return this.renderView(xml.toString());
-		
+
 	}
-	
-/*----#start-code(custom_actions)----*/
+
 	 String  des_cae ="p_cae_des";
 	 String id_cae = "p_cae_id";
 
@@ -103,7 +124,10 @@ public class Pesquisa_caeController extends Controller {
 								"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
 								"<treemenu_1_tmid>"+ id + "</treemenu_1_tmid>" +
 								"<treemenu_1_parent>"+ id_par +"</treemenu_1_parent>" + 
-								"<treemenu_1_icon/>" + 
+								"<treemenu_1_icon/>" +
+				 				"<treemenu_1_link></treemenu_1_link>"+
+//				 					(child.equals("1") ? "" : "<treemenu_1_link></treemenu_1_link>" ) +
+//				 						(p_nivel == 0 ? "<treemenu_1_link></treemenu_1_link>" : "" ) +
 								"<treemenu_1_child>" + child +"</treemenu_1_child>" + 
 								"<treemenu_1_active/>" + 
 							"</row>";

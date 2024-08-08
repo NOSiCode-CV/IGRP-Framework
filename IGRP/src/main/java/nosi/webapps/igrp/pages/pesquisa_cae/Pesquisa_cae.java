@@ -1,14 +1,13 @@
 package nosi.webapps.igrp.pages.pesquisa_cae;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
-import nosi.core.webapp.Report;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pesquisa_cae extends Model{		
 	
@@ -24,7 +23,7 @@ public class Pesquisa_cae extends Model{
 
 	public static class Treemenu_1 extends IGRPTable.Table{
 		private IGRPLink treemenu_1_link;
-		private String treemenu_1_link_desc;
+		private String treemenu_1_link_desc= "Link";
 		private String treemenu_1_tmid;
 		private Integer treemenu_1_parent;
 		private String treemenu_1_icon;

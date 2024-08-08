@@ -1,11 +1,11 @@
 package nosi.webapps.igrp.pages.pesquisa_cae;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class Pesquisa_caeView extends View {
 
@@ -16,7 +16,7 @@ public class Pesquisa_caeView extends View {
 	public Field treemenu_1_icon;
 	public Field treemenu_1_child;
 	public Field treemenu_1_active;
-	public IGRPTable treemenu_1;
+	public IGRPTreeMenu treemenu_1;
 
 
 	public Pesquisa_caeView(){
