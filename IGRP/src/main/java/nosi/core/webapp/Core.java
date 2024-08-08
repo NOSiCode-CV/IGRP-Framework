@@ -3498,7 +3498,10 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
-		return (String) getTaskVariableRaw(taskDefinitionKey,variableName);
+		final String taskVariableString = (String) getTaskVariableRaw(taskDefinitionKey, variableName);
+		if (Core.isNull(taskVariableString))
+			return "";
+		return taskVariableString;
 	}
 	/**
 	 * @category BPMN
@@ -3613,7 +3616,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
-		return (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		return Core.getTaskVariable(taskDefinitionKey, variableName);
 	}
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
