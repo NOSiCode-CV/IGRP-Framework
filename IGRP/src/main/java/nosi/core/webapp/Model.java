@@ -14,7 +14,6 @@ import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
-import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
@@ -34,7 +33,9 @@ import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * We have function like loadFromlist for separatorlist and formlist, loadTable
@@ -220,6 +221,7 @@ public abstract class Model { // IGRP super model
 			}
 			/* End */
 		}
+
 		Map<String, List<Part>> allFiles = this.getFiles();
 
 		final var fieldsSize = fields.size();
@@ -277,13 +279,12 @@ public abstract class Model { // IGRP super model
 			try {
 				int row = 0;
 
-				int MAX_ITERATION = 0;
+				final int MAX_ITERATION = mapFk.values()
+						.stream()
+						.mapToInt(List::size)
+						.max()
+						.orElse(0);
 
-				for (List<String> list : mapFk.values()) {
-					final var size = list.size();
-					if (MAX_ITERATION < size)
-						MAX_ITERATION = size;
-				}
 				while (row < MAX_ITERATION) {
 					Object obj2 = Class.forName(c_.getName()).getDeclaredConstructor().newInstance();
 					for (Field m : obj2.getClass().getDeclaredFields()) {
@@ -499,19 +500,31 @@ public abstract class Model { // IGRP super model
 	}
 
 	private Map<String, List<Part>> getFiles() {
-		if (Core.isUploadedFiles()) {
-			try {
-				final var allFiles = Igrp.getInstance().getRequest().getParts();
-				if (allFiles != null) {
-					return allFiles.stream()
-							.filter(file -> Core.isNotNull(file.getContentType()))
-							.collect(Collectors.groupingBy(file -> file.getName().toLowerCase()));
-				}
-			} catch (ServletException | IOException e1) {
-				e1.printStackTrace();
-			}
+
+		if (!Core.isUploadedFiles())
+			return Map.of();
+
+		try {
+			final var allFiles = Igrp.getInstance().getRequest().getParts();
+			if (allFiles == null)
+				return Map.of();
+
+			final Supplier<Stream<Part>> partStream = allFiles::stream;
+
+			final var files = new HashMap<String, List<Part>>();
+			allFiles.stream()
+					.filter(file -> Core.isNotNull(file.getContentType()))
+					.forEach(f -> {
+						final var collect = partStream.get().filter(file -> file.getName().equals(f.getName())).toList();
+						files.put(f.getName().toLowerCase(), collect);
+					});
+
+			return files;
+		} catch (ServletException | IOException e1) {
+			e1.printStackTrace();
 		}
-		return new HashMap<>(0);
+
+		return Map.of();
 	}
 
 	/**
@@ -520,7 +533,7 @@ public abstract class Model { // IGRP super model
 	 * @return Returns <tt>true</tt> if this model has no constraint violations, otherwise returns <tt>false</tt>.
 	 */
 	public boolean validate() {
-		final List<String> constraintViolations = getConstraintViolations(new ArrayList<>(), true);
+		final List<String> constraintViolations = getConstraintViolations(List.of(), true);
 		constraintViolations.forEach(Core::setMessageError);
 		return constraintViolations.isEmpty();
 	}
