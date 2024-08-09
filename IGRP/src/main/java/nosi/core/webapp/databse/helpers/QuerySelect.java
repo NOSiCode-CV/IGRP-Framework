@@ -215,7 +215,7 @@ public class QuerySelect extends CommonFIlter{
 	
 	@Override
 	public Tuple getSingleResult() {
-		this.limit(1);
+		//this.limit(1);  //Caused some trouble with querys with sequence select LPAD(sis_seq_nr_relacao.NEXTVAL, 7, 0) as v_nr_relacao FROM DUAL
 		List<Tuple> list = this.getResultList();
 		if(list!=null && !list.isEmpty())
 			return list.get(0);
