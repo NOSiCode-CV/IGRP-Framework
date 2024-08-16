@@ -1,33 +1,27 @@
 package nosi.core.webapp.helpers;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.uploadfile.UploadFile;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
  */
 public final class IgrpHelper {
-	
+
 	private IgrpHelper() {} // Not for instances ...
-	
+
 	public static Map<?, ?> toMap(List<?> values, String keyField, String valueField) {
 		return IgrpHelper.toMap(values, keyField, valueField, null);
 	}
-	
+
 	public static Map<Object, Object> toMap(List<?> values, String keyField, String valueField, String prompt) {
 		Map<Object, Object> map = new LinkedHashMap<>(values.size());
 		if(prompt != null)
