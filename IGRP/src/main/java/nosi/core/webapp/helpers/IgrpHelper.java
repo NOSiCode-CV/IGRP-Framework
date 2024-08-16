@@ -1,33 +1,27 @@
 package nosi.core.webapp.helpers;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.uploadfile.UploadFile;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
  */
 public final class IgrpHelper {
-	
+
 	private IgrpHelper() {} // Not for instances ...
-	
+
 	public static Map<?, ?> toMap(List<?> values, String keyField, String valueField) {
 		return IgrpHelper.toMap(values, keyField, valueField, null);
 	}
-	
+
 	public static Map<Object, Object> toMap(List<?> values, String keyField, String valueField, String prompt) {
 		Map<Object, Object> map = new LinkedHashMap<>(values.size());
 		if(prompt != null)
@@ -81,56 +75,50 @@ public final class IgrpHelper {
 			default -> array;
         };
 	}
-	
 
-	public static String getValue(Object model,String name){
+
+	public static String getValue(Object model, String name) {
 		String value = null;
-		if(model!=null && name!=null && !name.isEmpty()){
-			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
-		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().equals(methodName)){
-					value = "";
-			    	try {
-						final Object invoke = m.invoke(model);
-						if(invoke !=null) {
-			    			if(m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
-			    				IGRPLink link = (IGRPLink) invoke;
-								value = link.getLink();
-			    			}else {
-			    				if(m.getReturnType().getSimpleName().equals("UploadFile")) {
-			    					UploadFile upload = (UploadFile) invoke;
-                                    value = upload.getSubmittedFileName();
-                                }else {
-				    				value = ""+ invoke;
-				    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
-				    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
-				    				}
-			    				}
-			    			}
-			    			break;
-			    		}
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						e.printStackTrace();
-					}                                                                     
-		    	}
-		    }
+		if (model != null && name != null && !name.isEmpty()) {
+			try {
+				final var methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+				final var m = model.getClass().getMethod(methodName);
+				value = "";
+				final Object invoke = m.invoke(model);
+				if (invoke != null) {
+					if (m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
+						IGRPLink link = (IGRPLink) invoke;
+						value = link.getLink();
+					} else {
+						if (m.getReturnType().getSimpleName().equals("UploadFile")) {
+							UploadFile upload = (UploadFile) invoke;
+							value = upload.getSubmittedFileName();
+						} else {
+							value = "" + invoke;
+							if (m.getReturnType().getName().equals("java.time.LocalDate")) {
+								value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+							}
+						}
+					}
+				}
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException |
+					 NoSuchMethodException e) {
+				e.printStackTrace();
+			}
 		}
 		return value;
 	}
 
 	public static Object getValueArray(Object model, String name) {
 		if (model != null && name != null && !name.isEmpty()) {
-			String methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
-			for (Method m : model.getClass().getDeclaredMethods()) {
-				if (m.getName().equals(methodName)) {
-					try {
-						Object aux = m.invoke(model);
-						if (aux != null)
-							return aux;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+			final var methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+			try {
+				final var method = model.getClass().getMethod(methodName);
+				Object aux = method.invoke(model);
+				if (aux != null)
+					return aux;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return null;
@@ -190,11 +178,5 @@ public final class IgrpHelper {
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static String convertToJsonString(InputStream inputStream) throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		var data = objectMapper.readValue(inputStream, new TypeReference<>() {});
-		return new Gson().toJson(data);
 	}
 }
