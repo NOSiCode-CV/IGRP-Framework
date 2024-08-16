@@ -224,12 +224,10 @@ public abstract class Model { // IGRP super model
 
 		Map<String, List<Part>> allFiles = this.getFiles();
 
-		final var fieldsSize = fields.size();
-
 		for (Field obj : fields) {
-			Map<String, List<String>> mapFk = new LinkedHashMap<>(fieldsSize);
-			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>(fieldsSize);
-			Map<String, List<String>> mapFileId = new LinkedHashMap<>(fieldsSize);
+			Map<String, List<String>> mapFk = new LinkedHashMap<>();
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>();
+			Map<String, List<String>> mapFileId = new LinkedHashMap<>();
 
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 
