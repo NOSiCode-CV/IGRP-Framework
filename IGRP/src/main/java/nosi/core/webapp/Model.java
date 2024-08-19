@@ -178,6 +178,13 @@ public abstract class Model { // IGRP super model
 		return list;
 	}
 
+	private String getFieldParamName(Field field) {
+		return Optional.ofNullable(field.getAnnotation(RParam.class))
+				.map(obj -> field.getAnnotation(RParam.class).rParamName())
+				.filter(rParamName -> !rParamName.isEmpty())
+				.orElse(field.getName()); // default case use the name of field;
+	}
+
 	/*
 	 * Load/auto-populate (begin)
 	 */
@@ -189,19 +196,12 @@ public abstract class Model { // IGRP super model
 		for (Field m : c.getDeclaredFields()) {
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
+			final var rParamFieldName = this.getFieldParamName(m);
 			if (m.getType().isArray()) {
-				String[] aux = Core.getParamArray(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().isEmpty()
-								? m.getAnnotation(RParam.class).rParamName()
-								: m.getName() // default case use the name of field
-				);
+				String[] aux = Core.getParamArray(rParamFieldName);
 				this.loadArrayData(m,typeName,aux);
 			} else {
-				String name = m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().isEmpty()
-						? m.getAnnotation(RParam.class).rParamName()
-						: m.getName();
-
-				final Object o = Core.getParamObject(name); // default case use the name of field
+				final Object o = Core.getParamObject(rParamFieldName);
 				String aux = null;
 				if (o != null) {
 					if (o.getClass().isArray()) {
@@ -224,12 +224,10 @@ public abstract class Model { // IGRP super model
 
 		Map<String, List<Part>> allFiles = this.getFiles();
 
-		final var fieldsSize = fields.size();
-
 		for (Field obj : fields) {
-			Map<String, List<String>> mapFk = new LinkedHashMap<>(fieldsSize);
-			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>(fieldsSize);
-			Map<String, List<String>> mapFileId = new LinkedHashMap<>(fieldsSize);
+			Map<String, List<String>> mapFk = new LinkedHashMap<>();
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>();
+			Map<String, List<String>> mapFileId = new LinkedHashMap<>();
 
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 
