@@ -55,7 +55,7 @@ public class HibernateUtils {
       if (connectionName != null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()))
          return SESSION_FACTORY_IGRP;
 
-      final String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
+      final String fileName = (dad != null && !dad.isEmpty()) ? connectionName + "." + dad : connectionName;
 
       return SESSION_FACTORY.compute(connectionName, (key, existingSessionFactory) -> {
          if (existingSessionFactory == null || !existingSessionFactory.isOpen()) {
@@ -73,7 +73,7 @@ public class HibernateUtils {
             return sessionFactory.getCurrentSession();
          }
          sessionFactory.close();
-      removeSessionFactory(connectionName);
+         removeSessionFactory(connectionName);
          sessionFactory = getSessionFactory(connectionName);
          if (sessionFactory != null)
             return sessionFactory.getCurrentSession();

@@ -3481,11 +3481,15 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariable(String variableName) {
+		return (String) getTaskVariableRaw(variableName);
+	}
+
+	public static Object getTaskVariableRaw(String variableName) {
 		if (Core.isNull(variableName))
 			return "";
 		HistoricVariablesService htask = new TaskServiceRest().getVarByProcId(Core.getProcessInstaceByTask(),variableName);
 		if (htask != null && htask.getVariable()!=null) {
-			return (String) htask.getVariable().getValue();
+			return htask.getVariable().getValue();
 		}
 		return "";
 
@@ -3511,13 +3515,7 @@ public final class Core {
 	 * @return
 	 */
 	public static Object getTaskVariableRaw(String taskDefinitionKey, String variableName) {
-		String id = Core.getExecutionId();
-		TaskVariables variav= new TaskServiceRest().getVariableByExecId(id,taskDefinitionKey + "_" + variableName);
-
-		if (variav != null) {
-			return variav.getValue();
-		}
-		return "";
+		return getTaskVariableRaw(taskDefinitionKey + "_" + variableName);
 	}
 
 	/**
