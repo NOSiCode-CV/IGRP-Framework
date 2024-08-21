@@ -24,7 +24,7 @@ public class Pesquisa_cae extends Model{
 
 	public static class Treemenu_1 extends IGRPTable.Table{
 		private IGRPLink treemenu_1_link;
-		private String treemenu_1_link_desc;
+		private String treemenu_1_link_desc= "Link";
 		private String treemenu_1_tmid;
 		private Integer treemenu_1_parent;
 		private String treemenu_1_icon;
