@@ -420,11 +420,19 @@ public abstract class Model { // IGRP super model
 	private void loadArrayData(Field m, String typeName, String[] value) throws IllegalArgumentException, IllegalAccessException {
 		if (value != null) {
 			switch (typeName) {
-				case "[I" -> m.set(this, (int[]) IgrpHelper.convertToArray(value, "int"));
-				case "[J" -> m.set(this, (long[]) IgrpHelper.convertToArray(value, "long"));
-				case "[D" -> m.set(this, (double[]) IgrpHelper.convertToArray(value, "double"));
-				case "[S" -> m.set(this, (short[]) IgrpHelper.convertToArray(value, "short"));
-				case "[F" -> m.set(this, (float[]) IgrpHelper.convertToArray(value, "float"));
+				case "[I" -> m.set(this, IgrpHelper.convertToArray(value, "int"));
+				case "[Ljava.lang.Integer;" -> {
+					final var integerArray = Arrays.stream(value).map(Integer::valueOf).toArray(Integer[]::new);
+					m.set(this, integerArray);
+				}
+				case "[J" -> m.set(this, IgrpHelper.convertToArray(value, "long"));
+				case "[Ljava.lang.Long;" -> {
+					final var longArray = Arrays.stream(value).map(Long::valueOf).toArray(Long[]::new);
+					m.set(this, longArray);
+				}
+				case "[D" -> m.set(this, IgrpHelper.convertToArray(value, "double"));
+				case "[S" -> m.set(this, IgrpHelper.convertToArray(value, "short"));
+				case "[F" -> m.set(this, IgrpHelper.convertToArray(value, "float"));
 				default -> m.set(this, typeName.equals("[Ljava.lang.String;") ? value : null);
 			}
 		} else {
