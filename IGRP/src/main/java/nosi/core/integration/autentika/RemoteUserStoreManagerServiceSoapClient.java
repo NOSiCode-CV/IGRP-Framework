@@ -88,11 +88,14 @@ public class RemoteUserStoreManagerServiceSoapClient {
 							claimDTO.setClaimUri(nsReturn.get("ax2615:claimUri") instanceof String ? (String)nsReturn.get("ax2615:claimUri") : null);
 							claimDTO.setDescription(nsReturn.get("ax2615:description") instanceof String ? (String) nsReturn.get("ax2615:description") : null);
 							claimDTO.setDialectURI(nsReturn.get("ax2615:dialectURI") instanceof String ? (String)nsReturn.get("ax2615:dialectURI") : null);
-							claimDTO.setDisplayOrder((int)nsReturn.get("ax2615:displayOrder"));
+							if(nsReturn.get("ax2615:displayOrder")!=null)
+								claimDTO.setDisplayOrder((int) nsReturn.get("ax2615:displayOrder"));
 							claimDTO.setDisplayTag(nsReturn.get("ax2615:displayTag") instanceof String ? (String)nsReturn.get("ax2615:displayTag") : null);
 							claimDTO.setRegEx(nsReturn.get("ax2615:regEx") instanceof String ? (String)nsReturn.get("ax2615:regEx") : null);
-							claimDTO.setRequired((boolean)nsReturn.get("ax2615:required"));
-							claimDTO.setSupportedByDefault((boolean)nsReturn.get("ax2615:supportedByDefault"));
+							if(nsReturn.get("ax2615:required")!=null)
+								claimDTO.setRequired((boolean)nsReturn.get("ax2615:required"));
+							if(nsReturn.get("ax2615:supportedByDefault")!=null)
+								claimDTO.setSupportedByDefault((boolean)nsReturn.get("ax2615:supportedByDefault"));
 							claimDTO.setValue(nsReturn.get("ax2615:value") instanceof String ? (String)nsReturn.get("ax2615:value") : null);
 							userClaimValuesResponseDTO.getClaimDTOs().add(claimDTO);
 						}
