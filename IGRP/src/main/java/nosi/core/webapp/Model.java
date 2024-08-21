@@ -53,9 +53,10 @@ public abstract class Model { // IGRP super model
 	public void load(BaseQueryInterface query) throws IllegalArgumentException, IllegalAccessException {
 		if (query != null) {
 			List<Tuple> list = query.getResultList();
-			if (Core.isNotNull(list))
+			if (Core.isNotNull(list)) {
+				final var declaredFields = this.getClass().getDeclaredFields();
 				for (Tuple tuple : list) {
-					for (Field field : this.getClass().getDeclaredFields()) {
+					for (Field field : declaredFields) {
 						field.setAccessible(true);
 						try {
 							if (field.getAnnotation(RParam.class) != null)
@@ -65,7 +66,7 @@ public abstract class Model { // IGRP super model
 						}
 					}
 				}
-			else
+			} else
 				Core.setMessageError("QUERY result list null error. Please check connection");
 		}
 	}
@@ -193,13 +194,12 @@ public abstract class Model { // IGRP super model
 		this.loadModelFromFile();
 		Class<? extends Model> c = this.getClass();
 		List<Field> fields = new ArrayList<>(); // For particular case purpose ...
-		for (Field m : c.getDeclaredFields()) {
-			m.setAccessible(true);
-			String typeName = m.getType().getName();
-			final var rParamFieldName = this.getFieldParamName(m);
-			if (m.getType().isArray()) {
+		for (Field field : c.getDeclaredFields()) {
+			field.setAccessible(true);
+			final var rParamFieldName = this.getFieldParamName(field);
+			if (field.getType().isArray()) {
 				String[] aux = Core.getParamArray(rParamFieldName);
-				this.loadArrayData(m,typeName,aux);
+				this.loadArrayData(field,aux);
 			} else {
 				final Object o = Core.getParamObject(rParamFieldName);
 				String aux = null;
@@ -210,14 +210,14 @@ public abstract class Model { // IGRP super model
 					} else
 						aux = o.toString();
 				}
-				if(Core.isNull(aux) && m.getAnnotation(RParam.class)!=null && Core.isNotNull(m.getAnnotation(RParam.class).defaultValue())) {
-					aux = m.getAnnotation(RParam.class).defaultValue();
+				if(Core.isNull(aux) && field.getAnnotation(RParam.class)!=null && Core.isNotNull(field.getAnnotation(RParam.class).defaultValue())) {
+					aux = field.getAnnotation(RParam.class).defaultValue();
 				}
-				this.loadData(m,typeName,aux);
+				this.loadData(field,aux);
 			}
 			/* Begin */
-			if (m.isAnnotationPresent(SeparatorList.class)) {
-				fields.add(m);
+			if (field.isAnnotationPresent(SeparatorList.class)) {
+				fields.add(field);
 			}
 			/* End */
 		}
@@ -337,26 +337,27 @@ public abstract class Model { // IGRP super model
 		this.loadModelFromAttribute();
 	}
 
-	private void loadData(Field m, String typeName, String value) throws IllegalArgumentException, IllegalAccessException {
+	private void loadData(Field field, String value) throws IllegalArgumentException, IllegalAccessException {
 		String aux = value;
 		String defaultResult = aux != null && !aux.isEmpty() ? aux : null;
+		final var typeName = field.getType().getName();
 		switch (typeName) {
-			case "int" -> m.setInt(this, Core.toInt(aux));
-			case "java.lang.Integer" -> m.set(this, Core.isNotNull(aux) ? Core.toInt(aux) : null);
-			case "float" -> m.setFloat(this, Core.toFloat(aux));
-			case "java.lang.Float" -> m.set(this, Core.isNotNull(aux) ? Core.toFloat(aux) : null);
-			case "double" -> m.setDouble(this, Core.toDouble(aux));
-			case "java.lang.Double" -> m.set(this, Core.isNotNull(aux) ? Core.toDouble(aux) : null);
-			case "long" -> m.setLong(this, Core.toLong(aux));
-			case "java.lang.Long" -> m.set(this, Core.isNotNull(aux) ? Core.toLong(aux) : null);
-			case "short" -> m.setShort(this, Core.toShort(aux));
-			case "java.lang.Short" -> m.set(this, Core.isNotNull(aux) ? Core.toShort(aux) : null);
-			case "java.math.BigInteger" -> m.set(this, Core.isNotNull(aux) ? Core.toBigInteger(aux) : null);
-			case "java.math.BigDecimal" -> m.set(this, Core.isNotNull(aux) ? Core.toBigDecimal(aux) : null);
+			case "int" -> field.setInt(this, Core.toInt(aux));
+			case "java.lang.Integer" -> field.set(this, Core.isNotNull(aux) ? Core.toInt(aux) : null);
+			case "float" -> field.setFloat(this, Core.toFloat(aux));
+			case "java.lang.Float" -> field.set(this, Core.isNotNull(aux) ? Core.toFloat(aux) : null);
+			case "double" -> field.setDouble(this, Core.toDouble(aux));
+			case "java.lang.Double" -> field.set(this, Core.isNotNull(aux) ? Core.toDouble(aux) : null);
+			case "long" -> field.setLong(this, Core.toLong(aux));
+			case "java.lang.Long" -> field.set(this, Core.isNotNull(aux) ? Core.toLong(aux) : null);
+			case "short" -> field.setShort(this, Core.toShort(aux));
+			case "java.lang.Short" -> field.set(this, Core.isNotNull(aux) ? Core.toShort(aux) : null);
+			case "java.math.BigInteger" -> field.set(this, Core.isNotNull(aux) ? Core.toBigInteger(aux) : null);
+			case "java.math.BigDecimal" -> field.set(this, Core.isNotNull(aux) ? Core.toBigDecimal(aux) : null);
 			case "java.sql.Date" -> {
 				if (aux != null && !aux.equals("0")) {
 					aux = DateHelper.convertDate(aux, "dd-mm-yyyy", "yyyy-mm-dd");
-					m.set(this, java.sql.Date.valueOf(aux));
+					field.set(this, java.sql.Date.valueOf(aux));
 				}
 			}
 			case "java.time.LocalDate" -> {
@@ -367,7 +368,7 @@ public abstract class Model { // IGRP super model
 						int month = Core.toInt(datePart[1]);
 						int year = Core.toInt(datePart[2]);
 						LocalDate date = LocalDate.of(year, month, day);
-						m.set(this, date);
+						field.set(this, date);
 					}
 				}
 			}
@@ -379,74 +380,75 @@ public abstract class Model { // IGRP super model
 						int minute = Core.toInt(timePart[1]);
 						int second = timePart.length > 2 ? Core.toInt(timePart[2]) : 0;
 						LocalTime time = LocalTime.of(hour, minute, second);
-						m.set(this, time);
+						field.set(this, time);
 					}
 				}
 			}
 			case "jakarta.servlet.http.Part" -> {
 				try {
-					m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
+					field.set(this, Core.getFile(field.getAnnotation(RParam.class).rParamName()));
 				} catch (IOException | ServletException e) {
 					e.printStackTrace();
 				}
 			}
 			case "nosi.core.webapp.uploadfile.UploadFile" -> {
 				try {
-					String param = Model.getParamFileId(m.getName().toLowerCase());
+					String param = Model.getParamFileId(field.getName().toLowerCase());
 					String fileId = Core.getParam(param);
 					if (Core.isNotNull(fileId)) {
-						Core.addHiddenField((Model.getParamFileId(m.getName().toLowerCase())).replaceFirst("p_", ""), fileId);
-						m.set(this, new UploadFile(fileId));
+						Core.addHiddenField((Model.getParamFileId(field.getName().toLowerCase())).replaceFirst("p_", ""), fileId);
+						field.set(this, new UploadFile(fileId));
 					} else {
-						m.set(this, new UploadFile(Core.getFile(m.getAnnotation(RParam.class).rParamName())));
+						field.set(this, new UploadFile(Core.getFile(field.getAnnotation(RParam.class).rParamName())));
 					}
 				} catch (IOException | ServletException e) {
 					e.printStackTrace();
 				}
 			}
 			default -> {
-				if ((m.isAnnotationPresent(NotEmpty.class) || m.isAnnotationPresent(NotNull.class)) && m.isAnnotationPresent(RParam.class)) {
+				if ((field.isAnnotationPresent(NotEmpty.class) || field.isAnnotationPresent(NotNull.class)) && field.isAnnotationPresent(RParam.class)) {
 					if (defaultResult == null) {
-						defaultResult = m.getAnnotation(RParam.class).defaultValue();
+						defaultResult = field.getAnnotation(RParam.class).defaultValue();
 					}
-					m.set(this, typeName.equals("java.lang.String") ? (Core.isNotNull(defaultResult) ? defaultResult : null) : null);
+					field.set(this, typeName.equals("java.lang.String") ? (Core.isNotNull(defaultResult) ? defaultResult : null) : null);
 				} else {
-					m.set(this,typeName.equals("java.lang.String") ? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult) : null);
+					field.set(this,typeName.equals("java.lang.String") ? (defaultResult == null ? field.getAnnotation(RParam.class).defaultValue() : defaultResult) : null);
 				}
 			}
 		}
 	}
 
-	private void loadArrayData(Field m, String typeName, String[] value) throws IllegalArgumentException, IllegalAccessException {
+	private void loadArrayData(Field field, String[] value) throws IllegalArgumentException, IllegalAccessException {
+		final var typeName = field.getType().getName();
 		if (value != null) {
 			switch (typeName) {
-				case "[I" -> m.set(this, IgrpHelper.convertToArray(value, "int"));
+				case "[I" -> field.set(this, IgrpHelper.convertToArray(value, "int"));
 				case "[Ljava.lang.Integer;" -> {
 					final var integerArray = Arrays.stream(value).map(Integer::valueOf).toArray(Integer[]::new);
-					m.set(this, integerArray);
+					field.set(this, integerArray);
 				}
-				case "[J" -> m.set(this, IgrpHelper.convertToArray(value, "long"));
+				case "[J" -> field.set(this, IgrpHelper.convertToArray(value, "long"));
 				case "[Ljava.lang.Long;" -> {
 					final var longArray = Arrays.stream(value).map(Long::valueOf).toArray(Long[]::new);
-					m.set(this, longArray);
+					field.set(this, longArray);
 				}
-				case "[D" -> m.set(this, IgrpHelper.convertToArray(value, "double"));
-				case "[S" -> m.set(this, IgrpHelper.convertToArray(value, "short"));
-				case "[F" -> m.set(this, IgrpHelper.convertToArray(value, "float"));
-				default -> m.set(this, typeName.equals("[Ljava.lang.String;") ? value : null);
+				case "[D" -> field.set(this, IgrpHelper.convertToArray(value, "double"));
+				case "[S" -> field.set(this, IgrpHelper.convertToArray(value, "short"));
+				case "[F" -> field.set(this, IgrpHelper.convertToArray(value, "float"));
+				default -> field.set(this, typeName.equals("[Ljava.lang.String;") ? value : null);
 			}
 		} else {
 			if (!typeName.equals("[Ljakarta.servlet.http.Part;")) {
-				m.set(this, null);
+				field.set(this, null);
 				return;
 			}
 			try {
 				List<Part> files = Core.getFiles();
 				if (files != null) {
 					final var filesArray = files.stream()
-							.filter(f -> f.getName().equals(m.getAnnotation(RParam.class).rParamName()))
+							.filter(f -> f.getName().equals(field.getAnnotation(RParam.class).rParamName()))
 							.toArray(Part[]::new);
-					m.set(this, filesArray);
+					field.set(this, filesArray);
 				}
 			} catch (IOException | ServletException e) {
 				e.printStackTrace();
@@ -464,7 +466,8 @@ public abstract class Model { // IGRP super model
 					NodeList n = domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();
 					QueryString<String, Object> queryString = new QueryString<>();
 					for (int i = 0; i < n.getLength(); i++) {
-						queryString.addQueryString(n.item(i).getNodeName(), n.item(i).getTextContent());
+						final var item = n.item(i);
+						queryString.addQueryString(item.getNodeName(), item.getTextContent());
 					}
 					queryString.getQueryString().forEach((key, value) -> Core.setAttribute(key, value.toArray()));
 				}
@@ -474,36 +477,48 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	
 	/**
 	 * When using this.forward("app","page","index",model, this.queryString());
 	 */
 	private void loadModelFromAttribute() {
-		Model model = (Model)Igrp.getInstance().getRequest().getSession().getAttribute(ATTRIBUTE_NAME_REQUEST);
+
+		Model model = (Model) Igrp.getInstance().getRequest().getSession().getAttribute(ATTRIBUTE_NAME_REQUEST);
 		if (model != null) {
+
 			Igrp.getInstance().getRequest().getSession().removeAttribute(ATTRIBUTE_NAME_REQUEST);
-			for (Method m : model.getClass().getDeclaredMethods()) {
-				m.setAccessible(true);
-				for (Field f : this.getClass().getDeclaredFields()) {
-					if (m.getName().startsWith("get") && m.getName().toLowerCase().endsWith(f.getName())) {
-						f.setAccessible(true);
-						String typeName = f.getType().getName();
+
+			final var fields = this.getClass().getDeclaredFields();
+			final var methods = Arrays.stream(model.getClass().getDeclaredMethods())
+					.filter(m -> m.getName().startsWith("get"))
+					.toList();
+
+			for (var method : methods) {
+
+				final var lowerCaseMethodName = method.getName().toLowerCase();
+
+				for (var field : fields) {
+					if (lowerCaseMethodName.endsWith(field.getName())) {
+						field.setAccessible(true);
+						method.setAccessible(true);
 						try {
-							if(f.getType().isArray()) {
-								this.loadArrayData(f, typeName, (String[])m.invoke(model));
-							}else {
-								this.loadData(f, typeName, ""+m.invoke(model));
+							final var invokedResult = method.invoke(model);
+							if (field.getType().isArray()) {
+								this.loadArrayData(field, (String[]) invokedResult);
+							} else {
+								this.loadData(field, "" + invokedResult);
 							}
 						} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 							e.printStackTrace();
+						} finally {
+							field.setAccessible(false);
+							method.setAccessible(false);
 						}
-						f.setAccessible(false);
 					}
 				}
-				m.setAccessible(false);
 			}
 		}
 	}
+
 
 	private Map<String, List<Part>> getFiles() {
 
