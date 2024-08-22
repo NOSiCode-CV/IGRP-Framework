@@ -654,8 +654,8 @@ public abstract class Model { // IGRP super model
 							method.setAccessible(true);
 							try {
 								Pair pair = (Pair) method.invoke(obj);
-								String paramFileName = Model.getParamFileId(method.getName().replace("get", "").toLowerCase());
 								if(pair.getFile()!=null) {
+									String paramFileName = Model.getParamFileId(method.getName().replace("get", "").toLowerCase());
 									if(pair.isUploaded()) {
 										String uuid = TempFileHelper.saveTempFile(pair.getFile());
 										queryString.addQueryString(paramFileName, uuid);
@@ -682,21 +682,34 @@ public abstract class Model { // IGRP super model
 			m.setAccessible(false);
 		}
 		if(queryString.getQueryString()!=null) {
-			queryString.getQueryString().forEach((key, value1) -> {
-               String[] value = value1.toArray(String[]::new);
-               Core.setAttribute(key, value);
-            });
+			queryString.getQueryString().forEach((k, v) -> Core.setAttribute(k, v.toArray(String[]::new)));
 		}
 	}
-	
+
 	public void deleteTempFile() {
-		Class<? extends Model> c = this.getClass();
-		for (Field m : c.getDeclaredFields()) {
-			if (m.isAnnotationPresent(SeparatorList.class)) {
-				this.deleteTempFileSeparatorFormlist(m);
-			}else {
-				this.deleteTempFileForm(m);
-			}
+
+		Class<? extends Model> clazz = this.getClass();
+
+		Arrays.stream(clazz.getDeclaredFields())
+				.filter(field -> field.isAnnotationPresent(SeparatorList.class) || field.getType().getName().equals(FILE_TYPE))
+				.forEach(field -> {
+					if (field.isAnnotationPresent(SeparatorList.class))
+						this.deleteTempFileSeparatorFormlist(field);
+					else
+						this.deleteTempFileForm(field);
+				});
+	}
+
+	private void deleteTempFileForm(Field m) {
+		try {
+			m.setAccessible(true);
+			UploadFile file = (UploadFile) m.get(this);
+			if (file != null)
+				TempFileHelper.deleteTempFile(file.getId());
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		} finally {
+			m.setAccessible(false);
 		}
 	}
 
@@ -728,23 +741,6 @@ public abstract class Model { // IGRP super model
 		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 			e.printStackTrace();
 		}finally {
-			m.setAccessible(false);
-		}
-	}
-	
-	private void deleteTempFileForm(Field m) {
-		try {
-			m.setAccessible(true);
-
-			if (m.getType().getName().equals(FILE_TYPE)) {
-				UploadFile file = (UploadFile) m.get(this);
-				if (file != null) {
-					TempFileHelper.deleteTempFile(file.getId());
-				}
-			}
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-		} finally {
 			m.setAccessible(false);
 		}
 	}
