@@ -177,17 +177,29 @@ public final class IgrpHelper {
 					else if	(field.getType().getName().equalsIgnoreCase("java.lang.boolean[]") || field.getType().getName().equalsIgnoreCase("boolean[]"))
 						field.set(obj,(boolean[])value);
 				}else {
-					if (field.getType().getName().equalsIgnoreCase("java.lang.integer") || field.getType().getName().equalsIgnoreCase("int"))
+					if (field.getType().getName().equalsIgnoreCase("java.lang.integer"))
+						field.set(obj,Core.toInt(value.toString()));
+					if (field.getType().getName().equalsIgnoreCase("int"))
 						field.setInt(obj,Core.toInt(value.toString()));
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.long") || field.getType().getName().equalsIgnoreCase("long"))
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.long"))
+						field.set(obj,Core.toLong(value.toString()));
+					else if (field.getType().getName().equalsIgnoreCase("long"))
 						field.setLong(obj,Core.toLong(value.toString()));
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.short") || field.getType().getName().equalsIgnoreCase("short"))
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.short"))
+						field.set(obj,Core.toShort(value.toString()));
+					else if(field.getType().getName().equalsIgnoreCase("short"))
 						field.setShort(obj,Core.toShort(value.toString()));
-					else if(field.getType().getName().equalsIgnoreCase("java.lang.float") || field.getType().getName().equalsIgnoreCase("float"))
+					else if(field.getType().getName().equalsIgnoreCase("java.lang.float"))
+						field.set(obj,Core.toFloat(value.toString()));
+					else if(field.getType().getName().equalsIgnoreCase("float"))
 						field.setFloat(obj,Core.toFloat(value.toString()));
-					else if(field.getType().getName().equalsIgnoreCase("java.lang.double") || field.getType().getName().equalsIgnoreCase("double"))
+					else if(field.getType().getName().equalsIgnoreCase("java.lang.double"))
+						field.set(obj,Core.toDouble(value.toString()));
+					else if(field.getType().getName().equalsIgnoreCase("double"))
 						field.setDouble(obj,Core.toDouble(value.toString()));
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.boolean") || field.getType().getName().equalsIgnoreCase("boolean"))
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.boolean"))
+						field.setBoolean(obj,(boolean)value);
+					else if(field.getType().getName().equalsIgnoreCase("boolean"))
 						field.setBoolean(obj,(boolean)value);
 					else if(field.getType().getName().equalsIgnoreCase("java.math.BigDecimal"))
 						field.set(obj,Core.toBigDecimal(value.toString())); 

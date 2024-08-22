@@ -76,23 +76,13 @@ public class Connection {
 		String user = "";
 		String driver ="";
 		if (config != null) {
-			
-			Map<String, Object> settings = HibernateUtils.getSettings(config.getName()+"."+config.getApplication().getDad()+HibernateUtils.SUFIX_HIBERNATE_CONFIG);
-			if(settings!=null) {
-				for(java.util.Map.Entry<String, Object> s:settings.entrySet()) {
-					if(s.getKey().equals(AvailableSettings.USER)) {
-						user = s.getValue().toString();
-					}
-					if(s.getKey().equals(AvailableSettings.PASS)) {
-						password = s.getValue().toString();
-					}
-					if(s.getKey().equals(AvailableSettings.URL)) {
-						url = s.getValue().toString();
-					}
-					if(s.getKey().equals(AvailableSettings.DRIVER)) {
-						driver = s.getValue().toString();
-					}
-				}	
+
+			Map<String, Object> settings = HibernateUtils.getSettings(config.getName() + "." + config.getApplication().getDad() + HibernateUtils.SUFIX_HIBERNATE_CONFIG);
+			if (settings != null) {
+				user = (String) settings.getOrDefault(AvailableSettings.USER, user);
+				password = (String) settings.getOrDefault(AvailableSettings.PASS, password);
+				url = (String) settings.getOrDefault(AvailableSettings.URL, url);
+				driver = (String) settings.getOrDefault(AvailableSettings.DRIVER, driver);
 			}
 		}
 		return Connection.getConnection(driver,url,user,password);
