@@ -3,6 +3,7 @@ package nosi.base.ActiveRecord;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -195,7 +196,7 @@ public class HibernateUtils {
          s.doWork(connection -> {
             setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", currentUser.getEmail());
             setAuditContext(connection, "audit.AUDIT_USER_ID", String.valueOf(currentUser.getId()));
-           // setAuditContext(connection, "audit.AUDIT_USER_IP", "127.0.0.0"); //IF needed please add in NamedParameterStatement.java too
+            setAuditContext(connection, "audit.AUDIT_USER_IP", Igrp.getInstance().getRequest().getRemoteAddr()); //IF needed please add in NamedParameterStatement.java too
          });
    }
 

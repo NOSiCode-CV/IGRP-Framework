@@ -1,6 +1,7 @@
 package nosi.core.webapp.databse.helpers;
 
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
 
 import java.io.InputStream;
@@ -52,7 +53,8 @@ public class NamedParameterStatement implements AutoCloseable {
 		final User currentUser = Core.getCurrentUser();
 		if(currentUser!=null){
 			parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", currentUser.getEmail()));
-			parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s';", String.valueOf(currentUser.getId())));
+			parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", String.valueOf(currentUser.getId())));
+			parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
 		}
 		boolean inSingleQuote = false;
 		boolean inDoubleQuote = false;
