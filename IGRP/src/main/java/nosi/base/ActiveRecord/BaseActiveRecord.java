@@ -39,6 +39,8 @@ import nosi.core.webapp.databse.helpers.ParametersHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.StringHelper;
 
+import static nosi.base.ActiveRecord.HibernateUtils.setSessionAudit;
+
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
@@ -1066,6 +1068,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(!transaction.isActive()) {
 				transaction=s.beginTransaction();
 			}
+			setSessionAudit(s);
 				s.persist(this);
 				if(!this.keepConnection)
 					transaction.commit();
@@ -1091,6 +1094,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(!transaction.isActive()) {
 				transaction=s.beginTransaction();
 			}
+				setSessionAudit(s);
 				s.merge(this);
 				if(!this.keepConnection)
 					transaction.commit();
@@ -1119,6 +1123,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(!transaction.isActive()) {
 				transaction=s.beginTransaction();
 			}
+				setSessionAudit(s);
 				s.remove(s.find(this.className, id));
 				if(!this.keepConnection)
 					transaction.commit();

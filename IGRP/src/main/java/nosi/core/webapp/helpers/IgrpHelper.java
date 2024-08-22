@@ -160,16 +160,26 @@ public final class IgrpHelper {
 
 			final var stringValue = value.toString();
 
-			if (typeName.equalsIgnoreCase("java.lang.integer") || typeName.equalsIgnoreCase("int"))
-				field.set(obj, Core.toInt(stringValue));
-			else if (typeName.equalsIgnoreCase("java.lang.long") || typeName.equalsIgnoreCase("long"))
-				field.setLong(obj, Core.toLong(stringValue));
-			else if (typeName.equalsIgnoreCase("java.lang.short") || typeName.equalsIgnoreCase("short"))
-				field.setShort(obj, Core.toShort(stringValue));
-			else if (typeName.equalsIgnoreCase("java.lang.float") || typeName.equalsIgnoreCase("float"))
-				field.setFloat(obj, Core.toFloat(stringValue));
-			else if (typeName.equalsIgnoreCase("java.lang.double") || typeName.equalsIgnoreCase("double"))
-				field.setDouble(obj, Core.toDouble(stringValue));
+			if (typeName.equalsIgnoreCase("java.lang.integer"))
+				field.set(obj,Core.toInt(stringValue));
+			if (typeName.equalsIgnoreCase("int"))
+				field.setInt(obj,Core.toInt(stringValue));
+			else if	(typeName.equalsIgnoreCase("java.lang.long"))
+				field.set(obj,Core.toLong(stringValue));
+			else if (typeName.equalsIgnoreCase("long"))
+				field.setLong(obj,Core.toLong(stringValue));
+			else if	(typeName.equalsIgnoreCase("java.lang.short"))
+				field.set(obj,Core.toShort(stringValue));
+			else if(typeName.equalsIgnoreCase("short"))
+				field.setShort(obj,Core.toShort(stringValue));
+			else if(typeName.equalsIgnoreCase("java.lang.float"))
+				field.set(obj,Core.toFloat(stringValue));
+			else if(typeName.equalsIgnoreCase("float"))
+				field.setFloat(obj,Core.toFloat(stringValue));
+			else if(typeName.equalsIgnoreCase("java.lang.double"))
+				field.set(obj,Core.toDouble(stringValue));
+			else if(typeName.equalsIgnoreCase("double"))
+				field.setDouble(obj,Core.toDouble(stringValue));
 			else if (typeName.equalsIgnoreCase("java.lang.boolean") || typeName.equalsIgnoreCase("boolean"))
 				field.setBoolean(obj, (boolean) value);
 			else if (typeName.equalsIgnoreCase("java.math.BigDecimal"))
