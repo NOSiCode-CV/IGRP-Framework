@@ -88,9 +88,10 @@ public class HomeController extends Controller {
 		}
 		
 		if(Core.isNotNull(dad) && !dad.equals("igrp")) {
-			nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
 			String page = "tutorial/DefaultPage/index&title=";
-			if(ac!=null) { 
+			final Application applicationByDad = Core.findApplicationByDad(dad);
+			nosi.webapps.igrp.dao.Action ac = applicationByDad!=null?applicationByDad.getAction():null;
+			if(ac!=null) {
 				page = ac.getPage();
 				/*
 				 * Go to home page of application or go to default page in case not exists home page associate to application
