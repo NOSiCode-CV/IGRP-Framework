@@ -6,6 +6,8 @@ import nosi.core.webapp.uploadfile.UploadFile;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,37 +79,41 @@ public final class IgrpHelper {
 	}
 
 
-	public static String getValue(Object model, String name) {
+	public static String getValue(Object model,String name){
 		String value = null;
-		if (model != null && name != null && !name.isEmpty()) {
-			try {
-				final var methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
-				final var m = model.getClass().getMethod(methodName);
-				value = "";
-				final Object invoke = m.invoke(model);
-				if (invoke != null) {
-					if (m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
-						IGRPLink link = (IGRPLink) invoke;
-						value = link.getLink();
-					} else {
-						if (m.getReturnType().getSimpleName().equals("UploadFile")) {
-							UploadFile upload = (UploadFile) invoke;
-							value = upload.getSubmittedFileName();
-						} else {
-							value = "" + invoke;
-							if (m.getReturnType().getName().equals("java.time.LocalDate")) {
-								value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+		if(model!=null && name!=null && !name.isEmpty()){
+			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
+			for (Method m : model.getClass().getDeclaredMethods()) {
+				if(m.getName().equals(methodName)){
+					value = "";
+					try {
+						final Object invoke = m.invoke(model);
+						if(invoke !=null) {
+							if(m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
+								IGRPLink link = (IGRPLink) invoke;
+								value = link.getLink();
+							}else {
+								if(m.getReturnType().getSimpleName().equals("UploadFile")) {
+									UploadFile upload = (UploadFile) invoke;
+									value = upload.getSubmittedFileName();
+								}else {
+									value = ""+ invoke;
+									if(m.getReturnType().getName().equals("java.time.LocalDate")) {
+										value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+									}
+								}
 							}
+							break;
 						}
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
 					}
 				}
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException |
-					 NoSuchMethodException e) {
-				e.printStackTrace();
 			}
 		}
 		return value;
 	}
+
 
 	public static Object getValueArray(Object model, String name) {
 		if (model != null && name != null && !name.isEmpty()) {
