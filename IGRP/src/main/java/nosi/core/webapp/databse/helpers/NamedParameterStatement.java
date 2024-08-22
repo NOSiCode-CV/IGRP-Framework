@@ -1,5 +1,8 @@
 package nosi.core.webapp.databse.helpers;
 
+import nosi.core.webapp.Core;
+import nosi.webapps.igrp.dao.User;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -42,10 +45,14 @@ public class NamedParameterStatement implements AutoCloseable {
 		this.retuerningKeys = retuerningKeys;
 		statement = connection.prepareStatement(parse(query), retuerningKeys);
 	}
-
 	final String parse(String query) {
 		int length = query.length();
 		StringBuilder parsedQuery = new StringBuilder(length);
+		final User currentUser = Core.getCurrentUser();
+		if(currentUser!=null){
+			parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", currentUser.getEmail()));
+			parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s';", String.valueOf(currentUser.getId())));
+		}
 		boolean inSingleQuote = false;
 		boolean inDoubleQuote = false;
 		int index = 1;
@@ -87,6 +94,7 @@ public class NamedParameterStatement implements AutoCloseable {
 			}
 			parsedQuery.append(c);
 		}
+
 
 		indexMap = new HashMap<>(indexes.size());
 		// replace the lists of Integer objects with arrays of ints

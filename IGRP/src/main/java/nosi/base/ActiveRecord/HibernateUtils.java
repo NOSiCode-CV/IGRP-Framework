@@ -3,6 +3,7 @@ package nosi.base.ActiveRecord;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
+import nosi.webapps.igrp.dao.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -14,9 +15,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -188,5 +187,22 @@ public class HibernateUtils {
       return propertyValue != null &&
              propertyValue.startsWith("${") &&
              propertyValue.endsWith("}");
+   }
+   public static void setSessionAudit(Session s) {
+      // Set the session variables
+    final User currentUser = Core.getCurrentUser();
+      if(currentUser!=null)
+         s.doWork(connection -> {
+            setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", currentUser.getEmail());
+            setAuditContext(connection, "audit.AUDIT_USER_ID", String.valueOf(currentUser.getId()));
+           // setAuditContext(connection, "audit.AUDIT_USER_IP", "127.0.0.0"); //IF needed please add in NamedParameterStatement.java too
+         });
+   }
+
+   private static void setAuditContext(Connection connection, String settingName, String settingValue) throws SQLException {
+      String sql = String.format("SET session %s = '%s'", settingName, settingValue);
+      try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+         stmt.execute();
+      }
    }
 }

@@ -20,6 +20,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.xml.bind.annotation.XmlTransient;
+
+import nosi.core.webapp.databse.helpers.Connection;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,12 +34,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
 import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.StringHelper;
+
+import static nosi.base.ActiveRecord.HibernateUtils.setSessionAudit;
 
 /**
  * @author: Emanuel Pereira
@@ -1066,9 +1069,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(!transaction.isActive()) {
 				transaction=s.beginTransaction();
 			}
-				s.persist(this);
-				if(!this.keepConnection)
-					transaction.commit();
+			setSessionAudit(s);
+			s.persist(this);
+			if(!this.keepConnection)
+				transaction.commit();
 
 		}catch (Exception e) {
 			this.keepConnection = false;
@@ -1091,6 +1095,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(!transaction.isActive()) {
 				transaction=s.beginTransaction();
 			}
+				setSessionAudit(s);
 				s.merge(this);
 				if(!this.keepConnection)
 					transaction.commit();
@@ -1119,6 +1124,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(!transaction.isActive()) {
 				transaction=s.beginTransaction();
 			}
+				setSessionAudit(s);
 				s.remove(s.find(this.className, id));
 				if(!this.keepConnection)
 					transaction.commit();
