@@ -343,7 +343,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	public Map<Integer, String> getListPrincipalMenus(int app) {
 		LinkedHashMap<Integer, String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Map<String, Object>> aux = this.find().andWhere("application", "=", app).andWhere("menu", "isnull")
+		List<Map<String, Object>> aux = this.find().keepConnection().andWhere("application", "=", app).andWhereIsNull("menu")
 				.allColumns("id", "descr");
 		for (Map<String, Object> m : aux) {
 			lista.put((Integer) m.get("id"), m.get("descr") + "");
@@ -355,9 +355,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	public Map<Integer, String> getListAction(int app) {
 		LinkedHashMap<Integer, String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Menu> aux = this.find().andWhere("application", "=", app).andWhere("status", "=", 1)
-				.andWhere("action", "notnull").orWhere("flg_base", "=", 1).andWhere("action", "notnull")
-				.orderBy("flg_base").setShowConsoleSql(true).all();
+		List<Menu> aux = this.find().keepConnection()
+				.andWhere("application", "=", app)
+				.andWhere("status", "=", 1)
+				.andWhereNotNull("action")
+				.orWhere("flg_base", "=", 1)
+					.andWhereNotNull("action")
+				.orderBy("flg_base").all();
 		for (Menu m : aux) {
 
 			lista.put(m.getAction().getId(),
