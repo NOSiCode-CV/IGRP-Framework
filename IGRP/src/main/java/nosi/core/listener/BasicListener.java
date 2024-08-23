@@ -37,14 +37,17 @@ public class BasicListener implements ServletContextListener {
    }
 
    private void printBanner() {
-      try (InputStream inputStream = BasicListener.class.getResourceAsStream("/banner.txt");
-           BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)))) {
-
+        try (InputStream inputStream = BasicListener.class.getResourceAsStream("/banner.txt")) {
+            if (inputStream == null) {
+                System.out.println("banner.txt not found");
+            } else {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
          String line;
          while ((line = reader.readLine()) != null) {
             System.out.println(line.replace("#version", Config.VERSION));
          }
-
+                }
+            }
       } catch (IOException e) {
          e.printStackTrace();
       }
