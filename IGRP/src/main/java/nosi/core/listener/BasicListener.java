@@ -4,6 +4,7 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
+
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.Config;
 import nosi.core.db.migration.api.MigrationIGRPInitConfig;
@@ -37,18 +38,21 @@ public class BasicListener implements ServletContextListener {
       System.out.println("||| iGRP: BasicListener will see you soon! Txau |||");
    }
 
-   private void printBanner() {
-      try (InputStream inputStream = BasicListener.class.getResourceAsStream("/banner.txt");
-           BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)))) {
-
-         String line;
-         while ((line = reader.readLine()) != null) {
-            System.out.println(line.replace("#version", Config.VERSION));
+    private void printBanner() {
+        try (InputStream inputStream = BasicListener.class.getResourceAsStream("/banner.txt")) {
+            if (inputStream == null) {
+                System.out.println("banner.txt not found");
+            } else {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println(line.replace("#version", Config.VERSION));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-	}
 	
 }

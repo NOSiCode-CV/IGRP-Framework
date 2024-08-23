@@ -1,9 +1,5 @@
 package nosi.core.webapp.databse.helpers;
 
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.User;
-
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -26,6 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static nosi.base.ActiveRecord.HibernateUtils.setSessionAudit;
+
 public class NamedParameterStatement implements AutoCloseable {
 	
 	private final PreparedStatement statement;
@@ -35,27 +33,22 @@ public class NamedParameterStatement implements AutoCloseable {
 	private String[] returningKeys;
 	
 	public NamedParameterStatement(Connection connection, String query) throws SQLException {
-		statement = connection.prepareStatement(parse(query));
+		statement = connection.prepareStatement(parse(connection,query));
 	}
 
 	public NamedParameterStatement(Connection connection, String query,int generatedkeys) throws SQLException {
-		statement = connection.prepareStatement(parse(query), generatedkeys);
+		statement = connection.prepareStatement(parse(connection,query), generatedkeys);
 	}
 
 	public NamedParameterStatement(Connection connection, String query, String[] returningKeys) throws SQLException {
 		this.returningKeys = returningKeys;
-		statement = connection.prepareStatement(parse(query), returningKeys);
+		statement = connection.prepareStatement(parse(connection,query), returningKeys);
 	}
 
-	final String parse(String query) {
+	final String parse(Connection connection, String query) {
 		int length = query.length();
 		StringBuilder parsedQuery = new StringBuilder(length);
-		final User currentUser = Core.getCurrentUser();
-		if(currentUser!=null){
-			parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", currentUser.getEmail()));
-			parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", String.valueOf(currentUser.getId())));
-			parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
-		}
+		setSessionAudit(connection, parsedQuery);
 		boolean inSingleQuote = false;
 		boolean inDoubleQuote = false;
 		int index = 1;
@@ -112,6 +105,8 @@ public class NamedParameterStatement implements AutoCloseable {
 
 		return parsedQuery.toString();
 	}
+
+
 
 
 	private int[] getIndexes(String name) {
