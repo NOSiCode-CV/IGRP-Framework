@@ -18,9 +18,6 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class Connection {
 
-	public Connection() {
-		
-	}
 	public static String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName.toString();
@@ -79,20 +76,10 @@ public class Connection {
 			
 			Map<String, Object> settings = HibernateUtils.getSettings(config.getName()+"."+config.getApplication().getDad()+HibernateUtils.SUFIX_HIBERNATE_CONFIG);
 			if(settings!=null) {
-				for(java.util.Map.Entry<String, Object> s:settings.entrySet()) {
-					if(s.getKey().equals(AvailableSettings.USER)) {
-						user = s.getValue().toString();
-					}
-					if(s.getKey().equals(AvailableSettings.PASS)) {
-						password = s.getValue().toString();
-					}
-					if(s.getKey().equals(AvailableSettings.URL)) {
-						url = s.getValue().toString();
-					}
-					if(s.getKey().equals(AvailableSettings.DRIVER)) {
-						driver = s.getValue().toString();
-					}
-				}	
+				user = (String) settings.getOrDefault(AvailableSettings.USER, user);
+				password = (String) settings.getOrDefault(AvailableSettings.PASS, password);
+				url = (String) settings.getOrDefault(AvailableSettings.URL, url);
+				driver = (String) settings.getOrDefault(AvailableSettings.DRIVER, driver);
 			}
 		}
 		return Connection.getConnection(driver,url,user,password);

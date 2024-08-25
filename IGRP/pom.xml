@@ -67,10 +67,10 @@
       <apache.commons.io.version>2.16.1</apache.commons.io.version>
       <apache.logging.log4j.version>2.23.1</apache.logging.log4j.version>
 
-       <slf4j.version>2.0.13</slf4j.version>
+       <slf4j.version>2.0.16</slf4j.version>
    
       <reflections.version>0.10.2</reflections.version>
-      <jdt.version>3.37.0</jdt.version>
+      <jdt.version>3.38.0</jdt.version>
 		<!-- Servlet API -->
       <servlet.api.version>3.1.0</servlet.api.version>
 		<!-- OPEN HTML TO PDF -->
@@ -657,7 +657,8 @@
                      <tomee.serialization.class.whitelist />
                      <tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
                      <openejb.system.apps>true</openejb.system.apps>
-                     <tomee.remote.support>true</tomee.remote.support>
+                     <openejb.jmx.active>false</openejb.jmx.active>
+                     <tomee.remote.support>false</tomee.remote.support>
                   </systemVariables>
                   	<libs>
 							<lib>remove:myfaces</lib>	

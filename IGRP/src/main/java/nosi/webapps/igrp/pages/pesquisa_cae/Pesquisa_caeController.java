@@ -100,7 +100,10 @@ public class Pesquisa_caeController extends Controller {
 								"<treemenu_1_tmid>"+ id + "</treemenu_1_tmid>" +
 								"<treemenu_1_parent>"+ id_par +"</treemenu_1_parent>" + 
 								"<treemenu_1_icon/>" + 
-								"<treemenu_1_child>" + child +"</treemenu_1_child>" + 
+				 				"<treemenu_1_link></treemenu_1_link>"+
+//				 					(child.equals("1") ? "" : "<treemenu_1_link></treemenu_1_link>" ) +
+//				 						(p_nivel == 0 ? "<treemenu_1_link></treemenu_1_link>" : "" ) +
+								"<treemenu_1_child>" + child +"</treemenu_1_child>" +
 								"<treemenu_1_active/>" + 
 							"</row>";
 	}

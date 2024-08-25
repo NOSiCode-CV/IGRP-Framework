@@ -22,30 +22,33 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static nosi.base.ActiveRecord.HibernateUtils.setSessionAudit;
+
 public class NamedParameterStatement implements AutoCloseable {
 	
 	private final PreparedStatement statement;
 
 	private Map<String, int[]> indexMap;
 	
-	private String[] retuerningKeys;
+	private String[] returningKeys;
 	
 	public NamedParameterStatement(Connection connection, String query) throws SQLException {
-		statement = connection.prepareStatement(parse(query));
+		statement = connection.prepareStatement(parse(connection,query));
 	}
 
 	public NamedParameterStatement(Connection connection, String query,int generatedkeys) throws SQLException {
-		statement = connection.prepareStatement(parse(query), generatedkeys);
+		statement = connection.prepareStatement(parse(connection,query), generatedkeys);
 	}
 
-	public NamedParameterStatement(Connection connection, String query, String[] retuerningKeys) throws SQLException {
-		this.retuerningKeys = retuerningKeys;
-		statement = connection.prepareStatement(parse(query), retuerningKeys);
+	public NamedParameterStatement(Connection connection, String query, String[] returningKeys) throws SQLException {
+		this.returningKeys = returningKeys;
+		statement = connection.prepareStatement(parse(connection,query), returningKeys);
 	}
 
-	final String parse(String query) {
+	final String parse(Connection connection, String query) {
 		int length = query.length();
 		StringBuilder parsedQuery = new StringBuilder(length);
+		setSessionAudit(connection, parsedQuery);
 		boolean inSingleQuote = false;
 		boolean inDoubleQuote = false;
 		int index = 1;
@@ -102,6 +105,8 @@ public class NamedParameterStatement implements AutoCloseable {
 
 		return parsedQuery.toString();
 	}
+
+
 
 
 	private int[] getIndexes(String name) {
@@ -168,12 +173,12 @@ public class NamedParameterStatement implements AutoCloseable {
 		if(statement.executeUpdate() > 0) {				
 			try (java.sql.ResultSet rs = statement.getGeneratedKeys()) {
 			        if (rs.next()) {
-			        	if(this.retuerningKeys!=null) {
-			        		for(int i=0;i<retuerningKeys.length;i++) {
+			        	if(this.returningKeys != null) {
+			        		for(int i = 0; i < returningKeys.length; i++) {
 			        			try {
-									lastInsertedId.put(retuerningKeys[i],rs.getString(i+1));
+									lastInsertedId.put(returningKeys[i],rs.getString(i + 1));
 								} catch (SQLException e) {
-									lastInsertedId.put(retuerningKeys[i],"");
+									lastInsertedId.put(returningKeys[i],"");
 								}
 			        		}
 			        	}else {

@@ -28,8 +28,7 @@ public final class Route {
 		}
 		queryString = UrlHelper.urlEncoding(queryString);
 		String action = resolveAction(action_);
-		String url = "";
-		url = Route.getResolveUrl(app, page, action+queryString,null,isPublic);
+		String url = Route.getResolveUrl(app, page, action+queryString,null,isPublic);
 		url = url.replace("&&", "&");
 		return url;
 	}

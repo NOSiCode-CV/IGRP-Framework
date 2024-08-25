@@ -337,7 +337,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
-										String _u = String.format("%s?r=%s/%s/%s", url, r.getString("dad_app_page"), r.getString("page"),r.getString("action"));
+										String _u = String.format("%s?r=%s/%s/%s&dad="+currentDad, url, r.getString("dad_app_page"), r.getString("page"),r.getString("action"));
 										ms.setLink(_u);
 									}
 								}

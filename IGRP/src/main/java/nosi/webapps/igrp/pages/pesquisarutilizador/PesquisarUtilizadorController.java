@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Controller;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -108,7 +109,7 @@ public class PesquisarUtilizadorController extends Controller {
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 		Properties settings = this.configApp.loadConfig("common", "main.xml");
-		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");		
+		String aux = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
 		if ((aux != null && aux.equals("true"))) {
 			view.btn_adicionar_utilizador.setVisible(false);	
 		}
