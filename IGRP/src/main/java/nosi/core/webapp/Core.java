@@ -4969,7 +4969,7 @@ public final class Core {
 		return DateHelper.calculateMonths(data, formatIn);
 	}
 
-	public static long skvacalculateDays(String data) {
+	public static long calculateDays(String data) {
 		return DateHelper.calculateDays(data);
 	}
 
