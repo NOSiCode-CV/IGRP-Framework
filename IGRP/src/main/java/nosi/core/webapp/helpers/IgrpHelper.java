@@ -3,14 +3,9 @@ package nosi.core.webapp.helpers;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.uploadfile.UploadFile;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Marcel Iekiny
@@ -78,58 +73,53 @@ public final class IgrpHelper {
         };
 	}
 
+	public static String getValue(Object object, String name) {
+		if (object != null && name != null && !name.isEmpty()) {
+			try {
+				final var methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+				final var method = object.getClass().getMethod(methodName);
 
-	public static String getValue(Object model,String name){
-		String value = null;
-		if(model!=null && name!=null && !name.isEmpty()){
-			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
-			for (Method m : model.getClass().getDeclaredMethods()) {
-				if(m.getName().equals(methodName)){
-					value = "";
-					try {
-						final Object invoke = m.invoke(model);
-						if(invoke !=null) {
-							if(m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
-								IGRPLink link = (IGRPLink) invoke;
-								value = link.getLink();
-							}else {
-								if(m.getReturnType().getSimpleName().equals("UploadFile")) {
-									UploadFile upload = (UploadFile) invoke;
-									value = upload.getSubmittedFileName();
-								}else {
-									value = ""+ invoke;
-									if(m.getReturnType().getName().equals("java.time.LocalDate")) {
-										value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
-									}
-								}
-							}
-							break;
+				final Object invoke = method.invoke(object);
+				if (Objects.nonNull(invoke)) {
+					if (method.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
+						IGRPLink link = (IGRPLink) invoke;
+						return link.getLink();
+					} else {
+						if (method.getReturnType().getSimpleName().equals("UploadFile")) {
+							UploadFile upload = (UploadFile) invoke;
+							return upload.getSubmittedFileName();
 						}
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						e.printStackTrace();
+						final var value = "" + invoke;
+						if (method.getReturnType().getName().equals("java.time.LocalDate"))
+							return Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+						return value;
 					}
 				}
-			}
-		}
-		return value;
-	}
-
-
-	public static Object getValueArray(Object model, String name) {
-		if (model != null && name != null && !name.isEmpty()) {
-			final var methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
-			try {
-				final var method = model.getClass().getMethod(methodName);
-				Object aux = method.invoke(model);
-				if (aux != null)
-					return aux;
-			} catch (Exception e) {
+			} catch (NoSuchMethodException e) {
+				return null;
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		}
 		return null;
 	}
 
+	public static Object getValueArray(Object object, String name) {
+		if (object != null && name != null && !name.isEmpty()) {
+			final var methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+			try {
+				final var method = object.getClass().getMethod(methodName);
+				final Object result = method.invoke(object);
+				if (Objects.nonNull(result))
+					return result;
+			} catch (NoSuchMethodException e) {
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 
 	/*
 	 * Errors/validation purpose (begin)
