@@ -51,23 +51,30 @@ public abstract class Model { // IGRP super model
 	public static final String SUFIX_UPLOADED_FILE_ID = "file_uploaded_id";
 
 	public void load(BaseQueryInterface query) throws IllegalArgumentException, IllegalAccessException {
-		if (query != null) {
-			List<Tuple> list = query.getResultList();
-			if (Core.isNotNull(list)) {
-				final var declaredFields = this.getClass().getDeclaredFields();
-				for (Tuple tuple : list) {
-					for (Field field : declaredFields) {
+
+		if (Objects.isNull(query))
+			return;
+
+		final var tuples = query.getResultList();
+		if (tuples == null || tuples.isEmpty()) {
+			Core.setMessageError("QUERY result list null error. Please check connection");
+			return;
+		}
+
+		final var declaredFields = this.getClass().getDeclaredFields();
+		for (var tuple : tuples) {
+			for (var field : declaredFields) {
+				try {
+					if (field.isAnnotationPresent(RParam.class)) {
 						field.setAccessible(true);
-						try {
-							if (field.getAnnotation(RParam.class) != null)
-								IgrpHelper.setField(this, field, tuple.get(field.getName()));
-						} catch (java.lang.IllegalArgumentException e) {
-							e.printStackTrace();
-						}
+						IgrpHelper.setField(this, field, tuple.get(field.getName()));
 					}
+				} catch (java.lang.IllegalArgumentException e) {
+					e.printStackTrace();
+				} finally {
+					field.setAccessible(false);
 				}
-			} else
-				Core.setMessageError("QUERY result list null error. Please check connection");
+			}
 		}
 	}
 
@@ -159,11 +166,13 @@ public abstract class Model { // IGRP super model
 		if (queryResult == null)
 			return null;
 
+		final var declaredFields = className.getDeclaredFields();
+
 		List<T> list = new ArrayList<>();
 		for (Tuple tuple : queryResult) {
 			try {
 				T t = className.getDeclaredConstructor().newInstance();
-				for (Field field : className.getDeclaredFields()) {
+				for (Field field : declaredFields) {
 					Object value = tuple.get(field.getName());
 					if (value != null) {
 						final var stringValue = value.toString();
