@@ -65,6 +65,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.io.UnsupportedEncodingException;
@@ -197,6 +198,9 @@ public class IGRPTable extends IGRPComponent{
 				Double totalD = 0.0;
 				for(Object obj : all) {
 					String val = IgrpHelper.getValue(obj, field.getName());
+					if(val==null)
+						continue;
+					val= StringUtils.substringBefore(val,"__IGRP__");
 					if(isFloat)
 						totalD += Core.toDouble(val);
 					else
