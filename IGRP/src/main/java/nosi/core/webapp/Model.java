@@ -129,7 +129,7 @@ public abstract class Model { // IGRP super model
 						for (Field field : fields) {
 							try {
 								Object value = tuple.get(field.getName());
-								if (value != null) {
+								if (value != null && !value.equals("null")) {
 									BeanUtils.setProperty(t, field.getName(), value.toString());
 								}
 							} catch (java.lang.IllegalArgumentException | IllegalAccessException

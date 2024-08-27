@@ -198,14 +198,18 @@ public class IGRPTable extends IGRPComponent{
 				Double totalD = 0.0;
 				for(Object obj : all) {
 					String val = IgrpHelper.getValue(obj, field.getName());
-					if(val==null)
-						continue;
 					val= StringUtils.substringBefore(val,"__IGRP__");
+					if(Core.isNull(val) || val.equals("null"))
+						continue;
 					if(isFloat)
 						totalD += Core.toDouble(val);
 					else
-						total=total.add(new BigDecimal(val));
-				}
+                        try {
+                            total=total.add(new BigDecimal(val));
+                        } catch (Exception e) {
+                            System.out.println("Numberformat error and val is "+val);
+                        }
+                }
 				m.put(field.getName(),isFloat?totalD.toString():total+"");
 				hasOneFieldTotal = true; 
 			}else 
