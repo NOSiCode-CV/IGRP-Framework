@@ -47,7 +47,8 @@ public class BasicListener implements ServletContextListener {
                     while ((line = reader.readLine()) != null) {
                         content.append(line).append("\n");
                     }
-                    System.out.print(content.toString().replace("#version", Config.VERSION));
+                    final String out = content.toString();
+                    System.out.print(out.replace("#version", Config.VERSION));
 
                 }
             }
