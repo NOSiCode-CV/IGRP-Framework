@@ -8,7 +8,6 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.config.Config;
-import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.App;
@@ -51,7 +50,6 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 import static nosi.core.i18n.Translator.gt;
-
 /*----#end-code----*/
 		
 public class EnvController extends Controller {
@@ -608,9 +606,9 @@ public class EnvController extends Controller {
 							xml.endElement();
 							xml.startElement("tipo");
 							String aux = field.getType().getSimpleName();
-							if (field.getAnnotation(ManyToOne.class) != null || field.getAnnotation(OneToOne.class) != null)
+							if (field.isAnnotationPresent(ManyToOne.class) || field.isAnnotationPresent(OneToOne.class))
 								aux += "_FK#";
-							else if (field.getAnnotation(GeneratedValue.class) != null)
+							else if (field.isAnnotationPresent(GeneratedValue.class))
 								aux += "_PK#";
 							xml.text(aux);
 							xml.endElement();
