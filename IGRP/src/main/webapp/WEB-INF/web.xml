@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
        id="WebApp_ID"  version="4.0">
        
-    <display-name>IGRPWEB</display-name>
+    <display-name>igrpweb</display-name>
 	
 	<servlet>
 		<servlet-name>IGRP</servlet-name>
