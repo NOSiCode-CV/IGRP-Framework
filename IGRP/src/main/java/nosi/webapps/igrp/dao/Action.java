@@ -1,6 +1,6 @@
 package nosi.webapps.igrp.dao;
-/**
- * @author: Emanuel Pereira
+/*
+  @author: Emanuel Pereira
  * 29 Jun 2017
  */
 
@@ -24,9 +24,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import java.time.LocalDateTime;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.StringHelper;
@@ -340,14 +337,13 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 			pageId = Page.resolvePageName(pageId);
 		}else
 			pageId=StringUtils.capitalize(pageId);
-		boolean flag = false;
 		try {
 			Action action = new Action().find().where("page", "=", pageId).andWhere("application.dad", "=", appDad).one();
-			flag = action != null && action.getTipo() == 1;
-		}catch (Exception e) {
-			flag = false;
+			return action != null && action.getTipo() == 1;
+		}catch (Exception ignored) {
+
 		}
-		return flag;
+		return false;
 	}
 	
 }

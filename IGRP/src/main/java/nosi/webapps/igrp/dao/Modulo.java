@@ -1,7 +1,6 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -93,13 +92,9 @@ public class Modulo extends IGRPBaseActiveRecord<Modulo> implements Serializable
 	}
 
 	public List<Modulo> getModuloByApp(Integer appId){
-		List<Modulo> l = new ArrayList<>();
-		l = this.find().andWhere("application.id", "=", appId).all();
-		
+		List<Modulo> l = this.find().andWhere("application.id", "=", appId).all();
 		l.stream().filter(r->Core.isNull(r.getDescricao())).forEach(r-> r.setDescricao(r.getName()));
-
 		return l;
-
 	}
 
 	@Override
