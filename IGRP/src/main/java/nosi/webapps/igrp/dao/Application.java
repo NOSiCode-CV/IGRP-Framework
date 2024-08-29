@@ -2,8 +2,8 @@ package nosi.webapps.igrp.dao;
 
 import static nosi.core.i18n.Translator.gt;
 
-/**
- * @author: Emanuel Pereira
+/*
+  @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import java.io.Serializable;
@@ -200,7 +200,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			}
 	
 		}
-		return template;
+		return null;
 	}
 
 	public void setTemplate(String template) {
@@ -310,15 +310,15 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getListMyApp(idUser, false);
 	}
 
-	public List<Application> getListMyApp(int idUser, boolean allInative){
+	public List<Application> getListMyApp(int idUser, boolean includeInactiveApps){
 		List<Application> listApp = new ArrayList<>();
-		List<Profile> list = new ArrayList<>();
+		List<Profile> list;
 		if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
 			list = new Profile().find()
 					.andWhere("type", "=", "ENV")
 					//.groupBy("type_fk")					
 					.all();
-		}else {
+		} else {
 			Profile p = new Profile();
 			list = p.find()
 					.andWhere("type", "=", "ENV")
@@ -331,7 +331,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.filter(distinctByKey(Profile::getType_fk))
 					.sorted(Comparator.comparing(Profile::getType_fk)) 
 					.toList();
-				if (allInative) {
+				if (includeInactiveApps) {
 					list.forEach(profile -> listApp.add(profile.getProfileType().getApplication()));
 				} else {
 					list.stream()
@@ -400,12 +400,11 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Profile> getAllProfile(String dad) {
-		List<Profile> list = new Profile().find().keepConnection()
+       return new Profile().find().keepConnection()
 				.andWhere("type", "=", "ENV")
 				.andWhere("type_fk", ">", 1)
 				.andWhere("organization.application.dad", "=", dad)
 				.all();
-		return list; 
 	}
 	
 	public List<User> getAllUsers(String dad) {
@@ -447,9 +446,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Application> getOtherApp() {
-		List<Application> list = this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 
-		return list;
+       return this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 	}
 
 	@Override
@@ -457,8 +455,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		this.setStatus(1);
 		Application app = super.insert();
 		if (app != null) {
-			User user = new User();
-			user = user.findOne(Core.getCurrentUser().getIdentityId());
+			User user = new User().findOne(Core.getCurrentUser().getIdentityId());
 			Organization org = new Organization();
 			org.setCode("Org." + app.getDad());
 			org.setName("IGRP"); // + app.getName()
@@ -497,8 +494,6 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				// Profile/Perfil - Access Management (Gestão de acesso) is ID 10, ignores USER
 				// by using 0 to facilitates delete
 				new Profile(10, "MEN", proty, new User().getUserAdmin(), org).insert();
-
-//				
 			}
 		}
 		return app;

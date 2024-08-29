@@ -2,7 +2,6 @@ package nosi.webapps.igrp.dao;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.config.ConfigApp;
-import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 
 public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
