@@ -34,6 +34,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -263,15 +265,22 @@ public class Controller {
 
         if (runtimeTak.isDetails())
             display.setShowInputFile(false);
+
         try {
+
             Core.setAttribute(BPMNConstants.PRM_TASK_DEFINITION, runtimeTak.getTask().getTaskDefinitionKey());
             String packageName = "nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".process." + runtimeTak.getTask().getProcessDefinitionKey().toLowerCase();
-            Class<?> c = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + runtimeTak.getTask().getTaskDefinitionKey() + "Controller");
-            Method method = c.getMethod("getOutputDocumentType");
+            Class<?> clazz = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + runtimeTak.getTask().getTaskDefinitionKey() + "Controller");
+
+            final var lookup = MethodHandles.lookup();
+            final var methodHandle = lookup.findVirtual(clazz, "getOutputDocumentType", MethodType.methodType(List.class));
+            Object instance = clazz.getDeclaredConstructor().newInstance();
+
             @SuppressWarnings("unchecked")
-            List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.getDeclaredConstructor().newInstance());
+            List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) methodHandle.invoke(instance);
             display.addListDocumentType(listDocOutput);
-        } catch (Exception e) {
+
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return display.displayInputNOutputDocsInDistinctFormList();
@@ -698,7 +707,6 @@ public class Controller {
                     case 4:
                         try {
                             Igrp.getInstance().getResponse().sendRedirect("pg_studio.jsp");
-//							Igrp.getInstance().getRequest().getRequestDispatcher("pg_studio.jsp").forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
                             Igrp.getInstance().getResponse().getOutputStream().close();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -732,27 +740,28 @@ public class Controller {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
-    
+
     private static List<Object> formalParameters(Method action, Igrp igrpApp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		List<Object> paramValues = new ArrayList<>();
-		for (Parameter parameter : action.getParameters()) {
-			if (parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")) {
-				// Dependency Injection for models
-				Class<?> classModel = Class.forName(parameter.getType().getName());
-				nosi.core.webapp.Model model = (Model) classModel.getDeclaredConstructor().newInstance();
-				model.load();
-				paramValues.add(model);
-			} else // Dependency Injection for simple vars ... 
-				if (parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null) {
-					if (parameter.getType().isArray())
-						paramValues.add(igrpApp.getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName()));
-					else
-						paramValues.add(igrpApp.getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName()));
-			} else
-				paramValues.add(null);
-		}
-		return paramValues;
-	}
+        List<Object> paramValues = new ArrayList<>();
+        for (Parameter parameter : action.getParameters()) {
+            if (parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")) {
+                // Dependency Injection for models
+                Class<?> classModel = Class.forName(parameter.getType().getName());
+                nosi.core.webapp.Model model = (Model) classModel.getDeclaredConstructor().newInstance();
+                model.load();
+                paramValues.add(model);
+            } else // Dependency Injection for simple vars ...
+                if (parameter.getType().getName().equals("java.lang.String") && parameter.isAnnotationPresent(RParam.class)) {
+                    final var annotationRParamName = parameter.getAnnotation(RParam.class).rParamName();
+                    if (parameter.getType().isArray())
+                        paramValues.add(igrpApp.getRequest().getParameterValues(annotationRParamName));
+                    else
+                        paramValues.add(igrpApp.getRequest().getParameter(annotationRParamName));
+                } else
+                    paramValues.add(null);
+        }
+        return paramValues;
+    }
     
     private static void addParametersToErrorPage(Igrp igrpApp) {
 
