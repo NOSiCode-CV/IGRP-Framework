@@ -1,6 +1,7 @@
 package nosi.base.ActiveRecord;
 
 import java.io.Serializable;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
@@ -25,7 +26,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.jpa.QueryHints;
-import org.hibernate.query.Query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -1435,21 +1435,20 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T andWhere(String name,String operator,Object value) {
 		return this.andWhere(name,name,operator,value);
 	}
-	
+
 	@Override
 	public T andWhere(String name, String paramName, String operator, Object value) {
 		Field pk = this.getKeyFieldOfEntity(value);
-		if(pk!=null) {
-			pk.setAccessible(true);
+		if (pk != null) {
 			try {
-				Object v = pk.get(value);
-				pk.setAccessible(false);
-				return this.andWhereObject(name, paramName, operator, v,pk.getType());
+				final var varHandle = MethodHandles.privateLookupIn(value.getClass(), MethodHandles.lookup()).unreflectVarHandle(pk);
+				Object v = varHandle.get(value);
+				return this.andWhereObject(name, paramName, operator, v, pk.getType());
 			} catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
-		return this.andWhereObject(name, paramName, operator, value,Object.class);
+		return this.andWhereObject(name, paramName, operator, value, Object.class);
 	}
 
 	@Override
@@ -1460,17 +1459,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T where(String name, String paramName, String operator, Object value) {
 		Field pk = this.getKeyFieldOfEntity(value);
-		if(pk!=null) {
-			pk.setAccessible(true);
+		if (pk != null) {
 			try {
-				Object v = pk.get(value);
-				pk.setAccessible(false);
-				return this.whereObject(name, name, operator, v,pk.getType());
-            } catch (IllegalAccessException | IllegalArgumentException e) {
+				final var varHandle = MethodHandles.privateLookupIn(value.getClass(), MethodHandles.lookup()).unreflectVarHandle(pk);
+				Object v = varHandle.get(value);
+				return this.whereObject(name, name, operator, v, pk.getType());
+			} catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
-		return this.whereObject(name, name, operator, value,Object.class);
+		return this.whereObject(name, name, operator, value, Object.class);
 	}
 
 	@Override
@@ -1481,17 +1479,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T orWhere(String name, String paramName, String operator, Object value) {
 		Field pk = this.getKeyFieldOfEntity(value);
-		if(pk!=null) {
-			pk.setAccessible(true);
+		if (pk != null) {
 			try {
-				Object v = pk.get(value);
-				pk.setAccessible(false);
-				return this.orWhereObject(name, name, operator, v,pk.getType());
-            } catch (IllegalAccessException | IllegalArgumentException e) {
+				final var varHandle = MethodHandles.privateLookupIn(value.getClass(), MethodHandles.lookup()).unreflectVarHandle(pk);
+				Object v = varHandle.get(value);
+				return this.orWhereObject(name, name, operator, v, pk.getType());
+			} catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
-		return this.orWhereObject(name, name, operator, value,Object.class);
+		return this.orWhereObject(name, name, operator, value, Object.class);
 	}
 
 	@Override
