@@ -44,10 +44,14 @@ public class BasicListener implements ServletContextListener {
                 System.out.println("banner.txt not found");
             } else {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                    StringBuilder content = new StringBuilder();
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        System.out.println(line.replace("#version", Config.VERSION));
+                        content.append(line).append("\n");
                     }
+                    final String out = content.toString();
+                    System.out.print(out.replace("#version", Config.VERSION));
+
                 }
             }
         } catch (IOException e) {
