@@ -109,8 +109,7 @@ public class Domain extends IGRPBaseActiveRecord<Domain> implements Serializable
 
 	/**
 	 * Default is Public
-	 * @return
-	 */
+     */
 	public DomainType getDomainType() {
 		if(Core.isNotNull(this.domainType))
 			return domainType;

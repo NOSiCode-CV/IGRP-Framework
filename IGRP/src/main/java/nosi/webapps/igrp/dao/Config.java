@@ -1,6 +1,6 @@
 package nosi.webapps.igrp.dao;
-/**
- * @author: Emanuel Pereira
+/*
+  @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import javax.persistence.Column;

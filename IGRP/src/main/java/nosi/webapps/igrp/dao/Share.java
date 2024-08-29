@@ -1,7 +1,6 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import nosi.webapps.igrp_studio.pages.partilhageral.TipoPartilha;
 /**
  * Iekiny Marcel
  * Mar 9, 2018
@@ -47,9 +45,9 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 	
 	public enum TYPE{
 		 PAGE, WORKFLOW, SERVICE, REPORT, TRANS 
-	};
-	
-	public Share() {
+	}
+
+   public Share() {
 		super();
 	}
 
@@ -111,7 +109,7 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 	}
 	
 	public List<Share> getAllSharedResources(int appOrigem, int appDestino, String type){
-		List<Share> results = new ArrayList<>();
+		List<Share> results;
 		results = this.find().andWhere("owner.id", "=", appOrigem)
 				.andWhere("env.id", "=", appDestino)
 				.andWhere("type", "=", type)

@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.dao;
 
-/**
- * @author: Emanuel Pereira
+/*
+  @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import javax.persistence.Entity;
@@ -439,7 +439,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	}
 
 	public String buildExternalUrl(String dad, String app, String page, String action) {
-		String url = "#";
+		String url;
 		url = String.format("%s?r=%s/%s/%s", ConfigApp.getInstance().getExternalUrl(dad), app, page, action);
 		return url;
 	}

@@ -294,7 +294,7 @@ public class IGRPTable extends IGRPComponent{
 			if(l instanceof IGRPTable.Table table && table.getHiddenButtons()!=null) {
 				this.xml.startElement("param");
 				StringBuilder text= new StringBuilder("ctx_hidden=");
-				for(IGRPButton button:((IGRPTable.Table)l).getHiddenButtons()) {
+				for(IGRPButton button: table.getHiddenButtons()) {
 					text.append(button.getProperties().getProperty("rel")).append(",");
 				}		
 				this.xml.text(text.toString());
@@ -343,7 +343,7 @@ public class IGRPTable extends IGRPComponent{
 				if(obj instanceof IGRPTable.Table table && table.getHiddenButtons()!=null) {
 					this.xml.startElement("param");
 					StringBuilder text= new StringBuilder("ctx_hidden=");
-					for(IGRPButton button:((IGRPTable.Table)obj).getHiddenButtons()) {
+					for(IGRPButton button: table.getHiddenButtons()) {
 						if(button!=null)
 							text.append(button.getProperties().getProperty("rel")).append(",");
 					}		
@@ -431,14 +431,13 @@ public class IGRPTable extends IGRPComponent{
 		}
 		
 		public IGRPButton[] getHiddenButtons() {
-			if(this.buttons != null)
-				return this.buttons.toArray(new IGRPButton[0]);
-			return null;
-		}
+           return this.buttons.toArray(new IGRPButton[0]);
+        }
 	}
 	
 	public static String generateXmlForCalendar(String tagName, List<?> data) { 
-		XMLWritter xmlWritter = new XMLWritter(); 
+
+		XMLWritter xmlWritter = new XMLWritter();
 		xmlWritter.startElement(tagName + "_events"); 
 		xmlWritter.startElement("table"); 
 		xmlWritter.startElement("value");
@@ -451,10 +450,7 @@ public class IGRPTable extends IGRPComponent{
 				for (java.lang.reflect.Field field : fields) {
 					xmlWritter.startElement(field.getName());
 					xmlWritter.writeAttribute("name", "p_" + field.getName());
-					String value = IgrpHelper.getValue(obj, field.getName());
-					if(value==null)
-						value="";
-
+					String value = Optional.ofNullable(IgrpHelper.getValue(obj, field.getName())).orElse("");
 					xmlWritter.text(value);
 					xmlWritter.endElement();
 				}
@@ -496,10 +492,9 @@ public class IGRPTable extends IGRPComponent{
 	private void genXmlDomStruct(IGRPTable.Struct data, int i) { 
 		xml.startElement(data.getTagName()); 
 		Properties attrs = data.getTagAttrs(); 
-		Set<String> keys = attrs.stringPropertyNames(); 
-		if(keys != null) {
-			for(String key : keys)
-				xml.writeAttribute(key, attrs.getProperty(key));
+		Set<String> keys = attrs.stringPropertyNames();
+		if (keys != null) {
+			keys.forEach(key -> xml.writeAttribute(key, attrs.getProperty(key)));
 		}
 		if(data.childs != null && !data.childs.isEmpty()) {
 			genXmlDomStruct(data.childs.get(i), i);  
