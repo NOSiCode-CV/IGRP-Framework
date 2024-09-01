@@ -155,7 +155,7 @@ public class Import {
 		//Substitui nome de pacotes tanto no arquivo xml como tambem no json
 		if(file.getNome().endsWith(".xml")){
 			content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+page.getPackage_name() +content.substring(content.indexOf("</package_db>"));
-		}else if(file.getNome().endsWith(".json") && content.indexOf("\"package\":") >=0 ){		
+		}else if(file.getNome().endsWith(".json") && content.contains("\"package\":")){
 			content = this.addClassAndPackage(content,page,"json");
 		}
 		try {

@@ -1,11 +1,9 @@
 package nosi.core.webapp.helpers;
 
 import nosi.core.webapp.Core;
-import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 

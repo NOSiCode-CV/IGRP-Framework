@@ -62,7 +62,7 @@ public class OthersClassExport  implements IExport {
 		String dirIGRP = "nosi"+File.separator+"webapps";
 		int start = dir.indexOf(dirIGRP);
 		if(Core.isNotNull(dir) && start!=-1) {
-			dir = dir.substring(start+dirIGRP.length(), dir.length());
+			dir = dir.substring(start+dirIGRP.length());
 		}
 		return dir;
 	}

@@ -1,7 +1,5 @@
 package nosi.core.webapp.activit.rest.entities;
 
-import java.util.List;
-
 /**
  * Emanuel
  * 13 Feb 2018

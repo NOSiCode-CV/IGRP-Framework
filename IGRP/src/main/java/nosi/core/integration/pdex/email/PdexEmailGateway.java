@@ -41,42 +41,40 @@ public class PdexEmailGateway {
 	public void setPayload(PdexEmailGatewayPayloadDTO payload) {
 		this.payload = payload;
 	}
-	
-	public boolean send() { 
-		validate(); 
-		if(!ping(this.endpoint, DEFAULT_TIMEOUT))
+
+	public boolean send() {
+		validate();
+		if (!ping(this.endpoint, DEFAULT_TIMEOUT))
 			errors.add("Connection Timeout. The EmailGateway is not Available. Please check your network connection.");
-		if(errors.isEmpty()) {
-			Client client = ClientBuilder.newClient(); 
+		if (errors.isEmpty()) {
+			Client client = ClientBuilder.newClient();
 			try {
-				WebTarget webTarget = client.target(endpoint); 
-				Invocation.Builder invocationBuilder  = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue); 
-				jakarta.ws.rs.core.Response response  = invocationBuilder.post(Entity.json(convertPayloadToJson()));
-				switch (response.getStatus()) {
-				case 200:
-					JSONObject jsonResult = new JSONObject(response.readEntity(String.class)); 
-					JSONObject result = jsonResult.optJSONObject("result"); 
-					if(result != null && !result.optBoolean("success"))
-						errors.add("The email was not sent. An error has occurred."); 
-				break;
-				case 401:
-				case 403:
-					errors.add("The email was not sent. An Unauthorized or Forbidden error has occurred. Please check the credencials."); 
-				break;
-				case 500:
-					errors.add("The email was not sent. An Internal Server Error has occurred. ResponseBody: " + response.readEntity(String.class)); 
-				break;
-				default:
-					break;
+				WebTarget webTarget = client.target(endpoint);
+				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue);
+				try (jakarta.ws.rs.core.Response response = invocationBuilder.post(Entity.json(convertPayloadToJson()))) {
+                   switch (response.getStatus()) {
+                      case 200 -> {
+                         JSONObject jsonResult = new JSONObject(response.readEntity(String.class));
+                         JSONObject result = jsonResult.optJSONObject("result");
+                         if (result != null && !result.optBoolean("success"))
+                            errors.add("The email was not sent. An error has occurred.");
+                      }
+                      case 401, 403 ->
+                              errors.add("The email was not sent. An Unauthorized or Forbidden error has occurred. Please check the credencials.");
+                      case 500 ->
+                              errors.add("The email was not sent. An Internal Server Error has occurred. ResponseBody: " + response.readEntity(String.class));
+                      default -> {
+                      }
+                   }
 				}
 			} catch (Exception e) {
-				e.printStackTrace(); 
+				e.printStackTrace();
 				errors.add(e.getMessage());
-			}finally {
+			} finally {
 				client.close();
 			}
 		}
-		return errors.isEmpty(); 
+		return errors.isEmpty();
 	}
 	
 	private void validate() {
@@ -93,16 +91,16 @@ public class PdexEmailGateway {
 		if(payload.getContentType() == null || payload.getContentType().isEmpty()) 
 			errors.add("\"" + PdexEmailGatewayConstants.CONTENT_TYPE.description() + "\" cannot be blank."); 
 		if(payload.getEncoding() == null || payload.getEncoding().isEmpty()) 
-			errors.add("\"" + PdexEmailGatewayConstants.ENCODING.description() + "\" cannot be blank."); 
-		for(int i = 0; i < payload.getAttachments().size(); i++) { 
-			PdexEmailGatewayPayloadDTO.Attachment attach = payload.getAttachments().get(i); 
-			if(attach != null) {
-				if(attach.getName() == null || attach.getName().isEmpty()) 
-					errors.add(PdexEmailGatewayConstants.ATTACHMENT_NAME.description() + " at position (" + i + ")\" is invalid."); 
-				if(attach.getContent() == null || attach.getContent().isEmpty()) 
-				errors.add(PdexEmailGatewayConstants.ATTACHMENT_CONTENT.description() + " at position (" + i + ") is invalid."); 
-			}else
-				errors.add("\"" + PdexEmailGatewayConstants.ATTACHMENTS.description() + "\" cannot be NULL."); 
+			errors.add("\"" + PdexEmailGatewayConstants.ENCODING.description() + "\" cannot be blank.");
+		for (int i = 0; i < payload.getAttachments().size(); i++) {
+			PdexEmailGatewayPayloadDTO.Attachment attach = payload.getAttachments().get(i);
+			if (attach != null) {
+				if (attach.getName() == null || attach.getName().isEmpty())
+					errors.add(PdexEmailGatewayConstants.ATTACHMENT_NAME.description() + " at position (" + i + ")\" is invalid.");
+				if (attach.getContent() == null || attach.getContent().isEmpty())
+					errors.add(PdexEmailGatewayConstants.ATTACHMENT_CONTENT.description() + " at position (" + i + ") is invalid.");
+			} else
+				errors.add("\"" + PdexEmailGatewayConstants.ATTACHMENTS.description() + "\" cannot be NULL.");
 		}
 	}
 	

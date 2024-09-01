@@ -20,9 +20,9 @@ public class UserServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			if (response.statusCode() == 200) {
-				d = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
+				d = ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -39,7 +39,7 @@ public class UserServiceRest extends GenericActivitiRest {
 						new TypeToken<List<UserService>>() {
 						}.getType());
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -51,9 +51,9 @@ public class UserServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			if (response.statusCode() == 201) {
-				u = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
+				u = ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return u;
@@ -66,9 +66,9 @@ public class UserServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			if (response.statusCode() == 200) {
-				u = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
+				u = ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return u;
