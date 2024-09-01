@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.Core;
+import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 /**
@@ -28,19 +29,26 @@ public class ValidateInputDocument {
 	 * @return
 	 * 			return true if file' s uploaded for required document type
      */
-	public static boolean validateRequiredDocument(InterfaceBPMNTask bpm,List<Part> parts_, RuntimeTask runtimeTask, List<String> errors) throws IOException, ServletException {
-		List<TipoDocumentoEtapa> list = BPMNHelper.getInputDocumentType(runtimeTask.getTask().getTenantId(),runtimeTask.getTask().getProcessDefinitionKey(),runtimeTask.getTask().getTaskDefinitionKey());
-		Map<Integer,TipoDocumentoEtapa> listMap = list.stream().collect(Collectors.toMap(TipoDocumentoEtapa::getId,tp->tp));
-		Object[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
-		if(p_ids != null) {
+	public static boolean validateRequiredDocument(InterfaceBPMNTask bpm, List<Part> parts_, RuntimeTask runtimeTask, List<String> errors) throws IOException, ServletException {
+
+		Object[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");
+		if (p_ids != null) {
+
 			p_ids = Arrays.stream(p_ids).filter(Core::isNotNull).toArray();
-			if(parts_ != null) {
+
+			if (parts_ != null) {
+
+				final var task = runtimeTask.getTask();
+				List<TipoDocumentoEtapa> list = BPMNHelper.getInputDocumentType(task.getTenantId(), task.getProcessDefinitionKey(), task.getTaskDefinitionKey());
+				Map<Integer, TipoDocumentoEtapa> listMap = list.stream().collect(Collectors.toMap(TipoDocumentoEtapa::getId, tp -> tp));
+
 				String[] p_mostrar = Core.getParamArray("p_formlist_documento_task_mostrar_fk_desc");
-				List<Part> parts = parts_.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).toList();
-				for(int i=0;i<p_ids.length;i++) {		
-					TipoDocumentoEtapa tp = listMap.get(Core.toInt(p_ids[i].toString())); 	
-					if(tp!=null && tp.getRequired()==1 && !validateRequired(tp,parts,i,p_mostrar))
-						errors.add("Deve fazer upload do ficheiro: "+tp.getTipoDocumento().getNome()); 
+				List<Part> parts = parts_.stream().filter(p -> p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).toList();
+
+				for (int i = 0; i < p_ids.length; i++) {
+					TipoDocumentoEtapa tp = listMap.get(Core.toInt(p_ids[i].toString()));
+					if (tp != null && tp.getRequired() == 1 && !validateRequired(tp, parts, i, p_mostrar))
+						errors.add("Deve fazer upload do ficheiro: " + tp.getTipoDocumento().getNome());
 				}
 			}
 		}
