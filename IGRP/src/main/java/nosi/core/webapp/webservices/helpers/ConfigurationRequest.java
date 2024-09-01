@@ -1,6 +1,5 @@
 package nosi.core.webapp.webservices.helpers;
 
-import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;

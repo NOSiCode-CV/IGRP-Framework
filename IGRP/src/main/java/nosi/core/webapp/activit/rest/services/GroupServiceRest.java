@@ -41,7 +41,7 @@ public class GroupServiceRest extends GenericActivitiRest{
 						new TypeToken<List<GroupService>>() {
 						}.getType());
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;

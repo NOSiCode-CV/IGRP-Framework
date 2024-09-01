@@ -451,10 +451,10 @@ public class DatabaseMetadaHelper {
 
 	public static Column getPrimaryKey(Config_env config, String schemaName, String tableName) {
 		List<Column> listCols = getCollumns(config, schemaName, tableName);
-		List<String> keys = getPrimaryKeys(config, schemaName, tableName);
 		if (!listCols.isEmpty()) {
+			List<String> keys = getPrimaryKeys(config, schemaName, tableName);
 			listCols = listCols.stream().filter(col -> keys.contains(col.getName())).toList();
-			return (!listCols.isEmpty()) ? listCols.get(0) : null;
+			return !listCols.isEmpty() ? listCols.get(0) : null;
 		}
 		return null;
 	}

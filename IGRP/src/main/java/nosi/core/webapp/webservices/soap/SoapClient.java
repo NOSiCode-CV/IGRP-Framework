@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +96,7 @@ public class SoapClient {
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			response.writeTo(out);
-			this.rawEnvelopeResponse = new String(out.toByteArray());
+			this.rawEnvelopeResponse = out.toString(StandardCharsets.UTF_8);
 			JSONObject msg = XML.toJSONObject(this.rawEnvelopeResponse); 
 			if(msg.has(nsName + ":Envelope")) {
 				JSONObject envelope = msg.getJSONObject(nsName + ":Envelope"); 
@@ -117,7 +118,7 @@ public class SoapClient {
 			String xml = "";
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			response.writeTo(out);
-			xml = new String(out.toByteArray());
+			xml = out.toString(StandardCharsets.UTF_8);
 			JSONObject msg = XML.toJSONObject(xml); 
 			if(msg.has(nsName + ":Envelope")) {
 				JSONObject envelope = msg.getJSONObject(nsName + ":Envelope"); 
@@ -178,7 +179,7 @@ public class SoapClient {
 			request.saveChanges();
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			request.writeTo(out);
-			String rawEnvelope = new String(out.toByteArray());
+			String rawEnvelope = out.toString(StandardCharsets.UTF_8);
 			convertMapBodyContentToSoapRequestBodyXmlConntent(bodyContent);
 			this.rawEnvelopeRequest = rawEnvelope.replace(":_r", this.rawEnvelopeRequest);
 			this.doRequest(this.rawEnvelopeRequest);

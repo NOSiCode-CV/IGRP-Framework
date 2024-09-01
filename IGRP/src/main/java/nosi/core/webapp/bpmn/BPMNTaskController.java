@@ -25,7 +25,6 @@ import nosi.core.webapp.activit.rest.entities.Rows;
 import nosi.core.webapp.activit.rest.entities.StartProcess;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
-import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;

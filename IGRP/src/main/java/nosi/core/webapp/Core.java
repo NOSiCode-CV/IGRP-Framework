@@ -4192,7 +4192,7 @@ public final class Core {
 	 */
 	public static String dateFromTo2EndDateStr(String dateStr, String separator) {
 		if (isNotNullMultiple(dateStr, separator))
-			return dateStr.substring(dateStr.indexOf(separator) + separator.length(), dateStr.length());
+			return dateStr.substring(dateStr.indexOf(separator) + separator.length());
 		return "";
 	}
 
