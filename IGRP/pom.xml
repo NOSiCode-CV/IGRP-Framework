@@ -56,17 +56,17 @@
 
 		<jersey.version>2.40</jersey.version>
 		<!-- DRIVERS -->
-		<mysql.version>8.1.0</mysql.version>
-		<postgres.version>42.6.0</postgres.version>
-		<h2.version>2.2.220</h2.version>
+		<mysql.version>8.4.0</mysql.version>
+		<postgres.version>42.7.4</postgres.version>
+		<h2.version>2.3.232</h2.version>
 		<sqlserver.version>10.2.0.jre8</sqlserver.version>
 		<oracle.version>23.2.0.0</oracle.version>
+
+		<gson.version>2.11.0</gson.version>
+		<json.version>20240303</json.version>
+		<jsoup.version>1.18.1</jsoup.version>
 		
-		<gson.version>2.10.1</gson.version>
-		<json.version>20230618</json.version>
-		<jsoup.version>1.16.1</jsoup.version>
-		
-		<model.mapper.version>3.1.1</model.mapper.version>
+		<model.mapper.version>3.2.1</model.mapper.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<!-- Apache properties -->
 		<apache.libintl.version>0.18.3</apache.libintl.version>
@@ -75,12 +75,12 @@
 		<apache.commons.io.version>2.13.0</apache.commons.io.version>
 		<apache.logging.log4j.version>2.20.0</apache.logging.log4j.version>
 		<apache.axis.version>1.8.2</apache.axis.version>
-		<apache.poi.version>5.2.3</apache.poi.version>
+		<apache.poi.version>5.3.0</apache.poi.version>
 		<apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
 		<apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>
 
 		<reflections.version>0.10.2</reflections.version>
-		<slf4j.version>2.0.7</slf4j.version>
+		<slf4j.version>2.0.16</slf4j.version>
 			<!-- ATTENTION!!! LAST VERSION FOR JDK8 is 3.19.0-->
 		<jdt.core.compiler.version>3.19.0</jdt.core.compiler.version>
 		<!-- Servlet API -->
@@ -88,7 +88,7 @@
 		<!-- OPEN HTML TO PDF -->
 		<openhtml.version>1.0.10</openhtml.version>
 		<!-- Barcode ... -->
-		<google.zxing.version>3.5.2</google.zxing.version>
+		<google.zxing.version>3.5.3</google.zxing.version>
 		<!-- For XSLT and XPATH handling ... -->
 		<xalan.version>2.7.3</xalan.version>
 		<!-- Java API for email (SMTP) -->

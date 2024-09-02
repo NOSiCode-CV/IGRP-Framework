@@ -17,7 +17,6 @@ import java.util.Objects;
  * Marcel Iekiny
  * Nov 23, 2017
  */
-@WebListener
 public class BasicListener implements ServletContextListener {
 
    @Override
