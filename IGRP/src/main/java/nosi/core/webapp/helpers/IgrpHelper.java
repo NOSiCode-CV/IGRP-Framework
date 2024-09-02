@@ -20,14 +20,15 @@ public final class IgrpHelper {
 	}
 
 	public static Map<Object, Object> toMap(List<?> values, String keyField, String valueField, String prompt) {
-		Map<Object, Object> map = new LinkedHashMap<>(values.size());
+		Map<Object, Object> map =(values!=null?new LinkedHashMap<>(values.size()):new LinkedHashMap<>());
 		if(prompt != null)
 			map.put(null, prompt);
-		for(Object obj : values) {
-			String key = IgrpHelper.getValue(obj, keyField);
-			String value = IgrpHelper.getValue(obj, valueField);
-			map.put(key, value);
-		}
+		if(values!=null)
+			for(Object obj : values) {
+				String key = IgrpHelper.getValue(obj, keyField);
+				String value = IgrpHelper.getValue(obj, valueField);
+				map.put(key, value);
+			}
 		return map;
 	}
 
