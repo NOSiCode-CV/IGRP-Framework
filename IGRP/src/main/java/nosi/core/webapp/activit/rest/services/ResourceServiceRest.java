@@ -80,7 +80,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 						new TypeToken<List<ResourceService>>() {
 						}.getType());
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;

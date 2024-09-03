@@ -1,7 +1,6 @@
 package nosi.webapps.igrp.dao;
-import java.util.ArrayList;
-/**
- * @author: Emanuel Pereira
+/*
+  @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import java.util.Date;
@@ -23,7 +22,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import nosi.core.webapp.Core;
-import nosi.core.webapp.import_export_v2.common.serializable.report.CLobSerializable;
 
 import java.io.Serializable;
 

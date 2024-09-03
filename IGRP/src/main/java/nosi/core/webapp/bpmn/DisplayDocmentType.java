@@ -1,10 +1,5 @@
 package nosi.core.webapp.bpmn;
 
-import static nosi.core.i18n.Translator.gt;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPFormList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.fields.*;

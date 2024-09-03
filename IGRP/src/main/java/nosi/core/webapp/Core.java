@@ -3414,7 +3414,10 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariable(String variableName) {
-		return (String) getTaskVariableRaw(variableName);
+		final String taskVariableString = String.valueOf(getTaskVariableRaw(variableName));
+		if (Core.isNull(taskVariableString) || taskVariableString.equals("null"))
+			return "";
+		return taskVariableString;
 	}
 
 	public static Object getTaskVariableRaw(String variableName) {
@@ -3435,8 +3438,8 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
-		final String taskVariableString = (String) getTaskVariableRaw(taskDefinitionKey, variableName);
-		if (Core.isNull(taskVariableString))
+		final String taskVariableString = String.valueOf(getTaskVariableRaw(taskDefinitionKey, variableName));
+		if (Core.isNull(taskVariableString) || taskVariableString.equals("null"))
 			return "";
 		return taskVariableString;
 	}
@@ -3547,7 +3550,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
-		return (String) Core.getTaskVariableRaw(taskDefinitionKey, variableName);
+		return Core.getTaskVariable(taskDefinitionKey, variableName);
 	}
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
@@ -4189,7 +4192,7 @@ public final class Core {
 	 */
 	public static String dateFromTo2EndDateStr(String dateStr, String separator) {
 		if (isNotNullMultiple(dateStr, separator))
-			return dateStr.substring(dateStr.indexOf(separator) + separator.length(), dateStr.length());
+			return dateStr.substring(dateStr.indexOf(separator) + separator.length());
 		return "";
 	}
 

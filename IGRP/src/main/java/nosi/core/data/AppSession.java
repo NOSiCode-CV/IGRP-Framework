@@ -11,6 +11,9 @@ import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import java.io.IOException;
+import static nosi.base.ActiveRecord.HibernateUtils.setSessionAudit;
+
 /**
  * A utility class for managing Hibernate sessions and transactions.
  * <p>
@@ -160,5 +163,105 @@ public final class AppSession {
    private void closeSession() {
       if (session.isOpen())
          session.close();
+   }
+
+
+   public static interface AppSessionHandler<T> {
+      public T handle(ConnectionContextParams params) throws IOException;
+   }
+
+   private static <T> T doInSession(AppSessionHandler<T> handler) {
+      return doInSession(handler, Core.getSession(Core.defaultConnection()));
+   }
+
+   private static <T> T doInSession(AppSessionHandler<T> handler, Session session) {
+      ConnectionContextParams params = new ConnectionContextParams();
+      params.$session = session;
+
+      try {
+         return handler.handle(params);
+      } catch (IOException e) {
+         throw new RuntimeException(e);
+      } finally {
+         params.closeSession();
+      }
+   }
+
+   public static <T> T doInTransaction(AppSessionHandler<T> handler) {
+
+      return doInSession(params -> {
+         params.$transaction = params.$session.getTransaction();
+
+         try {
+            params.beginTransaction();
+            setSessionAudit(params.session());
+            final T val = handler.handle(params);
+
+            params.$transaction.commit();
+            return val;
+         } catch (Exception e) {
+            params.rollbackTransaction();
+            throw e;
+         }
+      });
+
+
+   }
+
+
+   public static <T> T doInTransaction(AppSessionHandler<T> handler, Session session) {
+
+      return doInSession(params -> {
+         params.$transaction = params.$session.getTransaction();
+
+         try {
+            params.beginTransaction();
+            setSessionAudit(params.session());
+            final T val = handler.handle(params);
+
+            params.$transaction.commit();
+            return val;
+         } catch (Exception e) {
+            params.rollbackTransaction();
+            throw e;
+         }
+      }, session);
+
+
+   }
+
+
+   public static class ConnectionContextParams {
+      private Session $session;
+
+      private Transaction $transaction;
+
+      public Session session() {
+         return $session;
+      }
+
+      public Transaction transaction() {
+         return $transaction;
+      }
+
+      private void beginTransaction() {
+         if (!$transaction.isActive()) {
+            $transaction.begin();
+         }
+      }
+
+      private void rollbackTransaction() {
+         if ($transaction != null && $session.isOpen()) {
+            $transaction.rollback();
+         }
+      }
+
+
+      private void closeSession() {
+         if ($session != null && $session.isOpen()) {
+            $session.close();
+         }
+      }
+
    }
 }

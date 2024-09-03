@@ -22,7 +22,6 @@ import nosi.core.webapp.activit.rest.binding.tasks_process.TaskOfProcess;
 import nosi.core.webapp.activit.rest.binding.tasks_process.UserTask;
 import nosi.core.webapp.activit.rest.helpers.ActivitiConstants;
 import nosi.core.webapp.activit.rest.request.RestRequest;
-import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
@@ -45,13 +44,13 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			if (response.statusCode() == 200) {
-				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
+				t = ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 				ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
 						.getProccessDescription(t.getProcessDefinitionUrl());
 				t.setProcessName(proc.getName());
 				t.setProcessDefinifionKey(proc.getKey());
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return t;
@@ -64,9 +63,9 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			if (response.statusCode() == 200) {
-				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
+				t = ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return t;
@@ -80,9 +79,9 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			if (response.statusCode() == 200) {
-				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
+				t = ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return t;
@@ -118,7 +117,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 				setProcNDescTaskServ(d);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -138,7 +137,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 				
 				setProcNDescTaskServ(d);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -218,7 +217,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 						}.getType());
 				
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -256,7 +255,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 					});
 				}
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -335,7 +334,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			this.setError(response.statusCode() != 200
-					? (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
+					? ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
 					: null);
 			r = response.statusCode() == 200;
 		}
@@ -356,7 +355,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			this.setError(response.statusCode() != 200
-					? (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
+					? ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
 					: null);
 			r = response.statusCode() == 200;
 		}
@@ -510,7 +509,7 @@ public class TaskServiceRest extends GenericActivitiRest {
                          .convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
                          }.getType())).stream().map(TaskService.class::cast).toList();
 			
-			 else this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			 else this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 		}
 		return !t.isEmpty() ? t.get(0) : null;
 	}
@@ -521,9 +520,9 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = response.body();
 			if (response.statusCode() == 200) {
-				t = (TaskVariables) ResponseConverter.convertJsonToDao(contentResp, TaskVariables.class);
+				t = ResponseConverter.convertJsonToDao(contentResp, TaskVariables.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 
 		}

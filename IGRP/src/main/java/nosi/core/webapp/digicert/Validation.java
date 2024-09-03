@@ -9,7 +9,6 @@ package nosi.core.webapp.digicert;
 //Person      Date    Comments
 //---------   ------  -------------------------------------------
 //
-import java.lang.*;
 import java.io.ByteArrayInputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

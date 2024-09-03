@@ -178,7 +178,7 @@ public class DataSourceHelpers {
 					session.getTransaction().begin();
 				Query q = session.createNativeQuery(query,Tuple.class).setTimeout(QUERY_TIMEOUT);
 				if(value_array!=null && value_array.length>0){
-					for(Parameter<? extends Object> param:q.getParameters()){
+					for(Parameter<?> param:q.getParameters()){
 						this.setMapParameterQuery(q,param,parameters,paramsUrl);
 					}
 				}
@@ -205,7 +205,7 @@ public class DataSourceHelpers {
 			query.append(!query.toString().toLowerCase().contains("where") ? " WHERE 1=1 " : "");
 			for(Map.Entry<String, String> parm:paramsUrl.entrySet()){
 				if(parm.getKey()!=null && parm.getValue()!=null && !parm.getKey().isEmpty() && !parm.getValue().isEmpty()){
-					String column_name = parm.getKey().contains("p_")?parm.getKey().substring(2, parm.getKey().length()):parm.getKey();
+					String column_name = parm.getKey().contains("p_")?parm.getKey().substring(2):parm.getKey();
 					boolean column_find = (parameters.containsKey("p_"+column_name.toLowerCase()) || parameters.containsKey(column_name.toLowerCase()));
 					if(column_find) {
 						 if(!query.toString().contains(":" + column_name.toLowerCase()) && !query.toString().contains(":p_" + column_name.toLowerCase()))
@@ -218,11 +218,11 @@ public class DataSourceHelpers {
 	}
 
 
-	private void setMapParameterQuery(Query query, Parameter<? extends Object> param, Map<String, String> parameters, Map<String, String> paramsUrl) {
+	private void setMapParameterQuery(Query query, Parameter<?> param, Map<String, String> parameters, Map<String, String> paramsUrl) {
 		Object value = paramsUrl.get(param.getName().toLowerCase());
 		value = value == null ? paramsUrl.get("p_" + param.getName().toLowerCase()) : value;
 		String type = parameters.get(param.getName());
-		String column_name = param.getName().contains("p_") ? param.getName().substring(2, param.getName().length()) : param.getName();
+		String column_name = param.getName().contains("p_") ? param.getName().substring(2) : param.getName();
 		type = Core.isNull(type) ? parameters.get(column_name) : type;
 		switch (type) {
 			case "java.math.BigDecimal" ->
@@ -298,7 +298,7 @@ public class DataSourceHelpers {
                   String value = t.getString(name);
                   String tag = p.getProperty("tag");
                   if (Core.isNull(value)) {
-                     name = name.startsWith("p_") ? name.substring(2, name.length()) : name;
+                     name = name.startsWith("p_") ? name.substring(2) : name;
                      value = t.getString(name);
                   }
                   mapping.put(p, value != null ? value : "");

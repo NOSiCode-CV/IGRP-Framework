@@ -56,13 +56,13 @@
       <sqlserver.version>12.4.2.jre11</sqlserver.version>
       <oracle.version>23.2.0.0</oracle.version> <!-- TESTING more than 23.3.0.23.09 with problem starting because hibernate 5.X -->
 
-      <model.mapper.version>3.2.0</model.mapper.version>
+      <model.mapper.version>3.2.1</model.mapper.version>
      
        <jersey.version>2.43</jersey.version>
 		<!-- Apache properties -->
       <apache.libintl.version>0.18.3</apache.libintl.version>
       <apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
-      <apache.commons.lang3.version>3.14.0</apache.commons.lang3.version>
+      <apache.commons.lang3.version>3.17.0</apache.commons.lang3.version>
       <apache.commons.text.version>1.12.0</apache.commons.text.version>
       <apache.commons.io.version>2.16.1</apache.commons.io.version>
       <apache.logging.log4j.version>2.23.1</apache.logging.log4j.version>
@@ -75,8 +75,8 @@
       <servlet.api.version>3.1.0</servlet.api.version>
 		<!-- OPEN HTML TO PDF -->
       <openhtml.version>1.0.10</openhtml.version>
-      <jsoup.version>1.17.2</jsoup.version>     
-      <gson.version>2.10.1</gson.version>
+      <jsoup.version>1.18.1</jsoup.version>
+      <gson.version>2.11.0</gson.version>
 		<!-- For XSLT and XPATH handling ... -->
       <xalan.version>2.7.3</xalan.version>
 		<!-- Maven compiler plugin -->
@@ -88,7 +88,7 @@
 
 		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
 		order of the elements - needed to invite users LDAP-->
-      <javadev.underscore.version>1.97</javadev.underscore.version>
+      <javadev.underscore.version>1.105</javadev.underscore.version>
 
 		<!-- Activiti BPMN -->
        <activiti.bpmn.converter.version>7.1.0.M6</activiti.bpmn.converter.version>
@@ -132,7 +132,7 @@
       </dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api
-				TODO: Dependencie for hibernate 5.X.X do not delete yet
+				Dependencie for hibernate 5.X.X do not delete yet. 2.0.1.Final Is the last version
 		-->
 		<dependency>
 		    <groupId>javax.validation</groupId>

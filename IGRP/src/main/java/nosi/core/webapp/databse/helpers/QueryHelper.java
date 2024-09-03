@@ -1,35 +1,26 @@
 package nosi.core.webapp.databse.helpers;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.Tuple;
-import javax.persistence.TypedQuery;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.base.ActiveRecord.ResolveColumnNameQuery;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.webapps.igrp.dao.Config_env;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -316,20 +307,17 @@ public abstract class QueryHelper implements QueryInterface{
 		c.setAfterWhere(whereIsCall);
 		this.columnsValue.add(c);
 	}
-	
 
+	/**
+	 * Remove duplicate params name for sql update
+	 * UPDATE TABLE1 SET estado=:estado,date_update=:date_update WHERE id=:id AND  UPPER(estado) = :estado
+	 */
 	protected String resolveDuplicateParam(String name) {
-		/**
-		 * Remove duplicate params name for sql update
-		 * UPDATE TABLE1 SET estado=:estado,date_update=:date_update WHERE id=:id AND  UPPER(estado) = :estado 
-		 */
 		String name_ = name;
-		if((this instanceof QueryUpdate|| (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) && this.columnsValue!=null) {
-			String n = name;
-			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).toList();
-			if(cols!=null && !cols.isEmpty()) {
-				name_ = name+"_"+cols.size();
-			}
+		if ((this instanceof QueryUpdate || (this.operationType != null && this.operationType.equals(OperationType.UPDATE))) && this.columnsValue != null) {
+			final long columnNumbers = this.columnsValue.stream().filter(col -> col.getName() != null && col.getName().equalsIgnoreCase(name)).count();
+			if (columnNumbers > 0)
+				name_ = name + "_" + columnNumbers;
 		}
 		return name_;
 	}
@@ -341,13 +329,13 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	public String getSqlExecute() {
-		if(this instanceof QueryInsert || (this.operationType!=null && this.operationType.compareTo(OperationType.INSERT)==0)) {
+		if(this instanceof QueryInsert || (this.operationType!=null && this.operationType.equals(OperationType.INSERT))) {
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
 		}
-		else if(this instanceof QueryUpdate || (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) {
+		else if(this instanceof QueryUpdate || (this.operationType!=null && this.operationType.equals(OperationType.UPDATE))) {
 			this.sql = this.getSqlUpdate(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
 		}
-		else if(this instanceof QueryDelete || (this.operationType!=null && this.operationType.compareTo(OperationType.DELETE)==0)) {
+		else if(this instanceof QueryDelete || (this.operationType!=null && this.operationType.equals(OperationType.DELETE))) {
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName()) + this.sql;
 		}
 		return sql;

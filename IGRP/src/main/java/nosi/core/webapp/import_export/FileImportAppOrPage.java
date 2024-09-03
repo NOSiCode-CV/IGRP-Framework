@@ -46,14 +46,8 @@ public class FileImportAppOrPage  implements Comparable<FileImportAppOrPage>{
 
 	@Override
 	public int compareTo(FileImportAppOrPage file) {
-		if(this.order < file.order) {
-			return -1;
-		}
-		if(this.order > file.order) {
-			return 1;
-		}
-		return 0;
-	}
+       return Integer.compare(this.order, file.order);
+    }
 
 	@Override
 	public String toString() {

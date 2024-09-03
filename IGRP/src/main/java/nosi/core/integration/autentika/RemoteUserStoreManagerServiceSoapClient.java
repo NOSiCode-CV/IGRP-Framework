@@ -24,9 +24,8 @@ public class RemoteUserStoreManagerServiceSoapClient {
 	
 	private String endpoint; 
 	private String username; 
-	private String password; 
-	private final String HTTP_AUTHENTICATION_TYPE = "Basic";
-	private String soapAction;
+	private String password;
+   private String soapAction;
 	
 	public RemoteUserStoreManagerServiceSoapClient(String endpoint, String username, String password) {
 		super();
@@ -38,8 +37,9 @@ public class RemoteUserStoreManagerServiceSoapClient {
 	private Map<String, String> buildHttpHeaders(){
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/soap+xml;charset=UTF-8;action=\"" + soapAction + "\"");
-		headers.put("Authorization", HTTP_AUTHENTICATION_TYPE + " "
-				+ Base64.getEncoder().encodeToString((username + ":" + password).getBytes()));
+       String HTTP_AUTHENTICATION_TYPE = "Basic";
+       headers.put("Authorization", HTTP_AUTHENTICATION_TYPE + " "
+                                    + Base64.getEncoder().encodeToString((username + ":" + password).getBytes()));
 		return headers;
 	}
 	

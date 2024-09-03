@@ -86,7 +86,7 @@ public class Report extends Controller{
 				}
 		
 		
-			Response redirect = this.redirect("igrp_studio", "WebReport", "preview"+qStr.toString(),this.queryString());
+			Response redirect = this.redirect("igrp_studio", "WebReport", "preview" + qStr,this.queryString());
 			redirect.setContent(contra_prova);
 			return redirect;
 		} catch (IOException e) {

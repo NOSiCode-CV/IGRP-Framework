@@ -25,8 +25,8 @@ import nosi.core.xml.DomXML;
 import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
 
-import javax.persistence.Tuple;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,6 +36,8 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Optional.ofNullable;
 
 /**
  * We have function like loadFromlist for separatorlist and formlist, loadTable
@@ -51,23 +53,30 @@ public abstract class Model { // IGRP super model
 	public static final String SUFIX_UPLOADED_FILE_ID = "file_uploaded_id";
 
 	public void load(BaseQueryInterface query) throws IllegalArgumentException, IllegalAccessException {
-		if (query != null) {
-			List<Tuple> list = query.getResultList();
-			if (Core.isNotNull(list)) {
-				final var declaredFields = this.getClass().getDeclaredFields();
-				for (Tuple tuple : list) {
-					for (Field field : declaredFields) {
+
+		if (Objects.isNull(query))
+			return;
+
+		final var tuples = query.getResultList();
+		if (tuples == null || tuples.isEmpty()) {
+			Core.setMessageError("QUERY result list null error. Please check connection");
+			return;
+		}
+
+		final var declaredFields = this.getClass().getDeclaredFields();
+		for (var tuple : tuples) {
+			for (var field : declaredFields) {
+				try {
+					if (field.isAnnotationPresent(RParam.class)) {
 						field.setAccessible(true);
-						try {
-							if (field.getAnnotation(RParam.class) != null)
-								IgrpHelper.setField(this, field, tuple.get(field.getName()));
-						} catch (java.lang.IllegalArgumentException e) {
-							e.printStackTrace();
-						}
+						IgrpHelper.setField(this, field, tuple.get(field.getName()));
 					}
+				} catch (java.lang.IllegalArgumentException e) {
+					e.printStackTrace();
+				} finally {
+					field.setAccessible(false);
 				}
-			} else
-				Core.setMessageError("QUERY result list null error. Please check connection");
+			}
 		}
 	}
 
@@ -114,73 +123,90 @@ public abstract class Model { // IGRP super model
 			   || name.equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION);
 	}
 
-	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {
-		if (query != null) {
-			List<Tuple> tuples = query.getResultList();
-			if (tuples != null && !tuples.isEmpty()) {
-				List<T> list = new ArrayList<>();
-				for (Tuple tuple : tuples) {
-					try {
-						T t = className.getDeclaredConstructor().newInstance();
-						Field[] fields;
-						if (t instanceof IGRPChart3D || t instanceof IGRPChart2D) {
-							fields = className.getSuperclass().getDeclaredFields();
-						} else {
-							fields = className.getDeclaredFields();
-						}
+	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> clazz) {
 
-						for (Field field : fields) {
-							try {
-								Object value = tuple.get(field.getName());
-								if (value != null) {
-									BeanUtils.setProperty(t, field.getName(), value.toString());
-								}
-							} catch (java.lang.IllegalArgumentException | IllegalAccessException
-									 | InvocationTargetException ignored) {
-							}
-						}
-						list.add(t);
-					}  catch (SecurityException | NoSuchMethodException | InvocationTargetException
-							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
-						e1.printStackTrace();
+		final var tuples = ofNullable(query).map(BaseQueryInterface::getResultList).orElse(List.of());
+		if (tuples.isEmpty())
+			return null;
+
+		final var list = new ArrayList<T>();
+
+		final var constructor = getClassConstructor(clazz);
+		if (constructor == null)
+			return list;
+
+		for (var tuple : tuples) {
+			try {
+
+				final T newInstance = constructor.newInstance();
+				final Field[] fields;
+				if (newInstance instanceof IGRPChart3D || newInstance instanceof IGRPChart2D)
+					fields = clazz.getSuperclass().getDeclaredFields();
+				else
+					fields = clazz.getDeclaredFields();
+
+				for (var field : fields) {
+					try {
+						final var value = tuple.get(field.getName());
+						if (value != null)
+							BeanUtils.setProperty(newInstance, field.getName(), value.toString());
+
+					} catch (java.lang.IllegalArgumentException | IllegalAccessException |
+							 InvocationTargetException ignored) {
 					}
 				}
-				return list;
+				list.add(newInstance);
+			} catch (SecurityException | InvocationTargetException | IllegalArgumentException | InstantiationException |
+					 IllegalAccessException e) {
+				e.printStackTrace();
 			}
+		}
+		return list;
+	}
+
+	private <T> Constructor<T> getClassConstructor(Class<T> clazz) {
+		try {
+			return clazz.getDeclaredConstructor();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
-		if (query == null)
+	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> clazz) {
+
+		final var tuples = ofNullable(query).map(BaseQueryInterface::getResultList).orElse(List.of());
+		if (tuples.isEmpty())
 			return null;
 
-		List<Tuple> queryResult = query.getResultList();
-		if (queryResult == null)
-			return null;
+		final var list = new ArrayList<T>();
 
-		List<T> list = new ArrayList<>();
-		for (Tuple tuple : queryResult) {
+		final var constructor = getClassConstructor(clazz);
+		if (constructor == null)
+			return list;
+
+		final var declaredFields = clazz.getDeclaredFields();
+
+		for (var tuple : tuples) {
 			try {
-				T t = className.getDeclaredConstructor().newInstance();
-				for (Field field : className.getDeclaredFields()) {
-					Object value = tuple.get(field.getName());
-					if (value != null) {
-						final var stringValue = value.toString();
-						BeanUtils.setProperty(t, field.getName(), new Pair(stringValue, stringValue));
+				final T newInstance = constructor.newInstance();
+				for (var field : declaredFields) {
+					final var tupleValue = tuple.get(field.getName());
+					if (tupleValue != null) {
+						final var value = tupleValue.toString();
+						BeanUtils.setProperty(newInstance, field.getName(), new Pair(value, value));
 					}
 				}
-				list.add(t);
-			} catch (SecurityException | NoSuchMethodException | InvocationTargetException
-					 | IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
-				e1.printStackTrace();
+				list.add(newInstance);
+			} catch (SecurityException | InvocationTargetException | IllegalArgumentException | InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
 			}
 		}
 		return list;
 	}
 
 	private String getFieldParamName(Field field) {
-		return Optional.ofNullable(field.getAnnotation(RParam.class))
+		return ofNullable(field.getAnnotation(RParam.class))
 				.map(obj -> field.getAnnotation(RParam.class).rParamName())
 				.filter(rParamName -> !rParamName.isEmpty())
 				.orElse(field.getName()); // default case use the name of field;

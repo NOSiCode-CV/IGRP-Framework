@@ -55,7 +55,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 					});
 				}
 			}else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -85,7 +85,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 			if (Response.Status.OK.getStatusCode() == response.statusCode()) {
 				return this.processDefinition.getTotal(contentResp);
 			}
-			this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 		}
 		return 0;
 	}
@@ -120,7 +120,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 						new TypeToken<List<HistoricProcessInstance>>() {
 						}.getType());
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -151,7 +151,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 						new TypeToken<List<ProcessInstancesService>>() {
 						}.getType());
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return list;

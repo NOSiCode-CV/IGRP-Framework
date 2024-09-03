@@ -103,7 +103,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 						}.getType());
 			} else {
 
-				var error = (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class);
+				var error = ResponseConverter.convertJsonToDao(contentResp, ResponseError.class);
 
 				this.setError(error);
 			}
@@ -140,7 +140,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		var response = this.getRestRequest().putHttpClient("repository/process-definitions", jobj.toString(), id);
 		if (response != null) {
 			String contentResp = response.body();
-			this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			r = response.statusCode() == 200;
 		}
 		return r;
