@@ -1,4 +1,6 @@
 <xsl:stylesheet version="1.0"
+
+
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:template name="igrp-head">
@@ -10,7 +12,7 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{$themePath}/assets/images/favicon.ico"/>
 
-        <script src="{$themePath}/assets/js/layout.js"></script>
+        <script src="{$themePath}/assets/js/layout.js"/>
         <link href="{$themePath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="{$themePath}/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>
@@ -47,6 +49,14 @@
             var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
             var theme_path = "<xsl:value-of select="$themePath"/>";
         </script>
+
+        <xsl:if test="$ispublic = 1">
+            <style>
+                .grecaptcha-badge{display:none!important;}
+            </style>
+            <!-- reCAPTCHA -->
+            <script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"/>
+        </xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>

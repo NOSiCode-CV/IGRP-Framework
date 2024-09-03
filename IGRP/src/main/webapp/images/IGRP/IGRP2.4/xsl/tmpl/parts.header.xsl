@@ -267,7 +267,7 @@
                 >
                   <img
                     id="header-lang-img"
-                    src="{$path}/assets/img/flags/us.svg"
+                    src="{$path}/assets/images/flags/us.svg"
                     alt="Header Language"
                     height="20"
                     class="rounded"
@@ -282,7 +282,7 @@
                     title="English"
                   >
                     <img
-                      src="{$path}/assets/img/flags/us.svg"
+                      src="{$path}/assets/images/flags/us.svg"
                       alt="user-image"
                       class="me-2 rounded"
                       height="18"
@@ -298,7 +298,7 @@
                     title="Spanish"
                   >
                     <img
-                      src="{$path}/assets/img/flags/spain.svg"
+                      src="{$path}/assets/images/flags/spain.svg"
                       alt="user-image"
                       class="me-2 rounded"
                       height="18"
@@ -314,7 +314,7 @@
                     title="German"
                   >
                     <img
-                      src="{$path}/assets/img/flags/germany.svg"
+                      src="{$path}/assets/images/flags/germany.svg"
                       alt="user-image"
                       class="me-2 rounded"
                       height="18"
@@ -330,7 +330,7 @@
                     title="Italian"
                   >
                     <img
-                      src="{$path}/assets/img/flags/italy.svg"
+                      src="{$path}/assets/images/flags/italy.svg"
                       alt="user-image"
                       class="me-2 rounded"
                       height="18"
@@ -346,7 +346,7 @@
                     title="Russian"
                   >
                     <img
-                      src="{$path}/assets/img/flags/russia.svg"
+                      src="{$path}/assets/images/flags/russia.svg"
                       alt="user-image"
                       class="me-2 rounded"
                       height="18"
@@ -362,7 +362,7 @@
                     title="Chinese"
                   >
                     <img
-                      src="{$path}/assets/img/flags/china.svg"
+                      src="{$path}/assets/images/flags/china.svg"
                       alt="user-image"
                       class="me-2 rounded"
                       height="18"
@@ -378,7 +378,7 @@
                     title="French"
                   >
                     <img
-                      src="{$path}/assets/img/flags/french.svg"
+                      src="{$path}/assets/images/flags/french.svg"
                       alt="user-image"
                       class="me-2 rounded"
                       height="18"
