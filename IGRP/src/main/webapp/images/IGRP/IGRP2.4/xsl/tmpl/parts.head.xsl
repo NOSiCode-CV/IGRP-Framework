@@ -47,7 +47,7 @@
             var ispublic    = '<xsl:value-of select="$ispublic"/>';
             var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
             var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
-            var theme_path = "<xsl:value-of select="$themePath"/>";
+            var theme_path  = "<xsl:value-of select="$themePath"/>";
         </script>
 
         <xsl:if test="$ispublic = 1">
