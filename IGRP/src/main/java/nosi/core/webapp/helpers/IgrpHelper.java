@@ -75,11 +75,13 @@ public final class IgrpHelper {
 	}
 
 	public static String getValue(Object object, String name) {
+		String value=null;
 		if (object != null && name != null && !name.isEmpty()) {
 			try {
 				final var methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
 				final var method = object.getClass().getMethod(methodName);
-
+				//Without this code value="", when exists the method, upload and IGRPLink will not render
+				value = "";
 				final Object invoke = method.invoke(object);
 				if (Objects.nonNull(invoke)) {
 					if (method.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
@@ -90,7 +92,7 @@ public final class IgrpHelper {
 							UploadFile upload = (UploadFile) invoke;
 							return upload.getSubmittedFileName();
 						}
-						final var value = "" + invoke;
+						value = "" + invoke;
 						if (method.getReturnType().getName().equals("java.time.LocalDate"))
 							return Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
 						return value;
@@ -102,7 +104,7 @@ public final class IgrpHelper {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return value;
 	}
 
 	public static Object getValueArray(Object object, String name) {
