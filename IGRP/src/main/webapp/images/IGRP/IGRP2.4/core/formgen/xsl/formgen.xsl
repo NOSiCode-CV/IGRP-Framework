@@ -74,7 +74,7 @@
                     </ul>
                 </div>
 
-                <ul id="igrp-top-menu" class="hidden-xs navbar-right pe-4 ms-auto mb-2 d-flex align-items-center align-self-end">
+                <ul id="igrp-top-menu" class="hidden-xs navbar-right pe-4 ms-auto mb-3 d-flex align-items-center align-self-end">
 
                     <xsl:for-each select="rows/content/form/tools-bar/item">
                         <li>
