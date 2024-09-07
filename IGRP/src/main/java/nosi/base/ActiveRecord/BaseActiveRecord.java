@@ -899,7 +899,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T findOne(Object value) {
 		if(value!=null) {
 			this.find();
-			this.whereObject(this.getPrimaryKey(),this.getPrimaryKey(), "=",value,Object.class);
+			final String primaryKey = this.getPrimaryKey();
+			this.whereObject(primaryKey, primaryKey, "=",value,Object.class);
 			return this.one();
 		}
 		return null;

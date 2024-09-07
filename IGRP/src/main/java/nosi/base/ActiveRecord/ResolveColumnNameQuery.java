@@ -42,12 +42,12 @@ public class ResolveColumnNameQuery {
 		return name;
 	}
 
-	private boolean isObjectRelation(Class<?> className,String name_) {
+	private boolean isObjectRelation(Class<?> className, String name_) {
 		String name = name_;
 		int end = name.indexOf(".");
-		name = end!=-1?name.substring(0,end):name;//get first name. action.application return the action
-		for(Field f:className.getDeclaredFields()) {
-			if((f.isAnnotationPresent(ManyToOne.class) || f.isAnnotationPresent(OneToOne.class) || f.isAnnotationPresent(OneToMany.class))&& f.getName().compareTo(name)==0) {
+		name = end != -1 ? name.substring(0, end) : name;// get first name. action.application return the action
+		for (Field f : className.getDeclaredFields()) {
+			if (f.getName().equals(name) && (f.isAnnotationPresent(ManyToOne.class) || f.isAnnotationPresent(OneToOne.class) || f.isAnnotationPresent(OneToMany.class))) {
 				return true;
 			}
 		}

@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -566,6 +567,7 @@ public class Controller {
     }
 
     protected Object run() {
+
         Igrp app = Igrp.getInstance();
         StringBuilder auxAppName = new StringBuilder();
         StringBuilder auxPageName = new StringBuilder();
@@ -586,6 +588,12 @@ public class Controller {
             auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName.toString());
         }
         return loadPage(auxcontrollerPath, auxActionName.toString());
+    }
+
+    private String capitalizeAndJoin(String input) {
+        return Arrays.stream(input.split("-"))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                .collect(Collectors.joining());
     }
 
     protected Response call(String app, String page, String action) {

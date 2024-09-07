@@ -60,14 +60,19 @@ public abstract class Model { // IGRP super model
 			return;
 		}
 
+		final Field[] declaredFields = this.getClass().getDeclaredFields();
+
 		for (Tuple tuple : list) {
-			for (Field field : this.getClass().getDeclaredFields()) {
-				field.setAccessible(true);
+			for (Field field : declaredFields) {
 				try {
-					if (field.getAnnotation(RParam.class) != null)
+					if (field.isAnnotationPresent(RParam.class)) {
+						field.setAccessible(true);
 						IgrpHelper.setField(this, field, tuple.get(field.getName()));
+					}
 				} catch (java.lang.IllegalArgumentException e) {
 					e.printStackTrace();
+				} finally {
+					field.setAccessible(false);
 				}
 			}
 		}
@@ -153,13 +158,16 @@ public abstract class Model { // IGRP super model
 			final List<Tuple> queryResult = query.getResultList();
 			if (queryResult != null) {
 				final List<T> list = new ArrayList<>();
+				final Field[] declaredFields = className.getDeclaredFields();
 				for (Tuple tuple : queryResult) {
 					try {
 						final T t = className.getDeclaredConstructor().newInstance();
-						for (Field field : className.getDeclaredFields()) {
+						for (Field field : declaredFields) {
 							final Object value = tuple.get(field.getName());
-							if (value != null)
-								BeanUtils.setProperty(t, field.getName(), new Pair(value.toString(), value.toString()));
+							if (value != null) {
+								final String vString = value.toString();
+								BeanUtils.setProperty(t, field.getName(), new Pair(vString, vString));
+							}
 						}
 						list.add(t);
 					} catch (SecurityException | NoSuchMethodException | InvocationTargetException
@@ -187,13 +195,13 @@ public abstract class Model { // IGRP super model
 			if (m.getType().isArray()) {
 				String[] aux;
 				aux = Core.getParamArray(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().isEmpty()
+						m.isAnnotationPresent(RParam.class) && !m.getAnnotation(RParam.class).rParamName().isEmpty()
 								? m.getAnnotation(RParam.class).rParamName()
 								: m.getName() // default case use the name of field
 				);
 				this.loadArrayData(m,typeName,aux);
 			} else {
-				final String name = m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().isEmpty()
+				final String name = m.isAnnotationPresent(RParam.class) && !m.getAnnotation(RParam.class).rParamName().isEmpty()
 						? m.getAnnotation(RParam.class).rParamName()
 						: m.getName();
 
@@ -206,7 +214,7 @@ public abstract class Model { // IGRP super model
 					} else
 						aux = o.toString();
 				}
-				if(Core.isNull(aux) && m.getAnnotation(RParam.class)!=null && Core.isNotNull(m.getAnnotation(RParam.class).defaultValue())) {
+				if(Core.isNull(aux) && m.isAnnotationPresent(RParam.class) && Core.isNotNull(m.getAnnotation(RParam.class).defaultValue())) {
 					aux = m.getAnnotation(RParam.class).defaultValue();
 				}
 				this.loadData(m,typeName,aux);
@@ -522,9 +530,11 @@ public abstract class Model { // IGRP super model
 
 		Igrp.getInstance().getRequest().getSession().removeAttribute(ATTRIBUTE_NAME_REQUEST);
 
+		final Field[] declaredFields = this.getClass().getDeclaredFields();
+
 		for (Method m : model.getClass().getDeclaredMethods()) {
 			m.setAccessible(true);
-			for (Field f : this.getClass().getDeclaredFields()) {
+			for (Field f : declaredFields) {
 				if (m.getName().startsWith("get") && m.getName().toLowerCase().endsWith(f.getName())) {
 					f.setAccessible(true);
 					final String typeName = f.getType().getName();
@@ -638,13 +648,12 @@ public abstract class Model { // IGRP super model
 
 	private void saveTempFileForm(Field m) {
 		try {
-			m.setAccessible(true);
 			if (m.getType().getName().equals(FILE_TYPE)) {
+				m.setAccessible(true);
 				final UploadFile file = (UploadFile) m.get(this);
 				if (file != null && file.isUploaded()) {
 					String uuid = TempFileHelper.saveTempFile(file);
 					Core.setAttribute(Model.getParamFileId(m.getName().toLowerCase()), uuid);
-					// TODO 27/01/2024 19:16 check if the FileInputStream has to be closed after saving the temp file
 				}
 			}
 		} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -667,13 +676,12 @@ public abstract class Model { // IGRP super model
 							method.setAccessible(true);
 							try {
 								final Pair pair = (Pair) method.invoke(obj);
-								final String paramFileName = Model.getParamFileId(method.getName().replace("get", "").toLowerCase());
 								final UploadFile file = pair.getFile();
 								if(file != null) {
+									final String paramFileName = Model.getParamFileId(method.getName().replace("get", "").toLowerCase());
 									if (pair.isUploaded()) {
 										final String uuid = TempFileHelper.saveTempFile(file);
 										queryString.addQueryString(paramFileName, uuid);
-										// TODO 27/01/2024 19:16 check if the FileInputStream has to be closed after saving the temp file
 									} else {
 										final String fileId = file.getId();
 										final boolean hasValidId = Core.isNotNull(fileId) && !fileId.equals("-1");
@@ -707,7 +715,7 @@ public abstract class Model { // IGRP super model
 		for (Field m : c.getDeclaredFields()) {
 			if (m.isAnnotationPresent(SeparatorList.class)) {
 				this.deleteTempFileSeparatorFormlist(m);
-			}else {
+			} else {
 				this.deleteTempFileForm(m);
 			}
 		}
@@ -742,7 +750,6 @@ public abstract class Model { // IGRP super model
 			final Pair pair = (Pair) method.invoke(obj);
 			if (pair.getFile() != null && Core.isNotNull(pair.getFile().getId())) {
 				TempFileHelper.deleteTempFile(pair.getFile().getId());
-				// TODO 27/01/2024 19:16 check if the FileInputStream has to be closed after saving the temp file
 			}
 		} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -753,9 +760,8 @@ public abstract class Model { // IGRP super model
 
 	private void deleteTempFileForm(Field m) {
 		try {
-			m.setAccessible(true);
-
 			if (m.getType().getName().equals(FILE_TYPE)) {
+				m.setAccessible(true);
 				final UploadFile file = (UploadFile) m.get(this);
 				if (file != null) {
 					TempFileHelper.deleteTempFile(file.getId());
