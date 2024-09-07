@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.fields.Field;
@@ -35,22 +36,8 @@ public final class IgrpHelper {
 		}
 		return map;
 	}
-	
-	/*public static Map<Object, Object> toMap(List<Object> keys, List<Object> values, String prompt) {
-		Map<Object, Object> map = new HashMap<>();
-		if(prompt != null)
-			map.put(null, prompt);
-		for(int i = 0; i < keys.size(); i++) {
-			map.put(keys.get(i) + "", values.get(i) + "");
-			System.out.println(keys.get(i) + "");
-		}
-		return map;
-	}
-	
-	public static Map<Object, Object> toMap(List<Object> keys, List<Object> values) {
-		return toMap(keys, values, null);
-	}
-	*/
+
+
 	// Help to convert String[] parameters to any Java primitive type
 	public static Object convertToArray(String []array, String primitiveType){
 		switch(primitiveType){
@@ -89,72 +76,58 @@ public final class IgrpHelper {
         }
 		return array; // default purpose ...
 	}
-	
 
-	public static String getValue(Object model,String name){
-		String value = "";
-		if(model!=null && name!=null && !name.isEmpty()){
-			value = "";
-			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
-		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
-			    	try {
-			    		if(m.invoke(model)!=null) {
-			    			if(m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
-			    				IGRPLink link = (IGRPLink) m.invoke(model);
-								value = link.getLink();
-			    			}else {
-			    				if(m.getReturnType().getSimpleName().equals("UploadFile")) {
-			    					UploadFile upload = (UploadFile) m.invoke(model);
-			    					if(upload!=null) {
-			    						value = upload.getSubmittedFileName();
-			    					}else {
-			    						TempFile tempFile = TempFileHelper.getTempFile(Model.getParamFileId(name));
-			    						if(tempFile!=null)
-			    							value = tempFile.getName();
-			    					}
-			    				}else {
-				    				value = ""+ m.invoke(model);
-				    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
-				    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
-				    				}
-			    				}
-			    			}
-			    			break;
-			    		}
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						e.printStackTrace();
-					}                                                                     
-		    	}
-		    }
+
+	public static String getValue(Object object, String name) {
+		String value=null;
+		if (object != null && name != null && !name.isEmpty()) {
+			try {
+				final String methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+				final Method method = object.getClass().getMethod(methodName);
+				//Without this code value="", when exists the method, upload and IGRPLink will not render
+				value = "";
+				final Object invoke = method.invoke(object);
+				if (Objects.nonNull(invoke)) {
+					if (method.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
+						IGRPLink link = (IGRPLink) invoke;
+						return link.getLink();
+					} else {
+						if (method.getReturnType().getSimpleName().equals("UploadFile")) {
+							UploadFile upload = (UploadFile) invoke;
+							return upload.getSubmittedFileName();
+						}
+						value = "" + invoke;
+						if (method.getReturnType().getName().equals("java.time.LocalDate"))
+							return Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+						return value;
+					}
+				}
+			} catch (NoSuchMethodException e) {
+				return null;
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		}
 		return value;
 	}
-	
-	public static Object getValueArray(Object model,String name){
-		Object value = null;
-		if(model!=null && name!=null && !name.isEmpty()){
-			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
-			for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
-			    	try {
-			    		
-			    		Object aux = m.invoke(model);
-			    		
-			    		if(aux != null) {
-			    			
-			    			value = aux;
-			    			
-			    			break;
-			    		}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}                                                                     
-		    	}
-		    }
+
+	public static Object getValueArray(Object object, String name) {
+		if (object != null && name != null && !name.isEmpty()) {
+			final String methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+			try {
+				final Method method = object.getClass().getMethod(methodName);
+				final Object result = method.invoke(object);
+				if (Objects.nonNull(result))
+					return result;
+			} catch (NoSuchMethodException e) {
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		return value;
+		return null;
 	}
+
 
 
 	/*
@@ -217,8 +190,6 @@ public final class IgrpHelper {
 	}
 	
 	public static String getLabel(Field field) {
-		String value = "";
-		
-		return value;
+       return "";
 	}
 }

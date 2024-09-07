@@ -15,7 +15,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
@@ -316,19 +315,17 @@ public abstract class QueryHelper implements QueryInterface{
 		c.setAfterWhere(whereIsCall);
 		this.columnsValue.add(c);
 	}
-	
 
+	/**
+	 * Remove duplicate params name for sql update
+	 * UPDATE TABLE1 SET estado=:estado,date_update=:date_update WHERE id=:id AND  UPPER(estado) = :estado
+	 */
 	protected String resolveDuplicateParam(String name) {
-		/**
-		 * Remove duplicate params name for sql update
-		 * UPDATE TABLE1 SET estado=:estado,date_update=:date_update WHERE id=:id AND  UPPER(estado) = :estado 
-		 */
 		String name_ = name;
-		if((this instanceof QueryUpdate|| (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) && this.columnsValue!=null) {
-			String n = name;
-			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).collect(Collectors.toList());
-			if(cols!=null && !cols.isEmpty()) {
-				name_ = name+"_"+cols.size();
+		if ((this instanceof QueryUpdate || (this.operationType != null && this.operationType.equals(OperationType.UPDATE))) && this.columnsValue != null) {
+			long colNumber = this.columnsValue.stream().filter(col -> col.getName() != null && col.getName().equalsIgnoreCase(name)).count();
+			if (colNumber > 0) {
+				name_ = name + "_" + colNumber;
 			}
 		}
 		return name_;
@@ -341,13 +338,13 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	public String getSqlExecute() {
-		if(this instanceof QueryInsert || (this.operationType!=null && this.operationType.compareTo(OperationType.INSERT)==0)) {
+		if(this instanceof QueryInsert || (this.operationType!=null && this.operationType.equals(OperationType.INSERT))) {
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
 		}
-		else if(this instanceof QueryUpdate || (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) {
+		else if(this instanceof QueryUpdate || (this.operationType!=null && this.operationType.equals(OperationType.UPDATE))) {
 			this.sql = this.getSqlUpdate(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
 		}
-		else if(this instanceof QueryDelete || (this.operationType!=null && this.operationType.compareTo(OperationType.DELETE)==0)) {
+		else if(this instanceof QueryDelete || (this.operationType!=null && this.operationType.equals(OperationType.DELETE))) {
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName()) + this.sql;
 		}
 		return sql;

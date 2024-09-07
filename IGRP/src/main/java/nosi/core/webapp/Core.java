@@ -623,17 +623,20 @@ public final class Core {
 	 * @return
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
-		if ((Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  && Igrp.getInstance().getRequest().getAttribute(name) != null) {
-			String v;
-			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
-				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
-			else
-				v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-			if (isRemoved)
-				Igrp.getInstance().getRequest().removeAttribute(name);
-			return v;
-		}
-		return null;
+		return Optional.ofNullable(Igrp.getInstance())
+				.map(Igrp::getRequest)
+				.map(request -> request.getAttribute(name))
+				.map(attribute -> {
+					String v;
+					if (attribute instanceof Object[])
+						v = ((Object[]) attribute)[0].toString();
+					else
+						v = (String) attribute;
+					if (isRemoved)
+						Igrp.getInstance().getRequest().removeAttribute(name);
+					return v;
+				})
+				.orElse(null);
 	}
 
 	public static String[] getAttributeArray(String name) {
