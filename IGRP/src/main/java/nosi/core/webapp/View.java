@@ -93,7 +93,7 @@ public abstract class View  implements IHeaderConfig{
 				  		)
 				  .forEach(param->{
 					  	HiddenField f = new HiddenField(null,param.getKey());
-						f.propertie.add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
+						f.propertie().add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
 						f.setValue(param.getValue()[0]);
 						formHidden.addField(f);
 				  });		
@@ -111,7 +111,7 @@ public abstract class View  implements IHeaderConfig{
 				e.printStackTrace();
 			}
 			HiddenField f = new HiddenField(null,"jsonLookup");
-			f.propertie.add("value",jsonLookup).add("tag","jsonLookup").add("name","jsonLookup");
+			f.propertie().add("value",jsonLookup).add("tag","jsonLookup").add("name","jsonLookup");
 			f.setValue(jsonLookup);
 			formHidden.addField(f);
 		}
@@ -133,7 +133,7 @@ public abstract class View  implements IHeaderConfig{
 					&& !param.equalsIgnoreCase("prm_app")
 				) {
 					HiddenField f = new HiddenField(null,param);
-					f.propertie.add("value", p.getValue()[0]).add("tag", param).add("name",param);
+					f.propertie().add("value", p.getValue()[0]).add("tag", param).add("name",param);
 					f.setValue(p.getValue()[0]);
 					formHidden.addField(f);
 				}

@@ -2,6 +2,7 @@ package nosi.core.gui.fields;
 
 import java.util.Map;
 import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -31,15 +32,15 @@ public abstract class AbstractField implements Field {
 	private String connectionName = ConfigApp.getInstance().getBaseConnection();
 	private Map<?, ?> comboBox;
 
-	public FieldProperties propertie;
+	private final FieldProperties fieldProperties;
 
 	@Override
 	public FieldProperties propertie() {
-		return this.propertie;
+		return this.fieldProperties;
 	}
 
 	protected AbstractField() {
-		this.propertie = new FieldProperties();
+		this.fieldProperties = new FieldProperties();
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public String getTagName() {
-		tagName = this.propertie.get("tag") != null ? this.propertie.get("tag").toString().toLowerCase() : tagName;
+		tagName = this.fieldProperties.get("tag") != null ? this.fieldProperties.get("tag").toString().toLowerCase() : tagName;
 		return tagName;
 	}
 
@@ -65,7 +66,7 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public String getParamTag() {
-		paramTag = this.propertie.get("name") != null ? this.propertie.get("name").toString().toLowerCase() : paramTag;
+		paramTag = this.fieldProperties.get("name") != null ? this.fieldProperties.get("name").toString().toLowerCase() : paramTag;
 		return paramTag;
 	}
 
@@ -78,8 +79,8 @@ public abstract class AbstractField implements Field {
 	public void setValue(Object value) {
 		if (value instanceof Model) {
 			this.configValue(value);
-			if (this.propertie != null && this.getValue() != null)
-				this.propertie.put("value", this.getValue());
+			if (this.getValue() != null)
+				this.fieldProperties.put("value", this.getValue());
 		} else if (value instanceof Map) {
 			this.setListOptions((Map<?, ?>) value);
 		} else {
@@ -184,7 +185,15 @@ public abstract class AbstractField implements Field {
 	}
 
 	protected void configValue(Object model) {
-		this.value = IgrpHelper.getValue(model, this.getName());
+			final String auxValue = IgrpHelper.getValue(model, this.getName());
+
+			//If the view (this.value) already sets a value, the model being null (auxValue) cannot interfere with the view set value
+			if(!(Core.isNotNull(this.value) && auxValue==null))
+				this.value =auxValue ;
+
+			if(Core.isNull(this.value) && auxValue==null)
+				this.value ="" ;
+
 	}
 
 	@Override
@@ -194,7 +203,7 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public void setValue(Map<?, ?> map) {
-		this.comboBox = map;
+		this.setListOptions(map);
 	}
 
 	@Override

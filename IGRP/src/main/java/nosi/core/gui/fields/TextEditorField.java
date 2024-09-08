@@ -10,7 +10,7 @@ public class TextEditorField extends TextField {
 
 	public TextEditorField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type","texteditor");
+		this.propertie().put("type","texteditor");
 	}
 
 }

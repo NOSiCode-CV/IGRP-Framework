@@ -10,13 +10,13 @@ public class FileField extends TextField {
 
 	public FileField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type","file");
-		this.propertie.put("accept","file_extension");
-		this.propertie.put("class","default");
-		this.propertie.put("multiple",  Boolean.FALSE);
-		this.propertie.remove("placeholder");
-		this.propertie.remove("change");
-		this.propertie.remove("readonly");
+		this.propertie().put("type","file");
+		this.propertie().put("accept","file_extension");
+		this.propertie().put("class","default");
+		this.propertie().put("multiple",  Boolean.FALSE);
+		this.propertie().remove("placeholder");
+		this.propertie().remove("change");
+		this.propertie().remove("readonly");
 	}
 
 }

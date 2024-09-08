@@ -26,7 +26,7 @@ public class LookupField extends TextField {
 	
 	public LookupField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type", "lookup");
+		this.propertie().put("type", "lookup");
 		this.params = new LinkedHashMap <>();
 		this.lookupParams = new LinkedHashMap<>();
 	}

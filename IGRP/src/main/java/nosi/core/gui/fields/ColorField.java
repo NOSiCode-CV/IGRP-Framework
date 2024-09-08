@@ -10,8 +10,8 @@ public class ColorField extends TextField {
 
 	public ColorField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type", "color");
-		this.propertie.put("format", "hex");
+		this.propertie().put("type", "color");
+		this.propertie().put("format", "hex");
 	}
 
 }

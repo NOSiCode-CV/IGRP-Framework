@@ -28,18 +28,18 @@ public class ListField extends AbstractField {
 	public ListField(Object model, String name) {
 		super();
 		this.setName(name);
-		this.propertie.put("type", "select");
-		this.propertie.put("name", "p_" + name);
-		this.propertie.put("multiple", Boolean.FALSE);
-		this.propertie.put("right", Boolean.FALSE);
-		this.propertie.put("disabled", Boolean.FALSE);
-		this.propertie.put("maxlength", 30);
-		this.propertie.put("change", Boolean.FALSE);
-		this.propertie.put("required", Boolean.FALSE);
+		this.propertie().put("type", "select");
+		this.propertie().put("name", "p_" + name);
+		this.propertie().put("multiple", Boolean.FALSE);
+		this.propertie().put("right", Boolean.FALSE);
+		this.propertie().put("disabled", Boolean.FALSE);
+		this.propertie().put("maxlength", 30);
+		this.propertie().put("change", Boolean.FALSE);
+		this.propertie().put("required", Boolean.FALSE);
 		this.setTagName(name);
 		this.configValue(model);
 		try {
-			this.propertie.put("value", this.getValue());
+			this.propertie().put("value", this.getValue());
 		} catch (NullPointerException ignored) {
 
 		}
@@ -56,12 +56,12 @@ public class ListField extends AbstractField {
 					String[] aux = hasDomain.split(" « ");
 					String domainName = aux[0].trim(); 
 					String appName = aux[1].trim(); 
-					if(this.propertie.getProperty("type").equals("radiolist") || this.propertie.getProperty("type").equals("checkboxlist"))
+					if(this.propertie().getProperty("type").equals("radiolist") || this.propertie().getProperty("type").equals("checkboxlist"))
 						this.loadDomainByApp(domainName, appName);
 					else
 						this.loadDomain(domainName, appName, "-- Selecionar --");
 				}else {
-					if(this.propertie.getProperty("type").equals("radiolist") || this.propertie.getProperty("type").equals("checkboxlist"))
+					if(this.propertie().getProperty("type").equals("radiolist") || this.propertie().getProperty("type").equals("checkboxlist"))
 						this.loadDomain(hasDomain);
 					else
 						this.loadDomain(hasDomain, "-- Selecionar --");
@@ -69,7 +69,7 @@ public class ListField extends AbstractField {
 			}
 		} catch (Exception ignored) {
 		}
-		if ( (this.propertie.get("multiple") != null && this.propertie.get("multiple").equals("true")) || this.propertie.getProperty("type").equals("checkboxlist")) {
+		if ( (this.propertie().get("multiple") != null && this.propertie().get("multiple").equals("true")) || this.propertie().getProperty("type").equals("checkboxlist")) {
 			this.setValue(IgrpHelper.getValueArray(model, this.getName()));
 		} else
 			this.setValue(IgrpHelper.getValue(model, this.getName()));
@@ -100,7 +100,7 @@ public class ListField extends AbstractField {
 
 	@Override
 	public void setDefaultValue(Object defaultValue) {
-		this.propertie.put("value", defaultValue);
+		this.propertie().put("value", defaultValue);
 	}
 
 	@Override

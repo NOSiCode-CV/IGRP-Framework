@@ -10,7 +10,7 @@ public class EmailField extends TextField {
 
 	public EmailField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type","email");
+		this.propertie().put("type","email");
 	}
 
 }

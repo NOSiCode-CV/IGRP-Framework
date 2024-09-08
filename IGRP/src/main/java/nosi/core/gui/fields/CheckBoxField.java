@@ -11,8 +11,8 @@ public class CheckBoxField extends TextField {
 
 	public CheckBoxField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type", "checkbox");
-		this.propertie.put("check",  Boolean.TRUE);
+		this.propertie().put("type", "checkbox");
+		this.propertie().put("check",  Boolean.TRUE);
 	}
 	
 }

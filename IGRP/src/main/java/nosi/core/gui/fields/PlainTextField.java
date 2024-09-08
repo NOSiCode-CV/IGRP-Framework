@@ -11,12 +11,12 @@ public class PlainTextField extends AbstractField {
 	public PlainTextField(Object model,String name) {
 		super();
 		this.setName(name);
-		this.propertie.put("type","plaintext");
+		this.propertie().put("type","plaintext");
 		this.setTagName(name);
-		this.propertie.put("name","p_"+name);
-		this.propertie.put("clear",  Boolean.FALSE);
-		this.propertie.put("maxlength", 30);
-		this.propertie.put("right",  Boolean.FALSE);
+		this.propertie().put("name","p_"+name);
+		this.propertie().put("clear",  Boolean.FALSE);
+		this.propertie().put("maxlength", 30);
+		this.propertie().put("right",  Boolean.FALSE);
 		this.configValue(model);
 	}
 
