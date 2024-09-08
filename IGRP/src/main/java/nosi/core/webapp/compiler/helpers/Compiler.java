@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.compiler.CompilationProgress;
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 
@@ -63,12 +65,27 @@ public class Compiler {
 			}
 			listFilesDirectory(this.config.getPathLib());
 			CompilationProgress progress = null;
-			final String buildArgs = " -encoding UTF-8 " + files + " -cp " + "lombok.jar" /*+ System.getProperty("path.separator") + jars
-					+ this.config.getBasePathClass() + System.getProperty("path.separator")*/ + " -classpath " + jars.toString() 
-					+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado
-																								// os arquivos
-																								// compilados
-					+ " -warn:none" + " -1.8" + " -Xemacs"; 
+			String javaVersion = System.getProperty("java.version");
+			final String buildArgs;
+			if (javaVersion.startsWith("17") || Core.toInt(StringUtils.substringBefore(javaVersion,".")) > 17) {
+				// Code for Java +17
+				 buildArgs = " -encoding UTF-8 " + files + " -classpath " + jars.toString()
+						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
+						+ " -warn:none" + " -16" + " -Xemacs";
+			} else if (javaVersion.startsWith("11")) {
+				// Code for Java 11
+				System.out.println("Running Java 11 specific code. You can now changed the java version...");
+				buildArgs = " -encoding UTF-8 " + files +" -classpath " + jars.toString()
+						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
+						+ " -warn:none" + " -11" + " -Xemacs";
+			} else {
+				// Code for other versions
+				System.out.println("Compile code for min. Java 8 versions. But you can now change the java version to >17...");
+				buildArgs = " -encoding UTF-8 " + files + " -cp " + "lombok.jar"+" -classpath " + jars.toString()
+						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
+						+ " -warn:none" + " -1.8" + " -Xemacs";
+			}
+
 			
 		//	System.out.println(buildArgs);
 			
