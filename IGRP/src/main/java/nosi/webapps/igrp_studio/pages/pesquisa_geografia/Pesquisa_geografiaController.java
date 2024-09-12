@@ -1,8 +1,13 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,7 +16,9 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -19,13 +26,13 @@ import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.core.webapp.webservices.rest.Geografia;
 
 /*----#end-code----*/
-
-public class Pesquisa_geografiaController extends Controller { 
-	
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+		
+public class Pesquisa_geografiaController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Pesquisa_geografia model = new Pesquisa_geografia();
 		model.load();
 		Pesquisa_geografiaView view = new Pesquisa_geografiaView();
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
 		String id = Core.getParam("p_fwl_id");
@@ -42,27 +49,41 @@ public class Pesquisa_geografiaController extends Controller {
 		
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionRemote_treemenu_1(String p_id)
+	/*
+	public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentException, IllegalAccessException{
+		String p_id = Core.getParam("p_id");
+		String p_active = Core.getParam("p_active");
+		Pesquisa_geografia model = new Pesquisa_geografia();
+		
+		//Your code here
+		Response response = new Response();
+		response.setContentType(Response.FORMAT_XML);
+		response.setContent("your message");
+		return response;
+		
+	}
+	*//* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
+/*----#start-code(custom_actions)----*/
+public Response actionRemote_treemenu_1(String p_id)
 			throws IOException {
 		String id = Core.getParam("p_id");
 		String jsonLookup = Core.getParam("jsonLookup");
-		
+
 		StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>" + " <treemenu_1> " + "<table>" + "<value>");
-		
+
 		if (Core.isNotNull(jsonLookup)) {
 			try {
 				jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			
-			Properties params = (Properties) Core.fromJson(jsonLookup, Properties.class); 
-			
-			this.p_nivel = Core.toInt(params.getProperty("p_nivel")); 
-			
+
+			Properties params = (Properties) Core.fromJson(jsonLookup, Properties.class);
+
+			this.p_nivel = Core.toInt(params.getProperty("p_nivel"));
+
 			params.forEach((key, value) -> {
                if (value.equals("treemenu_1_tmid"))
                   id_geo = key.toString();
@@ -70,27 +91,22 @@ public class Pesquisa_geografiaController extends Controller {
                   des_geo = key.toString();
             });
 		}
-		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id, null); 
-		
-		for (Pesquisa_geografia.Treemenu_1 li : lista) { 
-			int aux = -1; 
+		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id, null);
+
+		for (Pesquisa_geografia.Treemenu_1 li : lista) {
+			int aux = -1;
 			try {
-				aux = Core.toBigDecimal(li.getNivel()).intValue(); 
+				aux = Core.toBigDecimal(li.getNivel()).intValue();
 			} catch (Exception ignored) {}
-			
-			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) 
+						if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel)
 				xml.append(getXml(li.getTreemenu_1_tmid(), li.getTreemenu_1_link_desc(), id, "0", des_geo, id_geo, this.p_nivel));
-			else 
+			else
 				xml.append(getXml(li.getTreemenu_1_tmid(), li.getTreemenu_1_link_desc(), id, li.getTreemenu_1_child(), des_geo, id_geo, this.p_nivel));
-				
+
 			}
 		xml.append("</value>" + "</table>" + "</treemenu_1>");
-		
-		return this.renderView(xml.toString());
+				return this.renderView(xml.toString());
 	}
-
-	/*----#start-code(custom_actions)----*/
-
 	String des_geo = "p_geografia_des";
 	String id_geo = "p_geografia_id";
 

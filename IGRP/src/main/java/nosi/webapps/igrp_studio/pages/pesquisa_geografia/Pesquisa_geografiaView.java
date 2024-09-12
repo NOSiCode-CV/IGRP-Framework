@@ -1,11 +1,11 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class Pesquisa_geografiaView extends View {
 
@@ -17,15 +17,15 @@ public class Pesquisa_geografiaView extends View {
 	public Field treemenu_1_icon;
 	public Field treemenu_1_child;
 	public Field treemenu_1_active;
-	public IGRPForm sectionheader_1;
-	public IGRPTable treemenu_1;
+	public IGRPSectionHeader sectionheader_1;
+	public IGRPTreeMenu treemenu_1;
 
 
 	public Pesquisa_geografiaView(){
 
 		this.setPageTitle("Pesquisa Geografia");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		treemenu_1 = new IGRPTreeMenu("treemenu_1","");
 

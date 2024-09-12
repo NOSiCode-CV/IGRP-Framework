@@ -1,16 +1,16 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pesquisa_geografia extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	
@@ -21,24 +21,7 @@ public class Pesquisa_geografia extends Model{
 	public List<Treemenu_1> getTreemenu_1(){
 		return this.treemenu_1;
 	}
-	@RParam(rParamName = "p_treemenu_1_id")
-	private String[] p_treemenu_1_id;
-	@RParam(rParamName = "p_treemenu_1_del")
-	private String[] p_treemenu_1_del;
-	
-	public void setP_treemenu_1_id(String[] p_treemenu_1_id){
-		this.p_treemenu_1_id = p_treemenu_1_id;
-	}
-	public String[] getP_treemenu_1_id(){
-		return this.p_treemenu_1_id;
-	}
-	
-	public void setP_treemenu_1_del(String[] p_treemenu_1_del){
-		this.p_treemenu_1_del = p_treemenu_1_del;
-	}
-	public String[] getP_treemenu_1_del(){
-		return this.p_treemenu_1_del;
-	}
+
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -50,7 +33,7 @@ public class Pesquisa_geografia extends Model{
 
 	public static class Treemenu_1 extends IGRPTable.Table{
 		private IGRPLink treemenu_1_link;
-		private String treemenu_1_link_desc;
+		private String treemenu_1_link_desc= "Link";
 		private String treemenu_1_tmid;
 		private Integer treemenu_1_parent;
 		private String treemenu_1_icon;
@@ -120,7 +103,7 @@ public class Pesquisa_geografia extends Model{
 		public void setNivel(String nivel) {
 			this.nivel = nivel;
 		}
-		
+
 	}
 
 	public void loadTreemenu_1(BaseQueryInterface query) {
