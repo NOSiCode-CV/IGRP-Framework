@@ -74,13 +74,13 @@ public class Compiler {
 						+ " -warn:none" + " -16" + " -Xemacs";
 			} else if (javaVersion.startsWith("11")) {
 				// Code for Java 11
-				System.out.println("Running Java 11 specific code. You can now changed the java version...");
+				System.out.println("igrpweb tip: Running Java 11 specific code. You can now changed the java version for more...");
 				buildArgs = " -encoding UTF-8 " + files +" -classpath " + jars.toString()
 						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
 						+ " -warn:none" + " -11" + " -Xemacs";
 			} else {
 				// Code for other versions
-				System.out.println("Compile code for min. Java 8 versions. But you can now change the java version to >17...");
+				System.out.println("igrpweb tip: Compiling code in min. Java 8 versions. But you can now change the java version to >17...");
 				buildArgs = " -encoding UTF-8 " + files + " -cp " + "lombok.jar"+" -classpath " + jars.toString()
 						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
 						+ " -warn:none" + " -1.8" + " -Xemacs";
