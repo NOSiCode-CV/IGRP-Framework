@@ -431,14 +431,14 @@
       <dependency>
          <groupId>org.flywaydb</groupId>
          <artifactId>flyway-core</artifactId>
-         <version>[10.4.1,11.0.0)</version>
+         <version>10.19.0</version>
       </dependency>
       
       <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql -->
 		<dependency>
 		    <groupId>org.flywaydb</groupId>
 		    <artifactId>flyway-database-postgresql</artifactId>
-		    <version>[10.4.1,11.0.0)</version>
+		    <version>10.19.0</version>
 		</dependency>
 
 		<!-- (Start) Unit & Integration Test Dependencies -->

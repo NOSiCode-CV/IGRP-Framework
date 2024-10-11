@@ -6,6 +6,8 @@ import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationInfo;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.flywaydb.core.api.output.MigrateResult;
+import org.flywaydb.core.internal.exception.FlywayMigrateException;
+
 /**
  * Iekiny Marcel
  * Jul 7, 2021
@@ -59,7 +61,7 @@ public class IgrpMigrationAPI {
 	    try {
 	    	if(info != null && info.length > 0)
 		    	migrateResult = migrationEngine.migrate(); 
-		} catch (org.flywaydb.core.internal.command.DbMigrate.FlywayMigrateException e) { // if schema already exist does not execute <baseline> command 
+		} catch (FlywayMigrateException e) { // if schema already exist does not execute <baseline> command
 			LOGGER.error(e.getMessage(), e);
 		}
 	    return migrateResult;
