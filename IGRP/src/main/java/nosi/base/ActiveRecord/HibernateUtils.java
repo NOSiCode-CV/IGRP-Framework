@@ -42,11 +42,9 @@ public class HibernateUtils {
    static {
       final String cfgName = ConfigApp.getInstance().getBaseConnection() + SUFIX_HIBERNATE_CONFIG;
       final Properties properties = getProperties(ConfigApp.getInstance().getBaseConnection() + ".properties");
-
       REGISTRY_BUILDER_IGRP = new StandardServiceRegistryBuilder().applySettings(properties).configure(cfgName);
       SESSION_FACTORY_IGRP = buildSessionFactory(cfgName);
    }
-
 
    public static SessionFactory getSessionFactory(String connectionName) {
       return getSessionFactory(connectionName, Core.getCurrentDadParam());
@@ -87,12 +85,14 @@ public class HibernateUtils {
    private static SessionFactory buildSessionFactory(String cfgName) {
       try {
          ServiceRegistry serviceRegistry;
+
          if (cfgName.startsWith(ConfigApp.getInstance().getBaseConnection()))
             serviceRegistry = REGISTRY_BUILDER_IGRP.build();
          else
             serviceRegistry = getServiceRegistryBuilder(cfgName).build();
 
          return new Configuration().buildSessionFactory(serviceRegistry);
+
       } catch (Exception ex) {
          LOG.error("Initial SessionFactory creation failed.", ex);
          throw new ExceptionInInitializerError(ex);
@@ -193,14 +193,19 @@ public class HibernateUtils {
       final String hcdc = (String) s.getSessionFactory().getProperties().get("hibernate.connection.driver_class");
       if(hcdc.contains("postgresql")){
          final User currentUser = Core.getCurrentUser();
-         // Set the session variables
-         if(currentUser!=null)
-            s.doWork(connection -> {
-               setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", currentUser.getEmail());
-               setAuditContext(connection, "audit.AUDIT_USER_ID", String.valueOf(currentUser.getId()));
+      // Set the session variables
+         s.doWork(connection -> {
+            if(currentUser!=null){
+            setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", currentUser.getEmail());
+               setAuditContext(connection, "audit.AUDIT_USER_ID", currentUser.getId()+"");
+            }else{
+               setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", "anonymous@igrp");
+               setAuditContext(connection, "audit.AUDIT_USER_ID",  "0");
+            }
+            if (null != Igrp.getInstance() && null != Igrp.getInstance().getRequest())
                setAuditContext(connection, "audit.AUDIT_USER_IP", Igrp.getInstance().getRequest().getRemoteAddr());
-            });
-      }
+         });
+   }
 
 
    }
@@ -210,9 +215,14 @@ public class HibernateUtils {
               final User currentUser = Core.getCurrentUser();
               if(currentUser!=null){
                  parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", currentUser.getEmail()));
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", String.valueOf(currentUser.getId())));
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", currentUser.getId()+""));
+              }else{
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", "anonymous@igrp"));
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", "0"));
               }
+              if (null != Igrp.getInstance() && null != Igrp.getInstance().getRequest())
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
+
            }
        } catch (SQLException e) {
            throw new RuntimeException(e);
