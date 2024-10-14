@@ -194,10 +194,15 @@ public class HibernateUtils {
       if(hcdc.contains("postgresql")){
          final User currentUser = Core.getCurrentUser();
       // Set the session variables
-      if(currentUser!=null)
          s.doWork(connection -> {
-            setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", currentUser.getEmail());
-            setAuditContext(connection, "audit.AUDIT_USER_ID", String.valueOf(currentUser.getId()));
+            if(currentUser!=null){
+               setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", currentUser.getEmail());
+               setAuditContext(connection, "audit.AUDIT_USER_ID", currentUser.getId()+"");
+            }else{
+               setAuditContext(connection, "audit.AUDIT_USER_CONTEXT", "anonymous@igrp");
+               setAuditContext(connection, "audit.AUDIT_USER_ID",  "0");
+            }
+            if (null != Igrp.getInstance() && null != Igrp.getInstance().getRequest())
                setAuditContext(connection, "audit.AUDIT_USER_IP", Igrp.getInstance().getRequest().getRemoteAddr());
          });
    }
@@ -210,9 +215,14 @@ public class HibernateUtils {
               final User currentUser = Core.getCurrentUser();
               if(currentUser!=null){
                  parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", currentUser.getEmail()));
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", String.valueOf(currentUser.getId())));
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", currentUser.getId()+""));
+              }else{
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", "anonymous@igrp"));
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", "0"));
               }
+              if (null != Igrp.getInstance() && null != Igrp.getInstance().getRequest())
+                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
+
            }
        } catch (SQLException e) {
            throw new RuntimeException(e);
