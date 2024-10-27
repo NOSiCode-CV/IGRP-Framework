@@ -3,6 +3,7 @@ package nosi.core.webapp.webservices.helpers;
 
 import com.google.gson.annotations.Expose;
 import jakarta.ws.rs.core.MediaType;
+import nosi.core.webapp.activit.rest.request.Credentials;
 import nosi.core.webapp.helpers.UrlHelper;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.time.Duration;
 //-------------------------------------------------
 
 /**
- * @author: Ederlino Tavares
+ * {@code @author:Ederlino Tavares}
  * 24 Jun 2024
  *
  */
@@ -24,7 +25,9 @@ import java.time.Duration;
 public class RestRequestHttpClient {
 
 	@Expose(serialize=false,deserialize=false)
-	private static  String base_url;
+	private static String base_url;
+	@Expose(serialize=false,deserialize=false)
+	private String final_url;
 	@Expose(serialize=false,deserialize=false)
 	private static String username;
 	@Expose(serialize=false,deserialize=false)
@@ -36,7 +39,7 @@ public class RestRequestHttpClient {
 	@Expose(serialize=false,deserialize=false)
 	private ConfigurationRequest config;
 	@Expose(serialize=false,deserialize=false)
-	private HttpClient.Builder httpClientBuilder;
+	private final HttpClient.Builder httpClientBuilder;
 	private final String CONTENTTYPE = "Content-Type";
 
 
@@ -133,14 +136,10 @@ public class RestRequestHttpClient {
 
 
 	public void addUrl(String url){
-		RestRequestHttpClient.base_url += url;
+		final_url=base_url+url;
 	}
 	public String getBaseURL() {
 		return base_url;
-	}
-
-	public void setBaseURL(String base_url) {
-		RestRequestHttpClient.base_url = base_url;
 	}
 
 	public void setUsername(String username) {
@@ -176,7 +175,12 @@ public class RestRequestHttpClient {
 				.authenticator(this.getBasicAuthenticationForHttpClient()); // allow redirect always
 	}
 
-	public String getFullUrl() {
-		return UrlHelper.urlEncoding(base_url);
+	public void setBaseURL(String baseUrl) {
+		base_url=baseUrl;
 	}
+
+	public String getFullUrl() {
+		return UrlHelper.urlEncoding(final_url);
+	}
+
 }

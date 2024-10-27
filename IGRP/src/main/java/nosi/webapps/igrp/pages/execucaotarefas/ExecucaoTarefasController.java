@@ -359,7 +359,7 @@ public class ExecucaoTarefasController extends Controller {
 		/* Start-Code-Block (detalhes_processos_button_minha_tarefas)  *//* End-Code-Block  */
 		/*----#start-code(detalhes_processos_button_minha_tarefas)----*/
 		String id = Core.getParam(BPMNConstants.PRM_TASK_ID); 
-		System.out.println("Detalhes Minhas Tarefas: " + id);
+		//System.out.println("Detalhes Minhas Tarefas: " + id);
 		this.addQueryString(BPMNConstants.PRM_TASK_ID, id).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	

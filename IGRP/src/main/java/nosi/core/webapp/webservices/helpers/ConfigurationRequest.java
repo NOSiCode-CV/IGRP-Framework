@@ -40,7 +40,7 @@ public class ConfigurationRequest {
 		return clientBuild.build();
 	}
 	public String getUrl() {
-		return UrlHelper.urlEncoding(this.request.getBase_url());
+		return UrlHelper.urlEncoding(this.request.getFinal_url());
 	}
 
    private record Authenticator(String user, String password) implements ClientRequestFilter {

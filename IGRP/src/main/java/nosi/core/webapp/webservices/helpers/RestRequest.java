@@ -38,11 +38,15 @@ import jakarta.ws.rs.core.Response;
 public class RestRequest{
 
 	@Expose(serialize=false,deserialize=false)
-	private static  String base_url=Credentials.getInstance().getUrl();
+	private String base_url;
 	@Expose(serialize=false,deserialize=false)
-	private static final String username=Credentials.getInstance().getUserName();
+	private String final_url;
 	@Expose(serialize=false,deserialize=false)
-	private static final String password=Credentials.getInstance().getPassword();
+	private Boolean useBaseUrl=true;
+	@Expose(serialize=false,deserialize=false)
+	private String username;
+	@Expose(serialize=false,deserialize=false)
+	private String password;
 	@Expose(serialize=false,deserialize=false)
 	private static String accept_format=MediaType.APPLICATION_JSON;
 	@Expose(serialize=false,deserialize=false)
@@ -88,25 +92,7 @@ public class RestRequest{
 		client.close();
 		return response;
 	}
-	//TODO: optimize this code, testing purpose
-	public String getString(String url){
-		var authString = Credentials.getInstance().getUserName() + ":" + Credentials.getInstance().getPassword();
-		var encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 
-		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder()
-				.header(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuthString)
-				.uri(URI.create(url))
-				.build();
-
-		HttpResponse<String> response;
-		try {
-			response = client.send(request, HttpResponse.BodyHandlers.ofString());
-		} catch (IOException | InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-        return response.body();
-	}
 	public Response get(String url) {
 		try {
 			return this.get(url, Response.class);
@@ -272,20 +258,19 @@ public class RestRequest{
 	}
 	
 	public void addUrl(String url){
-		RestRequest.base_url += url;
+		final_url=(useBaseUrl?base_url:"") + url;
 	}
 	public String getBase_url() {
 		return base_url;
 	}
 
-	public void setBase_url(String base_url) {
-		RestRequest.base_url = base_url;
+	public void userBaseUrl(Boolean use_base_url) {
+		useBaseUrl=use_base_url;
 	}
 
 	public String getUsername() {
 		return username;
 	}
-
 
 	public String getPassword() {
 		return password;
@@ -303,7 +288,6 @@ public class RestRequest{
 		return content_type;
 	}
 
-
 	public ConfigurationRequest getConfig() {
 		return config;
 	}
@@ -311,4 +295,19 @@ public class RestRequest{
 	public void setConfig(ConfigurationRequest config) {
 		this.config = config;
 	}
+
+    public String getFinal_url() {
+        return final_url;
+    }
+	public void setBase_url(String url) {
+		base_url=url;
+	}
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

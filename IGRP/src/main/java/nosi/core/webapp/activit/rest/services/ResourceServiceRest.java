@@ -38,7 +38,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public String getResourceData(String id_deployment, String id_resource) {
 		RestRequest request = this.getRestRequest();
-		request.setBase_url("");
+		request.userBaseUrl(false);
 		request.setAccept_format(MediaType.APPLICATION_XML);
 		var response = request.getHttpClient("repository/deployments/" + id_deployment + "/resourcedata/", id_resource);
 		String contentResp = "";
@@ -52,20 +52,6 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public String getResourceData(String link) {
 		RestRequest request = this.getRestRequest();
-//		request.setBase_url("");
-//		request.setAccept_format(MediaType.APPLICATION_XML);
-//		String contentResp = "";
-//        try (Response response = request.get(link)) {
-//			if (response != null && response.getStatus() == 200) {
-//				InputStream entity = (InputStream) response.getEntity();
-//                contentResp = new FileHelper().convertToString(entity);
-//				//contentResp = response.readEntity(String.class);
-//            }
-//		} catch (Exception e) {
-//			// Handle exception
-//			e.printStackTrace();
-//		}
-
 		return request.getString(link);
 	}
 
@@ -88,7 +74,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public ResourcesService getResource(String url) {
 		RestRequest req = this.getRestRequest();
-		req.setBase_url("");
+		req.userBaseUrl(false);
 		var response = req.getHttpClient(url);
 		ResourcesService resource = new ResourcesService();
 		if (response != null) {
@@ -106,7 +92,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 	public String getResourceContent(String url) {
 		String d = null;
 		RestRequest req = this.getRestRequest();
-		req.setBase_url("");
+		req.userBaseUrl(false);
 		req.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
 		Response response = req.get(url);
 		if (response != null) {
