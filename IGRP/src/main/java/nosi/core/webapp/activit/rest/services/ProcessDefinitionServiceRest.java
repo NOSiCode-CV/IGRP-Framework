@@ -42,7 +42,9 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		if (listProcessInstancesService != null) {
 			int size = listProcessInstancesService.size();
 			if (size > 0) {
+                if (dep != null) {
 				dep.setTotal(size);
+                }
 				return dep;
 			}
 		}
@@ -53,7 +55,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		ProcessDefinitionService process = new ProcessDefinitionService();
 		if (Core.isNotNull(link)) {
 			RestRequest request = this.getRestRequest();
-			request.setBase_url("");
+			request.userBaseUrl(false);
 			Response response = request.get(link);
 			if (response != null) {
 				String contentResp = "";

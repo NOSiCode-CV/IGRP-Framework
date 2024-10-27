@@ -700,7 +700,7 @@
 					<version>${tomee.maven.plugin.version}</version>
 					<configuration>
 						<tomeeClassifier>plus</tomeeClassifier>
-						<reloadOnUpdate>true</reloadOnUpdate>
+						<reloadOnUpdate>false</reloadOnUpdate>
 						<!-- <deployOpenEjbApplication>true</deployOpenEjbApplication> -->
 						<args>-Dfile.encoding=UTF-8</args>
 						<synchronization>

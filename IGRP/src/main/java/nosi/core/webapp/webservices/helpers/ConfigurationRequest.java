@@ -21,7 +21,7 @@ import nosi.core.webapp.helpers.UrlHelper;
  */
 public class ConfigurationRequest {
 
-	private RestRequest request;
+	private final RestRequest request;
 	
 	public ConfigurationRequest(RestRequest request) {
 		this.request = request;
@@ -35,7 +35,7 @@ public class ConfigurationRequest {
 	}
 
 	public String getUrl() {
-		return UrlHelper.urlEncoding(this.request.getBase_url());
+		return UrlHelper.urlEncoding(this.request.getFinal_url());
 	}
 
 	public HttpAuthenticationFeature getHttpAuthenticationFeature() {
