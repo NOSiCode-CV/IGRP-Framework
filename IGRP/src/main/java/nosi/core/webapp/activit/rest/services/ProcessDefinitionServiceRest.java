@@ -2,7 +2,10 @@ package nosi.core.webapp.activit.rest.services;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import jakarta.ws.rs.core.MediaType;
@@ -41,8 +44,10 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		if (listProcessInstancesService != null) {
 			int size = listProcessInstancesService.size();
 			if (size > 0) {
-				dep.setTotal(size);
-				return dep;
+                if (dep != null) {
+                    dep.setTotal(size);
+                }
+                return dep;
 			}
 		}
 		return null;
@@ -52,7 +57,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		ProcessDefinitionService process = new ProcessDefinitionService();
 		if (Core.isNotNull(link)) {
 			RestRequest request = this.getRestRequest();
-			request.setBase_url("");
+			//request.userBaseUrl(false);
 			//TODO: must check for errors. To be review this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			String response = request.getString(link);
 			if (response != null) {
@@ -185,19 +190,10 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		String d = null;
 		RestRequest request = this.getRestRequest();
 		request.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
-		Response response = request.get(url);
-		if (response != null) {
-			if (response.getStatus() == 200) {
-				try {
-					d = FileHelper.convertInputStreamToBase64((InputStream) response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			response.close();
-		}
-		return d;
+		return Base64.getEncoder().encodeToString(request.getBytes(request.getBase_url() + url));
 	}
+
+
 	public boolean delete(String deploymentId) { 
 		Response response = this.getRestRequest().delete("repository/deployments", deploymentId); 
 		boolean r= response != null && response.getStatus() == 204;

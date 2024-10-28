@@ -635,7 +635,7 @@
                <version>${tomee.maven.plugin.version}</version>
                <configuration>
                   <tomeeClassifier>plus</tomeeClassifier>
-                  <reloadOnUpdate>true</reloadOnUpdate>
+                  <reloadOnUpdate>false</reloadOnUpdate>
               		<!-- To change de ports
               		<debugPort>5007</debugPort>
 					<tomeeHttpPort>8081</tomeeHttpPort>
