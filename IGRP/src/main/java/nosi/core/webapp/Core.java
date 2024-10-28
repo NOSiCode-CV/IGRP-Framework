@@ -103,6 +103,7 @@ public final class Core {
 
 	public static final String NO_PERMITION_MSG = "No permission";
 	public static final String DD_MM_YYYY = "dd-MM-yyyy";
+	public static final String DD_MM_YYYY_HH_MM = "dd-MM-yyyy HH:mm";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
 	/**
@@ -4118,11 +4119,15 @@ public final class Core {
 	}
 
 	public static LocalDateTime convertStringToLocalDateTime(String stringDate, String formatter) {
-		if (Core.isNull(stringDate)) {
+		if (stringDate==null || Core.isNull(stringDate.trim())) {
 			return null;
 		} else {
-			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter);
-			return LocalDate.parse(stringDate, dateTimeFormatter).atStartOfDay();
+				DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter);
+			if (formatter.length() < 12) {
+				return LocalDate.parse(stringDate.trim(), dateTimeFormatter).atStartOfDay();
+			} else {
+				return LocalDateTime.parse(stringDate.trim(), dateTimeFormatter);
+			}
 		}
 	}
 
