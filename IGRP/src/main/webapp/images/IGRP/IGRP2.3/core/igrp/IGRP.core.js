@@ -156,54 +156,54 @@
 				}
 				return null;
 			},
-			resetFieldsSelector : function(o){
-				o.each(function(i,e){
-					
+			resetFieldsSelector: function(o) {
+                o.each(function(i, e) {
                     var parents = $(e).parents('.form-group'),
-                    
-                    	type 	= $(e).parents('[item-type]').first().attr('item-type');
-                    
-                    switch(type){
-                    
-                        case'radio':
+                        type = $(e).parents('[item-type]').first().attr('item-type');
+
+                    switch (type) {
+                        case 'radio':
                         case 'checkbox':
+                            $(e).prop("checked", false);
+                            break;
 
-                            $(e).removeAttr("checked").prop("checked",false);
+                        case 'select':
+                            if ($(e).is('.select2')) {
+                                if (!$(e).data('select2'))
+                                    $.IGRP.components['select2'].init(parents);
+                                $(e).select2("val", "");
+                            } else {
+                                $(e).val('');
+                            }
+                            break;
 
-                        break;
+                        case 'textarea':
+                            $(e).val('');
+                            break;
 
-                        case 'select' :
-                        	
-                        	if( $(e).is('.select2')){
+                        case 'texteditor':
+                            CKEDITOR?.instances[$(e).attr('id')]?.setData('');
+                            break;
 
-                        		if(!$(e).data('select2'))
-
-                        			$.IGRP.components['select2'].init( parents );
-
-                        		$(e).select2("val", "");
-                        	}		
-                        	
-                        break;
-
-                        case 'textarea' :
-
-                        	$(e).text('');
-
-                        break;
-
-						case 'texteditor':
-							CKEDITOR?.instances[formElement.attr('id')]?.setData( value );
-						break;
+                        case 'file':
+                            $(e).val('');
+                            parents.find('.form-hidden').val('');
+                            break;
 
                         default:
-
                             $(e).val('');
-                            $(e).text('').attr('value','');
+                            $(e).text('').attr('value', '');
                     }
+
+                    // Clear hidden inputs within the same form group
+                    parents.find('input[type="hidden"]').each(function() {
+                        $(this).val('');
+                    });
                 });
 
                 return o;
-			},
+            }
+,
 			resetFields  : function(o){
 				
 				$.IGRP.utils.resetFieldsSelector($(":input",o));
