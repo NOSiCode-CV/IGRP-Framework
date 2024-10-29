@@ -167,9 +167,7 @@
                     
                         case'radio':
                         case 'checkbox':
-
-                            $(e).removeAttr("checked").prop("checked",false);
-
+                            $(e).prop("checked", false);
                         break;
 
                         case 'select' :
@@ -181,18 +179,23 @@
                         			$.IGRP.components['select2'].init( parents );
 
                         		$(e).select2("val", "");
-                        	}		
+                            } else {
+                                $(e).val('');
+                        	}
                         	
                         break;
 
                         case 'textarea' :
-
-                        	$(e).text('');
-
+                            $(e).val('');
                         break;
 
 						case 'texteditor':
-							CKEDITOR?.instances[formElement.attr('id')]?.setData( value );
+                            CKEDITOR?.instances[$(e).attr('id')]?.setData('');
+                            break;
+
+                        case 'file':
+                            $(e).val('');
+                            parents.find('.form-hidden').val('');
 						break;
 
                         default:
@@ -200,6 +203,11 @@
                             $(e).val('');
                             $(e).text('').attr('value','');
                     }
+
+                    // Clear hidden inputs within the same form group
+                    parents.find('input[type="hidden"]').each(function() {
+                        $(this).val('');
+                    });
                 });
 
                 return o;
