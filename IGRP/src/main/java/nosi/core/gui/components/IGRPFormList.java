@@ -114,8 +114,8 @@ public class IGRPFormList extends IGRPSeparatorList {
 			this.xml.writeAttribute("type", "start");
 			for (Field field : this.fields) {
 				if (field.isVisible()) {
-					final String val = IgrpHelper.getValue(null, field.getName());
-					this.genRowField(field, val, val);
+				//	final String val = IgrpHelper.getValue(null, field.getName());
+					this.genRowField(field, "", "");
 				}
 			}
 			this.xml.endElement();
