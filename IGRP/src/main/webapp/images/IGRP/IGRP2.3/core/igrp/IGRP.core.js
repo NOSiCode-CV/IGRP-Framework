@@ -190,6 +190,10 @@
                             parents.find('.form-hidden').val('');
                             break;
 
+                        case 'link':
+                            $(e).parents('[item-type]').find('a').attr('href', '#').find('span').text('');
+                            break;
+
                         default:
                             $(e).val('');
                             $(e).text('').attr('value', '');
