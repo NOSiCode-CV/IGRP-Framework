@@ -38,6 +38,12 @@ public class CRUDGenerator extends Model{
 
 	@RParam(rParamName = "p_form_2_radiolist_1")
 	private Integer form_2_radiolist_1;
+
+	@RParam(rParamName = "p_usar_para_id")
+	private String usar_para_id;
+
+	@RParam(rParamName = "p_usar_pr_numdec")
+	private String usar_pr_numdec;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -132,6 +138,20 @@ public class CRUDGenerator extends Model{
 	}
 	public Integer getForm_2_radiolist_1(){
 		return this.form_2_radiolist_1;
+	}
+	
+	public void setUsar_para_id(String usar_para_id){
+		this.usar_para_id = usar_para_id;
+	}
+	public String getUsar_para_id(){
+		return this.usar_para_id;
+	}
+	
+	public void setUsar_pr_numdec(String usar_pr_numdec){
+		this.usar_pr_numdec = usar_pr_numdec;
+	}
+	public String getUsar_pr_numdec(){
+		return this.usar_pr_numdec;
 	}
 
 

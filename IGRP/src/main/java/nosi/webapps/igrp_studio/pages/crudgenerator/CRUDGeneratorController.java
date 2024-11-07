@@ -5,6 +5,8 @@ import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
+import java.util.LinkedHashMap; //block import
+import static nosi.core.i18n.Translator.gt; //block import
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.List;
@@ -33,22 +35,49 @@ import java.util.LinkedHashMap;
 		
 public class CRUDGeneratorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		CRUDGenerator model = new CRUDGenerator();
+		var model = new CRUDGenerator();
 		model.load();
-		CRUDGeneratorView view = new CRUDGeneratorView();
+		var view = new CRUDGeneratorView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Sit elit perspiciatis unde rem' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Aliqua consectetur lorem unde' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.table_type.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.form_2_radiolist_1.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.usar_para_id.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.usar_pr_numdec.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
-		/* Start-Code-Block (index) *//* End-Code-Block (index) */
+		/* Start-Code-Block (index) */
+	/*
+	LinkedHashMap<String, String> usar_para_id = new LinkedHashMap<>();
+	usar_para_id.put("Integer", gt("Integer"));
+	usar_para_id.put("Long", gt("Long"));
+	usar_para_id.put("BigDecimal", gt("BigDecimal"));
+	usar_para_id.put("BigInteger", gt("BigInteger"));
+	view.usar_para_id.setValue(usar_para_id);
+	
+	
+	LinkedHashMap<String, String> usar_pr_numdec = new LinkedHashMap<>();
+	usar_pr_numdec.put("Integer", gt("Integer"));
+	usar_pr_numdec.put("Long", gt("Long"));
+	usar_pr_numdec.put("BigDecimal", gt("BigDecimal"));
+	usar_pr_numdec.put("BigInteger", gt("BigInteger"));
+	view.usar_pr_numdec.setValue(usar_pr_numdec);
+	
+	*//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
-		
+		LinkedHashMap<String, String> usar_para = new LinkedHashMap<>();
+		usar_para.put("Integer", gt("Integer"));
+		usar_para.put("Long", gt("Long"));
+		usar_para.put("BigDecimal", gt("BigDecimal"));
+		usar_para.put("BigInteger", gt("BigInteger"));
+		view.usar_para_id.setValue(usar_para);
+		view.usar_pr_numdec.setValue(usar_para);
+		model.setUsar_para_id("Integer");
+		model.setUsar_pr_numdec("BigDecimal");
 		try {
 			
 			final Map<String, String> daoCrudOptions = new LinkedHashMap<>();
@@ -61,9 +90,7 @@ public class CRUDGeneratorController extends Controller {
 			view.table_type.setValue(DatabaseMetadaHelper.getTableTypeOptions());
 			view.check_table.propertie().add("maxlength", 100);
 			view.check_table_check.propertie().add("maxlength", 100);
-			view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
-			view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
-			
+
 			if (Core.isNotNull(model.getAplicacao())) {
 				
 				final Map<Object, Object> datasourceByEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
@@ -97,14 +124,18 @@ public class CRUDGeneratorController extends Controller {
 		} catch (Exception e) {
 			model.setTable_1(new ArrayList<>());
 		}
-		
+		view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
+		view.documento.propertie().replace("img","fa-question-circle");
+		view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
+		view.forum.propertie().replace("img","fa-comments");
+
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
 	}
 	
 	public Response actionAdd_datasource() throws IOException, IllegalArgumentException, IllegalAccessException{
-		CRUDGenerator model = new CRUDGenerator();
+		var model = new CRUDGenerator();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -121,7 +152,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 	public Response actionGerar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		CRUDGenerator model = new CRUDGenerator();
+		var model = new CRUDGenerator();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -170,7 +201,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 	public Response actionGerar_dao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		CRUDGenerator model = new CRUDGenerator();
+		var model = new CRUDGenerator();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -215,7 +246,7 @@ public class CRUDGeneratorController extends Controller {
 				daoDto.setTableName(tableName);
 				daoDto.setDaoClassName(GerarClasse.convertCase(tableName, true));
 				
-				if (this.generateDAO(daoDto)) 
+				if (this.generateDAO(daoDto,model.getUsar_para_id(),model.getUsar_pr_numdec()))
 					daoMappings.add(daoPackageName + "." + daoDto.getDaoClassName());
 			}
 			
@@ -417,7 +448,7 @@ public class CRUDGeneratorController extends Controller {
 	/********************* FIM METODO USADOS PARA GERAR CRUD *********************/
 	/********************* METODO USADOS PARA GERAR DAO *********************/
 
-	public boolean generateDAO(DaoDto daoDto) {
+	public boolean generateDAO(DaoDto daoDto,String idColType, String numCol) {
 		boolean flag = false;
 		try {
 			
@@ -425,7 +456,7 @@ public class CRUDGeneratorController extends Controller {
 			final String daoClassPathName = String.format("%s%s%s", pathDao, daoDto.getDaoClassName(), JAVA_EXTENSION);
 			 
 			// Generate dao class files content
-			final String content = new GerarClasse(daoDto).generate();
+			final String content = new GerarClasse(daoDto).generate(idColType,numCol);
 
 			// Save dao class files
 			flag = saveFiles(daoDto.getDaoClassName().concat(JAVA_EXTENSION), content, pathDao);

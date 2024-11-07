@@ -49,13 +49,13 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>//in controller</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </documento>
-                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true" adbcli="">
+                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Forum</label>
-                    <value>//in controller</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </forum>
             </fields>
         </view_1>
@@ -183,28 +183,28 @@
                 <value>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Rem sed consectetur deserunt a</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Aperiam aliqua doloremque sit</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Voluptatem magna officia accus</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Sit adipiscing labore aliqua a</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ut elit sed laudantium labore</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Mollit totam dolor rem aliqua</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sed deserunt unde doloremque n</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Totam stract omnis elit volupt</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Consectetur rem ipsum sit sit</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Omnis sit voluptatem mollit co</table_name>
                     </row>
                 </value>
             </table>
@@ -290,11 +290,124 @@
                 <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
             </item>
         </toolsbar_2>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <usar_para_id name="p_usar_para_id" type="radiolist" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false" child_size="6" right="false" java-type="String" tooltip="false" disable_copy_paste="false">
+                    <label>Usar para ID</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </usar_para_id>
+                <usar_pr_numdec name="p_usar_pr_numdec" type="radiolist" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false" child_size="6" right="false" java-type="String" tooltip="false" disable_copy_paste="false">
+                    <label>Usar para NUMERIC/DECIMAL</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </usar_pr_numdec>
+            </fields>
+        </form_1>
     </content>
     <blockly>
-        <imports></imports>
+        <imports>
+            <import type="fill_combo">Select</import>
+        </imports>
         <xml>
-            <block type="controller" id="controller" x="388" y="13"></block>
+            <block type="controller" id="controller" x="388" y="13">
+                <statement name="index">
+                    <block type="comment_code" id="#DUln{oI[,}N0f;84pHs">
+                        <statement name="value1">
+                            <block type="fill_combo" id=",cXxap)[h8k==Q_enmp)" inline="true">
+                                <field name="selecao">usar_para_id</field>
+                                <field name="selecionar">FALSE</field>
+                                <statement name="value2">
+                                    <block type="option_combo" id="4l3V}!UNV%tsz{:*P_rN" inline="true">
+                                        <field name="opcao_val">Integer</field>
+                                        <field name="opcao_des">Integer</field>
+                                        <next>
+                                            <block type="option_combo" id="yar1~*@1^JAIh@Ixs6;m" inline="true">
+                                                <field name="opcao_val">Long</field>
+                                                <field name="opcao_des">Long</field>
+                                                <next>
+                                                    <block type="option_combo" id="[z,z8qH;a*iYfdd2,a6G" inline="true">
+                                                        <field name="opcao_val">BigDecimal</field>
+                                                        <field name="opcao_des">BigDecimal</field>
+                                                        <next>
+                                                            <block type="option_combo" id="pys!.YF)Kb)/--7^*+1Z" inline="true">
+                                                                <field name="opcao_val">BigInteger</field>
+                                                                <field name="opcao_des">BigInteger</field>
+                                                            </block>
+                                                        </next>
+                                                    </block>
+                                                </next>
+                                            </block>
+                                        </next>
+                                    </block>
+                                </statement>
+                                <next>
+                                    <block type="fill_combo" id=".LqsB-X};51b;([5IM5?" inline="true">
+                                        <field name="selecao">usar_pr_numdec</field>
+                                        <field name="selecionar">FALSE</field>
+                                        <statement name="value2">
+                                            <block type="option_combo" id="xr9sz4Z[tKqC|yV:H8xa" inline="true">
+                                                <field name="opcao_val">Integer</field>
+                                                <field name="opcao_des">Integer</field>
+                                                <next>
+                                                    <block type="option_combo" id="}u7`]8=]}uuOwd/QMxKv" inline="true">
+                                                        <field name="opcao_val">Long</field>
+                                                        <field name="opcao_des">Long</field>
+                                                        <next>
+                                                            <block type="option_combo" id="*X5r{iBU}5Ik({}SK^c^" inline="true">
+                                                                <field name="opcao_val">BigDecimal</field>
+                                                                <field name="opcao_des">BigDecimal</field>
+                                                                <next>
+                                                                    <block type="option_combo" id="|vjlU8D8`,iAft*H0eIf" inline="true">
+                                                                        <field name="opcao_val">BigInteger</field>
+                                                                        <field name="opcao_des">BigInteger</field>
+                                                                    </block>
+                                                                </next>
+                                                            </block>
+                                                        </next>
+                                                    </block>
+                                                </next>
+                                            </block>
+                                        </statement>
+                                    </block>
+                                </next>
+                            </block>
+                        </statement>
+                    </block>
+                </statement>
+            </block>
         </xml>
     </blockly>
 </rows>

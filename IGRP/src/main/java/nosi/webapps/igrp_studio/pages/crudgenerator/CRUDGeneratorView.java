@@ -20,11 +20,14 @@ public class CRUDGeneratorView extends View {
 	public Field table_name;
 	public Field table_type;
 	public Field form_2_radiolist_1;
+	public Field usar_para_id;
+	public Field usar_pr_numdec;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_crud_dao_gen;
 	public IGRPTable table_1;
 	public IGRPForm form_2;
+	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_3;
 	public IGRPToolsBar toolsbar_1;
@@ -47,6 +50,8 @@ public class CRUDGeneratorView extends View {
 
 		form_2 = new IGRPForm("form_2","");
 
+		form_1 = new IGRPForm("form_1","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("<p>CRUD/DAO generator</p>"));
@@ -54,25 +59,23 @@ public class CRUDGeneratorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("//in controller"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.setValue(gt("//in controller"));
-		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Application"));
-		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		aplicacao.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		data_source.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		schema = new ListField(model,"schema");
 		schema.setLabel(gt("Schema"));
-		schema.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		schema.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));
@@ -87,11 +90,19 @@ public class CRUDGeneratorView extends View {
 		
 		table_type = new ListField(model,"table_type");
 		table_type.setLabel(gt("Table Type"));
-		table_type.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		table_type.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		form_2_radiolist_1 = new RadioListField(model,"form_2_radiolist_1");
 		form_2_radiolist_1.setLabel(gt("Escolha 1º"));
 		form_2_radiolist_1.propertie().add("name","p_form_2_radiolist_1").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","").add("tooltip","false").add("disable_copy_paste","false");
+		
+		usar_para_id = new RadioListField(model,"usar_para_id");
+		usar_para_id.setLabel(gt("Usar para ID"));
+		usar_para_id.propertie().add("name","p_usar_para_id").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","String").add("tooltip","false").add("disable_copy_paste","false");
+		
+		usar_pr_numdec = new RadioListField(model,"usar_pr_numdec");
+		usar_pr_numdec.setLabel(gt("Usar para NUMERIC/DECIMAL"));
+		usar_pr_numdec.propertie().add("name","p_usar_pr_numdec").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","String").add("tooltip","false").add("disable_copy_paste","false");
 		
 
 		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
@@ -132,6 +143,9 @@ public class CRUDGeneratorView extends View {
 
 
 
+		form_1.addField(usar_para_id);
+		form_1.addField(usar_pr_numdec);
+
 		toolsbar_3.addButton(btn_add_datasource);
 		toolsbar_1.addButton(btn_gerar);
 		toolsbar_2.addButton(btn_gerar_dao);
@@ -140,6 +154,7 @@ public class CRUDGeneratorView extends View {
 		this.addToPage(form_crud_dao_gen);
 		this.addToPage(table_1);
 		this.addToPage(form_2);
+		this.addToPage(form_1);
 		this.addToPage(toolsbar_3);
 		this.addToPage(toolsbar_1);
 		this.addToPage(toolsbar_2);
@@ -148,13 +163,17 @@ public class CRUDGeneratorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		documento.setValue(model);
+		forum.setValue(model);
 		aplicacao.setValue(model);
 		data_source.setValue(model);
 		schema.setValue(model);
 		check_table.setValue(model);
 		table_name.setValue(model);
 		table_type.setValue(model);
-		form_2_radiolist_1.setValue(model);	
+		form_2_radiolist_1.setValue(model);
+		usar_para_id.setValue(model);
+		usar_pr_numdec.setValue(model);	
 
 		table_1.loadModel(((CRUDGenerator) model).getTable_1());
 		}
