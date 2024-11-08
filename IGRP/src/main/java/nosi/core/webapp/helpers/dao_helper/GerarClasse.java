@@ -3,6 +3,7 @@ package nosi.core.webapp.helpers.dao_helper;
 import java.io.IOException;
 import java.io.Serial;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,7 +75,7 @@ public class GerarClasse {
 
 	private final Function<Class<?>, String> buildImportLine = clazz -> "import " + clazz.getCanonicalName() + ";" + NEW_LINE;
 
-	public String generate() throws SQLException, IOException {
+	public String generate(String idColType, String numDecCol) throws SQLException, IOException {
 
 		final var columns = DatabaseMetadaHelper.getCollumns(this.daoDto.getConfigEnv(), this.daoDto.getSchema(), this.daoDto.getTableName());
 
@@ -83,10 +84,9 @@ public class GerarClasse {
 			this.updateColumnsInfos(column);
 
 			if (column.isPrimaryKey())
-				this.doIfColumnIsPrimaryKey(column);
+				this.doIfColumnIsPrimaryKey(column,idColType);
 
 			else if (column.isForeignKey()) {
-
 				this.doIfColumnIsForeignKey(column);
 
 				if (!Core.fileExists(new Config().getPathDAO(this.daoDto.getDadName()) + columnType
@@ -107,11 +107,11 @@ public class GerarClasse {
 					newDaoDto.setTableName(column.getTableRelation());
 					newDaoDto.setTableType(this.daoDto.getTableType());
 					newDaoDto.setDaoClassName(columnType);
-					new CRUDGeneratorController().generateDAO(newDaoDto);
+					new CRUDGeneratorController().generateDAO(newDaoDto,idColType,numDecCol);
 				}
 
 			} else
-				this.doIfColumnIsNotPrimaryNorForeignKey(column);
+				this.doIfColumnIsNotPrimaryNorForeignKey(column,numDecCol);
 
 			this.appendGettersSetters();
 
@@ -161,15 +161,15 @@ public class GerarClasse {
 		this.pascalCaseColumnName = convertCase(column.getName(), true);
 		this.camelCaseColumnName = convertCase(column.getName(), false);
 	}
-	private void doIfColumnIsPrimaryKey(DatabaseMetadaHelper.Column column) throws SQLException {
+	private void doIfColumnIsPrimaryKey(DatabaseMetadaHelper.Column column, String idColType) throws SQLException {
 
 		final var dbType = this.decryptDatabaseCode(this.daoDto.getConfigEnv().getType_db());
 
-		final var sequence = this.getOracleSequence(dbType);
 		variables.append(TAB).append("@Id").append(NEW_LINE);
 
 		if (dbType.equals(DatabaseConfigHelper.ORACLE)) {
 
+			final var sequence = this.getOracleSequence(dbType);
 			this.importClasses.add(GenerationType.class);
 			this.importClasses.add(SequenceGenerator.class);
 
@@ -190,7 +190,14 @@ public class GerarClasse {
 			this.importClasses.add(GenerationType.class);
 			variables.append(TAB).append("@GeneratedValue(strategy = GenerationType.IDENTITY)").append(NEW_LINE);
 		}
+		if(idColType!=null){
+			columnType=idColType;
+			if(columnType.equals(BigDecimal.class.getSimpleName()))
+				this.importClasses.add(BigDecimal.class);
+			else if(columnType.equals(BigInteger.class.getSimpleName()))
+				this.importClasses.add(BigInteger.class);
 
+		}
 		variables.append(TAB).append("@Column(name = \"").append(column.getName())
 				.append("\", nullable = false, updatable = false").append(")\n \tprivate ").append(columnType)
 				.append(" ").append(camelCaseColumnName).append(";").append(NEW_LINE);
@@ -218,7 +225,7 @@ public class GerarClasse {
 				.append(NEW_LINE);
 	}
 
-	private void doIfColumnIsNotPrimaryNorForeignKey(DatabaseMetadaHelper.Column column) {
+	private void doIfColumnIsNotPrimaryNorForeignKey(DatabaseMetadaHelper.Column column, String numDecCol) {
 		final var clazz = this.resolveColumnClass(column.getTypeSql());
 		if (columnType.equals(Byte[].class.getSimpleName())) {
 			variables.append(TAB).append("@javax.persistence.Lob\r").append(NEW_LINE).append(TAB)
@@ -230,6 +237,12 @@ public class GerarClasse {
 			.append("@Column(name = \"").append(column.getName()).append("\"");
 		if(columnType.equals(Object.class.getSimpleName()) || (columnType.equals(String.class.getSimpleName()) && !column.getColumnTypeName​().equalsIgnoreCase("varchar")))
 			variables.append(", columnDefinition = \"").append(column.getColumnTypeName​()).append("\"");
+
+		if(columnType.equals(BigDecimal.class.getSimpleName())){
+			columnType=numDecCol;
+			if(columnType.equals(BigInteger.class.getSimpleName()))
+				this.importClasses.add(BigInteger.class);
+		}
 		variables.append(")").append(NEW_LINE)
 			.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
 			.append(NEW_LINE);
