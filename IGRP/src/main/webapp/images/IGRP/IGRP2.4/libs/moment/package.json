@@ -1,6 +1,6 @@
 {
     "name": "moment",
-    "version": "2.24.0",
+    "version": "2.30.1",
     "description": "Parse, validate, manipulate, and display dates",
     "homepage": "http://momentjs.com",
     "author": "Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)",
@@ -51,7 +51,7 @@
         "grunt-contrib-watch": "^1.1.0",
         "grunt-env": "latest",
         "grunt-exec": "latest",
-        "grunt-jscs": "latest",
+        "grunt-jscs": "^0.6.1",
         "grunt-karma": "latest",
         "grunt-nuget": "latest",
         "grunt-string-replace": "latest",
@@ -59,13 +59,13 @@
         "karma-chrome-launcher": "latest",
         "karma-firefox-launcher": "latest",
         "karma-qunit": "latest",
-        "karma-sauce-launcher": "latest",
+        "karma-sauce-launcher": "^4.1.4",
         "load-grunt-tasks": "~3.5.2",
         "node-qunit": "^1.0.0",
-        "nyc": "~11.9.0",
+        "nyc": "^17.1.0",
         "qunit": "^2.7.1",
-        "rollup": "~0.67.4",
-        "spacejam": "latest",
+        "rollup": "^4.27.3",
+        "spacejam": "^1.0.0",
         "typescript": "^1.8.10",
         "uglify-js": "latest"
     },
@@ -95,5 +95,8 @@
         "output": [
             "locale/*.js"
         ]
+    },
+    "dependencies": {
+        "moment": "^2.30.1"
     }
 }
