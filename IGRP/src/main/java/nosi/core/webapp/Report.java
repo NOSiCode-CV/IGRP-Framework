@@ -33,6 +33,9 @@ import nosi.webapps.igrp.dao.RepTemplate;
 import org.apache.commons.lang3.StringUtils;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 
  * Use the functions getLinkReport and other to manage and invoke reports.
@@ -278,6 +281,16 @@ public class Report extends Controller{
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
+
+	private static String extractCssProperty(String css, String selector, String property) {
+			String regex = selector + "\\s*\\{[^}]*" + property + "\\s*:\\s*([^;]+);";
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(css);
+			if (matcher.find()) {
+				return matcher.group(1).trim();
+			}
+			return null;
+	}
 	
 	public Document html5ParseDocument(String inputHTML, String baseUri){
 	    org.jsoup.nodes.Document doc;
@@ -311,17 +324,24 @@ public class Report extends Controller{
 		Elements styleD = null;
 		if (content != null) {
 			styleD = content.getElementsByTag("style");
-			if (styleD != null)
-				doc.getElementsByTag("head").append(styleD + "");
+			doc.getElementsByTag("head").append(styleD + "");
 
-			Elements qrcode = content.select("div.containerQrcode").tagName("object").attr("type", "image/barcode")
-					.attr("style", "width:100px;height:100px;");
+			Elements qrcode = content.select("div.containerQrcode").tagName("object").attr("type", "image/barcode");
+
+			// Extract width and height from the CSS
+			String css = styleD.html();
+			String width = extractCssProperty(css, ".containerQrcode", "width");
+			String height = extractCssProperty(css, ".containerQrcode", "height");
+
+			// Apply the extracted width and height to the QR code
+			String style = (Core.isNotNull(qrcode.attr("style")) && qrcode.attr("style").contains("width"))
+					? qrcode.attr("style")
+					: "width:" + (width != null ? width : "100px") + ";height:" + (height != null ? height : "100px") + ";";
+			qrcode.attr("style", style);
 			qrcode.attr("value", Core.isNotNull(qrcode.attr("url")) ? qrcode.attr("url") : "Nothing/Nada");
 			qrcode.removeAttr("url");
-			
-			if (styleD != null) {
-				styleD.remove();
-			}
+
+			styleD.remove();
 		}
 
 		Element footer = doc.getElementById("footer");
