@@ -92,7 +92,7 @@ public class PageExport implements IExport{
 	protected void addConfigFiles(PageSerializable page,Action ac) {
 		//Get xml, json and xsl
 		String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();		
-		String xslXMLJsonPath =  warName + File.separator + this.config.getImageAppPath(ac.getApplication(),"2.3") + File.separator+ac.getPage().toLowerCase();
+		String xslXMLJsonPath =  warName + File.separator + this.config.getImageAppPath(ac.getApplication(),Core.isNotNull(ac.getVersion())?ac.getVersion():"2.3") + File.separator+ac.getPage().toLowerCase();
 		if(FileHelper.fileExists(xslXMLJsonPath)) {
 			String json = FileHelper.readFile(xslXMLJsonPath, ac.getPage()+".json");
 			String xml = FileHelper.readFile(xslXMLJsonPath, ac.getPage()+".xml");
