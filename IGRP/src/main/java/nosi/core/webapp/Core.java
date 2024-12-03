@@ -1921,6 +1921,14 @@ public final class Core {
 		return !isNull(value);
 	}
 
+	public static String isNotNull(Object value, String optionPositive,String optionNegative) {
+		return !isNull(value)?optionPositive:optionNegative;
+	}
+
+	public static String isNotNull(Object value,String optionNegative) {
+		return isNotNull(value, (String) value,optionNegative);
+	}
+
 	/**
 	 * Checks if it's not null or "" for multiple values
 	 * Core.isNotNullMultiple(a,b,c,d)

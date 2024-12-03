@@ -243,7 +243,8 @@ public class WebReportController extends Controller {
 		
 		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia , 3 - retornar PDF e gravar
 		Integer id = Core.getParamInt("p_rep_id");
-		String contraProva= Core.getParam("ctpr");		
+		String contraProva= Core.getParam("ctpr");
+		String filename = Core.getParam("filename");
 		if(Core.isNotNull(id)){
 			String[] nameArray = Core.getParamArray("name_array");
 			String[] valueArray = Core.getParamArray("value_array");
@@ -252,7 +253,7 @@ public class WebReportController extends Controller {
 			String genXml = genRenderXml(rt, type, contraProva, nameArray, valueArray);
 			
 			if(type.equals(Report.PDF_SAVE))
-				return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
+				return new Report().processPDF(Core.isNotNull(filename,System.currentTimeMillis()+"_"+rt.getName()),rt.getXsl_content(), genXml,"false");
 			
 			this.format = Response.FORMAT_XML;			
 			return this.renderView(genXml);
@@ -278,7 +279,8 @@ public class WebReportController extends Controller {
 		
 		String type = Report.PDF_PRV;// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF, 3 - preview PDF with no save
 		Integer id = Core.getParamInt("p_rep_id");
-		String contraProva= Core.getParam("ctpr");		
+		String contraProva= Core.getParam("ctpr");
+		String filename = Core.getParam("filename");
 		if(Core.isNotNull(id)){
 			String []nameArrays = Core.getParamArray("name_array");
 			String []valueArrays = Core.getParamArray("value_array");
@@ -286,7 +288,7 @@ public class WebReportController extends Controller {
 			rt = rt.findOne(id);
 			String genXml = genRenderXml(rt, type, contraProva, nameArrays, valueArrays);
 		
-			return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
+			return new Report().processPDF(Core.isNotNull(filename,System.currentTimeMillis()+"_"+rt.getName()),rt.getXsl_content(), genXml,"false");
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 		

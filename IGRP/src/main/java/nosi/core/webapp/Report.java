@@ -79,7 +79,9 @@ public class Report extends Controller{
 					if(p.getValue() != null && !p.getValue().toString().equals("?")) { 
 						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
 							qStr.append("&").append(p.getKey()).append("=").append(p.getValue()); // isPublic=1 :-)
-						else 
+						else if (p.getKey().equals("filename"))
+							qStr.append("&").append(p.getKey()).append("=").append(p.getValue()); // filename=name of file :-)
+						else
 							qStr.append("&name_array=").append(p.getKey()).append("&value_array=").append(URLEncoder.encode("" + p.getValue(), StandardCharsets.UTF_8));
 					}
 				}else {
@@ -361,9 +363,8 @@ public class Report extends Controller{
 	  }
 	/**
 	 * @param contraprova
-	 * @param dad
 	 * @param outType PDF_SAVE, XSLXML_SAVE
-	 * @param toDownload
+	 * @param toDownload show preview or download immediately
 	 * @return
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws IOException
