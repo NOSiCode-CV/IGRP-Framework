@@ -103,6 +103,8 @@ public class Permission {
        String json = Core.toJson(appP);
        Cookie cookie = new Cookie(appP.getDad(), URLEncoder.encode( json, StandardCharsets.UTF_8));
        cookie.setMaxAge(MAX_AGE);
+	   cookie.setHttpOnly(true);
+	   cookie.setSecure(true); // Ensures the cookie is sent over HTTPS
        Igrp.getInstance().getResponse().addCookie(cookie);
     }
 

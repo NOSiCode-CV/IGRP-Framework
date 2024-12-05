@@ -253,7 +253,7 @@ public class WebReportController extends Controller {
 			String genXml = genRenderXml(rt, type, contraProva, nameArray, valueArray);
 			
 			if(type.equals(Report.PDF_SAVE))
-				return new Report().processPDF(Core.isNotNull(filename,System.currentTimeMillis()+"_"+rt.getName()),rt.getXsl_content(), genXml,"false");
+				return new Report().processPDF(Core.isNotNull(Core.decryptPublicPage(filename),System.currentTimeMillis()+"_"+rt.getName()),rt.getXsl_content(), genXml,"false");
 			
 			this.format = Response.FORMAT_XML;			
 			return this.renderView(genXml);
@@ -288,7 +288,7 @@ public class WebReportController extends Controller {
 			rt = rt.findOne(id);
 			String genXml = genRenderXml(rt, type, contraProva, nameArrays, valueArrays);
 		
-			return new Report().processPDF(Core.isNotNull(filename,System.currentTimeMillis()+"_"+rt.getName()),rt.getXsl_content(), genXml,"false");
+			return new Report().processPDF(Core.isNotNull(Core.decryptPublicPage(filename),System.currentTimeMillis()+"_"+rt.getName()),rt.getXsl_content(), genXml,"false");
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 		

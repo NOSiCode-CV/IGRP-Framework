@@ -43,6 +43,10 @@
   </welcome-file-list>
   <session-config>
     <session-timeout>-1</session-timeout>
+    <cookie-config>
+      <http-only>true</http-only>
+      <secure>true</secure>
+    </cookie-config>
   </session-config>
   <listener>
     <listener-class>nosi.core.listener.BasicListener</listener-class>
