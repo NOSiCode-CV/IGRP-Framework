@@ -17,6 +17,7 @@
 -->
 <!-- The contents of this file will be loaded for each web application -->
 <Context>
+    <CookieProcessor sameSiteCookies="strict" />
     <Resources cachingAllowed="true" cacheMaxSize="300000" />
     <!-- Default set of monitored resources. If one of these changes, the    -->
     <!-- web application will be reloaded.                                  
