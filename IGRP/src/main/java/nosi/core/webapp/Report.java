@@ -33,6 +33,9 @@ import nosi.webapps.igrp.dao.RepTemplate;
 import org.apache.commons.lang3.StringUtils;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 
  * Use the functions getLinkReport and other to manage and invoke reports.
@@ -64,31 +67,36 @@ public class Report extends Controller{
 	qStr.append("&p_type=").append(type); // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
 	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
 	qStr.append("&p_rep_id=").append(rt.getId());
-	String contra_prova=rep.getContraProva();
-	if(Core.isNull(contra_prova))
-		 contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
-	
-	qStr.append("&ctpr=").append(Core.encryptPublicPage(contra_prova));
+
+
 	try {
-		if(rep!=null) 
-			for(Entry<String, Object> p : rep.getParams().entrySet()) 
-				if(!(p.getValue() instanceof List)) {
-					if(p.getValue() != null && !p.getValue().toString().equals("?")) { 
-						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
+		if(rep!=null) {
+			String contra_prova = rep.getContraProva();
+			if (Core.isNull(contra_prova))
+				contra_prova = Report.generateContraProva("nosi.webapps." + rt.getApplication().getDad().toLowerCase());
+			qStr.append("&ctpr=").append(Core.encryptPublicPage(contra_prova));
+			for (Entry<String, Object> p : rep.getParams().entrySet())
+				if (!(p.getValue() instanceof List)) {
+					if (p.getValue() != null && !p.getValue().toString().equals("?")) {
+						if (p.getKey().equals("isPublic") && p.getValue().equals("1"))
 							qStr.append("&").append(p.getKey()).append("=").append(p.getValue()); // isPublic=1 :-)
-						else 
+						else if (p.getKey().equals("filename"))
+							qStr.append("&").append(p.getKey()).append("=").append(Core.encryptPublicPage(p.getValue() + "")); // filename=name of file :-)
+						else
 							qStr.append("&name_array=").append(p.getKey()).append("&value_array=").append(URLEncoder.encode("" + p.getValue(), StandardCharsets.UTF_8));
 					}
-				}else {
-					List<Object> parms = (List<Object>) p.getValue(); 
-					for(Object v : parms) 
+				} else {
+					List<Object> parms = (List<Object>) p.getValue();
+					for (Object v : parms)
 						qStr.append("&name_array=").append(p.getKey()).append("&value_array=").append(URLEncoder.encode(v.toString(), StandardCharsets.UTF_8));
 				}
-		
-		
-			Response redirect = this.redirect("igrp_studio", "WebReport", "preview" + qStr,this.queryString());
+
+
+			Response redirect = this.redirect("igrp_studio", "WebReport", "preview" + qStr, this.queryString());
 			redirect.setContent(contra_prova);
 			return redirect;
+		}else
+			System.out.println("ERROR Report- rep is null");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -198,7 +206,7 @@ public class Report extends Controller{
 	}
 	
 	/**
-	 * @param id
+
 	 * @param xml
 	 * @return 
 	 * @throws TransformerFactoryConfigurationError
@@ -278,6 +286,16 @@ public class Report extends Controller{
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
+
+	private static String extractCssProperty(String css, String selector, String property) {
+			String regex = selector + "\\s*\\{[^}]*" + property + "\\s*:\\s*([^;]+);";
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(css);
+			if (matcher.find()) {
+				return matcher.group(1).trim();
+			}
+			return null;
+	}
 	
 	public Document html5ParseDocument(String inputHTML, String baseUri){
 	    org.jsoup.nodes.Document doc;
@@ -311,17 +329,24 @@ public class Report extends Controller{
 		Elements styleD = null;
 		if (content != null) {
 			styleD = content.getElementsByTag("style");
-			if (styleD != null)
-				doc.getElementsByTag("head").append(styleD + "");
+			doc.getElementsByTag("head").append(styleD + "");
 
-			Elements qrcode = content.select("div.containerQrcode").tagName("object").attr("type", "image/barcode")
-					.attr("style", "width:100px;height:100px;");
+			Elements qrcode = content.select("div.containerQrcode").tagName("object").attr("type", "image/barcode");
+
+			// Extract width and height from the CSS
+			String css = styleD.html();
+			String width = extractCssProperty(css, ".containerQrcode", "width");
+			String height = extractCssProperty(css, ".containerQrcode", "height");
+
+			// Apply the extracted width and height to the QR code
+			String style = (Core.isNotNull(qrcode.attr("style")) && qrcode.attr("style").contains("width"))
+					? qrcode.attr("style")
+					: "width:" + (width != null ? width : "100px") + ";height:" + (height != null ? height : "100px") + ";";
+			qrcode.attr("style", style);
 			qrcode.attr("value", Core.isNotNull(qrcode.attr("url")) ? qrcode.attr("url") : "Nothing/Nada");
 			qrcode.removeAttr("url");
-			
-			if (styleD != null) {
-				styleD.remove();
-			}
+
+			styleD.remove();
 		}
 
 		Element footer = doc.getElementById("footer");
@@ -341,9 +366,8 @@ public class Report extends Controller{
 	  }
 	/**
 	 * @param contraprova
-	 * @param dad
 	 * @param outType PDF_SAVE, XSLXML_SAVE
-	 * @param toDownload
+	 * @param toDownload show preview or download immediately
 	 * @return
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws IOException
