@@ -38,7 +38,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 		final var authCode = request.getParameter("code");
 		final var sessionState = request.getParameter("session_state");
-		final var session = request.getSession();
+		var session = request.getSession();
 		final var settings = ApplicationManager.loadConfig();
 		
 		final var m = generateToken(authCode, settings);
