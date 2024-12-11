@@ -8,7 +8,7 @@
 				
 			var title = o.options.label || capitalizeFirstLetter(o.options.name), 
 
-				html = $('<label>'+title+'</label><div class="box gen-container-item" ><div class="box-body IGRP-separatorlist" tag="gen-separatorlist-attr" dialog="false"><div class="splist-form-holder"><div class="splist-form" role="form"></div></div><div class="table-box box-body box-table-contents splist-table"><table rel="T_separatorlist_1" id="gen-separatorlist-attr" class="table table-striped gen-data-table"><thead><tr><th class="table-btn"><a class="table-row-add btn-xs btn btn-primary" title="Adicionar" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"/></a></th></tr></thead><tbody></tbody></table></div></div></div>');
+				html = $('<label>'+title+'</label><div class="box gen-container-item" ><div class="box-body IGRP-separatorlist" tag="gen-separatorlist-attr" dialog="false"><div class="splist-form-holder"><div class="splist-form" role="form"></div></div><div class="table-box box-body box-table-contents splist-table"><table rel="T_separatorlist_1" id="gen-separatorlist-attr" class="table table-striped gen-data-table"><thead><tr><th class="table-btn"><a class="table-row-add btn-xs btn btn-primary" title="Adicionar" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"></i></a></th></tr></thead><tbody></tbody></table></div></div></div>');
 			
 			if(o.options.data){
 
@@ -63,7 +63,7 @@
 			
 			o.name = o.name || 'flist-attr'+(new Date().getTime());
 		
-			var flist = $('<table id="'+o.name+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_'+o.name+'" data-control="data-'+o.flistName+'"><thead><tr><th class="table-btn add"><a class="formlist-row-add btn btn-primary" rel="'+o.name+'"><i class="fa fa-plus"/></a></th></tr></thead><tbody><tr row="0"><input type="hidden" name="p_'+o.name+'_id" value=""/><td class="table-btn delete" data-row="0"><span class="formlist-row-remove btn btn-danger" rel="'+o.name+'"><i class="fa fa-times"/></span></td></tr></tbody></table>');
+			var flist = $('<table id="'+o.name+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_'+o.name+'" data-control="data-'+o.flistName+'"><thead><tr><th class="table-btn add"><a class="formlist-row-add btn btn-primary" rel="'+o.name+'"><i class="fa fa-plus"></i></a></th></tr></thead><tbody><tr row="0"><input type="hidden" name="p_'+o.name+'_id" value=""/><td class="table-btn delete" data-row="0"><span class="formlist-row-remove btn btn-danger" rel="'+o.name+'"><i class="fa fa-times"/></span></td></tr></tbody></table>');
 			
 			var getInput = function(f){
 				

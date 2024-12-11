@@ -333,7 +333,7 @@
 						
 						var color = $(l).attr('legend-color'),
 						
-							value = $(l).attr('value');
+							value = $(l).val;
 						
 						style+='[item-name="'+itemName+'"] table td.tdcolor span.tdcolor-item[value="'+value+'"] { background-color: '+color+' }'
 						

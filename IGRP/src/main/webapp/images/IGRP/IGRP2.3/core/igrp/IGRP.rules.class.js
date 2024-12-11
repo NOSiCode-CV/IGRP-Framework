@@ -61,7 +61,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			var defaultRemote = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 			var remote  = $(':input[name="'+p.sourceName+'"]').attr('igrp-remote'),
 				url 	= remote && remote != undefined ? function(){
-					if(remote.indexOf('{') == 0){
+					if(remote.indexOf('{') === 0){
 						try{
 							const object = JSON.parse(remote.replaceAll("'",'"'));
 							remote = object['remote-'+p.procedureName];
@@ -553,7 +553,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						val    = $.IGRP.rules.getFieldValue($(ro.field)),
 
-						xval   = $(r.field).attr('type') == 'number' ? val : "'"+val+"'";
+						xval   = $(r.field).attr('type') === 'number' ? val : "'"+val+"'";
 
 					conditionStr = conditionStr.replaceAll(o, xval);
 
@@ -925,7 +925,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 							
 								$.each($('option', wrapper), function(z, o) {
 									
-									const selected = $(o).attr('selected') ? true : false;
+									const selected = $(o).selected ? true : false;
 									
 									options.push({
 										text: $('text', o).text(),
