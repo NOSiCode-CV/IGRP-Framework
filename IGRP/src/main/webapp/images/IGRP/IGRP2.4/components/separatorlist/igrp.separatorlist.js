@@ -134,13 +134,13 @@
                 <td data-row="" class="table-btn" style="vertical-align:middle">
                     <div class="d-flex align-items-center">
                         <span class="table-row-undo btn btn-ghost-dark d-none" rel="${id}">
-                            <i class="ri-arrow-go-back-line"/>
+                            <i class="ri-arrow-go-back-line"></i>
                         </span>
                         <span class="table-row-edit btn btn-ghost-success " rel="${id}" >
-                            <i class="ri-edit-2-line"/>
+                            <i class="ri-edit-2-line"></i>
                         </span>
                         <span class="table-row-remove btn btn-ghost-danger" rel="${id}" >
-                            <i class="ri-delete-bin-line"/>
+                            <i class="ri-delete-bin-line"></i>
                         </span>
                     </div>
                 </td>`
