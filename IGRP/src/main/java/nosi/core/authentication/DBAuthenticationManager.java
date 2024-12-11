@@ -40,7 +40,7 @@ public final class DBAuthenticationManager {
 		currentUser.setIsAuthenticated(0); 
 		currentUser.update();
 		AuthenticationManager.destroySecurityContext(request.getSession(false), response);
-		AuthenticationManager.afterLogout(request.getSession().getId());
+		AuthenticationManager.afterLogout(request.getSession(false).getId());
 		AuthenticationManager.clearAllCookieExceptLocale(request, response);
 	}
 

@@ -50,7 +50,7 @@ public final class ApplicationManager {
 				errorMsg="&errorMsg="+encodeParameterValue(gt("Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);		
 				page = "igrp/error-page/exception";
 			}
-			page = EncrypDecrypt.encryptURL(page, request.getSession().getId()).replace(" ", "+");
+			page = EncrypDecrypt.encryptURL(page, request.getSession(false).getId()).replace(" ", "+");
 			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
 			StringBuilder additionalParams = new StringBuilder();
 			Enumeration<String> paramNames = request.getParameterNames();
@@ -258,7 +258,7 @@ public final class ApplicationManager {
 		}
 		if(pageRoute != null) {
 			String[] splittedPageRoute = pageRoute.split(Pattern.quote("&"));
-			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getSession().getId()).replace(" ", "+");
+			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getSession(false).getId()).replace(" ", "+");
 			String additionalParams = extractAdditionalParams(pageRoute);
 			return Optional.of(String.format("%s?r=%s%s", requestUrl(request), encryptedPageRoute, additionalParams));
 		}

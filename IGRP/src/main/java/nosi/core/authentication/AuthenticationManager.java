@@ -163,12 +163,12 @@ public final class AuthenticationManager {
 			currentSession.setApplication(profile.getOrganization().getApplication());
 		}
 		currentSession.setIpAddress(getClientIpAddr(request));
-		currentSession.setSessionId(request.getSession().getId());
+		currentSession.setSessionId(request.getSession(false).getId());
 		currentSession.setUserName(user.getUser_name());
 		currentSession.setHttps(request.isSecure() ? 1 : 0);
 		currentSession.setHost(request.getRemoteHost());
 		currentSession.setHostName(request.getRemoteHost());
-		currentSession.setSessionOldId(request.getSession().getId());
+		currentSession.setSessionOldId(request.getSession(false).getId());
 		currentSession.setMediaType("WEB");
 		currentSession.setTarget("_blank");
 		long time = System.currentTimeMillis();
