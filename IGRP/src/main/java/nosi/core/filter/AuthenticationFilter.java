@@ -1,10 +1,6 @@
 package nosi.core.filter;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +24,11 @@ public class AuthenticationFilter implements Filter {
 
 		try {
 			if (AuthenticationManager.isSessionExists(httpServletRequest)) {
+				Integer timeout = (Integer) httpServletRequest.getSession().getAttribute("oldTimeout");
+				if(Core.isNotNullOrZero(timeout)){
+					httpServletRequest.getSession().setMaxInactiveInterval(timeout);
+				}else
+					httpServletRequest.getSession().setMaxInactiveInterval(16 * 60); // Convert to seconds
 
 				if (ApplicationManager.isInWhiteList(httpServletRequest) || ApplicationManager.isPublic(httpServletRequest)) {
 					chain.doFilter(request, response);
@@ -45,7 +46,9 @@ public class AuthenticationFilter implements Filter {
 				chain.doFilter(request, response);
 
 			} else {
-
+				if(Core.isNull(httpServletRequest.getSession().getAttribute("oldTimeout")))
+					httpServletRequest.getSession().setAttribute("oldTimeout",httpServletRequest.getSession().getMaxInactiveInterval());
+				httpServletRequest.getSession().setMaxInactiveInterval(30);
 				if (ApplicationManager.isPublic(httpServletRequest) && !ApplicationManager.isLoginPage(httpServletRequest)) {
 					if (request.getParameter("target") == null) {
 						httpServletResponse.sendRedirect(ApplicationManager.buildPublicTargetLink(httpServletRequest));
