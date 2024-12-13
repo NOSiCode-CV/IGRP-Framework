@@ -287,8 +287,11 @@
 			
 			var MOZ = function(){
 				//console.log($.browser)
-				if($.browser && $.browser.mozilla )
+				//if($.browser.mozilla )
+				//	$('html').addClass('mozilla');
+				if ('MozAppearance' in document.documentElement.style) {
 					$('html').addClass('mozilla');
+				}
 				
 			}();
 			

@@ -229,7 +229,7 @@ var mWindow = null,
 
 						}catch(e){
 							var str = resp.response;
-							if(str.indexOf('<html') != -1){
+							if(str.indexOf('<html') !== -1){
 								str = str.substring(str.indexOf('<html'),str.length);
 							}
 							alert = $.IGRP.utils.message.alert({

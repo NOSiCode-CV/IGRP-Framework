@@ -59,23 +59,21 @@ if($ && $.IGRP && !$.IGRP.rules){
 		
 		getRemoteUrl : function(p){
 			var defaultRemote = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
-			var remote  = $(':input[name="'+p.sourceName+'"]').attr('igrp-remote'),
-				url 	= remote && remote != undefined ? function(){
-					if(remote.indexOf('{') == 0){
-						try{
-							const object = JSON.parse(remote.replaceAll("'",'"'));
-							remote = object['remote-'+p.procedureName];
-							return remote;
-						}catch(err){
-							console.log(err)
-							return defaultRemote;
-						}
-					}else{
+			var remote  = $(':input[name="'+p.sourceName+'"]').attr('igrp-remote');
+			return remote && remote != undefined ? function () {
+				if (remote.indexOf('{') === 0) {
+					try {
+						const object = JSON.parse(remote.replaceAll("'", '"'));
+						remote = object['remote-' + p.procedureName];
 						return remote;
+					} catch (err) {
+						console.log(err)
+						return defaultRemote;
 					}
-				}() : defaultRemote;
-
-			return url;
+				} else {
+					return remote;
+				}
+			}() : defaultRemote;
 		},
 
 		executeAction:function(p){
@@ -535,7 +533,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						fieldName = xpr.slice(xi.length, xpr.indexOf(xe) ),
 
-						field 	  = fieldName == 'this' ? $(r.field) : $('[name="p_'+fieldName+'"]');
+						field 	  = fieldName === 'this' ? $(r.field) : $('[name="p_'+fieldName+'"]');
 
 					replaceObj[xpr] = {
 
@@ -553,7 +551,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						val    = $.IGRP.rules.getFieldValue($(ro.field)),
 
-						xval   = $(r.field).attr('type') == 'number' ? val : "'"+val+"'";
+						xval   = $(r.field).attr('type') === 'number' ? val : "'"+val+"'";
 
 					conditionStr = conditionStr.replaceAll(o, xval);
 
@@ -921,11 +919,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 							
 							var elementType = $.IGRP.utils.getType($(':input',f));
 							
-							if(elementType == 'select'){
+							if(elementType === 'select'){
 							
 								$.each($('option', wrapper), function(z, o) {
-									
-									const selected = $(o).attr('selected') ? true : false;
+
+									const selected = !!$(o).selected;
 									
 									options.push({
 										text: $('text', o).text(),

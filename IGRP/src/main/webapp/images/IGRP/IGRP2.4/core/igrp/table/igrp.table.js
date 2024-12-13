@@ -333,7 +333,7 @@
 						
 						var color = $(l).attr('legend-color'),
 						
-							value = $(l).attr('value');
+							value = $(l).val;
 						
 						style+='[item-name="'+itemName+'"] table td.tdcolor span.tdcolor-item[value="'+value+'"] { background-color: '+color+' }'
 						
@@ -376,7 +376,7 @@
 	                p.o.append(hidden);
 	        }
 	
-	        if(p.type == 'radio'){
+	        if(p.type === 'radio'){
 	    		$('tbody tr td input[check-rel="'+p.rel+'"]',table).each(function(){
 	    			var td = $(this).parents('td:first');
 	
