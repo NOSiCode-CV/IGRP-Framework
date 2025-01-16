@@ -313,7 +313,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	public List<Application> getListMyApp(int idUser, boolean includeInactiveApps){
 		List<Application> listApp = new ArrayList<>();
 		List<Profile> list;
-		if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
+		if(Core.getCurrentUser()!=null && Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
 			list = new Profile().find()
 					.andWhere("type", "=", "ENV")
 					//.groupBy("type_fk")					
