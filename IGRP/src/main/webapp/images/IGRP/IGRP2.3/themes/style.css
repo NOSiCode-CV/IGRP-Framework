@@ -104,6 +104,16 @@ b {
 	right: 0;
 }
 
+.alert-warning {
+    color: #5d3c03;
+    background-color: #ffde9a;
+    border-color: #f6bc46;
+}
+.alert-danger {
+    color: #850401;
+    background-color: #ffa5a5;
+    border-color: #f35f77;
+}
 .clear {
 	clear: both !important;
 	display: block;
