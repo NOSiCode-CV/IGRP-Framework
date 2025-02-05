@@ -106,10 +106,7 @@
                     <xsl:if test="@selected='true'">
                         <xsl:attribute name="selected">selected</xsl:attribute>
                     </xsl:if>
-
-                    <span>
                         <xsl:value-of select="text"/>
-                    </span>
                 </option>
             </xsl:for-each>
 

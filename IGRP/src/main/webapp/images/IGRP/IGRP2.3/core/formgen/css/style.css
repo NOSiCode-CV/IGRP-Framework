@@ -81,7 +81,7 @@ body.no-drop{
     position: absolute;
     left: 0;
     width: 100%;
-    top: 0;
+    top: -8px;
     padding: 4px;
     border-bottom: 1px solid #ededed;
     box-shadow: -2px 0px 4px 0px #ccc;

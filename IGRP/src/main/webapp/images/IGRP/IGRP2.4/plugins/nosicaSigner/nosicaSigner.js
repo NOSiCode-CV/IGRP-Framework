@@ -11,7 +11,7 @@
         objclicked      = null,
         successProcesso = false,
         defaultError    = 'Ocorreu um erro inesperado! Por favor recarregue o seu ecrã e tenta novamente.',
-        defaultSuccess  = 'Opera&ccedil;&atilde;o finalizada com sucesso.';;
+        defaultSuccess  = 'Opera&ccedil;&atilde;o finalizada com sucesso.';
 
     const baseUrl = 'https://nosica-signer.gov.cv:4444/api/Signer';
 

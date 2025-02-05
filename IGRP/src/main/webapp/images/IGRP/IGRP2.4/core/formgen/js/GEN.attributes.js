@@ -8,7 +8,7 @@
 				
 			var title = o.options.label || capitalizeFirstLetter(o.options.name), 
 
-				html = $('<label>'+title+'</label><div class="box gen-container-item" ><div class="box-body IGRP-separatorlist" tag="gen-separatorlist-attr" dialog="false"><div class="splist-form-holder"><div class="splist-form" role="form"></div></div><div class="table-box box-body box-table-contents splist-table"><table rel="T_separatorlist_1" id="gen-separatorlist-attr" class="table table-striped gen-data-table"><thead><tr><th class="table-btn"><a class="table-row-add btn-xs btn btn-primary" title="Adicionar" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"/></a></th></tr></thead><tbody></tbody></table></div></div></div>');
+				html = $('<label>'+title+'</label><div class="box gen-container-item" ><div class="box-body IGRP-separatorlist" tag="gen-separatorlist-attr" dialog="false"><div class="splist-form-holder"><div class="splist-form" role="form"></div></div><div class="table-box box-body box-table-contents splist-table"><table rel="T_separatorlist_1" id="gen-separatorlist-attr" class="table table-striped gen-data-table"><thead><tr><th class="table-btn"><a class="table-row-add btn-xs btn btn-primary" title="Adicionar" data-toggle="tooltip" data-placement="left"><i class="fa fa-plus"></i></a></th></tr></thead><tbody></tbody></table></div></div></div>');
 			
 			if(o.options.data){
 

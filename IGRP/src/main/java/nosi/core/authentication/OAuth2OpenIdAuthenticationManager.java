@@ -38,7 +38,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 		final var authCode = request.getParameter("code");
 		final var sessionState = request.getParameter("session_state");
-		final var session = request.getSession();
+		var session = request.getSession();
 		final var settings = ApplicationManager.loadConfig();
 		
 		final var m = generateToken(authCode, settings);
@@ -60,10 +60,10 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 		User user = null;
 		
-		if (uid != null)
-			user = new User().find().andWhere("cni", "=", uid).one();
-		if (uid == null && Core.isNotNull(email) || user == null)
+		if (Core.isNotNull(email) )
 			user = new User().find().andWhere("email", "=", email).one();
+		if (uid != null && user == null)
+			user = new User().find().andWhere("cni", "=", uid).one();
 
 		final var env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
 				ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());

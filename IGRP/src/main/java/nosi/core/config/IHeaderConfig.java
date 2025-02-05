@@ -23,7 +23,7 @@ public interface IHeaderConfig {
 	}
 	
 	default String getLinkMyApps() {
-      return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"myApps") + "&dad="+Core.getCurrentDad();
+      return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"myApps") + "&dad="+Core.getParam("dad",Core.getCurrentDad());
     }
 	default String getTitle() {
         return "";
@@ -35,13 +35,13 @@ public interface IHeaderConfig {
         return "normal";
 	}
 	default String getLinkOpenApp() {
-        return "webapps?r=" + "igrp_studio"+"/"+"env"+"/"+"openApp"+"&dad="+Core.getCurrentDad()+"&app=";
+        return "webapps?r=" + "igrp_studio"+"/"+"env"+"/"+"openApp"+"&dad="+Core.getParam("dad",Core.getCurrentDad())+"&app=";
 	}
 	default String getLinkSileMenu(){
-		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Core.getCurrentDad();
+		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+ Core.getParam("dad",Core.getCurrentDad());
 	}
 	default String getLinkTopMenu(){
-		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu") +"&dad=" + Core.getCurrentDad() ;
+		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu") +"&dad=" + Core.getParam("dad",Core.getCurrentDad()) ;
 	}
 
 	default String getPackageInstance(){

@@ -126,7 +126,7 @@ public class PesquisarMenuController extends Controller {
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 				table1.setCheckbox(menu_db1.getId());
 				table1.setId("" + menu_db1.getId());
-				table1.setIcon("<i class=\"fa " + menu_db1.getMenu_icon() + "\"/>");
+				table1.setIcon("<i class=\"fa " + menu_db1.getMenu_icon() + "\"></i>");
 				if (menu_db1.getFlg_base() == 1) {
 					table1.setCheckbox_check(menu_db1.getId());
 				}

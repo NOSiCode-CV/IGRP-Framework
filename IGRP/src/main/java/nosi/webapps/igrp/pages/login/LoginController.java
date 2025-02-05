@@ -4,6 +4,7 @@ import static nosi.core.i18n.Translator.gt;
 
 import java.io.IOException;
 
+import nosi.core.webapp.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,10 +15,6 @@ import nosi.core.authentication.DBAuthenticationManager;
 import nosi.core.authentication.LdapAuthenticationManager;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
 import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 
 /*----#end-code----*/
 
@@ -112,6 +109,11 @@ public class LoginController extends Controller {
 				&& loginWithDb(username, password))
 				|| (authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())
 						&& loginWithLdap(username, password))) {
+//			TODO: see if is possible to remember the previous route
+//
+//			 final Optional<String> returnRoute = ApplicationManager.buildAppLinkFromSession(Igrp.getInstance().getRequest());
+//			if(returnRoute.isPresent())
+//				return Optional.of(redirect(returnRoute.get()));
 			// Previous here ...
 			return Optional.of(redirect("igrp", "home", "index")); // By default go to home index url
 		}

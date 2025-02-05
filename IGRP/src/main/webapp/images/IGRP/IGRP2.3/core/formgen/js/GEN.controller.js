@@ -6208,9 +6208,9 @@ var GENERATOR = function(genparams){
 	GEN.onImportStart = function(){};
 
 
-	$(window).load(function(){
-		//console.log('init');
-		GEN.init();
-
-	});
+	$(window).on('load', function() {
+        //console.log('init');
+        GEN.init();
+    });
+		
 }

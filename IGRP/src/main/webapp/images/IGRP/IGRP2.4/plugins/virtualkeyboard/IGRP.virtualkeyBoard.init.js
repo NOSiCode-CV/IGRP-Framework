@@ -30,36 +30,36 @@
 
 
         this.destroy = function(){
-			$(document).unbind('click',`#vkbOk_${vRel}`);
-			$(document).unbind('click',`#vkbCan_${vRel}`);
+			$(document).off('click',`#vkbOk_${vRel}`);
+			$(document).off('click',`#vkbCan_${vRel}`);
         }
 
 		function IGRP_setVkb_main(type,rel){
 
 			return `<div class="vkb_main ${type}" id="vkb_${rel}">
 				<div class="vkb_num" id="vkbnum_${rel}">
-					<div class="_clear"/>
+					<div class="_clear"></div>
 				</div>
 				<div class="vkb_az" id="vkbaz_${rel}">
-					<div class="_clear"/>
+					<div class="_clear"></div>
 				</div>
-				<div class="_clear"/>
+				<div class="_clear"></div>
 				<div class="vkb_btn">
 					<input type="button" id="vkbOk_${rel}" class="vkbOk_btn btn-sm btn-success" value="OK"/>
 					<input type="button" id="shift_${rel}" class="shift_btn btn-sm btn-primary" value="SHIFT" rel="${rel}"/>
 					<input type="button" id="vkbCan_${rel}" class="vkbCan_btn btn-sm hidden" value="Cancelar"/>
 					<input type="button" id="vkbLp_${rel}" class="vkbLp_btn btn-sm btn-danger" value="Limpar"/>
-				<div class="_cliar"/>
+				<div class="_cliar"></div>
 				</div>
 			</div>`
 		}
         
         function IGRP_setKeyBval(alpha,vRel,div){
-			var array 	= new Array();
+			var array 	= [];
 			var qtd	= alpha.length;
 			while (array.length < qtd) {
 				var temp = alpha[Math.floor(Math.random()*qtd)];
-				if ($.inArray(temp, array) == -1){
+				if (!array.includes(temp)){
 					array.push(temp);
 				}
 			}
@@ -93,7 +93,7 @@
 				if(!$(this).hasClass("active")){
 					$(this).addClass("active");
 
-					if(vType == 'vkb_all')
+					if(vType === 'vkb_all')
 						IGRP_listKeyBval("#vkbaz_"+vRel,settings.vkbALL,vRel);
 					else
 						IGRP_listKeyBval("#vkbaz_"+vRel,vkb_AZ,vRel);
@@ -103,7 +103,7 @@
 				}
 				else{
 					$(this).removeClass("active");
-					if(vType == 'vkb_all')
+					if(vType === 'vkb_all')
 						IGRP_listKeyBval("#vkbaz_"+vRel,settings.vkball,vRel);
 					else
 						IGRP_listKeyBval("#vkbaz_"+vRel,vkb_az,vRel);
@@ -114,7 +114,7 @@
 		}
 
 		function IGRP_showAlpha(){
-			if(vKbtype == 'vkb_aznum'){
+			if(vKbtype === 'vkb_aznum'){
 				IGRP_listKeyBval("#vkbnum_"+vRel,settings.vkbnum);
 				IGRP_listKeyBval("#vkbaz_"+vRel,settings.vkbaz);
 			}else if(vKbtype == 'vkb_az'){
@@ -261,7 +261,7 @@
 
         		}else{
 
-        			$(".vkb_input",VKB).keypress(function(inp){
+					$(".vkb_input",VKB).on('keydown',function(inp){
         				vRel = $(this).attr('rel');
         				vKbtype = $(this).parents('.vkb_geral').attr('vKbtype');
         				IGRP_toggleVkb();

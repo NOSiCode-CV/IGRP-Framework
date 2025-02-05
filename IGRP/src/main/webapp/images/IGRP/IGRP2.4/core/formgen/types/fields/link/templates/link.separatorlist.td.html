@@ -4,7 +4,7 @@
 			<xsl:choose>
 	          <xsl:when test="#tag# != '' or //#path#/@target = 'listAssociation'">
 	            <a href="{#tag#}" id="#[id]#" class="link bClick btn btn-#[class]# #[btnSize]#" sharpadbclient="#[adbcli]#" target-fields="#[target_fields]#" target="#[target]#" name="#tag#">
-	              <i class="fa #[img]#"/>
+	              <i class="fa #[img]#"></i>
 	              <span><xsl:value-of select="#tag#_desc"/></span>
 	            </a>
 	          </xsl:when>

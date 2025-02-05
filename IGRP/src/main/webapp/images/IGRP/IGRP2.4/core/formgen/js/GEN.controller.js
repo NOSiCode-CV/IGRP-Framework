@@ -6510,10 +6510,8 @@ var GENERATOR = function(genparams){
 
 	GEN.onImportStart = function(){};
 
-
-	$(window).load(function(){
+	$(window).on('load', function() {
 		//console.log('init');
 		GEN.init();
-
 	});
 }

@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
+import nosi.core.authentication.AuthenticationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -49,7 +50,7 @@ public final class ApplicationManager {
 				errorMsg="&errorMsg="+encodeParameterValue(gt("Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);		
 				page = "igrp/error-page/exception";
 			}
-			page = EncrypDecrypt.encryptURL(page, request.getSession().getId()).replace(" ", "+");
+			page = EncrypDecrypt.encryptURL(page, request.getSession(false).getId()).replace(" ", "+");
 			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
 			StringBuilder additionalParams = new StringBuilder();
 			Enumeration<String> paramNames = request.getParameterNames();
@@ -125,7 +126,7 @@ public final class ApplicationManager {
 		String clientId = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
 		if (ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
 				&& !"".equals(authorizeEndpoint)
-				&& /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
+				&& /*Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
 			rememberRoute(request);
 			return Optional.of(String.format("%s?response_type=code&client_id=%s&scope=openid+email+profile&redirect_uri=%s", authorizeEndpoint, clientId, redirectUri));
 		}
@@ -138,9 +139,7 @@ public final class ApplicationManager {
 		String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
 				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 
-		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-//				|| /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)
-				)
+		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType))
 			return Optional.empty();
 		if(OAuth2OpenIdAuthenticationManager.isSignOutRequest(request))
 			return Optional.of(requestUrl(request));
@@ -238,8 +237,9 @@ public final class ApplicationManager {
 	}
 
 	public static Optional<String> buildAppLinkFromStateParam(HttpServletRequest request) {
+		//This is for autentika forward Global ACL program
 		String state = request.getParameter("state");
-		Map<String, String> stateValues = extractStateValues(state);
+		Map<String, String> stateValues = extractStateValues(state); //Will extract this Ex.: ENV/id/APP;ORG;PROF/p_id=1;p_type=3
 		String pageRoute = null;
 		if(stateValues.containsKey("type")) {
 			String type = stateValues.get("type");
@@ -258,7 +258,7 @@ public final class ApplicationManager {
 		}
 		if(pageRoute != null) {
 			String[] splittedPageRoute = pageRoute.split(Pattern.quote("&"));
-			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getSession().getId()).replace(" ", "+");
+			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getSession(false).getId()).replace(" ", "+");
 			String additionalParams = extractAdditionalParams(pageRoute);
 			return Optional.of(String.format("%s?r=%s%s", requestUrl(request), encryptedPageRoute, additionalParams));
 		}
@@ -273,9 +273,10 @@ public final class ApplicationManager {
 	}
 	
 	public static Optional<String> buildAppLinkFromSession(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if(session == null)
+
+		if(!AuthenticationManager.isSessionExists(request))
 			return Optional.empty();
+		HttpSession session = request.getSession(false);
 		String returnRoute = (String) session.getAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
 		session.removeAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
 		if(returnRoute == null)// || returnRoute == null)
@@ -303,7 +304,7 @@ public final class ApplicationManager {
 	private static void rememberRoute(HttpServletRequest request) {
 		String r = request.getParameter("r");
 		String dad = request.getParameter("dad");
-		if (r != null) {
+		if (r != null && !r.contains("igrp/login/")) {
 			String[] arr = r.split("/");
 			if (arr.length == 3) {
 				HttpSession session = request.getSession(true);

@@ -208,8 +208,8 @@
 
             ffFix : function(){
 
-                if ($.browser && $.browser.mozilla)
-
+               // if ($.browser && $.browser.mozilla)
+               if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
                     $('input[type="radio"][checked="checked"], input[type="checkbox"][checked="checked"]').prop('checked', true);
 
 

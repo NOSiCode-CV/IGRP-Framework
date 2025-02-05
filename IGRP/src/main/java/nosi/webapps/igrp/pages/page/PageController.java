@@ -92,7 +92,8 @@ public class PageController extends Controller {
 				Application app = a.getApplication();
 				if (app != null && app.getAction() != null)
 					model.setPrimeira_pagina(idPage.equals(app.getAction().getId()) ? 1 : 0);
-			}
+			}else
+				model.setVersion("2.3"); //By default 2.3 for now
 			isEdit = true;
 			model.setGen_auto_code(0);
 			view.criar_menu.setVisible(false);
@@ -100,6 +101,7 @@ public class PageController extends Controller {
 			// NEW page
 			model.setStatus(1);
 			model.setGen_auto_code(1);
+			model.setVersion("2.3"); //By default 2.3 for now
 		}
 
 		view.env_fk.setValue(new Application().getListApps());

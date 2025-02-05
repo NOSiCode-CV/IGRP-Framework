@@ -9,7 +9,7 @@
 				
 				    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
-				};
+				}
 
 				return s4() + '_' + s4();
 
@@ -104,7 +104,7 @@
 				return myWindow;
 			},
 			openChartURL : function(pObj){
-				if (pObj.pUrl != null && pObj.pUrl != '') {
+				if (pObj.pUrl != null && pObj.pUrl !== '') {
 					
 					var vParam = 'p_x='+pObj.pX+'&p_y='+pObj.pY+'&p_z='+pObj.pZ;
 
@@ -662,11 +662,11 @@
 						
 						if ($.IGRP.utils.getType(extract.field) == 'date')
 							val = new Date(val).getTime();
-						
-						val = $.isNumeric(val) ? val * 1 : "'"+val+"'";
+
+						val = $.isNumeric(val) ? Number(val) : "'"+val+"'";
 						
 						str = str.replaceAll(extract.str, val);
-					};
+					}
 
 					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 
@@ -837,7 +837,7 @@
 				if(arr){
 					arr.forEach(function(a,i){
 						str+=a;
-						if(i != arr.length-1)
+						if(i !== arr.length-1)
 							str+=spliter;
 					});
 				}
@@ -847,7 +847,7 @@
 
 				var doe = $('.disable-output-escaping, .ff-fix').not('.set');
 
-				if($.browser && $.browser.mozilla){
+				if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 
 					doe.each(function(i,d){
 						

@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "2.0.0.241205";
+    public static final String VERSION = "2.0.0.250205";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -184,7 +184,11 @@ public class Config {
     }
 
     public final String getLinkImg(String verson) {
-        String link = getLinkImgBase() + (getConfig().get("link_img") != null ? getConfig().get("link_img").toString() + verson : "images/IGRP/IGRP" + verson);
+        return getLinkImg(verson,getLinkImgBase());
+    }
+
+    public final String getLinkImg(String verson,String customHost) {
+        String link = customHost + (getConfig().get("link_img") != null ? getConfig().get("link_img").toString() + verson : "images/IGRP/IGRP" + verson);
         return link.replace("\\\\", SEPARATOR_FOR_HTTP);
     }
 
@@ -447,7 +451,7 @@ public class Config {
         if(Core.isNotNull(app.getImg_src()) && !app.getImg_src().equals("default.svg"))
         	logo=app.getImg_src();
         
-        xml.setElement("logo",  getLinkImg("2.3")+"/assets/img/iconApp/"+logo);
+        xml.setElement("logo",  (app.getExternal()==2?getLinkImg("2.3","/"+app.getUrl()+"/"):getLinkImg("2.3"))+"/assets/img/iconApp/"+logo); //external 2 is custom host
 
         xml.setElement("version", VERSION);
         xml.setElement("link", linkHome);

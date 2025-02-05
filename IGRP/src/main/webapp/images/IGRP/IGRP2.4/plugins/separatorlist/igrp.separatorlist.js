@@ -106,11 +106,11 @@ $.fn.separatorList = function(o){
 			var	sle 	   = rowEdit.get(sl),
 				rowIndex   = sle.rowIndex ? sle.rowIndex : 0,
 				rowId 	   = sle.rowId,
-				isDialog   = sl.isDialog ? true : false,
+				isDialog   = !!sl.isDialog,
 				fieldsH    = isDialog ? $('.splist-form-holder',sl)[0] : sl,
 				formFields = getFormFields(fieldsH),
 				action     = sle.action,
-				edition    = action == 'edit' ? true : false,
+				edition    = action === 'edit',
 				counter    = $(sl).find('.IGRP-separatorlist-count-header');
 			
 			var table    	= $(sl).find('.splist-table>table');
@@ -119,15 +119,15 @@ $.fn.separatorList = function(o){
 				inputRowId 	= '<input type="hidden" class="sl-row-id" name="p_'+tableId+'_id" value="'+rowId+'"/>';
 			var contentsObj = {};
 			
-			if(rowId && rowId != undefined)
+			if(rowId)
 
 				inputRowId += '<input type="hidden" class="sl-row-id-edit" name="p_'+tableId+'_edit" value="'+rowId+'"/>';
 			
-			var valid = sl.events.execute('valid-row-add',{
-				values : values,
-				action : action || 'add',
-				index  : rowIndex
-			}) == false ? false : true;
+			var valid = sl.events.execute('valid-row-add', {
+				values: values,
+				action: action || 'add',
+				index: rowIndex
+			}) !== false;
 
 			if(valid){
 
@@ -175,7 +175,7 @@ $.fn.separatorList = function(o){
 									field  : object.field
 								});
 
-								if(object.type == 'file'){
+								if(object.type === 'file'){
 									
 									if (value) {
 										
@@ -228,7 +228,7 @@ $.fn.separatorList = function(o){
 														win    : 'IGRP-upload-preview'
 													});
 													
-													win.document.write('<iframe src="' + result  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+													win.document.write('<iframe src="' + result  + '" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>');
 
 
 												    
@@ -328,9 +328,9 @@ $.fn.separatorList = function(o){
 					$(f).attr('item-value',rowVal);
 
 
-				if(ftype != 'file'){
+				if(ftype !== 'file'){
 					
-					if(ftype == 'select'){
+					if(ftype === 'select'){
 						$(f).val(rowVal.split(','));
 
 						if($(f).is('[load_service_data]')){
@@ -361,7 +361,7 @@ $.fn.separatorList = function(o){
 		};
 
 		var addRow = function(sl,e){
-			var isDialog   = sl.isDialog ? true : false,
+			var isDialog   = !!sl.isDialog,
 				fieldsH    = isDialog ? $('.dummy-form-slist .splist-form-holder')[0] : sl,
 				formFields = getFormFields(fieldsH),
 				rtn  	   = false,
@@ -690,7 +690,7 @@ $.fn.separatorList = function(o){
 					if(!values[fname]) values[fname] = {value :[],text  :[], target :[]};	
 
 					//CHECKBOX AND RADIO HANDLER
-					if(ftype == 'checkbox' || ftype == 'radio'){
+					if(ftype === 'checkbox' || ftype === 'radio'){
 						val = field.is(':checked') ? field.val() : null;
 						if(val){
 							var text = field.attr('label') ? field.attr('label') : field.next('span').text();
@@ -698,7 +698,7 @@ $.fn.separatorList = function(o){
 							values[fname].text.push(text);
 						}
 					//HYPERLINK HANDLER
-					}else if(ftype == 'link'){
+					}else if(ftype === 'link'){
 						val 	= field.val();
 						text 	= field.attr('label');
 						target 	= field.attr('target');
@@ -708,7 +708,7 @@ $.fn.separatorList = function(o){
 						values[fname].target.push(target);
 
 					//SELECT COMBOBOX HANDLER
-					}else if(field.prop('tagName').toLowerCase() == 'select'){
+					}else if(field.prop('tagName').toLowerCase() === 'select'){
 						val = field.val();
 						if(val){
 							if(typeof val == 'object'){
@@ -727,7 +727,7 @@ $.fn.separatorList = function(o){
 						values[fname].value.push(val);
 						var text = ftype == 'file' ? $('label',field.parents('.form-group')).text() : val;
 						
-						if (ftype == 'file' && val) {
+						if (ftype === 'file' && val) {
 							var sle  	  = rowEdit.get(sl),
 								copyField = field.clone(true);
 							
@@ -746,7 +746,7 @@ $.fn.separatorList = function(o){
 						values[fname].text.push(text);
 					}
 					//IS VISIBLE ON TABLE?
-					values[fname].table = $('table th[item-name="'+frel+'"]',sl)[0] ? true : false;
+					values[fname].table = !!$('table th[item-name="' + frel + '"]', sl)[0];
 					//FORM TYPE 
 					values[fname].type  = gentype; 
 					values[fname].field = field; 
@@ -784,7 +784,7 @@ $.fn.separatorList = function(o){
 			fields = fields || getFormFields(sl);
 			//var sl  = fields.parents('.IGRP-separatorlist')[0];
 			var form       = fields.parents('.splist-form');
-			var isEdition  = $(sl).attr('row-action') == 'edit' ? true : false;
+			var isEdition  = $(sl).attr('row-action') === 'edit';
 			var firstInput = form.find(':first-child input[type="text"],:first-child input[type="number"],:first-child textarea');
 			
 			
@@ -792,21 +792,21 @@ $.fn.separatorList = function(o){
 			$.each(fields,function(i,f){
 				var genType  = $(f).parents('[item-type]').attr('item-type');
 				var fTag     = $(f).prop('tagName').toLowerCase();
-				var fType    = fTag == 'select' || fTag == 'textarea' ? fTag : $(f).attr('type');
+				var fType    = fTag === 'select' || fTag === 'textarea' ? fTag : $(f).attr('type');
 
 
-				if(fType == 'checkbox' || fType == 'radio'){
+				if(fType === 'checkbox' || fType === 'radio'){
 					$(f).prop('checked',false);
 					//$(f).trigger('change');
 
-				}else if(fType == 'file'){
+				}else if(fType === 'file'){
 					$(f).parents('.input-group').find(':text').val('');
 					$(f).val('');
 				}else
-					if(fType != 'link')
+					if(fType !== 'link')
 						$(f).val('').removeAttr('selected').removeAttr('checked');
 
-				if(fType == 'select')
+				if(fType === 'select')
 				 	$(f).trigger('change.select2');
 
 				sl.events.execute(genType+'-field-reset',$(f));
@@ -931,7 +931,7 @@ $.fn.separatorList = function(o){
 				
 				if($(e.target).is('[target]')){
 
-					if($(e.target).attr('target') == 'editseparator')
+					if($(e.target).attr('target') === 'editseparator')
 						e.preventDefault();
 					
 					if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
@@ -961,7 +961,7 @@ $.fn.separatorList = function(o){
 				
 			};
 
-			if($(sl).find('.splist-form').attr('validation-class') != 'false')
+			if($(sl).find('.splist-form').attr('validation-class') !== 'false')
 				getFormFields().addClass('no-validation');
 
 			customFieldsConfig(sl);
@@ -1019,7 +1019,7 @@ $.fn.separatorList = function(o){
 						}
 
 						if(itemName){
-							var isDesc = name.indexOf('_fk_desc') != -1 ? true : false;
+							var isDesc = name.indexOf('_fk_desc') !== -1;
 							
 							if(!isDesc){
 								var _name = options.excludeNamePrefix ? itemName.substring(options.excludeNamePrefix.length) : itemName;
@@ -1046,9 +1046,9 @@ $.fn.separatorList = function(o){
 				
 				var params = $.extend({},p);
 				
-				var fieldNamePrefix = params.prefix == false ? '' : 'p_';
+				var fieldNamePrefix = params.prefix === false ? '' : 'p_';
 				
-				var triggerChange = params.trigger == false ? false : true;
+				var triggerChange = params.trigger !== false;
 				
 				if(arr && arr[0]){
 					
@@ -1107,7 +1107,7 @@ $.fn.separatorList = function(o){
 
 		$.each(this,function(i,sl){
 			sl.name     = $(sl).attr('tag');  
-			sl.isDialog = $(sl).attr('dialog') == 'true' ? true : false;
+			sl.isDialog = $(sl).attr('dialog') === 'true';
 			sl.events   = new $.EVENTS([
 				"valid-row-add",
 				"row-add",

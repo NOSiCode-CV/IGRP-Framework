@@ -39,8 +39,8 @@ public final class DBAuthenticationManager {
 	public static void signOut(User currentUser, HttpServletRequest request, HttpServletResponse response) {
 		currentUser.setIsAuthenticated(0); 
 		currentUser.update();
+		AuthenticationManager.afterLogout(request.getSession(false).getId());
 		AuthenticationManager.destroySecurityContext(request.getSession(false), response);
-		AuthenticationManager.afterLogout(request.getSession().getId());
 		AuthenticationManager.clearAllCookieExceptLocale(request, response);
 	}
 

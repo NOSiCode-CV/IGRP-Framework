@@ -9,7 +9,7 @@
 				
 				    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
-				};
+				}
 
 				return s4() + '_' + s4();
 
@@ -666,19 +666,19 @@
 				try {
 
 					var str = p.fx;
-					
+
 					for (var f in p.extract) {
 
 						var extract = p.extract[f],
 							val 	= extract.field.val();
-						
+
 						if ($.IGRP.utils.getType(extract.field) == 'date')
 							val = new Date(val).getTime();
-						
-						val = $.isNumeric(val) ? val * 1 : "'"+val+"'";
-						
+
+						val = $.isNumeric(val) ? Number(val) : "'"+val+"'";
+
 						str = str.replaceAll(extract.str, val);
-					};
+					}
 
 					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 
@@ -859,12 +859,9 @@
 
 				var doe = $('.disable-output-escaping, .ff-fix').not('.set');
 
-				if($.browser && $.browser.mozilla){
-
+				 if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
 					doe.each(function(i,d){
-						
 						$(d).html( $(d).text() );
-
 					});
 				}
 

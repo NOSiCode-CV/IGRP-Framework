@@ -172,9 +172,7 @@
                             <xsl:with-param name="selected" select="$selectedValue"/>
                             <xsl:with-param name="delimiter" select="$delimiter"/>
                         </xsl:call-template>
-                        <span>
-                            <xsl:value-of select="text"/>
-                        </span>
+                        <xsl:value-of select="text"/>
                     </option>
                 </xsl:for-each>
             </select>

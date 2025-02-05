@@ -11,7 +11,7 @@
         objclicked      = null,
         successProcesso = false,
         defaultError    = 'Ocorreu um erro inesperado! Por favor recarregue o seu ecrã e tenta novamente.',
-        defaultSuccess  = 'Opera&ccedil;&atilde;o finalizada com sucesso.';;
+        defaultSuccess  = 'Opera&ccedil;&atilde;o finalizada com sucesso.';
 
     const baseUrl = 'https://nosica-signer.gov.cv:4444/api/Signer';
 
@@ -53,10 +53,10 @@
 
         html : {
 
-            virtualkeyboard : function(id){
+            virtualkeyboard: function(id) {
                 return `
                 <div class="vkb_geral input-group IGRP-${id}" id="${id}" vkbonload="true" rel="${id}" vkbtype="vkb_aznum">
-                    <input type="password" name="${id}" class="vkb_input form-control " id="inp_${id}" readonly="readonly" rel="${id}" post="vkb_aznum"/>
+                    <input type="password" name="${id}" class="vkb_input form-control" id="inp_${id}" readonly="readonly" rel="${id}" post="vkb_aznum" />
                     <span class="input-group-addon vkb_ctrl" rel="${id}"><i class="fa fa-keyboard-o"></i></span>
                 </div>`
             },
@@ -81,6 +81,7 @@
                     </div>
                 </div>`;
             },
+
 
             filesigner : function(){
                 return `<div class="row mb-5" id="holder-fields-nosicasigner">
