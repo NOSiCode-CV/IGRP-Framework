@@ -76,15 +76,16 @@ public final class Igrp{
 		this.homeUrl = EncrypDecrypt.encrypt(HOME_ROUTE);
 		// init. of others configuration 
 		this.flashMessage = new FlashMessage(); // Flash Message instance 
-		// For internacionalization purpose 
-		this.i18nManager = new I18nManager();
-		this.i18nManager.init(request);
+
 		// For Igrp log toolbar 
 		this.log = new IgrpLog();
 		this.log.init(request);
 		// User component (Identity)
 		this.user = new User();
 		this.user.init(request);
+		// For internacionalization purpose
+		this.i18nManager = new I18nManager();
+		this.i18nManager.init(request);
 		
 		return this;
 	}

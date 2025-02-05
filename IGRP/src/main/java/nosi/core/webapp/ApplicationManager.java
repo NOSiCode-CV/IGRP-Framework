@@ -276,7 +276,7 @@ public final class ApplicationManager {
 
 		if(!AuthenticationManager.isSessionExists(request))
 			return Optional.empty();
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		String returnRoute = (String) session.getAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
 		session.removeAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
 		if(returnRoute == null)// || returnRoute == null)

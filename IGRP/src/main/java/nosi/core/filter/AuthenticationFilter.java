@@ -74,8 +74,10 @@ public class AuthenticationFilter implements Filter {
 //							httpServletRequest.sendRedirect(destination);
 						return;
 					}
-					httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE + "&dad=" + request.getParameter("dad"))
-							.forward(httpServletRequest, httpServletResponse);
+					//TODO: Dblogin is not going to the previous route if the session expires
+					//ApplicationManager.rememberRoute(httpServletRequest);
+
+					httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE + "&dad=" + request.getParameter("dad")).forward(httpServletRequest, httpServletResponse);
 				}
 			}
 		} catch (Exception e) {

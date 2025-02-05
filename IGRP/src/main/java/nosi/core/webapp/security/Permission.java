@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -25,9 +26,10 @@ import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
+
 public class Permission {
-	public static final int MAX_AGE = 60*60*24;//24h 
-	
+	public static final int MAX_AGE = 60*60*24;//24h
+
 	private ApplicationPermition applicationPermition; 
 	
 	public boolean hasApp1PagPermition(String app, String appP, String page, String action){ // check permission on app 
@@ -71,15 +73,17 @@ public class Permission {
 	}
 
 	public  void changeOrgAndProfile(String dad){
+		if(Core.isNull(dad))
+			return;
 		Application app = Core.findApplicationByDad(dad);
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
 		Profile prof = new Profile();
-		if(app!=null && Igrp.getInstance().getRequest().getSession()!=null){			
+		final HttpSession session = Igrp.getInstance().getRequest().getSession();
+		if(app!=null && session !=null && Core.getCurrentUser()!=null){
 			int id_user = 0;
-			try {// eliminar 
-				id_user = Core.getCurrentUser().getIdentityId();
-			}catch(Exception ignored) {}
+			id_user = Core.getCurrentUser().getIdentityId();
+
 			if(app.getPermissionApp(app.getId())){
 				prof = prof.getByUserPerfil(id_user,app.getId());
 				ApplicationPermition appP = this.getApplicationPermition(dad);
@@ -93,10 +97,11 @@ public class Permission {
 				}
 				this.applicationPermition = appP;
 			}
+			((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
+			((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
+			((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 		}
-		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
-		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
-		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
+
 	}
 	
 	public void setCookie(ApplicationPermition appP) {
@@ -148,7 +153,14 @@ public class Permission {
 	
 	public ApplicationPermition getApplicationPermition() {
 		String dad = Core.getParam("dad");
-		return this.getApplicationPermition(dad);
+
+		ApplicationPermition applicationPermition = this.getApplicationPermition(dad);
+		if(applicationPermition==null) {
+			changeOrgAndProfile(dad);
+			applicationPermition = this.getApplicationPermition(dad);
+		}
+		return applicationPermition;
+
 	}
 	
 	public ApplicationPermition getApplicationPermition(String dad) {

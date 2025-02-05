@@ -295,6 +295,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public Map<Object, Object> getListApps() {
 		User user = Core.getCurrentUser();
+		if(user==null)
+			return null;
 		return Core.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
 	}
 
@@ -351,7 +353,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getPermissionApp(dadID) ;
 	}
 	public boolean getPermissionApp(Integer dadID) {
-		Integer userID = Core.getCurrentUser().getId();
+		final User currentUser = Core.getCurrentUser();
+		if(currentUser==null)
+			return false;
+		Integer userID = currentUser.getId();
 		return getPermissionApp( dadID,  userID);
 	}
 	public boolean getPermissionApp(String dad, Integer userID) {
@@ -370,6 +375,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public List<Profile> getMyApp() {
 		User u = Core.getCurrentUser();
+		if(u==null)
+			return new ArrayList<>();
 		List<Profile> list = new Profile().find().keepConnection()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", u.getId())
@@ -504,6 +511,11 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public Application findByDad(String dad) {
+		if(Core.isNull(dad)){
+			System.err.println("ERRO em Application.class - DAD não pode ser null!");
+			return null;
+		}
+
 		return new Application().find().keepConnection().andWhere("dad", "=", dad).one();
 	}
 	
