@@ -768,29 +768,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	private T orderBy(String[][] orderByNames, String defaultOrder) {
 		if(orderByNames!=null) {
-			StringBuilder c = new StringBuilder(" ORDER BY ");		
-    		int i=1;
-    		for(String[] names:orderByNames) {
-    			String order = names[names.length-1];
-    			String[] newNames;
-    			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
-    				order = Core.isNotNull(defaultOrder)?defaultOrder:ORDERBY.ASC;
-    				newNames = Arrays.copyOf(names, names.length);
-    			}else{
-    				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
-    			}
-    			for(int j=0;j<newNames.length;j++)
-    				newNames[j] = recq.resolveColumnName(this.getAlias(),newNames[j]);
-    			c.append(Arrays.toString(newNames).replace("[", "").replace("]", "")).append(" ").append(order).append(i == orderByNames.length ? " " : ", ");
-    			i++;
-    		}
-    		this.filterWhere(c.toString());
-    	}
 			StringBuilder c = new StringBuilder(this.sql.contains("ORDER BY")?",":" ORDER BY ");
 			int i=1;
 			for(String[] names:orderByNames) {
 				String order = names[names.length-1];
 				String[] newNames;
+				final int newLength = names.length - 1 >= 1 ? names.length - 1 : names.length;
 				if(order.equalsIgnoreCase(ORDERBY.ASC_NULLS_FIRST)){
 					order = ORDERBY.ASC_NULLS_FIRST;
 					newNames = Arrays.copyOf(names, newLength);
