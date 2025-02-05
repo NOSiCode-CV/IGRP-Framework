@@ -786,6 +786,41 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
     		}
     		this.filterWhere(c.toString());
     	}
+			StringBuilder c = new StringBuilder(this.sql.contains("ORDER BY")?",":" ORDER BY ");
+			int i=1;
+			for(String[] names:orderByNames) {
+				String order = names[names.length-1];
+				String[] newNames;
+				if(order.equalsIgnoreCase(ORDERBY.ASC_NULLS_FIRST)){
+					order = ORDERBY.ASC_NULLS_FIRST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if(order.equalsIgnoreCase(ORDERBY.ASC_NULLS_LAST)){
+					order = ORDERBY.ASC_NULLS_LAST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if(order.equalsIgnoreCase(ORDERBY.DESC_NULLS_LAST)){
+					order = ORDERBY.DESC_NULLS_LAST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if(order.equalsIgnoreCase(ORDERBY.DESC_NULLS_FIRST)){
+					order = ORDERBY.DESC_NULLS_FIRST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if (!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
+					order = Core.isNotNull(defaultOrder) ? defaultOrder : ORDERBY.ASC;
+					newNames = Arrays.copyOf(names, names.length);
+				}
+				else{
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				for(int j=0;j<newNames.length;j++)
+					newNames[j] = recq.resolveColumnName(this.getAlias(),newNames[j]);
+				c.append(Arrays.toString(newNames).replace("[", "").replace("]", "")).append(" ").append(order).append(i == orderByNames.length ? " " : ", ");
+				i++;
+			}
+			this.filterWhere(c.toString());
+		}
 		return (T) this;
 	}
 	//Can be used with allColumns and oneColumns
