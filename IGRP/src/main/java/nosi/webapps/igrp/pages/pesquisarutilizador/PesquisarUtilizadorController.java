@@ -66,7 +66,7 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
-					.andWhere("user.email", "=", model.getEmail()).setShowConsoleSql(true)
+					.andWhere("user.email", "=", model.getEmail())
 					.all();
 		} else {
 			Application app = Core.getCurrentApp();
