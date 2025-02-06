@@ -308,7 +308,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 					ms.setLink(linky);
 					ms.setType(2);
 				} else {
-					
+					 int external = r.getInt("external");
 					if (r.getString("page") != null) {
 						if (r.getInt("tipo") == 1) { // If it is a public page ...
 							ms.setType(1);
@@ -318,18 +318,17 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 									+ (Core.isNull(aux) ? "pt_PT" : aux) /* + "&target=_blank" */);
 						} else {
 
-							final int external = r.getInt("external");
+
 							if (!r.getString("dad_app_page").equals("tutorial")
 									&& !r.getString("dad_app_page").equals("igrp_studio")
 									&& !r.getString("dad_app_page").equals("igrp")
-									&& !r.getString("dad_app_page").equals(currentDad)
 									&& external != 0) {
 
 								ms.setType(2);
 
 								
 								// Externo
-								final String url = r.getString("url");
+								String url = r.getString("url");
 								if (external == 1) {
 									if (deployedWarName.equals(url)) {
 										ms.setType(3);
@@ -344,8 +343,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 								// Custom host folder
 								if (external == 2) {
 									if (deployedWarName.equals(url)) {
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
+										ms.setLink("/"+deployedWarName+"/app/webapps?r="+EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
@@ -355,8 +353,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 									}
 								}
 							} else
-								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page")
-										+ "/" + r.getString("action")) + "&dad=" + currentDad);
+								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page")+ "/" + r.getString("action")) + "&dad=" + currentDad);
 						}
 					}
 				}
