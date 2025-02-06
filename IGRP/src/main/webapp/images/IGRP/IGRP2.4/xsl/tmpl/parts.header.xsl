@@ -759,7 +759,7 @@
                 </button>
               </div>
 
-              <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
+              <!--<div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
                 <button
                   type="button"
                   class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
@@ -1277,8 +1277,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
-
+              </div> -->
+              
               <div class="dropdown ms-sm-3 header-item topbar-user">
                 <button
                   type="button"
@@ -1298,19 +1298,25 @@
                       <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
                         <xsl:value-of select="rows/site/user_name"/>
                       </span>
-                      <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Perfil</span>
+                      <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Olá</span>
                     </span>
                   </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                   <!-- item-->
-                  <h6 class="dropdown-header">John Doe!</h6>
+                  <h6 class="dropdown-header"><xsl:value-of select="rows/site/user_name"/></h6>
 
-                  <a class="dropdown-item" href="apps-tasks-kanban.html">
+                  <!--<a class="dropdown-item" href="{link}">
                     <i
                       class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"
                     ></i>
                     <span class="align-middle">Minhas Tarefas</span>
+                  </a>
+                  <a class="dropdown-item" href="apps-tasks-kanban.html">
+                    <i
+                      class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"
+                    ></i>
+                    <span class="align-middle">Tarefas Disponíveis</span>
                   </a>
                   <a class="dropdown-item" href="pages-faqs.html">
                     <i
@@ -1325,13 +1331,13 @@
                       class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"
                     ></i>
                     <span class="align-middle">Configurações</span>
-                  </a>
+                  </a>-->
           
-                  <a class="dropdown-item" href="http://localhost/igrp-design-system-beta/IGRP2.4/xml/IGRP-login.xml">
+                  <a class="dropdown-item" href="{rows/site/button/link}" target="{rows/site/button/target}">
                     <i
                       class="mdi mdi-logout text-muted fs-16 align-middle me-1"
                     ></i>
-                    <span class="align-middle" data-key="t-logout">Sair</span>
+                    <span class="align-middle" data-key="t-logout"><xsl:value-of select="rows/site/button/title"/></span>
                   </a>
                 </div>
               </div>
