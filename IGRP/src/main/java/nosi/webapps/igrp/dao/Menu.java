@@ -23,6 +23,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.security.EncrypDecrypt;
+import org.apache.commons.lang3.StringUtils;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -301,60 +302,40 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				ms.setMenu_icon(r.getString("menu_icon"));
 				String linky = r.getString("link");
 				if (linky != null && !linky.trim().isEmpty()) {
+					ms.setType(2);
 					final String currentOrganizationCode = Core.getCurrentOrganizationCode();
 					final String currentProfileCode = Core.getCurrentProfileCode();
 					if (linky.contains("$CONTEXT$"))
 						linky = linky.replace("$CONTEXT$", String.format("%s:%s:%s", currentDad, currentOrganizationCode, currentProfileCode)).replace("$PARAMS$", "");
 					ms.setLink(linky);
-					ms.setType(2);
 				} else {
-					 int external = r.getInt("external");
 					if (r.getString("page") != null) {
-						if (r.getInt("tipo") == 1) { // If it is a public page ...
-							ms.setType(1);
-							
-							ms.setLink(r.getString("dad_app_page") + "/" + r.getString("page") + "/"
-									+ r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="
-									+ (Core.isNull(aux) ? "pt_PT" : aux) /* + "&target=_blank" */);
-						} else {
-
-
-							if (!r.getString("dad_app_page").equals("tutorial")
-									&& !r.getString("dad_app_page").equals("igrp_studio")
-									&& !r.getString("dad_app_page").equals("igrp")
-									&& external != 0) {
-
-								ms.setType(2);
-
-								
-								// Externo
-								String url = r.getString("url");
-								if (external == 1) {
-									if (deployedWarName.equals(url)) {
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
-												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
-												+ currentDad);
-									} else {
-										String _u = String.format("%s?r=%s/%s/%s&dad="+currentDad, url, r.getString("dad_app_page"), r.getString("page"),r.getString("action"));
-										ms.setLink(_u);
-									}
+						String r3Path = r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action");
+						int external = r.getInt("external");
+						String url = r.getString("url");
+						if (external == 0 || deployedWarName.equals(url) || StringUtils.stripStart(Core.getHostName(),":") .equals(StringUtils.stripStart(url,":"))) {
+								if (r.getInt("tipo") == 1) {
+									ms.setType(1);
+									ms.setLink(r3Path + "&dad=" + currentDad + "&isPublic=1&lang="+ (Core.isNull(aux) ? "pt_PT" : aux));
+								}else{
+									ms.setLink(EncrypDecrypt.encrypt(r3Path) + "&dad=" + currentDad);
 								}
+						}else {
+							ms.setType(2); //Will NOT add webapps to the start
+							//Externo
+							if (external == 1) {
+								String _u = String.format("%s?r=%s&dad=%s", url, r3Path,currentDad);
+								ms.setLink(_u);
+							}else
 								// Custom host folder
 								if (external == 2) {
-									if (deployedWarName.equals(url)) {
-										ms.setLink("/"+deployedWarName+"/app/webapps?r="+EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
-												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
-												+ currentDad);
-									} else {
-										String _u = buildExternalUrl(url,
-												r.getString("dad_app_page"), r.getString("page"),r.getString("action")) + "&dad=" + currentDad; // Custom Dad
-										ms.setLink(_u);
-									}
-								}
-							} else
-								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page")+ "/" + r.getString("action")) + "&dad=" + currentDad);
+                                    String _u = buildCustomHostDADUrl(url,
+                                            r.getString("dad_app_page"), r.getString("page"), r.getString("action")) + "&dad=" + currentDad; // Custom Dad
+
+                                    ms.setLink(_u);
+                                }
 						}
+
 					}
 				}
 				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
@@ -439,6 +420,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		String url;
 		url = String.format("%s?r=%s/%s/%s", ConfigApp.getInstance().getExternalUrl(dad), app, page, action);
 		return url;
+	}
+	public String buildCustomHostDADUrl(String deployedWarName, String app, String page, String action) {
+        return String.format("/%s/app/webapps?r=%s/%s/%s", deployedWarName, app, page, action);
 	}
 
 	// To integrate with PL-SQL services as a Rest

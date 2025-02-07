@@ -67,7 +67,7 @@ public final class Route {
                     if (!app.equals(dad) && !app.equals("igrp") && !app.equals("igrp_studio") && !app.equals("tutorial") && !app.equals("portondinosilha") && !app.equals("inps_porton") && !app.equals("undefined") ) {
                         Map<String, Object> appMap =new Application().find().where("dad","=",app).oneColumns("externo","url");
 						if(appMap!=null && Core.isNotNullMultiple(appMap.get("url"),appMap.get("externo")) && appMap.get("externo").equals(2) && !deployedWarName.equals((String) appMap.get("url"))){
-							url = new Menu().buildExternalUrl((String) appMap.get("url"),app, page,action)+qs;
+							url = new Menu().buildCustomHostDADUrl((String) appMap.get("url"),app, page,action)+qs;
 						}else
 							url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
                     } else {
