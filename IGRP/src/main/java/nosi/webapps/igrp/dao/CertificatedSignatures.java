@@ -25,7 +25,6 @@ public class CertificatedSignatures extends IGRPBaseActiveRecord<CertificatedSig
 	public CertificatedSignatures() {
 		super();
 		//this.generateUid();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Id
