@@ -105,7 +105,7 @@ public class PesquisarMenuController extends Controller {
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
 					if (menu_db1.getAction().getApplication().getId() != idApp)
-						mdad = menu_db1.getAction().getApplication().getDad() + " / ";
+						mdad = "@["+menu_db1.getAction().getApplication().getDad() + "] / ";
 					table1.setPagina(mdad + gt(menu_db1.getAction().getPage_descr()) + " ("
 							+ menu_db1.getAction().getPage() + ")");
 				} else if (menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {

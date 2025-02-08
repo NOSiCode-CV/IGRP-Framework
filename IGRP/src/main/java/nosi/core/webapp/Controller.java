@@ -415,6 +415,9 @@ public class Controller {
     protected final Response redirectError() throws IOException {
         return this.redirect_(Route.toUrl("igrp", "error-page", "exception"));
     }
+    protected final Response redirectError(String dad) throws IOException {
+        return this.redirect_(Route.toUrl("igrp", "error-page", "exception","&dad="+dad));
+    }
 
     protected final Response redirect(String app, String page, String action) throws IOException {
         String ssoUrl = ssoUrl(app, page, action, null, null);
