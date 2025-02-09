@@ -415,7 +415,7 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) { 
-			Application env = Core.findApplicationByDad(app);
+			Application env = Core.findApplicationByDad(p[0]);
 			// 2 - custom dad 
 			String url = null; 
 			if(env.getExternal() == 2)
@@ -423,10 +423,10 @@ public class EnvController extends Controller {
 			// 1 External 
 			if(env.getExternal() == 1)
 				url = env.getUrl(); 
-			if(url != null) 
+			if(url != null && (env.getExternal() == 2 || !url.contains("app/webapps")))
 				return redirectToUrl(url); 
 			
-			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
+			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta
 			try {
 				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
 				Integer idPerfil = applicationPermition!=null?applicationPermition.getProfId():null;				
@@ -438,6 +438,7 @@ public class EnvController extends Controller {
 						p[1] = action.getPage();
 						p[2] = action.getAction();
 						if(!permission.hasMenuPagPermition(Igrp.getInstance().getRequest(),app,p[0], p[1], p[2])) {
+							Core.setMessageInfo("Não tem permissão para página principal do perfil! No permission to the home page of this profile! Page: "+p[0]+"/"+p[1]);
 							p[0]="tutorial";
 							p[1]="DefaultPage";
 							p[2]="index";
@@ -457,12 +458,13 @@ public class EnvController extends Controller {
 				if (splitedParam.length == 2)
 					this.addQueryString(splitedParam[0].trim(), splitedParam[1].trim());
 			}
-
+			if(env.getExternal() == 1)
+				return this.redirectToUrl(String.format("%s?r=%s/%s/%s&dad="+app, url, p[0], p[1], p[2]));
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
-		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
-		Core.setAttribute("jakarta.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
-		return this.redirectError();
+		Core.setMessageError(gt("Não tem permissão/partilha para página principal! No permission/share to the home page! Page: ") + page);
+		Core.setAttribute("jakarta.servlet.error.message", gt("Não tem permissão para página principal! No permission to the home page! Page: ") + page);
+		return this.redirectError(app);
 	}
 	
 	/** Integration with IGRP-PLSQL Apps **
@@ -502,8 +504,8 @@ public class EnvController extends Controller {
 	
 	private String buildAppUrlUsingAutentikaForSSO(Application env) {
 		try {
-			String contextName = Core.getDeployedWarName(); 
-			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
+			String deployedWarName = Core.getDeployedWarName();
+			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !deployedWarName.equalsIgnoreCase(env.getUrl())) {
 				Action ac = env.getAction();
 				StringBuilder url = new StringBuilder(this.configApp.getExternalUrl(env.getUrl()));
 				if(ac != null && ac.getApplication() != null) {

@@ -2,6 +2,7 @@ package nosi.core.webapp;
 
 import static nosi.core.i18n.Translator.gt;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -59,11 +60,15 @@ public final class ApplicationManager {
 				if(!"r".equals(paramName) && !"dad".equals(paramName)) // skipping "r" and "dad" param
 					additionalParams.append(String.format("&%s=%s", paramName, encodeParameterValue(request.getParameter(paramName))));
 			}
-			url = Optional.of(String.format("%s?r=%s%s%s%s", requestUrl(request), page, dad, additionalParams,errorMsg));
+			url = Optional.of(String.format("/%s/app/webapps?r=%s%s%s%s", getDeployedHostName(request), page, dad, additionalParams,errorMsg));
 		}
 		return url;
 	}
-	
+
+	private static String getDeployedHostName(HttpServletRequest request) {
+		return new File(request.getServletContext().getRealPath("/")).getName();
+	}
+
 	public static String buildPublicTargetLink(HttpServletRequest request) {
 		String url = "";
 		String page = request.getParameter("r");

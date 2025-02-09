@@ -65,6 +65,7 @@ public class Permission {
 						&& new Share().getPermissionPage(dad,appP,new Action().findByPage(page, appP).getId());
 			}
 		}
+		System.err.println("Permission.hasMenuPagPermition: not authenticated");
 		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
@@ -88,8 +89,8 @@ public class Permission {
 				prof = prof.getByUserPerfil(id_user,app.getId());
 				ApplicationPermition appP = this.getApplicationPermition(dad);
 				if(prof!=null){
-					 org.setId(prof.getOrganization().getId());
-					 profType.setId(prof.getProfileType().getId());
+					 org=prof.getOrganization();
+					 profType=prof.getProfileType();
 					if(appP==null) {
 						appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(), prof.getOrganization() != null ? prof.getOrganization().getCode():null, prof.getProfileType() != null ?prof.getProfileType().getCode():null);
 					}
