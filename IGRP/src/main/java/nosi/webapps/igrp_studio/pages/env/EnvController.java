@@ -414,8 +414,9 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
-		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) { 
-			Application env = Core.findApplicationByDad(p[0]);
+		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) {
+			//TODO: deve ver se a apliccacoa da pagina é nao tutorial e ver o que acontece se for diferentes...
+			Application env = Core.findApplicationByDad(app);
 			// 2 - custom dad 
 			String url = null; 
 			if(env.getExternal() == 2)

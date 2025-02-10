@@ -246,6 +246,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		List<Integer> profileList = new Profile().find().keepConnection()
 				.whereIn("type_fk", menuIDs)
 				.andWhere("type", "=", "MEN")
+				.andWhere("profileType.application.dad", "=", dad)
 				.andWhere("profileType.id", ">", 1)
 				.allColumns("profileType").stream()
 				.flatMap(map -> map.values().stream())
