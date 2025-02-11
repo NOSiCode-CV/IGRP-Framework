@@ -69,7 +69,7 @@ public final class Route {
 								.where("dad","=",app)
 								.oneColumns("externo","url");
 						if(applicationMap!=null && Core.isNotNullMultiple(applicationMap.get("url"),applicationMap.get("externo")) && applicationMap.get("externo").equals(2) && !deployedWarName.equals(applicationMap.get("url"))){
-							url = new Menu().buildCustomHostDADUrl((String) applicationMap.get("url"),app, page,action)+qs;
+							url = new Menu().buildExternalUrl((String) applicationMap.get("url"),app, page,action)+qs;
 						}else
 							url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
                     } else {

@@ -48,7 +48,7 @@ public class AuthenticationFilter implements Filter {
 			} else {
 				if(Core.isNull(httpServletRequest.getSession().getAttribute("oldTimeout")))
 					httpServletRequest.getSession().setAttribute("oldTimeout",httpServletRequest.getSession().getMaxInactiveInterval());
-				httpServletRequest.getSession().setMaxInactiveInterval(30);
+				httpServletRequest.getSession().setMaxInactiveInterval(60);
 				if (ApplicationManager.isPublic(httpServletRequest) && !ApplicationManager.isLoginPage(httpServletRequest)) {
 					if (request.getParameter("target") == null) {
 						httpServletResponse.sendRedirect(ApplicationManager.buildPublicTargetLink(httpServletRequest));

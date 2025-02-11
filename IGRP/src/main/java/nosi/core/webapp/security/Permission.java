@@ -60,9 +60,15 @@ public class Permission {
 				return true;
 			if(appP.equals(dad) || appP.equals("igrp") || appP.equals("igrp_studio"))
 				return (new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),dad, page));
-			else { 				
-				return new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),dad, page) //Checks if the app destiny in the DAD has this page in the menu
-						&& new Share().getPermissionPage(dad,appP,new Action().findByPage(page, appP).getId());
+			else {
+				final boolean permissionMenID = new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(), dad, page);
+				if(!permissionMenID)
+					System.err.println("Permission.hasMenuPagPermition.permissionMenID is false");
+				final boolean permissionSharePage = new Share().getPermissionPage(dad, appP, new Action().findByPage(page, appP).getId());
+				if(!permissionSharePage)
+					System.err.println("Permission.hasMenuPagPermition.permissionSharePage is false");
+				return permissionMenID //Checks if the app destiny in the DAD has this page in the menu
+						&& permissionSharePage;
 			}
 		}
 		System.err.println("Permission.hasMenuPagPermition: not authenticated");

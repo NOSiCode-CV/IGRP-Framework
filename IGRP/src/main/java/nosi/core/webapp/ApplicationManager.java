@@ -48,7 +48,7 @@ public final class ApplicationManager {
 			String[] p = page.split("/");
 			String errorMsg="";
 			if(!new Permission().hasMenuPagPermition(request,dad, p[0], p[1], p[2])) {
-				errorMsg="&errorMsg="+encodeParameterValue(gt("Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);		
+				errorMsg="&errorMsg="+encodeParameterValue(gt("@"+dad+" - Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);
 				page = "igrp/error-page/exception";
 			}
 			page = EncrypDecrypt.encryptURL(page, request.getSession(false).getId()).replace(" ", "+");
@@ -312,7 +312,7 @@ public final class ApplicationManager {
 		if (r != null && !r.contains("igrp/login/")) {
 			String[] arr = r.split("/");
 			if (arr.length == 3) {
-				HttpSession session = request.getSession(true);
+				HttpSession session = request.getSession(false);
 				JSONObject route = new JSONObject();
 				route.put("appCode", arr[0]);
 				route.put("pageCode", arr[1]);
