@@ -43,15 +43,16 @@ public final class AuthenticationManager {
 			if(optIdentity.isPresent()) {
 				request.setAttribute(User.IDENTITY_PARAM_NAME, optIdentity.get());
 				return true;
-			}else {
-				// Trying to restore session from cookie if exists
-				optIdentity = getIdentityFromCookie(request);
-				if(optIdentity.isPresent()) {
-					AuthenticationManager.createSecurityContext(optIdentity.get(), session);
-					request.setAttribute(User.IDENTITY_PARAM_NAME, optIdentity.get());
-					return true;
-				}
 			}
+//			else {
+				// Trying to restore session from cookie if exists
+			//	optIdentity = getIdentityFromCookie(request);
+//				if(optIdentity.isPresent()) {
+//					AuthenticationManager.createSecurityContext(optIdentity.get(), session);
+//					request.setAttribute(User.IDENTITY_PARAM_NAME, optIdentity.get());
+//					return true;
+//				}
+//			}
 		}
 		return false;
 	}

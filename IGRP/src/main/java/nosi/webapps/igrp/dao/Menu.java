@@ -29,6 +29,7 @@ import static nosi.core.i18n.Translator.gt;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 
@@ -231,32 +232,31 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				.map(Integer.class::cast)
 				.toArray(Integer[]::new);
 
-		//List of ids of profiles of the current user
-		List<Integer> profsUserList = new Profile().find().keepConnection()
-				.where("type", "=", "PROF")
-				.andWhere("profileType.application.dad", "=", dad)
-				.andWhere("user.id", "=", userID)
-				.allColumns("type_fk").stream()
-				.flatMap(map -> map.values().stream())
-				.filter(Integer.class::isInstance)
-				.map(Integer.class::cast)
-				.toList();
+			// List of profile IDs of the current user
+			Set<Integer> profsUserSet = new Profile().find().keepConnection()
+					.where("type", "=", "PROF")
+					.andWhere("profileType.application.dad", "=", dad)
+					.andWhere("user.id", "=", userID)
+					.allColumns("type_fk").stream()
+					.flatMap(map -> map.values().stream())
+					.filter(Integer.class::isInstance)
+					.map(Integer.class::cast)
+					.collect(Collectors.toSet());
 
-		//List of profiles with the given menu ids
-		List<Integer> profileList = new Profile().find().keepConnection()
-				.whereIn("type_fk", menuIDs)
-				.andWhere("type", "=", "MEN")
-				.andWhere("profileType.application.dad", "=", dad)
-				.andWhere("profileType.id", ">", 1)
-				.allColumns("profileType").stream()
-				.flatMap(map -> map.values().stream())
-				.filter(Integer.class::isInstance)
-				.map(Integer.class::cast)
-				.toList();
-	// Compares if the user has a profile that has the menu that he wants to access
-		List<Integer> comparisonList = new ArrayList<>(profsUserList);
+			// List of profiles with the given menu IDs
+			Set<Integer> profileSet = new Profile().find().keepConnection()
+					.whereIn("type_fk", menuIDs)
+					.andWhere("type", "=", "MEN")
+					.andWhere("profileType.application.dad", "=", dad)
+					.andWhere("profileType.id", ">", 1)
+					.allColumns("profileType").stream()
+					.flatMap(map -> map.values().stream())
+					.filter(Integer.class::isInstance)
+					.map(Integer.class::cast)
+					.collect(Collectors.toSet());
 
-        return new HashSet<>(comparisonList).containsAll(profileList);
+			// Check if profsUserSet contains any of the profileSet
+			return !Collections.disjoint(profsUserSet, profileSet);
 	}
 	
 
