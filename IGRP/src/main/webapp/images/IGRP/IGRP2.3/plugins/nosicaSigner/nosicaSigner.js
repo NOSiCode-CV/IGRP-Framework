@@ -128,7 +128,7 @@
                         </div>                                                     
                             <div class="controls">                                    
                                 <canvas id="canvas_frame" class="pdfCanvas" style="border:1px solid black;height: 750px;width: 600px;"></canvas>  
-                                <div id="signature_holder" style="height:100px;width:200px;position:relative;border:1px solid rgb(143, 71, 71)">
+                                <div id="signature_holder" style="display:none;height:80px;width:160px;position:relative;border:1px solid;background-color: rgba(104, 97, 97, 0.568);color:black">
                                     <h3>
                                         Teste Assinatura
                                     </h3>
@@ -228,7 +228,7 @@
                         if (currentPage >= totalPages) return; // Não ultrapassar a última página
                         currentPage++;
                         renderPage(currentPage);
-                    });   
+                    });  
 
                     document.addEventListener('click', function (event) {
                         markClickPoint(event);
@@ -773,8 +773,10 @@
             const rect = document.getElementById('canvas_frame').getBoundingClientRect();
             const signature = document.getElementById('signature_holder');
 
+            signature.style.display = `none`;
+
             //default pdf width
-            const displayWidth = 840;
+            const displayWidth = 900;
 
             if(base64){
 

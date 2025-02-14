@@ -29,10 +29,6 @@ try {
         const adjustedY = displayHeight - (clickY / scaleY);
 
         const context = canvas.getContext('2d');
-
-        // console.log("displayHeight - adjustedY)",displayHeight - adjustedY)
-        // console.log("realHeight - adjustedY)",realHeight - adjustedY)
-
         
         context.strokeStyle = 'red';
         context.lineWidth = 2;
@@ -52,12 +48,11 @@ try {
             console.log("\n---------------")
 
             signature.style.left = `${adjustedX}px`;
-            signature.style.top = `${840 - adjustedY}px`;
+            signature.style.top = `${900 - adjustedY}px`;
             signature.style.position = `absolute`;     
             signature.style.border = `1px solid black`;
             console.log("signature",signature)
 
-            sendClickDataToAPI(adjustedX, adjustedY);
         }
 
     }

@@ -12,7 +12,6 @@ var FILESIGNER = function(type,params){
 	field.includes = {
 		js  :[ 
 			{ path:'/plugins/nosicaSigner/nosicaSigner.js'},
-			{ path:'/plugins/nosicaSigner/pdf.min.mjs'},
 			{ path:'/plugins/nosicaSigner/signerCanvas.js'}
 		]
 	}
