@@ -23,6 +23,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.webapps.igrp.pages.novomenu.NovoMenuController;
 import org.apache.commons.lang3.StringUtils;
 
 import static nosi.core.i18n.Translator.gt;
@@ -292,7 +293,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				.addInt("prof_type_fk", currentProfile).addString("dad", currentDad).addInt("status", 1)
 				.addInt("user_fk", Core.getCurrentUser().getId()).orderByAsc("orderby").getRecordList();
 		if (row.rowList != null) {
-			row.rowList.forEach(r -> {
+			row.rowList.stream()
+					.filter(r ->{return r.getInt("orderby") != NovoMenuController.INVISIVEL_KEY;})
+					.forEach(r -> {
 				// Get Menu Pai
 				MenuProfile ms = new MenuProfile();
 				ms.setId(r.getInt("id"));
