@@ -62,8 +62,7 @@ public class PesquisarUtilizadorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=utilizador"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		nome_filt = new TextField(model,"nome_filt");
 		nome_filt.setLabel(gt("Nome"));
@@ -95,14 +94,14 @@ public class PesquisarUtilizadorView extends View {
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Utilizador Ativo?"));
-		ativo.propertie().add("remote-changeStatus",Core.getIGRPLink("igrp","PesquisarUtilizador","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
+		ativo.propertie().add("remote-changeStatus",Core.getIGRPLink("igrp","PesquisarUtilizador","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","300").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ativo_check = new CheckBoxField(model,"ativo_check");
-		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
+		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","300").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		nominho = new PlainTextField(model,"nominho");
 		nominho.setLabel(gt("Nome"));
-		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("showLabel","true").add("disable_output_escaping","false").add("html_class","").add("group_in","");
+		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","100").add("showLabel","true").add("disable_output_escaping","false").add("html_class","").add("group_in","");
 		
 		range_1 = new TextField(model,"range_1");
 		range_1.setLabel(gt("Range"));
@@ -206,6 +205,7 @@ public class PesquisarUtilizadorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		documento.setValue(model);
 		nome_filt.setValue(model);
 		username.setValue(model);
 		email.setValue(model);

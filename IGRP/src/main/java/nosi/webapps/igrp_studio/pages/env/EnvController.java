@@ -54,9 +54,9 @@ import static nosi.core.i18n.Translator.gt;
 		
 public class EnvController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Env model = new Env();
+		var model = new Env();
 		model.load();
-		EnvView view = new EnvView();
+		var view = new EnvView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
@@ -86,6 +86,7 @@ public class EnvController extends Controller {
 		view.flg_old.setVisible(false);
 		view.plsql_codigo.setVisible(this.configApp.isActiveGlobalACL());
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
+		view.host.propertie().add("tooltip", "EX: the tedkmsamf ");
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -93,7 +94,7 @@ public class EnvController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Env model = new Env();
+		var model = new Env();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
