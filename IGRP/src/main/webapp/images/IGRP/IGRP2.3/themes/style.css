@@ -100,6 +100,12 @@ b {
 	color: darkblue;
 }
 
+.alert-info {
+    color: #023e5b;
+    background-color: #b6ddf1;
+    border-color: #4699cc;
+ }
+
 .alert-dismissable .close {
 	right: 0;
 }
