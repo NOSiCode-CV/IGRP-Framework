@@ -1,5 +1,6 @@
 package nosi.core.webapp;
 
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
@@ -726,23 +727,37 @@ public class Controller {
     public Config getConfig() {
         return this.configApp.getConfig();
     }
-    
-    public static Object loadPage(String controllerPath, String actionName){
-		Igrp igrpApp = Igrp.getInstance();
-		try {
-			Class<?> classController = Class.forName(controllerPath);
-			Object controller = classController.getDeclaredConstructor().newInstance();
-			igrpApp.setCurrentController((Controller) controller);
-			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(() -> new NoSuchMethodException("Não existe action "+actionName+" na pagina "+igrpApp.getCurrentPageName()));
-			if(action.getParameterCount() == 0)
-				return  action.invoke(controller);
-			return action.invoke(controller, formalParameters(action, igrpApp).toArray());
-		}catch (Exception e) {
-			addParametersToErrorPage(igrpApp);
-			LOGGER.fatal(e.getMessage(), e);
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
+
+	 public static Object loadPage(String controllerPath, String actionName) {
+        Igrp igrpApp = Igrp.getInstance();
+        try {
+            Class<?> classController = Class.forName(controllerPath);
+            Object controller;
+
+            // Usar CDI para obter a instância do controller
+            Instance<?> instance = CDI.current().select(classController);
+            controller = instance.isUnsatisfied() ?
+                    classController.getDeclaredConstructor().newInstance() :
+                    instance.get();
+
+            igrpApp.setCurrentController((Controller) controller);
+            Method action = Arrays.stream(classController.getDeclaredMethods())
+                    .filter(p -> p.getName().equals(actionName))
+                    .findFirst()
+                    .orElseThrow(() -> new NoSuchMethodException(
+                            "Não existe action " + actionName + " na pagina " + igrpApp.getCurrentPageName()));
+
+            if (action.getParameterCount() == 0)
+                return action.invoke(controller);
+
+            return action.invoke(controller, formalParameters(action, igrpApp).toArray());
+        } catch (Exception e) {
+            addParametersToErrorPage(igrpApp);
+            LOGGER.fatal(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
 
     private static List<Object> formalParameters(Method action, Igrp igrpApp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         List<Object> paramValues = new ArrayList<>();
@@ -776,6 +791,7 @@ public class Controller {
 		Map<String, Object> errorParam = new HashMap<>();
 		errorParam.put("dad", igrpApp.getCurrentAppName());
 		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), env);
+        //TODO: check if  its added
 		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
 	}
     
