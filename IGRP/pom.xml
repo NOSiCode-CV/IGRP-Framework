@@ -41,8 +41,8 @@
 		
 
 		<!-- TomEE Embedded Maven Plugin -->
-      <tomee.version>9.1.3</tomee.version>
-      <tomee.maven.plugin.version>9.1.3</tomee.maven.plugin.version>
+      <tomee.version>10.0.0</tomee.version>
+      <tomee.maven.plugin.version>10.0.0</tomee.maven.plugin.version>
 
       <tomee.classifier>plus</tomee.classifier>
       
@@ -527,7 +527,7 @@
        <dependency>
            <groupId>org.apache.tomee</groupId>
            <artifactId>jakartaee-api</artifactId>
-           <version>9.1.1</version>
+           <version>10.0</version>
        </dependency>
 
    </dependencies>
@@ -641,6 +641,7 @@
 					<tomeeHttpPort>8081</tomeeHttpPort>
 					<tomeeShutdownPort>8006</tomeeShutdownPort>  -->
                   <args>-Dfile.encoding=UTF-8</args>
+                   <removeDefaultWebapps>false</removeDefaultWebapps>
                   <synchronization>
                      <extensions>
                         <extension>.class</extension>
@@ -650,6 +651,7 @@
                         <extension>.css</extension>
                         <extension>.js</extension>
                          <extension>.json</extension>
+                         <extension>.html</extension>
 <!--                        <extension>.properties</extension>-->
                      </extensions>
                   </synchronization>
