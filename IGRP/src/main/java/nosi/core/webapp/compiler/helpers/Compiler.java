@@ -18,8 +18,6 @@ import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.compiler.helpers.ErrorCompile;
-import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.FileHelper;
 
 
@@ -28,13 +26,13 @@ import nosi.core.webapp.helpers.FileHelper;
  * 12 Nov 2017
  */
 public class Compiler {
-	private List<String> dirs;
-	private Config config;
+	private final List<String> dirs;
+	private final Config config;
 	private String files = "";
-	private StringBuilder jars =  new StringBuilder("");
+	private final StringBuilder jars =  new StringBuilder();
 	private static final String ERROR_SEPARATOR="ERROR_SEPARATOR";
-	private List<ErrorCompile> errors;
-	private List<ErrorCompile> warnings;
+	private final List<ErrorCompile> errors;
+	private final List<ErrorCompile> warnings;
 	
 	public Compiler() {
 		this.dirs = new ArrayList<>();
@@ -49,54 +47,52 @@ public class Compiler {
 	}
 
 	public void compile() {
-		if (this.dirs != null) {
-			this.dirs.forEach(dir -> {
-				files += dir + " ";
-			});		
-			String pathTomcat = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
-			int index = pathTomcat.indexOf("webapps");
-			if (index != -1) {
-				// Using jar files available in tomcat/lib
+        this.dirs.forEach(dir -> {
+            files += dir + " ";
+        });
+        String pathTomcat = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
+        int index = pathTomcat.indexOf("webapps");
+        if (index != -1) {
+            // Using jar files available in tomcat/lib
 //				pathTomcat = pathTomcat.substring(0, index);
 //				pathTomcat += "lib";
-				listFilesDirectory(pathTomcat.substring(0, index)+"lib/");
-				listFilesDirectory(pathTomcat.substring(0, index)+"igrplib/");
-		
-			}
-			listFilesDirectory(this.config.getPathLib());
-			CompilationProgress progress = null;
-			String javaVersion = System.getProperty("java.version");
-			final String buildArgs;
-			if (javaVersion.startsWith("17") || Core.toInt(StringUtils.substringBefore(javaVersion,".")) > 17) {
-				// Code for Java +17
-				 buildArgs = " -encoding UTF-8 " + files + " -classpath " + jars.toString()
-						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
-						+ " -warn:none" + " -16" + " -Xemacs";
-			} else if (javaVersion.startsWith("11")) {
-				// Code for Java 11
-				System.out.println("igrpweb tip: Running Java 11 specific code. You can now changed the java version for more...");
-				buildArgs = " -encoding UTF-8 " + files +" -classpath " + jars.toString()
-						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
-						+ " -warn:none" + " -11" + " -Xemacs";
-			} else {
-				// Code for other versions
-				System.out.println("igrpweb tip: Compiling code in min. Java 8 versions. But you can now change the java version to >17...");
-				buildArgs = " -encoding UTF-8 " + files + " -cp " + "lombok.jar"+" -classpath " + jars.toString()
-						+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
-						+ " -warn:none" + " -1.8" + " -Xemacs";
-			}
+            listFilesDirectory(pathTomcat.substring(0, index)+"lib/");
+            listFilesDirectory(pathTomcat.substring(0, index)+"igrplib/");
 
-			
-		//	System.out.println(buildArgs);
-			
-			StringWriter swS = new StringWriter();
-			StringWriter swE = new StringWriter();
-			PrintWriter outSuccess = new PrintWriter(swS);
-			PrintWriter outError = new PrintWriter(swE);
-			BatchCompiler.compile(buildArgs, outSuccess, outError, progress);
-			this.extractError(outSuccess, outError, swS, swE);
-		}
-	}
+        }
+        listFilesDirectory(this.config.getPathLib());
+        CompilationProgress progress = null;
+        String javaVersion = System.getProperty("java.version");
+        final String buildArgs;
+        if (javaVersion.startsWith("17") || Core.toInt(StringUtils.substringBefore(javaVersion,".")) > 17) {
+            // Code for Java +17
+             buildArgs = " -encoding UTF-8 " + files + " -classpath " + jars.toString()
+                    + File.pathSeparator + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
+                    + " -warn:none" + " -16" + " -Xemacs";
+        } else if (javaVersion.startsWith("11")) {
+            // Code for Java 11
+            System.out.println("igrpweb tip: Running Java 11 specific code. You can now changed the java version for more...");
+            buildArgs = " -encoding UTF-8 " + files +" -classpath " + jars.toString()
+                    + File.pathSeparator + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
+                    + " -warn:none" + " -11" + " -Xemacs";
+        } else {
+            // Code for other versions
+            System.out.println("igrpweb tip: Compiling code in min. Java 8 versions. But you can now change the java version to >17...");
+            buildArgs = " -encoding UTF-8 " + files + " -cp " + "lombok.jar"+" -classpath " + jars.toString()
+                    + File.pathSeparator + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
+                    + " -warn:none" + " -1.8" + " -Xemacs";
+        }
+
+
+        //	System.out.println(buildArgs);
+
+        StringWriter swS = new StringWriter();
+        StringWriter swE = new StringWriter();
+        PrintWriter outSuccess = new PrintWriter(swS);
+        PrintWriter outError = new PrintWriter(swE);
+        BatchCompiler.compile(buildArgs, outSuccess, outError, progress);
+        this.extractError(outSuccess, outError, swS, swE);
+    }
 
 	private void extractError(PrintWriter outSuccess, PrintWriter outError, StringWriter swS, StringWriter swE) {
 		try {
@@ -122,19 +118,17 @@ public class Compiler {
 	private void extractError(String error) {
 		error = error.replace("^", ERROR_SEPARATOR);
 		String[] err = error.split(ERROR_SEPARATOR);
-		if(err!=null) {
-			for(String e:err) {
-				if(Core.isNotNull(e)) {
-					ErrorCompile errorC = this.errorCompiler(e);
-					if(errorC!=null)
-						this.errors.add(errorC);
-					errorC = this.warningCompiler(e);
-					if(errorC!=null)
-						this.warnings.add(errorC);
-				}
-			}
-		}
-	}
+        for (String e : err) {
+            if (Core.isNotNull(e)) {
+                ErrorCompile errorC = this.errorCompiler(e);
+                if (errorC != null)
+                    this.errors.add(errorC);
+                errorC = this.warningCompiler(e);
+                if (errorC != null)
+                    this.warnings.add(errorC);
+            }
+        }
+    }
 	
 	private ErrorCompile errorCompiler(String error) {
 		ErrorCompile err = new ErrorCompile();
@@ -159,14 +153,12 @@ public class Compiler {
 	
 	private long resolveLine(String error,String fileName) {
 		int start = error.indexOf(fileName+":")+(fileName+":").length();
-		if(start!=-1) {
-			int end = error.indexOf(":",start);
-			if(end!=-1) {
-				String line = error.substring(start, end);
-				return Core.toLong(line);
-			}
-		}
-		return 0;
+        int end = error.indexOf(":", start);
+        if(end!=-1) {
+            String line = error.substring(start, end);
+            return Core.toLong(line);
+        }
+        return 0;
 	}
 
 	private String resolveError(String msg,String type) {
@@ -188,20 +180,16 @@ public class Compiler {
 	public String getErrorToJson() {
 		if (this.hasError()) {
 			Map<String, List<ErrorCompile>> er = this.getErrors().stream().collect(Collectors.groupingBy(ErrorCompile::getFileName));
-			if(er!=null) {
-				return Core.toJson(new MapErrorCompile(Core.gt("Falha na compilação")+" - "+er.keySet().stream().findFirst().get(),er));		
-			}
-		}
+			return Core.toJson(new MapErrorCompile(Core.gt("Falha na compilação") + " - " + er.keySet().stream().findFirst().orElse(""), er));
+        }
 		return "";
 	}
 
 	public String getWarningToJson() {
 		if (this.hasWarning()) {
 			Map<String, List<ErrorCompile>> er = this.getWarnings().stream().collect(Collectors.groupingBy(ErrorCompile::getFileName));
-			if(er!=null) {
-				return Core.toJson(new MapErrorCompile(Core.gt("Warnings")+" - "+er.keySet().stream().findFirst().get(),er));		
-			}
-		}
+            return Core.toJson(new MapErrorCompile(Core.gt("Warnings") + " - " + er.keySet().stream().findFirst().orElse(""), er));
+        }
 		return "";
 	}
 	
@@ -210,7 +198,7 @@ public class Compiler {
 	}
 
 	public boolean hasError() {
-		return this.errors != null && !this.errors.isEmpty();
+		return !this.errors.isEmpty();
 	}
 
 	public List<ErrorCompile> getWarnings() {
@@ -218,7 +206,7 @@ public class Compiler {
 	}
 
 	public boolean hasWarning() {
-		return this.warnings != null && !this.warnings.isEmpty();
+		return !this.warnings.isEmpty();
 	}
 	
 	// Get jar files
@@ -227,7 +215,7 @@ public class Compiler {
 			Map<String, String> lFiles = new FileHelper().listFilesDirectory(path);
 			
 			for (Map.Entry<String, String> file : lFiles.entrySet()) {
-				this.jars.append(file.getValue()).append(System.getProperty("path.separator"));
+				this.jars.append(file.getValue()).append(File.pathSeparator);
 			}
 		}
 	}

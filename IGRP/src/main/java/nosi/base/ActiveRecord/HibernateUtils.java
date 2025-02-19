@@ -209,24 +209,46 @@ public class HibernateUtils {
 
 
    }
-   public static void setSessionAudit(Connection connection, StringBuilder parsedQuery) {
-       try {
-           if (connection.getClientInfo("ApplicationName").contains("postgresql")){
-              final User currentUser = Core.getCurrentUser();
-              if(currentUser!=null){
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", currentUser.getEmail()));
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", currentUser.getId()+""));
-              }else{
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", "anonymous@igrp"));
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", "0"));
-              }
-              if (null != Igrp.getInstance() && null != Igrp.getInstance().getRequest())
-                 parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
+   public static void setSessionAudit(java.sql.Connection connection, StringBuilder parsedQuery) {
+      try {
+         // Check the database type
+         String databaseType = connection.getMetaData().getDatabaseProductName().toLowerCase();
 
-           }
-       } catch (SQLException e) {
-           throw new RuntimeException(e);
-       }
+         if (databaseType.contains("postgresql")) {
+            // PostgreSQL-specific logic
+            final User currentUser = Core.getCurrentUser();
+            if (currentUser != null) {
+               parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", currentUser.getEmail()));
+               parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", currentUser.getId() + ""));
+            } else {
+               parsedQuery.append(String.format("SET session audit.AUDIT_USER_CONTEXT = '%s'; ", "anonymous@igrp"));
+               parsedQuery.append(String.format("SET session audit.AUDIT_USER_ID = '%s'; ", "0"));
+            }
+            if (null != Igrp.getInstance() && null != Igrp.getInstance().getRequest()) {
+               parsedQuery.append(String.format("SET session audit.AUDIT_USER_IP = '%s'; ", Igrp.getInstance().getRequest().getRemoteAddr()));
+            }
+         }
+//         else
+//            if (databaseType.contains("oracle")) {
+//            // Oracle-specific logic
+//            final User currentUser = Core.getCurrentUser();
+//            String email = (currentUser != null) ? currentUser.getEmail() : "anonymous@igrp";
+//            String userId = (currentUser != null) ? currentUser.getId() + "" : "0";
+//            String userIp = (null != Igrp.getInstance() && null != Igrp.getInstance().getRequest()) ? Igrp.getInstance().getRequest().getRemoteAddr() : "0.0.0.0";
+//
+//            // Execute each Oracle PL/SQL block separately
+//            try (java.sql.Statement stmt = connection.createStatement()) {
+//               stmt.execute("BEGIN DBMS_SESSION.SET_IDENTIFIER('" + email + "'); END;");
+//               stmt.execute("BEGIN DBMS_SESSION.SET_CONTEXT('AUDIT_CTX', 'AUDIT_USER_ID', '" + userId + "'); END;");
+//               stmt.execute("BEGIN DBMS_SESSION.SET_CONTEXT('AUDIT_CTX', 'AUDIT_USER_IP', '" + userIp + "'); END;");
+//            }
+//         }
+         else {
+            System.out.println("In setSessionAudit - Unsupported database type: " + databaseType);
+         }
+      } catch (SQLException e) {
+         throw new RuntimeException(e);
+      }
    }
 
    private static void setAuditContext(Connection connection, String settingName, String settingValue) throws SQLException {
