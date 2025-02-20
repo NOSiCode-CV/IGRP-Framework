@@ -243,9 +243,9 @@ public class HibernateUtils {
 //               stmt.execute("BEGIN DBMS_SESSION.SET_CONTEXT('AUDIT_CTX', 'AUDIT_USER_IP', '" + userIp + "'); END;");
 //            }
 //         }
-         else {
-            System.out.println("In setSessionAudit - Unsupported database type: " + databaseType);
-         }
+//         else {
+//            System.out.println("In setSessionAudit - Unsupported database type: " + databaseType);
+//         }
       } catch (SQLException e) {
          throw new RuntimeException(e);
       }
