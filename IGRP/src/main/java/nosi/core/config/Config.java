@@ -14,8 +14,11 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
 
+import java.nio.file.Paths;
+
 import jakarta.servlet.ServletContext;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Config {
@@ -261,11 +264,11 @@ public class Config {
            
            public class DefaultPageController extends Controller {
                public Response actionIndex() throws IOException {
-                   Application app = new Application().find().andWhere("dad", "=", "%s").one();
+                   var app = new Application().find().andWhere("dad", "=", "%s").one();
                    if (app != null && app.getAction() != null) {
                        return this.redirect(app.getDad().toLowerCase(), app.getAction().getPage(), "index");
                    }
-                   HomeAppView view = new HomeAppView();
+                   var view = new HomeAppView();
                    view.title = "%s";
                    return this.renderView(view, true);
                }
@@ -286,6 +289,22 @@ public class Config {
             return workSpace + SEPARATOR_FOR_FILESYSTEM + "src" + SEPARATOR_FOR_FILESYSTEM + "main" + SEPARATOR_FOR_FILESYSTEM + "java" + SEPARATOR_FOR_FILESYSTEM;
         return null;
     }
+
+        public static void main(String[] args) {
+            // Assuming you're starting from "resources/config/common"
+            var currentPath = Paths.get("resources/config/common");
+
+            // Navigate to "../../../sources"
+            var targetPath = currentPath.resolve("../../../../..").normalize();
+
+            // Print both the current and target paths
+            System.out.println("Current Path: " + currentPath.toAbsolutePath());
+            System.out.println("Target Path: " + targetPath.toAbsolutePath());
+
+            // Check if navigation is correct
+            System.out.println("Is the path normalized and correct? " + targetPath.normalize());
+        }
+
 
     public String getPathWorkspaceResources() {
         String workSpace = this.getWorkspace();

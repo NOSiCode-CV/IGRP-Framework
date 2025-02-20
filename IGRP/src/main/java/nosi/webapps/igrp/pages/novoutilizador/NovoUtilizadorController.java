@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import nosi.core.config.IgrpAuthType;
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -15,6 +14,7 @@ import java.util.LinkedHashMap; //block import
 import nosi.webapps.igrp.dao.User; //block import
 import static nosi.core.i18n.Translator.gt;
 import java.io.File;
+import nosi.core.config.ConfigCommonMainConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import nosi.core.authentication.ldap.LdapPerson;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.mail.EmailMessage.PdexTemplate;
 import nosi.core.webapp.Igrp;
@@ -40,7 +39,6 @@ import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.RemoteUserStoreManagerServiceConstants;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
-
 /*----#end-code----*/
 
 public class NovoUtilizadorController extends Controller {
@@ -124,10 +122,10 @@ public class NovoUtilizadorController extends Controller {
 		if (Core.isHttpPost()) {
 			boolean sucess = false;
 			if (this.getConfig().getAutenticationType()
-					.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value()))
+					.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value()))
 				sucess = this.ldap(model);
 			else if (this.getConfig().getAutenticationType()
-					.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_DATABASE.value()))
+					.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value()))
 				sucess = this.db(model);
 			this.addQueryString("p_aplicacao", model.getAplicacao());
 			this.addQueryString("p_organica", model.getOrganica());

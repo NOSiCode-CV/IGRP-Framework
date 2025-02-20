@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import nosi.core.authentication.AuthenticationManager;
-import nosi.core.config.IgrpAuthType;
+import nosi.core.config.ConfigCommonMainConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
@@ -127,7 +126,7 @@ public final class ApplicationManager {
 		String redirectUri = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.environmentValue();
 		String clientId = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.environmentValue();
 
-		if (IgrpAuthType.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
+		if (ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
 			&& !"".equals(authorizeEndpoint)
 			&& /*Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
 			rememberRoute(request);
@@ -140,7 +139,7 @@ public final class ApplicationManager {
 
 		final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
-		if (!IgrpAuthType.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType))
+		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType))
 			return Optional.empty();
 		if(OAuth2OpenIdAuthenticationManager.isSignOutRequest(request))
 			return Optional.of(requestUrl(request));

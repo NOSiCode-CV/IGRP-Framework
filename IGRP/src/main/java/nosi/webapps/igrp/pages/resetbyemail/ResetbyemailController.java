@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
-import nosi.core.config.IgrpAuthType;
 import nosi.core.webapp.Controller;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -8,15 +7,12 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import java.util.Properties;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
-import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
 import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
-
 /*----#end-code----*/
 		
 public class ResetbyemailController extends Controller {
@@ -51,14 +47,14 @@ public class ResetbyemailController extends Controller {
 		String email = model.getForm_1_email_1();
 		String username = "";
 		String authenticationType = this.getConfig().getAutenticationType(); 
-		if(authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
+		if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
 			if(!db(email, token)) { 
 				Core.setMessageError("Ooops ! O email inserido não foi encontrado."); 
 				return forward("igrp","Resetbyemail","index", this.queryString()); 
 			}
 			username= Core.findUserByEmail(email)!=null?Core.findUserByEmail(email).getName():""; 
 		}else 
-			if(authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (!ldap(email, token))) {
+			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (!ldap(email, token))) {
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado.");
 					return forward("igrp","Resetbyemail","index", this.queryString());
 				
