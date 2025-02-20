@@ -7,7 +7,6 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTopMenu;
@@ -450,10 +449,9 @@ public class PesquisarMenuController extends Controller {
 		} catch (Exception ignored) {
 			// Ignored
 		}
-		final Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
 
-		final String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value());
-		final String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value());
+		final String baseUrl = ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.environmentValue();
+		final String token = ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.environmentValue();
 
 		AppConfig appConfig = new AppConfig();
 		appConfig.setUrl(baseUrl);

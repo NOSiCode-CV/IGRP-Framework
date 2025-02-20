@@ -16,7 +16,7 @@
 	<entry key="igrp.authentication_type">db</entry> 
 	
 	<!-- igrpweb password recovery parameter: enable or not the password recovery funcionality -->
-	<entry key="igrp.pwdRecover">true</entry>
+	<entry key="igrp.pwdRecover">false</entry>
 	<!-- For login template change
 	<entry key="igrp.login.template">ds-beta</entry> -->
 	

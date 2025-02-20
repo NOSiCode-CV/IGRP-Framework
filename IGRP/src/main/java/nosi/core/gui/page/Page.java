@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.config.IgrpDefaultEnvironment;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Igrp;
@@ -105,7 +106,7 @@ public class Page{
 	
 	public String renderContent(boolean layout){
 		if(layout){
-			if(new Config().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_DEV.value()) || new Config().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_STA.value()))
+			if(new Config().getEnvironment().equalsIgnoreCase(IgrpDefaultEnvironment.IGRP_ENV_DEV.value()) || new Config().getEnvironment().equalsIgnoreCase(IgrpDefaultEnvironment.IGRP_ENV_STA.value()))
 				new IGRPLogBar().displayLogs();
 			// Create a standard template of IGRP 
 			this.createTemplate();

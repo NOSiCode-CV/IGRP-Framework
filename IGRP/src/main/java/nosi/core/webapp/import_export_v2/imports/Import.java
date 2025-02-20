@@ -5,6 +5,7 @@ import java.util.List;
 
 import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.config.IgrpDefaultEnvironment;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
@@ -60,7 +61,7 @@ public class Import{
 	
 	private void removeJavaClass() {
 		String env = new Config().getEnvironment();
-		if(env.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd") ) {
+		if(env.equalsIgnoreCase(IgrpDefaultEnvironment.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd") ) {
 			this.imports.forEach(i->i.getFileName().forEach(Core::forceDelete));
 		}
 	}

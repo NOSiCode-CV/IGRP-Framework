@@ -11,10 +11,10 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 import nosi.core.authentication.AuthenticationManager;
+import nosi.core.config.IgrpAuthType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
-import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
@@ -121,17 +120,16 @@ public final class ApplicationManager {
 	}
 
 	public static Optional<String> buildOAuth2AuthorizeLink(HttpServletRequest request) {
-		Properties settings = loadConfig();
 
-		String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+		final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
-		String authorizeEndpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value(), "");
-		String redirectUri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
-		String clientId = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-		if (ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				&& !"".equals(authorizeEndpoint)
-				&& /*Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
+		String authorizeEndpoint =  ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.environmentValue("");
+		String redirectUri = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.environmentValue();
+		String clientId = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.environmentValue();
+
+		if (IgrpAuthType.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
+			&& !"".equals(authorizeEndpoint)
+			&& /*Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
 			rememberRoute(request);
 			return Optional.of(String.format("%s?response_type=code&client_id=%s&scope=openid+email+profile&redirect_uri=%s", authorizeEndpoint, clientId, redirectUri));
 		}
@@ -139,12 +137,10 @@ public final class ApplicationManager {
 	}
 	
 	public static Optional<String> processCallback(HttpServletRequest request) {
-		Properties settings = loadConfig();
 
-		String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+		final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
-		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType))
+		if (!IgrpAuthType.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType))
 			return Optional.empty();
 		if(OAuth2OpenIdAuthenticationManager.isSignOutRequest(request))
 			return Optional.of(requestUrl(request));
@@ -334,10 +330,6 @@ public final class ApplicationManager {
 				session.setAttribute(RETURN_ROUTE_ATTRIBUTE_NAME, route.toString());
 			}
 		}
-	}
-	
-	public static Properties loadConfig() {
-		return ConfigApp.getInstance().getMainSettings();
 	}
 	
 	public static String encodeParameterValue(String value) {

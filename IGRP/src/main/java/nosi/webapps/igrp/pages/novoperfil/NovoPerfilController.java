@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.config.IgrpDefaultEnvironment;
 import nosi.core.webapp.Controller;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -109,7 +110,7 @@ public class NovoPerfilController extends Controller {
 			 * pt.getCode()); group.setName(pt.getOrganization().getName() + " - " +
 			 * pt.getDescr()); group.setType("assignment"); group.create(group);
 			 */
-			if(!this.getConfig().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value())) {
+			if(!this.getConfig().getEnvironment().equalsIgnoreCase(IgrpDefaultEnvironment.IGRP_ENV_PROD.value())) {
 				if (Boolean.TRUE.equals(insertProfile(pt))) {
 					Core.setMessageSuccess("Perfil criado com sucesso");
 				}else {
