@@ -23,7 +23,7 @@ public enum ConfigCommonMainConstants {
 
     IGRP_ENV("igrp.env", System.getenv("IGRP_ENV")),
 
-    IGRP_WORKSPACE("igrp.workspace", ""), // todo : should be empty or NULL by default ???
+    IGRP_WORKSPACE("igrp.workspace", ""),
 
     IGRP_AUTHENTICATION_TYPE("igrp.authentication_type", System.getenv("IGRP_AUTHENTICATION_TYPE")),
 
@@ -76,7 +76,6 @@ public enum ConfigCommonMainConstants {
 
     IGRP_SECRET_KEY("igrp.secret.key", System.getenv("IGRP_SECRET_KEY")),
 
-    //todo log properties for debug
     IGRP_SHOW_CONFIGURATION("IGRP_SHOW_CONFIGURATION", System.getenv("IGRP_SHOW_CONFIGURATION"));
 
     private final String value;
@@ -105,6 +104,7 @@ public enum ConfigCommonMainConstants {
     }
 
     public static void printConfigurationsForDebugging() {
+
         final var showConfigurations = ConfigCommonMainConstants.IGRP_SHOW_CONFIGURATION.environmentValue() != null;
         if (showConfigurations) {
 
@@ -119,11 +119,12 @@ public enum ConfigCommonMainConstants {
             );
 
             System.out.println("\n ---------------------------- ENVIRONMENT CONFIGURATIONS--------------------------------");
+
             Arrays.stream(ConfigCommonMainConstants.values())
                     .filter(obj -> !constantsThatDoNotNeedPrint.contains(obj))
                     .forEach(obj -> {
                         System.out.println("\nName: " + obj.name());
-                        System.out.println("Value: " + obj.value());
+                        System.out.println("Code: " + obj.value());
                         System.out.println("Environment Value: " + obj.environmentValue());
                         System.out.println("---------------------------------");
                     });
