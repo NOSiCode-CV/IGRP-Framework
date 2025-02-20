@@ -4,8 +4,6 @@ package nosi.core.authentication;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
-import java.util.Properties;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
@@ -14,7 +12,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Identity;
 import nosi.core.webapp.User;
@@ -24,7 +21,6 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
-
 
 public final class AuthenticationManager {
 	
@@ -214,8 +210,7 @@ public final class AuthenticationManager {
 	}
 	
 	private static String encryptUid(String uid) {
-		Properties config = ConfigApp.getInstance().getMainSettings();
-		final String secretKey = config.getProperty(ConfigCommonMainConstants.IGRP_SECRET_KEY.value(), EncrypDecrypt.SECRET_KEY_PUBLIC_PAGE);
+		final var secretKey = ConfigCommonMainConstants.IGRP_SECRET_KEY.environmentValue(EncrypDecrypt.SECRET_KEY_PUBLIC_PAGE);
 		return EncrypDecrypt.encrypt(uid, secretKey);
 	}
 	

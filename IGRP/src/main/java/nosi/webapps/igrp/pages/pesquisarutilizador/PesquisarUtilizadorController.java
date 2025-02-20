@@ -107,8 +107,8 @@ public class PesquisarUtilizadorController extends Controller {
 		default:
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
-		Properties settings = this.configApp.loadConfig("common", "main.xml");
-		String aux = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
+
+		String aux = ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.environmentValue();
 		if ((aux != null && aux.equals("true"))) {
 			view.btn_adicionar_utilizador.setVisible(false);	
 		}

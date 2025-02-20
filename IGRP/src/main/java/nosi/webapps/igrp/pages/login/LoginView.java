@@ -1,16 +1,8 @@
-/*-------------------------*/
-
-/*Create View*/
-
 package nosi.webapps.igrp.pages.login;
+
 import static nosi.core.i18n.Translator.gt;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
-import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import nosi.core.webapp.View;
@@ -66,14 +58,13 @@ public class LoginView extends View {
 		
 	@Override
 	public void render(){
+
 		form_1.addField(user);
 		form_1.addField(password);
 		form_1.addField(button);
-		
-		
-		Properties p = this.loadConfig("common", "main.xml"); 
-		if(p != null && p.getProperty("igrp.pwdRecover") != null && p.getProperty("igrp.pwdRecover").equals("true")) 
-			form_1.addField(button2); 
+
+		if ("true".equals(ConfigCommonMainConstants.IGRP_PASSWORD_RECOVERY.environmentValue()))
+			form_1.addField(button2);
 		
 		form_1.addField(buttontoken);
 		form_1.addField(sam_message);
@@ -83,20 +74,6 @@ public class LoginView extends View {
 		form_1.addField(p_env_dml);
 
 		this.addToPage(form_1);
-	}
-	
-	private Properties loadConfig(String filePath, String fileName) {
-		
-		String path = Config.BASE_PATH_CONFIGURATION + "/" + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + "/" + fileName).getPath().replaceAll("%20", " "));
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
 	}
 }
 /*-------------------------*/

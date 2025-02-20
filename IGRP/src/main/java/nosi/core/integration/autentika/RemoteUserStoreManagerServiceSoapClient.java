@@ -22,9 +22,9 @@ import nosi.core.webapp.webservices.soap.SoapClient;
  */
 public class RemoteUserStoreManagerServiceSoapClient {
 	
-	private String endpoint; 
-	private String username; 
-	private String password;
+	private final String endpoint;
+	private final String username;
+	private final String password;
    private String soapAction;
 	
 	public RemoteUserStoreManagerServiceSoapClient(String endpoint, String username, String password) {

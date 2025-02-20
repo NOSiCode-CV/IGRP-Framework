@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
+import nosi.core.config.IgrpAuthType;
 import nosi.core.webapp.Controller;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -50,14 +51,14 @@ public class ResetbyemailController extends Controller {
 		String email = model.getForm_1_email_1();
 		String username = "";
 		String authenticationType = this.getConfig().getAutenticationType(); 
-		if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
+		if(authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
 			if(!db(email, token)) { 
 				Core.setMessageError("Ooops ! O email inserido não foi encontrado."); 
 				return forward("igrp","Resetbyemail","index", this.queryString()); 
 			}
 			username= Core.findUserByEmail(email)!=null?Core.findUserByEmail(email).getName():""; 
 		}else 
-			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (!ldap(email, token))) {
+			if(authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (!ldap(email, token))) {
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado.");
 					return forward("igrp","Resetbyemail","index", this.queryString());
 				
@@ -88,15 +89,18 @@ public class ResetbyemailController extends Controller {
 	private boolean ldap(String email, String token) {
 		boolean flag = false;
 		try {
-			Properties settings = this.configApp.getMainSettings(); 
-			String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-			String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
-			String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
-			RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
+
+			String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+			String uid = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+			String pwd = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+
+			var client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
 			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
 			request.setUserName(email);
-			UserClaimValuesResponseDTO result = client.getUserClaimValues(request);
-	        flag = result != null && !result.getClaimDTOs().isEmpty() && db(email, token);	
+
+			var result = client.getUserClaimValues(request);
+	        flag = result != null && !result.getClaimDTOs().isEmpty() && db(email, token);
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

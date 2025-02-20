@@ -1,90 +1,120 @@
 package nosi.core.config;
 
+import java.util.Properties;
+
 /**
  * Iekiny Marcel
  * Sep 10, 2020
  */
 public enum ConfigCommonMainConstants {
 
-   // IGRP_ENV_VARIABLE_SCAN is a variable used to activate environment variable scanning, possible values: true or false
-   // If not specified igrp will assume is false
-   IGRP_ENV_VARIABLE_SCAN("IGRP_ENV_VARIABLE_SCAN"),
-   IGRP_ENV("igrp.env"),
-   IGRP_ENV_DEV("dev"),
-   IGRP_ENV_TEST("test"),
-   IGRP_ENV_STA("sta"),
-   IGRP_ENV_PROD("prod"),
+    // IGRP_ENV_VARIABLE_SCAN is a variable used to activate environment variable scanning, possible values: true or false. If not specified igrp will assume is false
 
-   IGRP_WORKSPACE("igrp.workspace"),
+    IGRP_ENV("igrp.env", System.getenv("IGRP_ENV")),
 
-   IGRP_AUTHENTICATION_TYPE("igrp.authentication_type"),
-   IGRP_AUTHENTICATION_TYPE_DATABASE("db"),
-   IGRP_AUTHENTICATION_TYPE_LDAP("ldap"),
-   IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID("oauth2-openid"),
+    IGRP_WORKSPACE("igrp.workspace", ""), // todo : should be empty or NULL by default ???
 
-   IGRP_PASSWORD_RECOVERY("igrp.pwdRecover"),
+    IGRP_AUTHENTICATION_TYPE("igrp.authentication_type", System.getenv("IGRP_AUTHENTICATION_TYPE")),
 
-   IGRP_AUTHENTICATION_GOVCV_ENABLED("igrp.authentication.govcv.enbaled"),
+    IGRP_PASSWORD_RECOVERY("igrp.pwdRecover", System.getenv("IGRP_PASSWORD_RECOVERY")),
 
-   IDS_AUTENTIKA_ENABLED("ids.autentika.enabled"),
-   IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL("ids.autentika.RemoteUserStoreManagerService-wsdl-url"),
-   IDS_AUTENTIKA_ADMIN_USN("ids.autentika.admin-usn"),
-   IDS_AUTENTIKA_ADMIN_PWD("ids.autentika.admin-pwd"),
-   IDS_OAUTH2_OPENID_CLIENT_ID("ids.oauth2-openid.client_id"),
-   IDS_OAUTH2_OPENID_CLIENT_SECRET("ids.oauth2-openid.client_secret"),
-   IDS_OAUTH2_OPENID_ENDPOINT_TOKEN("ids.oauth2-openid.endpoint.token"),
-   IDS_OAUTH2_OPENID_ENDPOINT_USER("ids.oauth2-openid.endpoint.user"),
-   IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE("ids.oauth2-openid.endpoint.authorize"),
-   IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI("ids.oauth2-openid.endpoint.redirect_uri"),
-   IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT("ids.oauth2-openid.endpoint.logout"),
+    IGRP_AUTHENTICATION_GOVCV_ENABLED("igrp.authentication.govcv.enbaled", System.getenv("IGRP_AUTHENTICATION_GOVCV_ENABLED")),
 
-   LDAP_AD_URL("ldap.ad.url"),
-   LDAP_AD_USERNAME("ldap.ad.username"),
-   LDAP_AD_PASSWORD("ldap.ad.password"),
-   LDAP_AD_BASE("ldap.ad.base"),
-   LDAP_AD_AUTHENTICATION_FILTER("ldap.ad.authentication_filter"),
-   LDAP_AD_ENTRY_DN("ldap.ad.entryDN"),
+    IDS_AUTENTIKA_ENABLED("ids.autentika.enabled", System.getenv("IDS_AUTENTIKA_ENABLED")),
+    IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL("ids.autentika.RemoteUserStoreManagerService-wsdl-url", System.getenv("IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL")),
+    IDS_AUTENTIKA_ADMIN_USN("ids.autentika.admin-usn", System.getenv("IDS_AUTENTIKA_ADMIN_USN")),
+    IDS_AUTENTIKA_ADMIN_PWD("ids.autentika.admin-pwd", System.getenv("IDS_AUTENTIKA_ADMIN_PWD")),
+    IDS_OAUTH2_OPENID_CLIENT_ID("ids.oauth2-openid.client_id", System.getenv("IDS_OAUTH2_OPENID_CLIENT_ID")),
+    IDS_OAUTH2_OPENID_CLIENT_SECRET("ids.oauth2-openid.client_secret", System.getenv("IDS_OAUTH2_OPENID_CLIENT_SECRET")),
+    IDS_OAUTH2_OPENID_ENDPOINT_TOKEN("ids.oauth2-openid.endpoint.token", System.getenv("IDS_OAUTH2_OPENID_ENDPOINT_TOKEN")),
+    IDS_OAUTH2_OPENID_ENDPOINT_USER("ids.oauth2-openid.endpoint.user", System.getenv("IDS_OAUTH2_OPENID_ENDPOINT_USER")),
+    IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE("ids.oauth2-openid.endpoint.authorize", System.getenv("IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE")),
+    IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI("ids.oauth2-openid.endpoint.redirect_uri", System.getenv("IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI")),
+    IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT("ids.oauth2-openid.endpoint.logout", System.getenv("IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT")),
 
-   KRIOL_ADD_ROLE_USER("kriol.addrole.user"),
+    LDAP_AD_URL("ldap.ad.url", System.getenv("LDAP_AD_URL")),
+    LDAP_AD_USERNAME("ldap.ad.username", System.getenv("LDAP_AD_USERNAME")),
+    LDAP_AD_PASSWORD("ldap.ad.password", System.getenv("LDAP_AD_PASSWORD")),
+    LDAP_AD_BASE("ldap.ad.base", System.getenv("LDAP_AD_BASE")),
+    LDAP_AD_AUTHENTICATION_FILTER("ldap.ad.authentication_filter", System.getenv("LDAP_AD_AUTHENTICATION_FILTER")),
+    LDAP_AD_ENTRY_DN("ldap.ad.entryDN", System.getenv("LDAP_AD_ENTRY_DN")),
 
-   MAIL_SMTP_HOST("mail.smtp.host"),
-   MAIL_SMTP_SOCKET_FACTORY_PORT("mail.smtp.socketFactory.port"),
-   MAIL_SMTP_SOCKET_FACTORY_CLASS("mail.smtp.socketFactory.class"),
-   MAIL_SMTP_AUTH("mail.smtp.auth"),
-   MAIL_SMTP_PORT("mail.smtp.port"),
-   MAIL_USER("mail.user"),
-   MAIL_PASSWORD("mail.password"),
+    KRIOL_ADD_ROLE_USER("kriol.addrole.user", System.getenv("KRIOL_ADD_ROLE_USER")),
 
-   IGRP_PDEX_APPCONFIG_URL("igrp.pdex.appconfig.url"),
-   IGRP_PDEX_APPCONFIG_TOKEN("igrp.pdex.appconfig.token"),
-   IGRP_PDEX_PERMISSION_ACL_URL("igrp.pdex.permissionacl.url"),
-   IGRP_PDEX_PERMISSION_ACL_TOKEN("igrp.pdex.permissionacl.token"),
+    MAIL_SMTP_HOST("mail.smtp.host", System.getenv("MAIL_SMTP_HOST")),
+    MAIL_SMTP_SOCKET_FACTORY_PORT("mail.smtp.socketFactory.port", System.getenv("MAIL_SMTP_SOCKET_FACTORY_PORT")),
+    MAIL_SMTP_SOCKET_FACTORY_CLASS("mail.smtp.socketFactory.class", System.getenv("MAIL_SMTP_SOCKET_FACTORY_CLASS")),
+    MAIL_SMTP_AUTH("mail.smtp.auth", System.getenv("MAIL_SMTP_AUTH")),
+    MAIL_SMTP_PORT("mail.smtp.port", System.getenv("MAIL_SMTP_PORT")),
+    MAIL_USER("mail.user", System.getenv("MAIL_USER")),
+    MAIL_PASSWORD("mail.password", System.getenv("MAIL_PASSWORD")),
 
-   IGRP_DATASOURCE_CONNECTION_NAME("igrp.datasource.connection-name"),
+    IGRP_PDEX_APPCONFIG_URL("igrp.pdex.appconfig.url", System.getenv("IGRP_PDEX_APPCONFIG_URL")),
+    IGRP_PDEX_APPCONFIG_TOKEN("igrp.pdex.appconfig.token", System.getenv("IGRP_PDEX_APPCONFIG_TOKEN")),
+    IGRP_PDEX_PERMISSION_ACL_URL("igrp.pdex.permissionacl.url", System.getenv("IGRP_PDEX_PERMISSION_ACL_URL")),
+    IGRP_PDEX_PERMISSION_ACL_TOKEN("igrp.pdex.permissionacl.token", System.getenv("IGRP_PDEX_PERMISSION_ACL_TOKEN")),
 
-   IGRP_MODE_STANDALONE_ENABLED("igrp.mode.standalone.enabled"),
-   IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH("igrp.embedded.server.servlet.context-path"),
-   IGRP_EMBEDDED_SERVER_HTTP_PORT("igrp.embedded.server.http.port"),
+    IGRP_DATASOURCE_CONNECTION_NAME("igrp.datasource.connection-name", System.getenv("IGRP_DATASOURCE_CONNECTION_NAME")),
 
-   IGRP_LOGIN_TEMPLATE("igrp.login.template"),
+    IGRP_MODE_STANDALONE_ENABLED("igrp.mode.standalone.enabled", System.getenv("IGRP_MODE_STANDALONE_ENABLED")),
+    IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH("igrp.embedded.server.servlet.context-path", System.getenv("IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH")),
+    IGRP_EMBEDDED_SERVER_HTTP_PORT("igrp.embedded.server.http.port", System.getenv("IGRP_EMBEDDED_SERVER_HTTP_PORT")),
 
-   IGRP_SECRET_KEY("igrp.secret.key");
+    IGRP_LOGIN_TEMPLATE("igrp.login.template", System.getenv("IGRP_LOGIN_TEMPLATE")),
 
-   private final String value;
+    IGRP_SECRET_KEY("igrp.secret.key", System.getenv("IGRP_SECRET_KEY")),
 
-   ConfigCommonMainConstants(String value) {
-      this.value = value;
-   }
+    //todo log properties for debug
+    IGRP_SHOW_CONFIGURATION("IGRP_SHOW_CONFIGURATION", System.getenv("IGRP_SHOW_CONFIGURATION"));
 
-   public String value() {
-      return value;
-   }
+    private final String value;
+    private final String environmentValue;
 
-   public String getEnvironmentVariable() {
-      return System.getenv(this.name());
-   }
+    ConfigCommonMainConstants(String value, String environmentValue) {
+        this.value = value;
+        this.environmentValue = environmentValue;
+    }
 
-   public static boolean isEnvironmentVariableScanActive() {
-      return Boolean.parseBoolean(System.getenv(IGRP_ENV_VARIABLE_SCAN.name()));
-   }
+    public String value() {
+        return value;
+    }
+
+    public String environmentValue(String defaultValue) {
+        final var obj = environmentValue();
+        return obj == null ? defaultValue : obj;
+    }
+
+    public String environmentValue() {
+        if (IS_ENVIRONMENT_VARIABLE_SCAN_ACTIVE) {
+            if (this.environmentValue != null)
+                return this.environmentValue;
+        }
+        return mainXmlProperties.getProperty(this.value());
+    }
+
+    public static void printConfigurationsForDebugging() {
+        final var showConfigurations = ConfigCommonMainConstants.IGRP_SHOW_CONFIGURATION.environmentValue() != null;
+        if (showConfigurations) {
+            System.out.println("\n ---------------------------- ENVIRONMENT CONFIGURATIONS--------------------------------");
+            for (var obj : ConfigCommonMainConstants.values()) {
+                System.out.println("\nName: " + obj.name());
+                System.out.println("Value: " + obj.value());
+                System.out.println("Environment Value: " + obj.environmentValue());
+                System.out.println("---------------------------------");
+            }
+            System.out.println("--------------------------------------- END ENVIRONMENT CONFIGURATIONS --------------------------------\n");
+        }
+    }
+
+    private static final boolean IS_ENVIRONMENT_VARIABLE_SCAN_ACTIVE;
+
+    public static boolean isEnvironmentVariableScanActive() {
+        return IS_ENVIRONMENT_VARIABLE_SCAN_ACTIVE;
+    }
+
+    private static final Properties mainXmlProperties = ConfigApp.getInstance().getMainSettings();
+
+    static {
+        IS_ENVIRONMENT_VARIABLE_SCAN_ACTIVE = Boolean.parseBoolean(System.getenv("IGRP_ENV_VARIABLE_SCAN"));
+    }
 }

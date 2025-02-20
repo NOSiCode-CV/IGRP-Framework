@@ -783,10 +783,7 @@ public class Controller {
     
     private static void addParametersToErrorPage(Igrp igrpApp) {
 
-        ConfigApp configApp = ConfigApp.getInstance();
-
-        final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-                ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+        final var env = ConfigCommonMainConstants.IGRP_ENV.environmentValue();
 
 		Map<String, Object> errorParam = new HashMap<>();
 		errorParam.put("dad", igrpApp.getCurrentAppName());
