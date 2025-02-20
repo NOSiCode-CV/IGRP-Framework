@@ -3,7 +3,6 @@ package nosi.webapps.igrp.pages.oauth2openidwso2;
 
 import java.io.IOException;
 
-import nosi.core.config.IgrpAuthType;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -54,7 +53,7 @@ public class Oauth2openidwso2Controller extends Controller {
 
 			final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
-			if(authenticationType != null && authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) {
+			if(authenticationType != null && authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) {
 				String oidcLogout = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.environmentValue();
 				if(oidcLogout != null && !oidcLogout.isEmpty()) {
 					String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState;

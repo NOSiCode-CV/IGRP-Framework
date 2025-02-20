@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-import nosi.core.config.IgrpAuthType;
 import nosi.core.webapp.Controller;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -8,14 +7,12 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-
 import static nosi.core.i18n.Translator.gt;
 import java.util.Base64;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.UpdateCredentialByAdminRequestDTO;
 import nosi.webapps.igrp.dao.User;
-
 /*----#end-code----*/
 		
 public class ResetpasswordController extends Controller {
@@ -90,11 +87,11 @@ public class ResetpasswordController extends Controller {
 			Core.setMessageError("Password inconsistentes. Tente novamente !"); 
 		else {
 			String authenticationType = this.getConfig().getAutenticationType(); 
-			if(authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
+			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
 				if(db(username, pwd)) 				
 					return redirectToUrl("webapps?r=igrp/login/login"); 
 			}else 
-				if(authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (ldap(username, pwd)))
+				if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (ldap(username, pwd)))
 						{
 					return redirectToUrl("webapps?r=igrp/login/login");
 				}

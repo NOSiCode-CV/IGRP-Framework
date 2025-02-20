@@ -3,13 +3,11 @@ package nosi.core.authentication;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import jakarta.servlet.http.HttpServletRequest;
 import nosi.core.authentication.ldap.LdapPerson;
 import nosi.core.authentication.ldap.NosiLdapAPI;
 import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.config.IgrpDefaultEnvironment;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.AuthenticateRequestDTO;
 import nosi.core.integration.autentika.dto.ClaimDTO;
@@ -46,7 +44,7 @@ public final class LdapAuthenticationManager {
 				return setUserAsAuthenticated(user);
 			} else {
 				final var env = ConfigCommonMainConstants.IGRP_ENV.environmentValue();
-				if(!IgrpDefaultEnvironment.IGRP_ENV_DEV.value().equals(env))
+				if(!ConfigCommonMainConstants.IGRP_ENV_DEV.value().equals(env))
 					throw new IllegalStateException("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."+"("+username+")");
 				User newUser = new User();
 				newUser.setUser_name(username.trim().toLowerCase());

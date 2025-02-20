@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.HttpHeaders;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.config.IgrpAuthType;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
@@ -203,7 +202,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 		final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
-		if(!IgrpAuthType.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
+		if(!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
 			return Optional.empty();
 
 		String oidcLogout = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.environmentValue();

@@ -4,7 +4,6 @@ import static nosi.core.i18n.Translator.gt;
 
 import java.io.IOException;
 
-import nosi.core.config.IgrpAuthType;
 import nosi.core.webapp.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -105,9 +104,9 @@ public class LoginController extends Controller {
 
 	private Optional<Response> signIn(String username, String password) throws IOException {
 		String authenticationType = this.getConfig().getAutenticationType();
-		if ((authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_DATABASE.value())
+		if ((authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())
 				&& loginWithDb(username, password))
-				|| (authenticationType.equals(IgrpAuthType.IGRP_AUTHENTICATION_TYPE_LDAP.value())
+				|| (authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())
 						&& loginWithLdap(username, password))) {
 //			TODO: see if is possible to remember the previous route
 //

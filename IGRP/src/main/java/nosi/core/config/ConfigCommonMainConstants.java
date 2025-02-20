@@ -1,5 +1,7 @@
 package nosi.core.config;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -9,6 +11,15 @@ import java.util.Properties;
 public enum ConfigCommonMainConstants {
 
     // IGRP_ENV_VARIABLE_SCAN is a variable used to activate environment variable scanning, possible values: true or false. If not specified igrp will assume is false
+
+    IGRP_ENV_DEV("dev", "dev"),
+    IGRP_ENV_TEST("test", "test"),
+    IGRP_ENV_STA("sta", "sta"),
+    IGRP_ENV_PROD("prod", "prod"),
+
+    IGRP_AUTHENTICATION_TYPE_DATABASE("db", "db"),
+    IGRP_AUTHENTICATION_TYPE_LDAP("ldap", "ldap"),
+    IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID("oauth2-openid", "oauth2-openid"),
 
     IGRP_ENV("igrp.env", System.getenv("IGRP_ENV")),
 
@@ -96,13 +107,27 @@ public enum ConfigCommonMainConstants {
     public static void printConfigurationsForDebugging() {
         final var showConfigurations = ConfigCommonMainConstants.IGRP_SHOW_CONFIGURATION.environmentValue() != null;
         if (showConfigurations) {
+
+            final var constantsThatDoNotNeedPrint = List.of(
+                    IGRP_ENV_DEV,
+                    IGRP_ENV_TEST,
+                    IGRP_ENV_STA,
+                    IGRP_ENV_PROD,
+                    IGRP_AUTHENTICATION_TYPE_DATABASE,
+                    IGRP_AUTHENTICATION_TYPE_LDAP,
+                    IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID
+            );
+
             System.out.println("\n ---------------------------- ENVIRONMENT CONFIGURATIONS--------------------------------");
-            for (var obj : ConfigCommonMainConstants.values()) {
-                System.out.println("\nName: " + obj.name());
-                System.out.println("Value: " + obj.value());
-                System.out.println("Environment Value: " + obj.environmentValue());
-                System.out.println("---------------------------------");
-            }
+            Arrays.stream(ConfigCommonMainConstants.values())
+                    .filter(obj -> !constantsThatDoNotNeedPrint.contains(obj))
+                    .forEach(obj -> {
+                        System.out.println("\nName: " + obj.name());
+                        System.out.println("Value: " + obj.value());
+                        System.out.println("Environment Value: " + obj.environmentValue());
+                        System.out.println("---------------------------------");
+                    });
+
             System.out.println("--------------------------------------- END ENVIRONMENT CONFIGURATIONS --------------------------------\n");
         }
     }
