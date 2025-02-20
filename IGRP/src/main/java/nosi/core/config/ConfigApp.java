@@ -80,11 +80,9 @@ public final class ConfigApp {
     }
 
     public String getWorkspace() {
-        // TODO 19/02/2025 17:02 validate workspace with marcos
-
-        final var workspace = ConfigCommonMainConstants.IGRP_WORKSPACE.environmentValue("");
-
-        return commonMain.getProperty(ConfigCommonMainConstants.IGRP_WORKSPACE.value());
+        return ConfigCommonMainConstants.isEnvironmentVariableScanActive()
+                ? "" :
+                ConfigCommonMainConstants.IGRP_WORKSPACE.environmentValue();
     }
 
     public String getEnvironment() {
