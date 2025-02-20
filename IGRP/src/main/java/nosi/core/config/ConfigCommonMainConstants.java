@@ -44,6 +44,7 @@ public enum ConfigCommonMainConstants {
     MAIL_SMTP_HOST("mail.smtp.host", System.getenv("MAIL_SMTP_HOST")),
     MAIL_SMTP_SOCKET_FACTORY_PORT("mail.smtp.socketFactory.port", System.getenv("MAIL_SMTP_SOCKET_FACTORY_PORT")),
     MAIL_SMTP_SOCKET_FACTORY_CLASS("mail.smtp.socketFactory.class", System.getenv("MAIL_SMTP_SOCKET_FACTORY_CLASS")),
+    MAIL_JAVA_NET_PREFER_IPV4STACK("java.net.preferIPv4Stack", System.getenv("MAIL_JAVA_NET_PREFER_IPV4STACK")),
     MAIL_SMTP_AUTH("mail.smtp.auth", System.getenv("MAIL_SMTP_AUTH")),
     MAIL_SMTP_PORT("mail.smtp.port", System.getenv("MAIL_SMTP_PORT")),
     MAIL_USER("mail.user", System.getenv("MAIL_USER")),
