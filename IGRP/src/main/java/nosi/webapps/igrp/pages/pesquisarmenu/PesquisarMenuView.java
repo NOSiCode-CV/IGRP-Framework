@@ -63,11 +63,11 @@ public class PesquisarMenuView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarMenu","index")).add("remote",Core.getIGRPLink("igrp","PesquisarMenu","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("remote-index",Core.getIGRPLink("igrp","PesquisarMenu","index")).add("remote-index",Core.getIGRPLink("igrp","PesquisarMenu","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		id_app = new HiddenField(model,"id_app");
 		id_app.setLabel(gt(""));
-		id_app.propertie().add("name","p_id_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_app");
+		id_app.propertie().add("name","p_id_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("tag","id_app");
 		
 		t1_menu_principal = new PlainTextField(model,"t1_menu_principal");
 		t1_menu_principal.setLabel(gt("Menu pai"));
@@ -75,14 +75,14 @@ public class PesquisarMenuView extends View {
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
-		ativo.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarMenu","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
+		ativo.propertie().add("remote-changeStatus",Core.getIGRPLink("igrp","PesquisarMenu","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ativo_check = new CheckBoxField(model,"ativo_check");
 		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
-		ordem = new NumberField(model,"ordem");
+		ordem = new TextField(model,"ordem");
 		ordem.setLabel(gt("Posição"));
-		ordem.propertie().add("name","p_ordem").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","").add("calculation","false").add("mathcal","").add("numberformat","").add("showLabel","true").add("group_in","");
+		ordem.propertie().add("name","p_ordem").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		icon = new PlainTextField(model,"icon");
 		icon.setLabel(gt("Icon"));
@@ -109,7 +109,7 @@ public class PesquisarMenuView extends View {
 		
 		pagina_order = new TextField(model,"pagina_order");
 		pagina_order.setLabel(gt("Página"));
-		pagina_order.propertie().add("name","p_pagina_order").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desc","true");
+		pagina_order.propertie().add("name","p_pagina_order").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("disablehtml","true").add("inputmask","").add("desc","true");
 		
 		id_page_ord = new HiddenField(model,"id_page_ord");
 		id_page_ord.setLabel(gt(""));
@@ -137,7 +137,7 @@ public class PesquisarMenuView extends View {
 		btn_editar.propertie.add("id","button_edcd_6e25").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarMenu","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("id","button_97b3_231a").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_97b3_231a").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","").add("labelConfirm","Deseja realmente realizar esta operação?");
 
 		
 	}

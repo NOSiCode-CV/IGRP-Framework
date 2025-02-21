@@ -7,15 +7,12 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import java.util.Properties;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
-import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
 import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
-
 /*----#end-code----*/
 		
 public class ResetbyemailController extends Controller {
@@ -88,15 +85,18 @@ public class ResetbyemailController extends Controller {
 	private boolean ldap(String email, String token) {
 		boolean flag = false;
 		try {
-			Properties settings = this.configApp.getMainSettings(); 
-			String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-			String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
-			String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
-			RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
+
+			String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+			String uid = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+			String pwd = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+
+			var client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
 			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
 			request.setUserName(email);
-			UserClaimValuesResponseDTO result = client.getUserClaimValues(request);
-	        flag = result != null && !result.getClaimDTOs().isEmpty() && db(email, token);	
+
+			var result = client.getUserClaimValues(request);
+	        flag = result != null && !result.getClaimDTOs().isEmpty() && db(email, token);
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

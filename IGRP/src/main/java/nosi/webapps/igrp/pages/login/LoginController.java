@@ -51,8 +51,7 @@ public class LoginController extends Controller {
 			return redirect("igrp", "login", "login", this.queryString());
 		}
 
-		String aux = this.configApp.getMainSettings()
-				.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
+		String aux = ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.environmentValue();
 		boolean isDb = this.getConfig().getAutenticationType().equals("db");
 		if ("true".equals(aux) || isDb) {
 			view.user.setLabel("Username");
@@ -66,7 +65,7 @@ public class LoginController extends Controller {
 		try {
 			final var currentUser = Core.getCurrentUser();
 			DBAuthenticationManager.signOut(currentUser, Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
-			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(currentUser, this.configApp.getMainSettings());
+			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(currentUser);
 			if(signOutUrl.isPresent())
 				return redirectToUrl(signOutUrl.get());
 		} catch (Exception e) {
@@ -132,7 +131,7 @@ public class LoginController extends Controller {
 
 	private boolean loginWithLdap(String username, String password) {
 		try {
-			return LdapAuthenticationManager.authenticate(username, password, this.configApp.getMainSettings(), Igrp.getInstance().getRequest());
+			return LdapAuthenticationManager.authenticate(username, password, Igrp.getInstance().getRequest());
 		} catch (Exception e) {
 			Core.setMessageError(e.getMessage());
 			LOGGER.error(e.getMessage(), e);

@@ -2,8 +2,8 @@ package nosi.core.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.HttpHeaders;
+import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
@@ -39,9 +39,9 @@ public final class OAuth2OpenIdAuthenticationManager {
 		final var authCode = request.getParameter("code");
 		final var sessionState = request.getParameter("session_state");
 		var session = request.getSession();
-		final var settings = ApplicationManager.loadConfig();
+		final var settings = ConfigApp.getInstance().getMainSettings();
 		
-		final var m = generateToken(authCode, settings);
+		final var m = generateToken(authCode);
 		if(m.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap.");
 		
@@ -52,7 +52,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		final var idToken = m.get("id_token");
 		final var refreshToken = m.get("refresh_token");
 
-		final var userInfo = oAuth2GetUserInfoByToken(token, settings);
+		final var userInfo = oAuth2GetUserInfoByToken(token);
 		final var email = Optional.ofNullable(userInfo.get("email")).map(String::trim).map(String::toLowerCase).orElse("");
 		final var uid = userInfo.get("sub");
 		final var name = userInfo.getOrDefault("name","");
@@ -65,8 +65,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		if (uid != null && user == null)
 			user = new User().find().andWhere("cni", "=", uid).one();
 
-		final var env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-				ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+		final var env = ConfigCommonMainConstants.IGRP_ENV.environmentValue();
 
 		if (user != null) {
 
@@ -117,13 +116,13 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 	}
 
-	private static Map<String, String> generateToken(String code, Properties settings) {
+	private static Map<String, String> generateToken(String code) {
 		try {
 
-			final var client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-			final var client_secret = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.value());
-			final var endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.value());
-			final var redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
+			final var client_id = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.environmentValue();
+			final var client_secret = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.environmentValue();
+			final var endpoint = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.environmentValue();
+			final var redirect_uri = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.environmentValue();
 
 			final var body = "grant_type=authorization_code&code=" + URLEncoder.encode(code, StandardCharsets.UTF_8)
 							 + "&redirect_uri=" + URLEncoder.encode(redirect_uri, StandardCharsets.UTF_8)
@@ -163,9 +162,9 @@ public final class OAuth2OpenIdAuthenticationManager {
 		return Map.of();
 	}
 
-	private static Map<String, String> oAuth2GetUserInfoByToken(String token, Properties settings) {
+	private static Map<String, String> oAuth2GetUserInfoByToken(String token) {
 		try {
-			final var endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_USER.value());
+			final var endpoint = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_USER.environmentValue();
 
 			final var request = HttpRequest.newBuilder()
 					.uri(URI.create(endpoint))
@@ -199,19 +198,18 @@ public final class OAuth2OpenIdAuthenticationManager {
 		}
 	}
 	
-	public static Optional<String> signOut(User currentUser, Properties configs) {
+	public static Optional<String> signOut(User currentUser) {
 
-		final String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : configs.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+		final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
 		if(!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
 			return Optional.empty();
 
-		String oidcLogout = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.value());
+		String oidcLogout = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.environmentValue();
 		if(oidcLogout != null && !oidcLogout.isEmpty()) {
 			String oidcIdToken = currentUser.getOidcIdToken();
 			String oidcState = currentUser.getOidcState();
-			String redirectUri = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
+			String redirectUri = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.environmentValue();
 			String aux = String.format("%s?id_token_hint=%s&state=%s&post_logout_redirect_uri=%s", oidcLogout, oidcIdToken, oidcState, redirectUri);
 			return Optional.of(aux);
 		}

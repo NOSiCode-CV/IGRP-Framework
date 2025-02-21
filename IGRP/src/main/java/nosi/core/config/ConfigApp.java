@@ -1,11 +1,8 @@
 package nosi.core.config;
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -21,7 +18,6 @@ import nosi.core.webapp.Igrp;
  * 17 Jul 2018
  */
 public final class ConfigApp {
-
 
     private final Config config;
 
@@ -64,11 +60,7 @@ public final class ConfigApp {
     }
 
     public String getBaseConnection() {
-        return commonMain.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value(), getDefaultBaseConnectionName());
-    }
-
-    public String getDefaultBaseConnectionName() {
-        return "hibernate-igrp-core";
+        return ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.environmentValue("hibernate-igrp-core");
     }
 
     public void saveProperties(Properties p, String fileName) {
@@ -88,22 +80,21 @@ public final class ConfigApp {
     }
 
     public String getWorkspace() {
-        return commonMain.getProperty(ConfigCommonMainConstants.IGRP_WORKSPACE.value());
+        return ConfigCommonMainConstants.isEnvironmentVariableScanActive()
+                ? "" :
+                ConfigCommonMainConstants.IGRP_WORKSPACE.environmentValue();
     }
 
     public String getEnvironment() {
-        return ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-                ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : commonMain.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+        return ConfigCommonMainConstants.IGRP_ENV.environmentValue();
     }
 
     public String getAutenticationType() {
-        return ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-                ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : commonMain.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+        return ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
     }
     
     public boolean isActiveGlobalACL() {
-        return Core.isNotNull(commonMain.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()));
-
+        return Core.isNotNull(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.environmentValue());
     }
 
     public Properties getMainSettings() {
@@ -113,5 +104,4 @@ public final class ConfigApp {
     public Config getConfig() {
         return config;
     }
-
 }

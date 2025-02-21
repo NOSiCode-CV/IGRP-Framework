@@ -7,6 +7,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Menu;
 
 import java.util.LinkedHashMap;
 
@@ -67,8 +68,7 @@ public class LookupField extends TextField {
 				String deployedWarName = Core.getDeployedWarName(); 
 				Action pagina = new Action().findByPage(page, app); 
 				if(!deployedWarName.equals(application.getUrl()) && pagina != null) {
-					this.lookup = ConfigApp.getInstance().getExternalUrl(application.getUrl());
-					this.lookup = String.format("%s?r=%s/%s/%s", this.lookup, app, page, pagina.getAction());
+					this.lookup = new Menu().buildExternalUrl( application.getUrl(), app, page, pagina.getAction());
 				}
 			}
 		}

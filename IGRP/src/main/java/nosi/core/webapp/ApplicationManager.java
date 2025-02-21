@@ -2,6 +2,7 @@ package nosi.core.webapp;
 
 import static nosi.core.i18n.Translator.gt;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -10,10 +11,10 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 import nosi.core.authentication.AuthenticationManager;
+import nosi.core.config.ConfigCommonMainConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -22,8 +23,6 @@ import org.json.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
-import nosi.core.config.ConfigApp;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
@@ -47,7 +46,7 @@ public final class ApplicationManager {
 			String[] p = page.split("/");
 			String errorMsg="";
 			if(!new Permission().hasMenuPagPermition(request,dad, p[0], p[1], p[2])) {
-				errorMsg="&errorMsg="+encodeParameterValue(gt("Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);		
+				errorMsg="&errorMsg="+encodeParameterValue(gt("@"+dad+" - Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);
 				page = "igrp/error-page/exception";
 			}
 			page = EncrypDecrypt.encryptURL(page, request.getSession(false).getId()).replace(" ", "+");
@@ -59,11 +58,15 @@ public final class ApplicationManager {
 				if(!"r".equals(paramName) && !"dad".equals(paramName)) // skipping "r" and "dad" param
 					additionalParams.append(String.format("&%s=%s", paramName, encodeParameterValue(request.getParameter(paramName))));
 			}
-			url = Optional.of(String.format("%s?r=%s%s%s%s", requestUrl(request), page, dad, additionalParams,errorMsg));
+			url = Optional.of(String.format("/%s/app/webapps?r=%s%s%s%s", getDeployedHostName(request), page, dad, additionalParams,errorMsg));
 		}
 		return url;
 	}
-	
+
+	private static String getDeployedHostName(HttpServletRequest request) {
+		return new File(request.getServletContext().getRealPath("/")).getName();
+	}
+
 	public static String buildPublicTargetLink(HttpServletRequest request) {
 		String url = "";
 		String page = request.getParameter("r");
@@ -116,17 +119,16 @@ public final class ApplicationManager {
 	}
 
 	public static Optional<String> buildOAuth2AuthorizeLink(HttpServletRequest request) {
-		Properties settings = loadConfig();
 
-		String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+		final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
-		String authorizeEndpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value(), "");
-		String redirectUri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
-		String clientId = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
+		String authorizeEndpoint =  ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.environmentValue("");
+		String redirectUri = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.environmentValue();
+		String clientId = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.environmentValue();
+
 		if (ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				&& !"".equals(authorizeEndpoint)
-				&& /*Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
+			&& !"".equals(authorizeEndpoint)
+			&& /*Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
 			rememberRoute(request);
 			return Optional.of(String.format("%s?response_type=code&client_id=%s&scope=openid+email+profile&redirect_uri=%s", authorizeEndpoint, clientId, redirectUri));
 		}
@@ -134,10 +136,8 @@ public final class ApplicationManager {
 	}
 	
 	public static Optional<String> processCallback(HttpServletRequest request) {
-		Properties settings = loadConfig();
 
-		String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+		final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
 		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType))
 			return Optional.empty();
@@ -307,7 +307,7 @@ public final class ApplicationManager {
 		if (r != null && !r.contains("igrp/login/")) {
 			String[] arr = r.split("/");
 			if (arr.length == 3) {
-				HttpSession session = request.getSession(true);
+				HttpSession session = request.getSession(false);
 				JSONObject route = new JSONObject();
 				route.put("appCode", arr[0]);
 				route.put("pageCode", arr[1]);
@@ -329,10 +329,6 @@ public final class ApplicationManager {
 				session.setAttribute(RETURN_ROUTE_ATTRIBUTE_NAME, route.toString());
 			}
 		}
-	}
-	
-	public static Properties loadConfig() {
-		return ConfigApp.getInstance().getMainSettings();
 	}
 	
 	public static String encodeParameterValue(String value) {

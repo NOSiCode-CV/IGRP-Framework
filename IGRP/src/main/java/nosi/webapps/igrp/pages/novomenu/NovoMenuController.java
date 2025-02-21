@@ -1,8 +1,7 @@
 package nosi.webapps.igrp.pages.novomenu;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -15,10 +14,8 @@ import nosi.webapps.igrp.dao.Config;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.core.webapp.helpers.IgrpHelper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.integration.pdex.service.GlobalAcl;
@@ -27,6 +24,9 @@ import nosi.core.integration.pdex.service.GlobalAcl.PermissionAcl;
 /*----#end-code----*/
 		
 public class NovoMenuController extends Controller {
+
+
+
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		model.load();
@@ -142,7 +142,7 @@ public class NovoMenuController extends Controller {
 		if (Core.isHttpPost()) {
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu
-				menu = new Menu().findOne(id);
+				menu = new Menu().findOne(id );
 				if (Core.isNullOrZero(model.getSelf_id()) && Core.isNotNull(menu.getLink()) ) {
 					menu.setMenu(menu);
 				}
@@ -300,30 +300,31 @@ public class NovoMenuController extends Controller {
 	
 	
 	
-	private HashMap<Integer, String> getOrdem(int app, boolean edit,int id){
+	private Map<Integer, String> getOrdem(int app, boolean edit,int id){
 		
-		HashMap<Integer, String> ordem = new HashMap<>();
+		Map<Integer, String> ordem = new LinkedHashMap<>();
 		List<Menu> ordem_dao = new Menu().find().where("application","=",app).all();
 		ordem.put(null, gt("-- Selecionar --"));
+		ordem.put(INVISIVEL_KEY, gt(INVISIVEL));
 		for(int i=1; i <= ordem_dao.size(); i++ ) {
 			ordem.put(i, ""+i);
 		}
-		
 		for(Menu m1 : ordem_dao)
 			ordem.remove(m1.getOrderby());
 		 
 		if(edit) {
 			Menu menu = new Menu().findOne(id);
-			if(Core.isNotNullOrZero(menu.getOrderby()))
+			if(Core.isNotNullOrZero(menu.getOrderby()) && menu.getOrderby()!= INVISIVEL_KEY)
 				ordem.put(menu.getOrderby(),""+menu.getOrderby());
 		}else
 			ordem.put(ordem_dao.size()+1, ""+Core.toInt(ordem_dao.size()+1+""));
-		
+		ordem.putIfAbsent(INVISIVEL_KEY, gt(INVISIVEL));
 		return ordem;
 	}
-	
-	
-	
+
+
+	public static final String INVISIVEL = "<!-- INVISIVEL -->";
+	public static final int INVISIVEL_KEY = -666;
 
 	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME";
 

@@ -65,9 +65,11 @@ public final class Route {
 				else {
 					//Checks if the App of the page is from a different instance, with a custom dad
                     if (!app.equals(dad) && !app.equals("igrp") && !app.equals("igrp_studio") && !app.equals("tutorial") && !app.equals("portondinosilha") && !app.equals("inps_porton") && !app.equals("undefined") ) {
-                        Map<String, Object> appMap =new Application().find().where("dad","=",app).oneColumns("externo","url");
-						if(appMap!=null && Core.isNotNullMultiple(appMap.get("url"),appMap.get("externo")) && appMap.get("externo").equals(2) && !deployedWarName.equals((String) appMap.get("url"))){
-							url = new Menu().buildExternalUrl((String) appMap.get("url"),app, page,action)+qs;
+                        Map<String, Object> applicationMap =new Application().find()
+								.where("dad","=",app)
+								.oneColumns("externo","url");
+						if(applicationMap!=null && Core.isNotNullMultiple(applicationMap.get("url"),applicationMap.get("externo")) && applicationMap.get("externo").equals(2) && !deployedWarName.equals(applicationMap.get("url"))){
+							url = new Menu().buildExternalUrl((String) applicationMap.get("url"),app, page,action)+qs;
 						}else
 							url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
                     } else {

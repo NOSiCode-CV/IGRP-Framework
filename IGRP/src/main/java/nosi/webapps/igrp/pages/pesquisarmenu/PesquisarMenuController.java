@@ -1,16 +1,19 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
-import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Controller;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.i18n.I18n;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.ExternalMenu;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.xml.XMLWritter;
@@ -19,10 +22,10 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.pages.novomenu.NovoMenuController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -32,15 +35,15 @@ import static nosi.core.i18n.Translator.gt;
 		
 public class PesquisarMenuController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarMenu model = new PesquisarMenu();
+		var model = new PesquisarMenu();
 		model.load();
-		PesquisarMenuView view = new PesquisarMenuView();
+		var view = new PesquisarMenuView();
 		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Totam officia iste ut ipsum accusantium iste sit omnis rem laudantium deserunt accusantium natus des' as t1_menu_principal,'1' as ativo,'25' as ordem,'Aliqua anim totam natus volupt' as icon,'Rem adipiscing sed deserunt adipiscing omnis labore lorem sed totam voluptatem totam ipsum aliqua la' as table_titulo,'Lorem unde anim perspiciatis aperiam consectetur rem laudantium officia laudantium adipiscing labore' as pagina,'1' as checkbox,'hidden-a3f7_7e27' as id "));
-		model.loadFormlist_1(Core.query(null,"SELECT 'Consectetur stract laudantium ipsum mollit' as pagina_order,'hidden-c12f_2540' as id_page_ord,'hidden-7901_8043' as id_pai,'hidden-b089_7b47' as id_do_pai "));
+		model.loadTable_1(Core.query(null,"SELECT 'Ipsum ut adipiscing sed mollit aliqua magna lorem rem natus omnis anim rem dolor aperiam totam conse' as t1_menu_principal,'1' as ativo,'Amet laudantium doloremque per' as ordem,'Mollit ut perspiciatis elit ma' as icon,'Iste ut dolor sed doloremque deserunt labore iste officia dolor sit totam anim magna adipiscing lore' as table_titulo,'Anim aliqua rem voluptatem totam sit aperiam amet dolor laudantium natus officia ut omnis anim aliqu' as pagina,'1' as checkbox,'hidden-9eb7_c894' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Amet natus magna anim labore' as pagina_order,'hidden-5074_94de' as id_page_ord,'hidden-cbe5_95f6' as id_pai,'hidden-280d_a1ef' as id_do_pai "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
@@ -105,7 +108,7 @@ public class PesquisarMenuController extends Controller {
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
 					if (menu_db1.getAction().getApplication().getId() != idApp)
-						mdad = menu_db1.getAction().getApplication().getDad() + " / ";
+						mdad = "@["+menu_db1.getAction().getApplication().getDad() + "] / ";
 					table1.setPagina(mdad + gt(menu_db1.getAction().getPage_descr()) + " ("
 							+ menu_db1.getAction().getPage() + ")");
 				} else if (menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {
@@ -120,8 +123,10 @@ public class PesquisarMenuController extends Controller {
 					row.setId_do_pai(new Pair(menu_db1.getMenu().getId() + "", menu_db1.getMenu().getId() + ""));
 				else
 					row.setId_pai(new Pair(menu_db1.getId() + "", menu_db1.getId() + ""));
-
-				table1.setOrdem(menu_db1.getOrderby());
+				if(menu_db1.getOrderby()== NovoMenuController.INVISIVEL_KEY)
+					table1.setOrdem("INVISIVEL");
+				else
+					table1.setOrdem(menu_db1.getOrderby()+"");
 				table1.setAtivo(menu_db1.getStatus());
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 				table1.setCheckbox(menu_db1.getId());
@@ -149,7 +154,7 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarMenu model = new PesquisarMenu();
+		var model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -167,7 +172,7 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	public Response actionGravar_ordenacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarMenu model = new PesquisarMenu();
+		var model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -216,7 +221,7 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarMenu model = new PesquisarMenu();
+		var model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -234,7 +239,7 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarMenu model = new PesquisarMenu();
+		var model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -444,10 +449,9 @@ public class PesquisarMenuController extends Controller {
 		} catch (Exception ignored) {
 			// Ignored
 		}
-		final Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
 
-		final String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value());
-		final String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value());
+		final String baseUrl = ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.environmentValue();
+		final String token = ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.environmentValue();
 
 		AppConfig appConfig = new AppConfig();
 		appConfig.setUrl(baseUrl);

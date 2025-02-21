@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Controller;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -10,7 +9,7 @@ import nosi.core.webapp.Response;//
 /*----#start-code(packages_import)----*/
 
 import java.util.*;
-
+import nosi.core.config.ConfigCommonMainConstants;
 import org.json.JSONObject;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
@@ -32,7 +31,7 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Aperiam totam dolor sit sed consectetur officia ma' as nominho,'7' as range_1,'Totam aliqua laudantium mollit rem deserunt magna lorem magna amet perspiciatis omnis doloremque vol' as nome,'Dolor consectetur adipiscing aperiam totam ipsum sit dolor ut unde ut elit magna amet aliqua natus a' as tb_email,'Unde anim unde magna ipsum adipiscing anim rem str' as perfile,'hidden-0bc5_c964' as id,'hidden-6965_40c7' as check_email_hidden "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Anim deserunt lorem aliqua consectetur iste labore elit voluptatem labore ut labore laudantium labor' as nominho,'4' as range_1,'Sed doloremque perspiciatis dolor lorem laudantium ipsum dolor rem aliqua amet doloremque laudantium' as nome,'Unde doloremque unde voluptatem iste unde perspiciatis labore deserunt dolor ut rem deserunt iste la' as tb_email,'Amet aperiam labore totam adipiscing laudantium al' as perfile,'hidden-5cf7_55d2' as id,'hidden-2ea5_ebb1' as check_email_hidden "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -108,8 +107,8 @@ public class PesquisarUtilizadorController extends Controller {
 		default:
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
-		Properties settings = this.configApp.loadConfig("common", "main.xml");
-		String aux = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
+
+		String aux = ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.environmentValue();
 		if ((aux != null && aux.equals("true"))) {
 			view.btn_adicionar_utilizador.setVisible(false);	
 		}
@@ -364,6 +363,7 @@ public class PesquisarUtilizadorController extends Controller {
 		if (id != null) {
 			Profile p = new Profile().findOne(id);
 			this.addQueryString("p_aplicacao",model.getAplicacao());
+			//TODO: rever isto porque so apaga env quando nao ha + profiles...
 			Profile delEnv = new Profile().find()
 					.andWhere("type", "=", "ENV")
 					.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())

@@ -105,8 +105,8 @@ public class EnvView extends View {
 		flg_external.propertie().add("name","p_flg_external").add("type","select").add("multiple","false").add("tags","false").add("load_service_data","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		host = new TextField(model,"host");
-		host.setLabel(gt("Host / Custom dad"));
-		host.propertie().add("name","p_host").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("disablehtml","true").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
+		host.setLabel(gt("URL / deployedWAR "));
+		host.propertie().add("name","p_host").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("disablehtml","true").add("placeholder",gt("Externo - ex: host:port/deployedWAR/app/webapps")).add("desclabel","true").add("inputmask","").add("tooltip","true").add("disable_copy_paste","false");
 		
 		plsql_codigo = new TextField(model,"plsql_codigo");
 		plsql_codigo.setLabel(gt("IGRP (code)"));

@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -54,9 +53,9 @@ import static nosi.core.i18n.Translator.gt;
 		
 public class EnvController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Env model = new Env();
+		var model = new Env();
 		model.load();
-		EnvView view = new EnvView();
+		var view = new EnvView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
@@ -86,6 +85,7 @@ public class EnvController extends Controller {
 		view.flg_old.setVisible(false);
 		view.plsql_codigo.setVisible(this.configApp.isActiveGlobalACL());
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
+		//view.host.propertie().add("tooltip", "EX: the tedkmsamf ");
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -93,7 +93,7 @@ public class EnvController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Env model = new Env();
+		var model = new Env();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -360,8 +360,8 @@ public class EnvController extends Controller {
 				}
 			}
 		}
-		/** IGRP-PLSQL Apps **/
-		/** Begin **/
+		//** IGRP-PLSQL Apps **/
+		/* Begin **/
 		if(this.configApp.isActiveGlobalACL()) {
 			List<App> allowApps = new ArrayList<>();
 			List<App> denyApps = new ArrayList<>();
@@ -390,7 +390,7 @@ public class EnvController extends Controller {
 				xmlMenu.endElement();
 				displaySubtitle = true; 
 			}
-		/** End **/
+		//** End **/
 		}
 		if(displayTitle)
 			xmlMenu.setElement("title", Core.gt("Minhas Aplicações"));
@@ -414,8 +414,11 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
-		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) { 
-			Application env = Core.findApplicationByDad(app);
+		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) {
+			//TODO: deve ver se a apliccacoa da pagina é nao tutorial e ver o que acontece se for diferentes...
+			Application env = Core.findApplicationByDad(p[0]);
+			if(env.getExternal()==0)
+				 env = Core.findApplicationByDad(app);
 			// 2 - custom dad 
 			String url = null; 
 			if(env.getExternal() == 2)
@@ -423,10 +426,10 @@ public class EnvController extends Controller {
 			// 1 External 
 			if(env.getExternal() == 1)
 				url = env.getUrl(); 
-			if(url != null) 
+			if(url != null && (env.getExternal() == 2 || !url.contains("app/webapps")))
 				return redirectToUrl(url); 
 			
-			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
+			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta
 			try {
 				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
 				Integer idPerfil = applicationPermition!=null?applicationPermition.getProfId():null;				
@@ -438,6 +441,7 @@ public class EnvController extends Controller {
 						p[1] = action.getPage();
 						p[2] = action.getAction();
 						if(!permission.hasMenuPagPermition(Igrp.getInstance().getRequest(),app,p[0], p[1], p[2])) {
+							Core.setMessageInfo("Não tem permissão para página principal do perfil! No permission to the home page of this profile! Page: "+p[0]+"/"+p[1]);
 							p[0]="tutorial";
 							p[1]="DefaultPage";
 							p[2]="index";
@@ -457,12 +461,13 @@ public class EnvController extends Controller {
 				if (splitedParam.length == 2)
 					this.addQueryString(splitedParam[0].trim(), splitedParam[1].trim());
 			}
-
+			if(env.getExternal() == 1)
+				return this.redirectToUrl(String.format("%s?r=%s/%s/%s&dad="+app, url, p[0], p[1], p[2]));
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
-		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
-		Core.setAttribute("jakarta.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
-		return this.redirectError();
+		Core.setMessageError(gt("Não tem permissão/partilha para página principal! No permission/share to the home page! Page: ") + page);
+		Core.setAttribute("jakarta.servlet.error.message", gt("Não tem permissão para página principal! No permission to the home page! Page: ") + page);
+		return this.redirectError(app);
 	}
 	
 	/** Integration with IGRP-PLSQL Apps **
@@ -470,9 +475,8 @@ public class EnvController extends Controller {
 	// Begin
 	private String getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
 		String host="";
-		Properties properties =  this.configApp.getMainSettings();
-		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()); 
-		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value()); 
+		String baseUrl = ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.environmentValue();
+		String token = ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.environmentValue();
 		AppConfig appConfig = new AppConfig(); 
 		appConfig.setUrl(baseUrl);
 		appConfig.setToken(token);
@@ -502,8 +506,8 @@ public class EnvController extends Controller {
 	
 	private String buildAppUrlUsingAutentikaForSSO(Application env) {
 		try {
-			String contextName = Core.getDeployedWarName(); 
-			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
+			String deployedWarName = Core.getDeployedWarName();
+			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !deployedWarName.equalsIgnoreCase(env.getUrl())) {
 				Action ac = env.getAction();
 				StringBuilder url = new StringBuilder(this.configApp.getExternalUrl(env.getUrl()));
 				if(ac != null && ac.getApplication() != null) {

@@ -27,7 +27,7 @@ public class DefaultPageController extends Controller {
 		 );
 		DefaultPageView view = new DefaultPageView();
 		/*----#start-code(index)----*/
-		
+		view.sectionheader_1_text.setValue(view.sectionheader_1_text.getValue()+" "+Config.VERSION);
 		
 		/*----#end-code----*/
 		view.setModel(model);

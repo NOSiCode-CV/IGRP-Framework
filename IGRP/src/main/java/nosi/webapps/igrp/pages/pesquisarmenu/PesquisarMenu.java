@@ -92,7 +92,7 @@ public class PesquisarMenu extends Model{
 		private String t1_menu_principal;
 		private int ativo;
 		private int ativo_check;
-		private Integer ordem;
+		private String ordem;
 		private String icon;
 		private String table_titulo;
 		private String pagina;
@@ -119,10 +119,10 @@ public class PesquisarMenu extends Model{
 			return this.ativo_check;
 		}
 
-		public void setOrdem(Integer ordem){
+		public void setOrdem(String ordem){
 			this.ordem = ordem;
 		}
-		public Integer getOrdem(){
+		public String getOrdem(){
 			return this.ordem;
 		}
 
@@ -177,12 +177,26 @@ private Pair id_do_pai;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;
 		}
+		public void setFormlist_1_id(String key){
+			this.setFormlist_1_id(key, key);
+		}
+		public void setFormlist_1_id(String key, String value){
+			this.formlist_1_id= new Pair(key, value);
+		}
+
 		public Pair getFormlist_1_id(){
 			return this.formlist_1_id;
 		}
 		public void setPagina_order(Pair pagina_order){
 			this.pagina_order = pagina_order;
 		}
+		public void setPagina_order(String key){
+			this.setPagina_order(key, key);
+		}
+		public void setPagina_order(String key, String value){
+			this.pagina_order= new Pair(key, value);
+		}
+
 		public Pair getPagina_order(){
 			return this.pagina_order;
 		}
@@ -190,6 +204,13 @@ private Pair id_do_pai;
 		public void setId_page_ord(Pair id_page_ord){
 			this.id_page_ord = id_page_ord;
 		}
+		public void setId_page_ord(String key){
+			this.setId_page_ord(key, key);
+		}
+		public void setId_page_ord(String key, String value){
+			this.id_page_ord= new Pair(key, value);
+		}
+
 		public Pair getId_page_ord(){
 			return this.id_page_ord;
 		}
@@ -197,6 +218,13 @@ private Pair id_do_pai;
 		public void setId_pai(Pair id_pai){
 			this.id_pai = id_pai;
 		}
+		public void setId_pai(String key){
+			this.setId_pai(key, key);
+		}
+		public void setId_pai(String key, String value){
+			this.id_pai= new Pair(key, value);
+		}
+
 		public Pair getId_pai(){
 			return this.id_pai;
 		}
@@ -204,6 +232,13 @@ private Pair id_do_pai;
 		public void setId_do_pai(Pair id_do_pai){
 			this.id_do_pai = id_do_pai;
 		}
+		public void setId_do_pai(String key){
+			this.setId_do_pai(key, key);
+		}
+		public void setId_do_pai(String key, String value){
+			this.id_do_pai= new Pair(key, value);
+		}
+
 		public Pair getId_do_pai(){
 			return this.id_do_pai;
 		}

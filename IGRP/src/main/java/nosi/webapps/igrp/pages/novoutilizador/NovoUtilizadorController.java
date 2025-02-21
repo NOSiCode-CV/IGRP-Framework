@@ -14,6 +14,7 @@ import java.util.LinkedHashMap; //block import
 import nosi.webapps.igrp.dao.User; //block import
 import static nosi.core.i18n.Translator.gt;
 import java.io.File;
+import nosi.core.config.ConfigCommonMainConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -23,7 +24,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import nosi.core.authentication.ldap.LdapPerson;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.mail.EmailMessage.PdexTemplate;
 import nosi.core.webapp.Igrp;
@@ -39,7 +39,6 @@ import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.RemoteUserStoreManagerServiceConstants;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
-
 /*----#end-code----*/
 
 public class NovoUtilizadorController extends Controller {
@@ -233,9 +232,11 @@ public class NovoUtilizadorController extends Controller {
 	private User checkGetUserLdap(String email) {
 		ArrayList<LdapPerson> personArray = new ArrayList<>();
 		User userLdap = null;
-		String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
-		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+
+		String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+		String uid = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+		String pwd = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+
 		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
 		UserClaimValuesResponseDTO result = null;
         UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
@@ -310,15 +311,18 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private boolean addRoleToUser(User user) {
-		String govCv = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.toString(),
-				"false");
-		String kriolAddRole = settings.getProperty(ConfigCommonMainConstants.KRIOL_ADD_ROLE_USER.value(), "false");
+
+		String govCv = ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.environmentValue("false");
+		String kriolAddRole = ConfigCommonMainConstants.KRIOL_ADD_ROLE_USER.environmentValue("false");
 		if (govCv.equals("true") || kriolAddRole.equals("false"))
 			return true;
+
 		try {
-			String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-			String username = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value());
-			String password = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+
+			String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+			String username = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+			String password = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+
 			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 
 			String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
@@ -379,7 +383,8 @@ public class NovoUtilizadorController extends Controller {
              if (u == null) {
 
 //				If LDAP is ws02, the role is added to the server 
-                String idsAutentikaEnabled = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false");
+                //String idsAutentikaEnabled = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false");
+                String idsAutentikaEnabled = ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.environmentValue("false");
                 if (idsAutentikaEnabled.equals("true") && !addRoleToUser(userLdap)) {
                    Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email.trim());
                    ok = false;

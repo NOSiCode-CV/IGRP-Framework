@@ -13,7 +13,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
-
 import jakarta.servlet.ServletContext;
 import java.io.File;
 import java.util.*;
@@ -24,14 +23,14 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "2.0.0.250205";
+    public static final String VERSION = "2.0.0.250221";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
     public String getLinkXSLLogin() {
         String linkXslLogin = "images/IGRP/IGRP"+"2.3"+"/xsl/IGRP-login.xsl";
         //For Design System Login
-        if("ds-beta".equals(ConfigApp.getInstance().getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_LOGIN_TEMPLATE.value())))
+        if("ds-beta".equals(ConfigCommonMainConstants.IGRP_LOGIN_TEMPLATE.environmentValue()))
         		linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login-ds.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslLogin;
     }
@@ -98,10 +97,7 @@ public class Config {
         return (u != null) ? u.getName() : "DUA-hexagon";
     }
 
-    
-
-
-    public static final Properties getConfig() {
+    public static Properties getConfig() {
         if (configs.isEmpty()) {
             loadConfigsFromDatabase();
         }
@@ -171,10 +167,9 @@ public class Config {
     }
 
     public final String getLinkImgBase() {
-        final Properties properties = ConfigApp.getInstance().getMainSettings();
         final StringBuilder path = new StringBuilder();
-        if (Boolean.parseBoolean(properties.getProperty(ConfigCommonMainConstants.IGRP_MODE_STANDALONE_ENABLED.value(), "false")))
-            path.append(properties.getProperty(ConfigCommonMainConstants.IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH.value(), "/IGRP"));
+        if (Boolean.parseBoolean(ConfigCommonMainConstants.IGRP_MODE_STANDALONE_ENABLED.environmentValue("false")))
+            path.append(ConfigCommonMainConstants.IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH.environmentValue("/IGRP"));
         else {
             path.append("/");
             path.append(new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName());
@@ -265,11 +260,11 @@ public class Config {
            
            public class DefaultPageController extends Controller {
                public Response actionIndex() throws IOException {
-                   Application app = new Application().find().andWhere("dad", "=", "%s").one();
+                   var app = new Application().find().andWhere("dad", "=", "%s").one();
                    if (app != null && app.getAction() != null) {
                        return this.redirect(app.getDad().toLowerCase(), app.getAction().getPage(), "index");
                    }
-                   HomeAppView view = new HomeAppView();
+                   var view = new HomeAppView();
                    view.title = "%s";
                    return this.renderView(view, true);
                }

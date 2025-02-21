@@ -7,15 +7,12 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-
 import static nosi.core.i18n.Translator.gt;
 import java.util.Base64;
-import java.util.Properties;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.UpdateCredentialByAdminRequestDTO;
 import nosi.webapps.igrp.dao.User;
-
 /*----#end-code----*/
 		
 public class ResetpasswordController extends Controller {
@@ -94,7 +91,7 @@ public class ResetpasswordController extends Controller {
 				if(db(username, pwd)) 				
 					return redirectToUrl("webapps?r=igrp/login/login"); 
 			}else 
-				if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (ldap(username, pwd))) 	                      
+				if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (ldap(username, pwd)))
 						{
 					return redirectToUrl("webapps?r=igrp/login/login");
 				}
@@ -123,17 +120,17 @@ public class ResetpasswordController extends Controller {
 	}
 	
 	private boolean ldap(String username, String password) {
-		Properties settings = this.configApp.getMainSettings();
-		String wsdlUrl = settings.getProperty(
-				ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value());
-		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
-		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
+
+		String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+		String uid = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+		String pwd = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+
+		var client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
 		if (!client.isExistingUser(username)) {
 			Core.setMessageError(gt("Ocorreu um erro. Utilizador inválido."));
 			return false;
 		}
-		UpdateCredentialByAdminRequestDTO updateCredentialByAdminRequestDTO = new UpdateCredentialByAdminRequestDTO();
+		var updateCredentialByAdminRequestDTO = new UpdateCredentialByAdminRequestDTO();
 		updateCredentialByAdminRequestDTO.setUserName(username);
 		updateCredentialByAdminRequestDTO.setNewCredential(password);
 		if (!client.updateCredentialByAdmin(updateCredentialByAdminRequestDTO))

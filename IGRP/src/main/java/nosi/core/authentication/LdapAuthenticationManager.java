@@ -3,7 +3,6 @@ package nosi.core.authentication;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import jakarta.servlet.http.HttpServletRequest;
 import nosi.core.authentication.ldap.LdapPerson;
@@ -22,14 +21,14 @@ public final class LdapAuthenticationManager {
 	
 	private LdapAuthenticationManager() {}
 	
-	public static boolean authenticate(String username, String password, Properties config, HttpServletRequest request) {
+	public static boolean authenticate(String username, String password, HttpServletRequest request) {
 		boolean success = false;
 		ArrayList<LdapPerson> personArray = new ArrayList<>();
-		String idsAutentikaEnabled = config.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value());
+		String idsAutentikaEnabled = ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.environmentValue();
 		if ("true".equalsIgnoreCase(idsAutentikaEnabled))
-			success = authenticateThroughIdentityServerAutentika(username, password, config, personArray);
+			success = authenticateThroughIdentityServerAutentika(username, password, personArray);
 		else
-			success = authenticateDirectlyToLDAPServer(username, password, config, personArray);
+			success = authenticateDirectlyToLDAPServer(username, password, personArray);
 		if(!success)
 			throw new IllegalStateException("A sua conta ou palavra-passe está incorreta.");
 			// Verify if this credentials exist in DB
@@ -44,7 +43,7 @@ public final class LdapAuthenticationManager {
 				// sso(username, password, user);
 				return setUserAsAuthenticated(user);
 			} else {
-				final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ? ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : config.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+				final var env = ConfigCommonMainConstants.IGRP_ENV.environmentValue();
 				if(!ConfigCommonMainConstants.IGRP_ENV_DEV.value().equals(env))
 					throw new IllegalStateException("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."+"("+username+")");
 				User newUser = new User();
@@ -77,12 +76,14 @@ public final class LdapAuthenticationManager {
 		return success;
 	}
 	
-	private static boolean authenticateThroughIdentityServerAutentika(String username, String password, Properties config, List<LdapPerson> personArray) {
+	private static boolean authenticateThroughIdentityServerAutentika(String username, String password, List<LdapPerson> personArray) {
 		boolean flag = false;
-		String wsdlUrl = config.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-		String uid = config.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value());
-		String pwd = config.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
-		String v = config.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
+
+		String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+		String uid = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+		String pwd = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+		String v = ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.environmentValue();
+
 		username = "true".equalsIgnoreCase(v) ? RemoteUserStoreManagerServiceConstants.GOVCV_TENANT + "/" + username : username;
 		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
 		AuthenticateRequestDTO authenticateRequestDTO = new AuthenticateRequestDTO();
@@ -124,14 +125,14 @@ public final class LdapAuthenticationManager {
 		return flag;
 	}
 	
-	private static boolean authenticateDirectlyToLDAPServer(String username, String password, Properties config, ArrayList<LdapPerson> personArray) {
+	private static boolean authenticateDirectlyToLDAPServer(String username, String password, ArrayList<LdapPerson> personArray) {
 		NosiLdapAPI ldap = new NosiLdapAPI(
-				config.getProperty(ConfigCommonMainConstants.LDAP_AD_URL.value()),
-				config.getProperty(ConfigCommonMainConstants.LDAP_AD_USERNAME.value()),
-				config.getProperty(ConfigCommonMainConstants.LDAP_AD_PASSWORD.value()),
-				config.getProperty(ConfigCommonMainConstants.LDAP_AD_BASE.value()),
-				config.getProperty(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.value()),
-				config.getProperty(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.value()));
+				ConfigCommonMainConstants.LDAP_AD_URL.environmentValue(),
+				ConfigCommonMainConstants.LDAP_AD_USERNAME.environmentValue(),
+				ConfigCommonMainConstants.LDAP_AD_PASSWORD.environmentValue(),
+				ConfigCommonMainConstants.LDAP_AD_BASE.environmentValue(),
+				ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.environmentValue(),
+				ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.environmentValue());
 		return ldap.validateLogin(username, password, personArray);
 	}
 	

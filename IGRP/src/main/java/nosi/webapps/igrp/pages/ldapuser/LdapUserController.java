@@ -41,8 +41,7 @@ public class LdapUserController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 			boolean success = false;
-			Properties settings = this.configApp.getMainSettings();
-			if(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value()) != null && settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value()).equalsIgnoreCase("true")) 
+			if("true".equalsIgnoreCase(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.environmentValue()))
 				success = addThroughIds(model);
 			else 
 				success = addThroughLdap(model);
@@ -57,14 +56,15 @@ public class LdapUserController extends Controller {
 	
 	private boolean addThroughLdap(LdapUser model) {
 		boolean flag = false;
-		Properties settings = this.configApp.getMainSettings(); 
+
 		LdapInfo ldapinfo = new LdapInfo();
-		ldapinfo.setUrl(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_URL.value()));
-		ldapinfo.setUsername(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_USERNAME.value()));
-		ldapinfo.setPassword(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_PASSWORD.value()));
-		ldapinfo.setBase(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_BASE.value()));
-		ldapinfo.setAuthenticationFilter(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.value()));
-		ldapinfo.setEntryDN(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.value()));
+		ldapinfo.setUrl(ConfigCommonMainConstants.LDAP_AD_URL.environmentValue());
+		ldapinfo.setUsername(ConfigCommonMainConstants.LDAP_AD_USERNAME.environmentValue());
+		ldapinfo.setPassword(ConfigCommonMainConstants.LDAP_AD_PASSWORD.environmentValue());
+		ldapinfo.setBase(ConfigCommonMainConstants.LDAP_AD_BASE.environmentValue());
+		ldapinfo.setAuthenticationFilter(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.environmentValue());
+		ldapinfo.setEntryDN(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.environmentValue());
+
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		LdapPerson person = new LdapPerson(); 
 		person.setCn(model.getCommon_name().trim()); 
@@ -90,10 +90,11 @@ public class LdapUserController extends Controller {
 	}
 	
 	private boolean addThroughIds(LdapUser model) {
-		Properties settings = this.configApp.getMainSettings();
-		String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
-		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+
+		String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+		String uid = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+		String pwd = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+
 		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
 		UserRequestDTO request = new UserRequestDTO();
 		request.setRequirePasswordChange(false);
@@ -139,14 +140,15 @@ public class LdapUserController extends Controller {
 	
 	private boolean updateNUsingIds(LdapUser model, String email) {
 		boolean flag = false;
-		Properties settings = this.configApp.getMainSettings(); 
+
 		LdapInfo ldapinfo = new LdapInfo();
-		ldapinfo.setUrl(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_URL.value()));
-		ldapinfo.setUsername(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_USERNAME.value()));
-		ldapinfo.setPassword(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_PASSWORD.value()));
-		ldapinfo.setBase(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_BASE.value()));
-		ldapinfo.setAuthenticationFilter(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.value()));
-		ldapinfo.setEntryDN(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.value()));
+		ldapinfo.setUrl(ConfigCommonMainConstants.LDAP_AD_URL.environmentValue());
+		ldapinfo.setUsername(ConfigCommonMainConstants.LDAP_AD_USERNAME.environmentValue());
+		ldapinfo.setPassword(ConfigCommonMainConstants.LDAP_AD_PASSWORD.environmentValue());
+		ldapinfo.setBase(ConfigCommonMainConstants.LDAP_AD_BASE.environmentValue());
+		ldapinfo.setAuthenticationFilter(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.environmentValue());
+		ldapinfo.setEntryDN(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.environmentValue());
+
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		LdapPerson person = ldap.getUserLastInfo(email.trim());
 		String uid = "";

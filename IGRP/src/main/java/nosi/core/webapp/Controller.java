@@ -1,5 +1,6 @@
 package nosi.core.webapp;
 
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
@@ -49,21 +50,21 @@ import java.util.stream.Collectors;
 /**
  * @author Marcel Iekiny Apr 15, 2017
  */
+
 public class Controller {
-	
-	private static final Logger LOGGER = LogManager.getLogger(Controller.class);
+
+    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     protected ConfigApp configApp = ConfigApp.getInstance();
-
-    private QueryString<String, Object> queryString = new QueryString<>();
-    private View view;
-
     protected String format = Response.FORMAT_XML;
     protected String encoding = Response.CHARSET_UTF_8;
     protected boolean isNoCached = false;
-
+    private QueryString<String, Object> queryString = new QueryString<>();
+    private View view;
     private Response responseWrapper;
     private String qs = "";
+
+
 
     public Response getResponseWrapper() {
         return responseWrapper;
@@ -138,7 +139,7 @@ public class Controller {
         return Core.getParamDouble(name);
     }
 
-    protected final Response renderView(View view, boolean isRenderPartial) throws IOException {
+    protected Response renderView(View view, boolean isRenderPartial) throws IOException {
         Response resp = new Response();
         this.view = view;
         view.setContext(this); // associa controller ao view
@@ -184,7 +185,7 @@ public class Controller {
         String content = this.view.getPage().renderContent(false);
         content = BPMNButton.removeXMLButton(content);
         XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac));
-        xml.addXml(this.getConfig().getHeader(v,ac));
+        xml.addXml(this.getConfig().getHeader(v, ac));
         xml.startElement("content");
         xml.writeAttribute("type", "");
         if (Core.isNotNull(runtimeTask)) {
@@ -286,7 +287,7 @@ public class Controller {
         return display.displayInputNOutputDocsInDistinctFormList();
     }
 
-    protected final Response renderView(View view) throws IOException {
+    protected Response renderView(View view) throws IOException {
         return this.renderView(view, false);
     }
 
@@ -299,7 +300,7 @@ public class Controller {
      * @param download
      * @return
      */
-    public final Response render(byte[] file, String name, String contentType, boolean download) {
+    public Response render(byte[] file, String name, String contentType, boolean download) {
         return this.xSend(file, name, contentType, download);
     }
 
@@ -318,7 +319,7 @@ public class Controller {
 
     }
 
-    protected final Response renderView(String content) {
+    protected Response renderView(String content) {
         Response resp = new Response();
         resp.setType(1);
         resp.setCharacterEncoding(this.encoding);
@@ -337,20 +338,19 @@ public class Controller {
         return resp;
     }
 
-    protected final Response redirect(String app, String page, String action, Model model,
-                                      QueryString<String, Object> queryString) throws IOException {
+    protected Response redirect(String app, String page, String action, Model model,
+                                QueryString<String, Object> queryString) throws IOException {
         Igrp.getInstance().getRequest().getSession().setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
         return this.redirect(app, page, action, queryString);
     }
 
-    protected final Response redirect(String app, String page, String action, QueryString<String, Object> queryString)
+    protected Response redirect(String app, String page, String action, QueryString<String, Object> queryString)
             throws IOException {
         redirectAddQueryStrFuncion(action, queryString);
         return this.redirect_(Route.toUrl(app, page, action, qs));
     }
 
-
-    protected final Response redirect(String app, String page, String action, QueryString<String, Object> queryString, int isPublic)
+    protected Response redirect(String app, String page, String action, QueryString<String, Object> queryString, int isPublic)
             throws IOException {
         redirectAddQueryStrFuncion(action, queryString);
         return this.redirect_(Route.toUrl(app, page, action, qs, isPublic));
@@ -387,11 +387,11 @@ public class Controller {
         queryString.getQueryString().forEach((key, values) -> values.stream().filter(Objects::nonNull)
                 .distinct()
                 .forEach(value -> {
-                   final boolean isString = Core.isNotNull(value) && value instanceof String;
-                   final Object obj = isString ? URLEncoder.encode((String) value, StandardCharsets.UTF_8) : value;
-                   final String qsParam = "&" + key + "=" + obj;
-                   if (!qs.contains(qsParam))
-                       qs += qsParam;
+                    final boolean isString = Core.isNotNull(value) && value instanceof String;
+                    final Object obj = isString ? URLEncoder.encode((String) value, StandardCharsets.UTF_8) : value;
+                    final String qsParam = "&" + key + "=" + obj;
+                    if (!qs.contains(qsParam))
+                        qs += qsParam;
                 }));
     }
 
@@ -400,34 +400,37 @@ public class Controller {
             queryString.getQueryString().forEach((key, value) -> Core.setAttribute(key, value.toArray()));
     }
 
-    protected final Response redirect(String app, String page, String action, String qs) throws IOException {
+    protected Response redirect(String app, String page, String action, String qs) throws IOException {
         return this.redirect_(Route.toUrl(app, page, action, qs));
     }
 
-    protected final Response redirect(String r, String qs) throws IOException {
+    protected Response redirect(String r, String qs) throws IOException {
         return this.redirect_(Route.toUrl(r, qs));
     }
 
-    protected final Response redirect(String r) {
+    protected Response redirect(String r) {
         return this.redirect_(Route.toUrl(r));
     }
 
-    protected final Response redirectError() throws IOException {
+    protected Response redirectError() throws IOException {
         return this.redirect_(Route.toUrl("igrp", "error-page", "exception"));
     }
+    protected Response redirectError(String dad) throws IOException {
+        return this.redirect_(Route.toUrl("igrp", "error-page", "exception","&dad="+dad));
+    }
 
-    protected final Response redirect(String app, String page, String action) throws IOException {
+    protected Response redirect(String app, String page, String action) throws IOException {
         String ssoUrl = ssoUrl(app, page, action, null, null);
         if (ssoUrl != null)
             return this.redirectToUrl(ssoUrl);
         return this.redirect_(Route.toUrl(app, page, this.addParamDad(action)));
     }
 
-    protected final Response redirect(String app, String page, String action, Model model) throws IOException {
+    protected Response redirect(String app, String page, String action, Model model) throws IOException {
         return this.redirect(app, page, action, model, new QueryString<>());
     }
 
-    protected final Response redirect(String app, String page, String action, String[] paramNames, String[] paramValues)
+    protected Response redirect(String app, String page, String action, String[] paramNames, String[] paramValues)
             throws IOException {
         String ssoUrl = ssoUrl(app, page, action, paramNames, paramValues);
         if (ssoUrl != null)
@@ -449,7 +452,7 @@ public class Controller {
         return ssoUrl;
     }
 
-    protected final Response redirectToUrl(String url) {
+    protected Response redirectToUrl(String url) {
         final Response resp = new Response();
         resp.setType(2);
         resp.setUrl(url);
@@ -457,7 +460,7 @@ public class Controller {
         return resp;
     }
 
-    protected final Response forward(String app, String page, String action) {
+    protected Response forward(String app, String page, String action) {
         final Response resp = new Response();
         resp.setType(3);
         resp.setUrl(Route.toUrl(app, page, this.addParamDad(action)));
@@ -470,7 +473,7 @@ public class Controller {
         return action;
     }
 
-    protected final Response sendFile(File file, String name, String contentType, boolean download) {
+    protected Response sendFile(File file, String name, String contentType, boolean download) {
         byte[] content = null;
         try (FileInputStream in = new FileInputStream(file)) {
             return this.xSend(FileHelper.convertInputStreamToByte(in), name, contentType, download);
@@ -481,11 +484,11 @@ public class Controller {
     }
 
     // send it as stream ... binary file
-    public final Response xSend(byte[] file, String name, String contentType, boolean download) {
+    public Response xSend(byte[] file, String name, String contentType, boolean download) {
         return xSend(file, name, contentType, download, null);
     }
 
-    public final Response xSend(byte[] file, String name, String contentType, boolean download, String url) {
+    public Response xSend(byte[] file, String name, String contentType, boolean download, String url) {
         Igrp igrpApp = Igrp.getInstance();
         if (file == null)
             throw new ServerErrorHttpException();
@@ -558,8 +561,8 @@ public class Controller {
         final var modelPath = "Model: " + pagesPackagePath + app.getCurrentPageName() + ".java";
 
         final var xslPath = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath()
-                            + "/images/IGRP/IGRP2.3/app/" + currentAppNameLowerCase + "/"
-                            + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
+                + "/images/IGRP/IGRP2.3/app/" + currentAppNameLowerCase + "/"
+                + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
 
         app.getLog().addMessage(applicationName);
         app.getLog().addMessage(pageName);
@@ -618,7 +621,6 @@ public class Controller {
         return resp;
     }
 
-
     protected Response forward(String app, String page, String action, QueryString<String, Object> queryString) {
         this.setQueryString(queryString);
         Response resp = new Response();
@@ -627,7 +629,7 @@ public class Controller {
         return resp;
     }
 
-    protected final Response xSend(FileRest file, String name, String contentType, boolean download) {
+    protected Response xSend(FileRest file, String name, String contentType, boolean download) {
         Response response = new Response();
         Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
         if (download)
@@ -723,23 +725,29 @@ public class Controller {
     public Config getConfig() {
         return this.configApp.getConfig();
     }
-    
-    public static Object loadPage(String controllerPath, String actionName){
-		Igrp igrpApp = Igrp.getInstance();
-		try {
-			Class<?> classController = Class.forName(controllerPath);
-			Object controller = classController.getDeclaredConstructor().newInstance();
-			igrpApp.setCurrentController((Controller) controller);
-			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(() -> new NoSuchMethodException("Não existe action "+actionName+" na pagina "+igrpApp.getCurrentPageName()));
-			if(action.getParameterCount() == 0)
-				return  action.invoke(controller);
-			return action.invoke(controller, formalParameters(action, igrpApp).toArray());
-		}catch (Exception e) {
-			addParametersToErrorPage(igrpApp);
-			LOGGER.fatal(e.getMessage(), e);
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
+    public static Object loadPage(String controllerPath, String actionName) {
+        Igrp igrpApp = Igrp.getInstance();
+        try {
+            Class<?> classController = Class.forName(controllerPath);
+            Object controller;
+
+                // Usar CDI para obter a instância do controller
+            Instance<?> instance = CDI.current().select(classController);
+            controller = instance.isUnsatisfied() ?
+                    classController.getDeclaredConstructor().newInstance() :
+                    instance.get();
+
+            igrpApp.setCurrentController((Controller) controller);
+            Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(() -> new NoSuchMethodException("Não existe action " + actionName + " na pagina " + igrpApp.getCurrentPageName()));
+            if (action.getParameterCount() == 0)
+                return action.invoke(controller);
+            return action.invoke(controller, formalParameters(action, igrpApp).toArray());
+        } catch (Exception e) {
+            addParametersToErrorPage(igrpApp);
+            LOGGER.fatal(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
 
     private static List<Object> formalParameters(Method action, Igrp igrpApp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         List<Object> paramValues = new ArrayList<>();
@@ -762,26 +770,22 @@ public class Controller {
         }
         return paramValues;
     }
-    
+
     private static void addParametersToErrorPage(Igrp igrpApp) {
 
-        ConfigApp configApp = ConfigApp.getInstance();
+        final var env = ConfigCommonMainConstants.IGRP_ENV.environmentValue();
 
-        final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-                ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
-
-		Map<String, Object> errorParam = new HashMap<>();
-		errorParam.put("dad", igrpApp.getCurrentAppName());
-		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), env);
-		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
-	}
-    
+        Map<String, Object> errorParam = new HashMap<>();
+        errorParam.put("dad", igrpApp.getCurrentAppName());
+        errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), env);
+        igrpApp.getRequest().setAttribute("igrp.error", errorParam);
+    }
     protected <T> T getComponent(Class<T> componentType) {
-    	try {
-    		return CDI.current().select(componentType).get();
-		} catch (jakarta.enterprise.inject.UnsatisfiedResolutionException e) {
-			return null;
-		}
-	}
+        try {
+            return CDI.current().select(componentType).get();
+        } catch (jakarta.enterprise.inject.UnsatisfiedResolutionException e) {
+            return null;
+        }
+    }
 
 }

@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.changepassword;
 
 import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
-import java.util.Properties;
 
 import nosi.core.authentication.ldap.LdapInfo;
 import nosi.core.authentication.ldap.LdapPerson;
@@ -76,24 +75,25 @@ public class ChangePasswordController extends Controller {
 		return this.redirect("igrp","ChangePassword","index");
 	
 	}
-	
+
 	private Response ldap(String currentPassword, String newPassword) throws IOException {
-		Properties settings = this.configApp.getMainSettings();
-		if(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value()) != null && settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value()).equalsIgnoreCase("true")) {
-			if(!useIds(currentPassword, newPassword))
-				return forward("igrp","ChangePassword","index");
-		}else 
-		if(!directlyThroughLdapServer(currentPassword, newPassword))
-			return forward("igrp","ChangePassword","index");
-		return redirect("igrp","ChangePassword","index");
+		if ("true".equalsIgnoreCase(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.environmentValue())) {
+			if (!useIds(currentPassword, newPassword))
+				return forward("igrp", "ChangePassword", "index");
+		} else if (!directlyThroughLdapServer(currentPassword, newPassword))
+			return forward("igrp", "ChangePassword", "index");
+
+		return redirect("igrp", "ChangePassword", "index");
 	}
 	
 	private boolean useIds(String currentPassword, String newPassword) {
-		Properties settings = this.configApp.getMainSettings();
+
 		User user = Core.getCurrentUser();
-		String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
-		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
-		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+
+		String wsdlUrl = ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.environmentValue();
+		String uid = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.environmentValue();
+		String pwd = ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.environmentValue();
+
 		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
 		AuthenticateRequestDTO authenticateRequestDTO = new AuthenticateRequestDTO(); 
 		authenticateRequestDTO.setUserName(user.getUser_name());
@@ -118,16 +118,17 @@ public class ChangePasswordController extends Controller {
 	private boolean directlyThroughLdapServer(String currentPassword, String newPassword) {
 		boolean flag = true;
 		User user = Core.getCurrentUser();
-		Properties settings = this.configApp.getMainSettings(); 
 		LdapInfo ldapinfo = new LdapInfo();
-		ldapinfo.setUrl(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_URL.value()));
-		ldapinfo.setUsername(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_USERNAME.value()));
-		ldapinfo.setPassword(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_PASSWORD.value()));
-		ldapinfo.setBase(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_BASE.value()));
-		ldapinfo.setAuthenticationFilter(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.value()));
-		ldapinfo.setEntryDN(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.value()));
+
+		ldapinfo.setUrl(ConfigCommonMainConstants.LDAP_AD_URL.environmentValue());
+		ldapinfo.setUsername(ConfigCommonMainConstants.LDAP_AD_USERNAME.environmentValue());
+		ldapinfo.setPassword(ConfigCommonMainConstants.LDAP_AD_PASSWORD.environmentValue());
+		ldapinfo.setBase(ConfigCommonMainConstants.LDAP_AD_BASE.environmentValue());
+		ldapinfo.setAuthenticationFilter(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.environmentValue());
+		ldapinfo.setEntryDN(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.environmentValue());
+
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-		LdapPerson person = ldap.getUserLastInfo(Core.getCurrentUser().getEmail().trim());
+		LdapPerson person = ldap.getUserLastInfo(user.getEmail().trim());
 		String error = ldap.getError();
 		if(person != null) {
 			person.setPwdLastSet(newPassword);

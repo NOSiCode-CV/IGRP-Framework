@@ -22,7 +22,7 @@ public class AuthenticationFilter implements Filter {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-		try {
+//		try {
 			if (AuthenticationManager.isSessionExists(httpServletRequest)) {
 				Integer timeout = (Integer) httpServletRequest.getSession().getAttribute("oldTimeout");
 				if(Core.isNotNullOrZero(timeout)){
@@ -48,7 +48,7 @@ public class AuthenticationFilter implements Filter {
 			} else {
 				if(Core.isNull(httpServletRequest.getSession().getAttribute("oldTimeout")))
 					httpServletRequest.getSession().setAttribute("oldTimeout",httpServletRequest.getSession().getMaxInactiveInterval());
-				httpServletRequest.getSession().setMaxInactiveInterval(30);
+				httpServletRequest.getSession().setMaxInactiveInterval(60);
 				if (ApplicationManager.isPublic(httpServletRequest) && !ApplicationManager.isLoginPage(httpServletRequest)) {
 					if (request.getParameter("target") == null) {
 						httpServletResponse.sendRedirect(ApplicationManager.buildPublicTargetLink(httpServletRequest));
@@ -74,15 +74,15 @@ public class AuthenticationFilter implements Filter {
 //							httpServletRequest.sendRedirect(destination);
 						return;
 					}
-					//TODO: Dblogin is not going to the previous route if the session expires
+					//TODO: db login is not going to the previous route if the session expires
 					//ApplicationManager.rememberRoute(httpServletRequest);
 
 					httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE + "&dad=" + request.getParameter("dad")).forward(httpServletRequest, httpServletResponse);
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			httpServletResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error occurred.");
-		}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			httpServletResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error occurred.");
+//		}
 	}
 }

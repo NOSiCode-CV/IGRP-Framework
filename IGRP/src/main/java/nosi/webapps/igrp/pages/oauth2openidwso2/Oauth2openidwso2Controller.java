@@ -2,13 +2,13 @@ package nosi.webapps.igrp.pages.oauth2openidwso2;
 
 
 import java.io.IOException;
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 
 /*----#start-code(packages_import)----*/
 
-import java.util.Properties;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Igrp;
 
@@ -50,17 +50,15 @@ public class Oauth2openidwso2Controller extends Controller {
 		String oidcState = (String) Core.getFromSession("_oidcState", true); 
 		
 		if(oidcIdToken != null && !oidcIdToken.isEmpty() && oidcState != null && !oidcState.isEmpty()) {
-			Properties settings = this.configApp.getMainSettings();
 
-			String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
-					ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+			final var authenticationType = ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.environmentValue();
 
 			if(authenticationType != null && authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) {
-				String oidcLogout = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.value()); 
+				String oidcLogout = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.environmentValue();
 				if(oidcLogout != null && !oidcLogout.isEmpty()) {
-					String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
-					String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
-					String warName = Core.getDeployedWarName(); 
+					String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState;
+					String redirect_uri = ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.environmentValue();
+					String warName = Core.getDeployedWarName();
 					aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri.replace("/IGRP/", "/"+warName+"/") : aux;
 					
 					return redirectToUrl(aux); 
