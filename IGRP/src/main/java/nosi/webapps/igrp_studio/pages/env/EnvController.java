@@ -85,7 +85,7 @@ public class EnvController extends Controller {
 		view.flg_old.setVisible(false);
 		view.plsql_codigo.setVisible(this.configApp.isActiveGlobalACL());
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
-		view.host.propertie().add("tooltip", "EX: the tedkmsamf ");
+		//view.host.propertie().add("tooltip", "EX: the tedkmsamf ");
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -360,8 +360,8 @@ public class EnvController extends Controller {
 				}
 			}
 		}
-		/** IGRP-PLSQL Apps **/
-		/** Begin **/
+		//** IGRP-PLSQL Apps **/
+		/* Begin **/
 		if(this.configApp.isActiveGlobalACL()) {
 			List<App> allowApps = new ArrayList<>();
 			List<App> denyApps = new ArrayList<>();
@@ -390,7 +390,7 @@ public class EnvController extends Controller {
 				xmlMenu.endElement();
 				displaySubtitle = true; 
 			}
-		/** End **/
+		//** End **/
 		}
 		if(displayTitle)
 			xmlMenu.setElement("title", Core.gt("Minhas Aplicações"));
@@ -416,7 +416,9 @@ public class EnvController extends Controller {
 		Permission permission = new Permission();
 		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) {
 			//TODO: deve ver se a apliccacoa da pagina é nao tutorial e ver o que acontece se for diferentes...
-			Application env = Core.findApplicationByDad(app);
+			Application env = Core.findApplicationByDad(p[0]);
+			if(env.getExternal()==0)
+				 env = Core.findApplicationByDad(app);
 			// 2 - custom dad 
 			String url = null; 
 			if(env.getExternal() == 2)

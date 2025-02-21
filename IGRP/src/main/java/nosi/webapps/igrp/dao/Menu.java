@@ -388,9 +388,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 					.andWhereNotNull("action")
 				.orderBy("flg_base").all();
 		for (Menu m : aux) {
-
 			lista.put(m.getAction().getId(),
-					m.getFlg_base() == 0 ? m.getDescr() : m.getDescr() + " [" + m.getApplication().getDad() + "]");
+					(m.getFlg_base() == 0 && m.getAction().getApplication().getId()==app)? m.getDescr() : m.getDescr() + " @" + m.getAction().getApplication().getDad());
 		}
 		return lista;
 	}
