@@ -18,6 +18,7 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.util.ByteArrayDataSource;
+import nosi.core.config.ConfigCommonMainConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import nosi.core.config.ConfigApp;
@@ -38,20 +39,13 @@ public class EmailMessage {
 	private String from;
 	private String subject;
 	private String msg;
-	
 	private boolean multipleRecipients;
-	
-	private String replyTo; // emails separated by comma 
-	
+	private String replyTo; // emails separated by comma
 	private String charset;
 	private String subType;
-	
 	private Properties settings;
-	
-	// credentials 
 	private String authUsername;
 	private String authPassword;
-	
 	private final List<File> attaches;
 	private final List<Attachment> attachesBytes;
 	
@@ -68,10 +62,10 @@ public class EmailMessage {
 	}
 	
 	public void loadDefaultConfig() {
+
 		System.setProperty("java.net.preferIPv4Stack", "true");
-		// Get system properties
-		Properties properties = System.getProperties();
-		// Setup mail server
+
+		final var properties = System.getProperties();
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.port", "465");
@@ -143,11 +137,19 @@ public class EmailMessage {
 			authPassword = settings.getProperty("mail.password"); 
 		}
 	}
-	
+
 	private boolean load() {
-		settings = ConfigApp.getInstance().getMainSettings(); 
-		return !settings.isEmpty();
-	}
+		if (ConfigCommonMainConstants.isEnvironmentVariableScanActive()) {
+			final var properties = new Properties();
+			for (var v : ConfigCommonMainConstants.values()) {
+				properties.put(v.value(), v.environmentValue());
+			}
+			settings = properties;
+        } else {
+			settings = ConfigApp.getInstance().getMainSettings();
+        }
+        return !settings.isEmpty();
+    }
 	
 	public boolean send() throws IOException { 
 		try{
@@ -272,20 +274,22 @@ public class EmailMessage {
 		} 
 		// Send the complete message parts 
         message.setContent(multipart);
-	} 
-	
-	protected void wrapBytesToMultipart(MimeMessage message, Multipart multipart) throws MessagingException { 
-		for(Attachment obj : this.attachesBytes){
-			MimeBodyPart messageBodyPart = new MimeBodyPart(); 
-			ByteArrayDataSource bds = new ByteArrayDataSource(obj.content, obj.getType());
-			bds.setName(obj.getName()); 
-			messageBodyPart.setDataHandler(new DataHandler(bds)); 
-			messageBodyPart.setFileName(bds.getName()); 
-			// Set message part 
-	        multipart.addBodyPart(messageBodyPart);
+	}
+
+	protected void wrapBytesToMultipart(MimeMessage message, Multipart multipart) throws MessagingException {
+
+		for (var obj : this.attachesBytes) {
+
+			final var bds = new ByteArrayDataSource(obj.content, obj.getType());
+			bds.setName(obj.getName());
+
+			final var messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setDataHandler(new DataHandler(bds));
+			messageBodyPart.setFileName(bds.getName());
+			multipart.addBodyPart(messageBodyPart);
 		}
-		// Send the complete message parts 
-        message.setContent(multipart); 
+
+		message.setContent(multipart);
 	}
 
 	/**
@@ -380,7 +384,6 @@ public class EmailMessage {
 	        			+ "<span style=\"color: rgb(27, 29, 34);\">"
 	        			+ "<span style=\"font-size: 14px; background-color: rgb(255, 255, 255); \">"
 	        			+ paragrafo + "</span></span></p>";
-	        			 
 			}
 	        body += "</td></tr><tr>"; 
 	        if (textoBtnAcao != null && textoBtnAcao.length > 0 && hrefBtnAcao != null && hrefBtnAcao.length > 0 && hrefBtnAcao.length == textoBtnAcao.length) {
