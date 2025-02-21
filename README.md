@@ -8,10 +8,15 @@ IGRP is a platform developed by the Operational Nucleus for the Information Soci
 
 The IGRP core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache 2.0 license. Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
 
-![](igrp_versions.md)
+![](docs/igrp_versions.md)
 
----
-[View Table](igrp_versions.md)
+## :books: Versions Guide
+
+# Quadro Comparativo das Versões do IGRP
+
+[View Table](docs/igrp_versions.md)
+
+
 
 
 
