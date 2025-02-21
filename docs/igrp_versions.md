@@ -3,7 +3,7 @@
 
 # Quadro Comparativo das Versões do IGRP
 
-| Característica               | IGRP vO | igrp**web** v1 | IGRP Horizon v2 | iGRP New Horizon v3 |
+| Característica               | IGRP vO | igrp**web** v1 | IGRP Horizon v2 ([GA](https://en.m.wikipedia.org/wiki/Software_release_life_cycle)) | iGRP New Horizon v3 (Alpha) |
 |----------------------------|---------|------------|----------------|------------------|
 | **Front-end** | BootStrap + jQuery (xml/xsl) | BootStrap + jQuery (xml/xsl) | BootStrap + jQuery (xml/xsl) | React; no futuro... Vue, Angular... |
 | **Back-end** | Weblogic + base de dados Oracle | Tomee / Hibernate | Tomee / Hibernate | (API) - Spring, .NET, no futuro... Django... |
