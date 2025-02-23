@@ -146,7 +146,7 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 		
 	}
 	public Boolean hasStartTaskAccess(String processKey) {
-		return new TaskAccess().find().keepConnection().limit(1)
+		return new TaskAccess().find().limit(1)
 			   	.andWhere("organization", "=",Core.getCurrentOrganization())
 			   	.andWhere("profileType", "=",Core.getCurrentProfile())
 				.andWhere("processName","=",processKey)
@@ -155,7 +155,7 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	}
 
 	public Boolean hasNoStartTaskAccess(String processKey) {
-		return new TaskAccess().find().keepConnection().limit(1)
+		return new TaskAccess().find().limit(1)
 			   	.andWhere("organization", "=",Core.getCurrentOrganization())
 			   	.andWhere("profileType", "=",Core.getCurrentProfile())
 			   	.andWhere("processName","=",processKey)

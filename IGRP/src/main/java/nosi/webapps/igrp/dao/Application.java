@@ -516,7 +516,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			return null;
 		}
 
-		return new Application().find().keepConnection().andWhere("dad", "=", dad).one();
+		return new Application().find().andWhere("dad", "=", dad).one();
 	}
 	
 	public int getExterno() {

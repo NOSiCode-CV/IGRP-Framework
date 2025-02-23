@@ -56,7 +56,9 @@ public class LookupField extends TextField {
 	}
 
 	@Override
-	public void setLookup(String app, String page, String action) { 
+	public void setLookup(String app, String page, String action) {
+		if(Core.isNull(app))
+			return;
 		int isPublic = Core.getParamInt("isPublic");
 		String currentDad = Core.getCurrentDad(); 
 		if(isPublic == 1)
