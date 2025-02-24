@@ -173,7 +173,7 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 				.getCount()>0;
 	}
 	public List<TaskAccess> getTaskAccess(String processKey){
-		return new TaskAccess().find().keepConnection()
+		return new TaskAccess().find()
 			   	.where("organization", "=",Core.getCurrentOrganization())
 			   	.andWhere("profileType", "=",Core.getCurrentProfile())
 			   	.andWhere("processName","=",processKey)

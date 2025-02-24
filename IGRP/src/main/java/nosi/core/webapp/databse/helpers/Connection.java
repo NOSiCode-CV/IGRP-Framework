@@ -25,7 +25,7 @@ public class Connection {
 	}
 	
 	public static java.sql.Connection getConnection(String connectionName, String dad){
-		Config_env config = new Config_env().find().setKeepConnection(true)
+		Config_env config = new Config_env().find()
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
 				.setApplicationName("igrp")
@@ -146,7 +146,7 @@ public class Connection {
 			return connectionTestName;
 		}
 		String result = "";
-		Config_env configEnv = new Config_env().find().setKeepConnection(true)
+		Config_env configEnv = new Config_env().find()
 				.where("isdefault", "=", (short) 1)
 				.andWhere("application.dad", "=", dad)
 				.setApplicationName("igrp")
