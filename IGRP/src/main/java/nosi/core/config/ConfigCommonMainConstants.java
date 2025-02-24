@@ -23,7 +23,7 @@ public enum ConfigCommonMainConstants {
 
     IGRP_ENV("igrp.env", System.getenv("IGRP_ENV")),
 
-    IGRP_WORKSPACE("igrp.workspace", ""),
+    IGRP_WORKSPACE("igrp.workspace", System.getenv("IGRP_WORKSPACE")),
 
     IGRP_AUTHENTICATION_TYPE("igrp.authentication_type", System.getenv("IGRP_AUTHENTICATION_TYPE")),
 
