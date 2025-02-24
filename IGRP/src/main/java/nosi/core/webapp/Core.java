@@ -1236,24 +1236,38 @@ public final class Core {
 			return Route.getResolveUrl("igrp", "File", "getPublicFile&p_id=" + p_id);
 
 	}
-
+	/**
+	 * Link to a get file
+	 *
+	 *
+	 * @param uuid
+	 *            Unique file id
+	 * @return link
+	 */
+	public static String getLinkFileByUuid(String uuid) {
+		return getLinkFileByUuid(uuid,0);
+	}
 	/**
 	 * Link to a get file
 	 * 
 	 * 
 	 * @param uuid
 	 *            Unique file id
+	 * @param sCache seconds Cache browser cache-control max-age
 	 * @return link
 	 */
-	public static String getLinkFileByUuid(String uuid) {
+	public static String getLinkFileByUuid(String uuid,Integer sCache) {
 		if (Core.isNull(uuid))
 			return "";
 		if (uuid.startsWith("webapps"))
 			return uuid;
+		String cache="";
+		if(Core.isNotNullOrZero(sCache))
+			cache="&cache="+sCache;
 		if (Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()) {
-			return Route.getResolveUrl("igrp", "File", "get-file&uuid=" + uuid);
+			return Route.getResolveUrl("igrp", "File", "get-file&uuid=" + uuid+cache);
 		} else
-			return Route.getResolveUrl("igrp", "File", "getPublicFile&uuid=" + uuid);
+			return Route.getResolveUrl("igrp", "File", "getPublicFile&uuid=" + uuid+cache);
 
 	}
 
