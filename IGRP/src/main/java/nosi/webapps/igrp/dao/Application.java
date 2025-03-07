@@ -364,7 +364,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getPermissionApp(dadID,userID) ;
 	}
 	public boolean getPermissionApp(Integer dadID, Integer userID) {
-		long p = new Profile().find().limit(1).keepConnection()
+		long p = new Profile().find().limit(1)
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", userID)
 				.andWhere("type_fk", "=",dadID)
@@ -377,7 +377,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		User u = Core.getCurrentUser();
 		if(u==null)
 			return new ArrayList<>();
-		List<Profile> list = new Profile().find().keepConnection()
+		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", u.getId())
 				.andWhere("type_fk", ">", 1)
