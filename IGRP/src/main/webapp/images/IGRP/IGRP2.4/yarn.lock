@@ -3466,7 +3466,7 @@ css-minimizer-webpack-plugin@^3.2.0:
     jest-worker "^27.0.2"
     postcss "^8.3.5"
     schema-utils "^4.0.0"
-    serialize-javascript "^6.0.0"
+    serialize-javascript "^6.0.2"
     source-map "^0.6.1"
 
 css-prefers-color-scheme@^6.0.3:
@@ -7936,7 +7936,7 @@ rollup-plugin-terser@^7.0.0:
   dependencies:
     "@babel/code-frame" "^7.10.4"
     jest-worker "^26.2.1"
-    serialize-javascript "^4.0.0"
+    serialize-javascript "^6.0.2"
     terser "^5.0.0"
 
 rollup@^2.43.1:
@@ -8099,16 +8099,16 @@ send@0.18.0:
     range-parser "~1.2.1"
     statuses "2.0.1"
 
-serialize-javascript@^4.0.0:
+serialize-javascript@^6.0.2:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-4.0.0.tgz#b525e1238489a5ecfc42afacc3fe99e666f4b1aa"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-6.0.2.tgz#b525e1238489a5ecfc42afacc3fe99e666f4b1aa"
   integrity sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==
   dependencies:
     randombytes "^2.1.0"
 
-serialize-javascript@^6.0.0, serialize-javascript@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-6.0.1.tgz#b206efb27c3da0b0ab6b52f48d170b7996458e5c"
+serialize-javascript@^6.0.2, serialize-javascript@^6.0.1:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-6.0.2.tgz#b206efb27c3da0b0ab6b52f48d170b7996458e5c"
   integrity sha512-owoXEFjWRllis8/M1Q+Cw5k8ZH40e3zhp/ovX+Xr/vi1qj6QesbyXXViFbpNvWvPNAD62SutwEXavefrLJWj7w==
   dependencies:
     randombytes "^2.1.0"
@@ -8631,7 +8631,7 @@ terser-webpack-plugin@^5.2.5, terser-webpack-plugin@^5.3.7:
     "@jridgewell/trace-mapping" "^0.3.17"
     jest-worker "^27.4.5"
     schema-utils "^3.1.1"
-    serialize-javascript "^6.0.1"
+    serialize-javascript "^6.0.2"
     terser "^5.16.8"
 
 terser@^5.0.0, terser@^5.10.0, terser@^5.16.8:
