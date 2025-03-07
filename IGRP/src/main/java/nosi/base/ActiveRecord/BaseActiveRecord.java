@@ -1290,20 +1290,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	@Transient
-    private Session getSession() {
+	private Session getSession() {
 		SessionFactory sessionFactory = getSessionFactory();
-		Session s;
-		if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
-				&& sessionFactory.getCurrentSession().isOpen()) {
-			s = sessionFactory.getCurrentSession();
-			return s;
+		try {
+			// Use Hibernate-managed session (auto-closed with transaction)
+			return sessionFactory.getCurrentSession();
+		} catch (HibernateException ex) {
+			// Fallback to unmanaged session (MUST close manually)
+			return sessionFactory.openSession();
 		}
-		sessionFactory.close();
-		HibernateUtils.removeSessionFactory(connectionName);
-		sessionFactory = getSessionFactory();
-        s = sessionFactory.getCurrentSession();
-        return s;
-    }
+	}
 
 	@Transient
     private SessionFactory getSessionFactory() {
@@ -1320,14 +1316,23 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	private void closeSession() {
 		Session session = this.getSession();
-		if(!this.keepConnection && session!=null && session.isOpen()) {
-			session.close();
+		if (session != null && session.isOpen()) {
+			if (!this.keepConnection) {
+				session.close(); // Force close if keepConnection is false
+			} else {
+				// Explicitly reset keepConnection to avoid leaks
+				this.keepConnection = false;
+			}
 		}
 	}
-	
 	private void closeSession(Session session) {
-		if(!this.keepConnection && session!=null && session.isOpen()) {
-			session.close();
+		if (session != null && session.isOpen()) {
+			if (!this.keepConnection) {
+				session.close(); // Force close if keepConnection is false
+			} else {
+				// Explicitly reset keepConnection to avoid leaks
+				this.keepConnection = false;
+			}
 		}
 	}
 

@@ -37,7 +37,7 @@ public interface IHeaderConfig {
 	default String getLinkOpenApp() {
         return "webapps?r=" + "igrp_studio"+"/"+"env"+"/"+"openApp"+"&dad="+Core.getParam("dad",Core.getCurrentDad())+"&app=";
 	}
-	default String getLinkSileMenu(){
+	default String getLinkSlideMenu(){
 		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+ Core.getParam("dad",Core.getCurrentDad());
 	}
 	default String getLinkTopMenu(){

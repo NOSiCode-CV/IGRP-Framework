@@ -66,7 +66,7 @@ public class RestRequestHttpClient {
 		try {
 			return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
+			System.err.println("RestRequestHttpClient.InterruptedException: "+e.getCause());
 		}
 		return null;
 	}

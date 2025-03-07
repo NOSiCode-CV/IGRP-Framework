@@ -490,6 +490,7 @@ public class Controller {
 
     public Response xSend(byte[] file, String name, String contentType, boolean download, String url) {
         Igrp igrpApp = Igrp.getInstance();
+        String secTimeCache = Core.getParam("cache","10");
         if (file == null)
             throw new ServerErrorHttpException();
         Response response = new Response();
@@ -508,10 +509,14 @@ public class Controller {
             }
         }
         igrpApp.getResponse().addHeader("Content-Description", "File Transfer");
-        if (download)
+        igrpApp.getResponse().setHeader("Cache-Control", "public, max-age="+secTimeCache); // 1 year
+        if (download) {
             igrpApp.getResponse().setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
-        else
+        }
+        else {
             igrpApp.getResponse().setHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+        }
+
         response.setType(1);
         response.setContentLength(file.length);
         response.setContentType(contentType);
@@ -716,7 +721,7 @@ public class Controller {
                         break;
                     default:
                 }
-            } catch (java.lang.NullPointerException e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
@@ -731,7 +736,7 @@ public class Controller {
             Class<?> classController = Class.forName(controllerPath);
             Object controller;
 
-                // Usar CDI para obter a instância do controller
+            // Usar CDI para obter a instância do controller
             Instance<?> instance = CDI.current().select(classController);
             controller = instance.isUnsatisfied() ?
                     classController.getDeclaredConstructor().newInstance() :
@@ -755,7 +760,7 @@ public class Controller {
             if (parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")) {
                 // Dependency Injection for models
                 Class<?> classModel = Class.forName(parameter.getType().getName());
-                nosi.core.webapp.Model model = (Model) classModel.getDeclaredConstructor().newInstance();
+                Model model = (Model) classModel.getDeclaredConstructor().newInstance();
                 model.load();
                 paramValues.add(model);
             } else // Dependency Injection for simple vars ...

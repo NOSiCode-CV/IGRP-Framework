@@ -60,9 +60,10 @@ public class QuerySelect extends CommonFIlter{
 					query.getResultList();
 					isValid = true;
 				}catch(Exception e) {
+					this.keepConnection = false;
 					this.setError(null, e);
 				}finally {
-					session.close();
+					this.closeSession(session);
 				}
 			}
 		}
@@ -120,8 +121,7 @@ public class QuerySelect extends CommonFIlter{
 				this.keepConnection = false;
 				this.setError(null, e);
 			}finally {
-				if(!this.keepConnection && session.isOpen())
-					session.close();
+				this.closeSession(session);
 			}
 		}
 		return list;
@@ -158,10 +158,10 @@ public class QuerySelect extends CommonFIlter{
 				}		
 				find = (T) query.getSingleResult();
 			}catch(Exception e) {
+				this.keepConnection = false;
 				this.setError(null, e);
 			}finally {
-				if(!this.keepConnection)
-					session.close();
+				this.closeSession(session);
 			}
 		}
 		return find;
@@ -197,10 +197,10 @@ public class QuerySelect extends CommonFIlter{
 				}		
 				list = query.getResultList();
 			}catch(Exception e) {
+				this.keepConnection = false;
 				this.setError(null, e);
 			}finally {
-				if(!this.keepConnection)
-					session.close();
+				this.closeSession(session);
 			}
 		}
 		return list;
@@ -262,10 +262,10 @@ public class QuerySelect extends CommonFIlter{
 					 }
 				}				
 			}catch(Exception e) {
+				this.keepConnection = false;
 				this.setError(null, e);
 			}finally {
-				if(!this.keepConnection)
-					session.close();
+				this.closeSession(session);
 			}
 		}
 		return query;
@@ -364,6 +364,17 @@ public class QuerySelect extends CommonFIlter{
 			this.filterWhere(" GROUP BY "+Arrays.toString(groupByNames).replaceAll("\\[", "").replaceAll("\\]", "")+" ");
 		}
 		return this;
+	}
+
+	private void closeSession(Session session) {
+		if (session != null && session.isOpen()) {
+			if (!this.keepConnection) {
+				session.close(); // Force close if keepConnection is false
+			} else {
+				// Explicitly reset keepConnection to avoid leaks
+				this.keepConnection = false;
+			}
+		}
 	}
 
 	

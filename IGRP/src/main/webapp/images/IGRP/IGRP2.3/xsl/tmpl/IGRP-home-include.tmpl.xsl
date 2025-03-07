@@ -96,7 +96,7 @@
    <!-- NOT ASYNC JS-->   
     <script src="{$path}/core/promise/promise.min.js" ></script>    
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>  
-    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>     
+<!--    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>     -->
     <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>  
     <!-- VERIFIED /NOT ASYNC JS-->  
  	  <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>    

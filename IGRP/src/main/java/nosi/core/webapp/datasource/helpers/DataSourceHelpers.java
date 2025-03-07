@@ -186,7 +186,7 @@ public class DataSourceHelpers {
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally {
-				if (session != null && session.isOpen()) {
+				if (session.isOpen()) {
 					session.close();
 				}	
 			}

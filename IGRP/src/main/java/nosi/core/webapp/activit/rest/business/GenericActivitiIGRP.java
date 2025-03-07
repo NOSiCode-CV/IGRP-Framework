@@ -101,7 +101,7 @@ public class GenericActivitiIGRP {
 	public List<ActivityExecute> getMyProccessInstances(String[] filterProcessIDs) {
 		final String[] process = this.getMyProcessKey();
 		if (process.length > 0) {
-			 ActivityExecute activityExecute = new ActivityExecute().find().keepConnection();
+			 ActivityExecute activityExecute = new ActivityExecute().find();
 
 			if(new Organization().find().where("organization","=",Core.getCurrentOrganization()).getCount()==0)
 				activityExecute.where("organization", "=", Core.getCurrentOrganization());
