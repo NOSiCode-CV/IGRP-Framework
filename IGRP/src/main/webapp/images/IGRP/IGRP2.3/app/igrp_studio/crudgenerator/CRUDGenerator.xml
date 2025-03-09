@@ -49,13 +49,13 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                    <value>//in controller</value>
                 </documento>
-                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true" adbcli="">
                     <label>Forum</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                    <value>//in controller</value>
                 </forum>
             </fields>
         </view_1>
@@ -184,27 +184,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_check name="p_check_table_check">1</check_table_check>
-                        <table_name name="p_table_name">Aperiam aliqua doloremque sit</table_name>
+                        <table_name name="p_table_name">Sit labore magna ut magna</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_check name="p_check_table_check">1</check_table_check>
-                        <table_name name="p_table_name">Sit adipiscing labore aliqua a</table_name>
+                        <table_name name="p_table_name">Dolor omnis natus aperiam sit</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_check name="p_check_table_check">1</check_table_check>
-                        <table_name name="p_table_name">Mollit totam dolor rem aliqua</table_name>
+                        <table_name name="p_table_name">Natus voluptatem perspiciatis</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_check name="p_check_table_check">1</check_table_check>
-                        <table_name name="p_table_name">Totam stract omnis elit volupt</table_name>
+                        <table_name name="p_table_name">Aliqua perspiciatis iste totam</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_check name="p_check_table_check">1</check_table_check>
-                        <table_name name="p_table_name">Omnis sit voluptatem mollit co</table_name>
+                        <table_name name="p_table_name">Iste magna totam accusantium a</table_name>
                     </row>
                 </value>
             </table>

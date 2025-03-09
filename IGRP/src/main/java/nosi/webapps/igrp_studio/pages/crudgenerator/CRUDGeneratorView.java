@@ -59,11 +59,13 @@ public class CRUDGeneratorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.setValue(gt("//in controller"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		forum.setValue(gt("//in controller"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Application"));
@@ -163,8 +165,6 @@ public class CRUDGeneratorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento.setValue(model);
-		forum.setValue(model);
 		aplicacao.setValue(model);
 		data_source.setValue(model);
 		schema.setValue(model);

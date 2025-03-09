@@ -41,7 +41,7 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Aliqua consectetur lorem unde' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Ut omnis dolor sed laudantium' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -106,11 +106,18 @@ public class CRUDGeneratorController extends Controller {
 							.andWhere("application.id", "=", Core.toInt(model.getAplicacao())).one();
 					if(config!=null) {
 
-							Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
-							if (schemasMap.size() == 2)
-								schemasMap.remove(null);
-							else if(Core.isNull(model.getSchema()))
-								model.setSchema(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+						Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
+						final String schemaDefault = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
+						if (schemasMap.size() == 2) {
+							schemasMap.remove(null);
+						}
+						if (Core.isNull(model.getSchema())) {
+							if(schemasMap.containsKey(schemaDefault))
+								model.setSchema(schemaDefault);
+							else if(schemasMap.containsKey("public"))
+								model.setSchema("public"); //For postgres bd default
+
+						}
 
 							view.schema.setValue(schemasMap);
 
