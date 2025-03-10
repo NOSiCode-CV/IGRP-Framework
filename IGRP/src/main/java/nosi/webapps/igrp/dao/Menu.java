@@ -245,7 +245,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 					.collect(Collectors.toSet());
 
 			// List of profiles with the given menu IDs
-			Set<Integer> profileSet = new Profile().find().keepConnection()
+			Set<Integer> profileSet = new Profile().find()
 					.whereIn("type_fk", menuIDs)
 					.andWhere("type", "=", "MEN")
 					.andWhere("profileType.application.dad", "=", dad)
@@ -267,7 +267,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				.andWhereNotNull("action")
 				.andWhere("status", "=", 1)
 				.andWhere("application", "=", env_fk).all();
-		List<Menu> menus_App = new Menu().find().keepConnection()
+		List<Menu> menus_App = new Menu().find()
 				.andWhereNotNull("action")
 				.andWhere("flg_base", "=", 1)
 				.andWhere("status", "=", 1)
