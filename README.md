@@ -12,7 +12,7 @@ The IGRP core is extremely lightweight and based on simple concepts. It's open-s
 
 ## :books: Versions Guide
 
-# Quadro Comparativo das Versões do IGRP
+# Quadro Comparativo das Versões do IGRP **(vO | v1 | v2 | v3)**
 
 [View Table](docs/igrp_versions.md)
 
