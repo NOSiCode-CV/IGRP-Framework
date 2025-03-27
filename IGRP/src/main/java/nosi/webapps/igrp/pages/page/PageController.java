@@ -741,8 +741,13 @@ public class PageController extends Controller {
 		final Properties p = new Properties();
 		final boolean fileExists = FileHelper.fileExists(basePath + fileName);
 		p.put("status", fileExists);
-		p.put("content", fileExists ? FileHelper.readFile(basePath, fileName) : "");
-		p.put("filename", fileName);
+        try {
+            p.put("content", fileExists ? FileHelper.readFile(basePath, fileName) : "");
+        } catch (Exception e) {
+            System.out.println("ERROR PageContoller.actionFileExists FileHelper.readFile: basePath: "+basePath+" fileName: "+fileName);
+			p.put("content","");
+        }
+        p.put("filename", fileName);
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(p));
 	}

@@ -467,7 +467,7 @@ public class LoginController extends Controller {
 
 	private Response createResponseForRetrieveAccount() {
 		// Go to password recover page ...
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
+		if (Core.isHttpPost()) {
 			String p_button2 = Igrp.getInstance().getRequest().getParameter("p_button2");
 			if (p_button2 != null && p_button2.equals("p_button2")) {
 				String url = Igrp.getInstance().getRequest().getRequestURL().toString()
