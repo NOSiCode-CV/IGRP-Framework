@@ -72,11 +72,12 @@
 		<apache.libintl.version>0.18.3</apache.libintl.version>
       <apache.commons.beanutils.version>1.10.1</apache.commons.beanutils.version>
       <apache.commons.lang3.version>3.17.0</apache.commons.lang3.version>
-      <apache.commons.text.version>1.13.0</apache.commons.text.version>
+		<!-- ATTENTION!!! LAST VERSION FOR commons.text is 1.10.0, IF you don't put remove commons-lang3 in maven tomee plugin like in core pom.xml -->
+      <apache.commons.text.version>1.10.0</apache.commons.text.version>
 		<apache.commons.io.version>2.18.0</apache.commons.io.version>
 		<apache.logging.log4j.version>2.20.0</apache.logging.log4j.version>
 		<apache.axis.version>1.8.2</apache.axis.version>
-		<apache.poi.version>5.3.0</apache.poi.version>
+		<apache.poi.version>5.4.0</apache.poi.version>
 		<apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
 		<apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>
 
@@ -753,6 +754,8 @@
 						<libs>
 							<lib>remove:myfaces</lib>	
 							<lib>remove:openjpa-</lib>	
+							<lib>remove:commons-lang3</lib>
+							<lib>org.apache.commons:commons-lang3:3.17.0</lib>
 <!--							<lib>remove:openwebbeans-</lib>-->
 <!--							<lib>remove:microprofile-</lib>		-->
 <!--							<lib>remove:smallrye-</lib>					-->
