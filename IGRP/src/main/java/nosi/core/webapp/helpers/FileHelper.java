@@ -242,6 +242,7 @@ public class FileHelper {
             try {
                 code = FileUtils.readFileToString(new File(file), StandardCharsets.UTF_8);
             } catch (IOException e) {
+                System.out.println("ERROR PageContoller.actionFileExists FileHelper.readFile: basePath: "+basePath+" fileName: "+fileName);
                 e.printStackTrace();
             }
         }
