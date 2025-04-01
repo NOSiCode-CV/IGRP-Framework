@@ -3,6 +3,7 @@ package nosi.core.webapp.helpers;
 import nosi.core.webapp.Core;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
@@ -235,10 +236,10 @@ public class FileHelper {
         String code = "";
         String file = fileName;
         if (Core.isNotNull(file))
-            file = basePath + File.separator + fileName;
+            file = StringUtils.removeEnd(basePath,File.separator) + File.separator + StringUtils.removeStart(fileName,File.separator);
         else
             file = basePath;
-        if (fileExists(file)) {
+        if (fileExists(file) && !file.trim().endsWith(File.separator)) {
             try {
                 code = FileUtils.readFileToString(new File(file), StandardCharsets.UTF_8);
             } catch (IOException e) {

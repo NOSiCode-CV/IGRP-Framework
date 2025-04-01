@@ -12,9 +12,11 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.Tuple;
 
 import nosi.webapps.igrp.dao.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
@@ -736,21 +738,58 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 
-	public Response actionFileExists() {
-		final String fileName = Core.getParam("uri").replace("\\", File.separator);
-		final Properties p = new Properties();
-		final boolean fileExists = FileHelper.fileExists(basePath + fileName);
-		p.put("status", fileExists);
-        try {
-            p.put("content", fileExists ? FileHelper.readFile(basePath, fileName) : "");
-        } catch (Exception e) {
-            System.out.println("ERROR PageContoller.actionFileExists FileHelper.readFile: basePath: "+basePath+" fileName: "+fileName);
-			p.put("content","");
-        }
-        p.put("filename", fileName);
-		this.format = Response.FORMAT_JSON;
-		return this.renderView(Core.toJson(p));
-	}
+		// Thread-safe cache that persists until server restart
+		private static final ConcurrentHashMap<String, FileCacheEntry> CACHE = new ConcurrentHashMap<>();
+
+		private static class FileCacheEntry {
+			final boolean exists;
+			final String content;
+
+			FileCacheEntry(boolean exists, String content) {
+				this.exists = exists;
+				this.content = content;
+			}
+		}
+
+		public Response actionFileExists() {
+			final String fileName = Core.getParam("uri").replace("\\", File.separator);
+			final String fullPath = buildFullPath(fileName);
+
+			// Atomic "get or compute" operation
+			FileCacheEntry entry = CACHE.computeIfAbsent(fullPath, this::loadFile);
+
+			return buildResponse(entry, fileName);
+		}
+
+		private String buildFullPath(String fileName) {
+			return StringUtils.removeEnd(basePath, File.separator) +
+					File.separator +
+					StringUtils.removeStart(fileName, File.separator);
+		}
+
+		private FileCacheEntry loadFile(String fullPath) {
+			boolean exists = FileHelper.fileExists(fullPath);
+			String content = exists ? FileHelper.readFile(
+					StringUtils.removeEnd(basePath, File.separator),
+					StringUtils.removeStart(fullPath.substring(basePath.length()), File.separator)
+			) : "";
+			return new FileCacheEntry(exists, content);
+		}
+
+		private Response buildResponse(FileCacheEntry entry, String fileName) {
+			Properties p = new Properties();
+			p.put("status", entry.exists);
+			p.put("content", entry.exists ? entry.content : "");
+			p.put("filename", fileName);
+			this.format = Response.FORMAT_JSON;
+			return this.renderView(Core.toJson(p));
+		}
+
+		// Only needed if you must manually clear cache during server lifecycle
+		public static void clearCache() {
+			CACHE.clear();
+		}
+
 
 	public Response actionGenerateLink() throws IllegalArgumentException {
 
