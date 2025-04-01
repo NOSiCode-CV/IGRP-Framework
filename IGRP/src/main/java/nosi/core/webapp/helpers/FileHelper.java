@@ -220,10 +220,10 @@ public class FileHelper {
 
     public static boolean fileExists(String fileName) {
 
-        if (Core.isNull(fileName))
+        if (Core.isNull(fileName.trim()))
             return false;
 
-        return Files.exists(Paths.get(fileName));
+        return Files.exists(Paths.get(fileName.trim()));
     }
 
     public static boolean dirExists(String dirName) {
