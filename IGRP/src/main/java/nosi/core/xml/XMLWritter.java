@@ -71,6 +71,8 @@ public class XMLWritter {
     }
 
     public void setElement(String tag, String value) {
+        if(this.countAttr==null)
+            this.countAttr = new HashMap<>();
         if (value != null && !value.isEmpty()) {
             this.startElement(tag);
             this.text(value);
@@ -121,7 +123,7 @@ public class XMLWritter {
     }
 
     public String getXml() {
-        if (!this.listXml.isEmpty()) {
+        if (this.listXml!=null && !this.listXml.isEmpty()) {
             for (int i = this.listXml.size() - 1; i >= 0; i--) {
                 this.xmlConstruct.append(LINE_SEPARATOR).append("</").append(this.listXml.get(i)).append(">");
             }
