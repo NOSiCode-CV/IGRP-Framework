@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 import com.google.gson.Gson;
 
@@ -44,10 +45,10 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	private String usernameNextTask;
 	protected RuntimeTask runtimeTask;
 	private final BPMNExecution bpmnExecute;
-	
+
 	private final List<String> inputDocsErrors;
-	private boolean inputDocsAlreadyValidate; 
-	
+	private boolean inputDocsAlreadyValidate;
+
 	protected BPMNTaskController() {
 		this.runtimeTask = RuntimeTask.getRuntimeTask();
 		this.bpmnExecute = new BPMNExecution();
@@ -66,9 +67,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		this.page = this.getClass().getSimpleName().replace("Controller", "");
 		return this.renderView(app,model.getClass().getSimpleName(),view,bpmnTask,this.runtimeTask);
 	}
-	
+
 	@Override
-	public Response index() throws IOException{	
+	public Response index() throws IOException{
 		if(Core.isNotNull(this.runtimeTask)) {
 			Action action = new Action().find().andWhere("application", "=",this.runtimeTask.getAppId())
 					.andWhere("page", "=",this.runtimeTask.getTask().getFormKey()).one();
@@ -94,8 +95,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			if(m!=null){
 				xml.addXml(m);
 			}
-			xml.endElement(); 
-			return this.renderView(xml.toString());	
+			xml.endElement();
+			return this.renderView(xml.toString());
 		}
 		Core.setAttribute("jakarta.servlet.error.message", gt("Task não tem página associada!"));
 		return this.redirect("igrp", "ErrorPage", "exception");
@@ -107,10 +108,11 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String processDefinitionId = Core.getParam(BPMNConstants.PRM_DEFINITION_ID);
 		String taskId = Core.getParamTaskId();
 		if(Core.isNotNullMultiple(this.runtimeTask,taskId)){
-			List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
-			if(!inputDocsAlreadyValidate && parts !=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask, this.inputDocsErrors)) { 
-				if(!this.inputDocsErrors.isEmpty()) 
-					this.inputDocsErrors.forEach(Core::setMessageError); 
+			final HttpServletRequest request = Igrp.getInstance().getRequest();
+			List<Part> parts = (request.getContentType() != null && request.getContentType().startsWith("multipart/"))?(List<Part>) request.getParts():null;
+			if(!inputDocsAlreadyValidate && parts !=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask, this.inputDocsErrors)) {
+				if(!this.inputDocsErrors.isEmpty())
+					this.inputDocsErrors.forEach(Core::setMessageError);
 				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
 				return this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
 			}
@@ -118,21 +120,21 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 		if(Core.isNotNull(processDefinitionId)){
 			return this.startProcess(processDefinitionId);
-		}		
+		}
 		return this.redirect("igrp", "ErrorPage", "exception");
-	} 
-	
+	}
+
 	protected Response inputDocsHasErrors() throws IOException, ServletException {
-		Response response = null; 
-		inputDocsAlreadyValidate = true; 
+		Response response = null;
+		inputDocsAlreadyValidate = true;
 		List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
-		if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this, parts, this.runtimeTask, this.inputDocsErrors)) { 
-			if(!this.inputDocsErrors.isEmpty()) 
-				this.inputDocsErrors.forEach(Core::setMessageError); 
-			Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask); 
+		if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this, parts, this.runtimeTask, this.inputDocsErrors)) {
+			if(!this.inputDocsErrors.isEmpty())
+				this.inputDocsErrors.forEach(Core::setMessageError);
+			Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
 			response = this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
 		}
-		return response; 
+		return response;
 	}
 
 	private Response startProcess(String processDefinitionId) throws IOException  {
@@ -152,9 +154,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.redirect("igrp", "Dash_board_processo", "index");
 		}
 	}
-	
 
-	
+
+
 	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException  {
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
 		StartProcess st = this.bpmnExecute.executeTask(task, parts,this.myCustomPermission);
@@ -175,23 +177,23 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}
 		}
 	}
-	
 
-	
+
+
 
 
 	private void saveFiles(List<Part> parts_,String taskId) {
-		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
+		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");
 		if(id_tp_doc!=null && parts_!=null) {
 			try {
 				id_tp_doc = Arrays.stream(id_tp_doc).filter(Core::isNotNull).toArray();
-				
-				Object[] doc_id = Core.getParamArray("p_formlist_documento_doc_id_fk");	
+
+				Object[] doc_id = Core.getParamArray("p_formlist_documento_doc_id_fk");
 				doc_id = Arrays.stream(doc_id).filter(Core::isNotNull).toArray();
-	
-				Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");	
+
+				Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");
 				input_type = Arrays.stream(input_type).filter(Core::isNotNull).toArray();
-	
+
 				List<Part> parts = parts_.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
 
 				this.saveFiles(parts,id_tp_doc,doc_id,input_type,taskId);
@@ -207,7 +209,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			Part part = parts.get(i);
 			if(Core.isNotNullMultiple(part,part.getSubmittedFileName())) {
 				try {
-					byte[] bytes = FileHelper.convertInputStreamToByte(part.getInputStream()); 
+					byte[] bytes = FileHelper.convertInputStreamToByte(part.getInputStream());
 					CLob clob = new CLob(part.getSubmittedFileName(), part.getContentType(),bytes,new Date(System.currentTimeMillis()), app );
 					clob.showMessage();
 					clob.generateUid();
@@ -219,18 +221,18 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}else if(input_type[i].toString().equals("OUT")) {
 				String file_id = doc_id[i].toString();
 				if(Core.isNotNull(file_id) && !file_id.equals("-1")) {
-					CLob clob = Core.getFile(Core.toInt(file_id));					
+					CLob clob = Core.getFile(Core.toInt(file_id));
 					this.saveTaskFile(clob,id_tp_doc,i,taskId);
 				}
 			}
 		}
 	}
-	
+
 
 	private void saveTaskFile(CLob clob,Object[] id_tp_doc,int i,String taskId) {
 		if(clob!=null && !clob.hasError()) {
-			String tp_doc_id = id_tp_doc[i].toString(); 
-			TipoDocumentoEtapa tpdoc = new TipoDocumentoEtapa().findOne(Core.toInt(tp_doc_id)); 
+			String tp_doc_id = id_tp_doc[i].toString();
+			TipoDocumentoEtapa tpdoc = new TipoDocumentoEtapa().findOne(Core.toInt(tp_doc_id));
 			if(tpdoc != null && !tpdoc.hasError()) {
 				nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile(clob, tpdoc ,taskId);
 				taskFile.generateUid();
@@ -248,9 +250,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		if(Core.isNull(this.usernameNextTask))
 			this.usernameNextTask=Core.getCurrentUser().getUser_name();
 		new TaskServiceRest().claimTask(nextTask.getId(), this.usernameNextTask);
-		if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase(this.usernameNextTask))		
+		if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase(this.usernameNextTask))
 			return this.redirect("igrp","ExecucaoTarefas","index");
-		
+
 		//If is the same user let it in the same page to be continued
 		Application app = new Application().findByDad(nextTask.getTenantId());
 		this.runtimeTask = new RuntimeTask();
@@ -270,7 +272,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	@Override
 	public Response update() throws IOException{
- 	
+
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 
@@ -280,7 +282,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String currentProcessDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();
 		String currentTaskApp = this.runtimeTask.getTask().getTenantId();
 		currentTaskApp = Core.isNotNull(currentTaskApp)?currentTaskApp:this.runtimeTask.getPreiviewApp();
-		
+
 		return BPMNHelper.getOutputDocumentType(currentTaskApp,currentProcessDefinition,currentTaskDefinition);
 	}
 
@@ -289,19 +291,19 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String appDad = this.runtimeTask.getTask().getTenantId();
 		String taskDefinition = this.runtimeTask.getTask().getTaskDefinitionKey();
 		String processDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();
-       return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
+		return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
 	}
 
 
 	@Override
 	public String details(TaskServiceQuery task) throws IOException {
 		this.page = BPMNConstants.PREFIX_TASK+task.getTaskDefinitionKey();
-		Gson gson = new Gson();		
+		Gson gson = new Gson();
 		Action action = new Action().find()
-									.andWhere("page", "=",this.page)
-									.andWhere("application.dad", "=",task.getTenantId())
-									 .andWhere("processKey", "=", task.getProcessDefinitionKey())
-									.one();
+				.andWhere("page", "=",this.page)
+				.andWhere("application.dad", "=",task.getTenantId())
+				.andWhere("processKey", "=", task.getProcessDefinitionKey())
+				.one();
 		String json = "";
 		final Object taskVariable = Core.getTaskVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + task.getId());
 		if(Core.isNotNull(taskVariable)){
@@ -312,34 +314,34 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			if(custom!=null){
 				for(Rows rows:custom.getRows()) {
 					if(!rows.getName().equalsIgnoreCase("page_igrp_ativiti") && !rows.getName().equalsIgnoreCase("app_igrp_ativiti")
-							   && !rows.getName().equalsIgnoreCase("processDefinition") &&!rows.getName().equalsIgnoreCase("taskDefinition")
-							   &&!rows.getName().equalsIgnoreCase("taskId") &&!rows.getName().equalsIgnoreCase("appId")) {
+							&& !rows.getName().equalsIgnoreCase("processDefinition") &&!rows.getName().equalsIgnoreCase("taskDefinition")
+							&&!rows.getName().equalsIgnoreCase("taskId") &&!rows.getName().equalsIgnoreCase("appId")) {
 						for(Object obj:rows.getValue()) {
 							this.addQueryString(rows.getName(), obj.toString());
 						}
 					}
 				}
 			}
-		}	
+		}
 		this.runtimeTask = new RuntimeTask(task, action.getApplication().getId(), task.getTaskDefinitionKey(), task.getTenantId(),
 				task.getProcessDefinitionKey(), false, task.getId());
 		this.runtimeTask.setSaveButton(false);
 		this.runtimeTask.setDetails(true);
-		
+
 		this.addQueryString("report_p_prm_definitionid", task.getProcessInstanceId())
-	        .addQueryString("current_app_conn", task.getTenantId());
-	        Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
-	        Core.setAttribute(BPMNConstants.PRM_TASK_OBJ, task);
-		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
-       return resp.getContent();
+				.addQueryString("current_app_conn", task.getTenantId());
+		Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
+		Core.setAttribute(BPMNConstants.PRM_TASK_OBJ, task);
+		Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
+		return resp.getContent();
 	}
-	
+
 	protected void setCustomPermission(String customPermission) {
 		this.myCustomPermission = customPermission;
 	}
-	
+
 	protected void setNextTaskToUser(String usernameNextTask) {
 		this.usernameNextTask = usernameNextTask;
 	}
-	
+
 }
