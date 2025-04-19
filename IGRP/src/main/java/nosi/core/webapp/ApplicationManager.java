@@ -301,7 +301,7 @@ public final class ApplicationManager {
 		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParamsQueryString));
 	}
 	
-	private static void rememberRoute(HttpServletRequest request) {
+	public static void rememberRoute(HttpServletRequest request) {
 		String r = request.getParameter("r");
 		String dad = request.getParameter("dad");
 		if (r != null && !r.contains("igrp/login/")) {

@@ -110,9 +110,10 @@ public class LoginController extends Controller {
 						&& loginWithLdap(username, password))) {
 //			TODO: see if is possible to remember the previous route
 //
-//			 final Optional<String> returnRoute = ApplicationManager.buildAppLinkFromSession(Igrp.getInstance().getRequest());
-//			if(returnRoute.isPresent())
-//				return Optional.of(redirect(returnRoute.get()));
+
+			 final Optional<String> returnRoute = ApplicationManager.buildAppLinkFromSession(Igrp.getInstance().getRequest());
+			if(returnRoute.isPresent())
+				return Optional.of(redirectToUrl(returnRoute.get()));
 			// Previous here ...
 			return Optional.of(redirect("igrp", "home", "index")); // By default go to home index url
 		}
