@@ -234,7 +234,7 @@ public class FileHelper {
             file = StringUtils.removeEnd(basePath,File.separator) + File.separator + StringUtils.removeStart(fileName,File.separator);
         else
             file = basePath;
-        if (fileExists(file) && !file.trim().endsWith(File.separator)) {
+        if (fileExists(file) && file.trim().contains(".") && !file.trim().endsWith(File.separator)) {
             try {
                 code = FileUtils.readFileToString(new File(file), StandardCharsets.UTF_8);
             } catch (IOException e) {

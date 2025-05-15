@@ -154,7 +154,14 @@ public final class OAuth2OpenIdAuthenticationManager {
 				m.put("id_token", idToken);
 				m.put("refresh_token", refreshToken);
 				return m;
-			}
+			}else
+			if (response.statusCode() == 401) {
+
+				throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap com erro "+response.statusCode());
+			}else
+				throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap com erro "+response.statusCode());
+
+
 
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
