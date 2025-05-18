@@ -363,7 +363,11 @@ public class PesquisarUtilizadorController extends Controller {
 		if (id != null) {
 			Profile p = new Profile().findOne(id);
 			this.addQueryString("p_aplicacao",model.getAplicacao());
-			//TODO: rever isto porque so apaga env quando nao ha + profiles...
+			//TODO: rever isto porque so apaga env quando nao ha + profiles... fazer um count the perfis existentes para este user Profile delEnv = new Profile().find()
+			//					.andWhere("type", "=", "PROF")
+			//					.andWhere("type_fk", "=",.... p.getOrganization().getApplication().getId())
+			//					.andWhere("user.id", "=", p.getUser().getId())
+			//					.getcount==0();
 			Profile delEnv = new Profile().find()
 					.andWhere("type", "=", "ENV")
 					.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())

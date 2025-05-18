@@ -88,7 +88,7 @@
 
 		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
 		order of the elements - needed to invite users LDAP-->
-      <javadev.underscore.version>1.110</javadev.underscore.version>
+      <javadev.underscore.version>1.112</javadev.underscore.version>
 
 		<!-- Activiti BPMN -->
        <activiti.bpmn.converter.version>7.1.0.M6</activiti.bpmn.converter.version>

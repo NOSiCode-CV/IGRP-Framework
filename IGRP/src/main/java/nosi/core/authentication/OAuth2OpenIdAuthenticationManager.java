@@ -44,7 +44,11 @@ public final class OAuth2OpenIdAuthenticationManager {
 		final var m = generateToken(authCode);
 		if(m.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap.");
-		
+
+		var errorMsg=m.get("error");
+		if (errorMsg != null)
+			throw new IllegalStateException(errorMsg);
+
 		final var token = m.get("access_token");
 		if (token == null)
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Token não encontrado.");
@@ -142,24 +146,23 @@ public final class OAuth2OpenIdAuthenticationManager {
 					.version(HttpClient.Version.HTTP_2)
 					.build()
 					.send(request, HttpResponse.BodyHandlers.ofString());
-
+			final var m = new HashMap<String, String>();
 			if (response.statusCode() == 200) {
 				final var jToken = new JSONObject(response.body());
 				final var token = (String) jToken.get("access_token");
 				final var idToken = (String) jToken.get("id_token");
 				final var refreshToken = jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
 
-				final var m = new HashMap<String, String>();
 				m.put("access_token", token);
 				m.put("id_token", idToken);
 				m.put("refresh_token", refreshToken);
 				return m;
-			}else
-			if (response.statusCode() == 401) {
-
-				throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap com erro "+response.statusCode());
-			}else
-				throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap com erro "+response.statusCode());
+			} else {
+				final var jToken = new JSONObject(response.body());
+				m.put("error", "Ocorreu um erro na autenticação do utilizador por causa do token swap com erro " + response.statusCode()+". "
+						+jToken.optString("error_description", ""));
+				return m;
+			}
 
 
 
