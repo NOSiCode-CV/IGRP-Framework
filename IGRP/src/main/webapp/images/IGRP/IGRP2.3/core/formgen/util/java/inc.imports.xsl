@@ -211,7 +211,8 @@
 			</xsl:choose>			
 		</xsl:for-each>		
 		<!-- <xsl:for-each select="$all-blocks[generate-id() = generate-id( key('index1', @type )[1] )]">			
-			<xsl:choose>			
+		<xsl:if test="not(preceding::*[local-name() = local-name(current())])"> generate-id foi deprecated
+			<xsl:choose>
 				<xsl:when test="contains(@type,'et-dao-')">					
 					<xsl:variable name="className" select="substring-after(@type, 'et-dao-')"></xsl:variable>					
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.</xsl:text><xsl:value-of select="$className"/><xsl:text>;</xsl:text>					

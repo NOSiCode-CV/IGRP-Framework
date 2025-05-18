@@ -317,8 +317,8 @@
 						</xsl:for-each> 							
 						<xsl:if test="//rows/content/*[@type='carousel']">
 							
-							<xsl:for-each select="//content/*[@type='carousel' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
-							
+							<xsl:for-each select="//content/*[@type='carousel']">
+								<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
 								<xsl:variable name="tagName" select="name()"/>	
 								<xsl:text>model.load</xsl:text>
 								<xsl:call-template name="CamelCaseWord">
@@ -346,7 +346,7 @@
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as valor"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as valor"
                                       +" UNION SELECT 'X3' as EixoX, 'Y3' as EixoY, 40 as valor"));-->					
-								
+								</xsl:if>
 							</xsl:for-each>
 								<xsl:call-template name="newlineTab2"/>
 						</xsl:if>	
