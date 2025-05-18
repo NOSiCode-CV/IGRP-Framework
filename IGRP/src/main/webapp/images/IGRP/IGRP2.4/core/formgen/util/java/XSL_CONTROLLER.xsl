@@ -393,33 +393,35 @@
 							</xsl:if>	
 						</xsl:for-each> 							
 						<xsl:if test="//rows/content/*[@type='carousel']">
-							
-							<xsl:for-each select="//content/*[@type='carousel' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
-							
-								<xsl:variable name="tagName" select="name()"/>	
-								<xsl:text>model.load</xsl:text>
-								<xsl:call-template name="CamelCaseWord">
-					 				<xsl:with-param name="text" select="$tagName"/>
-					 			</xsl:call-template>
-								<xsl:value-of select="concat('(',$newline,$tab2,$tab2,'Core.query(null,',$double_quotes,'SELECT ')"/>
-									
+
+							<xsl:for-each select="//content/*[@type='carousel']">
+								<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
+									<xsl:variable name="tagName" select="name()"/>
+									<xsl:text>model.load</xsl:text>
+									<xsl:call-template name="CamelCaseWord">
+										<xsl:with-param name="text" select="$tagName"/>
+									</xsl:call-template>
+									<xsl:value-of
+											select="concat('(',$newline,$tab2,$tab2,'Core.query(null,',$double_quotes,'SELECT ')"/>
+
 									<xsl:for-each select="table/value/row ">
-									
+
 										<xsl:variable name="labelTag" select="concat($tagName,'_label')"/>
-										
+
 										<xsl:variable name="imgTag" select="concat($tagName,'_img')"/>
-										
-										<xsl:variable name="carouselRowLabel" select="*[name() = $labelTag]"/>										
-										<xsl:variable name="carouselRowImg" select="*[name() = $imgTag]"/>									
-										<xsl:value-of select="concat( $simple_quotes, $carouselRowLabel, $simple_quotes, ' as ', $labelTag,',',$simple_quotes,$carouselRowImg,$simple_quotes,' as ', $imgTag )"/>
-									
+
+										<xsl:variable name="carouselRowLabel" select="*[name() = $labelTag]"/>
+										<xsl:variable name="carouselRowImg" select="*[name() = $imgTag]"/>
+										<xsl:value-of
+												select="concat( $simple_quotes, $carouselRowLabel, $simple_quotes, ' as ', $labelTag,',',$simple_quotes,$carouselRowImg,$simple_quotes,' as ', $imgTag )"/>
 										<xsl:if test="position() != last()">
-											<xsl:value-of select="concat($double_quotes,'+', $newline, $tab2,$tab2,$tab2,$tab2,$double_quotes, ' UNION SELECT ' )"/>
+											<xsl:value-of
+													select="concat($double_quotes,'+', $newline, $tab2,$tab2,$tab2,$tab2,$double_quotes, ' UNION SELECT ' )"/>
 										</xsl:if>
-										
-									</xsl:for-each>								
-								<xsl:value-of select="concat($double_quotes,')',$newline,$tab2,' );')"/>											
-								
+
+									</xsl:for-each>
+									<xsl:value-of select="concat($double_quotes,')',$newline,$tab2,' );')"/>
+								</xsl:if>
 							</xsl:for-each>
 								<xsl:call-template name="newlineTab2"/>
 						</xsl:if>	
