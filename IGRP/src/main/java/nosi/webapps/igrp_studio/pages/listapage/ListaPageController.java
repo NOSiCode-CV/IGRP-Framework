@@ -1,6 +1,6 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
-import nosi.core.config.Config;
+
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -10,7 +10,7 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-
+import nosi.core.config.Config;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.json.JSONException;
@@ -79,7 +79,7 @@ public class ListaPageController extends Controller {
 		Core.log(uri);
 
 		if (!uri.equals("/IGRP/app/webapps")) {
-			if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("GET")) {
+			if (Core.isHttpGet()) {
 				final Application appX = new Application().find().andWhere("url", "=", uri.split("/")[1].toLowerCase())
 						.one();
 				if (appX != null)
@@ -114,10 +114,9 @@ public class ListaPageController extends Controller {
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		List<ListaPage.Table_2> apps = new ArrayList<>();
 
-		if (Core.isNotNull(app)) {
-			if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("GET")) {
+		if (Core.isNotNull(app) &&  (Core.isHttpGet())) {
 				model.setApplication(app);
-			}
+
 		}
 
 		if (Core.isNotNull(model.getApplication())) {
@@ -126,6 +125,8 @@ public class ListaPageController extends Controller {
 			model.setLink_btn_nova_pagina("igrp", "Page", "index").addParam("p_env_fk", model.getApplication());
 			model.getCrud_generator().addParam("p_aplicacao", model.getApplication());
 			model.getInfopanel_1_url().addParam("p_env_fk", model.getApplication());
+			final Application appExt = Core.findApplicationById(Core.toInt(model.getApplication()));
+			view.btn_gerar_codigo.addParameter("dad", appExt.getDad());
 			view.infopanel_2_url.addParam("p_env_fk", model.getApplication());
 
 		} else {
@@ -179,11 +180,13 @@ public class ListaPageController extends Controller {
 					.collect(Collectors.toList());
 			for (Profile p : myApp) {
 				ListaPage.Table_2 myapps = new ListaPage.Table_2();
+				// this is the default App/Page
 				String page = "tutorial/DefaultPage";
 				if (p.getOrganization().getApplication().getAction() != null) {
 					Action ac = p.getOrganization().getApplication().getAction();
-					page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
-					page = ac.getApplication().getDad().toLowerCase() + "/" + page;
+					if(ac!=null && ac.getPage() != null){
+						page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage();
+					}
 				}
 				myapps.setMy_app_img(this.getConfig().getLinkImg() + "/assets/img/iconApp/"
 						+ (Core.isNotNull(p.getOrganization().getApplication().getImg_src())
@@ -265,7 +268,8 @@ public class ListaPageController extends Controller {
 		/*----#start-code(editar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.forward("igrp", "Page", "index&p_id=" + p_id_page);
+			this.addQueryString("p_id_page",p_id_page);
+			return this.redirect("igrp", "Page", "index", this.queryString());
 		}
 
 		
@@ -288,7 +292,8 @@ public class ListaPageController extends Controller {
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.redirect("igrp", "Page", "visualizar&p_id=" + p_id_page);
+			this.addQueryString("p_id",p_id_page);
+			return this.redirect("igrp", "Page", "visualizar", this.queryString());
 		}
 
 		/*----#end-code----*/
@@ -310,7 +315,11 @@ public class ListaPageController extends Controller {
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.forward("igrp", "generator", "index&target=_blank&id=" + p_id_page);
+			this.addQueryString("p_id_page",p_id_page);
+			this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+			this.addQueryString("dad",Core.getParam("dad"));
+			this.addQueryString("target","_blank");
+			return this.redirect("igrp", "generator", "index", this.queryString());
 		}
 
 		/*----#end-code----*/
@@ -377,7 +386,7 @@ public class ListaPageController extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus()
-			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+			throws IllegalArgumentException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
 		String id = Core.getParam("p_id_page");
@@ -396,12 +405,12 @@ public class ListaPageController extends Controller {
 
 		JSONObject json = new JSONObject();
 		json.put("status", response);
-		Gson res = new Gson();
-		res.toJson(json);
+//		Gson res = new Gson();
+//		res.toJson(json);
 		return this.renderView(json.toString());
 	}
 
-	private static class SortbyStatus implements Comparator<Action> {
+	static class SortbyStatus implements Comparator<Action> {
 		// Used for sorting in ascending order of
 		// roll number
 		public int compare(Action a, Action b) {
@@ -410,20 +419,21 @@ public class ListaPageController extends Controller {
 			if (b.getNomeModulo() == null)
 				b.setNomeModulo("");
 
-			int NameCompare = a.getNomeModulo().compareTo(b.getNomeModulo());
-			int StatusCompare = b.getStatus() - a.getStatus();
+			int nameCompare = a.getNomeModulo().compareTo(b.getNomeModulo());
+			int statusCompare = b.getStatus() - a.getStatus();
 
 			// 2-level comparison using if-else block
-			if (StatusCompare == 0) {
-				return ((NameCompare == 0) ? StatusCompare : NameCompare);
+			if (statusCompare == 0) {
+				return ((nameCompare == 0) ? statusCompare : nameCompare);
 			} else {
-				return StatusCompare;
+				return statusCompare;
 			}
 
 		}
 	}
 
-	private static class SortbyID implements Comparator<ListaPage.Table_2> {
+	static class SortbyID implements Comparator<ListaPage.Table_2> {
+
 		@Override
 		public int compare(Table_2 o1, Table_2 o2) {
 			return o2.getEnv_fk() - o1.getEnv_fk();
