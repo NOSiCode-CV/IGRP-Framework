@@ -48,7 +48,7 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
                 </help>
@@ -69,7 +69,7 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Título</label>
-                    <value>Ipsum deserunt elit laudantium adipiscing</value>
+                    <value>Anim dolor adipiscing mollit stract</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -82,7 +82,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Código</label>
-                    <value>Aperiam iste amet unde ipsum</value>
+                    <value>Accusantium omnis adipiscing sed doloremque</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -108,11 +108,11 @@
                 </publico>
                 <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Public Link</label>
-                    <value>Sit accusantium sit aperiam mollit</value>
+                    <value>Doloremque iste labore mollit unde</value>
                 </public_link>
                 <public_link_2 name="p_public_link_2" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Public Encrypted Link</label>
-                    <value>Rem accusantium deserunt amet perspiciatis</value>
+                    <value>Totam voluptatem ut dolor aliqua</value>
                 </public_link_2>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label></label>

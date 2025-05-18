@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
-import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Controller;//
-
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -22,7 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.Tuple;
-
+import nosi.core.webapp.ApplicationManager;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -50,12 +48,12 @@ import nosi.webapps.igrp.pages.dominio.DomainHeper;
 		
 public class PageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
+		var model = new Page();
 		model.load();
 		model.setHelp("igrp","Dominio","index");
 		model.setNovo_modulo("igrp","Page","index");
 		model.setEditar_modulo("igrp","Dominio","index");
-		PageView view = new PageView();
+		var view = new PageView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
@@ -128,7 +126,7 @@ public class PageController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
+		var model = new Page();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -329,7 +327,7 @@ public class PageController extends Controller {
 	}
 	
 	public Response actionEliminar_pagina() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
+		var model = new Page();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
