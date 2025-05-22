@@ -235,7 +235,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
 	public LinkedHashMap<String, List<MenuProfile>> getMyMenu() {
 		LinkedHashMap<String, List<MenuProfile>> list = new LinkedHashMap<>();
-		final String currentDad = Core.getCurrentDad();
+		final String currentDad = Core.getParam("dad",Core.getCurrentDad());
 		final Integer currentOrganization = Core.getCurrentOrganization();
 		final Integer currentProfile = Core.getCurrentProfile();
 		final String deployedWarName = Core.getDeployedWarName();
@@ -365,7 +365,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		for (Menu m : aux) {
 
 			lista.put(m.getAction().getId(),
-					m.getFlg_base() == 0 ? m.getDescr() : m.getDescr() + " [" + m.getApplication().getDad() + "]");
+					(m.getFlg_base() == 0 && m.getAction().getApplication().getId()==app)? m.getDescr() : m.getDescr() + " @" + m.getAction().getApplication().getDad());
 		}
 		return lista;
 	}

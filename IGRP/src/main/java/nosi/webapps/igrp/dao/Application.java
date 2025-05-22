@@ -276,6 +276,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public Map<Object, Object> getListApps() {
 		User user = Core.getCurrentUser();
+		if(user==null)
+			return null;
 		return Core.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
 	}
 
@@ -293,8 +295,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public List<Application> getListMyApp(int idUser, boolean allInative){
 		List<Application> listApp = new ArrayList<>();
-		List<Profile> list = new ArrayList<>();
-		if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
+		List<Profile> list;
+		if(Core.getCurrentUser()!=null && Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
 			list = new Profile().find()
 					.andWhere("type", "=", "ENV")
 					//.groupBy("type_fk")					
@@ -334,7 +336,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getPermissionApp(dadID) ;
 	}
 	public boolean getPermissionApp(Integer dadID) {
-		Integer userID = Core.getCurrentUser().getId();
+		final User currentUser = Core.getCurrentUser();
+		if(currentUser==null)
+			return false;
+		Integer userID = currentUser.getId();
 		return getPermissionApp( dadID,  userID);
 	}
 	public boolean getPermissionApp(String dad, Integer userID) {
@@ -342,7 +347,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getPermissionApp(dadID,userID) ;
 	}
 	public boolean getPermissionApp(Integer dadID, Integer userID) {
-		long p = new Profile().find().limit(1).keepConnection()
+		long p = new Profile().find().limit(1)
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", userID)
 				.andWhere("type_fk", "=",dadID)
@@ -352,7 +357,9 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public List<Profile> getMyApp() {
 		User u = Core.getCurrentUser();
-		List<Profile> list = new Profile().find().keepConnection()
+		if(u==null)
+			return new ArrayList<>();
+		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", u.getId())
 				.andWhere("type_fk", ">", 1)
@@ -381,7 +388,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public List<Profile> getAllProfile(String dad) {
-		List<Profile> list = new Profile().find().keepConnection()
+		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("type_fk", ">", 1)
 				.andWhere("organization.application.dad", "=", dad)
@@ -428,9 +435,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Application> getOtherApp() {
-		List<Application> list = this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 
-		return list;
+        return this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 	}
 
 	@Override
@@ -438,8 +444,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		this.setStatus(1);
 		Application app = super.insert();
 		if (app != null) {
-			User user = new User();
-			user = user.findOne(Core.getCurrentUser().getIdentityId());
+			User user = new User().findOne(Core.getCurrentUser().getIdentityId());
 			Organization org = new Organization();
 			org.setCode("Org." + app.getDad());
 			org.setName("IGRP"); // + app.getName()
@@ -490,7 +495,12 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public Application findByDad(String dad) {
-		return new Application().find().keepConnection().andWhere("dad", "=", dad).one();
+		if(Core.isNull(dad)){
+			System.err.println("ERRO em Application.class - DAD não pode ser null!");
+			return null;
+		}
+
+		return new Application().find().andWhere("dad", "=", dad).one();
 	}
 	
 	public int getExterno() {
