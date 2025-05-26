@@ -28,8 +28,7 @@ import jakarta.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.flywaydb.core.api.migration.BaseJavaMigration;
 import org.flywaydb.core.api.migration.Context;
 
@@ -49,14 +48,16 @@ import nosi.webapps.igrp.dao.RepTemplateSourceParam;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Iekiny Marcel
  * Jun 20, 2021
  */
 public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
-	
-	private static final Logger LOGGER = LogManager.getLogger(IgrpMigrationTemplate.class); 
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(IgrpMigrationTemplate.class);
 	
 	protected Application app; 
 	protected List<Action> actions = new ArrayList<>();

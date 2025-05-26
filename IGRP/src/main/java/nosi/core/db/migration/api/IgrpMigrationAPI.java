@@ -1,20 +1,20 @@
 package nosi.core.db.migration.api;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationInfo;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.flywaydb.core.api.output.MigrateResult;
 import org.flywaydb.core.internal.exception.FlywayMigrateException;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Iekiny Marcel
  * Jul 7, 2021
  */
 public class IgrpMigrationAPI {
-	
-	private static final Logger LOGGER = LogManager.getLogger(IgrpMigrationAPI.class);
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(IgrpMigrationAPI.class);
 	
 	private Flyway migrationEngine; 
 	
