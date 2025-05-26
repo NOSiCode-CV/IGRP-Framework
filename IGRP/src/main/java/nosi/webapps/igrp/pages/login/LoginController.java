@@ -5,8 +5,6 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 
 import nosi.core.webapp.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
@@ -15,6 +13,7 @@ import nosi.core.authentication.DBAuthenticationManager;
 import nosi.core.authentication.LdapAuthenticationManager;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
 import nosi.core.config.ConfigCommonMainConstants;
+import org.slf4j.LoggerFactory;
 
 /*----#end-code----*/
 
@@ -22,7 +21,7 @@ public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
 	public Response actionLogin() throws Exception {
 

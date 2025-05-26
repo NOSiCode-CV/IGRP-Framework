@@ -4,23 +4,15 @@ import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
-import java.util.Base64;
-
 import nosi.core.webapp.Core;//
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-
 import nosi.core.webapp.digicert.business.DigitalSignatureServices;
-import nosi.core.webapp.helpers.Route;
-import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.CertificatedSignatures;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import org.slf4j.LoggerFactory;
+import java.util.Base64;
 /*----#end-code----*/
 
 public class DigitalSignatureController extends Controller {
@@ -85,7 +77,6 @@ public class DigitalSignatureController extends Controller {
 	}
 
 	
-
-	private static final Logger log = LogManager.getLogger(DigitalSignatureController.class);
+private static final org.slf4j.Logger log = LoggerFactory.getLogger(DigitalSignatureController.class);
 	/*----#end-code----*/
 }

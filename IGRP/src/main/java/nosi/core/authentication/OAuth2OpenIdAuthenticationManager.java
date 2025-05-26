@@ -7,10 +7,10 @@ import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -25,8 +25,8 @@ public final class OAuth2OpenIdAuthenticationManager {
 	public static final String OAUTH2_OPENID_PAGE = "/app/webapps?r=igrp/Oauth2openidwso2/index&target=_blank&isPublic=1&lang=pt_PT";
 	public static final String CALLBACK_PATH = "/app/callback";
 	public static final String OAUTH2_OPENID_ERROR_PARAM_NAME = "oauth2_openid_error";
-	
-	private static final Logger LOGGER = LogManager.getLogger(OAuth2OpenIdAuthenticationManager.class);
+
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OAuth2OpenIdAuthenticationManager.class);
 	
 	private OAuth2OpenIdAuthenticationManager() {}
 
