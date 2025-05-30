@@ -110,7 +110,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-//TODO: header reload but chat not
+<!--//TODO: header reload but chat not-->
 
 		<div class="card IGRP-charts-{$library} IGRP-charts-component gen-container-item" item-name="{$graph-id}" chart-categories="{$categories}" chart-id="{$graph-id}" chart-type="{$vtype}" chart-desc-label="{$desc-label}" chart-datasets="{$labels}" chart-colors="{$colors}" chart-data="{$data}" chart-url="{$url}">
 			<xsl:if test="$datalabels = 'true'">

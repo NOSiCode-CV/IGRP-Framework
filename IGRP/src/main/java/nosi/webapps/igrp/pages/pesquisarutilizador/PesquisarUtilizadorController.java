@@ -123,7 +123,6 @@ public class PesquisarUtilizadorController extends Controller {
 		view.nominho.setLabel("Nome");		
 		
 		view.table_1.addData(lista);
-
 		view.btn_assiocar_etapa.setVisible(false);
 		/*----#end-code----*/
 		view.setModel(model);
@@ -360,28 +359,43 @@ public class PesquisarUtilizadorController extends Controller {
 		/* Start-Code-Block (eliminar)  *//* End-Code-Block  */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
+		this.addQueryString("p_aplicacao",model.getAplicacao());
+		this.addQueryString("target","_blank");
 		if (id != null) {
+			//Coloca inativo o perfil apagado
 			Profile p = new Profile().findOne(id);
-			this.addQueryString("p_aplicacao",model.getAplicacao());
-			//TODO: rever isto porque so apaga env quando nao ha + profiles...
-			Profile delEnv = new Profile().find()
-					.andWhere("type", "=", "ENV")
-					.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())
-					.andWhere("organization.id", "=", p.getOrganization().getId())
-					.andWhere("profileType.id", "=", p.getProfileType().getId())
-					.andWhere("user.id", "=", p.getUser().getId())
-					.one(); 								
-			if(delEnv!= null)
-				delEnv.delete();
 			p.setType("INATIVE_" + p.getType());
 			p = p.update();
+
 			if (!p.hasError()) {
+				//  Count if there is no more profiles for this user, to inativate the invite
+				final Long count = new Profile().find()
+						.andWhere("type", "=", "PROF")
+						.andWhere("organization.application.id", "=", p.getOrganization().getApplication().getId())
+						//.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())
+						.andWhere("user.id", "=", p.getUser().getId())
+						.getCount();
+				if(count ==0){
+					List<Profile> listDelEnv = new Profile().find()
+							.andWhere("type", "=", "ENV")
+							.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())
+							//.andWhere("organization.id", "=", p.getOrganization().getId())
+							//	.andWhere("profileType.id", "=", p.getProfileType().getId())
+							.andWhere("user.id", "=", p.getUser().getId())
+							.all();
+					if(listDelEnv!= null){
+						for (Profile delEnv: listDelEnv) {
+							delEnv.delete();
+						}
+
+					}
+				}
 				Core.setMessageSuccess();	
 				return this.redirect("igrp", "PesquisarUtilizador", "index", this.queryString());
 			}
 		}      
 		Core.setMessageError();     
-		return this.redirect("igrp", "PesquisarUtilizador", "index", this.queryString());
+		return this.forward("igrp", "PesquisarUtilizador", "index", this.queryString());
 		/*----#end-code----*/
 			
 	}

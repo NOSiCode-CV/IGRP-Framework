@@ -4875,19 +4875,19 @@ public final class Core {
 	}
 
 	public static boolean isHttpPost() {
-		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.POST.toString());
+		return Igrp.getInstance()!=null && Igrp.getInstance().getRequest() !=null && Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.POST.toString());
 	}
 
 	public static boolean isHttpGet() {
-		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.GET.toString());
+		return Igrp.getInstance()!=null && Igrp.getInstance().getRequest() !=null && Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.GET.toString());
 	}
 
 	public static boolean isHttpPut() {
-		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.PUT.toString());
+		return Igrp.getInstance()!=null && Igrp.getInstance().getRequest() !=null && Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.PUT.toString());
 	}
 
 	public static boolean isHttpDelete() {
-		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.DELETE.toString());
+		return Igrp.getInstance()!=null && Igrp.getInstance().getRequest() !=null && Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.DELETE.toString());
 	}
 
 	public static long calculateYears(String data) {

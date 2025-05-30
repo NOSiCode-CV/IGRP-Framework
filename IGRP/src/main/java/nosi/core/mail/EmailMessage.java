@@ -19,17 +19,18 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.util.ByteArrayDataSource;
 import nosi.core.config.ConfigCommonMainConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import nosi.core.config.ConfigApp;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Iekiny Marcel
  * Dec 12, 2017
  */
-public class EmailMessage { 
-	
-	private static final Logger LOG = LogManager.getLogger(EmailMessage.class); 
+public class EmailMessage {
+
+	private static final Logger LOG = LoggerFactory.getLogger(EmailMessage.class);
 	
 	public static final String EMAIL_REGEXP = "[a-zA-Z0-9!#$%&\\'*+\\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
 

@@ -75,7 +75,7 @@ public class AuthenticationFilter implements Filter {
 						return;
 					}
 					//TODO: db login is not going to the previous route if the session expires
-					//ApplicationManager.rememberRoute(httpServletRequest);
+					ApplicationManager.rememberRoute(httpServletRequest);
 
 					httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE + "&dad=" + request.getParameter("dad")).forward(httpServletRequest, httpServletResponse);
 				}

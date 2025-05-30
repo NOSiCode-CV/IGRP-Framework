@@ -20,8 +20,6 @@
 		<property name="hibernate.hikari.maximumPoolSize">50</property>
 		<property name="hibernate.hikari.maxLifetime">0</property>
 		<property name="hibernate.hikari.leakDetectionThreshold">0</property>
-		<property name="hibernate.cache.use_second_level_cache">false</property>
-		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 		
 		<!-- IGRP Core -->
 		<mapping class="nosi.webapps.igrp.dao.Domain" />

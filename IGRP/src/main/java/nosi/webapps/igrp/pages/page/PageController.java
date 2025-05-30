@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
-import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Controller;//
-
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -20,9 +18,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.Tuple;
-
+import nosi.core.webapp.ApplicationManager;
 import nosi.webapps.igrp.dao.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
@@ -48,12 +48,12 @@ import nosi.webapps.igrp.pages.dominio.DomainHeper;
 		
 public class PageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
+		var model = new Page();
 		model.load();
 		model.setHelp("igrp","Dominio","index");
 		model.setNovo_modulo("igrp","Page","index");
 		model.setEditar_modulo("igrp","Dominio","index");
-		PageView view = new PageView();
+		var view = new PageView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
@@ -126,7 +126,7 @@ public class PageController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
+		var model = new Page();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -327,7 +327,7 @@ public class PageController extends Controller {
 	}
 	
 	public Response actionEliminar_pagina() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
+		var model = new Page();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -819,22 +819,63 @@ public class PageController extends Controller {
 		return "";
 	}
 
+	// Thread-safe cache that persists until server restart
+	private static final ConcurrentHashMap<String, FileCacheEntry> CACHE = new ConcurrentHashMap<>();
+
+	private static class FileCacheEntry {
+		final boolean exists;
+		final String content;
+
+		FileCacheEntry(boolean exists, String content) {
+			this.exists = exists;
+			this.content = content;
+		}
+	}
+
 	public Response actionFileExists() {
 		final String fileName = Core.getParam("uri").replace("\\", File.separator);
-		final String version=Core.getParam("version","2.3");
-		final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
-				+ "IGRP"+version+ File.separator + "core" + File.separator + "formgen" + File.separator + "types"
-				+ File.separator;
-		final boolean fileExists = FileHelper.fileExists(basePath + fileName);
+		final String fullPath = buildFullPath(fileName);
 
-		final Properties p = new Properties();
-		p.put("status", fileExists);
-		p.put("content", fileExists ? FileHelper.readFile(basePath, fileName) : "");
+		// Atomic "get or compute" operation
+		FileCacheEntry entry = CACHE.computeIfAbsent(fullPath, this::loadFile);
+
+		return buildResponse(entry, fileName);
+	}
+	final String version=Core.getParam("version","2.3");
+	final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
+			+ "IGRP"+version+ File.separator + "core" + File.separator + "formgen" + File.separator + "types"
+			+ File.separator;
+
+	private String buildFullPath(String fileName) {
+		return StringUtils.removeEnd(basePath, File.separator) +
+				File.separator +
+				StringUtils.removeStart(fileName, File.separator);
+	}
+
+	private FileCacheEntry loadFile(String fullPath) {
+		boolean exists = FileHelper.fileExists(fullPath);
+		String content = exists ? FileHelper.readFile(
+				StringUtils.removeEnd(basePath, File.separator),
+				StringUtils.removeStart(fullPath.substring(basePath.length()), File.separator)
+		) : "";
+		return new FileCacheEntry(exists, content);
+	}
+
+	private Response buildResponse(FileCacheEntry entry, String fileName) {
+		Properties p = new Properties();
+		p.put("status", entry.exists);
+		p.put("content", entry.exists ? entry.content : "");
 		p.put("filename", fileName);
 
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(p));
 	}
+
+	// Only needed if you must manually clear cache during server lifecycle
+	public static void clearCache() {
+		CACHE.clear();
+	}
+
 
 	public Response actionGenerateLink() throws IllegalArgumentException {
 

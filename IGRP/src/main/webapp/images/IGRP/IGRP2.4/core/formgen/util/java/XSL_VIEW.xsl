@@ -254,24 +254,27 @@
 	-->
  	<xsl:template name="add-to-page">
  		<xsl:call-template name="add-button-to-container"></xsl:call-template>
- 		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
- 		
+ 		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' ]">
+ 		<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
 				<xsl:with-param name="type_content"><xsl:value-of select="@xml-type" /></xsl:with-param>
 				<xsl:with-param name="type"><xsl:value-of select="'add-to-page'" /></xsl:with-param>
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>				
 			</xsl:call-template>
+		</xsl:if>
  		</xsl:for-each>
  		<xsl:for-each select="//content/*[@type='toolsbar' or @type='verticalmenu']"> 	
- 			<xsl:if test="local-name() != 'tools-bar' and local-name() != 'verticalmenu'  and (generate-id() = generate-id(key('unique_instance', local-name())[1]))">
+ 			<xsl:if test="local-name() != 'tools-bar' and local-name() != 'verticalmenu' ">
+ 			<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
 			 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 	 			<xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@xml-type" /></xsl:with-param>
 					<xsl:with-param name="type"><xsl:value-of select="'add-to-page'" /></xsl:with-param>
 					<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>				
 				</xsl:call-template>
-			</xsl:if>	
+			</xsl:if>
+			</xsl:if>
  		</xsl:for-each>
  	</xsl:template>
 
@@ -324,10 +327,9 @@
  		<xsl:call-template name="gen-field-view">
 			<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
 		</xsl:call-template>
-		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
-		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
-		 	
-		 	
+		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' ]">
+			<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
+			<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 		 	<xsl:choose>			
 			  <xsl:when test="@type='circlestatbox' or @type='smallbox' or @type='statbox'
 			   or @type='quickbuttonbox' or @type='infopanel'  or @type='timeline' or @type='treemenu'
@@ -349,7 +351,7 @@
 			  </xsl:otherwise>			  
 			</xsl:choose>	
 			  
-			
+			</xsl:if>
  		</xsl:for-each>
  		
  		<xsl:call-template name="gen-toolsbar">
@@ -366,7 +368,8 @@
  	<xsl:template name="instance-components-view">
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="$newline"/>		
-		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
+		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' ]">
+			<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>			
 			<xsl:choose>			
 			  <xsl:when test="@type='circlestatbox' or @type='smallbox' 
@@ -390,7 +393,8 @@
 			  </xsl:otherwise>			  
 			 </xsl:choose>			
 			
-			<xsl:value-of select="$newline"/>		
+			<xsl:value-of select="$newline"/>
+			</xsl:if>
  		</xsl:for-each>
 
 		<xsl:call-template name="gen-field-view">
@@ -420,7 +424,8 @@
 	 -->
 	
 	<xsl:template name="config-chart">
-		<xsl:for-each select="//content/*[@type='chart' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
+		<xsl:for-each select="//content/*[@type='chart']">
+		<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 		 	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
@@ -447,6 +452,7 @@
 			</xsl:for-each>	
 			<xsl:value-of select="';'"/>	
 			<xsl:value-of select="$newline"/>
+			</xsl:if>
  		</xsl:for-each>
 	</xsl:template>
 	<!-- 

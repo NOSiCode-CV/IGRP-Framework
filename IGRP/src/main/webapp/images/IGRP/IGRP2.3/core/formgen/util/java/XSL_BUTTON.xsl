@@ -122,7 +122,8 @@
 		<xsl:param name="type_"/>	 	
 		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0)">
           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type = 'verticalmenu']">
-          	<xsl:if test="(generate-id() = generate-id(key('unique_instance', local-name())[1]))">
+
+			  <xsl:if test="not(preceding::*[local-name() = local-name(current())])">
 		         <xsl:variable name="className">
 			 		<xsl:call-template name="typeClass">
 			 			<xsl:with-param name="type">                
@@ -174,7 +175,8 @@
 				<xsl:value-of select="$newline"/>
 			</xsl:if>
            </xsl:for-each>
-           <xsl:for-each select="/rows/content/*[@type = 'form' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]/tools-bar"><!-- add button on form -->           		
+           <xsl:for-each select="/rows/content/*[@type = 'form']/tools-bar"><!-- add button on form -->
+			   <xsl:if test="not(preceding::*[local-name() = local-name(current())])">
            		<xsl:variable name="form_">
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>	
@@ -192,6 +194,7 @@
 						<xsl:value-of select="$newline"/>
 					</xsl:if>
 				</xsl:for-each>
+			   </xsl:if>
            </xsl:for-each>
            <xsl:for-each select="/rows/content/*[@type = 'table']/*"><!-- add button on table --> 
 			 	<xsl:variable name="form_">
@@ -215,15 +218,25 @@
         
         <!-- import class based in button select action -->
         <xsl:template name="gen-import-class">
-        	<xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]/item">
-       			<xsl:variable name="app_">
-       				<xsl:call-template name="lowerCase"><xsl:with-param name="text"><xsl:value-of select="./app"/> </xsl:with-param> </xsl:call-template>
-       			</xsl:variable>
-       			<xsl:variable name="page_">
-       				<xsl:call-template name="lowerCase"><xsl:with-param name="text"><xsl:value-of select="./page"/> </xsl:with-param> </xsl:call-template>
-       			</xsl:variable>
-       			<xsl:value-of select="concat($base_import,$app_,'.',$page_,'.',./page,';')"></xsl:value-of>
-				<xsl:value-of select="$newline"/>
+        	<xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">
+				<xsl:if test="not(preceding::*[local-name() = local-name(current())])">
+					<xsl:variable name="app_">
+						<xsl:call-template name="lowerCase">
+							<xsl:with-param name="text">
+								<xsl:value-of select="./app"/>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:variable>
+					<xsl:variable name="page_">
+						<xsl:call-template name="lowerCase">
+							<xsl:with-param name="text">
+								<xsl:value-of select="./page"/>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:variable>
+					<xsl:value-of select="concat($base_import,$app_,'.',$page_,'.',./page,';')"></xsl:value-of>
+					<xsl:value-of select="$newline"/>
+				</xsl:if>
         	</xsl:for-each>
         </xsl:template>
 </xsl:stylesheet>
