@@ -133,28 +133,41 @@ public class EmailMessage {
 	
 	private void checkNSetupCredencials() {
 		if(authUsername == null || authUsername.isEmpty() || authPassword == null || authPassword.isEmpty()) {
-			authUsername = settings.getProperty("mail.user"); 
-			authPassword = settings.getProperty("mail.password"); 
+			authUsername = settings.getProperty("mail.user");
+			authPassword = settings.getProperty("mail.password");
 		}
 	}
 
 	private boolean load() {
-		if (ConfigCommonMainConstants.isEnvironmentVariableScanActive()) {
-			final var properties = new Properties();
-			for (var v : ConfigCommonMainConstants.values()) {
-				properties.put(v.value(), v.environmentValue());
+		try {
+			if (ConfigCommonMainConstants.isEnvironmentVariableScanActive()) {
+				final var properties = new Properties();
+				ConfigCommonMainConstants[] constants = ConfigCommonMainConstants.values();
+                for (ConfigCommonMainConstants v : constants) {
+                    if (v != null) {
+                        String value = v.value();
+                        String envValue = v.environmentValue();
+                        if (value != null && envValue != null) {
+                            properties.put(value, envValue);
+                        }
+                    }
+                }
+                settings = properties;
+			} else {
+				settings = ConfigApp.getInstance().getMainSettings();
 			}
-			settings = properties;
-        } else {
-			settings = ConfigApp.getInstance().getMainSettings();
-        }
-        return !settings.isEmpty();
+			return !settings.isEmpty();
+		} catch (Exception e) {
+			LOG.error("Error loading settings", e);
+			settings = new Properties(); // Fallback
+			return false;
+		}
     }
 	
 	public boolean send() throws IOException { 
 		try{
 
-			if(!validateEmail(this.from)) {
+			if(isNotValidEmail(this.from)) {
 				LOG.error("Email not sent ... Invalid email (from): <{}> ",this.from);
 				return false;
 			}
@@ -242,14 +255,14 @@ public class EmailMessage {
 		return false;
 	}
 	
-	public static boolean validateEmail(String email) {
-		return email != null && !email.isEmpty() && email.matches(EMAIL_REGEXP);
+	public static boolean isNotValidEmail(String email) {
+		return email == null || email.isEmpty() || !email.matches(EMAIL_REGEXP);
 	}
 	
 	public static boolean validateEmails(String emails) {
 		String[] aux = emails.split(",");
 		for(String email : aux)
-			if(!validateEmail(email))
+			if(isNotValidEmail(email))
 				return false;
 		return true;
 	}
@@ -353,11 +366,11 @@ public class EmailMessage {
 		
 		
 		public static String getCorpoFormatado(String boxTitle, String msgBoasVindas, String[] paragrafos, String []textoBtnAcao, String []hrefBtnAcao, String helpLink) {
-			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) 
+			if(paragrafos.length == 0 || msgBoasVindas.isEmpty())
 				return "";
-				 
+
 			String body = "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
-		                + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"	        		
+		                + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"
 		                + "<div style=\" margin: 10px auto; width: 600px;\">"
 		                + "<table align=\"center\" role=\"presentation\" style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
 		                + "        <tbody>"
