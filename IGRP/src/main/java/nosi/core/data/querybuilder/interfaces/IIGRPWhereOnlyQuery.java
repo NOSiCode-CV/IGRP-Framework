@@ -174,6 +174,8 @@ public interface IIGRPWhereOnlyQuery<E> extends IIGRPQuery<E> {
 
 	IIGRPWhereOnlyQuery<E> greaterThan(String column, Date value);
 
+	IIGRPWhereOnlyQuery<E> greaterThan(String column, LocalDate value);
+
 	IIGRPWhereOnlyQuery<E> greaterThan(String column, Double value);
 
 	IIGRPWhereOnlyQuery<E> greaterThan(String column, Float value);
@@ -203,6 +205,8 @@ public interface IIGRPWhereOnlyQuery<E> extends IIGRPQuery<E> {
 			SingularAttribute<E, V> attribute, V value);
 
 	IIGRPWhereOnlyQuery<E> greaterThanOrEqualTo(String column, Date value);
+
+	IIGRPWhereOnlyQuery<E> greaterThanOrEqualTo(String column, LocalDate value);
 
 	IIGRPWhereOnlyQuery<E> greaterThanOrEqualTo(String column, Double value);
 
@@ -279,6 +283,8 @@ public interface IIGRPWhereOnlyQuery<E> extends IIGRPQuery<E> {
 
 	IIGRPWhereOnlyQuery<E> lessThan(String column, Date value);
 
+	IIGRPWhereOnlyQuery<E> lessThan(String column, LocalDate value);
+
 	IIGRPWhereOnlyQuery<E> lessThan(String column, Double value);
 
 	IIGRPWhereOnlyQuery<E> lessThan(String column, Float value);
@@ -308,6 +314,8 @@ public interface IIGRPWhereOnlyQuery<E> extends IIGRPQuery<E> {
 																					  V value);
 
 	IIGRPWhereOnlyQuery<E> lessThanOrEqualTo(String column, Date value);
+
+	IIGRPWhereOnlyQuery<E> lessThanOrEqualTo(String column, LocalDate value);
 
 	IIGRPWhereOnlyQuery<E> lessThanOrEqualTo(String column, Double value);
 

@@ -765,6 +765,12 @@ public class IGRPUpdateWhereQuery<E> extends IGRPUpdateExecutionQuery<E> impleme
    }
 
    @Override
+   public IGRPUpdateWhereQuery<E> lessThan(String column, LocalDate value) {
+      this.addPredicate(this.getCriteriaBuilder().lessThan(this.getRoot().get(column), value));
+      return this;
+   }
+
+   @Override
    public IGRPUpdateWhereQuery<E> lessThan(String column, Double value) {
       this.addPredicate(this.getCriteriaBuilder().lessThan(this.getRoot().get(column), value));
       return this;
@@ -804,7 +810,7 @@ public class IGRPUpdateWhereQuery<E> extends IGRPUpdateExecutionQuery<E> impleme
    public <V extends Comparable<? super V>> IGRPUpdateWhereQuery<E> lessThanIf(SingularAttribute<E, V> attribute, V value,
                                                                                Predicate<V> validateExpression) {
       if (validateExpression.test(value))
-         this.greaterThan(attribute, value);
+         this.lessThan(attribute, value);
       return this;
    }
 
@@ -826,6 +832,12 @@ public class IGRPUpdateWhereQuery<E> extends IGRPUpdateExecutionQuery<E> impleme
 
    @Override
    public IGRPUpdateWhereQuery<E> lessThanOrEqualTo(String column, Date value) {
+      this.addPredicate(this.getCriteriaBuilder().lessThanOrEqualTo(this.getRoot().get(column), value));
+      return this;
+   }
+
+   @Override
+   public IGRPUpdateWhereQuery<E> lessThanOrEqualTo(String column, LocalDate value) {
       this.addPredicate(this.getCriteriaBuilder().lessThanOrEqualTo(this.getRoot().get(column), value));
       return this;
    }
@@ -862,6 +874,12 @@ public class IGRPUpdateWhereQuery<E> extends IGRPUpdateExecutionQuery<E> impleme
 
    @Override
    public IGRPUpdateWhereQuery<E> greaterThan(String column, Date value) {
+      this.addPredicate(this.getCriteriaBuilder().greaterThan(this.getRoot().get(column), value));
+      return this;
+   }
+
+   @Override
+   public IGRPUpdateWhereQuery<E> greaterThan(String column, LocalDate value) {
       this.addPredicate(this.getCriteriaBuilder().greaterThan(this.getRoot().get(column), value));
       return this;
    }
@@ -912,6 +930,11 @@ public class IGRPUpdateWhereQuery<E> extends IGRPUpdateExecutionQuery<E> impleme
       return this;
    }
 
+   @Override
+   public IGRPUpdateWhereQuery<E> greaterThanOrEqualTo(String column, LocalDate value) {
+      this.addPredicate(this.getCriteriaBuilder().greaterThanOrEqualTo(this.getRoot().get(column), value));
+      return this;
+   }
 
    @Override
    public IGRPUpdateWhereQuery<E> greaterThanOrEqualTo(String column, Double value) {

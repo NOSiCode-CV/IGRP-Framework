@@ -838,6 +838,12 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
     }
 
     @Override
+    public IGRPWhereQuery<E> lessThan(String column, LocalDate value) {
+        this.addPredicate(this.getCriteriaBuilder().lessThan(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
     public IGRPWhereQuery<E> lessThan(String column, Double value) {
         this.addPredicate(this.getCriteriaBuilder().lessThan(this.getRoot().get(column), value));
         return this;
@@ -904,6 +910,12 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
     }
 
     @Override
+    public IGRPWhereQuery<E> lessThanOrEqualTo(String column, LocalDate value) {
+        this.addPredicate(this.getCriteriaBuilder().lessThanOrEqualTo(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
     public IGRPWhereQuery<E> lessThanOrEqualTo(String column, Double value) {
         this.addPredicate(this.getCriteriaBuilder().lessThanOrEqualTo(this.getRoot().get(column), value));
         return this;
@@ -935,6 +947,12 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
 
     @Override
     public IGRPWhereQuery<E> greaterThan(String column, Date value) {
+        this.addPredicate(this.getCriteriaBuilder().greaterThan(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
+    public IGRPWhereQuery<E> greaterThan(String column, LocalDate value) {
         this.addPredicate(this.getCriteriaBuilder().greaterThan(this.getRoot().get(column), value));
         return this;
     }
@@ -981,6 +999,12 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
 
     @Override
     public IGRPWhereQuery<E> greaterThanOrEqualTo(String column, Date value) {
+        this.addPredicate(this.getCriteriaBuilder().greaterThanOrEqualTo(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
+    public IGRPWhereQuery<E> greaterThanOrEqualTo(String column, LocalDate value) {
         this.addPredicate(this.getCriteriaBuilder().greaterThanOrEqualTo(this.getRoot().get(column), value));
         return this;
     }
