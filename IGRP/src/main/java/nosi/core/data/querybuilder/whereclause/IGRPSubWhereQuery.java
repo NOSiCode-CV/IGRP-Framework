@@ -769,6 +769,12 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
     }
 
     @Override
+    public IGRPSubWhereQuery<E> lessThan(String column, LocalDate value) {
+        this.addPredicate(this.getCriteriaBuilder().lessThan(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
     public IGRPSubWhereQuery<E> lessThan(String column, Double value) {
         this.addPredicate(this.getCriteriaBuilder().lessThan(this.getRoot().get(column), value));
         return this;
@@ -805,6 +811,12 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
     }
 
     @Override
+    public IGRPSubWhereQuery<E> lessThanOrEqualTo(String column, LocalDate value) {
+        this.addPredicate(this.getCriteriaBuilder().lessThanOrEqualTo(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
     public IGRPSubWhereQuery<E> lessThanOrEqualTo(String column, Double value) {
         this.addPredicate(this.getCriteriaBuilder().lessThanOrEqualTo(this.getRoot().get(column), value));
         return this;
@@ -836,6 +848,12 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
 
     @Override
     public IGRPSubWhereQuery<E> greaterThan(String column, Date value) {
+        this.addPredicate(this.getCriteriaBuilder().greaterThan(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
+    public IGRPSubWhereQuery<E> greaterThan(String column, LocalDate value) {
         this.addPredicate(this.getCriteriaBuilder().greaterThan(this.getRoot().get(column), value));
         return this;
     }
@@ -890,6 +908,12 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
 
     @Override
     public IGRPSubWhereQuery<E> greaterThanOrEqualTo(String column, Date value) {
+        this.addPredicate(this.getCriteriaBuilder().greaterThanOrEqualTo(this.getRoot().get(column), value));
+        return this;
+    }
+
+    @Override
+    public IGRPSubWhereQuery<E> greaterThanOrEqualTo(String column, LocalDate value) {
         this.addPredicate(this.getCriteriaBuilder().greaterThanOrEqualTo(this.getRoot().get(column), value));
         return this;
     }
