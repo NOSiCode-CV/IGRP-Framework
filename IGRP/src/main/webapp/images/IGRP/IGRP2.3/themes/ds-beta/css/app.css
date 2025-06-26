@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('./default.custom.css');
+@import url('./globals.css');
+@import url('./loading.css');
+@import url('./header.css');
+@import url('./sidebar.css');
+@import url('./home.css');
+@import url('../css/colors/colors.css');
+
+
+body {    
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom:60px;
+    background:#F8F9FA;
+    color:var(--neutral-800)
+}
+
+
+body::before{
+    content: "";
+    background-image: url(../media/arco.svg);
+    position: fixed;
+    top: 10%;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .2;
+}
+
+.bootstrap-iso .open>.dropdown-menu {
+    display: block;
+}
+
+a, .bootstrap-iso a {
+    color: #086ca2;
+}
+
+.bootstrap-iso .open:not(.show)>.dropdown-menu{
+    display: none!important;
+}
+.igrp-bg-gradient {
+    background: linear-gradient(-45deg, #043AFF, #4C65E4, #7C87F8, #03FFE0);
+    /*background: linear-gradient(0deg, #086CA2, #086CA2), linear-gradient(79.23deg, #086CA2 4.75%, #B7EAFF 90.28%);*/
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    position: relative;
+}
+
+.igrp-bg-gradient::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 50%;
+    top: 0;
+    bottom: 25%;
+    background: #03FFE0;
+    opacity: 0.5;
+    filter: blur(160.333px);
+}
+
+
+.bootstrap-iso .input-group-text{
+    border: 0 !important;   
+    box-shadow: 0px 0px 0px 0.5px #DCDCE4;
+}
+
+.bootstrap-iso .input-group .input-group-prepend input.form-control{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+@-webkit-keyframes gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-o-keyframes gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}

@@ -3,6 +3,7 @@ package nosi.core.webapp.helpers;
 import nosi.core.webapp.Core;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
 import jakarta.servlet.http.Part;
@@ -215,10 +216,10 @@ public class FileHelper {
 
     public static boolean fileExists(String fileName) {
 
-        if (Core.isNull(fileName))
+        if (Core.isNull(fileName.trim()))
             return false;
 
-        return Files.exists(Paths.get(fileName));
+        return Files.exists(Paths.get(fileName.trim()));
     }
 
     public static boolean dirExists(String dirName) {
@@ -230,13 +231,14 @@ public class FileHelper {
         String code = "";
         String file = fileName;
         if (Core.isNotNull(file))
-            file = basePath + File.separator + fileName;
+            file = StringUtils.removeEnd(basePath,File.separator) + File.separator + StringUtils.removeStart(fileName,File.separator);
         else
             file = basePath;
-        if (fileExists(file)) {
+        if (fileExists(file) && file.trim().contains(".") && !file.trim().endsWith(File.separator)) {
             try {
                 code = FileUtils.readFileToString(new File(file), StandardCharsets.UTF_8);
             } catch (IOException e) {
+                System.out.println("ERROR PageContoller.actionFileExists FileHelper.readFile: basePath: "+basePath+" fileName: "+fileName);
                 e.printStackTrace();
             }
         }

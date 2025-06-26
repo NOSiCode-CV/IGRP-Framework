@@ -923,7 +923,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 							
 								$.each($('option', wrapper), function(z, o) {
 
-									const selected = !!$(o).selected;
+									const selected = $(o).attr('selected') === 'selected';
 									
 									options.push({
 										text: $('text', o).text(),

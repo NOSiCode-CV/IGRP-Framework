@@ -210,7 +210,8 @@
 				</xsl:when>			
 			</xsl:choose>			
 		</xsl:for-each>		
-		<!-- <xsl:for-each select="$all-blocks[generate-id() = generate-id( key('index1', @type )[1] )]">			
+		<!-- <xsl:for-each select="$all-blocks[generate-id() = generate-id( key('index1', @type )[1] )]">
+		<xsl:if test="not(preceding::*[local-name() = local-name(current())])"> generate-id foi deprecated
 			<xsl:choose>			
 				<xsl:when test="contains(@type,'et-dao-')">					
 					<xsl:variable name="className" select="substring-after(@type, 'et-dao-')"></xsl:variable>					

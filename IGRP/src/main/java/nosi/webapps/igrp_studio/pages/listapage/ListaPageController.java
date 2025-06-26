@@ -183,11 +183,14 @@ public class ListaPageController extends Controller {
 					.toList();
 			for (Profile p : myApp) {
 				ListaPage.Table_2 myapps = new ListaPage.Table_2();
+				// this is the default App/Page
 				String page = "tutorial/DefaultPage";
 				if (p.getOrganization().getApplication().getAction() != null) {
 					Action ac = p.getOrganization().getApplication().getAction();
-					page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
-					page = ac.getApplication().getDad().toLowerCase() + "/" + page;
+					if(ac!=null && ac.getPage() != null){
+						page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage();
+					}
+
 				}
 				myapps.setMy_app_img(this.getConfig().getLinkImg(Config.DEFAULT_V_PAGE) + "/assets/img/iconApp/"
 						+ (Core.isNotNull(p.getOrganization().getApplication().getImg_src())
@@ -272,7 +275,8 @@ public class ListaPageController extends Controller {
 		/*----#start-code(editar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.forward("igrp", "Page", "index&p_id=" + p_id_page);
+			this.addQueryString("p_id_page",p_id_page);
+			return this.redirect("igrp", "Page", "index", this.queryString());
 		}
 
 		
@@ -295,7 +299,8 @@ public class ListaPageController extends Controller {
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.redirect("igrp", "Page", "visualizar&p_id=" + p_id_page);
+			this.addQueryString("p_id",p_id_page);
+			return this.redirect("igrp", "Page", "visualizar", this.queryString());
 		}
 
 		/*----#end-code----*/
@@ -317,7 +322,11 @@ public class ListaPageController extends Controller {
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.forward("igrp", "generator", "index&target=_blank&id=" + p_id_page+"&dad="+Core.getParam("dad"));
+			this.addQueryString("p_id_page",p_id_page);
+			this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+			this.addQueryString("dad",Core.getParam("dad"));
+			this.addQueryString("target","_blank");
+			return this.redirect("igrp", "generator", "index", this.queryString());
 		}
 
 		/*----#end-code----*/
@@ -403,8 +412,8 @@ public class ListaPageController extends Controller {
 
 		JSONObject json = new JSONObject();
 		json.put("status", response);
-		Gson res = new Gson();
-		res.toJson(json);
+//		Gson res = new Gson();
+//		res.toJson(json);
 		return this.renderView(json.toString());
 	}
 

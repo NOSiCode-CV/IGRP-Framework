@@ -415,7 +415,7 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) {
-			//TODO: deve ver se a apliccacoa da pagina é nao tutorial e ver o que acontece se for diferentes...
+			//TODO: deve ver se a aplicacao da pagina é nao tutorial e ver o que acontece se for diferentes...
 			Application env = Core.findApplicationByDad(p[0]);
 			if(env.getExternal()==0)
 				 env = Core.findApplicationByDad(app);

@@ -15,8 +15,7 @@ import java.util.regex.Pattern;
 
 import nosi.core.authentication.AuthenticationManager;
 import nosi.core.config.ConfigCommonMainConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,13 +27,15 @@ import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ApplicationManager {
 
 	public static final String LOGIN_PAGE = "/app/webapps?r=igrp/login/login";
 	public static final String RETURN_ROUTE_ATTRIBUTE_NAME = "returnRoute";
 	
-	private static final Logger LOGGER = LogManager.getLogger(ApplicationManager.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationManager.class);
 
 	private ApplicationManager() {}
 	
@@ -301,7 +302,7 @@ public final class ApplicationManager {
 		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParamsQueryString));
 	}
 	
-	private static void rememberRoute(HttpServletRequest request) {
+	public static void rememberRoute(HttpServletRequest request) {
 		String r = request.getParameter("r");
 		String dad = request.getParameter("dad");
 		if (r != null && !r.contains("igrp/login/")) {

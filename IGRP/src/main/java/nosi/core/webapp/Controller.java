@@ -28,8 +28,8 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -53,7 +53,7 @@ import java.util.stream.Collectors;
 
 public class Controller {
 
-    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
+   private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
     protected ConfigApp configApp = ConfigApp.getInstance();
     protected String format = Response.FORMAT_XML;
@@ -749,7 +749,7 @@ public class Controller {
             return action.invoke(controller, formalParameters(action, igrpApp).toArray());
         } catch (Exception e) {
             addParametersToErrorPage(igrpApp);
-            LOGGER.fatal(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             throw new RuntimeException(e.getMessage(), e);
         }
     }

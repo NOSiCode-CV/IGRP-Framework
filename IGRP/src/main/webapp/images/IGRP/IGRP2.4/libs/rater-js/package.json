@@ -31,14 +31,14 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.5.0",
-    "@babel/preset-env": "^7.5.2",
+    "@babel/core": "^7.27.7",
+    "@babel/preset-env": "^7.27.2",
     "babelify": "^10.0.0",
-    "browserify": "^16.3.0",
+    "browserify": "^17.0.1",
     "browserify-css": "^0.15.0",
     "ignore-styles": "^5.0.1",
-    "jsdom": "^22.1.0",
-    "mocha": "^10.2.0",
-    "sinon": "^7.3.2"
+    "jsdom": "^26.1.0",
+    "mocha": "^11.7.1",
+    "sinon": "^21.0.0"
   }
 }

@@ -157,9 +157,13 @@ public class NovoUtilizadorController extends Controller {
              final Organization org = Core.findOrganizationById(model.getOrganica());
              final ProfileType prof = Core.findProfileById(model.getPerfil());
 //			List of INACTIVE profiles
-             final List<Profile> result = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
-                     .andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-                     .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
+             final List<Profile> result = new Profile().find()
+					 .andWhere("type", "=", "INATIVE_PROF")
+                     .andWhere("type_fk", "=", model.getPerfil())
+					 .andWhere("organization.id", "=", org.getId())
+                     .andWhere("profileType.id", "=", prof.getId())
+					 .andWhere("user.id", "=", u.getId())
+					 .all();
              for (Profile profile : result) {
                 //				The profile was deleted before
                 profile.setType("PROF");
@@ -170,8 +174,9 @@ public class NovoUtilizadorController extends Controller {
 //					List of invites to the app with this profile associated
                    final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
                            .andWhere("type_fk", "=", model.getAplicacao())
-                           .andWhere("organization.id", "=", org.getId())
-                           .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                           //.andWhere("organization.id", "=", org.getId())
+                           //.andWhere("profileType.id", "=", prof.getId())
+						   .andWhere("user.id", "=", u.getId())
                            .one();
 
                    if (Core.isNull(result2)) {
@@ -190,8 +195,9 @@ public class NovoUtilizadorController extends Controller {
              if (insert) {
                 if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
                         .andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-                        .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
-//					 Already invited
+                        .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one()))
+				{
+//					Is Already invited
                    Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
                    ok = false;
                 } else {
@@ -201,8 +207,9 @@ public class NovoUtilizadorController extends Controller {
 //						Check if exists already a ENV						
                       if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
                               .andWhere("type_fk", "=", model.getAplicacao())
-                              .andWhere("organization.id", "=", org.getId())
-                              .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                             // .andWhere("organization.id", "=", org.getId())
+                             // .andWhere("profileType.id", "=", prof.getId())
+							  .andWhere("user.id", "=", u.getId())
                               .one())) {
 //							ENV not added, so must be inserted the application
                          p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
@@ -305,7 +312,7 @@ public class NovoUtilizadorController extends Controller {
               userLdap.setActivation_key(nosi.core.webapp.User.generateActivationKey());
            }
 		} else
-			Core.setMessageError("Este utilizador não existe.");
+			Core.setMessageError("Este utilizador não existe com este e-mail: "+email);
 
 		return userLdap;
 	}
@@ -501,7 +508,7 @@ public class NovoUtilizadorController extends Controller {
                 }
 
              } else {
-                Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
+                Core.setMessageError("Este utilizador não existe no LDAP para convidar com e-mail: "+email);
 
              }
           } else

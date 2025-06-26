@@ -3,22 +3,21 @@ package nosi.core.webapp.digicert.business;
 import java.util.UUID;
 
 import jakarta.servlet.http.Part;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.digicert.Validation;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.DomXML;
 import nosi.webapps.igrp.dao.CertificatedSignatures;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * frant 03/11/2022
  */
 public class DigitalSignatureServices {
 
-	private static final Logger log = LogManager.getLogger(DigitalSignatureServices.class);
+	private static final Logger log = LoggerFactory.getLogger(DigitalSignatureServices.class);
 
 	public DigitalSignatureServices() {
 	}

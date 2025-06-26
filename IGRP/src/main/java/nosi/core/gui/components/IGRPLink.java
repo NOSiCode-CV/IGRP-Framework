@@ -11,6 +11,7 @@ import nosi.core.webapp.helpers.Route;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Predicate;
 
 public class IGRPLink {
 
@@ -63,6 +64,10 @@ public class IGRPLink {
 	public IGRPLink addParam(String name,Object value) {
 		this.queryString.addQueryString(name, value);
 		return this;
+	}
+
+	public IGRPLink addParam(String name,Object value, Predicate<Object> predicate) {
+		return predicate.test(value) ? addParam(name, value) : this;
 	}
 
 	public Report getReport() {

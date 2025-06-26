@@ -175,7 +175,7 @@ public class GerarClasse {
 
 			variables.append(TAB).append("@SequenceGenerator(name = \"").append(sequence)
 					.append("Gen\", sequenceName = \"").append(sequence)
-					.append("\", allocationSize = 1, schema = \"").append(this.daoDto.getSchema())
+					.append("\", allocationSize = 1").append(Core.isNotNull(this.daoDto.getSchema()) ? ", schema = \"" + this.daoDto.getSchema() + "\"" : "")
 					.append("\")").append(NEW_LINE).append(TAB)
 					.append("@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = \"").append(sequence)
 					.append("Gen\")").append(NEW_LINE);

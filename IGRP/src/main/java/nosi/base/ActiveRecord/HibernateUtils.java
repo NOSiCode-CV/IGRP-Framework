@@ -5,14 +5,14 @@ import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class HibernateUtils {
 
-   private static final Logger LOG = LogManager.getLogger(HibernateUtils.class);
+   private static final Logger LOG = LoggerFactory.getLogger(HibernateUtils.class);
 
    private static final Map<String, SessionFactory> SESSION_FACTORY = new ConcurrentHashMap<>();
    private static final SessionFactory SESSION_FACTORY_IGRP;
