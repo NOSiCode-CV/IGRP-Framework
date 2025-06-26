@@ -52,7 +52,7 @@
         "grunt-env": "latest",
         "grunt-exec": "latest",
         "grunt-jscs": "^3.0.1",
-        "grunt-karma": "latest",
+        "grunt-karma": "^4.0.1",
         "grunt-nuget": "latest",
         "grunt-string-replace": "latest",
         "karma": "latest",
@@ -67,7 +67,7 @@
         "rollup": "^4.44.1",
         "spacejam": "^1.6.1",
         "typescript": "^5.8.3",
-        "uglify-js": "latest"
+        "uglify-js": "^2.4.24"
     },
     "ender": "./ender.js",
     "dojoBuild": "package.js",
