@@ -61,7 +61,7 @@
        <jersey.version>2.43</jersey.version>
 		<!-- Apache properties -->
       <apache.libintl.version>0.18.3</apache.libintl.version>
-      <apache.commons.beanutils.version>1.10.1</apache.commons.beanutils.version>
+      <apache.commons.beanutils.version>1.11.0</apache.commons.beanutils.version>
       <apache.commons.lang3.version>3.17.0</apache.commons.lang3.version>
       <apache.commons.text.version>1.13.1</apache.commons.text.version>
       <apache.commons.io.version>2.19.0</apache.commons.io.version>
