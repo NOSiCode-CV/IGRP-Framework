@@ -1,7 +1,9 @@
 package nosi.webapps.igrp.pages.session;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import nosi.core.config.Config;
@@ -96,41 +98,40 @@ public class SessionController extends Controller {
 		nosi.webapps.igrp.dao.Session session = new nosi.webapps.igrp.dao.Session();
 		
 		ArrayList<Session.Table_1> data = new ArrayList<>();
-		List<nosi.webapps.igrp.dao.Session> sessions = new ArrayList<>();
+		List<nosi.webapps.igrp.dao.Session> sessions;
 		try {
 			 sessions = session.find().andWhere("application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 					 .andWhere("user.user_name", "=", model.getUtilizador())
-					 .andWhere("user.status", "=", Core.toInt(model.getEstado()))
+					 .andWhere("user.status", "=", model.getEstado())
 					 .all();
-		}catch(Exception ignored) {
-			
+		}catch(Exception e) {
+			sessions = new ArrayList<>();
 		}
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
-		if(sessions!=null) {
+			
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
 			sessions =  sessions.stream().filter(obj -> {
-				Date auxEndTime = new Date(obj.getEndTime());
-				Date auxStartTime = new Date(obj.getStartTime());
-				return !((model.getData_inicio() != null && !model.getData_inicio().isEmpty() && model.getData_inicio().compareTo(dateFormat.format(auxStartTime)) > 0)
+			LocalDateTime auxEndTime = LocalDateTime.ofInstant(new Date(obj.getEndTime()).toInstant(), ZoneId.systemDefault());
+			LocalDateTime auxStartTime = LocalDateTime.ofInstant(new Date(obj.getStartTime()).toInstant(), ZoneId.systemDefault());
+			return !((model.getData_inicio() != null && !model.getData_inicio().isEmpty() && model.getData_inicio().compareTo(auxStartTime.format(dateFormat)) > 0)
 						||
 						(model.getData_fim() != null && !model.getData_fim().isEmpty() &&
-						model.getData_fim().compareTo(dateFormat.format(auxEndTime)) < 1));
-			}).toList();
+					model.getData_fim().compareTo(auxEndTime.format(dateFormat)) < 1));
+		}).toList();
 			
-			SimpleDateFormat auxFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter auxFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 			
-			for(nosi.webapps.igrp.dao.Session s : sessions ){
+		sessions.forEach(s -> {
 				Session.Table_1 table = new Session.Table_1();			
-				Date auxEndTime = new Date(s.getEndTime());
-				Date auxStartTime = new Date(s.getStartTime());				
-				table.setData_fim_t(auxFormat.format(auxEndTime));
-				table.setData_inicio_t(auxFormat.format(auxStartTime));
+			LocalDateTime auxEndTime = LocalDateTime.ofInstant(new Date(s.getEndTime()).toInstant(), ZoneId.systemDefault());
+			LocalDateTime auxStartTime = LocalDateTime.ofInstant(new Date(s.getStartTime()).toInstant(), ZoneId.systemDefault());
+			table.setData_fim_t(auxEndTime.format(auxFormat));
+			table.setData_inicio_t(auxStartTime.format(auxFormat));
 				table.setAplicacao_t(s.getApplication().getDad());
 				table.setIp(s.getIpAddress());
 				table.setUtilizadort(s.getUserName());
 				data.add(table);
-			}
-		}
+		});
 		
 		
 		view.table_1.addData(data);		

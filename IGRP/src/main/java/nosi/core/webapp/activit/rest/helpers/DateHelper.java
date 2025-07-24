@@ -1,7 +1,5 @@
 package nosi.core.webapp.activit.rest.helpers;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -32,10 +30,9 @@ public class DateHelper {
 
 	public static boolean compareDate(Date date1,String date2,BiFunction<LocalDate, LocalDate, Boolean> compareDate) {	
 		if(Core.isNotNullMultiple(date1,date2)) {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			String dt1 = df.format(date1);
-			String dt2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String dt1 = date1.toInstant().atZone(ZoneOffset.ofHours(0)).toLocalDate().format(formatter);
+			String dt2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
 			LocalDate d1 = LocalDate.parse(dt1, formatter );
 			LocalDate d2 = LocalDate.parse(dt2, formatter );
 			return compareDate.apply(d1, d2);

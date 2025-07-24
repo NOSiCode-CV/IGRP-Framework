@@ -1,9 +1,9 @@
 package nosi.core.webapp.helpers;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -25,11 +25,12 @@ public class DateHelper {
 		String myDateString = null;
 		if(Core.isNotNull(date) && Core.isNotNull(outputFormat) && Core.isNotNull(formatIn)) {
 			try {
-				SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
-				Date myDate = newDateFormat.parse(date);
-				newDateFormat.applyPattern(outputFormat);
-				myDateString = newDateFormat.format(myDate);
-			} catch (ParseException e) {
+				DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(formatIn);
+				DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
+
+				LocalDate localDate = LocalDate.parse(date, formatterIn);
+				myDateString = localDate.format(formatterOut); // Thread-safe!
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -39,9 +40,10 @@ public class DateHelper {
 	public static java.sql.Date formatDate(String data,String inputFormat){ 
 		if(Core.isNotNull(data) && Core.isNotNull(inputFormat)) {
 			try {
-				 SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
-	             return new java.sql.Date(formatter.parse(data).getTime());
-			} catch (ParseException e) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern(inputFormat);
+				LocalDate localDate = LocalDate.parse(data, formatter);
+				return java.sql.Date.valueOf(localDate);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -50,14 +52,14 @@ public class DateHelper {
 	
 	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){ 
 		if(Core.isNotNull(data) && Core.isNotNull(outputFormat) && Core.isNotNull(inputFormat)) {
-			DateFormat formatter = new SimpleDateFormat(inputFormat); 
-			Date date;
 			try {
-				date = formatter.parse(data);
-				SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
-				String finalDate = newFormat.format(date);
+				DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(inputFormat);
+				DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
+
+				LocalDate localDate = LocalDate.parse(data, formatterIn);
+				String finalDate = localDate.format(formatterOut);
 				return java.sql.Date.valueOf(finalDate);
-			} catch (ParseException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -81,14 +83,14 @@ public class DateHelper {
 		return convertDate(getCurrentDate().toString(), "yyyy-MM-dd", outputFormat);
 	}
 	public static String getCurrentDataTime() {
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-		return dateFormat.format(new Date());
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		return LocalDateTime.now().format(dateTimeFormatter);
 	}
 	
 
 	public static String convertDateToString(java.sql.Date date,String outputFormat) {
-		DateFormat dateFormat = new SimpleDateFormat(outputFormat); 
-		return dateFormat.format(date);
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(outputFormat);
+		return date.toLocalDate().format(dateTimeFormatter);
 	}
 	
 	public static java.sql.Date convertStringToDate(String date,String outputFormat) {
@@ -111,12 +113,10 @@ public class DateHelper {
 	
 	public static Timestamp convertStringToTimestamp(String str_date,String format) {
 		try {
-			DateFormat formatter;
-			formatter = new SimpleDateFormat(format);
-			Date date = formatter.parse(str_date);
-
-           return new Timestamp(date.getTime());
-		} catch (ParseException e) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+			LocalDateTime localDateTime = LocalDateTime.parse(str_date, formatter);
+			return Timestamp.valueOf(localDateTime);
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -128,22 +128,28 @@ public class DateHelper {
 	
 	
 	private static long calculate(String data,String formatIn,int type) {
-		long age = 0;
+		long result = 0;
 		try {
 			data = Core.convertDate(data, formatIn,"yyyy-MM-dd");
-			LocalDate birthDate = LocalDate.parse(data);
-			LocalDate currentDate = LocalDate.now();
-           return switch (type) {
-              case CALCULATE_AGE -> ChronoUnit.YEARS.between(birthDate, currentDate);
-              case CALCULATE_DAYS -> ChronoUnit.DAYS.between(birthDate, currentDate);
-              case CALCULATE_MONTHS ->
-                      ChronoUnit.MONTHS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
-              default -> age;
-           };
+			LocalDate fromDate = LocalDate.parse(data);
+			LocalDate toDate = LocalDate.now();
+			switch (type) {
+			case CALCULATE_AGE:
+				result = ChronoUnit.YEARS.between(fromDate, toDate);
+				break;
+			case CALCULATE_DAYS:
+				result = ChronoUnit.DAYS.between(fromDate, toDate);
+				break;
+			case CALCULATE_MONTHS:
+				result = ChronoUnit.MONTHS.between(fromDate.withDayOfMonth(1), toDate.withDayOfMonth(1));
+				break;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return age;
+
+		return result;
 	}
 
 	public static long calculateYears(String data) {

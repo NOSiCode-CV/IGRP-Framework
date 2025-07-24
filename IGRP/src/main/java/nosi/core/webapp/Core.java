@@ -9,6 +9,7 @@ import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.i18n.Translator;
 import nosi.core.integration.pdex.email.PdexEmailGateway;
 import nosi.core.integration.pdex.email.PdexEmailGatewayPayloadDTO;
 import nosi.core.mail.EmailMessage;
@@ -58,10 +59,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Normalizer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.*;
@@ -3929,8 +3929,8 @@ public final class Core {
 	 * @return a strDate with a the specified format
 	 */
 	public static String dateToString(java.util.Date date, String formatOut) {
-		DateFormat df = new SimpleDateFormat(formatOut);
-		return df.format(date);
+		return date != null ? DateTimeFormatter.ofPattern(formatOut)
+				.format(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()) : "";
 	}
 
 	/**
@@ -4091,10 +4091,10 @@ public final class Core {
 	 */
 	public static java.util.Date ToDateUtil(String strDate, String formatIn) {
 		java.util.Date date;
-		DateFormat df = new SimpleDateFormat(formatIn);
 		try {
-			date = df.parse(strDate);
-		} catch (ParseException e) {
+			LocalDateTime localDateTime = LocalDateTime.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
+			date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+		} catch (DateTimeParseException e) {
 			date = null;
 			e.printStackTrace();
 		}
