@@ -60,7 +60,7 @@
 		<postgres.version>42.7.5</postgres.version>
 		<h2.version>2.3.232</h2.version>
 		<sqlserver.version>10.2.0.jre8</sqlserver.version>
-		<oracle.version>23.2.0.0</oracle.version>
+		<oracle.version>23.8.0.25.04</oracle.version>
 
 		<gson.version>2.11.0</gson.version>
 		<json.version>20240303</json.version>
@@ -71,7 +71,7 @@
 		<!-- Apache properties -->
 		<apache.libintl.version>0.18.3</apache.libintl.version>
       <apache.commons.beanutils.version>1.10.1</apache.commons.beanutils.version>
-      <apache.commons.lang3.version>3.17.0</apache.commons.lang3.version>
+      <apache.commons.lang3.version>3.18.0</apache.commons.lang3.version>
 		<!-- ATTENTION!!! LAST VERSION FOR commons.text is 1.10.0, IF you don't put remove commons-lang3 in maven tomee plugin like in core pom.xml -->
       <apache.commons.text.version>1.10.0</apache.commons.text.version>
 		<apache.commons.io.version>2.18.0</apache.commons.io.version>
@@ -732,7 +732,7 @@
 					<configuration>
 						<tomeeClassifier>plus</tomeeClassifier>
 						<reloadOnUpdate>false</reloadOnUpdate>
-						<!-- <deployOpenEjbApplication>true</deployOpenEjbApplication> -->
+						<deployOpenEjbApplication>false</deployOpenEjbApplication>
 						<args>-Dfile.encoding=UTF-8</args>
 						<synchronization>
 					      <extensions>
@@ -755,7 +755,7 @@
 							<lib>remove:myfaces</lib>	
 							<lib>remove:openjpa-</lib>	
 							<lib>remove:commons-lang3</lib>
-							<lib>org.apache.commons:commons-lang3:3.17.0</lib>
+							<lib>org.apache.commons:commons-lang3:${apache.commons.lang3.version}</lib>
 <!--							<lib>remove:openwebbeans-</lib>-->
 <!--							<lib>remove:microprofile-</lib>		-->
 <!--							<lib>remove:smallrye-</lib>					-->
