@@ -7,6 +7,8 @@ public interface Restriction<T> extends CommonRestriction<T> {
 
 	T equals(String name, Object value);
 	
+	T notEquals(String name, Object value);
+
 	T like(String name, Object value);
 	
 	T notLike(String name, Object value);
