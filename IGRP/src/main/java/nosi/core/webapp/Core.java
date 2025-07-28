@@ -4180,7 +4180,7 @@ public static java.util.Date ToDateUtil(String strDate, String formatIn) {
 			date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 		}
     } catch (DateTimeParseException e) {
-        System.err.printf("IGRP WARNING ToDateUtil: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using bem formatoIN (%s) para esta data (%s)\n", formatIn, strDate, formatIn, strDate);
+        System.err.printf("IGRP WARNING ToDateUtil:%n PT- Não estás a usar bem o formatoIN (%s) para esta data (%s).%n EN - You are not using bem formatoIN (%s) para esta data (%s) %n", formatIn, strDate, formatIn, strDate);
         e.printStackTrace();
         DateFormat df = new SimpleDateFormat(formatIn);
         try {
