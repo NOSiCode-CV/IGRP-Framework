@@ -102,7 +102,8 @@ public class SessionController extends Controller {
 		try {
 			 sessions = session.find().andWhere("application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 					 .andWhere("user.user_name", "=", model.getUtilizador())
-					 .andWhere("user.status", "=", model.getEstado())
+					 .andWhere("user.status", "=", Core.toInt(model.getEstado()))
+					 .orderByDesc("startTime")
 					 .all();
 		}catch(Exception e) {
 			sessions = new ArrayList<>();
@@ -125,8 +126,8 @@ public class SessionController extends Controller {
 				Session.Table_1 table = new Session.Table_1();			
 			LocalDateTime auxEndTime = LocalDateTime.ofInstant(new Date(s.getEndTime()).toInstant(), ZoneId.systemDefault());
 			LocalDateTime auxStartTime = LocalDateTime.ofInstant(new Date(s.getStartTime()).toInstant(), ZoneId.systemDefault());
-			table.setData_fim_t(auxEndTime.format(auxFormat));
-			table.setData_inicio_t(auxStartTime.format(auxFormat));
+				table.setData_fim_t(auxEndTime.format(auxFormat));
+				table.setData_inicio_t(auxStartTime.format(auxFormat));
 				table.setAplicacao_t(s.getApplication().getDad());
 				table.setIp(s.getIpAddress());
 				table.setUtilizadort(s.getUserName());
@@ -190,6 +191,7 @@ public class SessionController extends Controller {
 		}
 		return props;
 	}
+
 	
 	/*----#end-code----*/
 	}
