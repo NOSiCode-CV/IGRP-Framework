@@ -4169,25 +4169,30 @@ public final class Core {
 	 * @param formatIn
 	 * @return a java.util.Date with a specified format
 	 */
-	public static java.util.Date ToDateUtil(String strDate, String formatIn) {
-		java.util.Date date;
-		try {
+public static java.util.Date ToDateUtil(String strDate, String formatIn) {
+    java.util.Date date;
+    try {
+		if (!formatIn.contains(" ") && !formatIn.contains("H")) {
+			LocalDate localDate = LocalDate.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
+			date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		}else{
 			LocalDateTime localDateTime = LocalDateTime.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
 			date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-		} catch (DateTimeParseException e) {
-			System.err.printf("IGRP WARNING ToDateUtil: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,strDate,formatIn,strDate);
-			e.printStackTrace();
-			DateFormat df = new SimpleDateFormat(formatIn);
-			try {
-				date = df.parse(strDate);
-			} catch (ParseException e2) {
-				date = null;
-				e2.printStackTrace();
-			}
-
 		}
-		return date;
-	}
+    } catch (DateTimeParseException e) {
+        System.err.printf("IGRP WARNING ToDateUtil: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using bem formatoIN (%s) para esta data (%s)\n", formatIn, strDate, formatIn, strDate);
+        e.printStackTrace();
+        DateFormat df = new SimpleDateFormat(formatIn);
+        try {
+            date = df.parse(strDate);
+        } catch (ParseException e2) {
+            date = null;
+            e2.printStackTrace();
+        }
+
+    }
+    return date;
+}
 
 	/**
 	 * Receives two java.util.Date and returns them as a concatenated string whit
@@ -4307,7 +4312,7 @@ public final class Core {
 	 */
 	public static String dateFromTo2EndDateStr(String dateStr, String separator) {
 		if (isNotNullMultiple(dateStr, separator))
-			return dateStr.substring(dateStr.indexOf(separator) + separator.length(), dateStr.length());
+			return dateStr.substring(dateStr.indexOf(separator) + separator.length());
 		return "";
 	}
 

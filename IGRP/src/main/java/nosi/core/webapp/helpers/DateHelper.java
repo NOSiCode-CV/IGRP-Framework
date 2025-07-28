@@ -103,7 +103,7 @@ public class DateHelper {
 				String finalDate = localDate.format(formatterOut);
 				return java.sql.Date.valueOf(finalDate);
 			} catch (Exception e) {
-				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",inputFormat,data,inputFormat,data);
+				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)\n",inputFormat,data,inputFormat,data);
 				e.printStackTrace();
 
 				try {
