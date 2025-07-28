@@ -20,20 +20,18 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.xml.bind.annotation.XmlTransient;
-
-import nosi.core.webapp.databse.helpers.Connection;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.jpa.QueryHints;
-import org.hibernate.query.Query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
@@ -769,16 +767,34 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	private T orderBy(String[][] orderByNames, String defaultOrder) {
 		if(orderByNames!=null) {
-			StringBuilder c = new StringBuilder(" ORDER BY ");		
+			StringBuilder c = new StringBuilder(this.sql.contains("ORDER BY")?",":" ORDER BY ");
     		int i=1;
     		for(String[] names:orderByNames) {
     			String order = names[names.length-1];
     			String[] newNames;
-    			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
+				final int newLength = names.length - 1 >= 1 ? names.length - 1 : names.length;
+				if(order.equalsIgnoreCase(ORDERBY.ASC_NULLS_FIRST)){
+					order = ORDERBY.ASC_NULLS_FIRST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if(order.equalsIgnoreCase(ORDERBY.ASC_NULLS_LAST)){
+					order = ORDERBY.ASC_NULLS_LAST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if(order.equalsIgnoreCase(ORDERBY.DESC_NULLS_LAST)){
+					order = ORDERBY.DESC_NULLS_LAST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if(order.equalsIgnoreCase(ORDERBY.DESC_NULLS_FIRST)){
+					order = ORDERBY.DESC_NULLS_FIRST;
+					newNames = Arrays.copyOf(names, newLength);
+				}
+				else if (!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
     				order = Core.isNotNull(defaultOrder)?defaultOrder:ORDERBY.ASC;
     				newNames = Arrays.copyOf(names, names.length);
-    			}else{
-    				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
+				}
+				else{
+					newNames = Arrays.copyOf(names, newLength);
     			}
     			for(int j=0;j<newNames.length;j++)
     				newNames[j] = recq.resolveColumnName(this.getAlias(),newNames[j]);
@@ -1275,17 +1291,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Transient
     private Session getSession() {
 		SessionFactory sessionFactory = getSessionFactory();
-		Session s;
-		if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
-				&& sessionFactory.getCurrentSession().isOpen()) {
-			s = sessionFactory.getCurrentSession();
-			return s;
+		try {
+			// Use Hibernate-managed session (auto-closed with transaction)
+			return sessionFactory.getCurrentSession();
+		} catch (HibernateException ex) {
+			// Fallback to unmanaged session (MUST close manually)
+			return sessionFactory.openSession();
 		}
-		sessionFactory.close();
-		HibernateUtils.removeSessionFactory(connectionName);
-		sessionFactory = getSessionFactory();
-        s = sessionFactory.getCurrentSession();
-        return s;
     }
 
 	@Transient
@@ -1303,14 +1315,23 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	private void closeSession() {
 		Session session = this.getSession();
-		if(!this.keepConnection && session!=null && session.isOpen()) {
-			session.close();
+		if (session != null && session.isOpen()) {
+			if (!this.keepConnection) {
+				session.close(); // Force close if keepConnection is false
+			} else {
+				// Explicitly reset keepConnection to avoid leaks
+				this.keepConnection = false;
 		}
 	}
-	
+	}
 	private void closeSession(Session session) {
-		if(!this.keepConnection && session!=null && session.isOpen()) {
-			session.close();
+		if (session != null && session.isOpen()) {
+			if (!this.keepConnection) {
+				session.close(); // Force close if keepConnection is false
+			} else {
+				// Explicitly reset keepConnection to avoid leaks
+				this.keepConnection = false;
+			}
 		}
 	}
 
