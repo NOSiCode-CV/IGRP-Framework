@@ -59,6 +59,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -4173,8 +4175,16 @@ public final class Core {
 			LocalDateTime localDateTime = LocalDateTime.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
 			date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 		} catch (DateTimeParseException e) {
-			date = null;
+			System.err.printf("IGRP WARNING ToDateUtil: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,strDate,formatIn,strDate);
 			e.printStackTrace();
+			DateFormat df = new SimpleDateFormat(formatIn);
+			try {
+				date = df.parse(strDate);
+			} catch (ParseException e2) {
+				date = null;
+				e2.printStackTrace();
+			}
+
 		}
 		return date;
 	}

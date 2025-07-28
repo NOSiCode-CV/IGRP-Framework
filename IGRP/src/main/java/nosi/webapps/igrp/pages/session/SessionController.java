@@ -40,8 +40,9 @@ public class SessionController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps()); 
 		view.estado.setQuery(Core.query(null,"SELECT '0' as ID,'Inativo' as NAME union all SELECT '1' as ID,'Ativo' as NAME"), gt("-- Escolher estado --"));
 		
-		Properties p = loadDbConfig("db", "db_igrp_config.xml");
-		String dbName = p.getProperty("type_db", "");
+//		Properties p = loadDbConfig("db", "db_igrp_config.xml");
+//		String dbName = p.getProperty("type_db", "");
+		String dbName = "postgresql";
 		
 		String sql1 = "SELECT 'X1' as EixoX, 15 as valor UNION SELECT 'X2' as EixoX,10 as valor UNION SELECT 'X2' as EixoX,23 as valor UNION SELECT 'X3' as EixoX,40 as valor";
 		String sql2 = "SELECT 'X1' as EixoX, 15 as valor UNION SELECT 'X2' as EixoX,10 as valor UNION SELECT 'X2' as EixoX,23 as valor UNION SELECT 'X3' as EixoX,40 as valor";
@@ -117,7 +118,9 @@ public class SessionController extends Controller {
 		try {
 			 sessions = session.find().andWhere("application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 					 .andWhere("user.user_name", "=", model.getUtilizador())
-					 .andWhere("user.status", "=", model.getEstado())
+					 .andWhere("user.status", "=", Core.toInt(model.getEstado()))
+					 .limit(1000)
+					  .orderByDesc("startTime")
 					 .all();
 		}catch(Exception e) {
 			sessions = new ArrayList<>();
@@ -148,9 +151,9 @@ public class SessionController extends Controller {
 			data.add(table);
 		});
 
-		if (data.size() < 200) {
+
 			view.table_1.addData(data);
-		}
+
 		
 		/*----#end-code----*/
 		view.setModel(model);

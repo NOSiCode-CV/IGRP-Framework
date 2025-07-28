@@ -1,5 +1,8 @@
 package nosi.core.webapp.helpers;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,27 +28,66 @@ public class DateHelper {
 		String myDateString = null;
 		if(Core.isNotNull(date) && Core.isNotNull(outputFormat) && Core.isNotNull(formatIn)) {
 			try {
+			String dateF = formatDateString(date, formatIn);
+
+			// Convert input date using DateTimeFormatter
 				DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(formatIn);
 				DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
 
-				LocalDate localDate = LocalDate.parse(date, formatterIn);
-				myDateString = localDate.format(formatterOut); // Thread-safe!
+            // Parse the date based on formatIn
+            LocalDate parsedDate = LocalDate.parse(dateF, formatterIn);
+
+            // Format the date into the desired output format
+            myDateString = parsedDate.format(formatterOut);
+
 			} catch (Exception e) {
+			System.err.printf("IGRP WARNING: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,date,formatIn,date);
+            e.printStackTrace();
+
+            try {
+				SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
+				Date myDate = newDateFormat.parse(date);
+				newDateFormat.applyPattern(outputFormat);
+				myDateString = newDateFormat.format(myDate);
+            } catch (ParseException ex) {
 				e.printStackTrace();
 			}
 		}
+    }
+
 		return myDateString;
 	}
 
-	public static java.sql.Date formatDate(String data, String inputFormat){ 
+	private static String formatDateString(String date, String formatIn) {
+		// Check if the formatIn does not include time components
+		if (!formatIn.contains(" ") && !formatIn.contains("H")) {
+			// Preprocess the input to extract only the date part
+			if (date.contains(" ")) {
+				date = date.split(" ")[0]; // Extract only the "2021-02-26" part
+			}
+		}
+		return date;
+	}
+
+
+	public static java.sql.Date formatDate(String data, String inputFormat){
 		if(Core.isNotNull(data) && Core.isNotNull(inputFormat)) {
 			try {
+				String dataF = formatDateString(data, inputFormat);
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern(inputFormat);
-				LocalDate localDate = LocalDate.parse(data, formatter);
+				LocalDate localDate = LocalDate.parse(dataF, formatter);
 				return java.sql.Date.valueOf(localDate);
 			} catch (Exception e) {
+				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",inputFormat,data,inputFormat,data);
+				e.printStackTrace();
+
+				try {
+					SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
+					return new java.sql.Date(formatter.parse(data).getTime());
+				} catch (ParseException ex) {
 				e.printStackTrace();
 			}
+		}
 		}
 		return null;
 	}
@@ -53,15 +95,28 @@ public class DateHelper {
 	public static java.sql.Date formatDate(String data, String inputFormat, String outputFormat){ 
 		if(Core.isNotNull(data) && Core.isNotNull(outputFormat) && Core.isNotNull(inputFormat)) {
 			try {
+				String dataF = formatDateString(data, inputFormat);
 				DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(inputFormat);
 				DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
 				
-				LocalDate localDate = LocalDate.parse(data, formatterIn);
+				LocalDate localDate = LocalDate.parse(dataF, formatterIn);
 				String finalDate = localDate.format(formatterOut);
 				return java.sql.Date.valueOf(finalDate);
 			} catch (Exception e) {
+				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",inputFormat,data,inputFormat,data);
+				e.printStackTrace();
+
+				try {
+					DateFormat formatter = new SimpleDateFormat(inputFormat);
+					Date date = formatter.parse(data);
+					SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
+					String finalDate = newFormat.format(date);
+					return java.sql.Date.valueOf(finalDate);
+				} catch (ParseException ex) {
 				e.printStackTrace();
 			}
+		}
+
 		}
 		return null;
 	}
@@ -110,17 +165,26 @@ public class DateHelper {
 		return null;
 	}
 	
-	public static Timestamp convertStringToTimestamp(String str_date, String format) {
+	public static Timestamp convertStringToTimestamp(String str_date,String formatIn) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-			LocalDateTime localDateTime = LocalDateTime.parse(str_date, formatter);
+			String str_dateF = formatDateString(str_date, formatIn);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatIn);
+			LocalDateTime localDateTime = LocalDateTime.parse(str_dateF, formatter);
 			return Timestamp.valueOf(localDateTime);
 		} catch (Exception e) {
 			e.printStackTrace();
+            try {
+                DateFormat formatter = new SimpleDateFormat(formatIn);
+                Date date = formatter.parse(str_date);
+                return new Timestamp(date.getTime());
+            } catch (ParseException ex) {
+				System.err.printf("IGRP WARNING convertStringToTimestamp: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,str_date,formatIn,str_date);
+				e.printStackTrace();
 			return null;
 		}
 	}
-	
+	}
+
 	public static java.sql.Date utilDateToSqlDate(java.util.Date date) {
 		return new java.sql.Date(date.getTime());
 	}
