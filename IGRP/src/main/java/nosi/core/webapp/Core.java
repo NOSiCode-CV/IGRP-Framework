@@ -4094,11 +4094,16 @@ public final class Core {
 	public static java.util.Date ToDateUtil(String strDate, String formatIn) {
 		java.util.Date date;
 		try {
+		if (!formatIn.contains(" ") && !formatIn.contains("H")) {
+			LocalDate localDate = LocalDate.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
+			date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		}else{
 			LocalDateTime localDateTime = LocalDateTime.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
 			date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+		}
 		} catch (DateTimeParseException e) {
-			System.err.printf("IGRP WARNING ToDateUtil: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,strDate,formatIn,strDate);
-			e.printStackTrace();
+        System.err.printf("IGRP WARNING ToDateUtil:%n PT- Não estás a usar bem o formatoIN (%s) para esta data (%s).%n EN - You are not using bem formatoIN (%s) para esta data (%s) %n %s", formatIn, strDate, formatIn, strDate,e.getMessage());
+
 			DateFormat df = new SimpleDateFormat(formatIn);
 			try {
 				date = df.parse(strDate);

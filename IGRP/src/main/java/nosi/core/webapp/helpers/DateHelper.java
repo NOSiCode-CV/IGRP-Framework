@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -42,8 +41,8 @@ public class DateHelper {
             myDateString = parsedDate.format(formatterOut);
 
         } catch (Exception e) {
-			System.err.printf("IGRP WARNING: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,date,formatIn,date);
-            e.printStackTrace();
+			System.err.printf("IGRP WARNING convertDate: %n PT- FormatoIN (%s) para esta data (%s). Verifica se MM (mês) está minuscula 'mm' (minutos). %n EN- FormatoIN (%s) for this date (%s). Check if you wanted to be month 'MM' and not minutes like 'mm' %n %s",formatIn,date,formatIn,date,e.getMessage());
+
 
             try {
 				SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
@@ -62,12 +61,9 @@ public class DateHelper {
 
 	private static String formatDateString(String date, String formatIn) {
 		// Check if the formatIn does not include time components
-		if (!formatIn.contains(" ") && !formatIn.contains("H")) {
-			// Preprocess the input to extract only the date part
-			if (date.contains(" ")) {
+		if (!formatIn.contains(" ") && !formatIn.contains("H") && date.contains(" ")) {
 				date = date.split(" ")[0]; // Extract only the "2021-02-26" part
 			}
-		}
 		return date;
 	}
 
@@ -80,9 +76,7 @@ public class DateHelper {
 				LocalDate localDate = LocalDate.parse(dataF, formatter);
 				return java.sql.Date.valueOf(localDate);
 			} catch (Exception e) {
-				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",inputFormat,data,inputFormat,data);
-				e.printStackTrace();
-
+				System.err.printf("IGRP WARNING formatDate:%n PT- FormatoIN (%s) para esta data (%s). Dica MM mês e mm minuto %n EN - FormatoIN (%s) for this date (%s) %n %s",inputFormat,data,inputFormat,data,e.getMessage());;
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
 					return new java.sql.Date(formatter.parse(data).getTime());
@@ -105,7 +99,7 @@ public class DateHelper {
 				String finalDate = localDate.format(formatterOut);
 				return java.sql.Date.valueOf(finalDate);
 			} catch (Exception e) {
-				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",inputFormat,data,inputFormat,data);
+				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s) %n",inputFormat,data,inputFormat,data);
 				e.printStackTrace();
 
 				try {
