@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -22,27 +24,65 @@ public class DateHelper {
 	private static final int CALCULATE_DAYS = 3;
 	
 	public static String convertDate(String date, String formatIn, String outputFormat) {
-		String myDateString = null;
-		if(Core.isNotNull(date) && Core.isNotNull(outputFormat) && Core.isNotNull(formatIn)) {
-			try {
+    String myDateString = null;
+
+    if (Core.isNotNull(date) && Core.isNotNull(outputFormat) && Core.isNotNull(formatIn)) {
+        try {
+			String dateF = formatDateString(date, formatIn);
+
+			// Convert input date using DateTimeFormatter
+            DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(formatIn);
+            DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
+
+            // Parse the date based on formatIn
+            LocalDate parsedDate = LocalDate.parse(dateF, formatterIn);
+
+            // Format the date into the desired output format
+            myDateString = parsedDate.format(formatterOut);
+
+        } catch (Exception e) {
+			System.err.printf("IGRP WARNING convertDate: %n PT- FormatoIN (%s) para esta data (%s). Verifica se MM (mês) está minuscula 'mm' (minutos). %n EN- FormatoIN (%s) for this date (%s). Check if you wanted to be month 'MM' and not minutes like 'mm' %n %s",formatIn,date,formatIn,date,e.getMessage());
+
+
+            try {
 				SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
 				Date myDate = newDateFormat.parse(date);
 				newDateFormat.applyPattern(outputFormat);
 				myDateString = newDateFormat.format(myDate);
-			} catch (ParseException e) {
+            } catch (ParseException ex) {
 				e.printStackTrace();
+            }
+
+        }
+    }
+
+    return myDateString;
+}
+
+	private static String formatDateString(String date, String formatIn) {
+		// Check if the formatIn does not include time components
+		if (!formatIn.contains(" ") && !formatIn.contains("H") && date.contains(" ")) {
+				date = date.split(" ")[0]; // Extract only the "2021-02-26" part
 			}
-		}
-		return myDateString;
+		return date;
 	}
+
 
 	public static java.sql.Date formatDate(String data,String inputFormat){ 
 		if(Core.isNotNull(data) && Core.isNotNull(inputFormat)) {
 			try {
-				 SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
-	             return new java.sql.Date(formatter.parse(data).getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
+				String dataF = formatDateString(data, inputFormat);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern(inputFormat);
+				LocalDate localDate = LocalDate.parse(dataF, formatter);
+				return java.sql.Date.valueOf(localDate);
+			} catch (Exception e) {
+				System.err.printf("IGRP WARNING formatDate:%n PT- FormatoIN (%s) para esta data (%s). Dica MM mês e mm minuto %n EN - FormatoIN (%s) for this date (%s) %n %s",inputFormat,data,inputFormat,data,e.getMessage());;
+				try {
+					SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
+					return new java.sql.Date(formatter.parse(data).getTime());
+				} catch (ParseException ex) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return null;
@@ -50,16 +90,29 @@ public class DateHelper {
 	
 	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){ 
 		if(Core.isNotNull(data) && Core.isNotNull(outputFormat) && Core.isNotNull(inputFormat)) {
-			DateFormat formatter = new SimpleDateFormat(inputFormat); 
-			Date date;
 			try {
-				date = formatter.parse(data);
-				SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
-				String finalDate = newFormat.format(date);
+				String dataF = formatDateString(data, inputFormat);
+				DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(inputFormat);
+				DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
+
+				LocalDate localDate = LocalDate.parse(dataF, formatterIn);
+				String finalDate = localDate.format(formatterOut);
 				return java.sql.Date.valueOf(finalDate);
-			} catch (ParseException e) {
+			} catch (Exception e) {
+				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s) %n",inputFormat,data,inputFormat,data);
 				e.printStackTrace();
+
+				try {
+					DateFormat formatter = new SimpleDateFormat(inputFormat);
+					Date date = formatter.parse(data);
+					SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
+					String finalDate = newFormat.format(date);
+					return java.sql.Date.valueOf(finalDate);
+				} catch (ParseException ex) {
+					e.printStackTrace();
+				}
 			}
+
 		}
 		return null;
 	}
@@ -81,14 +134,14 @@ public class DateHelper {
 		return convertDate(getCurrentDate().toString(), "yyyy-MM-dd", outputFormat);
 	}
 	public static String getCurrentDataTime() {
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
-		return dateFormat.format(new Date());
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		return LocalDateTime.now().format(dateTimeFormatter);
 	}
 	
 
 	public static String convertDateToString(java.sql.Date date,String outputFormat) {
-		DateFormat dateFormat = new SimpleDateFormat(outputFormat); 
-		return dateFormat.format(date);
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(outputFormat);
+		return date.toLocalDate().format(dateTimeFormatter);
 	}
 	
 	public static java.sql.Date convertStringToDate(String date,String outputFormat) {
@@ -109,17 +162,24 @@ public class DateHelper {
 		return null;
 	}
 	
-	public static Timestamp convertStringToTimestamp(String str_date,String format) {
+	public static Timestamp convertStringToTimestamp(String str_date,String formatIn) {
 		try {
-			DateFormat formatter;
-			formatter = new SimpleDateFormat(format);
-			Date date = formatter.parse(str_date);
-
-           return new Timestamp(date.getTime());
-		} catch (ParseException e) {
+			String str_dateF = formatDateString(str_date, formatIn);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatIn);
+			LocalDateTime localDateTime = LocalDateTime.parse(str_dateF, formatter);
+			return Timestamp.valueOf(localDateTime);
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
-		}
+            try {
+                DateFormat formatter = new SimpleDateFormat(formatIn);
+                Date date = formatter.parse(str_date);
+                return new Timestamp(date.getTime());
+            } catch (ParseException ex) {
+				System.err.printf("IGRP WARNING convertStringToTimestamp: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,str_date,formatIn,str_date);
+				e.printStackTrace();
+				return null;
+            }
+        }
 	}
 	
 	public static java.sql.Date utilDateToSqlDate(java.util.Date date) {
@@ -128,22 +188,28 @@ public class DateHelper {
 	
 	
 	private static long calculate(String data,String formatIn,int type) {
-		long age = 0;
+		long result = 0;
 		try {
 			data = Core.convertDate(data, formatIn,"yyyy-MM-dd");
-			LocalDate birthDate = LocalDate.parse(data);
-			LocalDate currentDate = LocalDate.now();
-           return switch (type) {
-              case CALCULATE_AGE -> ChronoUnit.YEARS.between(birthDate, currentDate);
-              case CALCULATE_DAYS -> ChronoUnit.DAYS.between(birthDate, currentDate);
-              case CALCULATE_MONTHS ->
-                      ChronoUnit.MONTHS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
-              default -> age;
-           };
+			LocalDate fromDate = LocalDate.parse(data);
+			LocalDate toDate = LocalDate.now();
+			switch (type) {
+			case CALCULATE_AGE:
+				result = ChronoUnit.YEARS.between(fromDate, toDate);
+				break;
+			case CALCULATE_DAYS:
+				result = ChronoUnit.DAYS.between(fromDate, toDate);
+				break;
+			case CALCULATE_MONTHS:
+				result = ChronoUnit.MONTHS.between(fromDate.withDayOfMonth(1), toDate.withDayOfMonth(1));
+				break;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return age;
+
+		return result;
 	}
 
 	public static long calculateYears(String data) {

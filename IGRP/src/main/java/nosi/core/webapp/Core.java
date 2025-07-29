@@ -9,6 +9,7 @@ import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.i18n.Translator;
 import nosi.core.integration.pdex.email.PdexEmailGateway;
 import nosi.core.integration.pdex.email.PdexEmailGatewayPayloadDTO;
 import nosi.core.mail.EmailMessage;
@@ -62,6 +63,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.*;
@@ -3929,8 +3931,8 @@ public final class Core {
 	 * @return a strDate with a the specified format
 	 */
 	public static String dateToString(java.util.Date date, String formatOut) {
-		DateFormat df = new SimpleDateFormat(formatOut);
-		return df.format(date);
+		return date != null ? DateTimeFormatter.ofPattern(formatOut)
+				.format(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()) : "";
 	}
 
 	/**
@@ -4091,12 +4093,25 @@ public final class Core {
 	 */
 	public static java.util.Date ToDateUtil(String strDate, String formatIn) {
 		java.util.Date date;
-		DateFormat df = new SimpleDateFormat(formatIn);
 		try {
-			date = df.parse(strDate);
-		} catch (ParseException e) {
-			date = null;
-			e.printStackTrace();
+		if (!formatIn.contains(" ") && !formatIn.contains("H")) {
+			LocalDate localDate = LocalDate.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
+			date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		}else{
+			LocalDateTime localDateTime = LocalDateTime.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
+			date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+		}
+		} catch (DateTimeParseException e) {
+        System.err.printf("IGRP WARNING ToDateUtil:%n PT- Não estás a usar bem o formatoIN (%s) para esta data (%s).%n EN - You are not using bem formatoIN (%s) para esta data (%s) %n %s", formatIn, strDate, formatIn, strDate,e.getMessage());
+
+			DateFormat df = new SimpleDateFormat(formatIn);
+			try {
+				date = df.parse(strDate);
+			} catch (ParseException e2) {
+				date = null;
+				e2.printStackTrace();
+			}
+
 		}
 		return date;
 	}

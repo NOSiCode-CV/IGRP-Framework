@@ -47,6 +47,13 @@ public final class RestrictionImpl implements Restriction<RestrictionImpl> {
 		this.addParamter(paramName, paramName, value, Object.class);
 		return this;
 	}
+	@Override
+	public RestrictionImpl notEquals(String name, Object value) {
+		final String paramName = this.recq.removeAlias(name)+getParamPrefixSeq();
+		this.restriction.append(this.recq.resolveColumnName(this.alias, name)).append(" != :").append(paramName);
+		this.addParamter(paramName, paramName, value, Object.class);
+		return this;
+	}
 
 	@Override
 	public RestrictionImpl like(String name, Object value) {

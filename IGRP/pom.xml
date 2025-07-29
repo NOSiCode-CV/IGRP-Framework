@@ -54,7 +54,7 @@
       <mysql.version>9.2.0</mysql.version>
       <h2.version>2.3.232</h2.version>
       <sqlserver.version>12.4.2.jre11</sqlserver.version>
-      <oracle.version>23.2.0.0</oracle.version> <!-- TESTING more than 23.3.0.23.09 with problem starting because hibernate 5.X -->
+      <oracle.version>23.8.0.25.04</oracle.version>
 
       <model.mapper.version>3.2.2</model.mapper.version>
      
@@ -62,7 +62,7 @@
 		<!-- Apache properties -->
       <apache.libintl.version>0.18.3</apache.libintl.version>
       <apache.commons.beanutils.version>1.11.0</apache.commons.beanutils.version>
-      <apache.commons.lang3.version>3.17.0</apache.commons.lang3.version>
+      <apache.commons.lang3.version>3.18.0</apache.commons.lang3.version>
       <apache.commons.text.version>1.13.1</apache.commons.text.version>
       <apache.commons.io.version>2.19.0</apache.commons.io.version>
       <apache.logging.log4j.version>2.24.3</apache.logging.log4j.version>
@@ -630,6 +630,7 @@
                <configuration>
                   <tomeeClassifier>plus</tomeeClassifier>
                   <reloadOnUpdate>false</reloadOnUpdate>
+                  <deployOpenEjbApplication>false</deployOpenEjbApplication>
               		<!-- To change de ports
               		<debugPort>5007</debugPort>
 					<tomeeHttpPort>8081</tomeeHttpPort>
