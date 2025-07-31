@@ -57,8 +57,11 @@ public class LookupField extends TextField {
 
 	@Override
 	public void setLookup(String app, String page, String action) {
-		if(Core.isNull(app))
+		if(Core.isNullMultiple(app, page, action)){
+			this.lookup = Route.getResolveUrl("tutorial","DefaultPage","index&title=PLEASE SET A PAGE").replace("?", "").replace("webapps", "");
 			return;
+		}
+
 		int isPublic = Core.getParamInt("isPublic");
 		String currentDad = Core.getCurrentDad(); 
 		if(isPublic == 1)
