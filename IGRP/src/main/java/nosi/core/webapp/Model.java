@@ -387,7 +387,7 @@ public abstract class Model { // IGRP super model
 				break;
 			case "java.sql.Date":
 				if (aux != null && !aux.equals("0")) {
-					aux = DateHelper.convertDate(aux, "dd-mm-yyyy", "yyyy-mm-dd");
+					aux = DateHelper.convertDate(aux, Core.DD_MM_YYYY, Core.YYYY_MM_DD);
 					m.set(this, java.sql.Date.valueOf(aux));
 				}
 				break;

@@ -307,7 +307,7 @@ public class DatabaseMetadaHelper {
 		private String tableRelation;
 		private String columnMap;
 		private String connectionName;
-		private String format = "yyyy-mm-dd";
+		private String format = Core.YYYY_MM_DD;
 		private String columnTypeName​;
 		private boolean afterWhere = false;
 

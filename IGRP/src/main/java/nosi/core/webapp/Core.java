@@ -3686,7 +3686,7 @@ public final class Core {
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.ToDate(v, "yyyy-mm-dd");
+		return Core.ToDate(v, "yyyy-MM-dd");
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName, String format) {
@@ -3696,7 +3696,7 @@ public final class Core {
 
 	public static java.util.Date getTaskVariableDate(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.ToDate(v, "yyyy-mm-dd");
+		return Core.ToDate(v, "yyyy-MM-dd");
 	}
 
 	public static byte[] getTaskVariableByte(String variableName) {
@@ -4009,8 +4009,21 @@ public final class Core {
 	 * @return a strDate with a the specified format
 	 */
 	public static String dateToString(java.util.Date date, String formatOut) {
-		return date != null ? DateTimeFormatter.ofPattern(formatOut)
-				.format(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()) : "";
+        if (date == null) return "";
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern(formatOut);
+        //Date has only day, month and year
+        if (date instanceof java.sql.Date) {
+            LocalDate ld = ((java.sql.Date) date).toLocalDate();
+            Core.setMessageInfo(date.toString());
+            return fmt.format(ld);
+            //Timestamp has day, month, year, hour, minute and second
+        }else if (date instanceof java.sql.Timestamp) {
+            LocalDateTime ld = ((java.sql.Timestamp) date).toLocalDateTime();
+            Core.setMessageInfo(date.toString());
+            return fmt.format(ld);
+        }
+        //java.util.Date has day, month, year, hour, minute and second
+        return fmt.format(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime());
 	}
 
 	/**
