@@ -122,8 +122,10 @@ public class SqlJavaType {
 	            case Types.REAL:
 	            case Types.FLOAT:
 	            case Types.DOUBLE:
-	            case Types.TIMESTAMP:
 	                result = TypesXML.NUMBER;
+	                break;
+	            case Types.TIMESTAMP:
+                    result = TypesXML.DATE_TIME;
 	                break;
 	            case Types.DATE:
 	                result = TypesXML.DATE;

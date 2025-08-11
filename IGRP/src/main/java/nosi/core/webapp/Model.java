@@ -382,7 +382,7 @@ public abstract class Model { // IGRP super model
 			case "java.math.BigDecimal" -> field.set(this, Core.isNotNull(aux) ? Core.toBigDecimal(aux) : null);
 			case "java.sql.Date" -> {
 				if (aux != null && !aux.equals("0")) {
-					aux = DateHelper.convertDate(aux, "dd-mm-yyyy", "yyyy-mm-dd");
+					aux = DateHelper.convertDate(aux, Core.DD_MM_YYYY, Core.YYYY_MM_DD);
 					field.set(this, java.sql.Date.valueOf(aux));
 				}
 			}
