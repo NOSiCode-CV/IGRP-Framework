@@ -4014,12 +4014,10 @@ public final class Core {
         //Date has only day, month and year
         if (date instanceof java.sql.Date) {
             LocalDate ld = ((java.sql.Date) date).toLocalDate();
-            Core.setMessageInfo(date.toString());
             return fmt.format(ld);
             //Timestamp has day, month, year, hour, minute and second
         }else if (date instanceof java.sql.Timestamp) {
             LocalDateTime ld = ((java.sql.Timestamp) date).toLocalDateTime();
-            Core.setMessageInfo(date.toString());
             return fmt.format(ld);
         }
         //java.util.Date has day, month, year, hour, minute and second
