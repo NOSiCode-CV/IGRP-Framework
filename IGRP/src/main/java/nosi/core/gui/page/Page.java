@@ -73,16 +73,18 @@ public class Page{
 		String page = igrpApp.getCurrentPageName();
 		String action = igrpApp.getCurrentActionName();
 		Action ac=null;
+        String vTimeStamp="";
 		if (!app.isEmpty() && !page.isEmpty() && !action.isEmpty()) {
 			ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
-			
+            vTimeStamp="?v="+ Igrp.getInstance().getRequest().getServletContext().getAttribute("startupUUID");
+
 		}
 		if (this.getLinkXsl() != null && !this.getLinkXsl().isEmpty())
 			path_xsl = this.getLinkXsl();
 		else if(ac!=null)
 			path_xsl = new Config().getLinkPageXsl(ac);
 			
-		XMLWritter xml = new XMLWritter("rows", path_xsl);
+		XMLWritter xml = new XMLWritter("rows", path_xsl+vTimeStamp);
 		xml.addXml(new Config().getHeader(this.getView(),ac));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
