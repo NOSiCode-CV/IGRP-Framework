@@ -108,12 +108,23 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String processDefinitionId = Core.getParam(BPMNConstants.PRM_DEFINITION_ID);
 		String taskId = Core.getParamTaskId();
 		if(Core.isNotNullMultiple(this.runtimeTask,taskId)){
-			List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
-			if(!inputDocsAlreadyValidate && parts !=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask, this.inputDocsErrors)) { 
+			List<Part> parts;
+	        String contentType = Igrp.getInstance().getRequest().getContentType();
+	        if (contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
+	            parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+	        } else {
+	            parts = java.util.Collections.emptyList();
+	        }
+
+			if(!inputDocsAlreadyValidate 
+					&& parts !=null 
+					&& !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask, this.inputDocsErrors)) { 
 				if(!this.inputDocsErrors.isEmpty()) 
 					this.inputDocsErrors.forEach(Core::setMessageError); 
 				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
-				return this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
+				return this.forward(this.runtimeTask.getTask().getTenantId(), 
+						BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), 
+						"index",this.queryString());
 			}
 			return this.saveTask(this.runtimeTask.getTask(),taskId,parts);
 		}
@@ -126,12 +137,21 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	protected Response inputDocsHasErrors() throws IOException, ServletException {
 		Response response = null; 
 		inputDocsAlreadyValidate = true; 
-		List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+		List<Part> parts;
+	    String contentType = Igrp.getInstance().getRequest().getContentType();
+	    if (contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
+	        parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+	    } else {
+	        parts = java.util.Collections.emptyList();
+	    }
+
 		if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this, parts, this.runtimeTask, this.inputDocsErrors)) { 
 			if(!this.inputDocsErrors.isEmpty()) 
 				this.inputDocsErrors.forEach(Core::setMessageError); 
 			Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask); 
-			response = this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
+			response = this.forward(this.runtimeTask.getTask().getTenantId(), 
+					BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), 
+					"index",this.queryString());
 		}
 		return response; 
 	}
