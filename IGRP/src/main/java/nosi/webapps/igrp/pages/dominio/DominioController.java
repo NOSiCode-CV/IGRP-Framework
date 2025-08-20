@@ -213,7 +213,7 @@ public class DominioController extends Controller {
 
 		final byte[] bytes = export.execute();
 		if (bytes != null && bytes.length > 0) {
-			final ImportExportDAO importExport = new ImportExportDAO(domain, this.getConfig().getUserName(), DateHelper.getCurrentDataTime(), "Export Domain");
+			final ImportExportDAO importExport = new ImportExportDAO(domain, this.getConfig().getUserName(), Core.getCurrentDataTime(), "Export Domain");
 			importExport.insert();
 			final String fileName = app.getName() + "-" + domain + "_igrp_v." + Config.VERSION;
 			return this.xSend(bytes, fileName + ".jar", MimeType.APPLICATION_JAR, true);

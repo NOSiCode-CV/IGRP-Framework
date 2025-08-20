@@ -127,7 +127,14 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	protected Response inputDocsHasErrors() throws IOException, ServletException {
 		Response response = null;
 		inputDocsAlreadyValidate = true;
-		List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+		List<Part> parts;
+	    String contentType = Igrp.getInstance().getRequest().getContentType();
+	    if (contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
+	        parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+	    } else {
+	        parts = java.util.Collections.emptyList();
+	    }
+
 		if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this, parts, this.runtimeTask, this.inputDocsErrors)) {
 			if(!this.inputDocsErrors.isEmpty())
 				this.inputDocsErrors.forEach(Core::setMessageError);

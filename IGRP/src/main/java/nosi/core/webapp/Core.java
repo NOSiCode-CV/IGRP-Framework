@@ -582,8 +582,19 @@ public final class Core {
 	 * @param outputFormat
 	 * @return {@code java.sql.Date DateHelper.formatDate(data,inputFormat,outputFormat);}
 	 */
-	public static java.sql.Date formatDate(String data, String inputFormat, String outputFormat) {
-		return DateHelper.formatDate(data, inputFormat, outputFormat);
+    @Deprecated
+	public static Date formatDate(String data, String inputFormat, String outputFormat) {
+		return formatDate(data, inputFormat);
+	}
+
+    /**
+     * Format date and return to Type java.sql.Date
+     * @param data
+     * @param inputFormat
+     * @return
+     */
+    public static Date formatDate(String data, String inputFormat) {
+        return DateHelper.formatDate(data, inputFormat);
 	}
 
 	/**
@@ -3847,14 +3858,15 @@ public final class Core {
 	}
 
 	/**
-	 * 
+	 * @deprecated use ToDate(date, formatIn)
 	 * @param date
 	 * @param formatIn
 	 * @param formatOut
 	 * @return DateHelper.formatDate
 	 */
-	public static java.sql.Date ToDate(String date, String formatIn, String formatOut) {
-		return DateHelper.formatDate(date, formatIn, formatOut);
+    @Deprecated
+	public static Date ToDate(String date, String formatIn, String formatOut) {
+		return ToDate(date, formatIn);
 	}
 
 	/**
@@ -3880,13 +3892,18 @@ public final class Core {
 	}
 
 	/**
-	 * 
+     * @deprecated
 	 * @param timeStampDate
 	 * @param formatOut
 	 * @return return formattDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
 	 */
-	public static java.sql.Date convertTimeStampToDateSQL(String timeStampDate, String formatOut) {
-		return DateHelper.convertTimeStampToDate(timeStampDate, formatOut);
+    @Deprecated
+    public static Date convertTimeStampToDateSQL(String timeStampDate, String formatOut) {
+        return convertTimeStampToDateSQL(timeStampDate);
+    }
+
+    public static Date convertTimeStampToDateSQL(String timeStampDate) {
+        return DateHelper.convertTimeStampToDate(timeStampDate);
 	}
 
 	// DATES Functions by Ivone Tavares and Venceslau:
@@ -3935,8 +3952,7 @@ public final class Core {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern(formatOut);
         //Date has only day, month and year
         if (date instanceof java.sql.Date) {
-            LocalDate ld = ((java.sql.Date) date).toLocalDate();
-            return fmt.format(ld);
+            return DateHelper.convertDateToString((java.sql.Date) date,formatOut);
             //Timestamp has day, month, year, hour, minute and second
         }else if (date instanceof java.sql.Timestamp) {
             LocalDateTime ld = ((java.sql.Timestamp) date).toLocalDateTime();
@@ -4105,7 +4121,7 @@ public final class Core {
 	public static java.util.Date ToDateUtil(String strDate, String formatIn) {
 		java.util.Date date;
 		try {
-		if (!formatIn.contains(" ") && !formatIn.contains("H")) {
+		if (DateHelper.isOnlyDateString(formatIn)) {
 			LocalDate localDate = LocalDate.parse(strDate, DateTimeFormatter.ofPattern(formatIn));
 			date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}else{

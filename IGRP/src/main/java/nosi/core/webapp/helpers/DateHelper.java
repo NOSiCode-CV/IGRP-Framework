@@ -28,21 +28,27 @@ public class DateHelper {
 
     if (Core.isNotNull(date) && Core.isNotNull(outputFormat) && Core.isNotNull(formatIn)) {
         try {
-			String dateF = formatDateString(date, formatIn);
-
 			// Convert input date using DateTimeFormatter
             DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(formatIn);
             DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
 
-            // Parse the date based on formatIn
-            LocalDate parsedDate = LocalDate.parse(dateF, formatterIn);
-
-            // Format the date into the desired output format
+                if(isOnlyDateString(formatIn)) {
+                    LocalDate parsedDate = LocalDate.parse(formatDateTimeString(date, formatIn), formatterIn);
+                    myDateString = parsedDate.format(formatterOut);
+                }else{
+                    LocalDateTime parsedDate = LocalDateTime.parse(date, formatterIn);
             myDateString = parsedDate.format(formatterOut);
+                }
+
 
         } catch (Exception e) {
-			System.err.printf("IGRP WARNING convertDate: %n PT- FormatoIN (%s) para esta data (%s). Verifica se MM (mês) está minuscula 'mm' (minutos). %n EN- FormatoIN (%s) for this date (%s). Check if you wanted to be month 'MM' and not minutes like 'mm' %n %s",formatIn,date,formatIn,date,e.getMessage());
-
+                String aux="";
+                String auxEn="";
+                if(formatIn.contains("/mm/") || formatIn.contains("-mm-")){
+                    aux="Verifica se MM (mês) está minuscula 'mm' (minutos).";
+                    auxEn=" Check if you wanted to be month 'MM' and not minutes like 'mm'";
+                }
+                System.err.printf("IGRP WARNING convertDate: %n PT- FormatoIN (%s) para esta data (%s) com FormatOut (%s)."+aux+"  %n EN- FormatoIN (%s) for this date (%s) witn FormatoOut (%s)."+auxEn+" %n %s %n", formatIn, formatDateTimeString(date, formatIn),outputFormat, formatIn, formatDateTimeString(date, formatIn),outputFormat, e.getMessage());
 
             try {
 				SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
@@ -59,24 +65,43 @@ public class DateHelper {
     return myDateString;
 }
 
-	private static String formatDateString(String date, String formatIn) {
+	private static String formatDateTimeString(String date, String formatIn) {
 		// Check if the formatIn does not include time components
-		if (!formatIn.contains(" ") && !formatIn.contains("H") && date.contains(" ")) {
+		if (isOnlyDateString(formatIn)) {
+            if(date.contains(" ")) {
 				date = date.split(" ")[0]; // Extract only the "2021-02-26" part
+            }else if(date.contains("T")) {
+                date = date.split("T")[0]; // Extract only the "2021-02-26" part
+            }
 			}
 		return date;
 	}
 
+    public static boolean isOnlyDateString(String formatIn) {
+        return !formatIn.toLowerCase().contains("h") || !formatIn.toLowerCase().contains("s");
+    }
 
-	public static java.sql.Date formatDate(String data,String inputFormat){ 
+    /**
+     * java.sql.Date does not support time components. Be aware that this method will ignore the time components of the input date.
+     * @param data
+     * @param inputFormat
+     * @return
+     */
+	public static java.sql.Date formatDate(String data,String inputFormat){
 		if(Core.isNotNull(data) && Core.isNotNull(inputFormat)) {
 			try {
-				String dataF = formatDateString(data, inputFormat);
+				String dataF = formatDateTimeString(data, inputFormat);
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern(inputFormat);
 				LocalDate localDate = LocalDate.parse(dataF, formatter);
 				return java.sql.Date.valueOf(localDate);
 			} catch (Exception e) {
-				System.err.printf("IGRP WARNING formatDate:%n PT- FormatoIN (%s) para esta data (%s). Dica MM mês e mm minuto %n EN - FormatoIN (%s) for this date (%s) %n %s",inputFormat,data,inputFormat,data,e.getMessage());;
+                String aux="";
+                String auxEn="";
+                if(inputFormat.contains("/mm/") || inputFormat.contains("-mm-")){
+                    aux="Verifica se MM (mês) está minuscula 'mm' (minutos).";
+                    auxEn=" Check if you wanted to be month 'MM' and not minutes like 'mm'";
+                }
+                System.err.printf("IGRP WARNING formatDate: %n PT- FormatoIN (%s) para esta data (%s)."+aux+"  %n EN- FormatoIN (%s) for this date (%s)."+auxEn+" %n %s %n", inputFormat, formatDateTimeString(data, inputFormat), inputFormat, formatDateTimeString(data, inputFormat), e.getMessage());
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
 					return new java.sql.Date(formatter.parse(data).getTime());
@@ -87,32 +112,13 @@ public class DateHelper {
 		}
 		return null;
 	}
-	
+	@Deprecated
+    /**
+     * @deprecated Use {@link #formatDate(data, inputFormat)} instead.
+     */
 	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){ 
 		if(Core.isNotNull(data) && Core.isNotNull(outputFormat) && Core.isNotNull(inputFormat)) {
-			try {
-				String dataF = formatDateString(data, inputFormat);
-				DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern(inputFormat);
-				DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
-
-				LocalDate localDate = LocalDate.parse(dataF, formatterIn);
-				String finalDate = localDate.format(formatterOut);
-				return java.sql.Date.valueOf(finalDate);
-			} catch (Exception e) {
-				System.err.printf("IGRP WARNING formatDate: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s) %n",inputFormat,data,inputFormat,data);
-				e.printStackTrace();
-
-				try {
-					DateFormat formatter = new SimpleDateFormat(inputFormat);
-					Date date = formatter.parse(data);
-					SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
-					String finalDate = newFormat.format(date);
-					return java.sql.Date.valueOf(finalDate);
-				} catch (ParseException ex) {
-					e.printStackTrace();
-				}
-			}
-
+			return formatDate(data, inputFormat);
 		}
 		return null;
 	}
@@ -131,7 +137,7 @@ public class DateHelper {
 
 	
 	public static String getCurrentDate(String outputFormat){
-		return convertDate(getCurrentDate().toString(), "yyyy-MM-dd", outputFormat);
+		return convertDateToString(getCurrentDate(), outputFormat);
 	}
 	public static String getCurrentDataTime() {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -140,12 +146,13 @@ public class DateHelper {
 	
 
 	public static String convertDateToString(java.sql.Date date,String outputFormat) {
+        outputFormat = outputFormat.replaceAll("[hH]{2}:.*", "00:00");
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(outputFormat);
 		return date.toLocalDate().format(dateTimeFormatter);
 	}
 	
-	public static java.sql.Date convertStringToDate(String date,String outputFormat) {
-		return formatDate(date,outputFormat);
+	public static java.sql.Date convertStringToDate(String date, String inputFormat) {
+		return formatDate(date, inputFormat);
 	}
 	
 	public static String convertTimeStampToDateString(String timeStampDate,String outputFormat) {
@@ -154,17 +161,24 @@ public class DateHelper {
 		}
 		return null;
 	}
-	
+    /**
+     * @deprecated Use {@link #convertTimeStampToDate(String)} instead.
+     */
+    @Deprecated
 	public static java.sql.Date convertTimeStampToDate(String timeStampDate,String outputFormat) {
+		return convertTimeStampToDate(timeStampDate);
+	}
+
+    public static java.sql.Date convertTimeStampToDate(String timeStampDate) {
 		if(Core.isNotNull(timeStampDate)) {
-			return formatDate(timeStampDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", outputFormat);
+            return formatDate(timeStampDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 		}
 		return null;
 	}
 	
 	public static Timestamp convertStringToTimestamp(String str_date,String formatIn) {
 		try {
-			String str_dateF = formatDateString(str_date, formatIn);
+			String str_dateF = formatDateTimeString(str_date, formatIn);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatIn);
 			LocalDateTime localDateTime = LocalDateTime.parse(str_dateF, formatter);
 			return Timestamp.valueOf(localDateTime);
@@ -186,11 +200,11 @@ public class DateHelper {
 		return new java.sql.Date(date.getTime());
 	}
 	
-	
+	//calculate age or months or days
 	private static long calculate(String data,String formatIn,int type) {
 		long result = 0;
 		try {
-			data = Core.convertDate(data, formatIn,"yyyy-MM-dd");
+			data = convertDate(data, formatIn, "yyyy-MM-dd");
 			LocalDate fromDate = LocalDate.parse(data);
 			LocalDate toDate = LocalDate.now();
 			switch (type) {
