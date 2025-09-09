@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "1.8.4.250820";
+    public static final String VERSION = "1.8.4.250909";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -384,7 +384,7 @@ public class Config {
 
     public String getBaseHttpServerPahtXsl(Action page) {
         String APP_LINK_IMAGE = this.getLinkImgBase();
-        if (APP_LINK_IMAGE != null && page != null) {
+        if (page != null) {
             APP_LINK_IMAGE = SEPARATOR_FOR_HTTP + APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
             return APP_LINK_IMAGE + "images" + SEPARATOR_FOR_HTTP + "IGRP" + SEPARATOR_FOR_HTTP + "IGRP" + page.getVersion() + SEPARATOR_FOR_HTTP + "app" + SEPARATOR_FOR_HTTP + page.getApplication().getDad().toLowerCase() + SEPARATOR_FOR_HTTP + page.getPage().toLowerCase();
         }
@@ -504,7 +504,7 @@ public class Config {
         xml.setElement("action", "1");
         String packageName = page != null ? page.getPackage_name() : "";
         int x = page != null ? page.getPackage_name().indexOf("." + page.getPage().toLowerCase()) : -1;
-        if (x != -1 && page != null) {
+        if (x != -1) {
             packageName = page.getPackage_name().substring(0, page.getPackage_name().indexOf("." + page.getPage().toLowerCase()));
         }
         xml.setElement("package_db", packageName);
