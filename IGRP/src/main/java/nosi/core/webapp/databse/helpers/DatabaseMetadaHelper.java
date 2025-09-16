@@ -206,12 +206,12 @@ public class DatabaseMetadaHelper {
 			ParametersHelper.setParameter(q, col.getDefaultValue(), col);
 		}
 	}
-
+    @Deprecated
 	public static List<Column> getCollumns(String connectionName, List<Column> parametersMap, String sql) {
 		List<Column> list = new ArrayList<>();
 		if (Core.isNotNull(sql)) {
 			try (java.sql.Connection con = Connection.getConnection(connectionName);
-					PreparedStatement st = con.prepareStatement(sql)) {
+					PreparedStatement ignored = con.prepareStatement(sql)) {
 				NamedParameterStatement q = new NamedParameterStatement(con, sql);
 				setParameters(q, parametersMap);
 				try (ResultSet rs = q.executeQuery()) {
