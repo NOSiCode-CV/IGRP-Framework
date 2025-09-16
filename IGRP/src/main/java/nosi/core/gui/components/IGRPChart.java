@@ -11,7 +11,6 @@ import javax.persistence.Tuple;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 
 
 public class IGRPChart extends IGRPComponent{
@@ -112,16 +111,16 @@ public class IGRPChart extends IGRPComponent{
 		}
 		this.generateLabels(labels);
 		LinkedHashMap<String, Object> valuesXY = new LinkedHashMap<>();
-		LinkedHashMap<String,LinkedHashMap<String,Object>> valuesXYZ = new LinkedHashMap<>();		
+		//LinkedHashMap<String,LinkedHashMap<String,Object>> valuesXYZ = new LinkedHashMap<>();		
 		for(Object o:this.data) {
 			if(o instanceof IGRPChart2D chart2d) {
                valuesXY.put(chart2d.getEixoX(), chart2d.getEixoY());
 			}
-			else if(o instanceof IGRPChart3D chart3d) {
-               LinkedHashMap<String, Object> value = new LinkedHashMap<>();
-				value.put(chart3d.getEixoY(), ""+chart3d.getEixoZ());
-				valuesXYZ.put(chart3d.getEixoX(), value );
-			}
+//			else if(o instanceof IGRPChart3D chart3d) {
+//               LinkedHashMap<String, Object> value = new LinkedHashMap<>();
+//				value.put(chart3d.getEixoY(), ""+chart3d.getEixoZ());
+//				valuesXYZ.put(chart3d.getEixoX(), value );
+//			}
 		}
 
 		if(!valuesXY.isEmpty())
@@ -167,34 +166,36 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	private void genChartWithQuery() throws Exception {
-		int columnSize = DatabaseMetadaHelper.getCollumns(this.query.getConnectionName(),this.query.getParametersMap(), this.query.getSql()).size();
-		if(columnSize >= 2 && columnSize<=3) {
-			List<Tuple> list = this.query.getResultList();	
-			Set<String> labels = new LinkedHashSet<>();
-			LinkedHashMap<String,Object> valuesXY = new LinkedHashMap<>();
-			list.forEach(t->{
-				try {
-					labels.add(t.get(0)!=null?t.get(0).toString():"");
-					String key = t.get(0)!=null?t.get(0).toString():"";
-					Object v = Core.toDouble(t.get(1)!=null?t.get(1).toString():"0");
-					if(valuesXY.containsKey(key)) {
-						v=valuesXY.get(key);
-					}
-					valuesXY.put(key, v);
-				}catch(IllegalArgumentException e) {
-					Core.log("ERROR:" + e.getLocalizedMessage());
-				}
-			});	
-			this.generateLabels(labels);
-			if(columnSize==2)
-				this.generateRowsValueXY(valuesXY);
-			else if(columnSize==3)
-				this.generateRowsValueXYZ(list);
-		}else {
-			Core.setMessageError("Invalid Query");
-			Core.log("Invalid Query not columnSize >= 2 && columnSize<=3: "+ this.query.getSql());
-			throw new Exception("Invalid Query");
-		}
+        List<Tuple> list = this.query.getResultList();
+        if (list == null || list.isEmpty()) {
+          return;
+        }
+        int columnSize = list.get(0).getElements().size();
+        if (columnSize >= 2 && columnSize <= 3) {
+            Set<String> labels = new LinkedHashSet<>();
+            LinkedHashMap<String, Object> valuesXY = new LinkedHashMap<>();
+            list.forEach(t -> {
+                try {
+                    labels.add(t.get(0) != null ? t.get(0).toString() : "");
+                    String key = t.get(0) != null ? t.get(0).toString() : "";
+                    Object v = Core.toDouble(t.get(1) != null ? t.get(1).toString() : "0");
+                    if (valuesXY.containsKey(key)) {
+                        v = valuesXY.get(key);
+                    }
+                    valuesXY.put(key, v);
+                } catch (IllegalArgumentException e) {
+                    Core.log("ERROR:" + e.getLocalizedMessage());
+                }
+            });
+            this.generateLabels(labels);
+            if (columnSize == 2)
+                this.generateRowsValueXY(valuesXY);
+            else this.generateRowsValueXYZ(list);
+        } else {
+            Core.setMessageError("Invalid Query");
+            Core.log("Invalid Query not columnSize >= 2 && columnSize<=3: " + this.query.getSql());
+            throw new Exception("Invalid Query");
+        }
 	}
 	
 	private void generateRowsValueXYZ(List<Tuple> list) {

@@ -356,8 +356,8 @@ public class ListaPageController extends Controller {
 			Core.setAttribute("p_pagina_ids_check_fk", new String[] { "" + id });
 			// insert data on import/export table
 			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
-					DateHelper.getCurrentDataTime(), "Export");
-			ie_dao.insert();
+					Core.getCurrentDataTime(), "Export");
+			ie_dao = ie_dao.insert();
 
 			byte[] bytes = ExportHelper.export(model_w);
 			if (bytes != null) {
