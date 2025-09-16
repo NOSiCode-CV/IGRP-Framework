@@ -11,7 +11,6 @@ import javax.persistence.Tuple;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 
 
 public class IGRPChart extends IGRPComponent{
@@ -21,7 +20,7 @@ public class IGRPChart extends IGRPComponent{
 	private String xaxys;
 	private String yaxys;
 	private String url;
-	private List<String> colors;
+	private final List<String> colors;
 	private BaseQueryInterface query;
 	
 	public IGRPChart(String tag_name,String title) {
@@ -112,18 +111,17 @@ public class IGRPChart extends IGRPComponent{
 		}
 		this.generateLabels(labels);
 		LinkedHashMap<String, Object> valuesXY = new LinkedHashMap<>();
-		LinkedHashMap<String,LinkedHashMap<String,Object>> valuesXYZ = new LinkedHashMap<>();		
+		//LinkedHashMap<String,LinkedHashMap<String,Object>> valuesXYZ = new LinkedHashMap<>();
 		for(Object o:this.data) {
 			if(o instanceof IGRPChart2D) {
 				IGRPChart2D chart2d = (IGRPChart2D) o;
 				valuesXY.put(chart2d.getEixoX(), chart2d.getEixoY());
 			}
-			else if(o instanceof IGRPChart3D) {
-				IGRPChart3D chart3d = (IGRPChart3D) o;
-				LinkedHashMap<String, Object> value = new LinkedHashMap<>();
-				value.put(chart3d.getEixoY(), ""+chart3d.getEixoZ());
-				valuesXYZ.put(chart3d.getEixoX(), value );
-			}
+//			else if(o instanceof IGRPChart3D chart3d) {
+//               LinkedHashMap<String, Object> value = new LinkedHashMap<>();
+//				value.put(chart3d.getEixoY(), ""+chart3d.getEixoZ());
+//				valuesXYZ.put(chart3d.getEixoX(), value );
+//			}
 		}
 
 		if(!valuesXY.isEmpty())
@@ -169,9 +167,12 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	private void genChartWithQuery() throws Exception {
-		int columnSize = DatabaseMetadaHelper.getCollumns(this.query.getConnectionName(),this.query.getParametersMap(), this.query.getSql()).size();
-		if(columnSize >= 2 && columnSize<=3) {
 			List<Tuple> list = this.query.getResultList();	
+        if (list == null || list.isEmpty()) {
+          return;
+        }
+        int columnSize = list.get(0).getElements().size();
+        if (columnSize >= 2 && columnSize <= 3) {
 			Set<String> labels = new LinkedHashSet<>();
 			LinkedHashMap<String,Object> valuesXY = new LinkedHashMap<>();
 			list.forEach(t->{
@@ -190,8 +191,7 @@ public class IGRPChart extends IGRPComponent{
 			this.generateLabels(labels);
 			if(columnSize==2)
 				this.generateRowsValueXY(valuesXY);
-			else if(columnSize==3)
-				this.generateRowsValueXYZ(list);
+            else this.generateRowsValueXYZ(list);
 		}else {
 			Core.setMessageError("Invalid Query");
 			Core.log("Invalid Query not columnSize >= 2 && columnSize<=3: "+ this.query.getSql());
@@ -235,9 +235,9 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.startElement("value");
 		this.xml.startElement("row");
 		this.xml.setElement("col"," ");
-		valuesXY.entrySet().forEach(t->{
+		valuesXY.forEach((key, value) -> {
 			try {
-				this.xml.setElement("col",t.getValue());
+              this.xml.setElement("col", value);
 			}catch(IllegalArgumentException e) {
 				this.xml.setElement("col","");
 			}

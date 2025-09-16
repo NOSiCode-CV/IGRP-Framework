@@ -207,12 +207,12 @@ public class DatabaseMetadaHelper {
 			ParametersHelper.setParameter(q, col.getDefaultValue(), col);
 		}
 	}
-
+    @Deprecated
 	public static List<Column> getCollumns(String connectionName, List<Column> parametersMap, String sql) {
 		List<Column> list = new ArrayList<>();
 		if (Core.isNotNull(sql)) {
 			try (java.sql.Connection con = Connection.getConnection(connectionName);
-					PreparedStatement st = con.prepareStatement(sql)) {
+					PreparedStatement ignored = con.prepareStatement(sql)) {
 				NamedParameterStatement q = new NamedParameterStatement(con, sql);
 				setParameters(q, parametersMap);
 				try (ResultSet rs = q.executeQuery()) {
@@ -286,8 +286,9 @@ public class DatabaseMetadaHelper {
 				}
 			}
 		} catch (Exception e) {
+			schemasMap.put(null, "Conexão à base de dados sem sucesso!");
 			e.printStackTrace();
-			Core.setMessageError("Conexão à base de dados sem sucesso.");
+			//Core.setMessageError("Conexão à base de dados sem sucesso! ");
 		}
 		return schemasMap;
 	}
@@ -451,9 +452,9 @@ public class DatabaseMetadaHelper {
 
 	public static Column getPrimaryKey(Config_env config, String schemaName, String tableName) {
 		List<Column> listCols = getCollumns(config, schemaName, tableName);
-		List<String> keys = getPrimaryKeys(config, schemaName, tableName);
 		if (!listCols.isEmpty()) {
-			listCols = listCols.stream().filter(col -> keys.contains(col.getName())).collect(Collectors.toList());
+            List<String> keys = getPrimaryKeys(config, schemaName, tableName);
+            listCols = listCols.stream().filter(col -> keys.contains(col.getName())).collect(Collectors.toList());
 			return (!listCols.isEmpty()) ? listCols.get(0) : null;
 		}
 		return null;
