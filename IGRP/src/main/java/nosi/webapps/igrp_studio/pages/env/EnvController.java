@@ -35,11 +35,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -415,7 +411,7 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) {
-			//TODO: deve ver se a aplicacao da pagina é nao tutorial e ver o que acontece se for diferentes...
+			//deve ver se a aplicacao da pagina é nao tutorial e ver o que acontece se for diferentes...
 			Application env = Core.findApplicationByDad(p[0]);
 			if(env.getExternal()==0)
 				 env = Core.findApplicationByDad(app);
@@ -480,7 +476,11 @@ public class EnvController extends Controller {
 		AppConfig appConfig = new AppConfig(); 
 		appConfig.setUrl(baseUrl);
 		appConfig.setToken(token);
-		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail()); 
+        final User currentUser = Core.getCurrentUser();
+        if(currentUser == null) {
+            return host;
+        }
+        List<App> allApps = appConfig.userApps(currentUser.getEmail());
 		for(App app : allApps) { 
 			if(app.getAvailable().equals("yes")) 
 				allowApps.add(app);
@@ -530,7 +530,7 @@ public class EnvController extends Controller {
 		Map<String,String> files = new LinkedHashMap<>();
 		if(FileHelper.fileExists(path)){
 		File folder = new File(path);
-		   for (final File fileEntry : folder.listFiles()) {
+		   for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
 		       if (fileEntry.isDirectory()) {
 		           files.putAll(listFilesDirectory(fileEntry.toString()));
 		       } else {

@@ -51,6 +51,19 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	private String img_src;
 	private String description;
 	private int status;
+
+	// Cache in-memory (TTL 10s) para getPermissionApp(dadID, userID)
+	private static final java.util.concurrent.ConcurrentHashMap<String, CacheEntry> PERM_CACHE = new java.util.concurrent.ConcurrentHashMap<>();
+	private static final long PERM_CACHE_TTL_MS = 10_000L;
+	private static String permKey(Integer dadID, Integer userID) {
+		return (userID != null ? userID : -1) + ":" + (dadID != null ? dadID : -1);
+	}
+
+    private record CacheEntry(boolean value, long ts) {
+    }
+	public static void evictPermissionCache(Integer dadID, Integer userID) {
+		PERM_CACHE.remove(permKey(dadID, userID));
+	}
 	private String template;
 	private int externo;
 	private String url;
@@ -364,13 +377,23 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getPermissionApp(dadID,userID) ;
 	}
 	public boolean getPermissionApp(Integer dadID, Integer userID) {
+		// Cache lookup (10s)
+		final String key = permKey(dadID, userID);
+		final long now = System.currentTimeMillis();
+		CacheEntry entry = PERM_CACHE.get(key);
+		if (entry != null && (now - entry.ts) <= PERM_CACHE_TTL_MS) {
+			return entry.value;
+		}
+
 		long p = new Profile().find().limit(1)
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", userID)
 				.andWhere("type_fk", "=",dadID)
 				.getCount() ;
 		
-		return p > 0;
+		boolean result = p > 0;
+		PERM_CACHE.put(key, new CacheEntry(result, now));
+		return result;
 	}
 
 	public List<Profile> getMyApp() {
