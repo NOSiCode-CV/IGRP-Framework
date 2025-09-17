@@ -149,7 +149,7 @@ public class Permission {
 			if (cookies == null) return null;
 			String cookieName = LAST_PROFILE_COOKIE_PREFIX + dad.toLowerCase();
 			Optional<Cookie> opt = Arrays.stream(cookies).filter(c -> cookieName.equalsIgnoreCase(c.getName())).findFirst();
-			if (opt.isEmpty()) return null;
+			if (opt.isEmpty() || opt.get().getValue()==null) return null;
 
 			String json = URLDecoder.decode(opt.get().getValue(), StandardCharsets.UTF_8);
 			if (Core.isNull(json)) return null;
