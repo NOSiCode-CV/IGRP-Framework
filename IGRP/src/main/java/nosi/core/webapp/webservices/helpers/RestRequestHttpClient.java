@@ -3,6 +3,7 @@ package nosi.core.webapp.webservices.helpers;
 
 import com.google.gson.annotations.Expose;
 import jakarta.ws.rs.core.MediaType;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.request.Credentials;
 import nosi.core.webapp.helpers.UrlHelper;
 
@@ -57,6 +58,8 @@ public class RestRequestHttpClient {
 	}
 
 	public HttpResponse<String> get(String url) {
+        if(Core.isNull(username) || Core.isNull(password))
+            return null;
 		this.addUrl(url);
 		HttpClient httpClient = httpClientBuilder.build();
 		HttpRequest request = HttpRequest.newBuilder()
@@ -75,7 +78,9 @@ public class RestRequestHttpClient {
 		return this.get(url+"/"+id);
 	}
 	public HttpResponse<String> post(String url, String content) {
-			this.addUrl(url);
+        if(Core.isNull(username) || Core.isNull(password))
+            return null;
+        this.addUrl(url);
 			HttpClient httpClient = httpClientBuilder.build();
 
 			HttpRequest request = HttpRequest.newBuilder()

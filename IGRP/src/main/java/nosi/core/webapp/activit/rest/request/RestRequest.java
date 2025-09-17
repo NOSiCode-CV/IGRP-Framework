@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 
+import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.helpers.ConfigurationRequest;
 import nosi.core.webapp.webservices.helpers.RestRequestHttpClient;
 
@@ -76,6 +77,8 @@ public class RestRequest extends nosi.core.webapp.webservices.helpers.RestReques
 	}
 
 	public String getString(String url){
+       if(Core.isNull(this.getUsername()))
+                return "";
 		var authString = this.getUsername() + ":" + this.getPassword();
 		var encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 
