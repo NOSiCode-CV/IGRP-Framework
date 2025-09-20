@@ -51,15 +51,16 @@ public class Permission {
 	}
 
 	public  void changeOrgAndProfile(String dad){
+        final User currentUser = Core.getCurrentUser();
+        if(Core.isNull(dad) || currentUser ==null)
+			return;
 		Application app = Core.findApplicationByDad(dad);
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
 		Profile prof = new Profile();
 		if(app!=null && Igrp.getInstance().getRequest().getSession()!=null){			
 			int id_user = 0;
-			try {// eliminar 
-				id_user = Core.getCurrentUser().getIdentityId();
-			}catch(Exception ignored) {}
+            id_user = currentUser.getIdentityId();
 			if(app.getPermissionApp(app.getId())){
 				prof = prof.getByUserPerfil(id_user,app.getId());
 				ApplicationPermition appP = this.getApplicationPermition(dad);
@@ -130,6 +131,8 @@ public class Permission {
 	
 	public ApplicationPermition getApplicationPermition() {
 		String dad = Core.getParam("dad");
+        if(Core.isNull(dad))
+            return null;
 		return this.getApplicationPermition(dad);
 	}
 	

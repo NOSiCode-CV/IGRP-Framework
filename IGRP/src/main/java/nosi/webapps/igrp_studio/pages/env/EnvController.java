@@ -11,6 +11,7 @@ import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.*;
+import nosi.webapps.igrp.dao.User;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -441,14 +442,16 @@ public class EnvController extends Controller {
 	private String getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
 		String host="";
 		Properties properties =  this.configApp.getMainSettings();
-		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()); 
-		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value()); 
+		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value());
+		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value());
 		AppConfig appConfig = new AppConfig(); 
 		appConfig.setUrl(baseUrl);
 		appConfig.setToken(token);
-		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail());
-
-
+        final User currentUser = Core.getCurrentUser();
+        if(currentUser == null) {
+            return host;
+        }
+        List<App> allApps = appConfig.userApps(currentUser.getEmail());
 		for(App app : allApps) {
 			if(app.getAvailable().equals("yes")) 
 				allowApps.add(app);
@@ -491,7 +494,7 @@ public class EnvController extends Controller {
 		Map<String,String> files = new LinkedHashMap<>();
 		if(FileHelper.fileExists(path)){
 		File folder = new File(path);
-		   for (final File fileEntry : folder.listFiles()) {
+		   for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
 		       if (fileEntry.isDirectory()) {
 		           files.putAll(listFilesDirectory(fileEntry.toString()));
 		       } else {
@@ -571,9 +574,9 @@ public class EnvController extends Controller {
 							xml.endElement();
 							xml.startElement("tipo");
 							String aux = field.getType().getSimpleName();
-							if (field.getAnnotation(ManyToOne.class) != null || field.getAnnotation(OneToOne.class) != null)
+							if (field.isAnnotationPresent(ManyToOne.class) || field.isAnnotationPresent(OneToOne.class))
 								aux += "_FK#";
-							else if (field.getAnnotation(GeneratedValue.class) != null)
+							else if (field.isAnnotationPresent(GeneratedValue.class))
 								aux += "_PK#";
 							xml.text(aux);
 							xml.endElement();
