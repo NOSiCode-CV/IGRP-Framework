@@ -7,14 +7,7 @@ import static nosi.core.i18n.Translator.gt;
  * 29 Jun 2017
  */
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -52,6 +45,56 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	private String img_src;
 	private String description;
 	private int status;
+
+	// Cache in-memory (TTL 10s) para getPermissionApp(dadID, userID)
+	private static final java.util.concurrent.ConcurrentHashMap<String, CacheEntry> PERM_CACHE = new java.util.concurrent.ConcurrentHashMap<>();
+	private static final long PERM_CACHE_TTL_MS = 10_000L;
+	private static String permKey(Integer dadID, Integer userID) {
+		return (userID != null ? userID : -1) + ":" + (dadID != null ? dadID : -1);
+	}
+
+    private final class CacheEntry {
+        private final boolean value;
+        private final long ts;
+
+        private CacheEntry(boolean value, long ts) {
+            this.value = value;
+            this.ts = ts;
+        }
+
+        public boolean value() {
+            return value;
+        }
+
+        public long ts() {
+            return ts;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) return true;
+            if (obj == null || obj.getClass() != this.getClass()) return false;
+            CacheEntry that = (CacheEntry) obj;
+            return this.value == that.value &&
+                    this.ts == that.ts;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value, ts);
+        }
+
+        @Override
+        public String toString() {
+            return "CacheEntry[" +
+                    "value=" + value + ", " +
+                    "ts=" + ts + ']';
+        }
+
+        }
+	public static void evictPermissionCache(Integer dadID, Integer userID) {
+		PERM_CACHE.remove(permKey(dadID, userID));
+	}
 	private String template;
 	private int externo;
 	private String url;
@@ -311,17 +354,15 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		}		
 		if(!list.isEmpty()){
 			list=list.stream() 
-					.filter(distinctByKey(Profile::getType_fk)) 
-					.collect(Collectors.toList());
-				list.sort(Comparator.comparing(Profile::getType_fk));
+					.filter(distinctByKey(Profile::getType_fk))
+                    .sorted(Comparator.comparing(Profile::getType_fk))
+                    .collect(Collectors.toList());
 			if(allInative) {
-				list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
-				.collect(Collectors.toList());
+                list.forEach(profile -> listApp.add(profile.getProfileType().getApplication()));
 			}else {
 				list.stream()
 				.filter(profile->profile.getOrganization().getApplication().getStatus()==1)
-				.peek(e->listApp.add(e.getProfileType().getApplication()))
-				.collect(Collectors.toList());
+						.forEach(profile -> listApp.add(profile.getProfileType().getApplication()));
 			}
 			
 			
@@ -347,12 +388,23 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return getPermissionApp(dadID,userID) ;
 	}
 	public boolean getPermissionApp(Integer dadID, Integer userID) {
+		// Cache lookup (10s)
+		final String key = permKey(dadID, userID);
+		final long now = System.currentTimeMillis();
+		CacheEntry entry = PERM_CACHE.get(key);
+		if (entry != null && (now - entry.ts) <= PERM_CACHE_TTL_MS) {
+			return entry.value;
+		}
+
 		long p = new Profile().find().limit(1)
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", userID)
 				.andWhere("type_fk", "=",dadID)
 				.getCount() ;
-		return p > 0;
+
+		boolean result = p > 0;
+		PERM_CACHE.put(key, new CacheEntry(result, now));
+		return result;
 	}
 
 	public List<Profile> getMyApp() {
@@ -365,9 +417,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				.andWhere("type_fk", ">", 1)
 				.all();
 		list=list.stream() 
-			.filter(distinctByKey(Profile::getType_fk)) 
+			.filter(distinctByKey(Profile::getType_fk))
+                .sorted(Comparator.comparing(Profile::getType_fk))
 			.collect(Collectors.toList());
-		list.sort(Comparator.comparing(Profile::getType_fk));
+
 		return list;
 	}
 	
@@ -379,21 +432,21 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				.all();
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
-				.filter(distinctByKey(Profile::getType_fk)) 
+				.filter(distinctByKey(Profile::getType_fk))
+                    .sorted(Comparator.comparing(Profile::getType_fk))
 				.collect(Collectors.toList());
-			list.sort(Comparator.comparing(Profile::getType_fk));
+
 			return list;
 		}
 		return null;
 	}
 
 	public List<Profile> getAllProfile(String dad) {
-		List<Profile> list = new Profile().find()
+		return new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("type_fk", ">", 1)
 				.andWhere("organization.application.dad", "=", dad)
 				.all();
-		return list; 
 	}
 	
 	public List<User> getAllUsers(String dad) {
