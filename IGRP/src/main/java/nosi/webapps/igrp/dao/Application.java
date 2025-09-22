@@ -53,7 +53,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return (userID != null ? userID : -1) + ":" + (dadID != null ? dadID : -1);
 	}
 
-    private final class CacheEntry {
+    private static final class CacheEntry {
         private final boolean value;
         private final long ts;
 
