@@ -412,7 +412,9 @@ public class MigrationController extends Controller {
 					List<Domain> domains = new Domain().find().where("dominio","=",domainId).all().stream().filter(distinctByKey(Domain::getValor)).collect(Collectors.toList());
                    for (Domain domain : domains) {
                       if (domain != null) {
-                         auxContent.append("\t  this.domains.add(new Domain(\"").append(domain.getDominio()).append("\", \"").append(domain.getValor()).append("\", \"").append(domain.getDescription()).append("\", \"").append(domain.getStatus()).append("\", ").append(domain.getordem()).append(", DomainType.").append(domain.getDomainType()).append(", this.app));\n");
+						  auxContent.append("\t  this.domains.add(new Domain(\"").append(domain.getDominio()).append("\", \"").append(domain.getValor()).append("\", \"")
+								  .append(domain.getDescription().replace("\"","'"))
+								  .append("\", \"").append(domain.getStatus()).append("\", ").append(domain.getordem()).append(", DomainType.").append(domain.getDomainType()).append(", this.app));\n");
                       }
                    }
 					

@@ -70,7 +70,7 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
-					.andWhere("user.email", "=", model.getEmail()).setShowConsoleSql(true)
+					.andWhere("user.email", "=", model.getEmail())
 					.all();
 		} else {
 			Application app = Core.getCurrentApp();
@@ -85,25 +85,9 @@ public class PesquisarUtilizadorController extends Controller {
 
 		// Preenchendo a tabela
 		for (Profile p : profiles) {
-			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-			
-			int status = p.getUser()!=null?p.getUser().getStatus():0;
-			table1.setAtivo(1);
-			if(status == 0 || p.getType().equals(PROF_DIS)) {
-				table1.setAtivo_check(0);
-			}else {
-				table1.setAtivo_check(table1.getAtivo());
-			}
-			
-			table1.setTb_email(p.getUser().getEmail());
-			table1.setCheck_email_hidden(p.getUser().getEmail());
-			table1.setNome(p.getUser().getUser_name());
-			table1.setNominho(p.getUser().getName());
-			table1.setPerfile(p.getProfileType().getApplication().getName() + "/"
-					+ p.getProfileType().getOrganization().getName() + "/" + p.getProfileType().getDescr());
-			table1.setId("" + p.getId());
+			final PesquisarUtilizador.Table_1 rowTable1 = getRowTable1(p);
 
-			lista.add(table1);
+			lista.add(rowTable1);
 		}	
 
 		switch (this.getConfig().getAutenticationType()) {
@@ -136,7 +120,9 @@ public class PesquisarUtilizadorController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-	
+
+
+
 	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
@@ -367,27 +353,43 @@ public class PesquisarUtilizadorController extends Controller {
 		/* Start-Code-Block (eliminar)  *//* End-Code-Block  */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
+		this.addQueryString("p_aplicacao",model.getAplicacao());
+		this.addQueryString("target","_blank");
 		if (id != null) {
+			//Coloca inativo o perfil apagado
 			Profile p = new Profile().findOne(id);
-			this.addQueryString("p_aplicacao",model.getAplicacao());
-			Profile delEnv = new Profile().find()
-					.andWhere("type", "=", "ENV")
-					.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())
-					.andWhere("organization.id", "=", p.getOrganization().getId())
-					.andWhere("profileType.id", "=", p.getProfileType().getId())
-					.andWhere("user.id", "=", p.getUser().getId())
-					.one(); 								
-			if(delEnv!= null)
-				delEnv.delete();
 			p.setType("INATIVE_" + p.getType());
 			p = p.update();
+
 			if (!p.hasError()) {
+				//  Count if there is no more profiles for this user, to inativate the invite
+				final Long count = new Profile().find()
+						.andWhere("type", "=", "PROF")
+						.andWhere("organization.application.id", "=", p.getOrganization().getApplication().getId())
+						//.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())
+						.andWhere("user.id", "=", p.getUser().getId())
+						.getCount();
+				if(count ==0){
+					List<Profile> listDelEnv = new Profile().find()
+					.andWhere("type", "=", "ENV")
+					.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())
+							//.andWhere("organization.id", "=", p.getOrganization().getId())
+							//	.andWhere("profileType.id", "=", p.getProfileType().getId())
+					.andWhere("user.id", "=", p.getUser().getId())
+							.all();
+					if(listDelEnv!= null){
+						for (Profile delEnv: listDelEnv) {
+				delEnv.delete();
+						}
+
+					}
+				}
 				Core.setMessageSuccess();	
 				return this.redirect("igrp", "PesquisarUtilizador", "index", this.queryString());
 			}
 		}      
 		Core.setMessageError();     
-		return this.redirect("igrp", "PesquisarUtilizador", "index", this.queryString());
+		return this.forward("igrp", "PesquisarUtilizador", "index", this.queryString());
 		/*----#end-code----*/
 			
 	}
@@ -402,6 +404,7 @@ public class PesquisarUtilizadorController extends Controller {
     	      String status = Core.getParam("p_ativo_check");
 			  Integer id = Core.getParamInt("p_id");
     	      boolean response = false;
+    	      // Attempts to update profile and user status
     	      try {
 				  Profile p = new Profile().findOne(id);
 				  if(p != null) {
@@ -410,6 +413,7 @@ public class PesquisarUtilizadorController extends Controller {
 				  }
     	          if(status.equals("true") && email != null) {
     	              User u =Core.findUserByEmail(email);
+    	              // Enables user if found and inactive
     	              if(u != null && u.getStatus()==0) {
     	                  u.setStatus(1);
     	                  u = u.update();
@@ -424,9 +428,31 @@ public class PesquisarUtilizadorController extends Controller {
     	      json.put("status", response);     
     	
     	      return this.renderView(json.toString());
-    	    }	
-    
-    
+    	    }
+
+	/**
+	 * Maps profile data to table representation
+	 */
+	private static PesquisarUtilizador.Table_1 getRowTable1(Profile p) {
+		PesquisarUtilizador.Table_1 rowTable1 = new PesquisarUtilizador.Table_1();
+
+		int status = p.getUser()!=null? p.getUser().getStatus():0;
+		rowTable1.setAtivo(1);
+		if(status == 0 || p.getType().equals(PROF_DIS)) {
+			rowTable1.setAtivo_check(0);
+		}else {
+			rowTable1.setAtivo_check(rowTable1.getAtivo());
+		}
+
+		rowTable1.setTb_email(p.getUser().getEmail());
+		rowTable1.setCheck_email_hidden(p.getUser().getEmail());
+		rowTable1.setNome(p.getUser().getUser_name());
+		rowTable1.setNominho(p.getUser().getName());
+		rowTable1.setPerfile(p.getProfileType().getApplication().getName() + "/"
+				+ p.getProfileType().getOrganization().getName() + "/" + p.getProfileType().getDescr());
+		rowTable1.setId("" + p.getId());
+		return rowTable1;
+	}
     
 	/*----#end-code----*/
 }

@@ -172,8 +172,9 @@ public class NovoUtilizadorController extends Controller {
 //					List of invites to the app with this profile associated
                    final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
                            .andWhere("type_fk", "=", model.getAplicacao())
-                           .andWhere("organization.id", "=", org.getId())
-                           .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                           //.andWhere("organization.id", "=", org.getId())
+                           //.andWhere("profileType.id", "=", prof.getId())
+						   .andWhere("user.id", "=", u.getId())
                            .one();
 
                    if (Core.isNull(result2)) {
@@ -192,8 +193,9 @@ public class NovoUtilizadorController extends Controller {
              if (insert) {
                 if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
                         .andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-                        .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
-//					 Already invited
+                        .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one()))
+				{
+//					Is Already invited
                    Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
                    ok = false;
                 } else {
@@ -203,8 +205,9 @@ public class NovoUtilizadorController extends Controller {
 //						Check if exists already a ENV						
                       if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
                               .andWhere("type_fk", "=", model.getAplicacao())
-                              .andWhere("organization.id", "=", org.getId())
-                              .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                             // .andWhere("organization.id", "=", org.getId())
+                             // .andWhere("profileType.id", "=", prof.getId())
+							  .andWhere("user.id", "=", u.getId())
                               .one())) {
 //							ENV not added, so must be inserted the application
                          p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
@@ -238,9 +241,9 @@ public class NovoUtilizadorController extends Controller {
 		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
 		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
 		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
-		UserClaimValuesResponseDTO result = null; 
-		if(email.endsWith("cv")) {
+		UserClaimValuesResponseDTO result = null;
 			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
+        if(email.endsWith("cv")) {
 			request.setUserName(RemoteUserStoreManagerServiceConstants.GOVCV_TENANT + "/" + email);
 			result = client.getUserClaimValues(request);
 			if(result == null || result.getClaimDTOs().isEmpty()) {
@@ -252,7 +255,6 @@ public class NovoUtilizadorController extends Controller {
 				}
 			}
 		}else {
-			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
 			request.setUserName(email);
 			result = client.getUserClaimValues(request);
 			if(result == null || result.getClaimDTOs().isEmpty()) {
@@ -287,18 +289,17 @@ public class NovoUtilizadorController extends Controller {
 		if (!personArray.isEmpty()) {
            for (LdapPerson ldapPerson : personArray) {
               userLdap = new User();
-              LdapPerson person = ldapPerson;
-              // System.out.println(person);
-              if (person.getName() != null && !person.getName().isEmpty())
-                 userLdap.setName(person.getName());
-              else if (person.getDisplayName() != null && !person.getDisplayName().isEmpty())
-                 userLdap.setName(person.getDisplayName());
-              else if (person.getFullName() != null && !person.getFullName().isEmpty())
-                 userLdap.setName(person.getFullName());
+               // System.out.println(person);
+              if (ldapPerson.getName() != null && !ldapPerson.getName().isEmpty())
+                 userLdap.setName(ldapPerson.getName());
+              else if (ldapPerson.getDisplayName() != null && !ldapPerson.getDisplayName().isEmpty())
+                 userLdap.setName(ldapPerson.getDisplayName());
+              else if (ldapPerson.getFullName() != null && !ldapPerson.getFullName().isEmpty())
+                 userLdap.setName(ldapPerson.getFullName());
               else
-                 userLdap.setName(person.getMail().substring(0, person.getMail().indexOf("@")));
-              userLdap.setUser_name(person.getMail().toLowerCase().trim());
-              userLdap.setEmail(person.getMail().trim().toLowerCase());
+                 userLdap.setName(ldapPerson.getMail().substring(0, ldapPerson.getMail().indexOf("@")));
+              userLdap.setUser_name(ldapPerson.getMail().toLowerCase().trim());
+              userLdap.setEmail(ldapPerson.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
               userLdap.setStatus(0);
               userLdap.setCreated_at(System.currentTimeMillis());
@@ -307,7 +308,7 @@ public class NovoUtilizadorController extends Controller {
               userLdap.setActivation_key(nosi.core.webapp.User.generateActivationKey());
            }
 		} else
-			Core.setMessageError("Este utilizador não existe.");
+			Core.setMessageError("Este utilizador não existe com este e-mail: "+email);
 
 		return userLdap;
 	}
@@ -500,7 +501,7 @@ public class NovoUtilizadorController extends Controller {
                 }
 
              } else {
-                Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
+                Core.setMessageError("Este utilizador não existe no LDAP para convidar com e-mail: "+email);
 
              }
           } else
@@ -593,7 +594,7 @@ public class NovoUtilizadorController extends Controller {
 				new NovoUtilizadorView().perfil, null));
 	}
 
-	private Properties settings = this.configApp.getMainSettings();
+	private final Properties settings = this.configApp.getMainSettings();
 
 	/*----#end-code----*/
 }
