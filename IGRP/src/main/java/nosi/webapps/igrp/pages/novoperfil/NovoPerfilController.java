@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Controller;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -12,6 +11,7 @@ import nosi.core.webapp.Response;//
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Igrp;
 
 import nosi.webapps.igrp.dao.Action;
@@ -110,7 +110,7 @@ public class NovoPerfilController extends Controller {
 			 * pt.getDescr()); group.setType("assignment"); group.create(group);
 			 */
 			if(!this.getConfig().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value())) {
-				if (Boolean.TRUE.equals(insertProfile(pt))) {
+				if (insertProfile(pt)) {
 					Core.setMessageSuccess("Perfil criado com sucesso");
 				}else {
 					Core.setMessageError();
@@ -124,14 +124,14 @@ public class NovoPerfilController extends Controller {
 				return this.forward("igrp", "NovoPerfil", "index", this.queryString());
 			}
 
-
+		this.addQueryString(viewNP.organica.getParamTag(),model.getOrganica());
 		return this.redirect("igrp", "NovoPerfil", "index", this.queryString());
 		/*----#end-code----*/
 			
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-
+	NovoPerfilView viewNP = new NovoPerfilView();
 	public Response actionFillCodigo() throws IllegalArgumentException {
 		nosi.core.webapp.helpers.RemoteXML remoteXml = Core.remoteXml();
 
@@ -149,7 +149,7 @@ public class NovoPerfilController extends Controller {
 		return this.renderView(xml);
 	}
 
-	private Boolean insertProfile(ProfileType pt) throws IOException {
+	private boolean insertProfile(ProfileType pt) {
 		Profile prof = new Profile();
 		prof.setUser(Core.getCurrentUser());
 		prof.setType("PROF");
