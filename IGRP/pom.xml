@@ -65,7 +65,7 @@
       <apache.commons.lang3.version>3.18.0</apache.commons.lang3.version>
       <apache.commons.text.version>1.13.1</apache.commons.text.version>
       <apache.commons.io.version>2.19.0</apache.commons.io.version>
-      <apache.logging.log4j.version>2.24.3</apache.logging.log4j.version>
+      <apache.logging.log4j.version>[2.25.3,2.99)</apache.logging.log4j.version>
 
        <slf4j.version>2.0.17</slf4j.version>
    
