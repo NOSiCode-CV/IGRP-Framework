@@ -47,7 +47,7 @@ public class DateHelper {
                     aux="Verifica se MM (mês) está minuscula 'mm' (minutos).";
                     auxEn=" Check if you wanted to be month 'MM' and not minutes like 'mm'";
                 }
-                System.err.printf("IGRP WARNING convertDate: %n PT- FormatoIN (%s) para esta data (%s) com FormatOut (%s)."+aux+"  %n EN- FormatoIN (%s) for this date (%s) witn FormatoOut (%s)."+auxEn+" %n %s %n", formatIn, formatDateTimeString(date, formatIn),outputFormat, formatIn, formatDateTimeString(date, formatIn),outputFormat, e.getMessage());
+                System.err.printf("%s- IGRP WARNING convertDate: %n PT- FormatoIN (%s) para esta data (%s) com FormatOut (%s)."+aux+"  %n EN- FormatoIN () for this date (%s) witn FormatoOut (%s)."+auxEn+" %n %s %n",Core.getCurrentDad(), formatIn, formatDateTimeString(date, formatIn),outputFormat, formatIn, formatDateTimeString(date, formatIn),outputFormat, e.getMessage());
 
                 try {
                     SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
@@ -99,7 +99,7 @@ public class DateHelper {
                     aux="Verifica se MM (mês) está minuscula 'mm' (minutos).";
                     auxEn=" Check if you wanted to be month 'MM' and not minutes like 'mm'";
                 }
-                System.err.printf("IGRP WARNING formatDate: %n PT- FormatoIN (%s) para esta data (%s)."+aux+"  %n EN- FormatoIN (%s) for this date (%s)."+auxEn+" %n %s %n", inputFormat, formatDateTimeString(data, inputFormat), inputFormat, formatDateTimeString(data, inputFormat), e.getMessage());
+                System.err.printf("%s- IGRP WARNING formatDate: %n PT- FormatoIN (%s) para esta data (%s)."+aux+"  %n EN- FormatoIN (%s) for this date (%s)."+auxEn+" %n %s %n",Core.getCurrentDad(), inputFormat, formatDateTimeString(data, inputFormat), inputFormat, formatDateTimeString(data, inputFormat), e.getMessage());
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
 					return new java.sql.Date(formatter.parse(data).getTime());
@@ -186,7 +186,7 @@ public class DateHelper {
                 Date date = formatter.parse(str_date);
                 return new Timestamp(date.getTime());
             } catch (ParseException ex) {
-				System.err.printf("IGRP WARNING convertStringToTimestamp: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",formatIn,str_date,formatIn,str_date);
+				System.err.printf("%s- IGRP WARNING convertStringToTimestamp: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",Core.getCurrentDad(),formatIn,str_date,formatIn,str_date);
 				e.printStackTrace();
 			return null;
 		}
