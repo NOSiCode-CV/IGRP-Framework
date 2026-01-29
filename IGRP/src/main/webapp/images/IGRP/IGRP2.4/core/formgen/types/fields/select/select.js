@@ -18,7 +18,8 @@ var SELECTFIELD = function(type,params){
 		js  :[ 
 			// { path:'/libs/choices.js/public/assets/scripts/choices.min.js'}, 
 			// { path:'/components/select.choices/select.choices.js'} 
-			//{ path:'/components/select-choices/init.js'} 
+			//{ path:'/components/select-choices/init.js'}
+			  { path: '/plugins/select2/select2.init.js' }
 		]
 	}
 	

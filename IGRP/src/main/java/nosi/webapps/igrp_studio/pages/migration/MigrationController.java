@@ -73,7 +73,7 @@ public class MigrationController extends Controller {
 		
 		Map<Object, Object> listApp = new Application().getListApps();
 		if(listApp!=null && listApp.size()==2) 
-			model.setAplicacao(listApp.keySet().stream().filter(Objects::nonNull).findFirst().get().toString());
+			listApp.keySet().stream().filter(Objects::nonNull).findFirst().ifPresent(obj -> model.setAplicacao(obj.toString()));
 		view.aplicacao.setValue(listApp);
 		
 		if(Core.isNotNull(model.getAplicacao())) {
@@ -413,7 +413,7 @@ public class MigrationController extends Controller {
 							auxContent.append("\t  this.domains.add(new Domain(\"")
 									.append(domain.getDominio()).append("\", \"")
 									.append(domain.getValor()).append("\", \"")
-									.append(domain.getDescription())
+									.append(domain.getDescription().replace("\"","\\\""))
 									.append("\", \"")
 									.append(domain.getStatus())
 									.append("\", ")
