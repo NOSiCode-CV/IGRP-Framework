@@ -67,9 +67,9 @@
                 if (select.is('[item-value]'))
                     select.val(select.attr('item-value').split(','));
 
-                com.select2Init({
-                    field: select
-                });
+//                com.select2Init({
+//                    field: select
+//                });
 
                 //select.select2();
 
@@ -173,8 +173,6 @@
 
         select2Init: function (p) {
 
-            console.log("param::", p);
-
             var properties = p.properties || {
                 //allowClear : true,
                 /*placeholder: {
@@ -186,16 +184,13 @@
             const field = p.field;
 
             if (field.is('[multiple]')) {
-                console.log("fields multiple");
+
                 $('option[value=""]:first', field).remove();
             }
 
             if (field.is('[tags="true"]')) {
 
                 properties.tags = true;
-
-                console.log("fields tags");
-
                 field.on('select2:select', function (e, d) {
 
                     if (e.params && e.params.data && !e.params.data.element) {
@@ -210,8 +205,6 @@
             }
 
             if (field.is('[load_service_data]')) {
-
-                console.log("fields load_service_data");
 
                 const url = field.attr('load_service_data');
 
@@ -269,18 +262,14 @@
         },
         init: function (parent) {
 
-            console.log("parent::", parent);
-            console.log("this::", this);
-            console.log("select::", $('.select2', parent))
+         //   com = this;
 
             var select = $('.select2', parent);
 
-            select.each(function (i, e) {
-
-                console.log("::IN:::")
-
-                com.select2Init({ field: $(e) });
-            });
+//            select.each(function (i, e) {
+//
+//                com.select2Init({ field: $(e) });
+//            });
 
             com.formListConfig(parent);
 
