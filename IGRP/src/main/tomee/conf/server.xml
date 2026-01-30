@@ -66,10 +66,14 @@
          HTTP Connector: /docs/config/http.html
          AJP  Connector: /docs/config/ajp.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
+    maxPostSize="20971520"           20 MB
+    maxRequestSize="20971520"         20 MB
     -->
     <Connector compressibleMimeType="text/html,text/xml,text/plain,text/css,text/javascript,application/xml"
-               URIEncoding="UTF-8" compression="on" maxParameterCount="5000" compressionMinSize="1024" connectionTimeout="20000"
-               port="8080" protocol="HTTP/1.1" redirectPort="8443" server="Apache TomEE iGRP" useSendfile="true" xpoweredBy="false"/>
+               URIEncoding="UTF-8" compression="on" maxParameterCount="10000" compressionMinSize="1024" connectionTimeout="20000"
+               port="8080" protocol="HTTP/1.1" redirectPort="8443" server="Apache TomEE iGRP" useSendfile="true" xpoweredBy="false"
+               maxPartCount="5000"
+    />
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"
