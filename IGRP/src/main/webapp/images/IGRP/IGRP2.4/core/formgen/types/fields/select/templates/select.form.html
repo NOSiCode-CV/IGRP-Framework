@@ -1,4 +1,4 @@
-<div class="col-sm-#[size]# form-group #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+<div class="col-sm-#[size]# form-group #[right]# #[change]#" item-name="#tag#" item-type="#type#" #[required]#>
   <xsl:apply-templates mode="igrp-form-select-field" select="#path#">
     <xsl:param name="parent-id" select="'#parent.tag#'"/>
     <xsl:param name="change" select="'#[change]#'"/>
