@@ -37,8 +37,8 @@
            
             if(select[0]){
 
-                var isRules  = o.isRules ? true : false,
-                    isChange = select.hasClass('IGRP_change') || select.attr('change') == true || isRules;
+                var isRules  = !!o.isRules,
+                    isChange = select.hasClass('IGRP_change') || select.attr('change') === true || isRules;
 
                 $("option",select).remove();
 
