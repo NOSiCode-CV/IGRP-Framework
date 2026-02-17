@@ -1449,15 +1449,21 @@
 		    	var beginExp = '<?xml-stylesheet href="';
 
 				var endExp   = '" type="text/xsl"?>';
-				
-				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
 
-				var end  = $.IGRP.utils.string.getIndices(endExp, xstr,false)[0];
+				var beginArr = $.IGRP.utils.string.getIndices(beginExp, xstr,false);
+				var endArr   = $.IGRP.utils.string.getIndices(endExp, xstr,false);
+
+				if(!beginArr[0] && beginArr[0] !== 0) return null;
+				if(!endArr[0] && endArr[0] !== 0) return null;
+				
+				var begin = beginArr[0] + beginExp.length;
+
+				var end  = endArr[0];
 
 				var exprss = xstr.substring(begin,end);
 		    }
 
-			return exprss;
+			return exprss || null;
 		};
 
 		$.IGRP.utils.transformXMLNodes = function(params){
@@ -1483,15 +1489,77 @@
 
 				success:function(xml,e,r){
 					
-					var xslURL = $.IGRP.utils.getXMLStylesheet(r.responseText);
-		
-					$.IGRP.utils.xsl.transform({
-						xsl    : xslURL,
-						xml    : xml,
-						nodes  : options.nodes,
-						success: options.success
-					});
-					
+					var responseText = r && r.responseText ? r.responseText : (typeof xml === 'string' ? xml : null);
+
+					var xslURL = $.IGRP.utils.getXMLStylesheet(responseText || xml);
+
+					if(xslURL){
+						$.IGRP.utils.xsl.transform({
+							xsl    : xslURL,
+							xml    : xml,
+							nodes  : options.nodes,
+							success: options.success
+						});
+						return;
+					}
+
+					// Server-side HTML: replace nodes directly when no xml-stylesheet is present
+					if(responseText && /<\s*(html|body|div|section|table|form)\b/i.test(responseText)){
+						var htmlDoc = $('<div>').append($.parseHTML(responseText, document, true));
+
+						options.nodes.forEach(function(n){
+							var newNode = htmlDoc.find('.gen-container-item[item-name="'+n+'"]').first();
+							if(newNode[0]){
+								var current = $('.gen-container-item[item-name="'+n+'"]');
+								if(current[0])
+									current.replaceWith(newNode);
+
+								$.IGRP.utils.refreshComponents({
+									wrapper : newNode,
+									itemName: n
+								});
+
+								if(options.success){
+									options.success({
+										itemName : n,
+										itemHTML : newNode
+									});
+								}
+							}
+						});
+
+						return;
+					}
+
+					// XML without stylesheet: try to read html inside rows/content
+					if(xml && $(xml).find('rows content')[0]){
+						options.nodes.forEach(function(n){
+							var node = $(xml).find('rows content '+n).first();
+							if(node[0]){
+								var html = node.text() || node.html();
+								var newNode = $(html);
+								var current = $('.gen-container-item[item-name="'+n+'"]');
+								if(current[0])
+									current.replaceWith(newNode);
+
+								$.IGRP.utils.refreshComponents({
+									wrapper : newNode,
+									itemName: n
+								});
+
+								if(options.success){
+									options.success({
+										itemName : n,
+										itemHTML : newNode
+									});
+								}
+							}
+						});
+						return;
+					}
+
+					if(options.error)
+						options.error({ message : 'No xml-stylesheet and no html content' });
 				}
 			});
 

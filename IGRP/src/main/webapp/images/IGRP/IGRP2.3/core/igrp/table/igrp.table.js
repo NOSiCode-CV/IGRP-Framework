@@ -189,11 +189,11 @@
 			var tables = o.obj && o.obj[0] ? o.obj : $(o.selector,o.parent);
 
 			if(tables[0] && $.fn.DataTable){
-				
+
 				var PageInfo = $.IGRP.info;
 
 				tables.each(function(i,t){
-					
+
 					var headerContents = $(t).parents('.box-table-contents').first().find('.table-contents-head'),
 
 						tableTitle 	   = $(t).parents('.box').first().find('.box-title').text() || $('#gen-page-title').text(),
@@ -255,7 +255,6 @@
 							if(eOpts){
 								
 								eOpts.title = tableTitle;
-
 								options.buttons.push( eOpts );
 
 							}
@@ -264,13 +263,17 @@
 
 						options.dom = 'lfBrtip';
 
-					};
+					}
 
-					var datatable = $(t).DataTable(options);
+
+
+					if ( ! $.fn.DataTable.isDataTable( t ) )
+						var datatable = $(t).DataTable(options);
+
 
 					$.IGRP.on('submit',function(o){
-						
-						if(o.valid && o.target.includes('submit')){
+
+						if(o.valid && o.target.includes('submit') && $.fn.DataTable.isDataTable( t )){
 							datatable.destroy();
 						}
 					
@@ -282,9 +285,7 @@
 					});
 					
 					$.IGRP.events.on('submit-ajax',function(o){
-						
-						if(o.valid)
-							
+						if(o.valid && $.fn.DataTable.isDataTable( t ))
 							datatable.destroy();
 	            	});
 					
@@ -300,9 +301,10 @@
 
 	            	 	var table = $('.table:not(.IGRP_formlist)',p.content);
 
-		        		if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') == $(t).attr('id'))
+		        		if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') === $(t).attr('id') && $.fn.DataTable.isDataTable( t ))
 		        			datatable.destroy();
 					});
+
 					
 					/*$(t).on('checkall', function (i, p) {
 						if(p.tableId && p.tableId === $(t).attr('id'))
@@ -682,7 +684,7 @@
 	            return c.substring(name.length, c.length);
 	        }
 	    }	    
-	    return "en_US";
+	    return "pt_PT";
 	}
 	
 	$.extend({

@@ -29,6 +29,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.xml.transform.Source;
@@ -704,6 +705,8 @@ public class Controller {
                                     resp.setContentType("text/html;charset=" + Response.CHARSET_UTF_8);
                                     resp.getWriter().append(transformed);
                                 } else {
+                                    if(Core.getParam("ir_cf").equals("xml"))
+                                        content="<rows>"+StringUtils.substringAfter(content,"<rows>");
                                     Igrp.getInstance().getResponse().getWriter().append(content);
                                 }
                             }
@@ -833,7 +836,7 @@ public class Controller {
             return null;
 
         Matcher m = XML_STYLESHEET_HREF.matcher(xml);
-        if (!m.find())
+        if (!m.find() || Core.getParam("ir_cf").equals("xml"))
             return null;
 
         String href = m.group(1);

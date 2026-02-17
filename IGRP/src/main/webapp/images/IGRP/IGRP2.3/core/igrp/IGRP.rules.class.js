@@ -835,10 +835,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 				
 				//var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 
-				var row = p.isTable == true ? p.sourceField.parents('tr:first') : null;
+				var row = p.isTable === true ? p.sourceField.parents('tr:first') : null;
 				
 				if(p.sourceField[0].remoteRequest)
-					
 					p.sourceField[0].remoteRequest.abort();
 				
 				p.sourceField.addClass('remote-requesting');
@@ -858,7 +857,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						$.each($(contents),function(i,item){
 							
-							if(item.tagName.toLowerCase() != 'messages')
+							if(item.tagName.toLowerCase() !== 'messages')
 								
 								$.IGRP.utils.setFieldValue({tag : item, row : row});
 							
@@ -886,10 +885,10 @@ if($ && $.IGRP && !$.IGRP.rules){
 		remote_combobox:{
 			do:function(p){
 
-				const row = p.isTable == true ? p.sourceField.parents('tr:first') : null;
+				const row = p.isTable === true ? p.sourceField.parents('tr:first') : null;
 
 				$.ajax({
-					url 	: $.IGRP.rules.getRemoteUrl(p),
+					url 	: $.IGRP.rules.getRemoteUrl(p)+'&ir_cf=xml',
 					headers : {
 				       	'X-IGRP-REMOTE' : 1
 				   	},
@@ -1007,8 +1006,8 @@ if($ && $.IGRP && !$.IGRP.rules){
                         $.each( p.targetFields ,function(i,f){
                             $(document).trigger($(f).attr('item-name')+'-remote-list-callback', [c] )
                         });
-                        if ($.IGRP.components.tableCtrl.resetTableConfigurations)
-                            $.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
+						if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
+							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
                     },
 
                     error:function(){

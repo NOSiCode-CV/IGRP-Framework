@@ -35,13 +35,18 @@ $.fn.XMLTransform = function(params) {
 
  	//SET DIV CONTENT FROM TRANSFORMATION
  	var setContent = function(content){
+
  		setTimeout(function(){
 
- 			element.html(content);
+ 			if(params.method && params.method == 'replace')
+ 				element.replaceWith(content);
+ 			else
+ 				element.html(content);
+
 
  			done(content);
- 			
- 		},150);		
+
+ 		},150);
  	}
  	//TRANSFORM
  	var start = function(){
@@ -66,16 +71,23 @@ $.fn.XMLTransform = function(params) {
  		}
  	}
  	//DONE CALLBACK
- 	var done = function(content){
+ 	var done = function(content,c){
+
+ 		var complete = c == false ? false : true;
+
  		element.removeClass(loadingClass);
+
  		element.find('.xml-xsl-loader').remove();
 
- 		if(params.loader) 
+ 		if(params.loader)
  			params.loader.hide();
- 		
- 		if(params.complete)
- 			params.complete(element,content);
- 		
+
+ 		if(complete){
+ 			if(params.complete){
+ 				params.complete(element,content);
+ 			}
+ 		}
+
  	}
 
  	var loadTemplate = function(p){
@@ -87,16 +99,25 @@ $.fn.XMLTransform = function(params) {
  			var includeFile = p.includes[i].global ? tmplSplitter+p.includes[i].name : p.includes[i].name;
 
  			var baseWay = includeFile.split('/').slice(0,-1).join('/');
- 			
- 			if(!baseWay) includeFile=tmplSplitter+'/'+includeFile;
 
- 			$.ajax({
- 				url:includeFile,
- 				cache:true,
- 				success:function(data){
- 					var contents = data.documentElement;
-					
-					for(var x = 0; x < contents.childNodes.length;x++){
+ 			if(!baseWay)
+ 				includeFile=tmplSplitter+'/'+includeFile;
+
+ 			includeFile = includeFile.split('?v=')[0];
+
+ 			if(!__XSLTemplatesInc[ includeFile ])
+
+	 			__XSLTemplatesInc[ includeFile ] = {
+
+	 				request : null
+
+	 			}
+
+ 			var AfterLoadCallback = function(data){
+
+ 				var contents = $(data).clone()[0];
+
+ 				for(var x = 0; x < contents.childNodes.length;x++){
 						if(contents.childNodes[x].tagName && contents.childNodes[x].tagName != 'xsl:include' && contents.childNodes[x].tagName != 'xsl:import'){
 							IEincludes.push(contents.childNodes[x]);
 						}
@@ -111,13 +132,59 @@ $.fn.XMLTransform = function(params) {
 				 				callback:p.callback
 				 			});
 						}
-					});	
-					
-					__XSLTemplatesInc[includeFile.split('?v=')[0]] = data;
+					});
 
- 				}
- 			});
-			
+ 			};
+
+
+ 			if(__XSLTemplatesInc[ includeFile ].data){
+
+ 				AfterLoadCallback( __XSLTemplatesInc[ includeFile ].data );
+
+ 			}else{
+
+	 			if(__XSLTemplatesInc[ includeFile ].request)
+
+	 				__XSLTemplatesInc[ includeFile ].request.then(function(data){
+
+	 					var contents = data.documentElement,
+
+	 						clone    = $(data.documentElement).clone(true)[0];
+
+	 					AfterLoadCallback( clone );
+
+						__XSLTemplatesInc[ includeFile ].data = clone;
+
+	 				});
+
+	 			else
+
+ 				__XSLTemplatesInc[ includeFile ].request = $.ajax({
+	 				url:includeFile,
+	 				cache:true,
+	 				success:function(data){
+
+	 					var contents = data.documentElement,
+
+	 						clone    = $(data.documentElement).clone(true)[0];
+
+	 					AfterLoadCallback( clone );
+
+						__XSLTemplatesInc[ includeFile ].data = clone;
+
+						__XSLTemplatesInc[ includeFile ].request = false;
+
+
+	 				},
+	 				error:function(e){
+	 					errorHandler(e)
+	 				}
+	 			});
+
+ 			}
+
+
+
 
  		}else{
  			if(p.callback) p.callback(i)
@@ -128,7 +195,7 @@ $.fn.XMLTransform = function(params) {
  		var rtn = [];
  		var xslPath = typeof params.xsl == 'string' ?  params.xsl : null;
  		var baseWay = '';
- 		
+
  		if(xslPath){
  			var arr = xslPath.split('/')
  			arr.pop();
@@ -137,17 +204,15 @@ $.fn.XMLTransform = function(params) {
 
  		$.each($(doc).find('*'),function(){
  			if(this.tagName == 'xsl:include' || this.tagName == 'xsl:import'){
- 				
+
  				var href   = $(this).attr('href');
 
  				href = base ? base+'/'+href : href;
 
- 				console.log(href)
- 				
  				var isGlobal = href.indexOf(tmplSplitter) != -1 ? true : false;
 
  				var name = isGlobal ? href.split(tmplSplitter)[1] : href;
- 				
+
  				if(name) rtn.push({
  					global:isGlobal,
  					name:name
@@ -156,7 +221,7 @@ $.fn.XMLTransform = function(params) {
 
  			}
  		});
- 		
+
  		//console.log(rtn)
  		return rtn;
  	};
@@ -166,13 +231,13 @@ $.fn.XMLTransform = function(params) {
 			$(this).remove()
 		});
 	}
-	
+
 	var excludePrefix = function(pref){
  		var xslStr    = $(xsl).getXMLStr();
  		var newXslStr = xslStr.replaceAll(pref,'');
  		var xmlStr    = $(xml).getXMLStr();
  		var newXmlStr = xmlStr.replaceAll(pref,'');
- 		
+
  		try {
  			xsl = $.parseXML(newXslStr);
  			xml = $.parseXML(newXmlStr);
@@ -180,9 +245,10 @@ $.fn.XMLTransform = function(params) {
  			console.log('Exclude Prefix Error: '+ pref);
  			console.log(e);
  		}
- 	}	
+ 	}
  	//include templates manually
  	var includeTemplates =function(p){
+
  		var includesArr = getIncludesArr(xsl);
 
  		var stylesheet = xsl.documentElement;
@@ -197,7 +263,7 @@ $.fn.XMLTransform = function(params) {
  				xsl = $(stylesheet).getXMLDocument(); // assume the new xsl
 
  				removeIncludes(xsl); //remove all includes / imports
- 				
+
  				IEincludes = []; //reset Includes Array
 
  				if(p.callback) p.callback(xsl); //transform
@@ -209,7 +275,7 @@ $.fn.XMLTransform = function(params) {
  	var IETransform = function(){
  		try{
  			var xslTemplate,xslproc;
- 			
+
  			/*GET IE XSL*/
  			var xsldoc = new ActiveXObject("Msxml2.FreeThreadedDOMDocument.6.0");
 			xsldoc.async = false;
@@ -224,7 +290,7 @@ $.fn.XMLTransform = function(params) {
 
  			/*GET IE XML*/
  			var xmldoc = new ActiveXObject("Msxml2.DOMDocument.6.0");
- 			
+
 			xmldoc.async           = false;
 
 			//xmldoc.load(params.xml);
@@ -239,11 +305,11 @@ $.fn.XMLTransform = function(params) {
  				return false;
  			}else{
  				xslTemplate = new ActiveXObject("Msxml2.XSLTemplate.6.0");
- 				
+
  				xslTemplate.stylesheet = xsldoc;
- 				
+
  				xslproc = xslTemplate.createProcessor();
- 				 
+
 				xslproc.input = xmldoc;
 
 				if(params.xslParams){
@@ -254,35 +320,38 @@ $.fn.XMLTransform = function(params) {
 				xslproc.transform();
 				setContent(xslproc.output);
  			}
- 			
+
  		}catch(IEError){
  			console.log(IEError)
  		}
  	}
  	//GOOGLE/FIREFOX TRANSFORM
  	var Transform = function(){
- 		var xsltProcessor = new XSLTProcessor();
-
- 		xsltProcessor.flags = 0;
-
- 		/*var documents = $(xsl).find('[select*="document("]');
-
- 		$.each(documents,function(i,d){
- 			switch(d.tagName){
- 				case 'xsl:value-of':
- 					var url = $(d).attr('select');
- 				break;
- 			}
- 		});*/
- 		xsltProcessor.importStylesheet(xsl);
  		
- 		if(params.xslParams){
-			for(var p in params.xslParams){
-				xsltProcessor.setParameter(null, p, params.xslParams[p]);
-			}
-		}
+ 		var startTransform = function(){
+ 			var xsltProcessor = new XSLTProcessor();
 
-		setContent(xsltProcessor.transformToFragment(xml, document));
+	 		xsltProcessor.flags = 0;
+
+	 		xsltProcessor.importStylesheet(xsl);
+	 		
+	 		if(params.xslParams){
+				for(var p in params.xslParams){
+					xsltProcessor.setParameter(null, p, params.xslParams[p]);
+				}
+			}
+
+			setContent(xsltProcessor.transformToFragment(xml, document));
+ 		};
+
+ 		if((!window.XSLTProcessor || window.xsltUsePolyfillAlways) && window.createXSLTTransformModule){
+ 			window.createXSLTTransformModule().then(function(module){
+ 				window.XSLTProcessor = module.XSLTProcessor;
+ 				startTransform();
+ 			});
+ 		}else{
+ 			startTransform();
+ 		}
  	}
  	var prepareElement = function(){
  		if(loader){
@@ -296,7 +365,8 @@ $.fn.XMLTransform = function(params) {
 	 			'background-repeat':'no-repeat',
 	 			'background-position':'center',
 	 			'left':0,
-	 			'top':0
+	 			'top':0,
+				'z-index':999999999
 	 		});
 
 	 		element.css({
@@ -306,9 +376,9 @@ $.fn.XMLTransform = function(params) {
 
 	 		if(element.height() > 30)
 	 			element.append(loadingb64);
-	 		
+
  		}
- 		if(params.loader) 
+ 		if(params.loader)
  			params.loader.show()
  		//else
 
@@ -329,10 +399,11 @@ $.fn.XMLTransform = function(params) {
  		if(params.xml)
 	 		switch(typeof params.xml){
 	 			case 'string':
-	 				
+
 	 				getContentFromUrl({
 	 					url      :params.xml,
 	 					data     :params.xmlData,
+						method : 'POST',
 	 					callback :setXML
 	 				});
 
@@ -368,10 +439,10 @@ $.fn.XMLTransform = function(params) {
 
  		$.ajax({
  			url     : p.url,
- 			dataType: params.dataType ? params.dataType : 'xml',
+ 			dataType: p.dataType ? p.dataType : 'xml',
  			data    : p.data ? p.data : null,
- 			method  : params.method ? params.method.toUpperCase() : 'POST',
- 			type    : params.method ? params.method.toUpperCase() : 'POST',
+ 			method  : p.method ? p.method.toUpperCase() : 'GET',
+ 			type    : p.method ? p.method.toUpperCase() : 'GET',
  			success : p.callback,
  			error   : errorHandler,
  			fail    : errorHandler
@@ -380,7 +451,7 @@ $.fn.XMLTransform = function(params) {
  	//ERROR HANDLER
  	var errorHandler = function(e){
  		if(params.error) params.error(e);
- 		done();
+ 		done(null,false);
  		return false;
  	}
  	//INITIALIZATION
