@@ -148,7 +148,7 @@ b {
 }
 
 .box-shadow {
-	box-shadow: 0 0px 6px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -194,15 +194,14 @@ b {
 #igrp-top-nav {
 	-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-	background: #337ab7;
+	/*background: #337ab7;*/
 	overflow: visible;
-	padding: 0;
 	min-height: inherit;
 	margin: 0;
 	top: 0;
 	background: white;
 	z-index: 1001;
-	padding-left: 16.6667%;
+	padding: 0 0 0 16.6667%;
 }
 
 body[screen-size="sm"]:not(.sidebar-off) #igrp-top-nav {
@@ -315,7 +314,7 @@ body[screen-size="xs"] #igrp-app-title {
     font-size: 16px;
     font-weight: 400;
 	color: inherit;
-	line-height: 54px
+	line-height: 54px;
 }
 
 #igrp-top-menu {

@@ -399,22 +399,17 @@ var mWindow = null,
 			});*/
 
 			$.IGRP.utils.transformXMLNodes({
-				
 				nodes : [tableName],
-
 				url   : $.IGRP.utils.getUrl(action)+filterLetter[0]+'='+filterLetter[1],
-
 				data  : form.serialize(),
-
 				success:function(c){
-		
-					var table = $('.gen-container-item[item-name="'+tableName+'"]');
-						
-					if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+					const table = $('.gen-container-item[item-name="' + tableName + '"]');
+
+					if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 						$.IGRP.components.tableCtrl.resetTableConfigurations(table);
-					
+
 					$('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table).addClass('active');
-						
+
 				},
 
 				error:function(){
@@ -430,7 +425,7 @@ var mWindow = null,
 
 			return false;
 		};
-		
+
 		//self
 		var _self        = function(p){
 
@@ -441,13 +436,13 @@ var mWindow = null,
 
 			if($('input.menuCtrl')[0]){
 				param = $('input.menuCtrl').serialize();
-				
+
 				if(param)
 					url = $.IGRP.utils.getUrl(url)+param;
 			}
 
 			window.location.href = url;
-			
+
 			return false;
 		};
 		//self
@@ -467,9 +462,9 @@ var mWindow = null,
 
 				if(element[0]){
 					var col = $('td:first',element.parents('tr:first'));
-					
+
 					name = element.is('[id]') ? element.attr('id') : element.attr('trel');
-					
+
 					name = col[0] ? name+col.attr('data-row') : name;
 				}
 				else
@@ -482,23 +477,23 @@ var mWindow = null,
 		//new tab
 		var _newtab      = function(p){
 			const name = getClickedName(p.clicked);
-				
+
 			window.open(p.url,name);
-			
+
 			return false;
 		};
 
 		var submitNewtab = function(p){
 			const name = getClickedName(p.clicked);
 
-			const fields = $.IGRP.utils.getFieldsValidate(); 
+			const fields = $.IGRP.utils.getFieldsValidate();
 
 			const valid = p?.validate ? p.validate :  fields.valid();
- 			
+
  			if(valid){
 
 				fields.addClass('submittable');
- 			
+
 				form.attr({'target' : name, 'action' : p.url});
 
 				form.submit().removeAttr('target action');
@@ -519,26 +514,26 @@ var mWindow = null,
 			});
 			return false;
 		};
-		
+
 		//_openclose (popup open and automatic close)
 		var _openclose = function(p){
-			
+
 			form.attr({'target' : 'IGRP-openclose', 'action' : p.url});
-			
+
 			var myWindow = $.IGRP.utils.openWin({
 				url    : p.url,
 				width  : 30,
 				height : 30,
 				win    : 'IGRP-openclose'
 			});
-			
+
 			form.submit().removeAttr('target action');
 
 			setTimeout(function () { myWindow.close();}, 6000);
 
 			return false;
 		};
-		
+
 		//export all - table
 		var exportAll       = function(p){
 			console.log('EXPORT ALL')
@@ -546,62 +541,62 @@ var mWindow = null,
 		};
 
 		//blank (popup)
-		
+
 		var modal       = function(p){
-			
+
 			var url = setTargetParameter(p.url);
-			
+
 			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0){
-				
+
 				mWindow = mWindow ? mWindow : window;
-			
+
 				mUrl = url;
 			}
-			
+
 			$.IGRP.components.iframeNav.set({
 				url    :url,
 				clicked:p.clicked
 			});
-			
+
 			return false;
-			
+
 		};
 
 		var right_panel       = function(p){
-			
+
 			var url = setTargetParameter(p.url);
-			
+
 			p.url = url;
 
 			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0){
-			
+
 				mWindow = window;
 			    mUrl = url;
 			}
 
 			$.IGRP.components.rightPanel.set(p);
-			
+
 			return false;
 		};
-		
+
 		var right_panel_submit       = function(p){
 
 			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
 				mWindow = window;
-			
+
 			p.url = setTargetParameter($.IGRP.utils.getUrl(p.url)+form.serialize());
 
 			$.IGRP.components.rightPanel.set(p);
-			
+
 			return false;
 		};
 
 		var mpsubmit  = function(p){
-			
+
 			let fields = $.IGRP.utils.getFieldsValidate(),
-				
+
 				auxParent = p.clicked.parents('table tbody tr')[0] ? '' : form,
-				
+
 				valid  = auxParent != '' ? (p?.validate ? p.validate : fields.valid()) : true;
 
 			if(valid){
@@ -617,23 +612,23 @@ var mWindow = null,
 				});
 
 				const formData = auxParent != '' ? form.serialize() : '';
-			
-				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
+
+				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
 						mWindow = window;
-				
+
 				$.IGRP.components.iframeNav.set({
 					url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
 					clicked:p.clicked
 				});
 			}
-			
+
 			return false;
 		};
 
 		var modalpopup = modal;
 
 		var setConfirmModal = function(onClick,p){
-			
+
 			var holder 		= $(p.clicked).parents('tr:first'),
 				confirmText = '';
 
@@ -643,7 +638,7 @@ var mWindow = null,
 					if(str.indexOf('{') !== -1){
 						var e = str.substring(1,(str.length - 1)),
 						text  = $('td[item-name="'+e+'"] span',holder).text();
-						
+
 						confirmText = confirmText.replace(str,text);
 					}
 				});
@@ -655,7 +650,7 @@ var mWindow = null,
 
 				confirmText = labelConfirm && labelConfirm != undefined ? labelConfirm : confirmText;
 			}
-			 
+
 
 			$.IGRP.components.globalModal.set({
 				rel    : 'confirm-target',
@@ -675,8 +670,8 @@ var mWindow = null,
 						class :'danger',
 						icon  :'times',
 						text  :'Cancelar',
-						attr  :{ 
-							"data-dismiss":"modal" 
+						attr  :{
+							"data-dismiss":"modal"
 						}
 					}
 				]
@@ -712,33 +707,33 @@ var mWindow = null,
 		};
 
 		var closerefresh = function(p){
-			
+
 			try{
-				
+
 				//var popup 	= window.opener ? true : false,
 
 				var _window = window.parent ? window.parent : window.opener,
 					url 	= null;
 
 					_window = _window.frames['head_filho'] || _window;
-					
+
 				if (mWindow) {
 					_window = mWindow;
-					
+
 					//popup 	= false;
 					mWindow = null;
-					
+
 					if(mUrl){
 						url 	= mUrl;
 						mUrl 	= null;
 					}
 				}
-				
+
 				/*if(popup)
 					close();*/
-				
+
 				_window.$.IGRP.targets.submit.action({
-					url 	 : $('#p_env_frm_url',$(_window.document.getElementsByClassName("IGRP-form")[0])).val() || url,
+					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
 					validate : false
 				});
 					

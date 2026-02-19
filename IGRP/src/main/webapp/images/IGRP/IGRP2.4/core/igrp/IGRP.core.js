@@ -18,39 +18,39 @@
 			url : {
 
 				isUrl : function(url){
-					var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-					  	'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-					  	'((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-					  	'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-					  	'(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-					  	'(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+					const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+						'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+						'((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+						'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+						'(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+						'(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
 
 					return pattern.test(url);
 				},
 
 				getParams : function (url) {
-					
-				 	var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
-				  		obj 				= {};
-				  		
+
+					let queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+					obj 				= {};
+
 				  if (queryString) {
 
 				    queryString = queryString.split('#')[0];
 
-				    var arr = queryString.split('&');
+					  const arr = queryString.split('&');
 
-				    for (var i=0; i<arr.length; i++) {
-				      var a = arr[i].split('=');
+					  for (let i=0; i<arr.length; i++) {
+						const a = arr[i].split('=');
 
-				      var paramNum  = undefined;
-				      var paramName = a[0].replace(/\[\d*\]/, function(v) {
-				        paramNum 	= v.slice(1,-1);
-				        return '';
-				      });
+						const paramNum = undefined;
+						let paramName = a[0].replace(/\[\d*\]/, function (v) {
+							paramNum = v.slice(1, -1);
+							return '';
+						});
 
-				      var paramValue = typeof(a[1]) === undefined ? '' : a[1];
+						let paramValue = typeof (a[1]) === undefined ? '' : a[1];
 
-				      paramName 	= paramName   ? paramName.toLowerCase()  : '';
+						paramName 	= paramName   ? paramName.toLowerCase()  : '';
 				      paramValue 	= paramValue  ? paramValue.toLowerCase() : '';
 
 				      if (obj[paramName]) {
@@ -74,14 +74,14 @@
 				},
 
 				getParam : function(name,url){
-					
-					var all = $.IGRP.utils.url.getParams(url);
+
+					const all = $.IGRP.utils.url.getParams(url);
 
 					return all[name.toLowerCase()] || null;
 
 				},
 				getHostName : function (url) {
-					var a = document.createElement('a');
+					const a = document.createElement('a');
 					a.href = url;
 					return a.hostname;
 				}
@@ -89,24 +89,24 @@
 			},
 			openWin:function(p){
 
-				var width  = p.width ? p.width : 980;
-			    var height = p.height ? p.height : 520;
+				const width = p.width ? p.width : 980;
+				const height = p.height ? p.height : 520;
 
-			    var left = parseInt((screen.availWidth/2)  - (width/2));
-			    var top  = parseInt((screen.availHeight/2) - (height/2));
-			    
-			    var windowFeatures = "scrollbars, width=" + width + ",height=" + height +
-			        ",status,resizable,left=" + left + ",top=" + top +
-			        ",screenX=" + left + ",screenY=" + top;
+				const left = parseInt((screen.availWidth / 2) - (width / 2));
+				const top = parseInt((screen.availHeight / 2) - (height / 2));
 
-			  	var myWindow =  window.open(p.url, p.win, windowFeatures);
+				const windowFeatures = "scrollbars, width=" + width + ",height=" + height +
+					",status,resizable,left=" + left + ",top=" + top +
+					",screenX=" + left + ",screenY=" + top;
+
+				const myWindow = window.open(p.url, p.win, windowFeatures);
 				myWindow.focus();
 				return myWindow;
 			},
 			openChartURL : function(pObj){
-				if (pObj.pUrl != null && pObj.pUrl !== '') {
-					
-					var vParam = 'p_x='+pObj.pX+'&p_y='+pObj.pY+'&p_z='+pObj.pZ;
+				if (pObj.pUrl != null && pObj.pUrl != '') {
+
+					const vParam = 'p_x=' + pObj.pX + '&p_y=' + pObj.pY + '&p_z=' + pObj.pZ;
 
 					$.IGRP.utils.openWin({
 						url    :$.IGRP.utils.getUrl(pObj.pUrl)+vParam,
@@ -129,9 +129,9 @@
 				return $('form.IGRP-form');
 			},
 			getFieldsValidate:function(f){
-				var form = f && f[0] ? f : $.IGRP.utils.getForm();
-				var fields = $(':input[name!=""]',form).not('.no-validation, .no-required-validation, .no-validation-required, .not-form').not('.IGRP_checkall');
-				
+				const form = f && f[0] ? f : $.IGRP.utils.getForm();
+				const fields = $(':input[name!=""]', form).not('.no-validation, .no-required-validation, .no-validation-required, .not-form').not('.IGRP_checkall');
+
 				return fields;
 			},
 			getUrl:function(url){
@@ -142,14 +142,14 @@
 				return $("input[name='p_env_frm_url']").val() || window.location.href;
 			},
 			getFormUrl:function(url){
-				var param = $.IGRP.utils.getForm().find('*').not(".notForm, #p_env_frm_url").serialize();
+				const param = $.IGRP.utils.getForm().find('*').not(".notForm, #p_env_frm_url").serialize();
 				return $.IGRP.utils.getUrl(url)+param;
 			},
 			getParam:function(pLink, pName){
-				var vNewLink = pLink.substring(pLink.indexOf("?")+1);
-				var vOp = vNewLink.split("&");
-				for(var i= 0; i < vOp.length; i++){
-					var vNop = vOp[i].split("=");
+				const vNewLink = pLink.substring(pLink.indexOf("?") + 1);
+				const vOp = vNewLink.split("&");
+				for(let i= 0; i < vOp.length; i++){
+					const vNop = vOp[i].split("=");
 					if(vNop[0].toLowerCase()==pName.toLowerCase()){
 						return vNop[1];
 					}
@@ -158,22 +158,20 @@
 			},
 			resetFieldsSelector : function(o){
 				o.each(function(i,e){
-					
-                    var parents = $(e).parents('.form-group'),
-                    
-                    	type 	= $(e).parents('[item-type]').first().attr('item-type');
-                    
-                    switch(type){
-                    
+
+					const parents = $(e).parents('.form-group'),
+
+						type = $(e).parents('[item-type]').first().attr('item-type');
+
+					switch(type){
+
                         case'radio':
                         case 'checkbox':
-
-                            $(e).removeAttr("checked").prop("checked",false);
-
+                            $(e).prop("checked", false);
                         break;
 
                         case 'select' :
-                        	
+
                         	if( $(e).is('.select2')){
 
                         		if(!$(e).data('select2'))
@@ -181,71 +179,85 @@
                         			$.IGRP.components['select2'].init( parents );
 
                         		$(e).select2("val", "");
-                        	}		
-                        	
+                            } else {
+                                $(e).val('');
+                        	}
+
                         break;
 
                         case 'textarea' :
-
-                        	$(e).text('');
-
+                            $(e).val('');
                         break;
 
 						case 'texteditor':
-							CKEDITOR?.instances[formElement.attr('id')]?.setData( value );
+                            CKEDITOR?.instances[$(e).attr('id')]?.setData('');
+                            break;
+
+                        case 'file':
+                            $(e).val('');
+                            parents.find('.form-hidden').val('');
 						break;
+
+                        case 'link':
+                            $(e).parents('[item-type]').find('a').attr('href', '#').find('span').text('');
+                            break;
 
                         default:
 
                             $(e).val('');
                             $(e).text('').attr('value','');
                     }
+
+                    // Clear hidden inputs within the same form group
+                    parents.find('input[type="hidden"]').each(function() {
+                        $(this).val('');
+                    });
                 });
 
                 return o;
 			},
 			resetFields  : function(o){
-				
+
 				$.IGRP.utils.resetFieldsSelector($(":input",o));
 			},
 			setFieldValue:function(p){
 
-				var lookup = null,
-					label  = null,
+				let lookup = null,
+					label = null,
 					isremote = null,
-					tag    = p.tag,
-					value  = p.value;
+					tag = p.tag,
+					value = p.value;
 
 				if (typeof $(tag) === 'object'){
-					
+
 					lookup  	= $(tag).attr('lookup') ? $(tag).attr('lookup') : null;
 
 					label   	= $(tag).attr('label') ? $(tag).attr('label') : null;
-					
+
 					isremote   	= $(tag).attr('isremote') ? $(tag).attr('isremote') : null;
-					
+
 					value   	= $(tag).text();
 
 					tag 		= tag.tagName.toLowerCase();
-					
+
 				}
 
-				var formElement = p.row ? $('[name="p_'+tag+'_fk"]',p.row) : $('[name="p_'+tag+'"]');
+				let formElement = p.row ? $('[name="p_' + tag + '_fk"]', p.row) : $('[name="p_' + tag + '"]');
 
 				if(!formElement[0])
 					formElement = $('[name="p_'+tag+'"]');
 
-				var parent  = $(formElement.parents('[item-name]')[0]);
-				
+				let parent = $(formElement.parents('[item-name]')[0]);
+
 				parent 	    = parent[0] ? parent : $('*[item-name="'+tag+'"]');
-				
+
 				if( parent[0] ){
 
-					var type = parent.attr('item-type');
+					const type = parent.attr('item-type');
 
 					if (label)
 						$('label',parent).html(label);
-					
+
 					switch(type){
 
 						case 'select':
@@ -253,34 +265,34 @@
 							if(formElement.is('[multiple]'))
 
 								value = value.split('|');
-							
+
 								if(isremote){
-							
+
 									if(!$('option',formElement)[0]){
-										
-										var options;
-										
+
+										let options;
+
 										if(Array.isArray(value)){
-											
+
 											value.forEach(function(xv){
-												
+
 												options.push({
 													text: '',
 													value: xv,
 													selected: true
 												});
-												
+
 											});
-											
+
 										}else{
-											
+
 											options = [{
 												text: '',
 												value: value,
 												selected: true
 											}];
 										}
-												
+
 										$.IGRP.components.select2.setOptions({
 											select: formElement,
 											options: options
@@ -294,7 +306,7 @@
 
 						case 'checkboxlist':
 
-							var vArr = value.split('|');
+							const vArr = value.split('|');
 
 							vArr.forEach(function(v){
 
@@ -312,38 +324,38 @@
 
 						case 'checkbox':
 						case 'radio':
-							
-							var checked = value == 1;
+
+							const checked = value == 1;
 
 							formElement.prop('checked', checked)
 
 						break;
-							
+
 						case 'textarea':
-							
+
 							formElement.text(value).val(value);
-							
+
 						break;
-						
+
 						case 'plaintext':
-							
+
 							if($('div[item-name="'+tag+'"]')[0])
 								$('div[item-name="'+tag+'"]').html($.IGRP.utils.htmlDecode(value));
 							else
 								formElement.text(value);
-							
+
 						break;
-						
+
 						case 'link':
-							
+
 							$('a',parent).attr('href',value);
-						
+
 						break;
 
 						case 'images':
 							if(value)
 								formElement.attr('src',value);
-						
+
 						break;
 
 						default:
@@ -361,11 +373,11 @@
 				$('.submittable').removeClass('submittable');
 			},
 			getSubmitParams:function(url,form,scrollTo){
-				var vUrl    = url, 
-					vForm   = $.IGRP.utils.getForm(),
-					vHref   = "", 
+				let vUrl = url,
+					vForm = $.IGRP.utils.getForm(),
+					vHref = "",
 					vNewUrl = "";
-				
+
 				if(form && form != null)
 					vForm = form;
 
@@ -374,13 +386,13 @@
 
 				if(vHref.indexOf("?")>-1)
 				{
-					var vParam = vHref.substring(vHref.indexOf("?")+1);
+					const vParam = vHref.substring(vHref.indexOf("?") + 1);
 
-					var vP = vParam.split("&");
+					const vP = vParam.split("&");
 
-					for(var i=0;i<vP.length;i++)
+					for(let i=0; i<vP.length; i++)
 					{
-						var vP1 = vP[i].split("=");
+						const vP1 = vP[i].split("=");
 
 						if(vP1[0].toLowerCase()!= "p_env_frm_url" && vP1[0].toLowerCase()!= 'r'){
 							if(!$("input[name='"+vP1[0]+"']",vForm)[0]){
@@ -399,7 +411,7 @@
 				//Comentado em 23-01-2012 problemas em RELOAD
 				vUrl = vHref;
 				if(scrollTo){
-					var vIchange = scrollTo.replace("#id","");
+					const vIchange = scrollTo.replace("#id", "");
 					vUrl = $.IGRP.utils.getUrl(vUrl);
 					vUrl+="ichange="+vIchange+scrollTo;
 					if(!vForm.find("input[name='ichange']")[0])
@@ -407,100 +419,100 @@
 					else
 	  					$('input[name="ichange"]',form).val(vIchange);
 				}
-			
+
 				return vUrl;
 			},
-			
+
 			adjustableRows : function(){
-				
-				var rows = $('.row.adjustable-row, .row.adjust-cols');
-				
+
+				const rows = $('.row.adjustable-row, .row.adjust-cols');
+
 				rows.each(function(i, row){
-					
-					var cols = $('>.gen-column', row);
-					
+
+					const cols = $('>.gen-column', row);
+
 					cols.each(function(x, col){
-						
-						var contents = $('>.gen-inner>*', col);
-						
+
+						const contents = $('>.gen-inner>*', col);
+
 						if(!contents[0])
-							
+
 							$(col).hide();
-						
+
 						else
-							
+
 							$(col).addClass('readjust');
-						
+
 					});
-					
-					var rowsToAdjust = $('.readjust', row),
-					
+
+					const rowsToAdjust = $('.readjust', row),
+
 						totalToAdjust = rowsToAdjust.length,
-						
-						division      = 12/totalToAdjust;
-					
+
+						division = 12 / totalToAdjust;
+
 					if(Number.isInteger( division ) && division <= 12){
-						
+
 						rowsToAdjust.alterClass('col-sm-*');
-						
+
 						rowsToAdjust.addClass('col-sm-'+division);
-						
+
 					}
-				
-					
+
+
 				});
-				
-				
+
+
 			},
-			
+
 			refreshComponents : function(options){
-				
+
 				options = options || {};
-				
+
 				if(options.wrapper){
-					
+
 					/* select2 */
-					
+
 					if(options.wrapper.find('.form-control.select2'))
-						
+
 						$.IGRP.components.select2.init( options.wrapper );
-					
+
 					/*table ( data table, formlist )*/
-					
-					var table = options.wrapper.find('table').first();
-					
+
+					const table = options.wrapper.find('table').first();
+
 					if(table.hasClass('igrp-data-table'))
-						
+
 						$.IGRP.components.tableCtrl.dataTable({
 							parent : options.wrapper
 						})
-						
+
 					if(table.hasClass('IGRP_formlist'))
-						
+
 						table.IGRP_formlist();
 
 					if($.IGRP.components.contextMenu)
-						
+
 						$.IGRP.components.contextMenu.set( $('.gen-container-item[item-name="'+options.itemName+'"]') );
-					
+
 				}
-				
+
 			},
-			
+
 			sanitize:function(pOp){
-				var vTexto = pOp;
+				let vTexto = pOp;
 				try{
 					vTexto = vTexto.replace('\'','&#92;');
 					return(vTexto);
 				}catch(e){return vTexto;}
 			},
 			createHidden:function(p){
-				var form = $.IGRP.utils.getForm();
-				var clss = p.class || '';
-				var id   = p.id || '';
+				const form = $.IGRP.utils.getForm();
+				const clss = p.class || '';
+				const id = p.id || '';
 
 				if(p.name){
-					if ($('input[name="'+p.name+'"]')[0]) 
+					if ($('input[name="'+p.name+'"]')[0])
 						$('input[name="'+p.name+'"]').addClass(clss).val(p.value);
 					else if(id)
 						form.prepend('<input id="'+id+'" type="hidden" class="'+clss+'" name="'+p.name+'" value="'+p.value+'"/>');
@@ -519,13 +531,13 @@
 			isNotNaN : function(v){
 				return isNaN(v)? 0:v*1;
 			},
-			
+
 			getType: function (f) {
-				var type = f.attr('type') ? f.attr('type') : f.prop('tagName');
+				const type = f.attr('type') ? f.attr('type') : f.prop('tagName');
 
 				return type ? type.toLowerCase() : '';
 			},
-			
+
 			arrRemoveItem : function(arr,v){
                 return $.grep(arr, function(val) {
 				  return val != v;
@@ -572,15 +584,15 @@
 
 			numberFormat : function(p){
 
-				var val = p.val;
-				
+				let val = p.val;
+
 				try {
-					
+
 					if(p.obj && p.obj.is('[numberformat]')){
-						
+
 						p.obj.attr('numberformat').split(',').forEach(function (fr) {
 
-							var round = null,
+							let round = null,
 								auxfr = null;
 
 							if (fr.indexOf(':') !== -1) {
@@ -594,13 +606,13 @@
 									auxfr = fr[0];
 							}else
 								auxfr = fr;
-							
+
 							val = $.IGRP.utils.rounding[auxfr](p.val, round);
-							
+
 						});
 
 						return val;
-					}	
+					}
 				} catch (error) {
 					console.log('numberFormat', error);
 				}
@@ -610,30 +622,29 @@
 
 			extractFieldName : function(p){
 
-				var starStr	= p.star || '{',
+				const starStr = p.star || '{',
 
-					endStr 	= p.end  || '}',
+					endStr = p.end || '}',
 
-					holder	= p.holder || $.IGRP.utils.getForm(),
+					holder = p.holder || $.IGRP.utils.getForm(),
 
-					arrStar	= $.IGRP.utils.string.getIndices(starStr, p.str),
+					arrStar = $.IGRP.utils.string.getIndices(starStr, p.str),
 
-					arrEnd	= $.IGRP.utils.string.getIndices(endStr, p.str),
-					
-					arrObj	= {},
-					
-					prefix	= p.isTable ? '_fk' : '';
+					arrEnd = $.IGRP.utils.string.getIndices(endStr, p.str),
+
+					arrObj = {},
+
+					prefix = p.isTable ? '_fk' : '';
 
 				arrStar.forEach(function (idx, i) {
 
-					var xpr   	= p.str.substring(idx, arrEnd[i] + endStr.length),
+					const xpr = p.str.substring(idx, arrEnd[i] + endStr.length),
 
-						auxName = 'p_' + xpr.slice(starStr.length, xpr.indexOf(endStr)),
+						auxName = 'p_' + xpr.slice(starStr.length, xpr.indexOf(endStr));
+					let name = auxName + prefix,
 
-						name 	= auxName + prefix,
-						
-						field 	= $('[name="' + name + '"]', holder);
-					
+						field = $('[name="' + name + '"]', holder);
+
 					if(!field[0]){
 						field 	= $('[name="' + auxName + '"]', $.IGRP.utils.getForm());
 						name 	= auxName;
@@ -653,18 +664,18 @@
 
 				try {
 
-					var str = p.fx;
-					
-					for (var f in p.extract) {
+					let str = p.fx;
+
+					for (let f in p.extract) {
 
 						var extract = p.extract[f],
 							val 	= extract.field.val();
-						
+
 						if ($.IGRP.utils.getType(extract.field) == 'date')
 							val = new Date(val).getTime();
 
 						val = $.isNumeric(val) ? Number(val) : "'"+val+"'";
-						
+
 						str = str.replaceAll(extract.str, val);
 					}
 
@@ -699,24 +710,24 @@
 
 				$('*[mathcal]', obj).each(function () {
 
-					var _this 	= $(this),
+					const _this = $(this),
 
-						fx 		= $.IGRP.utils.minify(_this.attr('mathcal')),
+						fx = $.IGRP.utils.minify(_this.attr('mathcal')),
 
 						isTable = _this.parents('table')[0] ? true : false,
 
-						holder 	= isTable ? _this.parents('tr:first') : $.IGRP.utils.getForm(),
-						
-						extract	= $.IGRP.utils.extractFieldName({
-							str 	: fx,
-							holder 	: holder,
-							isTable : isTable
+						holder = isTable ? _this.parents('tr:first') : $.IGRP.utils.getForm(),
+
+						extract = $.IGRP.utils.extractFieldName({
+							str: fx,
+							holder: holder,
+							isTable: isTable
 						});
 
 					if ($.isPlainObject(extract)){
 
-						for (var f in extract) {
-							
+						for (let f in extract) {
+
 							$(document).trigger('document:mathcal', [{
 								name 	: f,
 								fx 		: fx,
@@ -731,50 +742,50 @@
 			},
 
 			afterSubmitAjax : function (p) {
-				var xml = p.xml,
-								
+				const xml = p.xml,
+
 					hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
-					
+
 					refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
-	
-					nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
-				
+
+				nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
+
 				if( !hasRefreshAttr ){
-				
+
 					$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
-						
+
 						nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-						
+
 					});
 				}
-	
+
 				if(nodes[0]){
-					
+
 					$.IGRP.utils.xsl.transform({
 						xsl     : $.IGRP.utils.getXMLStylesheet(xml),
 						xml     : xml,
 						nodes   : nodes,
 						clicked : p.clicked,
 						complete: function(res){
-	
+
 							$.IGRP.events.execute('submit-complete',p);
-	
+
 							p.clicked.removeAttr("disabled");
-							
+
 						}
 					});
-					
+
 				}else{
 					p.clicked.removeAttr("disabled");
 					$.IGRP.events.execute('submit-complete',p);
 				}
-	
+
 				$.IGRP.utils.message.handleXML(xml);
 			},
 
 			file2base64 : function(p){
-				
-				var fileB64 = new FileReader();
+
+				const fileB64 = new FileReader();
 
 				fileB64.readAsDataURL(p.field[0].files[0]);
 
@@ -802,42 +813,42 @@
 				return window.btoa(encodeURIComponent(str));
 			},
 			base64toBlob : function(p) {
-		        var sliceSize 		= p.sliceSize || 512,
-		        	base64 			= p.base64Data.split(';'),
-		        	byteCharacters 	= atob(base64[1].split(",")[1]),
-		        	contentType 	= base64[0].split(":")[1] || p.contentType
-		        	byteArrays 		= [];
+				const sliceSize = p.sliceSize || 512,
+					base64 = p.base64Data.split(';'),
+					byteCharacters = atob(base64[1].split(",")[1]),
+					contentType = base64[0].split(":")[1] || p.contentType;
+				byteArrays 		= [];
 
-		        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-		            var slice = byteCharacters.slice(offset, offset + sliceSize);
+		        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+					const slice = byteCharacters.slice(offset, offset + sliceSize);
 
-		            var byteNumbers = new Array(slice.length);
-		            for (var i = 0; i < slice.length; i++) {
+					const byteNumbers = new Array(slice.length);
+					for (let i = 0; i < slice.length; i++) {
 		                byteNumbers[i] = slice.charCodeAt(i);
 		            }
 
-		            var byteArray = new Uint8Array(byteNumbers);
+					const byteArray = new Uint8Array(byteNumbers);
 
-		            byteArrays.push(byteArray);
+					byteArrays.push(byteArray);
 		        }
 
 		      	return new Blob(byteArrays, {type: contentType});
 			},
 			verticalCentralize:function(s){
-				var selector = s || '[vertical-centralize="true"]';
+				const selector = s || '[vertical-centralize="true"]';
 
 				$(selector).each(function(i,el){
-					
+
 					console.log(el);
 
 				})
 			},
 			arrayValuesToString : function(arr,spliter){
-				var str = "";
+				let str = "";
 				if(arr){
 					arr.forEach(function(a,i){
 						str+=a;
-						if(i !== arr.length-1)
+						if(i != arr.length-1)
 							str+=spliter;
 					});
 				}
@@ -845,14 +856,11 @@
 			},
 			ffoxDisableOutputEscaping: function(){
 
-				var doe = $('.disable-output-escaping, .ff-fix').not('.set');
+				const doe = $('.disable-output-escaping, .ff-fix').not('.set');
 
 				if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-
 					doe.each(function(i,d){
-						
 						$(d).html( $(d).text() );
-
 					});
 				}
 
@@ -867,7 +875,7 @@
 					'info' 	 : 'info-circle'
 				},
 				alert : function(p){
-					var type = p.type.toLowerCase() || 'info',
+					const type = p.type.toLowerCase() || 'info',
 						icon = $.IGRP.utils.message.getIcon[type];
 
 					return '<div class="dynamic-alert alert alert-'+type+'" role="alert">'+
@@ -880,13 +888,13 @@
 
 					try{
 
-						var alert = '',
+						let alert = '',
 
 							debug = '';
 
 						$.each($(xml).find('messages message'),function(i,row){
 
-							var type = $(row).attr('type');
+							let type = $(row).attr('type');
 
 							if (type != 'debug' && type != 'confirm') {
 
@@ -903,45 +911,45 @@
 								'</li>';
 							}
 						});
-						
-						
+
+
 						if(alert != '')
 							$('.igrp-msg-wrapper').html(alert);
-						
+
 						if(debug != '')
 							$('#igrp-debugger .igrp-debug-list').html(debug);
 
 					}catch(err){
-						
+
 						console.log(err)
 					}
 
 				},
 				notify : function(xml, data){
-					
+
 					$.each($(xml).find('messages message'),function(it,row){
-						
-						var type = $(row).attr('type');
-						
+
+						let type = $(row).attr('type');
+
 						if (type != 'debug' && type != 'confirm') {
-							
-							var text = $(row).text();
-							
+
+							const text = $(row).text();
+
 							type = type == 'error' ? 'danger' : type;
-							
+
 							$.IGRP.notify({
 								message : text,
 								type	: type
 							});
-							
+
 							if(data){
-								
+
 								data.item.trigger('igrp-notify', [ {
-									
+
 									type : type,
-									
+
 									text : text
-									
+
 								} ]);
 							}
 						}
@@ -951,8 +959,8 @@
 			},
 			loading : {
 				show : function(o){
-					
-					var obj = o ? o : $('body');
+
+					const obj = o ? o : $('body');
 
 					$.IGRP.utils.loading.hide(obj);
 
@@ -960,7 +968,7 @@
 				},
 				hide : function(o){
 
-					var obj = o ? o : $('body');
+					const obj = o ? o : $('body');
 
 					if($('.loader',obj)[0]) {
 
@@ -972,12 +980,14 @@
 				}
 			},
 			string:{
-				
+
 				getIndices : function(searchStr, str, caseSensitive) {
-				    var startIndex = 0, searchStrLen = searchStr.length;
-				    var index, indices = [];
-				   
-				    if(str){
+					let startIndex = 0;
+					const searchStrLen = searchStr.length;
+					let index;
+					const indices = [];
+
+					if(str){
 				    	if (!caseSensitive) {
 					        str = str.toLowerCase();
 					        searchStr = searchStr.toLowerCase();
@@ -987,23 +997,35 @@
 					        startIndex = index + searchStrLen;
 					    }
 				    }
-				    
+
 				    return indices;
 				},
 				replaceSpecialChars : function(label){
-					var chars = ['[',']','€','«','»',';','='];
-					var accents = [
-						{ base:'a', accents:['\u00c4' ,'\u00c3','\u00e1','\u00e0','\u00e2','\u00e3','\u00e4','\u00c1','\u00c0','\u00c2'] },
-						{ base:'e', accents:['\u00e9','\u00e8','\u00ea','\u00ea','\u00c9','\u00c8','\u00ca','\u00cb'] },
-						{ base:'i', accents:['\u00ed','\u00ec','\u00ee','\u00ef','\u00cd','\u00cc','\u00ce','\u00cf'] },
-						{ base:'o', accents:['\u00d6','\u00d5','\u00f3','\u00f2','\u00f4','\u00f5','\u00f6','\u00d3','\u00d2','\u00d4'] },
-						{ base:'u', accents:['\u00fa','\u00f9','\u00fb','\u00fc','\u00da','\u00d9','\u00db'] },
-						{ base:'c', accents:['\u00e7','\u00c7'] },
-						{ base:'n', accents:['\u00f1','\u00d1'] }
+					const chars = ['[', ']', '€', '«', '»', ';', '='];
+					const accents = [
+						{
+							base: 'a',
+							accents: ['\u00c4', '\u00c3', '\u00e1', '\u00e0', '\u00e2', '\u00e3', '\u00e4', '\u00c1', '\u00c0', '\u00c2']
+						},
+						{
+							base: 'e',
+							accents: ['\u00e9', '\u00e8', '\u00ea', '\u00ea', '\u00c9', '\u00c8', '\u00ca', '\u00cb']
+						},
+						{
+							base: 'i',
+							accents: ['\u00ed', '\u00ec', '\u00ee', '\u00ef', '\u00cd', '\u00cc', '\u00ce', '\u00cf']
+						},
+						{
+							base: 'o',
+							accents: ['\u00d6', '\u00d5', '\u00f3', '\u00f2', '\u00f4', '\u00f5', '\u00f6', '\u00d3', '\u00d2', '\u00d4']
+						},
+						{base: 'u', accents: ['\u00fa', '\u00f9', '\u00fb', '\u00fc', '\u00da', '\u00d9', '\u00db']},
+						{base: 'c', accents: ['\u00e7', '\u00c7']},
+						{base: 'n', accents: ['\u00f1', '\u00d1']}
 					];
 
 					//replace white spaces to _
-					var str = label.replaceAll(' ','_');
+					let str = label.replaceAll(' ', '_');
 					//replace - to _
 					str = str.replaceAll('-','_');
 					//replace special characters
@@ -1026,21 +1048,21 @@
 		/*FILE SUBMIT*/
 		/*Get Form Data as Object*/
 		$.IGRP.utils.getFormData = function(p){
-			var vFormData = new FormData(), 
-				vBlod     = null,
-				vType     = p.pContentType ? p.pContentType : 'plain/text',
-				vFormat   = p.pFormat ? p.pFormat : 'txt';
+			const vFormData = new FormData();
+			let vBlod = null,
+				vType = p.pContentType ? p.pContentType : 'plain/text',
+				vFormat = p.pFormat ? p.pFormat : 'txt';
 
 			p.pArrayFiles.forEach(function(pfile){
-				var vName     = pfile.name,
-					vFileName = (vName.substring(0,2) == 'p_')?vName.substring(2):vName;
+				const vName = pfile.name;
+				let vFileName = (vName.substring(0, 2) == 'p_') ? vName.substring(2) : vName;
 
 				vFileName 	= pfile.filename ? pfile.filename : vFileName;
 				vType 		= pfile.type ? pfile.type : vType,
 				vFormat 	= pfile.format ? pfile.format : vFormat;
 				vBlod 		= new Blob([pfile.value], {type:vType});
 				vFileName 	= pfile.value ? vFileName+"."+vFormat : '';
-				vFormData.append(vName, vBlod, vFileName);			
+				vFormData.append(vName, vBlod, vFileName);
 			});
 
 			if (p.pArrayItem) {
@@ -1063,16 +1085,16 @@
 				pComplete : function operação finalizada devolve resposta,
 				pNotify  : boolean ex -> true/false // caso pretende ou nao despoletar notificação por defeito a notificação é despoletada
 			*/
-			var vRequest 	= new XMLHttpRequest(), 
-				vData    	= $.IGRP.utils.getFormData(p.pParam),
-				typeNotify 	= 'danger',
-				form 		= $.IGRP.utils.getForm(),
-				showNotify 	= p.pNotify === false ? false : true,
-				response    = null,
-				message 	= '';
+			const vRequest = new XMLHttpRequest(),
+				vData = $.IGRP.utils.getFormData(p.pParam);
+			let typeNotify = 'danger';
+			const form = $.IGRP.utils.getForm(),
+				showNotify = p.pNotify === false ? false : true;
+			let response = null,
+				message = '';
 
 			form.attr('accept-charset','UTF-8');
-			
+
 
 			//console.log(document.charset);
 
@@ -1103,9 +1125,9 @@
 		    	//console.log(vRequest.getAllResponseHeaders());
 		    	if(vRequest.readyState == 4){ // operação finalizada
 		    		typeNotify = vRequest.status == 200 ? 'success' : 'danger';
-		    		
+
 		    		$.IGRP.utils.loading.hide();
-		    		
+
 		    		if (showNotify){
 		    			if(vRequest.status == 200){
 			    			try{
@@ -1118,10 +1140,10 @@
 			    				message 	= response.messages;
 			    			}
 		    			}
-		    			
+
 		    			typeNotify = typeNotify === 'error' ? 'danger' : typeNotify;
 
-		    			message = message && message != undefined ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText; 
+		    			message = message && message != undefined ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText;
 
 		    			$.IGRP.notify({
 							message : $.IGRP.utils.htmlDecode(message),
@@ -1129,7 +1151,7 @@
 						});
 					}
 
-		    		if(p.pComplete) 
+		    		if(p.pComplete)
 			    		p.pComplete(vRequest);
 		    	}
 		    };
@@ -1137,17 +1159,17 @@
 		    vRequest.send(vData);
 		};
 
-		
+
 
 		$.IGRP.utils.submitPage2File = {
 			getFiles : function(holder){
-				var array = [];
-				
+				const array = [];
+
 				holder = holder && holder[0] ? holder : $('body');
 
 				$('input[type="file"]', holder).each(function(){
-					var files  	= $(this)[0].files,
-						obj 	= {};
+					const files = $(this)[0].files,
+						obj = {};
 
 					obj.name 	 = $(this).attr('name');
 					obj.type 	 = 'application/octet-stream';
@@ -1155,7 +1177,7 @@
 					obj.filename = $(this).attr('name')
 
 					if(files.length > 0){
-						var name 	  = files[0].name.split('.');
+						const name = files[0].name.split('.');
 
 						obj.value 	  = files[0];
 						obj.type  	  = files[0].type;
@@ -1163,49 +1185,50 @@
 						obj.filename  = name[0];
 					}else
 						obj.value = '';
-					
+
 					array.push(obj);
 				});
 				return array;
 			},
 			json2xml : function(obj){
-				var toXml = function(v, name, ind) {
-				    var xml = "";
-				    if (typeof(v) == "object") {
-				    	var hasChild = false;
-				      	for (var m in v) {
-				        	if (m.charAt(0) == "@") {
-				          		xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
-				        	} else {
-				          		hasChild = true;
-				        	}
-				     	}
-				      	if (hasChild) {
-				        	for (var m in v) {
-				          		if (m=="name") {
-				            		xml += "<" + v[m] + ">" + $.IGRP.utils.htmlEncode(v['value']) + "</" + v[m] + ">";
-				          		}
-				        	}
-				      	}
-				    }
-			    	return xml;
-			  	}, xml="";
-				for (var m in obj) {
+				let toXml = function (v, name, ind) {
+					let m;
+					let xml = "";
+					if (typeof (v) == "object") {
+						let hasChild = false;
+						for (m in v) {
+							if (m.charAt(0) === "@") {
+								xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
+							} else {
+								hasChild = true;
+							}
+						}
+						if (hasChild) {
+							for (m in v) {
+								if (m === "name") {
+									xml += "<" + v[m] + ">" + $.IGRP.utils.htmlEncode(v['value']) + "</" + v[m] + ">";
+								}
+							}
+						}
+					}
+					return xml;
+				}, xml = "";
+				for (const m in obj) {
 			    	xml += toXml(obj[m], m, "");
 			  	}
 			  	return '<row>'+xml+'</row>';
 			},
 			creatFiles2Submit : function(p){
-				var obj  = [],
-					xml  = p.serialize.find('*').not(p.notSerialize).not('[name="p_env_frm_url"]').serializeArray();
+				const obj = [];
+				let xml = p.serialize.find('*').not(p.notSerialize).not('[name="p_env_frm_url"]').serializeArray();
 
 				xml = '<?xml version="1.0" encoding="UTF-8"?><content>'+
 					$.IGRP.utils.submitPage2File.json2xml(xml)+'</content>';
 
 				obj.push({name:p.fileName,value:xml});
 
-				//add files 
-				var files = $.IGRP.utils.submitPage2File.getFiles();
+				//add files
+				const files = $.IGRP.utils.submitPage2File.getFiles();
 				if (files) {
 					files.forEach(function(e,i){
 						obj.push(e);
@@ -1215,14 +1238,14 @@
 				return obj;
 			},
 			getUrlParam : function(url){
-				var array = [];
+				const array = [];
 				try{
 					if(url.indexOf("?")>-1){
-						var param = url.substring(url.indexOf("?")+1);
-						var p = param.split("&");
-						for(var i = 0; i < p.length; i++){
-							var p1 = p[i].split("=");
-							if(p1[0].toLowerCase() != "p_env_frm_url"){
+						const param = url.substring(url.indexOf("?") + 1);
+						const p = param.split("&");
+						for(let i = 0; i < p.length; i++){
+							const p1 = p[i].split("=");
+							if(p1[0].toLowerCase() !== "p_env_frm_url"){
 								if(!$("input[name='"+p1[0]+"']")[0])
 									array.push({name:p1[0],value:p1[1]});
 							}
@@ -1233,16 +1256,16 @@
 				return array;
 			},
 			onSubmit : function(p){
-				var files = $.IGRP.utils.submitPage2File.creatFiles2Submit({
-						serialize 	 : p.serialize,
-						notSerialize : p.notSerialize,
-						fileName 	 : p.fileName || 'p_igrpfile'
+				const files = $.IGRP.utils.submitPage2File.creatFiles2Submit({
+						serialize: p.serialize,
+						notSerialize: p.notSerialize,
+						fileName: p.fileName || 'p_igrpfile'
 					}),
 					getParam = {
-						pContentType : p.contentType || 'plain/xml',
-						pFormat      : p.format || 'xml',
-						pArrayFiles  : files,
-						pArrayItem 	 : $.IGRP.utils.submitPage2File.getUrlParam(p.url)
+						pContentType: p.contentType || 'plain/xml',
+						pFormat: p.format || 'xml',
+						pArrayFiles: files,
+						pArrayItem: $.IGRP.utils.submitPage2File.getUrlParam(p.url)
 					};
 
 				$.IGRP.utils.submitStringAsFile({
@@ -1254,28 +1277,28 @@
 			}
 		};
 		$.IGRP.utils.xsl = {
-				
+
 			files : {
-				
-				
-				
+
+
+
 			},
 
 			getStyleSheet : function(nodes,includes){
-				var xsl = $.parseXML('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">'+
-	  									'<xsl:output method="html" encoding="utf-8"/>'+
-	  									'<xsl:template match="/"></xsl:template>'+
-	  								 '</xsl:stylesheet>');
-				var template;
+				const xsl = $.parseXML('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' +
+					'<xsl:output method="html" encoding="utf-8"/>' +
+					'<xsl:template match="/"></xsl:template>' +
+					'</xsl:stylesheet>');
+				let template;
 
-				var stylesheet = $(xsl).find('>:first-child');
+				const stylesheet = $(xsl).find('>:first-child');
 
 				$.each( $('>*',stylesheet),function(i,n){
 
 					if(n.nodeName == 'xsl:template')
 						template = $(n);
 				});
-	
+
 				template.append(nodes);
 
 				stylesheet.append(includes);
@@ -1284,8 +1307,8 @@
 			},
 
 			getIncludeNodes : function(xsl){
-				var arr = [];
-				var d = $(xsl.documentElement);
+				const arr = [];
+				const d = $(xsl.documentElement);
 				$.each(d.find('>*'),function(){
 					if(this.nodeName == 'xsl:include')
 						arr.push(this);
@@ -1296,14 +1319,14 @@
 			},
 
 			getNode : function(xsl,name,attrs){
-				var arr = [];
-				var d   = $(xsl.documentElement);
+				const arr = [];
+				const d = $(xsl.documentElement);
 
 				$.each( d.find('html body *'),function(){
 					if(this.nodeName == name){
-						var node = this;
+						const node = this;
 						if(attrs){
-							for(var a in attrs){
+							for(let a in attrs){
 								if(node.getAttribute(a) == attrs[a])
 									arr.push(node);
 							}
@@ -1313,23 +1336,23 @@
 
 				return arr;
 			},
-			
+
 			transform : function(p){
-				
+
 				$.ajax({
 
 					url : p.xsl,
 
 					success:function(pageXSL){
-						
-						var nodesArr    = [];
 
-						var includesArr = $.IGRP.utils.xsl.getIncludeNodes(pageXSL);
+						const nodesArr = [];
+
+						const includesArr = $.IGRP.utils.xsl.getIncludeNodes(pageXSL);
 
 						//get template includes
 						$.each(includesArr,function(x,i){
 
-							var href = $(i).attr('href');
+							const href = $(i).attr('href');
 
 							$(i).attr('href',href.split('../../xsl/tmpl/').pop(''));
 
@@ -1337,25 +1360,25 @@
 
 						//get nodes xsl
 						if(p.nodes){
-							
-							var id = 0;
-							
-							var count = 0;
-							
-							p.nodes.forEach(function(n,i){
-								
-								var nodeElement = $.IGRP.utils.xsl.getNode(pageXSL,'xsl:if',{
 
-									test : 'rows/content/'+n
+							let id = 0;
+
+							const count = 0;
+
+							p.nodes.forEach(function(n,i){
+
+								const nodeElement = $.IGRP.utils.xsl.getNode(pageXSL, 'xsl:if', {
+
+									test: 'rows/content/' + n
 
 								})[0];
-								
-								var xslt = $.IGRP.utils.xsl.getStyleSheet(nodeElement,includesArr);
 
-								var itemHTML = $('.gen-container-item[item-name="'+n+'"]');
-								
-								var oldStyle = itemHTML.attr('style') || '';
-								
+								const xslt = $.IGRP.utils.xsl.getStyleSheet(nodeElement, includesArr);
+
+								const itemHTML = $('.gen-container-item[item-name="' + n + '"]');
+
+								const oldStyle = itemHTML.attr('style') || '';
+
 								$.IGRP.events.execute('before-element-transform',{
 									//content  : content,
 									itemName : n,
@@ -1370,19 +1393,18 @@
 									loading      : true,
 									xslBasePath  : path+'/xsl/tmpl',
 									method 	     : 'replace',
-									replaceSelector : p.replaceSelector,
 									complete     : function(e,c){
-										
-										var content = $('.gen-container-item[item-name="'+n+'"]'),
-										
+
+										const content = $('.gen-container-item[item-name="' + n + '"]'),
+
 											currentStyle = content.attr('style') || '',
-											
-											style 		 = oldStyle+currentStyle;
-											
+
+											style = oldStyle + currentStyle;
+
 										content.attr('style', style);
-										
+
 										id += 1;
-										
+
 										$.IGRP.events.execute('element-transform',{
 											content  : content,
 											itemName : n,
@@ -1399,31 +1421,31 @@
 												itemHTML : content
 											});
 										}
-										
+
 										if(id == p.nodes.length){
 											if(p.clicked)
 												p.clicked.removeAttr("disabled");
-											
+
 											$.IGRP.utils.message.handleXML(p.xml);
-											
+
 											if(p.complete){
-												
+
 												p.complete();
-												
+
 											}
 										}
-										
-										
+
+
 									},
 									error: function(e){
-										
+
 										$.IGRP.notify({
 											message : 'Error Transforming Component',
 											type    : 'warning'
 										});
 									}
 								});
-								
+
 							});
 						}
 					}
@@ -1432,102 +1454,191 @@
 		};
 
 		$.IGRP.utils.getXMLStylesheet = function(d){
-			
-			var xstr;
 
-		    xstr = typeof d == 'string' ? d : new XMLSerializer().serializeToString(d);
+			let xstr;
+
+			xstr = typeof d == 'string' ? d : new XMLSerializer().serializeToString(d);
 
 		    if(xstr){
-		    	var beginExp = '<?xml-stylesheet href="';
+				const beginExp = '<?xml-stylesheet href="';
 
-				var endExp   = '" type="text/xsl"?>';
-				
-				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
+				const endExp = '" type="text/xsl"?>';
 
-				var end  = $.IGRP.utils.string.getIndices(endExp, xstr,false)[0];
+				const beginArr = $.IGRP.utils.string.getIndices(beginExp, xstr, false);
+				const endArr = $.IGRP.utils.string.getIndices(endExp, xstr, false);
+
+				if(!beginArr[0] && beginArr[0] !== 0) return null;
+				if(!endArr[0] && endArr[0] !== 0) return null;
+
+				const begin = beginArr[0] + beginExp.length;
+
+				const end = endArr[0];
 
 				var exprss = xstr.substring(begin,end);
 		    }
 
-			return exprss;
+			return exprss || null;
 		};
 
-		$.IGRP.utils.transformXMLNodes = function(params){
-			
+		$.IGRP.utils.transformXMLNodes = function(params) {
+
 			var options = $.extend(true, {
-				nodes :[],
-				url   :null,
-				headers: {},
-				data  : null
+				nodes   : [],
+				url     : null,
+				headers : {},
+				data    : null,
+				success : null,
+				error   : null
 			}, params);
-			
-			
 
 			$.ajax({
-
-				url  : options.url,
-
-				data : options.data,
-
-				method:'POST',
-				
+				url     : options.url,
+				data    : options.data,
+				method  : 'POST',
 				headers : options.headers,
+				success : function(xml, status, xhr) {
 
-				success:function(xml,e,r){
-					
-					var xslURL = $.IGRP.utils.getXMLStylesheet(r.responseText);
-		
-					$.IGRP.utils.xsl.transform({
-						xsl    : xslURL,
-						xml    : xml,
-						nodes  : options.nodes,
-						success: options.success
-					});
-					
+					// ── 1. Tenta sempre extrair o XSL do response (caminho original) ──
+					var responseText = xhr.responseText || '';
+					var xslURL       = $.IGRP.utils.getXMLStylesheet(responseText);
+
+					if (xslURL) {
+						$.IGRP.utils.xsl.transform({
+							xsl    : xslURL,
+							xml    : xml,
+							nodes  : options.nodes,
+							success: options.success,
+							error  : options.error
+						});
+						return;
+					}
+
+					// ── 2. Fallback: servidor retornou HTML direto (sem xml-stylesheet) ──
+					_applyHtmlNodes(responseText || xml, options);
+				},
+				error : function(xhr) {
+					console.warn('[transformXMLNodes] Request failed', xhr.status, xhr.statusText);
+					if (options.error) options.error({ xhr: xhr });
 				}
 			});
-
-			//console.log(options)			
 		};
 
-		var containsFunc = function(a, i, m) {
-        	return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-        };
+		/**
+		 * Aplica nós HTML diretamente no DOM, substituindo os .gen-container-item correspondentes.
+		 * Usado quando o servidor retorna HTML em vez de XML+XSL.
+		 *
+		 * @param {string|Object} response  - responseText (string) ou objeto jQuery/XML
+		 * @param {Object}        options   - opções originais de transformXMLNodes
+		 */
+		function _applyHtmlNodes(response, options) {
 
-        jQuery.expr[':'].Contains = containsFunc;
+			var html = typeof response === 'string'
+				? response
+				: (new XMLSerializer()).serializeToString(response);
+
+			if (!html) {
+				console.warn('[transformXMLNodes] Resposta vazia, nenhum nó substituído.');
+				if (options.error) options.error({ message: 'Empty response' });
+				return;
+			}
+
+			var $doc = $('<div>').append($.parseHTML(html, document, true));
+
+			options.nodes.forEach(function(nodeName) {
+
+				var $new     = $doc.find('.gen-container-item[item-name="' + nodeName + '"]').first();
+				var $current = $('.gen-container-item[item-name="' + nodeName + '"]');
+
+				if (!$new[0]) {
+					console.warn('[transformXMLNodes] Nó não encontrado na resposta:', nodeName);
+					return;
+				}
+
+				// ── Destruir DataTables ANTES de remover o nó do DOM ──────────────────
+				// Evita "Cannot read properties of null (reading 'parentNode')"
+				// que ocorre quando destroy() é chamado após replaceWith()
+				if ($.fn.DataTable) {
+					$('table.igrp-data-table', $current).each(function() {
+						if ($.fn.DataTable.isDataTable(this)) {
+							try {
+								$(this).DataTable().destroy();
+							} catch(e) {
+								console.warn('[transformXMLNodes] DataTable destroy failed:', e);
+							}
+						}
+					});
+				}
+
+				// ── Substitui o nó no DOM ──────────────────────────────────────────────
+				var oldStyle = $current.attr('style') || '';
+
+				if ($current[0]) {
+					$current.replaceWith($new);
+				}
+
+				if (oldStyle) {
+					$new.attr('style', (oldStyle + ' ' + ($new.attr('style') || '')).trim());
+				}
+
+				// ── Reinicializa componentes IGRP no novo nó ──────────────────────────
+				$.IGRP.utils.refreshComponents({
+					wrapper  : $new,
+					itemName : nodeName
+				});
+
+				// ── Dispara eventos (agora o nó antigo já não existe no DOM) ──────────
+				$.IGRP.events.execute('element-transform', {
+					content  : $new,
+					itemName : nodeName
+				});
+
+				if (options.success) {
+					options.success({
+						itemName : nodeName,
+						itemHTML : $new
+					});
+				}
+			});
+		}
+
+		const containsFunc = function (a, i, m) {
+			return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+		};
+
+		jQuery.expr[':'].Contains = containsFunc;
 
         jQuery.expr[':'].contains = containsFunc;
 
-        var init = function(){
-        	
-        	$.IGRP.utils.ffoxDisableOutputEscaping();
+		const init = function () {
 
-        	$.IGRP.utils.verticalCentralize();
-        	
-        	$.IGRP.utils.adjustableRows();
-        	
-        	$.IGRP.utils.mathcal();
-			
+			$.IGRP.utils.ffoxDisableOutputEscaping();
+
+			$.IGRP.utils.verticalCentralize();
+
+			$.IGRP.utils.adjustableRows();
+
+			$.IGRP.utils.mathcal();
+
 			$.IGRP.utils.toolTip();
-        	
-        	$.IGRP.events.on('submit-complete',function(){
-        		
-        		$.IGRP.utils.adjustableRows();
-        		
-        		$.IGRP.utils.mathcal();
-        		
-        	});
-        
-        };
-        
-        $.IGRP.on('init',function(){
+
+			$.IGRP.events.on('submit-complete', function () {
+
+				$.IGRP.utils.adjustableRows();
+
+				$.IGRP.utils.mathcal();
+
+			});
+
+		};
+
+		$.IGRP.on('init',function(){
         	init();
         });
 
 	}else{
 		console.log('jQuery or IGRP.js missing!')
 	}
-	
+
 	$(document).on('document:mathcal', function (i, p) {
 
 		$('[name="' + p.name + '"]',p.holder).on('change' ,function () {

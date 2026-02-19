@@ -177,144 +177,120 @@
 		},
 
 		dataTable : function(op){
-
 			var o = $.extend({
-
-				selector 		: '.igrp-data-table',
-				language 		: getCookie("igrp_lang"),
-				parent          : 'body'
-
+				selector : '.igrp-data-table',
+				language : getCookie("igrp_lang"),
+				parent   : 'body'
 			}, op);
 
-			var tables = o.obj && o.obj[0] ? o.obj : $(o.selector,o.parent);
+			var tables = o.obj && o.obj[0] ? o.obj : $(o.selector, o.parent);
 
 			if(tables[0] && $.fn.DataTable){
 
 				var PageInfo = $.IGRP.info;
 
-				tables.each(function(i,t){
+				tables.each(function(i, t){
+
+					// ── GUARD: se já tem listeners registados, não re-inicializa ──────
+					// Evita listeners duplicados de element-transform que causam
+					// "Cannot read properties of null (reading 'parentNode')"
+					if ($(t).data('igrp-datatable-init')) {
+						return;
+					}
+					$(t).data('igrp-datatable-init', true);
+					// ──────────────────────────────────────────────────────────────────
 
 					var headerContents = $(t).parents('.box-table-contents').first().find('.table-contents-head'),
+						tableTitle     = $(t).parents('.box').first().find('.box-title').text() || $('#gen-page-title').text(),
+						exprts         = $(t).attr('exports'),
 
-						tableTitle 	   = $(t).parents('.box').first().find('.box-title').text() || $('#gen-page-title').text(),
-
-						exprts 		   = $(t).attr('exports'),
-						
-						getInfo        = function(instance){
-							
-							return 'IGRP-datatable-'+instance+'-'+PageInfo.app+'-'+PageInfo.page;
-						
+						getInfo = function(instance){
+							return 'IGRP-datatable-' + instance + '-' + PageInfo.app + '-' + PageInfo.page;
 						},
 
-						options 	   = {
-
-							dom: 'lfrtip',
-
-							language: {
-
-					            url: path+'/core/igrp/table/datatable/language/'+o.language+'.json'	
-
-					        },
-					        stateSave   : true,
-					        
-					        stateSaveCallback: function(settings,data) {
-					        	
-					            localStorage.setItem( getInfo( settings.sInstance ) , JSON.stringify(data) )
-					            
-					        },
-					        stateLoadCallback: function(settings) {
-					        	
-					          return JSON.parse( localStorage.getItem( getInfo( settings.sInstance ) ) )
-					          
-					        },
-
-							order: [],
-
-							columnDefs	: [{
-
-						      	targets   : 'no-sort',
-
-						      	orderable : false
-
-						    }],
-						    lengthMenu: [[20, 50, -1], [20, 50, "All"]],
-					        initComplete:function(){}
-
+						options = {
+							dom      : 'lfrtip',
+							language : {
+								url: path + '/core/igrp/table/datatable/language/' + o.language + '.json'
+							},
+							stateSave : true,
+							stateSaveCallback: function(settings, data){
+								localStorage.setItem(getInfo(settings.sInstance), JSON.stringify(data));
+							},
+							stateLoadCallback: function(settings){
+								return JSON.parse(localStorage.getItem(getInfo(settings.sInstance)));
+							},
+							order      : [],
+							columnDefs : [{
+								targets   : 'no-sort',
+								orderable : false
+							}],
+							lengthMenu  : [[20, 50, -1], [20, 50, "All"]],
+							initComplete: function(){}
 						};
 
 					if(exprts){
-
 						var expArr = exprts.split(',');
-
 						options.buttons = [];
-
 						expArr.forEach(function(e){
-
 							var eOpts = exportOptions[e];
-
 							if(eOpts){
-								
 								eOpts.title = tableTitle;
-								options.buttons.push( eOpts );
-
+								options.buttons.push(eOpts);
 							}
-							
 						});
-
 						options.dom = 'lfBrtip';
-
 					}
 
-
-
-					if ( ! $.fn.DataTable.isDataTable( t ) )
+					if (!$.fn.DataTable.isDataTable(t))
 						var datatable = $(t).DataTable(options);
 
+					// ── Função de destruição segura ────────────────────────────────────
+					var safeDestroy = function(){
+						if (!$.fn.DataTable.isDataTable(t)) return;
+						if (!$.contains(document.documentElement, t)) return;
 
-					$.IGRP.on('submit',function(o){
-
-						if(o.valid && o.target.includes('submit') && $.fn.DataTable.isDataTable( t )){
+						// Último recurso: verificar o nó interno que DataTables usa
+						try {
+							var dtSettings = $(t).DataTable().settings()[0];
+							if (!dtSettings || !dtSettings.nTable || !dtSettings.nTable.parentNode) return;
 							datatable.destroy();
+						} catch(e) {
+							// Silencioso — já foi destruído ou nó inválido
 						}
-					
-	            	});
+					};
+					// ──────────────────────────────────────────────────────────────────
 
-					$.IGRP.events.on('iframe-modal-hide', (o)=>{
-						if ( ! $.fn.DataTable.isDataTable( t ) ) 
+					$.IGRP.on('submit', function(o){
+						if(o.valid && o.target.includes('submit'))
+							safeDestroy();
+					});
+
+					$.IGRP.events.on('iframe-modal-hide', function(o){
+						if (!$.fn.DataTable.isDataTable(t))
 							datatable = $(t).DataTable(options);
 					});
-					
-					$.IGRP.events.on('submit-ajax',function(o){
-						if(o.valid && $.fn.DataTable.isDataTable( t ))
-							datatable.destroy();
-	            	});
-					
-					/*$.IGRP.events.on('before-element-transform',function(p){
 
-						if( $(t).parents('.gen-container-item').first().attr('item-name') == p.itemName )
-							
-							datatable.destroy();
-							
-		        	});*/
-					
-					$.IGRP.events.on('element-transform',function(p){
-
-	            	 	var table = $('.table:not(.IGRP_formlist)',p.content);
-
-		        		if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') === $(t).attr('id') && $.fn.DataTable.isDataTable( t ))
-		        			datatable.destroy();
+					$.IGRP.events.on('submit-ajax', function(o){
+						if(o.valid)
+							safeDestroy();
 					});
 
-					
-					/*$(t).on('checkall', function (i, p) {
-						if(p.tableId && p.tableId === $(t).attr('id'))
-							datatable.destroy();
-					});*/
-					
+					$.IGRP.events.on('element-transform', function(p){
+						var table = $('.table:not(.IGRP_formlist)', p.content);
+						if(
+							table[0] &&
+							table.hasClass('igrp-data-table') &&
+							table.attr('id') === $(t).attr('id')
+						){
+							safeDestroy();
+							// Limpa o flag para que o novo nó possa ser re-inicializado
+							$(t).removeData('igrp-datatable-init');
+						}
+					});
+
 				});
-
 			}
-
 		},
 		
 		setTableStyle : function(wrapper){

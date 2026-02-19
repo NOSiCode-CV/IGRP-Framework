@@ -399,18 +399,13 @@ var mWindow = null,
 			});*/
 
 			$.IGRP.utils.transformXMLNodes({
-				
 				nodes : [tableName],
-
 				url   : $.IGRP.utils.getUrl(action)+filterLetter[0]+'='+filterLetter[1],
-
 				data  : form.serialize(),
-
 				success:function(c){
-		
-					var table = $('.gen-container-item[item-name="'+tableName+'"]');
-						
-					if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+					const table = $('.gen-container-item[item-name="' + tableName + '"]');
+
+					if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 						$.IGRP.components.tableCtrl.resetTableConfigurations(table);
 					
 					$('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table).addClass('active');

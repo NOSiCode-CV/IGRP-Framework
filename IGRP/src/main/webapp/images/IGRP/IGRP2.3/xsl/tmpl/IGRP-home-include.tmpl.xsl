@@ -191,7 +191,8 @@
             </a>
 
             <div id="side-bar-ctrl">
-               <img src="{$path}/assets/img/menu_icon.png"></img>
+              <img src="{$path}/assets/img/menu_icon.png" width="20" height="14" alt="Menu Hamburguer to collapse"
+                   loading="lazy"/>
             </div>
 
             <div id="igrp-app-title" class="">
@@ -236,7 +237,7 @@
               <li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
                 <a href="{$settingsURL/link}" target="{$settingsURL/target}" close="refresh">
                 <xsl:if test="$settingsURL/img != ''">             
-                  <img src="{$path}/assets/img/{$settingsURL/img}" style="width: 26px;margin-right: 4px;"></img>
+                  <img src="{$path}/assets/img/{$settingsURL/img}" width="26px" height="26px" style="margin-right: 4px;"></img>
                   </xsl:if>
                   <span class=""><b><xsl:value-of select="rows/site/user_name"/></b></span>         
                 </a>

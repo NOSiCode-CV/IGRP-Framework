@@ -4,10 +4,10 @@ if($ && $.IGRP && !$.IGRP.rules){
 	$.IGRP.rules = {
 			
 		getFieldValue : function(field){
-			var type  		= field.attr('type') || field.parents('[item-type]').attr('item-type'),
-				fieldValue  = field.val(),
-				arrType 	= ['radio','radiolist','checkbox','checkboxlist'];
-			
+			const type = field.attr('type') || field.parents('[item-type]').attr('item-type');
+			let fieldValue = field.val();
+			const arrType = ['radio', 'radiolist', 'checkbox', 'checkboxlist'];
+
 			if ($.inArray(type,arrType) !== -1) {
 					
 					fieldValue = [];
@@ -25,8 +25,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 		
 		satisfy:function(p){
 
-			var rtn 		= false,
-				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
+			let rtn = false;
+			const condition = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
 
 			p.fieldValue = $.IGRP.rules.getFieldValue($(p.field));
 
@@ -44,7 +44,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		
 		getSuffix : function(r){
-			var str = null;
+			let str = null;
 
 			if(r.isTable){
 				if(r.hasOwnProperty('isFormlist')){
@@ -58,24 +58,22 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		
 		getRemoteUrl : function(p){
-			var defaultRemote = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
-			var remote  = $(':input[name="'+p.sourceName+'"]').attr('igrp-remote'),
-				url 	= remote && remote != undefined ? function(){
-					if(remote.indexOf('{') === 0){
-						try{
-							const object = JSON.parse(remote.replaceAll("'",'"'));
-							remote = object['remote-'+p.procedureName];
-							return remote;
-						}catch(err){
-							console.log(err)
-							return defaultRemote;
-						}
-					}else{
+			const defaultRemote = $.IGRP.utils.getUrl(p.procedure) + 'dad=' + $('body').attr('app');
+			let remote = $(':input[name="' + p.sourceName + '"]').attr('igrp-remote');
+			return remote && remote != undefined ? function () {
+				if (remote.indexOf('{') === 0) {
+					try {
+						const object = JSON.parse(remote.replaceAll("'", '"'));
+						remote = object['remote-' + p.procedureName];
 						return remote;
+					} catch (err) {
+						console.log(err)
+						return defaultRemote;
 					}
-				}() : defaultRemote;
-
-			return url;
+				} else {
+					return remote;
+				}
+			}() : defaultRemote;
 		},
 
 		executeAction:function(p){
@@ -90,8 +88,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 
 		set:function(data,t){
-			
-			var type = t || false;
+
+			const type = t || false;
 
 			$.IGRP.configRules = data;
 			
@@ -99,24 +97,24 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				$.IGRP.typeRules = type;
 
-				for(var fname in data){
-					
-					var rules = data[fname];
-					
+				for(let fname in data){
+
+					const rules = data[fname];
+
 					rules.forEach(function(r){
-						
-						var targetNames = r.targets ? r.targets.split(',') : [];
-						var condition   = conditionsList[r.condition];
-						var hasOpposite = r.opposite == "1" ? true : false;
-						var source   	= r.isTable ? fname+'_fk' : fname;
-						var events      = r.event.split(',').join(' ');
-						
+
+						const targetNames = r.targets ? r.targets.split(',') : [];
+						const condition = conditionsList[r.condition];
+						const hasOpposite = r.opposite == "1" ? true : false;
+						const source = r.isTable ? fname + '_fk' : fname;
+						const events = r.event.split(',').join(' ');
+
 						r.sourceName = source;
 
 						if( events.indexOf('load') !== -1){
-							
-							var field       = $('[name="'+fname+'"]')[0];
-							
+
+							const field = $('[name="' + fname + '"]')[0];
+
 							var satisfyRule = $.IGRP.rules.satisfy({
 								condition : condition,
 								field     : field,
@@ -129,11 +127,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 						}
 							
 						$('body').on(events,'*[name="'+source+'"]',function(e){
-							
-							var satisfyRule = $.IGRP.rules.satisfy({
-								condition : condition,
-								field     : this,
-								rule      : r
+
+							const satisfyRule = $.IGRP.rules.satisfy({
+								condition: condition,
+								field: this,
+								rule: r
 							});
 
 							$.IGRP.lastActionRules = source;
@@ -146,14 +144,14 @@ if($ && $.IGRP && !$.IGRP.rules){
 							
 							if(hasOpposite && condition.opposite){
 
-								var oppositeRule = $.IGRP.rules.satisfy({
-									condition : conditionsList[condition.opposite],
-									field     : this,
-									rule      : r
+								const oppositeRule = $.IGRP.rules.satisfy({
+									condition: conditionsList[condition.opposite],
+									field: this,
+									rule: r
 								});
 
 								if(oppositeRule && actionsList[r.action].opposite ){
-									var oppositeParams = $.extend({},r);
+									const oppositeParams = $.extend({}, r);
 									oppositeParams.action = actionsList[r.action].opposite;
 
 									$.IGRP.rules.execute(oppositeParams, this);
@@ -172,17 +170,17 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 		set2:function(data){
 			
-			for(var fname in data){
-				
-				var rules  = data[fname];
+			for(let fname in data){
+
+				const rules = data[fname];
 
 				rules.forEach(function(rule){
 					
 					fname = rule.isTable ? fname+'_fk' : fname;
-					
-					var events = rule.events.split(',')
 
-						a      = rule.conditions.actions,
+					const events = rule.events.split(',');
+
+					a      = rule.conditions.actions,
 						
 						obj    = $('[name="'+fname+'"]');
 
@@ -262,19 +260,19 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 
 		getTargets: function(targets,p){
-			
-			var rtn = [];
 
-			var row = p.isTable ? $(p.sourceField).parents('tr')[0] : document.body;
-			
+			const rtn = [];
+
+			const row = p.isTable ? $(p.sourceField).parents('tr')[0] : document.body;
+
 			if(targets){
-				
-				var targetNames = typeof targets == 'string' ? targets.split(',') : targets;
+
+				const targetNames = typeof targets == 'string' ? targets.split(',') : targets;
 
 				targetNames.forEach(function(t){
-					
-					var target = $('*[item-name="'+t+'"]',row).not('th,td');
-					
+
+					const target = $('*[item-name="' + t + '"]', row).not('th,td');
+
 					if(target[0]){
 						$.each(target,function(i,tr){
 							rtn.push( tr );
@@ -299,11 +297,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 	};
 
 	$.IGRP.rules.execute = function(r,field){
-		
-		var ruleObj 	= $.extend(true, r, {});
-		
-		var targetNames = typeof r.targets == 'string' ? r.targets.split(',') : r.targets;
-		
+
+		const ruleObj = $.extend(true, r, {});
+
+		const targetNames = typeof r.targets == 'string' ? r.targets.split(',') : r.targets;
+
 		//$(field).data('r-executing', true);
 
 		//console.log(r);
@@ -322,56 +320,55 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 	};
 
-	var getParam = function(p){
-			
-		var fields = p.request_fields,
+	const getParam = function (p) {
 
-			res    = {};
+		const fields = p.request_fields,
 
-		if(fields){
-			var names = fields.split(','),
-			
-				row   = p.isTable ? p.sourceField.parents('tr:first') : false ;
-			
-			names.forEach(function(n){
-				
-				var elmnt = row ? row.find('[name="p_'+n+'_fk"]') : $('[name="p_'+n+'"]'),
-					
-					type  = elmnt.attr('type');
-				
-				if (type == 'radio' || type == 'checkbox') 
+			res = {};
 
-					elmnt =  row ? row.find('[name="p_'+n+'_fk"]:checked') : $('input[name="p_'+n+'"]:checked');
-	
-				res['p_'+n] = elmnt.val();
-	
-				if (res['p_'+n] && typeof res['p_'+n] === 'object') 
-	
-					res['p_'+n] = $.IGRP.utils.arrayValuesToString(res['p_'+n],';');
-				
-				if(row && row.find('[name="p_'+n+'_check_fk"]')[0])
-					res['p_'+n+'_check'] = row.find('[name="p_'+n+'_fk"]').is(':checked');
-				
+		if (fields) {
+			const names = fields.split(','),
+
+				row = p.isTable ? p.sourceField.parents('tr:first') : false;
+
+			names.forEach(function (n) {
+
+				let elmnt = row ? row.find('[name="p_' + n + '_fk"]') : $('[name="p_' + n + '"]');
+				const type = elmnt.attr('type');
+
+				if (type == 'radio' || type == 'checkbox')
+
+					elmnt = row ? row.find('[name="p_' + n + '_fk"]:checked') : $('input[name="p_' + n + '"]:checked');
+
+				res['p_' + n] = elmnt.val();
+
+				if (res['p_' + n] && typeof res['p_' + n] === 'object')
+
+					res['p_' + n] = $.IGRP.utils.arrayValuesToString(res['p_' + n], ';');
+
+				if (row && row.find('[name="p_' + n + '_check_fk"]')[0])
+					res['p_' + n + '_check'] = row.find('[name="p_' + n + '_fk"]').is(':checked');
+
 			});
 		}
-		
+
 		return res;
 	};
-	
-	var ctrlTableFields = function(name,action){
-		
+
+	const ctrlTableFields = function (name, action) {
+
 		action = action === true ? 'table-cell' : 'none';
-		
-		if($('table tr>*[item-name="'+name+'"]')[0])
-			$('table tr>*[item-name="'+name+'"]').css({'display' : action})
-	}
+
+		if ($('table tr>*[item-name="' + name + '"]')[0])
+			$('table tr>*[item-name="' + name + '"]').css({'display': action})
+	};
 
 	var conditionsList = {
 		equal:{
 			satisfy:function(r){
-				
-				var satisfy = false;
-				
+
+				let satisfy = false;
+
 				if(r.fieldValue){
 					
 					if($.isArray(r.fieldValue))
@@ -390,9 +387,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		diff:{
 			satisfy:function(r){
-				
-				var satisfy = false;
-				
+
+				let satisfy = false;
+
 				if(r.fieldValue){
 					
 					if($.isArray(r.fieldValue))
@@ -515,27 +512,26 @@ if($ && $.IGRP && !$.IGRP.rules){
 		jsx : {
 			satisfy:function(r){
 
-				var conditionStr = r.rule.value,
+				let conditionStr = r.rule.value;
+				const xi = '{',
 
-					xi 			 = '{',
+					xe = '}',
 
-					xe 			 = '}',
+					arrInit = $.IGRP.utils.string.getIndices(xi, conditionStr),
 
-					arrInit 	 = $.IGRP.utils.string.getIndices(xi,  conditionStr),
+					arrEnd = $.IGRP.utils.string.getIndices(xe, conditionStr),
 
-					arrEnd 		 = $.IGRP.utils.string.getIndices(xe,  conditionStr),
-
-					replaceObj   = {};
+					replaceObj = {};
 
 				arrInit.forEach(function(init,i){
 
-					var end   	  = arrEnd[i],
+					const end = arrEnd[i],
 
-						xpr   	  = conditionStr.substring(init, end + xe.length),
+						xpr = conditionStr.substring(init, end + xe.length),
 
-						fieldName = xpr.slice(xi.length, xpr.indexOf(xe) ),
+						fieldName = xpr.slice(xi.length, xpr.indexOf(xe)),
 
-						field 	  = fieldName == 'this' ? $(r.field) : $('[name="p_'+fieldName+'"]');
+						field = fieldName == 'this' ? $(r.field) : $('[name="p_' + fieldName + '"]');
 
 					replaceObj[xpr] = {
 
@@ -547,13 +543,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				});
 
-				for(var o in replaceObj){
+				for(let o in replaceObj){
 
-					var ro     = replaceObj[o],
+					const ro = replaceObj[o],
 
-						val    = $.IGRP.rules.getFieldValue($(ro.field)),
+						val = $.IGRP.rules.getFieldValue($(ro.field)),
 
-						xval   = $(r.field).attr('type') === 'number' ? val : "'"+val+"'";
+						xval = $(r.field).attr('type') === 'number' ? val : "'" + val + "'";
 
 					conditionStr = conditionStr.replaceAll(o, xval);
 
@@ -574,27 +570,26 @@ if($ && $.IGRP && !$.IGRP.rules){
 			opposite:'jsx',
 			satisfy:function(r){
 
-				var conditionStr = r.rule.value,
+				let conditionStr = r.rule.value;
+				const xi = '{',
 
-					xi 			 = '{',
+					xe = '}',
 
-					xe 			 = '}',
+					arrInit = $.IGRP.utils.string.getIndices(xi, conditionStr),
 
-					arrInit 	 = $.IGRP.utils.string.getIndices(xi,  conditionStr),
+					arrEnd = $.IGRP.utils.string.getIndices(xe, conditionStr),
 
-					arrEnd 		 = $.IGRP.utils.string.getIndices(xe,  conditionStr),
-
-					replaceObj   = {};
+					replaceObj = {};
 
 				arrInit.forEach(function(init,i){
 
-					var end   	  = arrEnd[i],
+					const end = arrEnd[i],
 
-						xpr   	  = conditionStr.substring(init, end + xe.length),
+						xpr = conditionStr.substring(init, end + xe.length),
 
-						fieldName = xpr.slice(xi.length, xpr.indexOf(xe) ),
+						fieldName = xpr.slice(xi.length, xpr.indexOf(xe)),
 
-						field 	  = fieldName == 'this' ? $(r.field) : $('[name="p_'+fieldName+'"]');
+						field = fieldName == 'this' ? $(r.field) : $('[name="p_' + fieldName + '"]');
 
 					replaceObj[xpr] = {
 
@@ -606,13 +601,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				});
 
-				for(var o in replaceObj){
+				for(let o in replaceObj){
 
-					var ro     = replaceObj[o],
+					const ro = replaceObj[o],
 
-						val    = $.IGRP.rules.getFieldValue($(ro.field)),
+						val = $.IGRP.rules.getFieldValue($(ro.field)),
 
-						xval   = $(r.field).attr('type') == 'number' ? val : "'"+val+"'";
+						xval = $(r.field).attr('type') == 'number' ? val : "'" + val + "'";
 
 					conditionStr = conditionStr.replaceAll(o, xval);
 
@@ -635,7 +630,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				$.each(p.targetFields,function(i,t){
-					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
+					const c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).removeClass(c);
 					
 					ctrlTableFields($(t).attr('item-name'),true);
@@ -657,7 +652,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				$.each(p.targetFields,function(i,t){
-					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
+					const c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).addClass(c);
 					
 					ctrlTableFields($(t).attr('item-name'),false);
@@ -730,9 +725,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		disabled:{
 			do:function(p){
-				var sfx = p.isTable ? '_fk' : '';
+				const sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,t){
-					var name = $(t).attr('item-name');
+					const name = $(t).attr('item-name');
 					$('[name="p_'+name+sfx+'"]',t).attr('disabled',true);
 				});
 			},
@@ -740,9 +735,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		enabled:{
 			do:function(p){
-				var sfx = p.isTable ? '_fk' : '';
+				const sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,t){
-					var name = $(t).attr('item-name');
+					const name = $(t).attr('item-name');
 					$('[name="p_'+name+sfx+'"]',t).removeAttr('disabled');
 				});
 			},
@@ -750,9 +745,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		readonly:{
 			do:function(p){
-				var sfx = p.isTable ? '_fk' : '';
+				const sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,target){
-					var name = $(target).attr('item-name');
+					const name = $(target).attr('item-name');
 					$('[name="p_'+name+sfx+'"]',target).attr('readonly',true);
 				});
 			},
@@ -760,9 +755,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		notreadonly:{
 			do:function(p){
-				var sfx = p.isTable ? '_fk' : '';
+				const sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,target){
-					var name = $(target).attr('item-name');
+					const name = $(target).attr('item-name');
 					$('[name="p_'+name+sfx+'"]',target).removeAttr('readonly');
 				});
 			},
@@ -770,9 +765,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		required:{
 			do:function(p){
-				var sfx = p.isTable ? '_fk' : '';
+				const sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,t){
-					var name = $(t).attr('item-name');
+					const name = $(t).attr('item-name');
 					$(t).attr('required',true);
 					$('[name="p_'+name+sfx+'"]',t).attr('required',true);
 				});
@@ -781,9 +776,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		notrequired:{
 			do:function(p){
-				var sfx = p.isTable ? '_fk' : '';
+				const sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,t){
-					var name = $(t).attr('item-name');
+					const name = $(t).attr('item-name');
 					$(t).removeAttr('required');
 					$('[name="p_'+name+sfx+'"]',t).removeAttr('required');
 				});
@@ -792,12 +787,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		size:{
 			do:function(p){
-				var sizes = p.sizes.split(',');
+				const sizes = p.sizes.split(',');
 
 				$.each(p.targetFields,function(i,t){
 					$(t).removeClass (function (index, css) {
-						var initialsize  = this.className.match(/col-md-\d+/)[0]; //get a match to match the pattern some-class-somenumber and extract that classname
-					   	this.initialsize = initialsize;
+						 //get a match to match the pattern some-class-somenumber and extract that classname
+						this.initialsize = this.className.match(/col-md-\d+/)[0];
 				    	return (css.match (/(^|\s)col-md-\S+/g) || []).join(' ');
 					});
 
@@ -810,7 +805,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		resetSize:{
 			do:function(p){
 				$.each(p.targetFields,function(i,t){
-					var initialsize = t.initialsize;
+					const initialsize = t.initialsize;
 					if(initialsize){
 						$(t).removeClass (function (index, css) {
 					    	return (css.match (/(^|\s)col-md-\S+/g) || []).join(' ');
@@ -835,8 +830,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 				
 				//var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 
-				var row = p.isTable === true ? p.sourceField.parents('tr:first') : null;
-				
+				const row = p.isTable === true ? p.sourceField.parents('tr:first') : null;
+
 				if(p.sourceField[0].remoteRequest)
 					p.sourceField[0].remoteRequest.abort();
 				
@@ -852,8 +847,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 					method 	: 'POST',
 					success : function(data){
 
-						var contents = $(data).find('content >*'),
-							arrField = [];	
+						const contents = $(data).find('content >*'),
+							arrField = [];
 
 						$.each($(contents),function(i,item){
 							
@@ -897,9 +892,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 					data 	: getParam(p)
 				})
 				.done(function(list) {
-					
-					var isString = typeof list === 'string';
-					
+
+					const isString = typeof list === 'string';
+
 					$.each( p.targetFields ,function(i,f){
 
 						f = $(f);
@@ -917,10 +912,10 @@ if($ && $.IGRP && !$.IGRP.rules){
 							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
 
 						if (wrapper) {
-							
-							var elementType = $.IGRP.utils.getType($(':input',f));
-							
-							if(elementType == 'select'){
+
+							const elementType = $.IGRP.utils.getType($(':input', f));
+
+							if(elementType === 'select'){
 							
 								$.each($('option', wrapper), function(z, o) {
 									
@@ -981,27 +976,22 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		remote_list:{
             do : function(p){
-                var actionURL    = $.IGRP.rules.getRemoteUrl(p) || $.IGRP.utils.getPageUrl(),
-                    form         = $.IGRP.utils.getForm(),
-                    nodeNames    = [];
+				const actionURL = $.IGRP.rules.getRemoteUrl(p) || $.IGRP.utils.getPageUrl(),
+					form = $.IGRP.utils.getForm(),
+					nodeNames = [];
 
-                $.each( p.targetFields ,function(i,f){
+				$.each( p.targetFields ,function(i,f){
                     nodeNames.push($(f).attr('item-name'));
                 });
 
 
                 $.IGRP.utils.transformXMLNodes({
-
                     nodes : nodeNames,
-
                     url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
-
                     data  : form.serialize(),
-
                     headers : {
                         'X-IGRP-REMOTE' : 1
                     },
-
                     success:function(c){
                         $.each( p.targetFields ,function(i,f){
                             $(document).trigger($(f).attr('item-name')+'-remote-list-callback', [c] )
@@ -1009,9 +999,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
                     },
-
                     error:function(){
-
                         $.IGRP.utils.loading.hide();
                     }
 
@@ -1022,7 +1010,7 @@ if($ && $.IGRP && !$.IGRP.rules){
         },
 		cleanValue:{
 			do:function(p){
-				console.log(p)
+
 				$.each(p.targetFields,function(i,t){
 					$('input,select,textarea',t).val('').trigger('change')
 				});
@@ -1032,47 +1020,47 @@ if($ && $.IGRP && !$.IGRP.rules){
 	
 	};
 
-	var regexList = {
-		email:{
-			exp    :/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
-			example:'email@server.com'
+	const regexList = {
+		email: {
+			exp: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+			example: 'email@server.com'
 		},
-		date :{
-			exp    :/^(\d{1,2})-(\d{1,2})-(\d{4})$/,
-			example:'01-01-2010'
+		date: {
+			exp: /^(\d{1,2})-(\d{1,2})-(\d{4})$/,
+			example: '01-01-2010'
 		}
-	
+
 	};
 
-	var matchRegexp = function(r){
-		var roption = r.rule.patern || r.rule.pattern;
-		var rtn = false;
+	const matchRegexp = function(r){
+		const roption = r.rule.patern || r.rule.pattern;
+		let rtn = false;
 
-		if(roption=='custom'){
+		if(roption==='custom'){
 			//rtn =  new RegExp(r.rule.patern_custom).test(r.fieldValue);
 			rtn =  eval(r.rule.patern_custom).test(r.fieldValue);
 			console.log(rtn);
 		}else{
-			var re = regexList[roption];
+			const re = regexList[roption];
 			rtn = re && re.exp ? re.exp.test(r.fieldValue) : false;
 		}
 		//console.log(rtn);
 		return rtn;
-	
-	};
 
+	};
 	var isBetween = function(r){
-		var isBetween = false;
-		var isDate 	  = $(r.field).hasClass('gen-date');
-		var isNum     = $(r.field).attr('type') && $(r.field).attr('type') == 'number' ? true : false;
-		
-		var value  	  = r.fieldValue;
+		let isBetween = false;
+		const isDate = $(r.field).hasClass('gen-date');
+		const isNum = $(r.field).attr('type') === 'number';
+
+
+		const value = r.fieldValue;
 
 		if(isDate && value){
-			var dateValue = new Date(value.convertToDate()).getTime();
-			var dateTest1 = new Date(r.rule.value.convertToDate()).getTime();
-			var dateTest2 = new Date(r.rule.value2.convertToDate()).getTime()
-			
+			const dateValue = new Date(value.convertToDate()).getTime();
+			const dateTest1 = new Date(r.rule.value.convertToDate()).getTime();
+			const dateTest2 = new Date(r.rule.value2.convertToDate()).getTime();
+
 			isBetween = dateValue.between(dateTest1,dateTest2);
 		}
 
@@ -1083,27 +1071,27 @@ if($ && $.IGRP && !$.IGRP.rules){
 	
 	};
 
-	var vRuleArr = [];
+	let vRuleArr = [];
 
-	var validateAndExecute = function(field,o){
+	const validateAndExecute = function(field, o){
 
-		var idx = o.index || 0;
+		const idx = o.index || 0;
 
-		var response = false;
+		let response = false;
 
-		var rules = o.conditions.rules;
+		const rules = o.conditions.rules;
 
 		if(field[0] && idx < rules.length){
 
-			var r = rules[idx];
+			const r = rules[idx];
 
-			var satisfy = $.IGRP.rules.satisfy({
-					
-				condition : r.condition,
-				
-				field     : field[0],
-				
-				rule      : r
+			const satisfy = $.IGRP.rules.satisfy({
+
+				condition: r.condition,
+
+				field: field[0],
+
+				rule: r
 
 			});
 
@@ -1115,12 +1103,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 			vRuleArr.push(satisfy);
 
-			o.index = idx+1;			
+			o.index = idx+1;
 
 			validateAndExecute(field,o);
 
 		}else{
-			
+
 			vRuleArr.forEach(function(v){
 				response = v;
 			});
@@ -1128,17 +1116,17 @@ if($ && $.IGRP && !$.IGRP.rules){
 			if(response){
 
 				var a = o.conditions.actions;
-				
+
 				if(a && a[0])
-					
-					a.forEach(function(act){	
+
+					a.forEach(function(act){
 
 						act.name = o.name;
 
 						act.sourceField = field;
 
 						act.isTable = o.isTable;
-						
+
 						act.isFormlist = o.isFormlist;
 
 						$.IGRP.rules.execute2(act);
@@ -1146,20 +1134,20 @@ if($ && $.IGRP && !$.IGRP.rules){
 					});
 			}
 
-			if(rules[0].opposite == "1" ){
+			if(rules[0].opposite === "1" ){
 
-				var oppObject = jQuery.extend(true,{}, o);;
+				const oppObject = jQuery.extend(true, {}, o);
 
-				var orule = conditionsList[rules[0].condition] ? conditionsList[rules[0].condition].opposite : null;
+				const orule = conditionsList[rules[0].condition] ? conditionsList[rules[0].condition].opposite : null;
 
-				var oactions = oppObject.conditions.actions.slice();
+				const oactions = oppObject.conditions.actions.slice();
 
 				oactions.forEach(function(a){
-					
+
 					a.action = actionsList[a.action] && actionsList[a.action].opposite ? actionsList[a.action].opposite : a.action;
-					
+
 				});
-				
+
 				oppObject.conditions.rules[0].condition = orule;
 
 				oppObject.conditions.rules[0].opposite = false;
@@ -1173,50 +1161,49 @@ if($ && $.IGRP && !$.IGRP.rules){
 			vRuleArr = [];
 
 			o.index = 0;
-			
+
 		}
 
 	};
+	const validate = function (o) {
 
-	var validate = function(o){
+		const idx = o.index || 0;
 
-		var idx = o.index || 0;
+		let response = false;
 
-		var response = false;
+		if (idx < o.rules.length) {
 
-		if(idx < o.rules.length){
+			const r = o.rules[idx];
 
-			var r = o.rules[idx];
+			const satisfy = $.IGRP.rules.satisfy({
 
-			var satisfy = $.IGRP.rules.satisfy({
-					
-				condition : r.condition,
-				
-				field     : o.field[0],
-				
-				rule      : {
-					value : r.value
+				condition: r.condition,
+
+				field: o.field[0],
+
+				rule: {
+					value: r.value
 				}
 
 			});
 
 			vRuleArr.push(satisfy);
 
-			o.index = idx+1;			
+			o.index = idx + 1;
 
 			validate(o);
 
-		}else{
-			
-			vRuleArr.forEach(function(v){
+		} else {
+
+			vRuleArr.forEach(function (v) {
 				response = v;
 			});
-			
+
 			vRuleArr = [];
 
-			if(response && o.valid)
+			if (response && o.valid)
 				o.valid(response)
-			
+
 		}
 	};
 

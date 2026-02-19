@@ -705,8 +705,15 @@ public class Controller {
                                     resp.setContentType("text/html;charset=" + Response.CHARSET_UTF_8);
                                     resp.getWriter().append(transformed);
                                 } else {
-                                    if(Core.getParam("ir_cf").equals("xml"))
-                                        content="<rows>"+StringUtils.substringAfter(content,"<rows>");
+                                    if (Core.getParam("ir_cf").equals("xml")) {
+                                        // Remove XML declaration and stylesheet processing instruction
+                                        content = content.replaceFirst("<\\?xml[^>]*\\?>", "").trim();
+                                        Matcher matcher = XML_STYLESHEET_HREF.matcher(content);
+                                        if (matcher.find()) {
+                                            content = matcher.replaceAll("").trim();
+                                        }
+
+                                    }
                                     Igrp.getInstance().getResponse().getWriter().append(content);
                                 }
                             }
