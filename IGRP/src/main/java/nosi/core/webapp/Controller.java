@@ -32,21 +32,14 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.URIResolver;
+
+import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
@@ -664,6 +657,9 @@ public class Controller {
         return response;
     }
 
+    /**
+     * Sends response based on type; handles exceptions
+     */
     public void sendResponse() {
         Response responseWrapper2 = Igrp.getInstance().getCurrentController().getResponseWrapper();
         if (responseWrapper2 != null) {
@@ -677,12 +673,7 @@ public class Controller {
                                 Igrp.getInstance().getResponse().getOutputStream().close();
                                 Igrp.getInstance().getResponse().flushBuffer();
                             } else if (responseWrapper2.getFile() != null) {
-                                HttpServletResponse response = Igrp.getInstance().getResponse();
-                                String name = responseWrapper2.getFile().getFileName();
-                                response.setContentType(responseWrapper2.getFile().getContentType());
-                                response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
-                                response.setHeader("Cache-Control", "no-cache");
-                                response.setContentLength(responseWrapper2.getFile().getSize());
+                                final HttpServletResponse response = getHttpServletResponse(responseWrapper2);
                                 try (ServletOutputStream sos = response.getOutputStream();
                                      BufferedInputStream bis = new BufferedInputStream(
                                              responseWrapper2.getFile().getContent())) {
@@ -696,25 +687,27 @@ public class Controller {
                                 responseWrapper2.getFile().getContent().close();
                             } else {
                                 String content = responseWrapper2.getContent();
-
+                                HttpServletResponse resp = Igrp.getInstance().getResponse();
+                                resp.setCharacterEncoding(Response.CHARSET_UTF_8);
                                 // --- NEW: server-side XSLT transformation (instead of Chrome xml-stylesheet) ---
+                                long start = System.nanoTime();
                                 String transformed = tryTransformXmlWithStylesheetPI(content);
+                                System.out.printf(" %dms [XSLT] %s | %n",
+                                        (System.nanoTime() - start) / 1_000_000,
+                                        StringUtils.substring(content,1,150)
+
+                                );
                                 if (transformed != null) {
-                                    HttpServletResponse resp = Igrp.getInstance().getResponse();
-                                    resp.setCharacterEncoding(Response.CHARSET_UTF_8);
                                     resp.setContentType("text/html;charset=" + Response.CHARSET_UTF_8);
                                     resp.getWriter().append(transformed);
                                 } else {
-                                    if (Core.getParam("ir_cf").equals("xml")) {
-                                        // Remove XML declaration and stylesheet processing instruction
-                                        content = content.replaceFirst("<\\?xml[^>]*\\?>", "").trim();
-                                        Matcher matcher = XML_STYLESHEET_HREF.matcher(content);
-                                        if (matcher.find()) {
-                                            content = matcher.replaceAll("").trim();
-                                        }
-
+                                    if ("xml".equals(Core.getParam("ir_cf"))) {
+                                        content = content
+                                                .replaceFirst("<\\?xml[^>]*\\?>", "")
+                                                .trim();
+                                        content = XML_STYLESHEET_HREF.matcher(content).replaceAll("").trim();
                                     }
-                                    Igrp.getInstance().getResponse().getWriter().append(content);
+                                    resp.getWriter().append(content);
                                 }
                             }
                         } catch (IOException e) {
@@ -763,6 +756,16 @@ public class Controller {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static HttpServletResponse getHttpServletResponse(Response responseWrapper2) {
+        HttpServletResponse response = Igrp.getInstance().getResponse();
+        String name = responseWrapper2.getFile().getFileName();
+        response.setContentType(responseWrapper2.getFile().getContentType());
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setContentLength(responseWrapper2.getFile().getSize());
+        return response;
     }
 
     public Config getConfig() {
@@ -832,268 +835,338 @@ public class Controller {
     }
 
 
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Cache — declare at class level in Controller
+// Key   : xslWebPath (e.g. "/images/IGRP/IGRP2.3/app/myapp/mypage/mypage.xsl")
+// Value : compiled Templates object (thread-safe, reusable)
+// ─────────────────────────────────────────────────────────────────────────
+    private static final ConcurrentHashMap<String, Templates> XSL_TEMPLATE_CACHE =
+            new ConcurrentHashMap<>();
+
+    // Optional: cache for resource bytes (xsl:include files)
+// Key   : webapp path
+// Value : byte[] of the file content
+    private static final ConcurrentHashMap<String, byte[]> XSL_RESOURCE_CACHE =
+            new ConcurrentHashMap<>();
+
+    // ─────────────────────────────────────────────────────────────────────────
+// tryTransformXmlWithStylesheetPI  — with template cache
     /**
      * If the XML contains <?xml-stylesheet href="...">, load that XSL from the webapp
      * and transform XML -> HTML on the server.
      *
      * @return HTML string if transformed; null if no transform was applied.
      */
+// ─────────────────────────────────────────────────────────────────────────
     private String tryTransformXmlWithStylesheetPI(String xml) {
-        if (xml == null || xml.isBlank())
+        if (xml == null || xml.isBlank() || "xml".equals(Core.getParam("ir_cf")))
             return null;
 
         Matcher m = XML_STYLESHEET_HREF.matcher(xml);
-        if (!m.find() || Core.getParam("ir_cf").equals("xml"))
-            return null;
+        if (!m.find()) return null;
 
-        String href = m.group(1);
-        if (href == null || href.isBlank())
-            return null;
+        String rawPath = m.group(1);
+        if (rawPath == null || rawPath.isBlank()) return null;
 
-        // Strip query string (?v=...)
-        String rawPath = href.split("\\?", 2)[0];
-
-        // Only handle absolute webapp paths
-        if (!rawPath.startsWith("/"))
-            return null;
+        String xslWebPath = rawPath.split("\\?", 2)[0];
+        if (!xslWebPath.startsWith("/")) return null;
 
         ServletContext ctx = Igrp.getInstance().getServlet().getServletContext();
+        xslWebPath = stripContextPath(ctx, xslWebPath);
 
-        // Normalize "/IGRP/..." (context path included) into "/..."
-        String contextPath = ctx.getContextPath(); // e.g. "/IGRP"
-        String xslWebPath = rawPath;
-        if (contextPath != null && !contextPath.isBlank() && xslWebPath.startsWith(contextPath + "/")) {
-            xslWebPath = xslWebPath.substring(contextPath.length());
-        }
-        try (InputStream mainXslStream = ctx.getResourceAsStream(xslWebPath)) {
-            if (mainXslStream == null)
-                return null;
+        try {
+            // ── 1. Get or compile Templates (expensive — cache it) ────────────
+            Templates templates = getOrCompileTemplates(xslWebPath, ctx);
+            if (templates == null) return null;
 
-            TransformerFactory tf = TransformerFactory.newInstance();
+            // ── 2. newTransformer() from cached Templates is cheap ────────────
+            Transformer transformer = templates.newTransformer();
+            transformer.setURIResolver(new WebAppXslUriResolver(ctx));
 
-            WebAppXslUriResolver resolver = new WebAppXslUriResolver(ctx);
-
-            tf.setURIResolver(resolver);
-
-            StreamSource xslSource = new StreamSource(mainXslStream);
-            xslSource.setSystemId("webapp:" + xslWebPath);
-
-            Transformer transformer = tf.newTransformer(xslSource);
-
-            // IMPORTANT: document() and other URI loads will consult this
-            transformer.setURIResolver(resolver);
+            StreamSource xmlSource = new StreamSource(new StringReader(xml));
+            xmlSource.setSystemId("webapp:/dynamic.xml");
 
             StringWriter out = new StringWriter();
-            StreamSource xmlSource = new StreamSource(new StringReader(xml));
-            // Setting a System ID for the XML allows relative document() calls within it to resolve via our resolver
-            xmlSource.setSystemId("webapp:/dynamic.xml");
             transformer.transform(xmlSource, new StreamResult(out));
             return out.toString();
+
         } catch (Exception ex) {
-            LOGGER.warn("XSLT server-side transform failed for href={}", href, ex);
+            LOGGER.warn("XSLT server-side transform failed for path={}", xslWebPath, ex);
             return null;
         }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Compiles and caches a Templates object for the given XSL path.
+// Templates is thread-safe per JAXP spec — safe to share across threads.
+// ─────────────────────────────────────────────────────────────────────────
+    private static Templates getOrCompileTemplates(String xslWebPath, ServletContext ctx) {
+        return XSL_TEMPLATE_CACHE.computeIfAbsent(xslWebPath, path -> {
+            try (InputStream xslStream = ctx.getResourceAsStream(path)) {
+                if (xslStream == null) {
+                    LOGGER.warn("XSL not found in webapp: {}", path);
+                    return null;
+                }
+                TransformerFactory tf = TransformerFactory.newInstance();
+                tf.setURIResolver(new CachingWebAppXslUriResolver(ctx));
+
+                StreamSource xslSource = new StreamSource(xslStream);
+                xslSource.setSystemId("webapp:" + path);
+
+                return tf.newTemplates(xslSource); // compiles once, reused forever
+            } catch (Exception ex) {
+                LOGGER.warn("Failed to compile XSL template: {}", path, ex);
+                return null;
+            }
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Cache invalidation — call this when XSL files change (e.g. deploy/reload)
+// ─────────────────────────────────────────────────────────────────────────
+    public static void invalidateXslCache() {
+        XSL_TEMPLATE_CACHE.clear();
+        XSL_RESOURCE_CACHE.clear();
+        LOGGER.info("XSL template cache cleared ({} entries removed)", XSL_TEMPLATE_CACHE.size());
+    }
+
+    public static void invalidateXslCache(String xslWebPath) {
+        XSL_TEMPLATE_CACHE.remove(xslWebPath);
+        XSL_RESOURCE_CACHE.remove(xslWebPath);
+        LOGGER.info("XSL template cache cleared for: {}", xslWebPath);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// CachingWebAppXslUriResolver — same as WebAppXslUriResolver but caches
+// resource bytes for xsl:include / xsl:import lookups
+// ─────────────────────────────────────────────────────────────────────────
+    private static final class CachingWebAppXslUriResolver extends WebAppXslUriResolver {
+
+        CachingWebAppXslUriResolver(ServletContext ctx) {
+            super(ctx);
+        }
+
+        @Override
+        StreamSource openResource(String webPath) {
+            if (webPath == null) return null;
+
+            // Check byte cache first
+            byte[] cached = XSL_RESOURCE_CACHE.get(webPath);
+            if (cached != null) {
+                StreamSource src = new StreamSource(new ByteArrayInputStream(cached));
+                src.setSystemId("webapp:" + webPath);
+                return src;
+            }
+
+            // Not cached — read and store
+            try {
+                InputStream is = ctx.getResourceAsStream(webPath);
+                if (is == null) return null;
+
+                byte[] bytes;
+                try (is) { bytes = is.readAllBytes(); }
+
+                XSL_RESOURCE_CACHE.put(webPath, bytes);
+
+                StreamSource src = new StreamSource(new ByteArrayInputStream(bytes));
+                src.setSystemId("webapp:" + webPath);
+                return src;
+            } catch (Exception ignored) {
+                return null;
+            }
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Helper — strips context path prefix (e.g. "/IGRP") from a webapp path
+// ─────────────────────────────────────────────────────────────────────────
+    private static String stripContextPath(ServletContext ctx, String path) {
+        String ctxPath = ctx.getContextPath();
+        if (ctxPath != null && !ctxPath.isBlank() && !ctxPath.equals("/")
+                && path.startsWith(ctxPath + "/")) {
+            return path.substring(ctxPath.length());
+        }
+        return path;
     }
     /**
      * Resolves XSL includes/imports inside the web application (ServletContext).
      * Supports relative hrefs like "../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=19".
      */
-    private static final class WebAppXslUriResolver implements URIResolver {
-        private final ServletContext ctx;
+    private static class WebAppXslUriResolver implements URIResolver {
 
-        private WebAppXslUriResolver(ServletContext ctx) {
+        protected final ServletContext ctx;
+
+        WebAppXslUriResolver(ServletContext ctx) {
             this.ctx = ctx;
         }
 
         @Override
         public Source resolve(String href, String base) {
-            if (href == null || href.isBlank())
-                return null;
+            if (href == null || href.isBlank()) return null;
 
-            // strip query string (?v=...) from both href and base
-            String cleanHref = href.split("\\?", 2)[0];
-            String cleanBase = base != null ? base.split("\\?", 2)[0] : null;
+            String cleanHref = cleanHref(href);
+            String cleanBase = base != null ? cleanHref(base) : null;
 
-            // Accept "webapp:/..." (our internal systemId)
-            if (cleanHref.startsWith("webapp:")) {
-                cleanHref = cleanHref.substring("webapp:".length());
+            // Internal IGRP route (webapps?r=...)
+            if (isIgrpRoute(cleanHref)) {
+                return resolveIgrpRoute(href);
             }
 
-            // Strip context path if present (e.g. "/IGRP/...")
-            String contextPath = ctx.getContextPath(); // e.g. "/IGRP"
-            if (contextPath != null && !contextPath.isBlank() && !contextPath.equals("/")) {
-                String lowerHref = cleanHref.toLowerCase();
-                String lowerCtx = contextPath.toLowerCase() + "/";
-                if (lowerHref.startsWith(lowerCtx)) {
-                    cleanHref = cleanHref.substring(contextPath.length());
-                }
-            }
+            // External http(s) — let the engine handle or block
+            if (cleanHref.matches("(?i)^https?://.*")) return null;
 
-            // Optional: let real http(s) URLs be handled by default engine/network (or block them)
-            if (cleanHref.matches("(?i)^https?://.*")) {
-                return null;
-            }
+            String resolvedPath = cleanHref.startsWith("/")
+                    ? normalizeWebPath(cleanHref)
+                    : resolveRelative(cleanHref, cleanBase);
 
-            String resolvedWebPath;
-            if (cleanHref.startsWith("/")) {
-                resolvedWebPath = normalizeWebPath(cleanHref);
-            } else {
-                // base looks like "webapp:/images/.../Gestaodeacesso.xsl"
-                String basePath = cleanBase;
+            if (resolvedPath == null) return null;
 
-                if (basePath == null)
-                    return null;
-
-                if (basePath.startsWith("webapp:"))
-                    basePath = basePath.substring("webapp:".length()); // -> "/images/.../Gestaodeacesso.xsl"
-
-                int lastSlash = basePath.lastIndexOf('/');
-                String baseDir = lastSlash >= 0 ? basePath.substring(0, lastSlash + 1) : "/";
-
-                resolvedWebPath = normalizeWebPath(baseDir + cleanHref);
-            }
-
-            // --- HANDLE webapps?r=... (Internal IGRP Routes) ---
-            if (resolvedWebPath.equals("/webapps") || resolvedWebPath.equals("webapps")) {
-                String query = "";
-                int qIdx = href.indexOf('?');
-                if (qIdx != -1)
-                    query = href.substring(qIdx + 1);
-
-                if (!query.isEmpty()) {
-                    Map<String, List<String>> params = new HashMap<>();
-                    for (String pair : query.split("&")) {
-                        String[] kv = pair.split("=", 2);
-                        if (kv.length > 0 && !kv[0].isEmpty()) {
-                            String k = kv[0];
-                            String v = kv.length > 1 ? kv[1] : "";
-                            try { v = java.net.URLDecoder.decode(v, StandardCharsets.UTF_8); } catch (Exception ignored) {}
-                            params.computeIfAbsent(k, key -> new ArrayList<>()).add(v);
-                        }
-                    }
-
-                    List<String> rList = params.get("r");
-                    if (rList != null && !rList.isEmpty()) {
-                        String r = rList.get(0);
-                        String resolvedRoute = nosi.core.webapp.security.SecurtyCallPage.resolvePage(r);
-                        if (resolvedRoute != null) {
-                            String[] parts = resolvedRoute.split("/");
-                            if (parts.length >= 3) {
-                                String app = parts[0];
-                                String page = parts[1];
-                                String actionPart = parts[2];
-
-                                QueryString<String, Object> qs = new QueryString<>();
-                                params.forEach((k, vList) -> {
-                                    if (!"r".equals(k)) {
-                                        for (String v : vList) qs.addQueryString(k, v);
-                                    }
-                                });
-
-                                String action = actionPart;
-                                if (actionPart.contains("&")) {
-                                    String[] aParts = actionPart.split("&", 2);
-                                    action = aParts[0];
-                                    for (String p : aParts[1].split("&")) {
-                                        String[] kv = p.split("=", 2);
-                                        if (kv.length > 0 && !kv[0].isEmpty()) {
-                                            String v = kv.length > 1 ? kv[1] : "";
-                                            try { v = java.net.URLDecoder.decode(v, StandardCharsets.UTF_8); } catch (Exception ignored) {}
-                                            qs.addQueryString(kv[0], v);
-                                        }
-                                    }
-                                }
-                                nosi.core.webapp.Response resp = new Controller().call(app, page, action, qs);
-                                if (resp != null && resp.getContent() != null) {
-                                    return new StreamSource(new StringReader(resp.getContent()));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // --- TRY RESOLVE ---
-            StreamSource src = openAsStreamSource(resolvedWebPath);
-            if (src != null)
-                return src;
-
-            // --- FALLBACK 1: Swap IGRP version ---
-            String alt = swapIgrpVersion(resolvedWebPath);
-            if (alt != null) {
-                src = openAsStreamSource(alt);
-                if (src != null)
-                    return src;
-            }
-
-            // --- FALLBACK 2: Try stripping common IGRP prefixes if absolute ---
-            if (resolvedWebPath.startsWith("/IGRP/")) {
-                src = openAsStreamSource(resolvedWebPath.substring(5));
-                if (src != null) return src;
-            }
-            if (resolvedWebPath.startsWith("/IGRP_v4/")) {
-                src = openAsStreamSource(resolvedWebPath.substring(8));
-                if (src != null) return src;
-            }
-
-            // To avoid "unknown protocol: webapp" crash when a file is missing,
-            // return a dummy valid empty XSL stylesheet if we are still using the webapp: protocol.
-            // This prevents the XSLT engine from falling back to default Java URL handling
-            // and also prevents fatal parse errors during xsl:include.
-            if (href.startsWith("webapp:") || (base != null && base.startsWith("webapp:"))) {
-                LOGGER.warn("URIResolver could not find resource: {} (href={}, base={})", resolvedWebPath, href, base);
-                return new StreamSource(new StringReader(
-                    "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"/>"
-                ));
-            }
-
-            return null;
+            // Primary lookup then fallbacks
+            return firstNonNull(
+                    () -> openResource(resolvedPath)
+            );
         }
-        private StreamSource openAsStreamSource(String webPath) {
+
+        // ── Path helpers ─────────────────────────────────────────────────────
+
+        /** Strips query string and "webapp:" prefix; strips context path. */
+        private String cleanHref(String raw) {
+            String s = raw.split("\\?", 2)[0];
+            if (s.startsWith("webapp:")) s = s.substring("webapp:".length());
+            String ctxPath = ctx.getContextPath();
+            if (ctxPath != null && !ctxPath.isBlank() && !ctxPath.equals("/") && s.toLowerCase().startsWith(ctxPath.toLowerCase() + "/"))
+                    s = s.substring(ctxPath.length());
+
+            return s;
+        }
+
+        private String resolveRelative(String href, String base) {
+            if (base == null) return null;
+            int lastSlash = base.lastIndexOf('/');
+            String baseDir = lastSlash >= 0 ? base.substring(0, lastSlash + 1) : "/";
+            return normalizeWebPath(baseDir + href);
+        }
+
+        private static boolean isIgrpRoute(String path) {
+            return path.equals("/webapps") || path.equals("webapps");
+        }
+
+
+
+
+
+        private static String normalizeWebPath(String path) {
+            Deque<String> stack = new ArrayDeque<>();
+            for (String part : path.split("/")) {
+                if (part.isEmpty() || ".".equals(part)) continue;
+                if ("..".equals(part)) { if (!stack.isEmpty()) stack.removeLast(); }
+                else stack.addLast(part);
+            }
+            StringBuilder sb = new StringBuilder("/");
+            Iterator<String> it = stack.iterator();
+            while (it.hasNext()) {
+                sb.append(it.next());
+                if (it.hasNext()) sb.append("/");
+            }
+            return sb.toString();
+        }
+
+        // ── Resource opening ─────────────────────────────────────────────────
+
+        // In WebAppXslUriResolver — change private to package-private
+        StreamSource openResource(String webPath) {  // remove "private"
+            if (webPath == null) return null;
             try {
                 InputStream is = ctx.getResourceAsStream(webPath);
-                if (is == null)
-                    return null;
-
-                StreamSource s = new StreamSource(is);
-                s.setSystemId("webapp:" + webPath);
-                return s;
+                if (is == null) return null;
+                StreamSource src = new StreamSource(is);
+                src.setSystemId("webapp:" + webPath);
+                return src;
             } catch (Exception ignored) {
                 return null;
             }
         }
 
-        private static String swapIgrpVersion(String webPath) {
-            if (webPath == null)
-                return null;
-            if (webPath.contains("/IGRP2.3/"))
-                return webPath.replace("/IGRP2.3/", "/IGRP2.4/");
-            if (webPath.contains("/IGRP2.4/"))
-                return webPath.replace("/IGRP2.4/", "/IGRP2.3/");
-            return null;
+        // ── IGRP internal route resolver ─────────────────────────────────────
+
+        private Source resolveIgrpRoute(String originalHref) {
+            Map<String, List<String>> params = parseQueryString(originalHref);
+            List<String> rList = params.get("r");
+            if (rList == null || rList.isEmpty()) return null;
+
+            String r = rList.get(0);
+            String resolved = SecurtyCallPage.resolvePage(r);
+            if (resolved == null) return null;
+
+            String[] parts = resolved.split("/");
+            if (parts.length < 3) return null;
+
+            String app    = parts[0];
+            String page   = parts[1];
+            String action = parts[2];
+
+            QueryString<String, Object> qs = new QueryString<>();
+            params.forEach((k, vList) -> {
+                if (!"r".equals(k)) vList.forEach(v -> qs.addQueryString(k, v));
+            });
+
+            // Inline action params (e.g. "myAction&p_x=1")
+            if (action.contains("&")) {
+                String[] aParts = action.split("&", 2);
+                action = aParts[0];
+                parseInlineParams(aParts[1]).forEach(qs::addQueryString);
+            }
+
+            Response resp = new Controller().call(app, page, action, qs);
+            return (resp != null && resp.getContent() != null)
+                    ? new StreamSource(new StringReader(resp.getContent()))
+                    : null;
         }
-        private static String normalizeWebPath(String path) {
-            // Normalize things like "/a/b/../c" and "/a/./b"
-            String[] parts = path.split("/");
-            java.util.Deque<String> stack = new java.util.ArrayDeque<>();
-            for (String p : parts) {
-                if (p == null || p.isEmpty() || ".".equals(p))
-                    continue;
-                if ("..".equals(p)) {
-                    if (!stack.isEmpty())
-                        stack.removeLast();
-                    continue;
-                }
-                stack.addLast(p);
+
+        // ── Query string parsing ─────────────────────────────────────────────
+
+        private static Map<String, List<String>> parseQueryString(String href) {
+            Map<String, List<String>> result = new LinkedHashMap<>();
+            int q = href.indexOf('?');
+            if (q < 0) return result;
+            for (String pair : href.substring(q + 1).split("&")) {
+                String[] kv = pair.split("=", 2);
+                if (kv.length == 0 || kv[0].isEmpty()) continue;
+                String v = kv.length > 1 ? decode(kv[1]) : "";
+                result.computeIfAbsent(kv[0], k -> new ArrayList<>()).add(v);
             }
-            StringBuilder sb = new StringBuilder("/");
-            java.util.Iterator<String> it = stack.iterator();
-            while (it.hasNext()) {
-                sb.append(it.next());
-                if (it.hasNext())
-                    sb.append("/");
+            return result;
+        }
+
+        private static Map<String, String> parseInlineParams(String raw) {
+            Map<String, String> result = new LinkedHashMap<>();
+            for (String pair : raw.split("&")) {
+                String[] kv = pair.split("=", 2);
+                if (kv.length > 0 && !kv[0].isEmpty())
+                    result.put(kv[0], kv.length > 1 ? decode(kv[1]) : "");
             }
-            return sb.toString();
+            return result;
+        }
+
+        private static String decode(String s) {
+            try { return java.net.URLDecoder.decode(s, StandardCharsets.UTF_8); }
+            catch (Exception e) { return s; }
+        }
+
+        // ── Utility: first non-null from suppliers ───────────────────────────
+
+        @SafeVarargs
+        private static StreamSource firstNonNull(java.util.function.Supplier<StreamSource>... suppliers) {
+            for (var s : suppliers) {
+                StreamSource src = s.get();
+                if (src != null) return src;
+            }
+            // Return empty valid XSL to prevent XSLT engine crash on missing includes
+            LOGGER.warn("URIResolver: resource not found after all fallbacks");
+            return new StreamSource(new StringReader(
+                    "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"/>"
+            ));
         }
     }
 

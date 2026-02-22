@@ -26,7 +26,7 @@
     <!-- /Bootstrap Include CSS -->
 
      <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
     <!-- /FontAwesome -->
 
     <!-- COLOR PALETTES -->

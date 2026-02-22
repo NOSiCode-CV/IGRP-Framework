@@ -351,13 +351,13 @@ public class Permission {
         if(Core.isNull(dad))
             return null;
 		// 1) Sessão (preferido)
-		ApplicationPermition applicationPermition = this.getSessionPerm(dad);
+		ApplicationPermition appPermition = this.getSessionPerm(dad);
         // 2) Validar acesso
-		if (applicationPermition == null || applicationPermition.getAppId() == null || !new Application().getPermissionApp(applicationPermition.getAppId(), Core.getCurrentUser().getId())) {
-    changeOrgAndProfile(dad);
-    applicationPermition = getApplicationPermition(dad);
-}
-		return applicationPermition;
+		if (appPermition == null || appPermition.getAppId() == null || !new Application().getPermissionApp(appPermition.getAppId(), Core.getCurrentUser().getId())) {
+			changeOrgAndProfile(dad);
+			appPermition = getApplicationPermition(dad);
+		}
+		return appPermition;
 	}
 	
 	public ApplicationPermition getApplicationPermition(String dad) {
