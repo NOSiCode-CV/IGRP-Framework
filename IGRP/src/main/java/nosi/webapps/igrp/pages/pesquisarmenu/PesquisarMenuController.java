@@ -282,7 +282,7 @@ public class PesquisarMenuController extends Controller {
 		xmlWritter.startElement("menus");
 		try {
 			if (Igrp.getInstance().getUser().isAuthenticated()) {
-				final LinkedHashMap<String, List<MenuProfile>> menu = new Menu().getMyMenu();
+				final Map<String, List<MenuProfile>> menu = new Menu().getMyMenu();
 				if (menu != null)
 					for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
 						xmlWritter.startElement("menu");
