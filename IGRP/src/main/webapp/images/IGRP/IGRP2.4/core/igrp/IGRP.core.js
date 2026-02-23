@@ -787,7 +787,7 @@
 					data    : p.sform.find('*').not('.notForm').serialize(),
 					headers : { 'X-IGRP-REMOTE': 1 },
 					success : function(c) {
-						if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+						if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
 					},
 					error   : function() {
@@ -1244,7 +1244,7 @@
 
 				obj.push({name:p.fileName,value:xml});
 
-				//add files
+				//add files 
 				const files = $.IGRP.utils.submitPage2File.getFiles();
 				if (files) {
 					files.forEach(function(e,i){
