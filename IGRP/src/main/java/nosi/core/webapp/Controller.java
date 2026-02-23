@@ -690,13 +690,13 @@ public class Controller {
                                 HttpServletResponse resp = Igrp.getInstance().getResponse();
                                 resp.setCharacterEncoding(Response.CHARSET_UTF_8);
                                 // --- NEW: server-side XSLT transformation (instead of Chrome xml-stylesheet) ---
-                                long start = System.nanoTime();
+//                                long start = System.nanoTime();
                                 String transformed = tryTransformXmlWithStylesheetPI(content);
-                                System.out.printf(" %dms [XSLT] %s | %n",
-                                        (System.nanoTime() - start) / 1_000_000,
-                                        StringUtils.substring(content,1,150)
-
-                                );
+//                                System.out.printf(" %dms [XSLT] %s | %n",
+//                                        (System.nanoTime() - start) / 1_000_000,
+//                                        StringUtils.substring(content,1,150)
+//
+//                                );
                                 if (transformed != null) {
                                     resp.setContentType("text/html;charset=" + Response.CHARSET_UTF_8);
                                     resp.getWriter().append(transformed);

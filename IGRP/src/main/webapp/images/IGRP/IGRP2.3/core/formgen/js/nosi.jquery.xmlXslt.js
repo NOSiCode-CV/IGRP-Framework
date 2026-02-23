@@ -21,7 +21,7 @@ function set_data(p_data)
 }
 function PORTON_ajaxLoad(url,success,error,cache){
 	$.ajax({
-		url: url,
+		url: url+'&ir_cf=xml',
 		type: _method,
 		data:_data,
 		dataType: 'xml',

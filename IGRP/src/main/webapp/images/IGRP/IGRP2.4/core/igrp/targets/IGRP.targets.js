@@ -1,9 +1,9 @@
 var mWindow = null,
 	mUrl 	= null;
-	
+
 (function($){
 	if($ && $.IGRP && !$.IGRP.targets){
-		
+
 		var form ;
 
 		var confirmText = '';
@@ -14,14 +14,14 @@ var mWindow = null,
 
 		//confirm
 		var confirm = function(p){
-			
+
 			setConfirmModal(function(){
 
 				window.location.replace(p.url);
 
 			},p);
 
-			return false;	
+			return false;
 		};
 		//close
 		var close = function(){
@@ -32,50 +32,50 @@ var mWindow = null,
 
 			return false;
 		};
- 		//back
- 		var back = function(){
+		//back
+		var back = function(){
 
- 			window.history.back();
+			window.history.back();
 
- 			return false;
- 		};
- 	
- 		//alert_submit
- 		var alert_submit = function(p){
- 			
- 			setConfirmModal(function(){
+			return false;
+		};
+
+		//alert_submit
+		var alert_submit = function(p){
+
+			setConfirmModal(function(){
 				submit(p);
 			},p);
 
 			return false;
- 		};
+		};
 
- 		//submit page
- 		var submit = function(p){
- 		
- 			p = p || {};
- 			
- 			$.IGRP.utils.clearSubmittables();
- 			
- 			try{
+		//submit page
+		var submit = function(p){
 
-	 			var sform     = $.IGRP.utils.getForm(),
-	
-	 				fields    = $.IGRP.utils.getFieldsValidate(sform),//$('input[required],select[required],textarea[required]',form).not('.no-validation'),
-	 				
-	 				validate  = p.validate === false ? false : true,
-	 				
-	 				action    = $.IGRP.utils.getSubmitParams(p.url,p.form,p.scrollTo);
-	 			
-	 			fields.addClass('submittable');
- 			
- 				if(p.clicked && p.clicked[0]){
+			p = p || {};
+
+			$.IGRP.utils.clearSubmittables();
+
+			try{
+
+				var sform     = $.IGRP.utils.getForm(),
+
+					fields    = $.IGRP.utils.getFieldsValidate(sform),//$('input[required],select[required],textarea[required]',form).not('.no-validation'),
+
+					validate  = p.validate === false ? false : true,
+
+					action    = $.IGRP.utils.getSubmitParams(p.url,p.form,p.scrollTo);
+
+				fields.addClass('submittable');
+
+				if(p.clicked && p.clicked[0]){
 
 					if(p.clicked.parents('li.operationTable')[0]){
 						validate = false;
 					}
 					else if(!p.clicked.is('[notvalidatefields]') || ( p.clicked.is('[notvalidatefields]') && p.clicked.attr('notvalidatefields') !== 'true') ){
-						
+
 						validate = true;
 
 					}else if (p.clicked.is('[notvalidatefields]') && p.clicked.attr('notvalidatefields') === 'true'){
@@ -84,107 +84,110 @@ var mWindow = null,
 					}
 				}
 
- 				form.attr('validateCtrl',validate);
+				form.attr('validateCtrl',validate);
 
 				form.attr('action',action).submit();
 
- 			}catch(e){
- 				console.log(e);
- 			}
- 			
+			}catch(e){
+				console.log(e);
+			}
+
 			return false;
- 		};
- 		//submit form
- 		var submit_form = function(p){
+		};
+		//submit form
+		var submit_form = function(p){
 
- 			$.IGRP.utils.clearSubmittables();
- 			
- 			var parent 	  = p.clicked && p.clicked[0] ? $(p.clicked.parents('.gen-container-item')[0]) : false,
+			$.IGRP.utils.clearSubmittables();
 
- 				actionURL = p.url || $("input[name='p_env_frm_url']").val() || window.location.href,
+			var parent 	  = p.clicked && p.clicked[0] ? $(p.clicked.parents('.gen-container-item')[0]) : false,
 
- 				sform     = parent && parent.find('[role="form"]')[0] ? parent.find('[role="form"]') : $.IGRP.utils.getForm(),
+				actionURL = p.url || $("input[name='p_env_frm_url']").val() || window.location.href,
 
- 				fields    = $.IGRP.utils.getFieldsValidate(sform),//$('input[required],select[required],textarea[required]',form).not('.no-validation'),
- 				
- 				validate  = p.validate === false ? false : true,
- 				
- 				action    = $.IGRP.utils.getSubmitParams(actionURL,p.form,p.scrollTo);
+				sform     = parent && parent.find('[role="form"]')[0] ? parent.find('[role="form"]') : $.IGRP.utils.getForm(),
 
- 				fields.addClass('submittable');
+				fields    = $.IGRP.utils.getFieldsValidate(sform),//$('input[required],select[required],textarea[required]',form).not('.no-validation'),
 
-				if( p.clicked && p.clicked[0] && p.clicked.is('[notvalidatefields]') && p.clicked.attr('notvalidatefields') === 'true')
-					validate = false;
-				else
-					validate = true;
+				validate  = p.validate === false ? false : true,
 
- 				if(parent.parents('.gen-tab-holder')[0]){
- 					var tab     = parent.parents('.gen-tab-holder').first(),
- 						tabname = tab.attr('item-name'),
- 						tabCtrl = $('.'+tabname+'Ctrl');
- 						tabCtrl.addClass('submittable');
- 				}
+				action    = $.IGRP.utils.getSubmitParams(actionURL,p.form,p.scrollTo);
 
- 			try{
- 				
- 				form.attr('validateCtrl',validate);
+			fields.addClass('submittable');
+
+			if( p.clicked && p.clicked[0] && p.clicked.is('[notvalidatefields]') && p.clicked.attr('notvalidatefields') === 'true')
+				validate = false;
+			else
+				validate = true;
+
+			if(parent.parents('.gen-tab-holder')[0]){
+				var tab     = parent.parents('.gen-tab-holder').first(),
+					tabname = tab.attr('item-name'),
+					tabCtrl = $('.'+tabname+'Ctrl');
+				tabCtrl.addClass('submittable');
+			}
+
+			try{
+
+				form.attr('validateCtrl',validate);
 
 				form.attr('action',action).submit();
 
- 			}catch(e){
- 				console.log(e);
- 			}
- 			
+			}catch(e){
+				console.log(e);
+			}
+
 			return false;
- 		};
- 		
- 		var _submit_popup = function(p){
+		};
+
+		var _submit_popup = function(p){
 
 			var valid = p?.validate ? p.validate :  p.fields.valid();
- 			
- 			if(valid){
+
+			if(valid){
 
 				clearErrors(form);
- 				
- 				form.attr({'target' : 'winIGRP', 'action' : p.url});
 
- 				$.IGRP.utils.openWin({
- 					url    : p.url,
-	 				width  : 980,
-	 				height : 520,
-	 				win    : 'winIGRP'
- 				});
+				form.attr({'target' : 'winIGRP', 'action' : p.url});
 
- 				form.submit().removeAttr('target action');
- 			}
- 		};
- 		
- 		//submit_popup
- 		var submit_popup = function(p){
+				$.IGRP.utils.openWin({
+					url    : p.url,
+					width  : 980,
+					height : 520,
+					win    : 'winIGRP'
+				});
 
- 			p.fields = $.IGRP.utils.getFieldsValidate(); //$('input,select,textarea',form).not('.no-validation');
- 			
- 			_submit_popup(p);
+				form.submit().removeAttr('target action');
+			}
+		};
+
+		//submit_popup
+		var submit_popup = function(p){
+
+			p.fields = $.IGRP.utils.getFieldsValidate(); //$('input,select,textarea',form).not('.no-validation');
+
+			_submit_popup(p);
 
 			return false;
 		};
 
 		var clearErrors = function (f) {
 			$("label.error",f).hide();
-  			$(".error",f).removeClass("error");
+			$(".error",f).removeClass("error");
 		}
-		
+
 		//submit ajax
 		var submit_ajax = function(p){
-			
+
 			p.clicked.attr("disabled","disabled");
-			
+
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
+				action    = $.IGRP.utils.getUrl(
+					$.IGRP.utils.getSubmitParams(p.url, sform, p.scrollTo)
+				) + 'ir_cf=xml',
 				events 		= p.clicked[0].events,
 				valid 		= p?.validate ? p.validate :  fields.valid();
-				
+
 			if (valid) {
 
 				clearErrors(sform);
@@ -194,10 +197,10 @@ var mWindow = null,
 					url  	   : action,
 					valid 	   : valid
 				});
-				
+
 				var arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles(),
 					pArrayItem  = sform.find('*').not(".notForm").serializeArray();
-				
+
 				if(events){
 					events.execute('before-submit_ajax',{
 						pArrayItem : pArrayItem,
@@ -205,7 +208,7 @@ var mWindow = null,
 						url  	   : action
 					});
 				}
-				
+
 				$.IGRP.utils.submitStringAsFile({
 					pParam 		: {
 						pArrayFiles : arrayFiles,
@@ -236,9 +239,9 @@ var mWindow = null,
 								type : 'danger',
 								text : $.IGRP.utils.htmlDecode(str)
 							});
-							
+
 							//$.IGRP.utils.loading.hide();
-							
+
 							p.clicked.removeAttr("disabled");
 						}
 
@@ -262,121 +265,122 @@ var mWindow = null,
 				});
 			}else{
 				$.IGRP.components.form.hasFieldsError();
-				
+
 				p.clicked.removeAttr("disabled");
 			}
 		};
-		
+
 		var listAssociation = function(p){
-			
+
 			var clicked = p.clicked;
-			
+
 			var clickedID = clicked.attr('id');
-			
+
 			var sourceInput     = $('.list-association-source [name*="p_'+clickedID+'_association_rel"]');
-			
+
 			if(sourceInput[0]){
-				
+
 				var ListSource = sourceInput.parents('.list-association-source').first();
 
 				$.IGRP.components.ListAssociation.set({
-					
+
 					source : ListSource,
-					
+
 					target : p.clicked.parents('.gen-container-item[item-name]'),
-					
+
 					row    : p.clicked.parents('tr').first(),
-					
+
 					clicked : p.clicked
-					
+
 				});
-				
+
 			}
-			
+
 			return false;
-			
+
 		};
-		
+
 		//submit not validate
 		var submit_notvalidate = function(p){
-			
+
 			p.validate = true;
-			
+
 			submitpage2file(p);
 
 			return false;
 		};
-		
+
 		//var associatedList
-		
+
 		var submitpage2file = function(p){
-			
+
 			p.clicked.attr('disabled','disabled');
-			
-			var sform     	= $.IGRP.utils.getForm(),
-				fields    	= $.IGRP.utils.getFieldsValidate(sform),
-				events 		= p.clicked[0].events,
-				valid   	= p?.validate ? p.validate :  fields.valid();;
+
+			var sform  = $.IGRP.utils.getForm(),
+				fields = $.IGRP.utils.getFieldsValidate(sform),
+				events = p.clicked[0].events,
+				valid   	= p?.validate ? p.validate :  fields.valid();
+			valid  = p?.validate ? p.validate : fields.valid();
 
 			if (valid) {
-				
+
 				$.IGRP.utils.loading.show();
 
 				clearErrors(sform);
 
 				if(events){
 					events.execute('before-submitpage2file',{
-						fields 	: fields,
+						fields  : fields,
 						clicked : p.clicked,
-						url  	: p.url
+						url     : p.url
 					});
 				}
 
 				$.IGRP.utils.submitPage2File.onSubmit({
-					url 			: p.url,
-					serialize   	: sform,
-					notify 			: false,
-					complete    	: function(resp){
-						
+					url         : $.IGRP.utils.getUrl(p.url) + 'ir_cf=xml',
+					serialize   : sform,
+					notify      : false,
+					complete    : function(resp){
+
 						if(resp){
 							//$.IGRP.utils.message.handleXML(resp.responseXML);
 
 							var xml = resp.responseXML || $($.parseXML(resp.response));
 
 							$.IGRP.utils.afterSubmitAjax({
-								xml 	: xml,
+								xml     : xml,
 								clicked : p.clicked,
 								sform   : sform
 							});
-							
+
 							if(events){
 								events.execute('success-submitpage2file',{
-									resp 	: resp
+									resp : resp
 								});
 							}
 						}
-						
+
 						p.clicked.removeAttr('disabled');
-						
+
 						$.IGRP.utils.loading.hide();
 					}
 				});
 
 				if(events){
 					events.execute('after-submitpage2file',{
-						fields 	: fields,
+						fields  : fields,
 						clicked : p.clicked,
-						url  	: p.url
+						url     : p.url
 					});
 				}
-			}else{
+			} else {
 				p.clicked.removeAttr('disabled');
-				
+
 				$.IGRP.components.form.hasFieldsError();
 			}
 		};
-		
-		
+
+
 		//filter
 		var filter       = function(p){
 
@@ -384,7 +388,7 @@ var mWindow = null,
 
 			var actionURL	 = $("input[name='p_env_frm_url']").val() || window.location.href;
 
-			var action   	 = $.IGRP.utils.getSubmitParams(actionURL,form,p.scrollTo); 	
+			var action   	 = $.IGRP.utils.getSubmitParams(actionURL,form,p.scrollTo);
 
 			var table  	     = $(p.clicked.parents('.gen-container-item')[0]);
 
@@ -490,7 +494,7 @@ var mWindow = null,
 
 			const valid = p?.validate ? p.validate :  fields.valid();
 
- 			if(valid){
+			if(valid){
 
 				fields.addClass('submittable');
 
@@ -571,7 +575,7 @@ var mWindow = null,
 			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0){
 
 				mWindow = window;
-			    mUrl = url;
+				mUrl = url;
 			}
 
 			$.IGRP.components.rightPanel.set(p);
@@ -614,7 +618,7 @@ var mWindow = null,
 				const formData = auxParent != '' ? form.serialize() : '';
 
 				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
-						mWindow = window;
+					mWindow = window;
 
 				$.IGRP.components.iframeNav.set({
 					url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
@@ -637,7 +641,7 @@ var mWindow = null,
 				confirmText.split(' ').forEach(function(str){
 					if(str.indexOf('{') !== -1){
 						var e = str.substring(1,(str.length - 1)),
-						text  = $('td[item-name="'+e+'"] span',holder).text();
+							text  = $('td[item-name="'+e+'"] span',holder).text();
 
 						confirmText = confirmText.replace(str,text);
 					}
@@ -715,7 +719,7 @@ var mWindow = null,
 				var _window = window.parent ? window.parent : window.opener,
 					url 	= null;
 
-					_window = _window.frames['head_filho'] || _window;
+				_window = _window.frames['head_filho'] || _window;
 
 				if (mWindow) {
 					_window = mWindow;
@@ -736,175 +740,175 @@ var mWindow = null,
 					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
 					validate : false
 				});
-					
+
 			}catch(e){console.log(e);}
 		};
-		
+
 		var gisViewCoords = function(p){
-			
+
 			var url 	        = setTargetParameter(p.url),
-				
+
 				row 		    = p.clicked.parents('tr').first(),
-			
+
 				map		        = p.clicked.attr('map-name'),
-				
+
 				propertiesNames = p.clicked.attr('properties'),
-				
+
 				coords  		= p.clicked.attr('coordinates'),
-				
+
 				properties 		= row[0] ? $.IGRP.components.tableCtrl.exportRow( row, propertiesNames ) : {},
 
 				latLngArr 		= coords ? coords.split(',') : null,
-						
+
 				latLng			= latLngArr ? [latLngArr[0]*1, latLngArr[1]*1 ] : null,
-	
+
 				mapSettings 	= {
-				
+
 					id   : map,
-					
+
 					fullscreen : true,
-					
+
 					graphics : [
-						
+
 						{
-							
+
 							infoWindow : true,
-							
+
 							features : [
-								
+
 								{
 
 									properties : properties,
-									
+
 									geometry : {
-										
+
 										type : 'Point',
-										
+
 										coordinates : latLng
-										
+
 									}
-									
+
 								}
 							]
-							
+
 						}
-						
+
 					]
-					
+
 				};
-				
-				$.IGRP.components.iframeNav.set({
-					
-					url     : url,
-					
-					clicked : p.clicked,
-					
-					params  : {
-						
-						gis_map_settings : mapSettings
-						
-					}
-					
-				});
-			
+
+			$.IGRP.components.iframeNav.set({
+
+				url     : url,
+
+				clicked : p.clicked,
+
+				params  : {
+
+					gis_map_settings : mapSettings
+
+				}
+
+			});
+
 			return false;
 		};
-		
+
 		var gisGetCoords = function(p){
-			
+
 			var url 	    = setTargetParameter(p.url),
-				
+
 				map		    = p.clicked.attr('map-name'),
-				
+
 				inputName   = p.clicked.attr('input-name'),
-				
+
 				latLngVal 	= $('[name="'+inputName+'"]').val(),
-				
+
 				latLngArr 	= latLngVal ? latLngVal.split(',') : null,
-				
+
 				latLng		= latLngArr ? [latLngArr[0]*1, latLngArr[1]*1 ] : null,
-				
+
 				mapSettings = {
-				
+
 					id   : map,
-					
+
 					fullscreen : true,
-					
+
 					widgets : [
-						
+
 						{
-							
+
 							type : 'getcoordinates',
-							
+
 							title : 'Get Coordinates',
-							
+
 							active : 'true',
-							
+
 							control : {
-								
+
 								button : false
-								
+
 							},
-							
+
 							html : true,
-							
+
 							js : true,
-							
+
 							position : 'top',
-							
+
 							data : {
-								
+
 								parent_field_name : inputName,
-								
+
 								latLng 			   : latLng
-								
+
 							}
-							
+
 						}
-						
+
 					]
-					
+
 				}
-			
+
 			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
-				
+
 				mWindow = window;
 
 			//url = url+'&gis_map_settings='+encodeURI(JSON.stringify( mapSettings ));
 
 			$.IGRP.components.iframeNav.set({
-				
+
 				url    :url,
-				
+
 				clicked:p.clicked,
-				
+
 				params : {
-					
+
 					gis_map_settings : mapSettings
-					
+
 				}
-				
+
 			});
-			
+
 			return false;
 		};
-		
+
 		var download = function(p){
-			
+
 			p.clicked.attr("disabled","disabled");
-			
+
 			form.addClass('download');
-			
+
 			$.IGRP.targets.submit.action({
 				url 	 : p.url,
 				validate : false,
 				clicked  : p.clicked
 			});
-			
+
 			setTimeout(function(){
 
 				p.clicked.removeAttr("disabled");
-				
+
 				form.removeClass('download');
 
 			},500);
@@ -918,12 +922,12 @@ var mWindow = null,
 
 			},300);
 		};
-		
+
 		var sharpadbclient = function(p){
 			if($.IGRP.components.sharpadbclient.run)
 				$.IGRP.components.sharpadbclient.run(p);
 		};
-		
+
 		var handleXMLMessages = function(xml){
 
 			try{
@@ -948,16 +952,16 @@ var mWindow = null,
 					}else if(type == 'debug'){
 						debug += '<li value="'+$(row).text()+'">'+
 							$.IGRP.utils.htmlDecode($(row).text())+
-						'</li>';
+							'</li>';
 					}
 				});
 
 			}catch(err){
-				
+
 				console.log(err)
 			}
 
-			
+
 			$('.igrp-msg-wrapper').html(alert);
 
 			$('#igrp-debugger .igrp-debug-list').html(debug);
@@ -967,9 +971,9 @@ var mWindow = null,
 			//submit ajax
 			$.each($('a[target], button[target]'),function(i,e){
 				e.events = $.EVENTS(['submit-ajax-complete','submit-ajax-error']);
-				
+
 				var target = $(e).attr('target');
-				
+
 				e.events.declare(['before-'+target,'success-'+target,'after-'+target]);
 			});
 		};
@@ -1004,73 +1008,73 @@ var mWindow = null,
 
 							paramsCount = 1*tr.attr("CTX_PARAM_COUNT")+1,
 
-		  					formName    = tr.attr("CTX_FORM") ? tr.attr("CTX_FORM") : 'formular_default',
+							formName    = tr.attr("CTX_FORM") ? tr.attr("CTX_FORM") : 'formular_default',
 
-		  					formIdx     = tr.attr("CTX_FORM_IDX") ? parseInt(tr.attr("CTX_FORM_IDX")) : 0;
+							formIdx     = tr.attr("CTX_FORM_IDX") ? parseInt(tr.attr("CTX_FORM_IDX")) : 0;
 
-		  				form = window.opener ? window.opener.document.forms[formName] : window.parent.document.forms[formName];
+						form = window.opener ? window.opener.document.forms[formName] : window.parent.document.forms[formName];
 
-		  				if(form){
+						if(form){
 
-		  					list  = {};
+							list  = {};
 
-		  					for(var i = 1; i < paramsCount; i++){
+							for(var i = 1; i < paramsCount; i++){
 
-		  						var vOp   = object.attr("CTX_P"+i).split("=");
-		  						
-		  						
-		  						if(vOp[0]){
+								var vOp   = object.attr("CTX_P"+i).split("=");
 
-		  							var name  	   = vOp[0].replace("p_", "").replace("_fk",""),
 
-		  								value 	   = vOp[1],
+								if(vOp[0]){
 
-		  								inputField = $( '*[name="p_'+name+'_fk"]', form );
-		  							
-		  							if(!target || !target[0])
+									var name  	   = vOp[0].replace("p_", "").replace("_fk",""),
 
-		  								target = inputField.parents('table').first();
+										value 	   = vOp[1],
 
-		  							list[name] = value;
+										inputField = $( '*[name="p_'+name+'_fk"]', form );
 
-		  						}
+									if(!target || !target[0])
 
-		  					}
+										target = inputField.parents('table').first();
 
-		  					Arr.push(list);
+									list[name] = value;
 
-		  				}
+								}
+
+							}
+
+							Arr.push(list);
+
+						}
 
 					});
 
 					if(target && target[0] && target[0]._import){
-						
+
 						var merge = target.parents('.box').first().hasClass('merge-import-data');
-						
+
 						target[0]._import(Arr, merge);
-						
+
 					}
 
 					if(window.parent)
 						window.parent.$.IGRP.components.iframeNav.hide();
-					
+
 					if(window.opener)
 						window.close();
-					
+
 				}
 
 			}catch(error){
 
 				console.log(error);
-			
+
 			}
 
 			return false;
 
 		};
-		
+
 		var setTargetParameter = function(url){
-			
+
 			if(url){
 				var localHostName = location.hostname,
 					urlHostName   = $.IGRP.utils.url.getHostName(url);
@@ -1107,45 +1111,45 @@ var mWindow = null,
 		}
 
 		var signerBeforeDownload = function(p){
-			
+
 			if($.IGRP.components?.nosicaSigner){
 				$.IGRP.components.nosicaSigner.signerBeforeDownload(p);
 			}
 		}
-		
+
 		var getParameterSymbol = function(url){
-		
+
 			var symb = "&";
-			
+
 			if(url.indexOf('?') == -1)
 				symb = '?';
-			
+
 			return symb;
-		}		
-		
+		}
+
 
 		$.IGRP.targets = {
-				
+
 			void  : {
-				
+
 				label : 'Void',
-				
+
 				action : function(){
 					return false;
 				}
-				
+
 			},
-			
+
 			download  : {
-				
+
 				label : 'Download',
-				
+
 				action : download,
-				
+
 				type  : 'submit'
-				
+
 			},
-			
+
 			confirm      : {
 
 				label  : 'Confirmar',
@@ -1153,13 +1157,13 @@ var mWindow = null,
 				action : confirm
 
 			},
-			
+
 			submit       : {
 
 				label : 'Submit',
 
 				action : submit,
-				
+
 				type  : 'submit'
 
 			},
@@ -1170,13 +1174,13 @@ var mWindow = null,
 				action : modal
 
 			},
-			
+
 			mpsubmit   : {
 
 				label : 'Submit Modal',
 
 				action : mpsubmit,
-				
+
 				type  : 'submit'
 
 			},
@@ -1209,21 +1213,21 @@ var mWindow = null,
 				action : formListLookup
 
 			},
-			
+
 			listAssociation : {
-				
+
 				label : 'List Association',
-				
+
 				action : listAssociation
-				
+
 			},
-			
+
 			submit_popup : {
 
 				label : 'Submit Popup',
 
 				action : submit_popup,
-				
+
 				type  : 'submit'
 
 			},
@@ -1232,7 +1236,7 @@ var mWindow = null,
 				label : 'Submit Form',
 
 				action : submit_form,
-				
+
 				type  : 'submit'
 
 			},
@@ -1242,22 +1246,22 @@ var mWindow = null,
 				label : 'Submit Ajax',
 
 				action : submit_ajax,
-				
+
 				type  : 'submit'
 
 			},
-			
+
 			submit_notvalidate : {
 				label : 'Submit Not Validate',
 
 				action : submit_notvalidate
 			},
-			
+
 			submitpage2file : {
 				label : 'Submit Page to File',
 
 				action : submitpage2file,
-				
+
 				type  : 'submit'
 			},
 
@@ -1266,10 +1270,10 @@ var mWindow = null,
 				label : 'Alert Submit',
 
 				action : alert_submit,
-				
+
 				type  : 'submit'
 
-			},	
+			},
 
 			signer_before_submit : {
 				label : 'Signer Before Submit',
@@ -1293,22 +1297,22 @@ var mWindow = null,
 
 				selectable : false
 
-			},		
-			
+			},
+
 			'gis:getCoordinates' : {
-				
+
 				label : 'Get Coordinates',
-				
+
 				action : gisGetCoords
 			},
-			
+
 			'gis:viewCoordinates' : {
-				
+
 				label : 'View Coordinates',
-				
+
 				action : gisViewCoords
 			},
-			
+
 			_openclose 	: {
 
 				label 	: 'Popup Open Close',
@@ -1317,7 +1321,7 @@ var mWindow = null,
 
 			},
 
-			
+
 			filter       : {
 
 				label : 'Filter',
@@ -1335,7 +1339,7 @@ var mWindow = null,
 				action : _self
 
 			},
-			
+
 			sharpadbclient: {
 				label: 'Sharp Adb Client',
 
@@ -1376,7 +1380,7 @@ var mWindow = null,
 
 			},*/
 
-			
+
 			_close       : {
 
 				label  : 'Close',
@@ -1421,34 +1425,34 @@ var mWindow = null,
 
 
 		$.IGRP.on('init',function(){
-			
+
 			form    = $.IGRP.utils.getForm();
 
 			doc 	    = $(document);
-			
+
 			confirmText = $('#confirm-text').text();
-			
+
 			var target = '_blank',
-			
+
 				_this  = null;
 
 			configTargetsEvents();
 
 			/* target clicks controller */
 			doc.on('click','a[target], button[target], [href][target]',function(e){
-				
+
 				e.preventDefault();
 
 				target       	= $(this).attr('target')  ? $(this).attr('target'): '_blank';
-						
-				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');			
-				
+
+				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');
+
 				var objTarget 	 = $.IGRP.targets[target];
 
 				var targetAction = objTarget?.action ? objTarget.action : _blank,
-				
-				validate 		 = $(this).is('[notvalidatefields]') && $(this).attr('notvalidatefields') === 'true' ? true : false;
-					
+
+					validate 		 = !!($(this).is('[notvalidatefields]') && $(this).attr('notvalidatefields') === 'true');
+
 				_this 	     	 = $(this);
 
 				if(objTarget?.type === 'submit' && $.IGRP.info.isPublic && grecaptcha){
@@ -1457,7 +1461,7 @@ var mWindow = null,
 
 						grecaptcha.execute(rekey, {action: target}).then(function(token) {
 							// Add your logic to submit to your backend server here.
-							
+
 							$.IGRP.utils.createHidden({
 								name  : 'recaptcha-token',
 								value : token,
@@ -1475,12 +1479,12 @@ var mWindow = null,
 								url     : url,
 								clicked : _this
 							});
-			
+
 							$.IGRP.store.set({
 								name : 'target-clicked',
 								value: target
 							});
-							
+
 							return targetAction({
 								url      : url,
 								target   : target,
@@ -1490,7 +1494,7 @@ var mWindow = null,
 
 						});
 					});
-					
+
 				}else{
 
 					ev.execute('target-click',{
@@ -1499,12 +1503,12 @@ var mWindow = null,
 						clicked : _this,
 						validate : validate
 					});
-	
+
 					$.IGRP.store.set({
 						name : 'target-clicked',
 						value: target
 					});
-	
+
 					return targetAction({
 						url      : url,
 						target   : target,
@@ -1514,22 +1518,22 @@ var mWindow = null,
 					});
 				}
 			});
-		
+
 
 			/*form submit controller */
-			form.on('submit',function(e){ 
+			form.on('submit',function(e){
 
 				var validate  = form.attr('validateCtrl'),
 					fields    = $.IGRP.utils.getFieldsValidate(),
 					vfields   = fields.filter('.submittable'),//form.find('.submittable'),//$.IGRP.utils.getFieldsValidate(),
 					canSubmit = true;
-				
-				if(validate != 'false')
-					canSubmit = vfields.valid({
-						exclude : '.no-validation, .IGRP_checkall' //hack for separator list on submit fields from form. 
-					}) == 1 ? true : false;
 
-				
+				if(validate !== 'false')
+					canSubmit = vfields.valid({
+						exclude: '.no-validation, .IGRP_checkall' //hack for separator list on submit fields from form.
+					}) === 1;
+
+
 				var eventCB = $.IGRP.events.execute('submit',{
 					valid   : canSubmit,
 					fields  : fields,
@@ -1537,21 +1541,21 @@ var mWindow = null,
 					clicked : _this,
 					target  : target
 				});
-				
+
 				canSubmit = eventCB == false ? false : canSubmit;
 
 				if (canSubmit){
-					
+
 					if(!form.attr('target') && !form.hasClass('download'))
-						
+
 						$.IGRP.utils.loading.show();
-				}	
+				}
 				else
 					$.IGRP.components.form.hasFieldsError();
-				
+
 				//return false;
 				return canSubmit;
-					
+
 			});
 
 			//set targets on IGRP defaults
@@ -1563,19 +1567,20 @@ var mWindow = null,
 					value : t,
 					label : $.IGRP.targets[t].label
 				});
-				
+
 			}
 
 			$.IGRP.defaults.buttons.targets = r;*/
 
 			setTimeout(function(){
-				
+
 				$.IGRP.store.unset('target-clicked')
-			
+
 			},200);
 
-			
+
 
 		});
 	}
 })($);
+

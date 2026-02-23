@@ -279,12 +279,12 @@
 											$.IGRP.utils.loading.show();
 
 											$.IGRP.utils.submitStringAsFile({
-												pParam 		: {
-													pArrayFiles : $.IGRP.utils.submitPage2File.getFiles(objSubmit),
-													pArrayItem 	: objSubmit.find(':input').not(".notForm").serializeArray()
-												},
-												pUrl   		: liStep.attr('action'),
-												pNotify 	: false,
+												 pParam 		: {
+                                                        pArrayFiles : $.IGRP.utils.submitPage2File.getFiles(objSubmit),
+                                                        pArrayItem 	: objSubmit.find(':input').not(".notForm").serializeArray()
+                                                    },
+                                                    pUrl   		: $.IGRP.utils.getUrl(liStep.attr('action')) + 'ir_cf=xml',  // ← only change
+                                                    pNotify 	: false,
 												pComplete 	: function(resp){
 
 													$.IGRP.utils.loading.hide();
@@ -331,23 +331,27 @@
 
 															refreshComponents = refreshComponents.split(',');
 
-															$.IGRP.utils.xsl.transform({
-																xsl     : $.IGRP.utils.getXMLStylesheet(xml),
-																xml     : xml,
-																nodes   : refreshComponents,
-																clicked : liStep,
-																complete: function(res){
+															    $.IGRP.utils.transformXMLNodes({
+                                                                    nodes   : refreshComponents,
+                                                                    url     : $.IGRP.utils.getUrl(liStep.attr('action')) + 'ir_cf=xml',
+                                                                    data    : objSubmit.find(':input').not('.notForm').serialize(),
+                                                                    headers : { 'X-IGRP-REMOTE': 1 },
+                                                                    success : function(c){
+                                                                        if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+                                                                            $.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
 
-																	com.controllChangeBeforeSubmitNext({
-																		currentIndex : currentIndex,
-																		newIndex 	 : newIndex,
-																		obj 		 : obj,
-																		valid 		 : valid,
-																		currentObj   : currentObj
-																	});
-																	
-																}
-															});
+                                                                        com.controllChangeBeforeSubmitNext({
+                                                                            currentIndex : currentIndex,
+                                                                            newIndex     : newIndex,
+                                                                            obj          : obj,
+                                                                            valid        : valid,
+                                                                            currentObj   : currentObj
+                                                                        });
+                                                                    },
+                                                                    error : function(){
+                                                                        console.warn('[igrp.steps] transformXMLNodes failed');
+                                                                    }
+                                                                });
 
 														}else{
 

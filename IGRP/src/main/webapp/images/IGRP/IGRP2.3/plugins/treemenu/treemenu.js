@@ -63,7 +63,7 @@
 			}
 			
 			$.ajax({
-				url : $.IGRP.utils.getUrl(url)+params,
+				url : $.IGRP.utils.getUrl(url)+params+'&ir_cf=xml',
 				dataType:'xml',
 				headers : {
 		        	'X-IGRP-REMOTE' : 1

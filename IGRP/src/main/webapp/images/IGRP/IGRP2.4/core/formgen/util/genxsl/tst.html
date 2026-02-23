@@ -15,7 +15,7 @@
 //por William Lima NOSi 2013
 function PORTON_ajaxLoad(url,success,error,cache){
 	$.ajax({
-		url: url,
+		url: url+'&ir_cf=xml',
 		type: 'GET',
 		dataType: 'xml',
 		error: function(){

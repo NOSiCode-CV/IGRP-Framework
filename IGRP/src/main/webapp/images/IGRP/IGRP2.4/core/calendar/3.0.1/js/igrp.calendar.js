@@ -55,7 +55,7 @@
                 param +='&p_end='+p.event.end.format();
 
             $.ajax({
-                url   : p.url,
+                url   : $.IGRP.utils.getUrl(p.url) + 'ir_cf=xml',
                 data  : param,
                 type  :"POST",
                 method:"POST"
@@ -146,9 +146,12 @@
                 defaultView :view,
                 //events: p.loadevents,
                 events: function(start, end, timezone, callback) {
+                   var eventsUrl = p.loadevents
+                        ? $.IGRP.utils.getUrl(p.loadevents) + 'ir_cf=xml'
+                        : $.IGRP.utils.getUrl($.IGRP.utils.getPageUrl()) + 'ir_cf=xml';
 
                     $.ajax({
-                        url		:	p.loadevents ? p.loadevents : $.IGRP.utils.getPageUrl(),
+                        url     : eventsUrl,
                         data  	:	$.IGRP.utils.getForm().serializeArray(),
                         type  	:	"POST",
                         method 	:	"POST",

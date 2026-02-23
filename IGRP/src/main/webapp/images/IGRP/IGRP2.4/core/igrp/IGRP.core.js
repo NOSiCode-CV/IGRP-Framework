@@ -2,12 +2,12 @@
 	if($ && $.IGRP){
 
 		$.IGRP.utils = {
-				
+
 			unique : function(){
 
 				function s4() {
-				
-				    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+
+					return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
 				}
 
@@ -33,44 +33,44 @@
 					let queryString = url ? url.split('?')[1] : window.location.search.slice(1);
 					obj 				= {};
 
-				  if (queryString) {
+					if (queryString) {
 
-				    queryString = queryString.split('#')[0];
+						queryString = queryString.split('#')[0];
 
-					  const arr = queryString.split('&');
+						const arr = queryString.split('&');
 
-					  for (let i=0; i<arr.length; i++) {
-						const a = arr[i].split('=');
+						for (let i=0; i<arr.length; i++) {
+							const a = arr[i].split('=');
 
-						const paramNum = undefined;
-						let paramName = a[0].replace(/\[\d*\]/, function (v) {
-							paramNum = v.slice(1, -1);
-							return '';
-						});
+							const paramNum = undefined;
+							let paramName = a[0].replace(/\[\d*\]/, function (v) {
+								paramNum = v.slice(1, -1);
+								return '';
+							});
 
-						let paramValue = typeof (a[1]) === undefined ? '' : a[1];
+							let paramValue = typeof (a[1]) === undefined ? '' : a[1];
 
-						paramName 	= paramName   ? paramName.toLowerCase()  : '';
-				      paramValue 	= paramValue  ? paramValue.toLowerCase() : '';
+							paramName 	= paramName   ? paramName.toLowerCase()  : '';
+							paramValue 	= paramValue  ? paramValue.toLowerCase() : '';
 
-				      if (obj[paramName]) {
-				        if (typeof obj[paramName] === 'string') {
-				          obj[paramName] = [obj[paramName]];
-				        }
-				        if (typeof paramNum === undefined) {
-				          obj[paramName].push(paramValue);
-				        }
-				        else {
-				          obj[paramName][paramNum] = paramValue;
-				        }
-				      }
-				      else {
-				        obj[paramName] = paramValue;
-				      }
-				    }
-				  }
+							if (obj[paramName]) {
+								if (typeof obj[paramName] === 'string') {
+									obj[paramName] = [obj[paramName]];
+								}
+								if (typeof paramNum === undefined) {
+									obj[paramName].push(paramValue);
+								}
+								else {
+									obj[paramName][paramNum] = paramValue;
+								}
+							}
+							else {
+								obj[paramName] = paramValue;
+							}
+						}
+					}
 
-				  return obj;
+					return obj;
 				},
 
 				getParam : function(name,url){
@@ -165,56 +165,56 @@
 
 					switch(type){
 
-                        case'radio':
-                        case 'checkbox':
-                            $(e).prop("checked", false);
-                        break;
+						case'radio':
+						case 'checkbox':
+							$(e).prop("checked", false);
+							break;
 
-                        case 'select' :
+						case 'select' :
 
-                        	if( $(e).is('.select2')){
+							if( $(e).is('.select2')){
 
-                        		if(!$(e).data('select2'))
+								if(!$(e).data('select2'))
 
-                        			$.IGRP.components['select2'].init( parents );
+									$.IGRP.components['select2'].init( parents );
 
-                        		$(e).select2("val", "");
-                            } else {
-                                $(e).val('');
-                        	}
+								$(e).select2("val", "");
+							} else {
+								$(e).val('');
+							}
 
-                        break;
+							break;
 
-                        case 'textarea' :
-                            $(e).val('');
-                        break;
+						case 'textarea' :
+							$(e).val('');
+							break;
 
 						case 'texteditor':
-                            CKEDITOR?.instances[$(e).attr('id')]?.setData('');
-                            break;
+							CKEDITOR?.instances[$(e).attr('id')]?.setData('');
+							break;
 
-                        case 'file':
-                            $(e).val('');
-                            parents.find('.form-hidden').val('');
-						break;
+						case 'file':
+							$(e).val('');
+							parents.find('.form-hidden').val('');
+							break;
 
-                        case 'link':
-                            $(e).parents('[item-type]').find('a').attr('href', '#').find('span').text('');
-                            break;
+						case 'link':
+							$(e).parents('[item-type]').find('a').attr('href', '#').find('span').text('');
+							break;
 
-                        default:
+						default:
 
-                            $(e).val('');
-                            $(e).text('').attr('value','');
-                    }
+							$(e).val('');
+							$(e).text('').attr('value','');
+					}
 
-                    // Clear hidden inputs within the same form group
-                    parents.find('input[type="hidden"]').each(function() {
-                        $(this).val('');
-                    });
-                });
+					// Clear hidden inputs within the same form group
+					parents.find('input[type="hidden"]').each(function() {
+						$(this).val('');
+					});
+				});
 
-                return o;
+				return o;
 			},
 			resetFields  : function(o){
 
@@ -266,43 +266,43 @@
 
 								value = value.split('|');
 
-								if(isremote){
+							if(isremote){
 
-									if(!$('option',formElement)[0]){
+								if(!$('option',formElement)[0]){
 
-										let options;
+									let options;
 
-										if(Array.isArray(value)){
+									if(Array.isArray(value)){
 
-											value.forEach(function(xv){
+										value.forEach(function(xv){
 
-												options.push({
-													text: '',
-													value: xv,
-													selected: true
-												});
-
+											options.push({
+												text: '',
+												value: xv,
+												selected: true
 											});
 
-										}else{
-
-											options = [{
-												text: '',
-												value: value,
-												selected: true
-											}];
-										}
-
-										$.IGRP.components.select2.setOptions({
-											select: formElement,
-											options: options
 										});
+
+									}else{
+
+										options = [{
+											text: '',
+											value: value,
+											selected: true
+										}];
 									}
+
+									$.IGRP.components.select2.setOptions({
+										select: formElement,
+										options: options
+									});
 								}
+							}
 
 							formElement.val(value);
 
-						break;
+							break;
 
 						case 'checkboxlist':
 
@@ -314,13 +314,13 @@
 
 							});
 
-						break;
+							break;
 
 						case 'radiolist':
 
 							formElement.filter('[value="'+value+'"]').prop('checked',true);
 
-						break;
+							break;
 
 						case 'checkbox':
 						case 'radio':
@@ -329,13 +329,13 @@
 
 							formElement.prop('checked', checked)
 
-						break;
+							break;
 
 						case 'textarea':
 
 							formElement.text(value).val(value);
 
-						break;
+							break;
 
 						case 'plaintext':
 
@@ -344,19 +344,19 @@
 							else
 								formElement.text(value);
 
-						break;
+							break;
 
 						case 'link':
 
 							$('a',parent).attr('href',value);
 
-						break;
+							break;
 
 						case 'images':
 							if(value)
 								formElement.attr('src',value);
 
-						break;
+							break;
 
 						default:
 							if (lookup)
@@ -417,7 +417,7 @@
 					if(!vForm.find("input[name='ichange']")[0])
 						$.IGRP.utils.createHidden({name:'ichange',value:vIchange});
 					else
-	  					$('input[name="ichange"]',form).val(vIchange);
+						$('input[name="ichange"]',form).val(vIchange);
 				}
 
 				return vUrl;
@@ -539,8 +539,8 @@
 			},
 
 			arrRemoveItem : function(arr,v){
-                return $.grep(arr, function(val) {
-				  return val != v;
+				return $.grep(arr, function(val) {
+					return val != v;
 				});
 			},
 			rounding : {
@@ -742,45 +742,62 @@
 			},
 
 			afterSubmitAjax : function (p) {
-				const xml = p.xml,
-
+				var xml = p.xml,
 					hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+					refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null,
+					nodes = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
 
-					refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
-
-				nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
-
-				if( !hasRefreshAttr ){
-
-					$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
-
+				if (!hasRefreshAttr) {
+					$('.table, .IGRP-highcharts', p.sform).each(function(id, el) {
 						nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-
 					});
 				}
 
-				if(nodes[0]){
+				if (!nodes[0]) {
+					p.clicked.removeAttr("disabled");
+					$.IGRP.events.execute('submit-complete', p);
+					return;
+				}
 
+				// ── Try XSL path first (original behaviour) ───────────────────────
+				var xslURL = $.IGRP.utils.getXMLStylesheet(xml);
+
+				if (xslURL) {
 					$.IGRP.utils.xsl.transform({
-						xsl     : $.IGRP.utils.getXMLStylesheet(xml),
+						xsl     : xslURL,
 						xml     : xml,
 						nodes   : nodes,
 						clicked : p.clicked,
-						complete: function(res){
-
-							$.IGRP.events.execute('submit-complete',p);
-
+						complete: function(res) {
+							$.IGRP.events.execute('submit-complete', p);
 							p.clicked.removeAttr("disabled");
-
 						}
 					});
-
-				}else{
-					p.clicked.removeAttr("disabled");
-					$.IGRP.events.execute('submit-complete',p);
+					$.IGRP.utils.message.handleXML(xml);
+					return;
 				}
 
+				// ── Fallback: server returned HTML (server-side XSLT transform) ───
+				// Re-request each node via transformXMLNodes using the same URL
+				var actionUrl = p.sform.attr('action') || $.IGRP.utils.getPageUrl();
+
+				$.IGRP.utils.transformXMLNodes({
+					nodes   : nodes,
+					url     : actionUrl,
+					data    : p.sform.find('*').not('.notForm').serialize(),
+					headers : { 'X-IGRP-REMOTE': 1 },
+					success : function(c) {
+						if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
+					},
+					error   : function() {
+						console.warn('[afterSubmitAjax] transformXMLNodes fallback failed');
+					}
+				});
+
 				$.IGRP.utils.message.handleXML(xml);
+				$.IGRP.events.execute('submit-complete', p);
+				p.clicked.removeAttr("disabled");
 			},
 
 			file2base64 : function(p){
@@ -806,7 +823,7 @@
 
 				fileB64.onerror = function (error) {
 					$.IGRP.utils.loading.hide(p.target);
-				    console.log('Error: ', error);
+					console.log('Error: ', error);
 				};
 			},
 			str2base64 : function(str){
@@ -819,20 +836,20 @@
 					contentType = base64[0].split(":")[1] || p.contentType;
 				byteArrays 		= [];
 
-		        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+				for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
 					const slice = byteCharacters.slice(offset, offset + sliceSize);
 
 					const byteNumbers = new Array(slice.length);
 					for (let i = 0; i < slice.length; i++) {
-		                byteNumbers[i] = slice.charCodeAt(i);
-		            }
+						byteNumbers[i] = slice.charCodeAt(i);
+					}
 
 					const byteArray = new Uint8Array(byteNumbers);
 
 					byteArrays.push(byteArray);
-		        }
+				}
 
-		      	return new Blob(byteArrays, {type: contentType});
+				return new Blob(byteArrays, {type: contentType});
 			},
 			verticalCentralize:function(s){
 				const selector = s || '[vertical-centralize="true"]';
@@ -908,7 +925,7 @@
 							}else if(type == 'debug'){
 								debug += '<li value="'+$(row).text()+'">'+
 									$.IGRP.utils.htmlDecode($(row).text())+
-								'</li>';
+									'</li>';
 							}
 						});
 
@@ -988,17 +1005,17 @@
 					const indices = [];
 
 					if(str){
-				    	if (!caseSensitive) {
-					        str = str.toLowerCase();
-					        searchStr = searchStr.toLowerCase();
-					    }
-					    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
-					        indices.push(index);
-					        startIndex = index + searchStrLen;
-					    }
-				    }
+						if (!caseSensitive) {
+							str = str.toLowerCase();
+							searchStr = searchStr.toLowerCase();
+						}
+						while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+							indices.push(index);
+							startIndex = index + searchStrLen;
+						}
+					}
 
-				    return indices;
+					return indices;
 				},
 				replaceSpecialChars : function(label){
 					const chars = ['[', ']', '€', '«', '»', ';', '='];
@@ -1059,7 +1076,7 @@
 
 				vFileName 	= pfile.filename ? pfile.filename : vFileName;
 				vType 		= pfile.type ? pfile.type : vType,
-				vFormat 	= pfile.format ? pfile.format : vFormat;
+					vFormat 	= pfile.format ? pfile.format : vFormat;
 				vBlod 		= new Blob([pfile.value], {type:vType});
 				vFileName 	= pfile.value ? vFileName+"."+vFormat : '';
 				vFormData.append(vName, vBlod, vFileName);
@@ -1098,18 +1115,18 @@
 
 			//console.log(document.charset);
 
-		    vRequest.open("POST",p.pUrl,true);
-		    vRequest.timeout = 600000; // time in milliseconds
+			vRequest.open("POST",p.pUrl,true);
+			vRequest.timeout = 600000; // time in milliseconds
 
-		    vRequest.setRequestHeader('Encoding','UTF-8');
+			vRequest.setRequestHeader('Encoding','UTF-8');
 			vRequest.setRequestHeader('Charset','UTF-8');
 			//vRequest.setRequestHeader("Content-Type", "multipart/form-data;charset=ISO-8859-1");
 			vRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 			if(vRequest.overrideMimeType)
-		    	vRequest.overrideMimeType('text/xml; charset=UTF-8');
+				vRequest.overrideMimeType('text/xml; charset=UTF-8');
 
-		    vRequest.ontimeout = function (e) {
+			vRequest.ontimeout = function (e) {
 				$.IGRP.utils.loading.hide();
 				$.IGRP.notify({
 					message : 'Time out',
@@ -1121,42 +1138,42 @@
 				$.IGRP.utils.loading.show();
 			};
 
-		    vRequest.onreadystatechange = function(){
-		    	//console.log(vRequest.getAllResponseHeaders());
-		    	if(vRequest.readyState == 4){ // operação finalizada
-		    		typeNotify = vRequest.status == 200 ? 'success' : 'danger';
+			vRequest.onreadystatechange = function(){
+				//console.log(vRequest.getAllResponseHeaders());
+				if(vRequest.readyState == 4){ // operação finalizada
+					typeNotify = vRequest.status == 200 ? 'success' : 'danger';
 
-		    		$.IGRP.utils.loading.hide();
+					$.IGRP.utils.loading.hide();
 
-		    		if (showNotify){
-		    			if(vRequest.status == 200){
-			    			try{
-			    				response 	= $($.parseXML(vRequest.response)).find('messages message');
-			    				typeNotify 	= response.attr('type') && response.attr('type') != undefined ? response.attr('type').toLowerCase() : typeNotify,
-			    				message 	= response.text();
-			    			}catch(e){
-			    				response 	= $.parseJSON(vRequest.response);
-			    				typeNotify 	= response.type && response.type != undefined ? response.type.toLowerCase() : typeNotify,
-			    				message 	= response.messages;
-			    			}
-		    			}
+					if (showNotify){
+						if(vRequest.status == 200){
+							try{
+								response 	= $($.parseXML(vRequest.response)).find('messages message');
+								typeNotify 	= response.attr('type') && response.attr('type') != undefined ? response.attr('type').toLowerCase() : typeNotify,
+									message 	= response.text();
+							}catch(e){
+								response 	= $.parseJSON(vRequest.response);
+								typeNotify 	= response.type && response.type != undefined ? response.type.toLowerCase() : typeNotify,
+									message 	= response.messages;
+							}
+						}
 
-		    			typeNotify = typeNotify === 'error' ? 'danger' : typeNotify;
+						typeNotify = typeNotify === 'error' ? 'danger' : typeNotify;
 
-		    			message = message && message != undefined ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText;
+						message = message && message != undefined ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText;
 
-		    			$.IGRP.notify({
+						$.IGRP.notify({
 							message : $.IGRP.utils.htmlDecode(message),
 							type	: typeNotify
 						});
 					}
 
-		    		if(p.pComplete)
-			    		p.pComplete(vRequest);
-		    	}
-		    };
+					if(p.pComplete)
+						p.pComplete(vRequest);
+				}
+			};
 
-		    vRequest.send(vData);
+			vRequest.send(vData);
 		};
 
 
@@ -1214,9 +1231,9 @@
 					return xml;
 				}, xml = "";
 				for (const m in obj) {
-			    	xml += toXml(obj[m], m, "");
-			  	}
-			  	return '<row>'+xml+'</row>';
+					xml += toXml(obj[m], m, "");
+				}
+				return '<row>'+xml+'</row>';
 			},
 			creatFiles2Submit : function(p){
 				const obj = [];
@@ -1459,7 +1476,7 @@
 
 			xstr = typeof d == 'string' ? d : new XMLSerializer().serializeToString(d);
 
-		    if(xstr){
+			if(xstr){
 				const beginExp = '<?xml-stylesheet href="';
 
 				const endExp = '" type="text/xsl"?>';
@@ -1475,7 +1492,7 @@
 				const end = endArr[0];
 
 				var exprss = xstr.substring(begin,end);
-		    }
+			}
 
 			return exprss || null;
 		};
@@ -1607,7 +1624,7 @@
 
 		jQuery.expr[':'].Contains = containsFunc;
 
-        jQuery.expr[':'].contains = containsFunc;
+		jQuery.expr[':'].contains = containsFunc;
 
 		const init = function () {
 
@@ -1632,8 +1649,8 @@
 		};
 
 		$.IGRP.on('init',function(){
-        	init();
-        });
+			init();
+		});
 
 	}else{
 		console.log('jQuery or IGRP.js missing!')

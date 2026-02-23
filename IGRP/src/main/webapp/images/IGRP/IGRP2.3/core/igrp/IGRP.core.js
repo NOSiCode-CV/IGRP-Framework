@@ -741,47 +741,64 @@
 				});
 			},
 
-			afterSubmitAjax : function (p) {
-				const xml = p.xml,
+		afterSubmitAjax : function (p) {
+            var xml = p.xml,
+                hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+                refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null,
+                nodes = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
 
-					hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+            if (!hasRefreshAttr) {
+                $('.table, .IGRP-highcharts', p.sform).each(function(id, el) {
+                    nodes.push($(el).parents('.gen-container-item').attr('item-name'));
+                });
+            }
 
-					refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
+            if (!nodes[0]) {
+                p.clicked.removeAttr("disabled");
+                $.IGRP.events.execute('submit-complete', p);
+                return;
+            }
 
-				nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
-				
-				if( !hasRefreshAttr ){
-				
-					$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
-						
-						nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-						
-					});
-				}
-	
-				if(nodes[0]){
-					
-					$.IGRP.utils.xsl.transform({
-						xsl     : $.IGRP.utils.getXMLStylesheet(xml),
-						xml     : xml,
-						nodes   : nodes,
-						clicked : p.clicked,
-						complete: function(res){
-	
-							$.IGRP.events.execute('submit-complete',p);
-	
-							p.clicked.removeAttr("disabled");
-							
-						}
-					});
-					
-				}else{
-					p.clicked.removeAttr("disabled");
-					$.IGRP.events.execute('submit-complete',p);
-				}
-	
-				$.IGRP.utils.message.handleXML(xml);
-			},
+            // ── Try XSL path first (original behaviour) ───────────────────────
+            var xslURL = $.IGRP.utils.getXMLStylesheet(xml);
+
+            if (xslURL) {
+                $.IGRP.utils.xsl.transform({
+                    xsl     : xslURL,
+                    xml     : xml,
+                    nodes   : nodes,
+                    clicked : p.clicked,
+                    complete: function(res) {
+                        $.IGRP.events.execute('submit-complete', p);
+                        p.clicked.removeAttr("disabled");
+                    }
+                });
+                $.IGRP.utils.message.handleXML(xml);
+                return;
+            }
+
+            // ── Fallback: server returned HTML (server-side XSLT transform) ───
+            // Re-request each node via transformXMLNodes using the same URL
+            var actionUrl = p.sform.attr('action') || $.IGRP.utils.getPageUrl();
+
+            $.IGRP.utils.transformXMLNodes({
+                nodes   : nodes,
+                url     : actionUrl,
+                data    : p.sform.find('*').not('.notForm').serialize(),
+                headers : { 'X-IGRP-REMOTE': 1 },
+                success : function(c) {
+                    if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+                        $.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
+                },
+                error   : function() {
+                    console.warn('[afterSubmitAjax] transformXMLNodes fallback failed');
+                }
+            });
+
+            $.IGRP.utils.message.handleXML(xml);
+            $.IGRP.events.execute('submit-complete', p);
+            p.clicked.removeAttr("disabled");
+        },
 
 			file2base64 : function(p){
 
