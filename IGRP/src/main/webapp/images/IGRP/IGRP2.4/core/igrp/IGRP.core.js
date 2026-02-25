@@ -476,22 +476,21 @@
 					if($.IGRP.components.select2 && options.wrapper.find('.form-control.select2')[0])
 						$.IGRP.components.select2.init( options.wrapper );
 
-					/*table ( data table, formlist )*/
+					/* table ( data table, formlist ) */
+					if($.IGRP.components.tableCtrl){
 
-					const table = options.wrapper.find('table').first();
+						const table = options.wrapper.find('table').first();
 
-					if(table.hasClass('igrp-data-table'))
+						if(table.hasClass('igrp-data-table'))
+							$.IGRP.components.tableCtrl.dataTable({
+								parent : options.wrapper
+							});
 
-						$.IGRP.components.tableCtrl.dataTable({
-							parent : options.wrapper
-						})
-
-					if(table.hasClass('IGRP_formlist'))
-
-						table.IGRP_formlist();
+						if(table.hasClass('IGRP_formlist'))
+							table.IGRP_formlist();
+					}
 
 					if($.IGRP.components.contextMenu)
-
 						$.IGRP.components.contextMenu.set( $('.gen-container-item[item-name="'+options.itemName+'"]') );
 
 				}
@@ -1503,9 +1502,14 @@
 				url: null,
 				headers: {},
 				data: null,
-				success: null,
-				error: null
+				rawHtml : null
 			}, params);
+
+			// ── Skip AJAX if HTML already provided ───────────────────────────
+			if(options.rawHtml){
+				_applyHtmlNodes(options.rawHtml, options);
+				return;
+			}
 
 			$.ajax({
 				url     : options.url,
@@ -1567,25 +1571,18 @@
 
 				if (!$new[0]) {
 					console.warn('[transformXMLNodes] Nó não encontrado na resposta:', nodeName);
-					return;
-				}
-
-				// ── Destruir DataTables ANTES de remover o nó do DOM ──────────────────
-				// Evita "Cannot read properties of null (reading 'parentNode')"
-				// que ocorre quando destroy() é chamado após replaceWith()
-				if ($.fn.DataTable) {
-					$('table.igrp-data-table', $current).each(function() {
-						if ($.fn.DataTable.isDataTable(this)) {
-							try {
-								$(this).DataTable().destroy();
-							} catch(e) {
-								console.warn('[transformXMLNodes] DataTable destroy failed:', e);
-							}
-						}
+					$.IGRP.notify({
+						message : '[transformXMLNodes] Componente "' + nodeName + '" não encontrado na resposta do servidor.',
+						type    : 'warning'
 					});
 				}
 
-				// ── Substitui o nó no DOM ──────────────────────────────────────────────
+				// ── Fire before-element-transform BEFORE replaceWith ─────────────────
+				// Allows igrp.table.js to destroy DataTables while node is still in DOM
+				$.IGRP.events.execute('before-element-transform', {
+					itemName : nodeName
+				});
+
 				const oldStyle = $current.attr('style') || '';
 
 				if ($current[0]) {
@@ -1596,13 +1593,21 @@
 					$new.attr('style', (oldStyle + ' ' + ($new.attr('style') || '')).trim());
 				}
 
-				// ── Reinicializa componentes IGRP no novo nó ──────────────────────────
+				$('a[target], button[target]', $new).each(function(i, e) {
+					e.events = $.EVENTS(['submit-ajax-complete', 'submit-ajax-error']);
+					const target = $(e).attr('target');
+					e.events.declare(['before-' + target, 'success-' + target, 'after-' + target]);
+				});
+
+				// ── Wait for DOM to settle before reinitializing ──────────────────
+				// mirrors the setTimeout(150) pattern in xml.xsl.transform.js setContent()
+
+
 				$.IGRP.utils.refreshComponents({
 					wrapper  : $new,
 					itemName : nodeName
 				});
 
-				// ── Dispara eventos (agora o nó antigo já não existe no DOM) ──────────
 				$.IGRP.events.execute('element-transform', {
 					content  : $new,
 					itemName : nodeName
@@ -1614,6 +1619,8 @@
 						itemHTML : $new
 					});
 				}
+
+
 			});
 		}
 
