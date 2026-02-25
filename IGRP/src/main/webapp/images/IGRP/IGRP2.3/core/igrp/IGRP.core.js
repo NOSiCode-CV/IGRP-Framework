@@ -104,7 +104,7 @@
 				return myWindow;
 			},
 			openChartURL : function(pObj){
-				if (pObj.pUrl != null && pObj.pUrl != '') {
+				if (pObj.pUrl != null && pObj.pUrl !== '') {
 
 					const vParam = 'p_x=' + pObj.pX + '&p_y=' + pObj.pY + '&p_z=' + pObj.pZ;
 
@@ -135,8 +135,8 @@
 				return fields;
 			},
 			getUrl:function(url){
-				url = url && url != undefined ? url : 'XXX';
-				return (url.indexOf("?")==-1)?url+="?":url+="&";
+				url = url ? url : 'XXX';
+				return (url.indexOf("?")===-1)?url+="?":url+="&";
 			},
 			getPageUrl : function(){
 				return $("input[name='p_env_frm_url']").val() || window.location.href;
@@ -150,7 +150,7 @@
 				const vOp = vNewLink.split("&");
 				for(let i= 0; i < vOp.length; i++){
 					const vNop = vOp[i].split("=");
-					if(vNop[0].toLowerCase()==pName.toLowerCase()){
+					if(vNop[0].toLowerCase()===pName.toLowerCase()){
 						return vNop[1];
 					}
 				}
@@ -325,7 +325,7 @@
 						case 'checkbox':
 						case 'radio':
 
-							const checked = value == 1;
+							const checked = value === 1;
 
 							formElement.prop('checked', checked)
 
@@ -378,7 +378,7 @@
 					vHref = "",
 					vNewUrl = "";
 
-				if(form && form != null)
+				if(form)
 					vForm = form;
 
 				vHref 	= vUrl.substring(0,vUrl.indexOf("#"))?vUrl.substring(0,vUrl.indexOf("#")):vUrl;
@@ -394,7 +394,7 @@
 					{
 						const vP1 = vP[i].split("=");
 
-						if(vP1[0].toLowerCase()!= "p_env_frm_url" && vP1[0].toLowerCase()!= 'r'){
+						if(vP1[0].toLowerCase()!== "p_env_frm_url" && vP1[0].toLowerCase()!== 'r'){
 							if(!$("input[name='"+vP1[0]+"']",vForm)[0]){
 								$.IGRP.utils.createHidden({
 									name:vP1[0],
@@ -540,14 +540,14 @@
 			
 			arrRemoveItem : function(arr,v){
                 return $.grep(arr, function(val) {
-				  return val != v;
+				  return val !== v;
 				});
 			},
 			rounding : {
 
 				mask : function (x) {
 					x = x ? x.toString() : '';
-					x = x.indexOf('.') != -1 ? x.replace('.', ',') : x;
+					x = x.indexOf('.') !== -1 ? x.replace('.', ',') : x;
 					return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 0;
 				},
 
@@ -671,7 +671,7 @@
 						var extract = p.extract[f],
 							val 	= extract.field.val();
 
-						if ($.IGRP.utils.getType(extract.field) == 'date')
+						if ($.IGRP.utils.getType(extract.field) === 'date')
 							val = new Date(val).getTime();
 
 						val = $.isNumeric(val) ? Number(val) : "'"+val+"'";
@@ -681,13 +681,13 @@
 
 					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 
-					var val = eval(str);
+					let val2 = eval(str);
 
-					p.val = val;
+					p.val = val2;
 
-					val = $.IGRP.utils.numberFormat({
+					val2 = $.IGRP.utils.numberFormat({
 						obj : p.field,
-						val : val
+						val : val2
 					});
 
 					p.formatVal = val;
@@ -714,7 +714,7 @@
 
 						fx = $.IGRP.utils.minify(_this.attr('mathcal')),
 
-						isTable = _this.parents('table')[0] ? true : false,
+						isTable = !!_this.parents('table')[0],
 
 						holder = isTable ? _this.parents('tr:first') : $.IGRP.utils.getForm(),
 
@@ -742,12 +742,12 @@
 			},
 
 		afterSubmitAjax : function (p) {
-            var xml = p.xml,
-                hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
-                refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null,
-                nodes = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
+			const xml = p.xml,
+				hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+				refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null,
+				nodes = hasRefreshAttr && refresh_components !== '' ? refresh_components.split(',') : [];
 
-            if (!hasRefreshAttr) {
+			if (!hasRefreshAttr) {
                 $('.table, .IGRP-highcharts', p.sform).each(function(id, el) {
                     nodes.push($(el).parents('.gen-container-item').attr('item-name'));
                 });
@@ -760,9 +760,9 @@
             }
 
             // ── Try XSL path first (original behaviour) ───────────────────────
-            var xslURL = $.IGRP.utils.getXMLStylesheet(xml);
+			const xslURL = $.IGRP.utils.getXMLStylesheet(xml);
 
-            if (xslURL) {
+			if (xslURL) {
                 $.IGRP.utils.xsl.transform({
                     xsl     : xslURL,
                     xml     : xml,
@@ -779,9 +779,9 @@
 
             // ── Fallback: server returned HTML (server-side XSLT transform) ───
             // Re-request each node via transformXMLNodes using the same URL
-            var actionUrl = p.sform.attr('action') || $.IGRP.utils.getPageUrl();
+			const actionUrl = p.sform.attr('action') || $.IGRP.utils.getPageUrl();
 
-            $.IGRP.utils.transformXMLNodes({
+			$.IGRP.utils.transformXMLNodes({
                 nodes   : nodes,
                 url     : actionUrl,
                 data    : p.sform.find('*').not('.notForm').serialize(),
@@ -865,7 +865,7 @@
 				if(arr){
 					arr.forEach(function(a,i){
 						str+=a;
-						if(i != arr.length-1)
+						if(i !== arr.length-1)
 							str+=spliter;
 					});
 				}
@@ -913,16 +913,16 @@
 
 							let type = $(row).attr('type');
 
-							if (type != 'debug' && type != 'confirm') {
+							if (type !== 'debug' && type !== 'confirm') {
 
-								type = type == 'error' ? 'danger' : type;
+								type = type === 'error' ? 'danger' : type;
 
 								alert += $.IGRP.utils.message.alert({
 									type : type,
 									text : $(row).text()
 								});
 
-							}else if(type == 'debug'){
+							}else if(type === 'debug'){
 								debug += '<li value="'+$(row).text()+'">'+
 									$.IGRP.utils.htmlDecode($(row).text())+
 								'</li>';
@@ -930,10 +930,10 @@
 						});
 						
 						
-						if(alert != '')
+						if(alert !== '')
 							$('.igrp-msg-wrapper').html(alert);
 						
-						if(debug != '')
+						if(debug !== '')
 							$('#igrp-debugger .igrp-debug-list').html(debug);
 
 					}catch(err){
@@ -948,11 +948,11 @@
 
 						let type = $(row).attr('type');
 
-						if (type != 'debug' && type != 'confirm') {
+						if (type !== 'debug' && type !== 'confirm') {
 
 							const text = $(row).text();
 
-							type = type == 'error' ? 'danger' : type;
+							type = type === 'error' ? 'danger' : type;
 							
 							$.IGRP.notify({
 								message : text,
@@ -1046,7 +1046,7 @@
 					//replace - to _
 					str = str.replaceAll('-','_');
 					//replace special characters
-					str = str.replace(/[&\/\\#,+()$~%.'":*?<>!?@´ªº^|£§{}]/g,'');
+					str = str.replace(/[&\/\\#,+()$~%.'":*?<>!@´ªº^|£§{}]/g,'');
 					//replace symbols
 					chars.forEach(function(c){
 						str = str.replaceAll(c,'');
@@ -1072,10 +1072,10 @@
 
 			p.pArrayFiles.forEach(function(pfile){
 				const vName = pfile.name;
-				let vFileName = (vName.substring(0, 2) == 'p_') ? vName.substring(2) : vName;
+				let vFileName = (vName.substring(0, 2) === 'p_') ? vName.substring(2) : vName;
 
 				vFileName 	= pfile.filename ? pfile.filename : vFileName;
-				vType 		= pfile.type ? pfile.type : vType,
+				vType 		= pfile.type ? pfile.type : vType;
 				vFormat 	= pfile.format ? pfile.format : vFormat;
 				vBlod 		= new Blob([pfile.value], {type:vType});
 				vFileName 	= pfile.value ? vFileName+"."+vFormat : '';
@@ -1106,7 +1106,7 @@
 				vData = $.IGRP.utils.getFormData(p.pParam);
 			let typeNotify = 'danger';
 			const form = $.IGRP.utils.getForm(),
-				showNotify = p.pNotify === false ? false : true;
+				showNotify = p.pNotify !== false;
 			let response = null,
 				message = '';
 
@@ -1140,27 +1140,27 @@
 
 		    vRequest.onreadystatechange = function(){
 		    	//console.log(vRequest.getAllResponseHeaders());
-		    	if(vRequest.readyState == 4){ // operação finalizada
-		    		typeNotify = vRequest.status == 200 ? 'success' : 'danger';
+		    	if(vRequest.readyState === 4){ // operação finalizada
+		    		typeNotify = vRequest.status === 200 ? 'success' : 'danger';
 		    		
 		    		$.IGRP.utils.loading.hide();
 		    		
 		    		if (showNotify){
-		    			if(vRequest.status == 200){
+		    			if(vRequest.status === 200){
 			    			try{
 			    				response 	= $($.parseXML(vRequest.response)).find('messages message');
-			    				typeNotify 	= response.attr('type') && response.attr('type') != undefined ? response.attr('type').toLowerCase() : typeNotify,
+			    				typeNotify 	= response.attr('type') && response.attr('type') !== undefined ? response.attr('type').toLowerCase() : typeNotify;
 			    				message 	= response.text();
 			    			}catch(e){
 			    				response 	= $.parseJSON(vRequest.response);
-			    				typeNotify 	= response.type && response.type != undefined ? response.type.toLowerCase() : typeNotify,
+			    				typeNotify 	= response.type? response.type.toLowerCase() : typeNotify;
 			    				message 	= response.messages;
 			    			}
 		    			}
 		    			
 		    			typeNotify = typeNotify === 'error' ? 'danger' : typeNotify;
 
-		    			message = message && message != undefined ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText; 
+		    			message = message ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText;
 
 		    			$.IGRP.notify({
 							message : $.IGRP.utils.htmlDecode(message),
@@ -1312,7 +1312,7 @@
 
 				$.each( $('>*',stylesheet),function(i,n){
 
-					if(n.nodeName == 'xsl:template')
+					if(n.nodeName === 'xsl:template')
 						template = $(n);
 				});
 	
@@ -1327,7 +1327,7 @@
 				const arr = [];
 				const d = $(xsl.documentElement);
 				$.each(d.find('>*'),function(){
-					if(this.nodeName == 'xsl:include')
+					if(this.nodeName === 'xsl:include')
 						arr.push(this);
 				});
 
@@ -1340,11 +1340,11 @@
 				const d = $(xsl.documentElement);
 
 				$.each( d.find('html body *'),function(){
-					if(this.nodeName == name){
+					if(this.nodeName === name){
 						const node = this;
 						if(attrs){
 							for(let a in attrs){
-								if(node.getAttribute(a) == attrs[a])
+								if(node.getAttribute(a) === attrs[a])
 									arr.push(node);
 							}
 						}
@@ -1439,7 +1439,7 @@
 											});
 										}
 										
-										if(id == p.nodes.length){
+										if(id === p.nodes.length){
 											if(p.clicked)
 												p.clicked.removeAttr("disabled");
 											
@@ -1499,13 +1499,13 @@
 
 		$.IGRP.utils.transformXMLNodes = function(params) {
 
-			var options = $.extend(true, {
-				nodes   : [],
-				url     : null,
-				headers : {},
-				data    : null,
-				success : null,
-				error   : null
+			const options = $.extend(true, {
+				nodes: [],
+				url: null,
+				headers: {},
+				data: null,
+				success: null,
+				error: null
 			}, params);
 
 			$.ajax({
@@ -1516,8 +1516,8 @@
 				success : function(xml, status, xhr) {
 
 					// ── 1. Tenta sempre extrair o XSL do response (caminho original) ──
-					var responseText = xhr.responseText || '';
-					var xslURL       = $.IGRP.utils.getXMLStylesheet(responseText);
+					const responseText = xhr.responseText || '';
+					const xslURL = $.IGRP.utils.getXMLStylesheet(responseText);
 
 					if (xslURL) {
 						$.IGRP.utils.xsl.transform({
@@ -1549,7 +1549,7 @@
 		 */
 		function _applyHtmlNodes(response, options) {
 
-			var html = typeof response === 'string'
+			const html = typeof response === 'string'
 				? response
 				: (new XMLSerializer()).serializeToString(response);
 
@@ -1559,12 +1559,12 @@
 				return;
 			}
 
-			var $doc = $('<div>').append($.parseHTML(html, document, true));
+			const $doc = $('<div>').append($.parseHTML(html, document, true));
 
 			options.nodes.forEach(function(nodeName) {
 
-				var $new     = $doc.find('.gen-container-item[item-name="' + nodeName + '"]').first();
-				var $current = $('.gen-container-item[item-name="' + nodeName + '"]');
+				const $new = $doc.find('.gen-container-item[item-name="' + nodeName + '"]').first();
+				const $current = $('.gen-container-item[item-name="' + nodeName + '"]');
 
 				if (!$new[0]) {
 					console.warn('[transformXMLNodes] Nó não encontrado na resposta:', nodeName);
@@ -1587,7 +1587,7 @@
 				}
 
 				// ── Substitui o nó no DOM ──────────────────────────────────────────────
-				var oldStyle = $current.attr('style') || '';
+				const oldStyle = $current.attr('style') || '';
 
 				if ($current[0]) {
 					$current.replaceWith($new);

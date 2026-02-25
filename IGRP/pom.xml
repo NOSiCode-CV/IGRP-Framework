@@ -644,7 +644,7 @@
                         <debugPort>5007</debugPort>
                       <tomeeHttpPort>8081</tomeeHttpPort>
                       <tomeeShutdownPort>8006</tomeeShutdownPort>  -->
-                        <args>-Dfile.encoding=UTF-8</args>
+                        <args>-Dfile.encoding=UTF-8 -Dtomee.dev=true -Xms512m -Xmx2g -XX:+UseG1GC -XX:TieredStopAtLevel=1</args>
                         <removeDefaultWebapps>false</removeDefaultWebapps>
                         <synchronization>
                             <extensions>
@@ -665,6 +665,8 @@
                             <openejb.system.apps>true</openejb.system.apps>
                             <openejb.jmx.active>false</openejb.jmx.active>
                             <tomee.remote.support>false</tomee.remote.support>
+                            <openejb.deployments.classpath>false</openejb.deployments.classpath>
+                            <openejb.scan.web>false</openejb.scan.web>
                         </systemVariables>
                         <libs>
                             <lib>remove:myfaces</lib>
