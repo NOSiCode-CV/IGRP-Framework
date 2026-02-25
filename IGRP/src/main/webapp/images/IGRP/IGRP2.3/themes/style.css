@@ -22,11 +22,10 @@ body {
 	background: #fafafa;
 	opacity: 0.4
 }
-
-body.fixed-nav {
-	/*   padding-top: 56px; */
+/* body.fixed-nav {
+	  padding-top: 56px;
 }
-
+*/
 body.sidebar-off .navbar-brand {
 	display: none;
 }

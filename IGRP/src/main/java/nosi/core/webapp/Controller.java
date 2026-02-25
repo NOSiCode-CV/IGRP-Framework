@@ -340,6 +340,8 @@ public class Controller {
     }
 
     private Response redirect_(String url) {
+        if("xml".equals(Core.getParam("ir_cf")))
+            url+="&ir_cf=xml";
         Response resp = new Response();
         resp.setType(2);
         resp.setCharacterEncoding(Response.CHARSET_UTF_8);
