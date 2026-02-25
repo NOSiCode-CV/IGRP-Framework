@@ -472,9 +472,8 @@
 				if(options.wrapper){
 					
 					/* select2 */
-					
-					if(options.wrapper.find('.form-control.select2'))
-						
+
+					if($.IGRP.components.select2 && options.wrapper.find('.form-control.select2')[0])
 						$.IGRP.components.select2.init( options.wrapper );
 					
 					/*table ( data table, formlist )*/
