@@ -121,9 +121,122 @@
                 </div>
                 <div class="igrp-iframe nosicasigner_iframe gen-container-item hidden" gen-class="" item-name="nosicasigner_iframe">  
                     <div class="box-body">
-                      <iframe id="id-nosicasigner_iframe" style="min-height:650px" src=""/>
+                        <div style="margin-bottom: 10px;">
+                            <button class="btn btn-primary" id="prevPage">Previous Page</button>
+                            <span>Page: <span id="currentPage">1</span> / <span id="totalPages">1</span></span>
+                            <button class="btn btn-primary" id="nextPage">Next Page</button> 
+                        </div>                                                     
+                            <div class="controls">                                    
+                                <canvas id="canvas_frame" class="pdfCanvas" style="border:1px solid black;height: 750px;width: 600px;"></canvas>  
+                                <div id="signature_holder" style="display:none;height:80px;width:160px;position:relative;border:1px solid;background-color: rgba(104, 97, 97, 0.568);color:black">
+                                    <h3>
+                                        Teste Assinatura
+                                    </h3>
+                                    <h4>
+                                        sign
+                                    </h4>
+                                </div>
+    
+                            </div>
                     </div>
-                </div>`;
+                </div> 
+                <script>
+                    const fileInput = document.getElementById('p_nosicasigner_file');
+                    let canvas  = document.getElementById('canvas_frame');
+                    const context = canvas.getContext('2d');
+
+                    const nextBtn = document.getElementById('nextPage');
+                    const prevBtn = document.getElementById('prevPage');
+                    let currentPage = 1;
+                    let pdfDoc = null;
+
+                    function base64ToArrayBuffer(base64) {
+                        const binaryString = atob(base64);
+                        const len = binaryString.length;
+                        const bytes = new Uint8Array(len);
+                        for (let i = 0; i < len; i++) {
+                            bytes[i] = binaryString.charCodeAt(i);
+                        }
+                        return bytes.buffer;
+                    }
+
+                    function renderPage(pageNum) {
+                        //if (!pdfDoc) return;
+                        console.log("---------renderPage---------")
+                        pdfDoc.getPage(pageNum).then(page => {
+                            const viewport = page.getViewport({ scale: 1.5 });
+                            canvas.width = viewport.width;
+                            canvas.height = viewport.height;
+                            const renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+                            page.render(renderContext);
+                        });
+                        document.getElementById('currentPage').textContent = currentPage;
+                    }
+
+                    function loadPDF(arrayBuffer) {
+                        console.log("---------loadPDF---------")
+                        pdfjsLib.getDocument(arrayBuffer).promise.then(pdf => {
+                            pdfDoc = pdf;
+                                                                
+                            let totalPages = pdf.numPages; 
+                            currentPage = 1;                                   
+
+                            document.getElementById('totalPages').textContent = totalPages;
+                            renderPage(currentPage);     
+
+                        }).catch(error => {
+                            console.error('Erro ao carregar o PDF: ', error);
+                        });                       
+                    }
+
+                    function loadSignedPDF(base64Pdf) {
+
+                        const signature = document.getElementById('signature_holder');
+                    
+                        console.log('--------loadSignedPDF ---------');
+                        const arrayBuffer = base64ToArrayBuffer(base64Pdf);
+
+                        loadPDF(arrayBuffer);
+                    }
+
+                    fileInput.addEventListener('change', function(event) { 
+                        console.log("---------change---------")                     
+                        const file = event.target.files[0];
+                        if (file && file.type === 'application/pdf') {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                loadPDF(e.target.result);                               
+                            };
+                            reader.readAsArrayBuffer(file);
+                        } else {
+                            alert('Por favor, selecione um arquivo PDF.');
+                        }
+                    });
+
+                    prevBtn.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        if (currentPage <= 1) return; // Não ultrapassar a primeira página
+                        currentPage--;
+                        renderPage(currentPage);
+                    });
+
+                    nextBtn.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        if (currentPage >= totalPages) return; // Não ultrapassar a última página
+                        currentPage++;
+                        renderPage(currentPage);
+                    });  
+
+                    document.addEventListener('click', function (event) {
+                        markClickPoint(event);
+                    });
+
+                </script>
+                
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>`;
             }
         },
 
@@ -656,6 +769,14 @@
 
         toSign : function (p) {
             const base64 = $('#nosicasigner_base64').val();
+            const currentPage = document.getElementById('currentPage').innerHTML;
+            const rect = document.getElementById('canvas_frame').getBoundingClientRect();
+            const signature = document.getElementById('signature_holder');
+
+            signature.style.display = `none`;
+
+            //default pdf width
+            const displayWidth = 900;
 
             if(base64){
 
@@ -663,7 +784,10 @@
                     "tokenId"                : ((p.tokenId*1) -1),
                     "certificateSerialNumber": p.certSerNum,
                     "pin"                    : p.pin,
-                    "data"                   : base64
+                    "data"                   : base64,
+                    "pageNumberToSign": currentPage,
+                    "xPosition": parseFloat(signature.style.left),
+                    "yPosition": displayWidth - parseFloat(signature.style.top),
                 };
 
                 $.IGRP.utils.loading.show();
@@ -676,6 +800,8 @@
 
                     if(resp){
                         com.responseToSign(resp);
+                        console.log("resp.result",resp.result);
+                        loadSignedPDF(resp.result);
                     }
                     else{
                         $.IGRP.notify({
