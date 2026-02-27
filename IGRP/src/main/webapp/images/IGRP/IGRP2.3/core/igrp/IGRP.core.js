@@ -658,52 +658,63 @@
 				return arrObj;
 			},
 
-			runMathcal: function (p) {
-
+			runMathcal: function(p) {
 				try {
-
 					let str = p.fx;
-
 					for (let f in p.extract) {
-
 						let extract = p.extract[f],	val = extract.field.val();
-
 						if ($.IGRP.utils.getType(extract.field) === 'date'){
 							let date = new Date(val);
 							val = !isNaN(date) ? date.getTime() : 0;
 						}
-
 						val = $.isNumeric(val) ? Number(val) : JSON.stringify(val);
-
 						str = str.replaceAll(extract.str, val);
 					}
 
 					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
-
 					let val2 = Function('"use strict"; return (' + str + ')')();
-					if (isNaN(val2) || !isFinite(val2)) {
+					// Handle invalid calculation results
+					const isValid = !isNaN(val2) && isFinite(val2);
+
+					if (!isValid) {
 						console.warn("Invalid calculation result:", str);
-					}else{
-						p.val = val2;
 
-						val2 = $.IGRP.utils.numberFormat({
-							obj : p.field,
-							val : val2
-						});
+						// Set clean empty values and skip number formatting
+						p.val = '';
+						p.formatVal = '';
 
-						p.formatVal = val2;
+						if (p.isTable) {
+							$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val('');
+						}
 
-						if (p.isTable)
-							$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val(val2);
-
-						p.field.val(val2).trigger('change').trigger('calculation-result', [p]);
-
+						p.field.val('').trigger('change').trigger('calculation-result', [p]);
 						$(document).trigger('field:calculation', [p]);
+
+						return; // Exit early to avoid number formatting
 					}
 
+					// Only process valid numbers
+					p.val = val2;
+
+					val2 = $.IGRP.utils.numberFormat({
+						obj: p.field,
+						val: val2
+					});
+
+					p.formatVal = val2;
+
+					if (p.isTable)
+						$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val(val2);
+
+					p.field.val(val2).trigger('change').trigger('calculation-result', [p]);
+					$(document).trigger('field:calculation', [p]);
 
 				} catch (error) {
 					console.log('runMathcal', error);
+					// Set clean empty values on error
+					p.val = '';
+					p.formatVal = '';
+					p.field.val('').trigger('change');
 				}
 			},
 
