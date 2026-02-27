@@ -42,31 +42,31 @@
 					  for (let i=0; i<arr.length; i++) {
 						const a = arr[i].split('=');
 
-						const paramNum = undefined;
-						let paramName = a[0].replace(/\[\d*\]/, function (v) {
+						let paramNum = undefined;
+						let paramName = a[0].replace(/\[\d*]/, function (v) {
 							paramNum = v.slice(1, -1);
 							return '';
 						});
 
 						let paramValue = typeof (a[1]) === undefined ? '' : a[1];
 
-						paramName 	= paramName   ? paramName.toLowerCase()  : '';
-				      paramValue 	= paramValue  ? paramValue.toLowerCase() : '';
+							paramName 	= paramName   ? paramName.toLowerCase()  : '';
+						  paramValue 	= paramValue  ? paramValue.toLowerCase() : '';
 
-				      if (obj[paramName]) {
-				        if (typeof obj[paramName] === 'string') {
-				          obj[paramName] = [obj[paramName]];
-				        }
-				        if (typeof paramNum === undefined) {
-				          obj[paramName].push(paramValue);
-				        }
-				        else {
-				          obj[paramName][paramNum] = paramValue;
-				        }
-				      }
-				      else {
-				        obj[paramName] = paramValue;
-				      }
+						  if (obj[paramName]) {
+							if (typeof obj[paramName] === 'string') {
+							  obj[paramName] = [obj[paramName]];
+							}
+							if (typeof paramNum === undefined) {
+							  obj[paramName].push(paramValue);
+							}
+							else {
+							  obj[paramName][paramNum] = paramValue;
+							}
+						  }
+						  else {
+							obj[paramName] = paramValue;
+						  }
 				    }
 				  }
 
@@ -666,36 +666,41 @@
 
 					for (let f in p.extract) {
 
-						var extract = p.extract[f],
-							val 	= extract.field.val();
+						let extract = p.extract[f],	val = extract.field.val();
 
-						if ($.IGRP.utils.getType(extract.field) === 'date')
-							val = new Date(val).getTime();
+						if ($.IGRP.utils.getType(extract.field) === 'date'){
+							let date = new Date(val);
+							val = !isNaN(date) ? date.getTime() : 0;
+						}
 
-						val = $.isNumeric(val) ? Number(val) : "'"+val+"'";
+						val = $.isNumeric(val) ? Number(val) : JSON.stringify(val);
 
 						str = str.replaceAll(extract.str, val);
 					}
 
 					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 
-					let val2 = eval(str);
+					let val2 = Function('"use strict"; return (' + str + ')')();
+					if (isNaN(val2) || !isFinite(val2)) {
+						console.warn("Invalid calculation result:", str);
+					}else{
+						p.val = val2;
 
-					p.val = val2;
+						val2 = $.IGRP.utils.numberFormat({
+							obj : p.field,
+							val : val2
+						});
 
-					val2 = $.IGRP.utils.numberFormat({
-						obj : p.field,
-						val : val2
-					});
+						p.formatVal = val2;
 
-					p.formatVal = val;
+						if (p.isTable)
+							$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val(val2);
 
-					if (p.isTable)
-						$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val(val);
+						p.field.val(val2).trigger('change').trigger('calculation-result', [p]);
 
-					p.field.val(val).trigger('change').trigger('calculation-result', [p]);
+						$(document).trigger('field:calculation', [p]);
+					}
 
-					$(document).trigger('field:calculation', [p]);
 
 				} catch (error) {
 					console.log('runMathcal', error);

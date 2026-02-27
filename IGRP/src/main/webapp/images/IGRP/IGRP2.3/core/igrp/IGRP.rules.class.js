@@ -1134,28 +1134,35 @@ if($ && $.IGRP && !$.IGRP.rules){
 					});
 			}
 
-			if(rules[0].opposite === "1" ){
+			if (rules[0].opposite === "1") {
 
 				const oppObject = jQuery.extend(true, {}, o);
 
-				const orule = conditionsList[rules[0].condition] ? conditionsList[rules[0].condition].opposite : null;
+				const orule = conditionsList[rules[0].condition]
+					? conditionsList[rules[0].condition].opposite
+					: null;
 
-				const oactions = oppObject.conditions.actions.slice();
+				let oactions = oppObject?.conditions?.actions;
+
+				if (!Array.isArray(oactions)) {
+					oactions = oactions ? [oactions] : [];
+				}
 
 				oactions.forEach(function(a){
-
-					a.action = actionsList[a.action] && actionsList[a.action].opposite ? actionsList[a.action].opposite : a.action;
-
+					if (a && a.action) {
+						a.action = actionsList[a.action] && actionsList[a.action].opposite
+							? actionsList[a.action].opposite
+							: a.action;
+					}
 				});
 
+				oppObject.conditions.actions = oactions;
+
 				oppObject.conditions.rules[0].condition = orule;
-
 				oppObject.conditions.rules[0].opposite = false;
-
 				oppObject.index = 0;
 
-				validateAndExecute(field,oppObject);
-
+				validateAndExecute(field, oppObject);
 			}
 
 			vRuleArr = [];

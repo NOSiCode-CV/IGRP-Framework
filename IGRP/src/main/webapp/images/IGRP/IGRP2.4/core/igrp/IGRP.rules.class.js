@@ -10,13 +10,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 			if ($.inArray(type,arrType) !== -1) {
 
-					fieldValue = [];
+				fieldValue = [];
 
-					$('input[name="'+field.attr('name')+'"]:checked').each(function(){
+				$('input[name="'+field.attr('name')+'"]:checked').each(function(){
 
-						fieldValue.push($(this).val());
+					fieldValue.push($(this).val());
 
-					});
+				});
 
 			}
 
@@ -791,9 +791,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				$.each(p.targetFields,function(i,t){
 					$(t).removeClass (function (index, css) {
-						 //get a match to match the pattern some-class-somenumber and extract that classname
+						//get a match to match the pattern some-class-somenumber and extract that classname
 						this.initialsize = this.className.match(/col-md-\d+/)[0];
-				    	return (css.match (/(^|\s)col-md-\S+/g) || []).join(' ');
+						return (css.match (/(^|\s)col-md-\S+/g) || []).join(' ');
 					});
 
 					$(t).addClass(sizes[i]);
@@ -808,7 +808,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 					const initialsize = t.initialsize;
 					if(initialsize){
 						$(t).removeClass (function (index, css) {
-					    	return (css.match (/(^|\s)col-md-\S+/g) || []).join(' ');
+							return (css.match (/(^|\s)col-md-\S+/g) || []).join(' ');
 						});
 
 						$(t).addClass(initialsize);
@@ -842,8 +842,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 				p.sourceField[0].remoteRequest = $.IGRP.request( $.IGRP.rules.getRemoteUrl(p) ,{
 					params  : getParam(p),
 					headers : {
-				       	'X-IGRP-REMOTE' : 1
-				   	},
+						'X-IGRP-REMOTE' : 1
+					},
 					method 	: 'POST',
 					success : function(data){
 
@@ -885,129 +885,129 @@ if($ && $.IGRP && !$.IGRP.rules){
 				$.ajax({
 					url 	: $.IGRP.rules.getRemoteUrl(p)+'&ir_cf=xml',
 					headers : {
-				       	'X-IGRP-REMOTE' : 1
-				   	},
+						'X-IGRP-REMOTE' : 1
+					},
 					method 	: 'post',
 					dataType: 'xml',
 					data 	: getParam(p)
 				})
-				.done(function(list) {
+					.done(function(list) {
 
-					const isString = typeof list === 'string';
+						const isString = typeof list === 'string';
 
-					$.each( p.targetFields ,function(i,f){
+						$.each( p.targetFields ,function(i,f){
 
-						f = $(f);
+							f = $(f);
 
-						const itemName = f.attr('item-name');
+							const itemName = f.attr('item-name');
 
-						if(row){
-							f = $(`div[item-name=${itemName}]`,row);
-						}
-
-						let options  = [],
-
-							responseElement = isString ? list : ( list?.documentElement || false ),
-
-							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
-
-						if (wrapper) {
-
-							const elementType = $.IGRP.utils.getType($(':input', f));
-
-							if(elementType === 'select'){
-
-								$.each($('option', wrapper), function(z, o) {
-
-									const selected = $(o).attr('selected') === 'selected';
-
-									options.push({
-										text: $('text', o).text(),
-										value: $('value', o).text(),
-										selected: selected
-									});
-
-								});
-
-								$.IGRP.components.select2.setOptions({
-									select : $('select', f),
-									options: options,
-									isRules: true
-								});
-
-							}else{
-
-								const holderGroup 	= $('.form-group',f),
-									cloneGroup 		= $('.'+elementType,holderGroup).first().clone(!0);
-
-								$('.'+elementType,holderGroup).remove();
-
-								$.each($('option',wrapper),function(z,o){
-									const group = cloneGroup.clone(!0),
-									 	label = $('text',o).text();
-
-									$('input',$(group)).attr({
-										checked:$(o).attr('selected') === 'selected',
-										value: $('value',o).text(),
-										label: label
-									});
-
-									$('span:not(.radiomark)',$(group)).html(label);
-
-									holderGroup.append($(group));
-								});
+							if(row){
+								f = $(`div[item-name=${itemName}]`,row);
 							}
-						}
+
+							let options  = [],
+
+								responseElement = isString ? list : ( list?.documentElement || false ),
+
+								wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
+
+							if (wrapper) {
+
+								const elementType = $.IGRP.utils.getType($(':input', f));
+
+								if(elementType === 'select'){
+
+									$.each($('option', wrapper), function(z, o) {
+
+										const selected = $(o).attr('selected') === 'selected';
+
+										options.push({
+											text: $('text', o).text(),
+											value: $('value', o).text(),
+											selected: selected
+										});
+
+									});
+
+									$.IGRP.components.select2.setOptions({
+										select : $('select', f),
+										options: options,
+										isRules: true
+									});
+
+								}else{
+
+									const holderGroup 	= $('.form-group',f),
+										cloneGroup 		= $('.'+elementType,holderGroup).first().clone(!0);
+
+									$('.'+elementType,holderGroup).remove();
+
+									$.each($('option',wrapper),function(z,o){
+										const group = cloneGroup.clone(!0),
+											label = $('text',o).text();
+
+										$('input',$(group)).attr({
+											checked:$(o).attr('selected') === 'selected',
+											value: $('value',o).text(),
+											label: label
+										});
+
+										$('span:not(.radiomark)',$(group)).html(label);
+
+										holderGroup.append($(group));
+									});
+								}
+							}
+						});
+
+						if($(list).find('messages message')[0])
+
+							$.IGRP.utils.message.notify(list);
+
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
 					});
-
-					if($(list).find('messages message')[0])
-
-						$.IGRP.utils.message.notify(list);
-
-				})
-				.fail(function() {
-					console.log("error");
-				})
-				.always(function() {
-					console.log("complete");
-				});
 
 			}
 		},
 		remote_list:{
-            do : function(p){
+			do : function(p){
 				const actionURL = $.IGRP.rules.getRemoteUrl(p) || $.IGRP.utils.getPageUrl(),
 					form = $.IGRP.utils.getForm(),
 					nodeNames = [];
 
 				$.each( p.targetFields ,function(i,f){
-                    nodeNames.push($(f).attr('item-name'));
-                });
+					nodeNames.push($(f).attr('item-name'));
+				});
 
 
-                $.IGRP.utils.transformXMLNodes({
-                    nodes : nodeNames,
-                    url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
-                    data  : form.serialize(),
-                    headers : {
-                        'X-IGRP-REMOTE' : 1
-                    },
-                    success:function(c){
-                        $.each( p.targetFields ,function(i,f){
-                            $(document).trigger($(f).attr('item-name')+'-remote-list-callback', [c] )
-                        });
+				$.IGRP.utils.transformXMLNodes({
+					nodes : nodeNames,
+					url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
+					data  : form.serialize(),
+					headers : {
+						'X-IGRP-REMOTE' : 1
+					},
+					success:function(c){
+						$.each( p.targetFields ,function(i,f){
+							$(document).trigger($(f).attr('item-name')+'-remote-list-callback', [c] )
+						});
 						if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-                    },
-                    error:function(){
-                        $.IGRP.utils.loading.hide();
-                    }
+					},
+					error:function(){
+						$.IGRP.utils.loading.hide();
+					}
 
-                });
+				});
 
 
-            }
-        },
+			}
+		},
 		cleanValue:{
 			do:function(p){
 
@@ -1134,28 +1134,35 @@ if($ && $.IGRP && !$.IGRP.rules){
 					});
 			}
 
-			if(rules[0].opposite === "1" ){
+			if (rules[0].opposite === "1") {
 
 				const oppObject = jQuery.extend(true, {}, o);
 
-				const orule = conditionsList[rules[0].condition] ? conditionsList[rules[0].condition].opposite : null;
+				const orule = conditionsList[rules[0].condition]
+					? conditionsList[rules[0].condition].opposite
+					: null;
 
-				const oactions = oppObject.conditions.actions.slice();
+				let oactions = oppObject?.conditions?.actions;
+
+				if (!Array.isArray(oactions)) {
+					oactions = oactions ? [oactions] : [];
+				}
 
 				oactions.forEach(function(a){
-
-					a.action = actionsList[a.action] && actionsList[a.action].opposite ? actionsList[a.action].opposite : a.action;
-
+					if (a && a.action) {
+						a.action = actionsList[a.action] && actionsList[a.action].opposite
+							? actionsList[a.action].opposite
+							: a.action;
+					}
 				});
 
+				oppObject.conditions.actions = oactions;
+
 				oppObject.conditions.rules[0].condition = orule;
-
 				oppObject.conditions.rules[0].opposite = false;
-
 				oppObject.index = 0;
 
-				validateAndExecute(field,oppObject);
-
+				validateAndExecute(field, oppObject);
 			}
 
 			vRuleArr = [];

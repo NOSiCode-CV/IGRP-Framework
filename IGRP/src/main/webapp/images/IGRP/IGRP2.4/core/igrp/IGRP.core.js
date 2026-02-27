@@ -42,8 +42,8 @@
 						for (let i=0; i<arr.length; i++) {
 							const a = arr[i].split('=');
 
-							const paramNum = undefined;
-							let paramName = a[0].replace(/\[\d*\]/, function (v) {
+							let paramNum = undefined;
+							let paramName = a[0].replace(/\[\d*]/, function (v) {
 								paramNum = v.slice(1, -1);
 								return '';
 							});
@@ -666,36 +666,41 @@
 
 					for (let f in p.extract) {
 
-						var extract = p.extract[f],
-							val 	= extract.field.val();
+						let extract = p.extract[f],	val = extract.field.val();
 
-						if ($.IGRP.utils.getType(extract.field) === 'date')
-							val = new Date(val).getTime();
+						if ($.IGRP.utils.getType(extract.field) === 'date'){
+							let date = new Date(val);
+							val = !isNaN(date) ? date.getTime() : 0;
+						}
 
-						val = $.isNumeric(val) ? Number(val) : "'"+val+"'";
+						val = $.isNumeric(val) ? Number(val) : JSON.stringify(val);
 
 						str = str.replaceAll(extract.str, val);
 					}
 
 					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 
-					let val2 = eval(str);
+					let val2 = Function('"use strict"; return (' + str + ')')();
+					if (isNaN(val2) || !isFinite(val2)) {
+						console.warn("Invalid calculation result:", str);
+					}else{
+						p.val = val2;
 
-					p.val = val2;
+						val2 = $.IGRP.utils.numberFormat({
+							obj : p.field,
+							val : val2
+						});
 
-					val2 = $.IGRP.utils.numberFormat({
-						obj : p.field,
-						val : val2
-					});
+						p.formatVal = val2;
 
-					p.formatVal = val;
+						if (p.isTable)
+							$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val(val2);
 
-					if (p.isTable)
-						$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val(val);
+						p.field.val(val2).trigger('change').trigger('calculation-result', [p]);
 
-					p.field.val(val).trigger('change').trigger('calculation-result', [p]);
+						$(document).trigger('field:calculation', [p]);
+					}
 
-					$(document).trigger('field:calculation', [p]);
 
 				} catch (error) {
 					console.log('runMathcal', error);
@@ -903,15 +908,25 @@
 
 					try{
 
-						let alert = '',
+						// HTML path: server already rendered messages as HTML alerts
+						const $html = typeof xml === 'string' ? $($.parseHTML(xml, document, true)) : $(xml);
 
+						const $msgWrapper = $html.find('.igrp-msg-wrapper');
+
+						if($msgWrapper[0] && $msgWrapper.html().trim() !== ''){
+							$('.igrp-msg-wrapper').html($msgWrapper.html());
+							return;
+						}
+
+						// XML path: classic <messages><message> structure
+						let alert = '',
 							debug = '';
 
-						$.each($(xml).find('messages message'),function(i,row){
+						$.each($(xml).find('messages message'), function(i, row){
 
 							let type = $(row).attr('type');
 
-							if (type !== 'debug' && type !== 'confirm') {
+							if(type !== 'debug' && type !== 'confirm'){
 
 								type = type === 'error' ? 'danger' : type;
 
@@ -927,7 +942,6 @@
 							}
 						});
 
-
 						if(alert !== '')
 							$('.igrp-msg-wrapper').html(alert);
 
@@ -935,8 +949,7 @@
 							$('#igrp-debugger .igrp-debug-list').html(debug);
 
 					}catch(err){
-
-						console.log(err)
+						console.log(err);
 					}
 
 				},
