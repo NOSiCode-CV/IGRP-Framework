@@ -924,6 +924,47 @@ public class Controller {
         });
     }
 
+    // ═══════════════════════════════════════════════════════════════════════════════
+// ADD THIS METHOD inside the Controller class body
+// (e.g. just before the closing brace, after getComponent())
+// ═══════════════════════════════════════════════════════════════════════════════
+
+    /**
+     * Server-side XSLT 1.0 transformation.
+     *
+     * Used as a fallback by XsltTransformController when the browser's native
+     * XSLTProcessor is unavailable (planned browser deprecation).
+     *
+     * @param xmlStr    XML document as a String
+     * @param xslStr    XSL stylesheet as a String (includes already inlined by the client)
+     * @param xslParams optional map of XSL parameters (may be null or empty)
+     * @return          transformed output (HTML) as a String
+     * @throws Exception if the XML/XSL is malformed or the transform fails
+     */
+    public static String performXsltTransform(String xmlStr,
+                                              String xslStr,
+                                              Map<String, String> xslParams) throws Exception {
+
+        TransformerFactory factory = TransformerFactory.newInstance();
+        // Compile the stylesheet
+        Source xslSource = new StreamSource(new StringReader(xslStr));
+        Transformer transformer = factory.newTransformer(xslSource);
+
+        // Apply any XSL parameters
+        if (xslParams != null) {
+            for (Map.Entry<String, String> entry : xslParams.entrySet()) {
+                transformer.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // Run the transform
+        Source  xmlSource = new StreamSource(new StringReader(xmlStr));
+        StringWriter out  = new StringWriter();
+        transformer.transform(xmlSource, new StreamResult(out));
+
+        return out.toString();
+    }
+
     // ─────────────────────────────────────────────────────────────────────────
 // Cache invalidation — call this when XSL files change (e.g. deploy/reload)
 // ─────────────────────────────────────────────────────────────────────────
@@ -1171,6 +1212,9 @@ public class Controller {
             ));
         }
     }
+
+
+
 
 
 }

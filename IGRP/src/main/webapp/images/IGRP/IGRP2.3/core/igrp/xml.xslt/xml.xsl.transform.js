@@ -326,30 +326,67 @@ $.fn.XMLTransform = function(params) {
  		}
  	}
  	//GOOGLE/FIREFOX TRANSFORM
- 	var Transform = function(){
- 		var xsltProcessor = new XSLTProcessor();
+	//GOOGLE/FIREFOX TRANSFORM
+	var Transform = function(){
 
- 		xsltProcessor.flags = 0;
+		// ── Use native XSLTProcessor while it exists ────────────────────────────
+		if (false && typeof XSLTProcessor !== 'undefined') {
 
- 		/*var documents = $(xsl).find('[select*="document("]');
+			try {
+				var xsltProcessor = new XSLTProcessor();
 
- 		$.each(documents,function(i,d){
- 			switch(d.tagName){
- 				case 'xsl:value-of':
- 					var url = $(d).attr('select');
- 				break;
- 			}
- 		});*/
- 		xsltProcessor.importStylesheet(xsl);
- 		
- 		if(params.xslParams){
-			for(var p in params.xslParams){
-				xsltProcessor.setParameter(null, p, params.xslParams[p]);
+				xsltProcessor.flags = 0;
+
+				xsltProcessor.importStylesheet(xsl);
+
+				if (params.xslParams) {
+					for (var p in params.xslParams) {
+						xsltProcessor.setParameter(null, p, params.xslParams[p]);
+					}
+				}
+
+				setContent(xsltProcessor.transformToFragment(xml, document));
+
+			} catch (e) {
+				console.error('[XMLTransform] XSLTProcessor failed:', e.message || e);
+				errorHandler(e);
+			}
+
+			// ── Server-side fallback (for when XSLTProcessor is eventually removed) ─
+		} else {
+
+			try {
+				// At this point includeTemplates() has already run, so xsl has all
+				// includes inlined — we can safely serialize and send to the server.
+				var xmlStr = new XMLSerializer().serializeToString(xml);
+				var xslStr = new XMLSerializer().serializeToString(xsl);
+
+				$.ajax({
+					url         : 'app/webapps/igrp/generator/transform',
+					method      : 'POST',
+					contentType : 'application/json',
+					data        : JSON.stringify({
+						xml       : xmlStr,
+						xsl       : xslStr,
+						xslParams : params.xslParams || {}
+					}),
+					success : function(html) {
+						var wrapper = document.createElement('div');
+						wrapper.innerHTML = html;
+						setContent(html);
+					},
+					error : function(xhr, status, err) {
+						console.error('[XMLTransform] Server-side transform failed:', status, err);
+						errorHandler({ message: 'Server transform failed: ' + status });
+					}
+				});
+
+			} catch (e) {
+				console.error('[XMLTransform] Fallback serialization failed:', e.message || e);
+				errorHandler(e);
 			}
 		}
-
-		setContent(xsltProcessor.transformToFragment(xml, document));
- 	}
+	}
  	var prepareElement = function(){
  		if(loader){
 	 		loadingb64 = $('<div>').addClass('xml-xsl-loader');

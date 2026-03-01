@@ -943,7 +943,7 @@ const GENERATOR = function (genparams) {
                             saveArrItems.push({name: 'p_package', value: GEN.SETTINGS.package});
 
                         $.IGRP.utils.submitStringAsFile({
-                            pUrl: vUrl,
+                            pUrl: vUrl + (vUrl.indexOf('?') !== -1 ? '&' : '?') + 'ir_cf=xml',  // ← ADD THIS
                             pNotify: false,
                             pLoading: true,
                             pParam: {
@@ -1084,7 +1084,7 @@ const GENERATOR = function (genparams) {
 
                 if (vApp) {
                     $.ajax({
-                        url: vUrl,
+                        url: vUrl + (vUrl.indexOf('?') !== -1 ? '&' : '?') + 'ir_cf=xml',
                         data: select.attr('name') + '=' + vApp,
                         success: function (content) {
                             const xsl = path + '/xsl/tmpl/IGRP-tree-menu.tmpl.xsl';

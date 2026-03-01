@@ -1186,53 +1186,46 @@ var CONTAINER = function(name,params){
 		if(!container.receiving && !container.tranforming){
 
 			var tXSL, tXML;
-			//try{
-			tXSL    = container.XSLT(container.getXSL());
-			
-			tXML    = $.parseXML(GEN.getXML({
-				containersIDs:[container.GET.id()]
-			}));
 
-			console.log(tXML);
-			console.log(tXSL)
-			/*}catch(err){
-				console.log(err);
-			}*/
+			try {
+				tXSL = container.XSLT(container.getXSL());
+				tXML = $.parseXML(GEN.getXML({
+					containersIDs:[container.GET.id()]
+				}));
+			} catch(err) {
+				console.error('[GEN.containers] Error building XML/XSL:', err);
+				return;
+			}
 
 			if(tXML && tXSL){
 				container.tranforming = true;
-				//include css and js before container transform
 				setFilesIncludes();
 
-				/*var hasTransformer = container.holder.find('[gen-transformer="true"]')[0];
-				var transformer = hasTransformer ? container.holder.find('[gen-transformer="true"]') : container.holder.find('.container-contents');
-				var contentSelector = hasTransformer ? '[gen-transformer="true"]':false;
-*/				
-
-
 				container.holder.find('.container-contents').XMLTransform({
-					xml     	 : tXML,
-					xsl     	 : tXSL,
+					xml          : tXML,
+					xsl          : tXSL,
 					loading      : false,
-					loader  	 : container.holder.find('.c-holder-loading'),
+					loader       : container.holder.find('.c-holder-loading'),
 					loadingClass : 'container-loading',
-					//preserve     : '[gen-preserve-content="true"]',
-					//contentSelector : contentSelector,
-					complete	 : function(content){
-
-						container.tranforming = false;		
-
-						afterTransform(content);
-
-						if(p && p.callback) p.callback();
-
-					},
-					error:function(e){
+					complete     : function(content){
 						container.tranforming = false;
-						console.log('failed transformation');
-						console.log(e);
+						afterTransform(content);
+						if(p && p.callback) p.callback();
+					},
+					error : function(e){
+						container.tranforming = false;
+						// Surface the actual XSLTProcessor error visibly
+						console.error('[GEN.containers] XSLTProcessor transform failed:', e);
+						console.error('[GEN.containers] container type:', container.GET.type(), 'tag:', container.GET.tag());
+						// Show the XSL and XML that failed so you can debug
+						try {
+							console.error('[GEN.containers] XSL:', new XMLSerializer().serializeToString(tXSL));
+							console.error('[GEN.containers] XML:', new XMLSerializer().serializeToString(tXML));
+						} catch(se) {}
 					}
 				});
+			} else {
+				console.warn('[GEN.containers] Transform skipped — tXML:', !!tXML, 'tXSL:', !!tXSL);
 			}
 		}
 	}
