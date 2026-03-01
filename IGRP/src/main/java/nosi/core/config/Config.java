@@ -1,5 +1,6 @@
 package nosi.core.config;
 
+import jakarta.servlet.ServletContext;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -13,9 +14,12 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
-import jakarta.servlet.ServletContext;
+
 import java.io.File;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
 
 public class Config {
 
@@ -23,7 +27,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "2.1.0.260227";
+    public static final String VERSION = "2.1.0.260301";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -31,7 +35,7 @@ public class Config {
         String linkXslLogin = "images/IGRP/IGRP"+"2.3"+"/xsl/IGRP-login.xsl";
         //For Design System Login
         if("ds-beta".equals(ConfigCommonMainConstants.IGRP_LOGIN_TEMPLATE.environmentValue()))
-        		linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login-ds.xsl";
+            linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login-ds.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslLogin;
     }
 
@@ -389,7 +393,7 @@ public class Config {
             RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
 
             Action ac = new Action();
-            if (Core.isNotNull(runtimeTask)) {
+            if (!"igrp".equals(app) && Core.isNotNull(runtimeTask)) {
                 List<Action> actions = new Action().find()
                         .andWhere("application.dad", "=", runtimeTask.getTask().getTenantId())
                         .andWhere("page", "=", Page.resolvePageName(page))
@@ -438,14 +442,14 @@ public class Config {
         String linkHome = headerConfig.getLinkHome();
         XMLWritter xml = new XMLWritter();
         xml.setElement("ispublic", Core.getCurrentUser()!=null?0:1); // Page used without a user with login
-        
+
         xml.setElement("template", app.getTemplate(page != null ? page.getVersion() : Config.DEFAULT_V_PAGE));
         xml.setElement("title", Core.getSwitchNotNullValue(title, headerConfig.getTitle()));
         xml.setElement("description", Core.getSwitchNotNullValue(description, ""));
         String logo="default-neg.svg";
         if(Core.isNotNull(app.getImg_src()) && !app.getImg_src().equals("default.svg"))
-        	logo=app.getImg_src();
-        
+            logo=app.getImg_src();
+
         xml.setElement("logo",  (app.getExternal()==2?getLinkImg("2.3","/"+app.getUrl()+"/"):getLinkImg("2.3"))+"/assets/img/iconApp/"+logo); //external 2 is custom host
 
         xml.setElement("version", VERSION);
@@ -504,7 +508,7 @@ public class Config {
         return xml.toString();
     }
 
-//NOT used in igrp framework but can be used in some code. TODO: be reviewed
+    //NOT used in igrp framework but can be used in some code. TODO: be reviewed
     public String getPackageProcess(String app, String processId, String taskName) {
         return "nosi.webapps." + app.toLowerCase() + ".process." + processId.toLowerCase() + "." + taskName + "Controller";
     }

@@ -99,19 +99,6 @@
     </xsl:if>
 
   </xsl:template>
-
-  <xsl:template name="setlinktarget">
-    <xsl:param name="target" select="'_blank'"/>
-    <xsl:attribute name="target">
-      <xsl:choose>
-        <xsl:when test="$target = 'mcparent' or $target = 'modalpopup'">modal</xsl:when>
-        <xsl:otherwise><xsl:value-of select="$target"/></xsl:otherwise>
-      </xsl:choose>
-    </xsl:attribute>
-    <xsl:if test="$target = 'mcparent'">
-      <xsl:attribute name="close">refresh</xsl:attribute>
-    </xsl:if>
-  </xsl:template>
   
   <xsl:include href="components/2.1/GEN-formfields.tmpl.xsl?v=1463090556312"/>
 

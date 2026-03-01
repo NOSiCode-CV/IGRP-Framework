@@ -681,9 +681,27 @@
 					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
 
 					let val2 = Function('"use strict"; return (' + str + ')')();
-					if (isNaN(val2) || !isFinite(val2)) {
+					// Handle invalid calculation results
+					const isValid = !isNaN(val2) && isFinite(val2);
+
+					if (!isValid) {
 						console.warn("Invalid calculation result:", str);
-					}else{
+
+						// Set clean empty values and skip number formatting
+						p.val = '';
+						p.formatVal = '';
+
+						if (p.isTable) {
+							$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val('');
+						}
+
+						p.field.val('').trigger('change').trigger('calculation-result', [p]);
+						$(document).trigger('field:calculation', [p]);
+
+						return; // Exit early to avoid number formatting
+					}
+
+					// Only process valid numbers
 						p.val = val2;
 
 						val2 = $.IGRP.utils.numberFormat({
@@ -699,11 +717,13 @@
 						p.field.val(val2).trigger('change').trigger('calculation-result', [p]);
 
 						$(document).trigger('field:calculation', [p]);
-					}
-
 
 				} catch (error) {
 					console.log('runMathcal', error);
+					// Set clean empty values on error
+					p.val = '';
+					p.formatVal = '';
+					p.field.val('').trigger('change');
 				}
 			},
 
@@ -1536,13 +1556,16 @@
 					const xslURL = $.IGRP.utils.getXMLStylesheet(responseText);
 
 					if (xslURL) {
-						$.IGRP.utils.xsl.transform({
+							$.IGRP.utils.xsl.transform({
 							xsl    : xslURL,
 							xml    : xml,
 							nodes  : options.nodes,
 							success: options.success,
 							error  : options.error
 						});
+						});// HTML response — GEN builder doesn't need this;
+						// add ir_cf=xml to the request URL so the server returns raw XML
+						console.warn('[GEN.controller] Got HTML instead of XML — add ir_cf=xml to this request URL');
 						return;
 					}
 
@@ -1685,3 +1708,5 @@
 	});
 
 }($));
+
+
