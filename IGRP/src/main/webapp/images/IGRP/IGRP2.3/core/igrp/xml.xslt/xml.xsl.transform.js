@@ -330,7 +330,7 @@ $.fn.XMLTransform = function(params) {
 	var Transform = function(){
 
 		// ── Use native XSLTProcessor while it exists ────────────────────────────
-		if (false && typeof XSLTProcessor !== 'undefined') {
+		if (typeof XSLTProcessor !== 'undefined') {
 
 			try {
 				var xsltProcessor = new XSLTProcessor();
