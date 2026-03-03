@@ -128,13 +128,19 @@ const GENERATOR = function (genparams) {
         const bodyEnd = rtn.indexOf('</body>');
 
         if (GEN.jsEditor.getValue()) {
-            const jsContent = GEN.jsEditor.getValue();
+            // First decode any HTML entities from the stored content
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = GEN.jsEditor.getValue();
+            const jsContent = textarea.value;
 
             const bytes = new TextEncoder().encode(jsContent);
-            const binary = String.fromCharCode(...bytes);
+            let binary = '';
+            for (let i = 0; i < bytes.length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
             const encoded = btoa(binary);
 
-            const loader = `var __js=document.createElement('script');__js.textContent=new TextDecoder().decode(Uint8Array.from(atob('${encoded}'),c=>c.charCodeAt(0)));document.head.appendChild(__js);`;
+            const loader = `var __js=document.createElement('script');__js.textContent=new TextDecoder().decode(Uint8Array.from(atob('${encoded}'),function(c){return c.charCodeAt(0);}));document.head.appendChild(__js);`;
 
             rtn = rtn.insert(bodyEnd, '<script>' + loader + '<\/script>');
         }
