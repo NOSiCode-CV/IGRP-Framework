@@ -1576,23 +1576,27 @@
 		 * @param {Object}        options   - opções originais de transformXMLNodes
 		 */
 		function _applyHtmlNodes(response, options) {
-
 			const html = typeof response === 'string'
 				? response
 				: (new XMLSerializer()).serializeToString(response);
-
 			if (!html) {
 				console.warn('[transformXMLNodes] Resposta vazia, nenhum nó substituído.');
 				if (options.error) options.error({ message: 'Empty response' });
 				return;
 			}
-
 			const $doc = $('<div>').append($.parseHTML(html, document, true));
 
 			options.nodes.forEach(function(nodeName) {
+				// ── Try container first, then fall back to any [item-name] element ──
+				let $new = $doc.find('.gen-container-item[item-name="' + nodeName + '"]').first();
+				let $current = $('.gen-container-item[item-name="' + nodeName + '"]');
 
-				const $new = $doc.find('.gen-container-item[item-name="' + nodeName + '"]').first();
-				const $current = $('.gen-container-item[item-name="' + nodeName + '"]');
+				if (!$new[0]) {
+					$new = $doc.find('[item-name="' + nodeName + '"]').first();
+				}
+				if (!$current[0]) {
+					$current = $('[item-name="' + nodeName + '"]');
+				}
 
 				if (!$new[0]) {
 					console.warn('[transformXMLNodes] Nó não encontrado na resposta:', nodeName);
@@ -1600,20 +1604,18 @@
 						message : '[transformXMLNodes] Componente "' + nodeName + '" não encontrado na resposta do servidor.',
 						type    : 'warning'
 					});
+					return; // skip this node
 				}
 
 				// ── Fire before-element-transform BEFORE replaceWith ─────────────────
-				// Allows igrp.table.js to destroy DataTables while node is still in DOM
 				$.IGRP.events.execute('before-element-transform', {
 					itemName : nodeName
 				});
 
 				const oldStyle = $current.attr('style') || '';
-
 				if ($current[0]) {
 					$current.replaceWith($new);
 				}
-
 				if (oldStyle) {
 					$new.attr('style', (oldStyle + ' ' + ($new.attr('style') || '')).trim());
 				}
@@ -1624,14 +1626,13 @@
 					e.events.declare(['before-' + target, 'success-' + target, 'after-' + target]);
 				});
 
-				// ── Wait for DOM to settle before reinitializing ──────────────────
-				// mirrors the setTimeout(150) pattern in xml.xsl.transform.js setContent()
-
-
-				$.IGRP.utils.refreshComponents({
-					wrapper  : $new,
-					itemName : nodeName
-				});
+				// ── Only reinitialize if it's a container node ───────────────────────
+				if ($new.hasClass('gen-container-item')) {
+					$.IGRP.utils.refreshComponents({
+						wrapper  : $new,
+						itemName : nodeName
+					});
+				}
 
 				$.IGRP.events.execute('element-transform', {
 					content  : $new,
@@ -1644,8 +1645,6 @@
 						itemHTML : $new
 					});
 				}
-
-
 			});
 		}
 
