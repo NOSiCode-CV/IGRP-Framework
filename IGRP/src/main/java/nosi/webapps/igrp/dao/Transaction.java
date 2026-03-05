@@ -124,7 +124,7 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
         final Integer currentAppId = Core.getCurrentAppId();
         final User currentUser = Core.getCurrentUser();
     	
-        Transaction t= new Transaction().find().keepConnection()
+        Transaction t= new Transaction().find()
 				.where("code","=",transaction)				
 				.one();
 		if(t==null)

@@ -6,6 +6,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.security.Permission;
 
 /**
  * @author Marcel Iekiny 
@@ -21,6 +22,7 @@ public class ThreadLocalFilter implements Filter {
 	        chain.doFilter(request, response);
 	      } finally {
 	    	  Igrp.remove();
+			  Permission.clearCache();
 	      }
 	}
 
