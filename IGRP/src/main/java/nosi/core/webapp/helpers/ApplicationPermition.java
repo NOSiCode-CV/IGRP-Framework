@@ -1,9 +1,12 @@
 package nosi.core.webapp.helpers;
+
+import java.io.Serializable;
+
 /**
  * Emanuel
  * 19 Oct 2018
  */
-public class ApplicationPermition {
+public class ApplicationPermition implements Serializable {
 
 	private Integer appId = 1;
 	private String dad = "igrp";
