@@ -1,11 +1,12 @@
 package nosi.webapps.igrp.pages.page;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
 /**
  * Emanuel
@@ -19,41 +20,53 @@ public class PageFile {
 	private String fileModel;
 	private String fileView;
 	private String fileController;
-	
+
 	public PageFile() {
 		try {
-			Part fileXml = Core.getFile("p_page_xml");
-			Part fileJson = Core.getFile("p_data");
-			Part fileXsl = Core.getFile("p_page_xsl");
-			Part fileModel = Core.getFile("p_model");
-			Part fileView = Core.getFile("p_view");
-			Part fileController = Core.getFile("p_controller");
-			
-			if(fileXml!=null) {
-				this.setFileXml(FileHelper.convertToString(fileXml.getInputStream()));
-				fileXml.delete();
+			Part xmlPart = Core.getFile("p_page_xml");
+			Part dataPart = Core.getFile("p_data");
+			Part xslPart = Core.getFile("p_page_xsl");
+			Part modelPart = Core.getFile("p_model");
+			Part viewFile = Core.getFile("p_view");
+			Part controllerPart = Core.getFile("p_controller");
+
+			if(xmlPart!=null) {
+				this.setFileXml(FileHelper.convertToString(xmlPart.getInputStream()));
+            }
+			if(dataPart!=null) {
+				this.setFileJson(FileHelper.convertToString(dataPart.getInputStream()));
 			}
-			if(fileJson!=null) {
-				this.setFileJson(FileHelper.convertToString(fileJson.getInputStream()));
-				fileJson.delete();
+			if(xslPart!=null) {
+				this.setFileXsl(FileHelper.convertToString(xslPart.getInputStream()));
 			}
-			if(fileXsl!=null) {
-				this.setFileXsl(FileHelper.convertToString(fileXsl.getInputStream()));
-				fileXsl.delete();
+			if(modelPart!=null) {
+				this.setFileModel(FileHelper.convertToString(modelPart.getInputStream()));
 			}
-			if(fileModel!=null) {
-				this.setFileModel(FileHelper.convertToString(fileModel.getInputStream()));
-				fileModel.delete();
+			if(viewFile!=null) {
+				this.setFileView(FileHelper.convertToString(viewFile.getInputStream()));
 			}
-			if(fileView!=null) {
-				this.setFileView(FileHelper.convertToString(fileView.getInputStream()));
-				fileView.delete();
+			if(controllerPart!=null) {
+				this.setFileController(FileHelper.convertToString(controllerPart.getInputStream()));
 			}
-			if(fileController!=null) {
-				this.setFileController(FileHelper.convertToString(fileController.getInputStream()));
-				fileController.delete();
-			}
-		} catch (IOException | ServletException e) {
+            if (xmlPart != null) {
+                xmlPart.delete();
+            }
+            if (dataPart != null) {
+                dataPart.delete();
+            }
+            if (xslPart != null) {
+                xslPart.delete();
+            }
+            if (modelPart != null) {
+                modelPart.delete();
+            }
+            if (viewFile != null) {
+                viewFile.delete();
+            }
+            if (controllerPart != null) {
+                controllerPart.delete();
+            }
+        } catch (IOException | ServletException | UncheckedIOException e ) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

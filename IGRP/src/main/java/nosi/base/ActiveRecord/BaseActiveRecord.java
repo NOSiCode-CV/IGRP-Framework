@@ -1067,7 +1067,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 		}catch (Exception e) {
 			this.keepConnection = false;
-			if (transaction != null) {
+			if (transaction != null && transaction.isActive()) {
 				transaction.rollback();
 			}
 			this.setError(e);
@@ -1093,7 +1093,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 		}catch (Exception e) {
 			this.keepConnection = false;
-			if (transaction != null) {
+			if (transaction != null && transaction.isActive()) {
 				transaction.rollback();
 			}
 			this.setError(e);
@@ -1119,7 +1119,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 		}catch (Exception e) {
 			this.keepConnection = false;
-			if (transaction != null) {
+			if (transaction != null && transaction.isActive()) {
 				transaction.rollback();
 			}
 			this.setError(e);
@@ -1149,7 +1149,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 		}catch (Exception e) {
 			this.keepConnection = false;
-			if (transaction != null) {
+			if (transaction != null && transaction.isActive()) {
 				transaction.rollback();
 			}
 			this.setError(e);
@@ -1266,7 +1266,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}catch (Exception e) {
 			if(!(e instanceof NoResultException)) {
 				this.keepConnection = false;
-				if (transaction != null) {
+				if (transaction != null && transaction.isActive()) {
 					transaction.rollback();
 				}
 				this.setError(e);
