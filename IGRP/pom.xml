@@ -46,8 +46,8 @@
 
 
         <!-- TomEE Embedded Maven Plugin -->
-        <tomee.version>10.1.3</tomee.version>
-        <tomee.maven.plugin.version>10.1.3</tomee.maven.plugin.version>
+        <tomee.version>10.1.4</tomee.version>
+        <tomee.maven.plugin.version>10.1.4</tomee.maven.plugin.version>
 
         <tomee.classifier>plus</tomee.classifier>
 

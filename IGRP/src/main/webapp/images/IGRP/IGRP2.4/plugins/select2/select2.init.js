@@ -67,9 +67,9 @@
                 if (select.is('[item-value]'))
                     select.val(select.attr('item-value').split(','));
 
-//                com.select2Init({
-//                    field: select
-//                });
+                com.select2Init({
+                    field: select
+                });
 
                 //select.select2();
 
@@ -266,10 +266,12 @@
 
             var select = $('.select2', parent);
 
-//            select.each(function (i, e) {
-//
-//                com.select2Init({ field: $(e) });
-//            });
+            select.each(function (i, e) {
+
+                console.log("::IN:::")
+
+                com.select2Init({ field: $(e) });
+            });
 
             com.formListConfig(parent);
 
