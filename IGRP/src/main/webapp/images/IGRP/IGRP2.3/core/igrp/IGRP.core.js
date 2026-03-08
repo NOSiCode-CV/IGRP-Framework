@@ -1547,7 +1547,6 @@
 					const xslURL = $.IGRP.utils.getXMLStylesheet(responseText);
 
 					if (xslURL) {
-					console.warn('[GEN.controller] Got HTML instead of XML — add ir_cf=xml to this request URL');
 						$.IGRP.utils.xsl.transform({
 							xsl    : xslURL,
 							xml    : xml,
@@ -1599,11 +1598,11 @@
 				}
 
 				if (!$new[0]) {
-					console.warn('[transformXMLNodes] Nó não encontrado na resposta:', nodeName);
-					$.IGRP.notify({
-						message : '[transformXMLNodes] Componente "' + nodeName + '" não encontrado na resposta do servidor.',
-						type    : 'warning'
-					});
+					console.warn('[transformXMLNodes] Componente não encontrado na resposta do servidor - ', nodeName);
+					// $.IGRP.notify({
+					// 	message : '[transformXMLNodes] Componente "' + nodeName + '" não encontrado na resposta do servidor.',
+					// 	type    : 'warning'
+					// });
 					return; // skip this node
 				}
 
