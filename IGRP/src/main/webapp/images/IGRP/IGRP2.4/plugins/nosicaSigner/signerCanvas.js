@@ -6,17 +6,17 @@ try {
     function markClickPoint(event) {
         const canvas = document.getElementById('canvas_frame');
         const signature = document.getElementById('signature_holder');
-        const rect = canvas.getBoundingClientRect();        
+        const rect = canvas.getBoundingClientRect();
         const signatureWidth = 160;
         const signatureHeight = 80;
-        
+
         const realWidth = canvas.width;
         const realHeight = canvas.height;
 
         const displayWidth = rect.width;
         const displayHeight = rect.height;
 
-            
+
         const scaleX = realWidth / displayWidth;
         const scaleY = realHeight / displayHeight;
 
@@ -29,7 +29,7 @@ try {
         const adjustedY = displayHeight - (clickY / scaleY);
 
         const context = canvas.getContext('2d');
-        
+
         context.strokeStyle = 'red';
         context.lineWidth = 2;
 
@@ -37,19 +37,19 @@ try {
             adjustedX <= displayWidth - signatureWidth   &&
             adjustedY >= signatureHeight  &&
             adjustedY <= displayHeight
-            )
-        {            
+        )
+        {
             console.log('Coordenadas ajustadas do clique:', {
                 x: adjustedX,
                 y: adjustedY,
-                
+
             });
             signature.style.display = `flex`;
             console.log("\n---------------")
 
             signature.style.left = `${adjustedX}px`;
             signature.style.top = `${900 - adjustedY}px`;
-            signature.style.position = `absolute`;     
+            signature.style.position = `absolute`;
             signature.style.border = `1px solid black`;
             console.log("signature",signature)
 

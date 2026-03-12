@@ -130,17 +130,17 @@
                                 <canvas id="canvas_frame" class="pdfCanvas" style="border:1px solid black;height: 750px;width: 600px;"></canvas>  
                                 <div id="signature_holder" style="display:none;height:80px;width:160px;position:relative;border:1px solid;background-color: rgba(104, 97, 97, 0.568);color:black">
                                     <h3>
-                                        Teste Assinatura
+                                      X_______
                                     </h3>
-                                    <h4>
-                                        sign
-                                    </h4>
+                                    <h6>Assinatura</h6>
+
                                 </div>
     
                             </div>
                     </div>
                 </div> 
                 <script>
+                (function() {
                     const fileInput = document.getElementById('p_nosicasigner_file');
                     let canvas  = document.getElementById('canvas_frame');
                     const context = canvas.getContext('2d');
@@ -233,10 +233,11 @@
                     document.addEventListener('click', function (event) {
                         markClickPoint(event);
                     });
-
+                    window.loadSignedPDF = loadSignedPDF;
+                })();
                 </script>
                 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>`;
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>`;
             }
         },
 

@@ -1,18 +1,20 @@
-(function () {
+(function(){
+
 
     //open select on TAB click
     $(document).on('focusin', '[item-type="select"]>.select2-container:not(.select2-container--disabled)', function (e) {
 
-        var container = this;
+        const container = this;
 
         if (e.originalEvent) {
 
-            if (!$(container).is('.select2-container--open'))
-                setTimeout(function () {
+            if(!$(container).is('.select2-container--open'))
+                setTimeout(function(){
                     $(container).siblings('select').select2('open');
-                }, 150)
+                },150)
 
             e.stopPropagation();
+
         }
 
         return false;
@@ -21,30 +23,29 @@
 
     $(document).on('formlist:fields-draw', function (e, element) {
 
-        $.IGRP.components.select2.init(element);
+        $.IGRP.components.select2.init( element );
 
         return false;
 
     });
 
-    var com = $.IGRP.component('select2', {
+    let com = $.IGRP.component('select2', {
 
         setOptions: function (o) {
 
-            var select = o.select;
+            const select = o.select;
 
             if (select[0]) {
 
-                var isRules = o.isRules ? true : false,
-                    isChange = select.hasClass('IGRP_change') || select.attr('change') == true || isRules;
+                const isRules = !!o.isRules,
+                    isChange = select.hasClass('IGRP_change') || select.attr('change') === true || isRules;
 
                 $("option", select).remove();
 
                 try {
-
-                    if (select.data('select2')) {
-                        select.select2("destroy");
-                    }
+                    const toDestroy = select.filter('select.select2-hidden-accessible');
+                    if (toDestroy.length)
+                        toDestroy.select2("destroy");
 
                 } catch (err) {
 
@@ -54,10 +55,9 @@
 
                 o.options.forEach(function (op) {
 
-                    var option = new Option(op.text, op.value);
+                    const option = new Option(op.text, op.value);
 
                     if (op.selected)
-
                         option.selected = true;
 
                     select.append(option);
@@ -82,15 +82,14 @@
             //multiple select submit
             //var mSelects = $(formlist).find('>tbody>tr>td select.select2');
 
-            var triggerEv = function (e) {
+            const triggerEv = function (e) {
 
-                var sel = $(e.target),
+                const sel = $(e.target),
 
                     rel = sel.attr('input-rel'),
 
-                    valArr = sel.val(),
-
-                    valStr = valArr ? valArr : '',
+                    valArr = sel.val();
+                let valStr = valArr ? valArr : '',
 
                     textStr = sel.find('option:selected').text(); //textArr ? textArr : ''   ;
 
@@ -100,24 +99,23 @@
                 }
 
 
-                var inputRel = $('[name="' + rel + '"]', sel.parent());
-                var inputRelDesc = $('[name="' + rel + '_desc"]', sel.parent());
+                const inputRel = $('[name="' + rel + '"]', sel.parent());
+                const inputRelDesc = $('[name="' + rel + '_desc"]', sel.parent());
                 inputRel.val(valStr).trigger('change');
                 inputRelDesc.val(textStr).trigger('change');
 
-            }
+            };
 
             $(formlist).on('change', '>tbody>tr>td select.select2', triggerEv);
 
             $(formlist).on('select2:unselect', '>tbody>tr>td select.select2', triggerEv);
 
 
-
         },
 
         formListConfig: function (parent) {
 
-            var select = $('.select2', parent),
+            const select = $('.select2', parent),
 
                 formlist = select.parents('.IGRP_formlist');
 
@@ -157,7 +155,7 @@
 
             $.each(select, function (i, s) {
 
-                var holder = $(s).parent(),
+                const holder = $(s).parent(),
 
                     clearBtn = $('<div class="select2-clear"><i class="fa fa-times"></i></div>').on('click', function () {
 
@@ -173,7 +171,7 @@
 
         select2Init: function (p) {
 
-            var properties = p.properties || {
+            const properties = p.properties || {
                 //allowClear : true,
                 /*placeholder: {
                     id : "",
@@ -183,25 +181,27 @@
 
             const field = p.field;
 
-            if (field.is('[multiple]')) {
-
+            if (field.is('[multiple]'))
                 $('option[value=""]:first', field).remove();
-            }
 
             if (field.is('[tags="true"]')) {
 
                 properties.tags = true;
+
                 field.on('select2:select', function (e, d) {
 
                     if (e.params && e.params.data && !e.params.data.element) {
 
-                        var o = new Option(e.params.data.id, e.params.data.text, true, true);
+                        const o = new Option(e.params.data.id, e.params.data.text, true, true);
 
                         field.find('option[value="' + e.params.data.id + '"]').remove();
 
                         field.append(o).trigger('change');
+
                     }
+
                 });
+
             }
 
             if (field.is('[load_service_data]')) {
@@ -210,7 +210,7 @@
 
                 let initValue = field.attr('item-value');
 
-                if (url && url !== undefined) {
+                if (url) {
                     properties.ajax = {
                         url: url,
                         dataType: 'json',
@@ -230,7 +230,7 @@
                     }
                 }
 
-                if (initValue && initValue !== undefined) {
+                if (initValue) {
 
                     let descInitValue = field.attr('item-value-desc');
 
@@ -248,7 +248,7 @@
 
                             element.append(option);
 
-                            data.push({ id: op, text: text });//Push values to data array
+                            data.push({id: op, text: text});//Push values to data array
 
                         });
 
@@ -257,20 +257,21 @@
                 }
             }
 
+
             p.field.select2(properties);
 
         },
         init: function (parent) {
 
-         //   com = this;
+            com = this;
 
-            var select = $('.select2', parent);
+            const select = $('.select2', parent);
 
             select.each(function (i, e) {
 
-                console.log("::IN:::")
-
-                com.select2Init({ field: $(e) });
+                com.select2Init({
+                    field: $(e)
+                });
             });
 
             com.formListConfig(parent);
