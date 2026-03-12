@@ -7,7 +7,10 @@ package nosi.core.webapp.security;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
 
@@ -27,10 +30,14 @@ import nosi.webapps.igrp.dao.User;
 public class Permission {
 	
 	public static final String ENCODE = "UTF-8"; 
-	public static final int MAX_AGE = 60*60*24;//24h 
+	public static final int MAX_AGE = 60*60*24;//24h
 	
 	private ApplicationPermition applicationPermition; 
-	
+
+
+		private static final String LAST_PROFILE_COOKIE_PREFIX = "igrp_last_prof_";
+	private static final ThreadLocal<Map<String, Boolean>> permissionCache =
+			ThreadLocal.withInitial(HashMap::new);
 	public boolean isPermition(String app, String appP, String page, String action){ // check permission on app 
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
 			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
@@ -47,7 +54,8 @@ public class Permission {
 	}
 	
 	public  boolean isPermission(String transaction){
-		return new Transaction().getPermission(transaction);
+		return permissionCache.get().computeIfAbsent(transaction,
+				key -> new Transaction().getPermission(key));
 	}
 
 	public  void changeOrgAndProfile(String dad){
@@ -158,4 +166,12 @@ public class Permission {
 		return applicationPermition;
 	}
 	
+
+	/**
+	 * Deve ser chamado no final de cada request HTTP (ex: num Filter)
+	 */
+	public static void clearCache() {
+		permissionCache.remove();
+	}
+
 }
