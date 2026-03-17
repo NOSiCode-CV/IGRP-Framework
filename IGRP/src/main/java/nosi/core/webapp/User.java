@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +12,9 @@ import jakarta.servlet.http.HttpServletRequest;
  * @author Marcel Iekiny
  * Apr 18, 2017
  */
-public class User implements Component{
+public class User implements Component, Serializable { // IGRP super model
+	@Serial
+	private static final long serialVersionUID = 5L;
 	
 	private Identity identity;
 	public static final String LOGIN_ROUTE = "igrp/login/login"; 
