@@ -3,6 +3,7 @@ package nosi.webapps.igrp.dao;
   @author: Emanuel Pereira
  * 29 Jun 2017
  */
+import java.io.Serial;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,7 +25,8 @@ public class Session extends IGRPBaseActiveRecord<Session> implements Serializab
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5383008060171825399L;
+	@Serial
+    private static final long serialVersionUID = 5383008060171825399L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

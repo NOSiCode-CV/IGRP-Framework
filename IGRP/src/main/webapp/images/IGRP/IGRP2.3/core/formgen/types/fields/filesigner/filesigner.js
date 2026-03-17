@@ -10,7 +10,10 @@ var FILESIGNER = function(type,params){
 	field.xml.type = 'text';
 
 	field.includes = {
-		js  :[ { path:'/plugins/nosicaSigner/nosicaSigner.js'}]
+		js  :[ 
+			{ path:'/plugins/nosicaSigner/nosicaSigner.js'},
+			{ path:'/plugins/nosicaSigner/signerCanvas.js'}
+		]
 	}
 	
 	field.ready = function(){

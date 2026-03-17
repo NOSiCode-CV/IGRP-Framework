@@ -7,7 +7,7 @@ WebContent/WEB-INF/config/app/
 .DS_Store
 /.classpath
 /.settings/
-.idea/
+/.idea/
 /src/main/java/nosi/webapps/test_app/
 /src/main/webapp/images/IGRP/IGRP2.3/app/test_app/
 /.scannerwork/

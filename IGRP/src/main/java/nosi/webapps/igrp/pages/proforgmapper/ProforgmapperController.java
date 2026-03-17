@@ -156,7 +156,7 @@ public class ProforgmapperController extends Controller {
 			
 		}catch (Exception e) {
 			//e.printStackTrace();
-		if(t != null)
+		if(t != null && t.isActive())
 			t.rollback();
 		} finally {
 			if(this.s != null) 

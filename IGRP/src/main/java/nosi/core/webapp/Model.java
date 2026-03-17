@@ -26,6 +26,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -45,8 +47,9 @@ import static java.util.Optional.ofNullable;
  * 
  * @author Marcel Iekiny Apr 15, 2017
  */
-public abstract class Model { // IGRP super model
-
+public abstract class Model implements Serializable { // IGRP super model
+	@Serial
+    private static final long serialVersionUID = 3L;
 	public static final String ATTRIBUTE_NAME_REQUEST = "model";
 	private static final String PAIR_TYPE = "nosi.core.gui.components.IGRPSeparatorList$Pair";
 	private static final String FILE_TYPE = "nosi.core.webapp.uploadfile.UploadFile";

@@ -162,7 +162,7 @@
 		
 		<xsl:value-of select="$newlineTab2"></xsl:value-of>
 		
-		<xsl:text>if (transaction != null)</xsl:text>
+		<xsl:text>if (transaction != null &amp;&amp; transaction.isActive())</xsl:text>
 		
 		<xsl:value-of select="$newlineTab3"></xsl:value-of>
 		

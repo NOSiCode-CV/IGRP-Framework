@@ -22,9 +22,13 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
+import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.pages.novomenu.NovoMenuController;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -38,6 +42,7 @@ import javax.persistence.Column;
 @Table(name = "tbl_menu")
 public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(Menu.class);
 	/**
 	 * 
 	 */
@@ -280,80 +285,132 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		return menus_App;
 	}
 
-	public LinkedHashMap<String, List<MenuProfile>> getMyMenu() {
-		LinkedHashMap<String, List<MenuProfile>> list = new LinkedHashMap<>();
-		final String currentDad = Core.getParam("dad",Core.getCurrentDad());
-		final Integer currentOrganization = Core.getCurrentOrganization();
-		final Integer currentProfile = Core.getCurrentProfile();
-		final String deployedWarName = Core.getDeployedWarName();
-		final String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-		final Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
-				.addInt("org_fk", currentOrganization).addInt("prof_type_fk", currentProfile)
-				.addString("dad", currentDad).addInt("status", 1).addInt("org_fk", currentOrganization)
-				.addInt("prof_type_fk", currentProfile).addString("dad", currentDad).addInt("status", 1)
-				.addInt("user_fk", Core.getCurrentUser().getId()).orderByAsc("orderby").getRecordList();
-		if (row.rowList != null) {
-			row.rowList.stream()
-					.filter(r ->{return r.getInt("orderby") != NovoMenuController.INVISIVEL_KEY;})
-					.forEach(r -> {
-				// Get Menu Pai
-				MenuProfile ms = new MenuProfile();
-				ms.setId(r.getInt("id"));
-				ms.setOrder(r.getInt("orderby"));
-				ms.setTitle(r.getString("descr"));
-				ms.setTarget(r.getString("target"));
-				ms.setStatus(r.getShort("status"));
-				ms.setMenu_icon(r.getString("menu_icon"));
-				String linky = r.getString("link");
-				if (linky != null && !linky.trim().isEmpty()) {
-					ms.setType(2);
-					final String currentOrganizationCode = Core.getCurrentOrganizationCode();
-					final String currentProfileCode = Core.getCurrentProfileCode();
-					if (linky.contains("$CONTEXT$"))
-						linky = linky.replace("$CONTEXT$", String.format("%s:%s:%s", currentDad, currentOrganizationCode, currentProfileCode)).replace("$PARAMS$", "");
-					ms.setLink(linky);
-				} else {
-					if (r.getString("page") != null) {
-						String r3Path = r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action");
-						int external = r.getInt("external");
-						String url = r.getString("url");
-						if (external == 0 || deployedWarName.equals(url) || StringUtils.stripStart(Core.getHostName(),":") .equals(StringUtils.stripStart(url,":"))) {
-								if (r.getInt("tipo") == 1) {
-									ms.setType(1);
-									ms.setLink(r3Path + "&dad=" + currentDad + "&isPublic=1&lang="+ (Core.isNull(aux) ? "pt_PT" : aux));
-								}else{
-									ms.setLink(EncrypDecrypt.encrypt(r3Path) + "&dad=" + currentDad);
-								}
-						}else {
-							ms.setType(2); //Will NOT add webapps to the start
-							//Externo
-							if (external == 1) {
-								String _u = String.format("%s?r=%s&dad=%s", url, r3Path,currentDad);
-								ms.setLink(_u);
-							}else
-								// Custom host folder
-								if (external == 2) {
-                                    String _u = buildCustomHostDADUrl(url,
-                                            r.getString("dad_app_page"), r.getString("page"), r.getString("action")) + "&dad=" + currentDad; // Custom Dad
+	public Map<String, List<MenuProfile>> getMyMenu() {
 
-                                    ms.setLink(_u);
-                                }
-						}
+		final String  currentDad          = Core.getParam("dad", Core.getCurrentDad());
 
-					}
-				}
-				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
+		Permission permission = new Permission();
+		ApplicationPermition applicationPermition = null;
 
-				List<MenuProfile> value = new ArrayList<>();
-				value.add(ms);
+		try {
+			applicationPermition = permission.getApplicationPermition();
 
-				if (list.containsKey(r.getString("descr_menu_pai"))) {
-					value.addAll(list.get(r.getString("descr_menu_pai")));
-				}
-				list.put(r.getString("descr_menu_pai"), value);
-			});
+			if (applicationPermition == null && currentDad != null && !currentDad.isBlank()) {
+				applicationPermition = permission.getApplicationPermition(currentDad);
+			}
+		} catch (Exception e) {
+			// Centralized logging – adapt to your logging framework
+			LOGGER.error("Failed to load ApplicationPermition (dad={})", currentDad, e);
 		}
+
+		if (applicationPermition == null) {
+			LOGGER.warn("No ApplicationPermition found (dad={})", currentDad);
+			return new LinkedHashMap<>();
+		}
+		final Integer currentOrganization = applicationPermition.getOgrId();
+		final Integer currentProfile      = applicationPermition.getProfId();
+		final String  deployedWarName     = Core.getDeployedWarName();
+		final String  initLang            = Igrp.getInstance().getServlet().getInitParameter("default_language");
+		final String  lang                = Core.isNull(initLang) ? "pt_PT" : initLang;
+
+		final Record row = Core.query(this.getConnectionName(), sqlMenuByProfile)
+				.union().select(sqlMenuByUser)
+				.addInt("org_fk",       currentOrganization)
+				.addInt("prof_type_fk", currentProfile)
+				.addString("dad",       currentDad)
+				.addInt("status",       1)
+				.addInt("org_fk",       currentOrganization)
+				.addInt("prof_type_fk", currentProfile)
+				.addString("dad",       currentDad)
+				.addInt("status",       1)
+				.addInt("user_fk",      Core.getCurrentUser().getId())
+				.orderByAsc("orderby")
+				.getRecordList();
+
+		if (row.rowList == null) return new LinkedHashMap<>();
+
+		final LinkedHashMap<String, List<MenuProfile>> list = new LinkedHashMap<>();
+
+		// Lazy context token — only computed once, only if a row contains $CONTEXT$
+		final String[] contextToken = {null};
+
+		final String currentOrganizationCode =applicationPermition.getCode_organization();
+		final String currentProfileCode = applicationPermition.getCode_profile();
+		row.rowList.stream()
+				.filter(r -> r.getInt("orderby") != NovoMenuController.INVISIVEL_KEY)
+				.forEach(r -> {
+					final String parentKey = r.getString("descr_menu_pai");
+					final MenuProfile ms   = buildMenuProfile(r, currentDad, deployedWarName, lang, contextToken, currentOrganizationCode, currentProfileCode);
+					list.computeIfAbsent(parentKey, k -> new ArrayList<>()).add(ms);
+				});
+
 		return list;
+	}
+
+	private MenuProfile buildMenuProfile(
+			Record r,
+			String currentDad,
+			String deployedWarName,
+			String lang,
+			String[] contextToken, String currentOrganizationCode, String currentProfileCode) {
+
+		MenuProfile ms = new MenuProfile();
+		ms.setId(r.getInt("id"));
+		ms.setOrder(r.getInt("orderby"));
+		ms.setTitle(r.getString("descr"));
+		ms.setTarget(r.getString("target"));
+		ms.setStatus(r.getShort("status"));
+		ms.setMenu_icon(r.getString("menu_icon"));
+		ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
+
+		String linky = r.getString("link");
+
+		if (linky != null && !linky.trim().isEmpty()) {
+			// ── External custom link ─────────────────────────────────────────
+			ms.setType(2);
+			if (linky.contains("$CONTEXT$")) {
+				if (contextToken[0] == null)
+					contextToken[0] = String.format("%s:%s:%s",
+							currentDad,
+							currentOrganizationCode,
+							currentProfileCode);
+
+				linky = linky.replace("$CONTEXT$", contextToken[0])
+						.replace("$PARAMS$", "");
+			}
+			ms.setLink(linky);
+
+		} else if (r.getString("page") != null) {
+			// ── Internal / external page link ────────────────────────────────
+			final String r3Path   = r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action");
+			final int    external = r.getInt("external");
+			final String url      = r.getString("url");
+			final boolean isSameApp = external == 0
+					|| deployedWarName.equals(url)
+					|| StringUtils.stripStart(Core.getHostName(), ":").equals(StringUtils.stripStart(url, ":"));
+
+			if (isSameApp) {
+				if (r.getInt("tipo") == 1) {
+					ms.setType(1);
+					ms.setLink(r3Path + "&dad=" + currentDad + "&isPublic=1&lang=" + lang);
+				} else {
+					ms.setLink(EncrypDecrypt.encrypt(r3Path) + "&dad=" + currentDad);
+				}
+			} else {
+				ms.setType(2);
+				if (external == 1) {
+					ms.setLink(String.format("%s?r=%s&dad=%s", url, r3Path, currentDad));
+				} else if (external == 2) {
+					ms.setLink(buildCustomHostDADUrl(url,
+							r.getString("dad_app_page"),
+							r.getString("page"),
+							r.getString("action"))
+							+ "&dad=" + currentDad);
+				}
+			}
+		}
+
+		return ms;
 	}
 
 	public Map<Integer, String> getListPrincipalMenus() {

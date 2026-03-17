@@ -421,6 +421,7 @@ public class PageController extends Controller {
 				 FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
 						new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
 				 boolean r;
+				Controller.invalidateXslCache("/images/IGRP/IGRP"+ac.getVersion()+"/app/"+ac.getXsl_src());
 				if (ac.getIsComponent() == 0) {
 					List<String> expectedJavaSourceCode = new ArrayList<>();
 					if(pageFile.getFileModel() != null)

@@ -8,6 +8,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +38,8 @@ public class Permission {
 	private static final String SESSION_PERM_PREFIX = "APP_PERM";
 	// Cookie do último perfil escolhido (por DAD)
 	private static final String LAST_PROFILE_COOKIE_PREFIX = "igrp_last_prof_";
-
+	private static final ThreadLocal<Map<String, Boolean>> permissionCache =
+			ThreadLocal.withInitial(HashMap::new);
 	// DTO estável para serialização do cookie de último perfil
 	public static class LastProfileDTO {
 		private Integer appId;
@@ -228,10 +231,12 @@ public class Permission {
 		System.err.println("Permission.hasMenuPagPermition: not authenticated");
 		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
-	
-	public  boolean isPermission(String transaction){
-		return new Transaction().getPermission(transaction);
+
+	public boolean isPermission(String transaction) {
+		return permissionCache.get().computeIfAbsent(transaction,
+				key -> new Transaction().getPermission(key));
 	}
+
 
 	public  void changeOrgAndProfile(String dad){
         final User currentUser = Core.getCurrentUser();
@@ -351,13 +356,13 @@ public class Permission {
         if(Core.isNull(dad))
             return null;
 		// 1) Sessão (preferido)
-		ApplicationPermition applicationPermition = this.getSessionPerm(dad);
+		ApplicationPermition appPermition = this.getSessionPerm(dad);
         // 2) Validar acesso
-		if (applicationPermition == null || applicationPermition.getAppId() == null || !new Application().getPermissionApp(applicationPermition.getAppId(), Core.getCurrentUser().getId())) {
-    changeOrgAndProfile(dad);
-    applicationPermition = getApplicationPermition(dad);
-}
-		return applicationPermition;
+		if (appPermition == null || appPermition.getAppId() == null || !new Application().getPermissionApp(appPermition.getAppId(), Core.getCurrentUser().getId())) {
+			changeOrgAndProfile(dad);
+			appPermition = getApplicationPermition(dad);
+		}
+		return appPermition;
 	}
 	
 	public ApplicationPermition getApplicationPermition(String dad) {
@@ -399,6 +404,14 @@ public class Permission {
 	
 	public ApplicationPermition getApplicationPermitionBeforeCookie() {
 		return applicationPermition;
+	}
+
+
+	/**
+	 * Deve ser chamado no final de cada request HTTP (ex: num Filter)
+	 */
+	public static void clearCache() {
+		permissionCache.remove();
 	}
 	
 }

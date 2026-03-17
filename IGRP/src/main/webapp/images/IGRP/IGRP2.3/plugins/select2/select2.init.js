@@ -4,7 +4,7 @@
     //open select on TAB click
     $(document).on('focusin', '[item-type="select"]>.select2-container:not(.select2-container--disabled)', function (e) {
 
-        var container = this;
+        const container = this;
 
         if (e.originalEvent) {
 
@@ -29,140 +29,136 @@
  
     });
 
-    var com = $.IGRP.component('select2',{
-     
-        setOptions:function(o){
-        
-            var select = o.select;
-           
-            if(select[0]){
+    let com = $.IGRP.component('select2', {
 
-                var isRules  = o.isRules ? true : false,
-                    isChange = select.hasClass('IGRP_change') || select.attr('change') == true || isRules;
+        setOptions: function (o) {
 
-                $("option",select).remove();
+            const select = o.select;
 
-                try{
+            if (select[0]) {
 
-                    if(select.data('select2'))
+                const isRules = !!o.isRules,
+                    isChange = select.hasClass('IGRP_change') || select.attr('change') === true || isRules;
 
-                        select.select2("destroy");
-                                            
-                }catch(err){
+                $("option", select).remove();
+
+                try {
+                    const toDestroy = select.filter('select.select2-hidden-accessible');
+                    if (toDestroy.length)
+                        toDestroy.select2("destroy");
+
+                } catch (err) {
 
                     console.log(err)
 
                 }
 
-                o.options.forEach(function(op){
-              
-                    var option = new Option(op.text,op.value);
+                o.options.forEach(function (op) {
 
-                    if(op.selected)
-                    	
+                    const option = new Option(op.text, op.value);
+
+                    if (op.selected)
                         option.selected = true;
 
                     select.append(option);
 
                 });
-                
-                if(select.is('[item-value]'))
+
+                if (select.is('[item-value]'))
                     select.val(select.attr('item-value').split(','));
 
                 com.select2Init({
-                    field : select
+                    field: select
                 });
 
                 //select.select2();
 
-                if(isChange)
+                if (isChange)
                     select.trigger('change');
             }
         },
 
-        formListSubmit:function(formlist){
+        formListSubmit: function (formlist) {
             //multiple select submit
             //var mSelects = $(formlist).find('>tbody>tr>td select.select2');
 
-            var triggerEv = function(e){
-  
-                var sel    = $(e.target),
+            const triggerEv = function (e) {
 
-                    rel    = sel.attr('input-rel'),
+                const sel = $(e.target),
 
-                    valArr = sel.val(),
-                        
-                    valStr = valArr ? valArr : '',
-                        
-                    textStr = sel.find('option:selected').text() ; //textArr ? textArr : ''   ;
+                    rel = sel.attr('input-rel'),
 
-                if (sel.attr('multiple')){
-                        valStr = valArr ? valArr.join(';') : '';
-                        textStr = ''; //textArr ? textArr.join(';') : '';
+                    valArr = sel.val();
+                let valStr = valArr ? valArr : '',
+
+                    textStr = sel.find('option:selected').text(); //textArr ? textArr : ''   ;
+
+                if (sel.attr('multiple')) {
+                    valStr = valArr ? valArr.join(';') : '';
+                    textStr = ''; //textArr ? textArr.join(';') : '';
                 }
-                    
 
-                var inputRel = $('[name="'+rel+'"]',sel.parent());
-                var inputRelDesc = $('[name="'+rel+'_desc"]',sel.parent());
+
+                const inputRel = $('[name="' + rel + '"]', sel.parent());
+                const inputRelDesc = $('[name="' + rel + '_desc"]', sel.parent());
                 inputRel.val(valStr).trigger('change');
                 inputRelDesc.val(textStr).trigger('change');
 
-            }
+            };
 
-            $(formlist).on('change', '>tbody>tr>td select.select2', triggerEv );
+            $(formlist).on('change', '>tbody>tr>td select.select2', triggerEv);
 
-            $(formlist).on('select2:unselect', '>tbody>tr>td select.select2', triggerEv ); 
+            $(formlist).on('select2:unselect', '>tbody>tr>td select.select2', triggerEv);
 
 
-            
         },
-       
-        formListConfig:function(parent){
 
-            var select   = $('.select2',parent),
-            
+        formListConfig: function (parent) {
+
+            const select = $('.select2', parent),
+
                 formlist = select.parents('.IGRP_formlist');
-            
-            if(formlist[0]){
 
-                $.each(formlist,function(i,fl){
+            if (formlist[0]) {
+
+                $.each(formlist, function (i, fl) {
 
                     com.formListSubmit(fl);
 
-                    fl.events.on('row-add',function(row){
+                    fl.events.on('row-add', function (row) {
 
-                        $('.select2-container',row).remove();
+                        $('.select2-container', row).remove();
 
-                        $('.select2',row).select2();
+                        $('.select2', row).select2();
 
-                    },true);
+                    }, true);
 
-                    fl.events.on('row-clone',function(row){
+                    fl.events.on('row-clone', function (row) {
 
                         //console.log(row);
 
-                    },true);
+                    }, true);
 
-                    fl.events.on('fields-draw',function(row){
+                    fl.events.on('fields-draw', function (row) {
 
                         //console.log(row)
                         //console.log(row);
 
 
-                    },true);
+                    }, true);
 
                 });
             }
         },
 
-        setClear : function(select){
+        setClear: function (select) {
 
-            $.each(select,function(i,s){
+            $.each(select, function (i, s) {
 
-                var holder   = $(s).parent(),
+                const holder = $(s).parent(),
 
-                    clearBtn = $('<div class="select2-clear"><i class="fa fa-times"></i></div>').on('click',function(){
-                  
+                    clearBtn = $('<div class="select2-clear"><i class="fa fa-times"></i></div>').on('click', function () {
+
                         $(s).select2('val', '');
 
                     });
@@ -173,9 +169,9 @@
             });
         },
 
-        select2Init : function(p){
+        select2Init: function (p) {
 
-            var properties = p.properties || {
+            const properties = p.properties || {
                 //allowClear : true,
                 /*placeholder: {
                     id : "",
@@ -184,37 +180,37 @@
             };
 
             const field = p.field;
-            
-            if(field.is('[multiple]'))
-                $('option[value=""]:first',field).remove();
 
-            if (field.is('[tags="true"]')){
-            	
-            	properties.tags = true;
+            if (field.is('[multiple]'))
+                $('option[value=""]:first', field).remove();
 
-            	field.on('select2:select', function(e,d){
-            		
-            		if(e.params && e.params.data && !e.params.data.element){
-            			
-            			var o = new Option(e.params.data.id, e.params.data.text, true, true );
-            			
-            			field.find('option[value="'+e.params.data.id+'"]').remove();
-            			
-            			field.append(o).trigger('change');
-            			
-            		}
-            		
-            	});
-            	
+            if (field.is('[tags="true"]')) {
+
+                properties.tags = true;
+
+                field.on('select2:select', function (e, d) {
+
+                    if (e.params && e.params.data && !e.params.data.element) {
+
+                        const o = new Option(e.params.data.id, e.params.data.text, true, true);
+
+                        field.find('option[value="' + e.params.data.id + '"]').remove();
+
+                        field.append(o).trigger('change');
+
+                    }
+
+                });
+
             }
 
-            if(field.is('[load_service_data]')){
-               
-                const url       = field.attr('load_service_data');
-                    
-                let initValue   = field.attr('item-value');
+            if (field.is('[load_service_data]')) {
 
-                if(url && url !== undefined){
+                const url = field.attr('load_service_data');
+
+                let initValue = field.attr('item-value');
+
+                if (url) {
                     properties.ajax = {
                         url: url,
                         dataType: 'json',
@@ -234,7 +230,7 @@
                     }
                 }
 
-                if(initValue && initValue !== undefined){
+                if (initValue) {
 
                     let descInitValue = field.attr('item-value-desc');
 
@@ -243,19 +239,19 @@
                         initValue = initValue.split(',');
 
                         descInitValue = descInitValue.split(',');
-                        
+
                         let data = [];//Array
 
-                        initValue.forEach(function(op,idx){
+                        initValue.forEach(function (op, idx) {
                             const text = descInitValue[idx],
-                                option = new Option(op,text);
-        
+                                option = new Option(op, text);
+
                             element.append(option);
 
                             data.push({id: op, text: text});//Push values to data array
-        
-                        });                
-                
+
+                        });
+
                         callback(data); //Fill'em
                     }
                 }
@@ -265,34 +261,34 @@
             p.field.select2(properties);
 
         },
-        init:function(parent){
-           
+        init: function (parent) {
+
             com = this;
 
-            var select   = $('.select2',parent);
+            const select = $('.select2', parent);
 
-            select.each(function(i,e){
+            select.each(function (i, e) {
 
                 com.select2Init({
-                    field : $(e)
+                    field: $(e)
                 });
             });
 
             com.formListConfig(parent);
 
-            $.IGRP.on('js-change-success',function(o){
-            
-              com.init( o.itemHTML );
+            $.IGRP.on('js-change-success', function (o) {
+
+                com.init(o.itemHTML);
 
             });
-            
-            $(document).on('formlist:init', function(o,e){
-                if($('body[app]')[0]){
-                	com.init( $(e) );
-		        }
+
+            $(document).on('formlist:init', function (o, e) {
+                if ($('body[app]')[0]) {
+                    com.init($(e));
+                }
             });
         }
 
-    },true);
+    }, true);
 
 })();

@@ -71,7 +71,7 @@ var SELECTFIELD = function (type, params) {
             const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
             
             $.IGRP.components.select2.init(field.parent.holder);
-
+         //  $(inputs).attr('id').select2();
 
         }, true);
     }

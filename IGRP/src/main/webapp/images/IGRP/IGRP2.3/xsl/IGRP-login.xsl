@@ -11,7 +11,7 @@
       <head>
         <TITLE>IGRP - Login</TITLE>
         <xsl:call-template name="IGRP-head"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'"/>
         <style>
           
         </style>

@@ -336,7 +336,7 @@
 	    		<xsl:when test="$type='email'">
 	    			<xsl:value-of select="'EmailField'" />
 	    		</xsl:when>
-	    		<xsl:when test="$type='select'">
+	    		<xsl:when test="$type='select' or $type='select2' or $type='select_choices'">
 	    			<xsl:value-of select="'ListField'" />
 	    		</xsl:when>
 	    		<xsl:when test="$type='image'">

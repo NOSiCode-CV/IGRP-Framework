@@ -1,10 +1,10 @@
 .IGRP-separatorlist tr.row-active{
-	display: none;;
+	display: none;
 }
 
 .IGRP-separatorlist > .box-table-contents{
 	padding-top: 0;
-	overflow-x: visible;
+	overflow-x: auto;
     overflow-y: inherit;
 }
 

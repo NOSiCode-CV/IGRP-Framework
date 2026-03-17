@@ -83,7 +83,7 @@ function IGRP_h_calendarInit(pObj){
 			getViewCalendar();
 			var vUrl = pObj.pUrlEvents?pObj.pUrlEvents:window.location.href;
 			$.ajax({
-				url:vUrl,
+				url:vUrl+'&ir_cf=xml',
 				data:vObjForm.serializeArray(),
 				type  :"POST",
 				method:"POST",

@@ -21,6 +21,7 @@ import jakarta.mail.util.ByteArrayDataSource;
 import nosi.core.config.ConfigCommonMainConstants;
 
 import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -179,6 +180,10 @@ public class EmailMessage {
            }
 
            checkNSetupCredencials();
+			if(Core.isNullMultiple(authUsername,authPassword)){
+				LOG.error("No username and/or password to send email ...");
+				return false;
+			}
 
 			// Get the default Session object.
 			Session session = Session.getInstance(this.settings,

@@ -2,6 +2,7 @@ package nosi.core.webapp;
 
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,13 +29,17 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
@@ -43,6 +48,10 @@ import java.lang.reflect.Parameter;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -64,6 +73,8 @@ public class Controller {
     private Response responseWrapper;
     private String qs = "";
 
+    private static final Pattern XML_STYLESHEET_HREF =
+            Pattern.compile("<\\?xml-stylesheet\\s+[^>]*href\\s*=\\s*\"([^\"]+)\"[^>]*\\?>", Pattern.CASE_INSENSITIVE);
 
 
     public Response getResponseWrapper() {
@@ -329,6 +340,8 @@ public class Controller {
     }
 
     private Response redirect_(String url) {
+        if("xml".equals(Core.getParam("ir_cf")))
+            url+="&ir_cf=xml";
         Response resp = new Response();
         resp.setType(2);
         resp.setCharacterEncoding(Response.CHARSET_UTF_8);
@@ -646,6 +659,9 @@ public class Controller {
         return response;
     }
 
+    /**
+     * Sends response based on type; handles exceptions
+     */
     public void sendResponse() {
         Response responseWrapper2 = Igrp.getInstance().getCurrentController().getResponseWrapper();
         if (responseWrapper2 != null) {
@@ -659,12 +675,7 @@ public class Controller {
                                 Igrp.getInstance().getResponse().getOutputStream().close();
                                 Igrp.getInstance().getResponse().flushBuffer();
                             } else if (responseWrapper2.getFile() != null) {
-                                HttpServletResponse response = Igrp.getInstance().getResponse();
-                                String name = responseWrapper2.getFile().getFileName();
-                                response.setContentType(responseWrapper2.getFile().getContentType());
-                                response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
-                                response.setHeader("Cache-Control", "no-cache");
-                                response.setContentLength(responseWrapper2.getFile().getSize());
+                                final HttpServletResponse response = getHttpServletResponse(responseWrapper2);
                                 try (ServletOutputStream sos = response.getOutputStream();
                                      BufferedInputStream bis = new BufferedInputStream(
                                              responseWrapper2.getFile().getContent())) {
@@ -677,7 +688,29 @@ public class Controller {
                                 }
                                 responseWrapper2.getFile().getContent().close();
                             } else {
-                                Igrp.getInstance().getResponse().getWriter().append(responseWrapper2.getContent());
+                                String content = responseWrapper2.getContent();
+                                HttpServletResponse resp = Igrp.getInstance().getResponse();
+                                resp.setCharacterEncoding(Response.CHARSET_UTF_8);
+                                // --- NEW: server-side XSLT transformation (instead of Chrome xml-stylesheet) ---
+//                                long start = System.nanoTime();
+                                String transformed = tryTransformXmlWithStylesheetPI(content);
+//                                System.out.printf(" %dms [XSLT] %s | %n",
+//                                        (System.nanoTime() - start) / 1_000_000,
+//                                        StringUtils.substring(content,1,150)
+//
+//                                );
+                                if (transformed != null) {
+                                    resp.setContentType("text/html;charset=" + Response.CHARSET_UTF_8);
+                                    resp.getWriter().append(transformed);
+                                } else {
+                                    if ("xml".equals(Core.getParam("ir_cf"))) {
+                                        content = content
+                                                .replaceFirst("<\\?xml[^>]*\\?>", "")
+                                                .trim();
+                                        content = XML_STYLESHEET_HREF.matcher(content).replaceAll("").trim();
+                                    }
+                                    resp.getWriter().append(content);
+                                }
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -725,6 +758,16 @@ public class Controller {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static HttpServletResponse getHttpServletResponse(Response responseWrapper2) {
+        HttpServletResponse response = Igrp.getInstance().getResponse();
+        String name = responseWrapper2.getFile().getFileName();
+        response.setContentType(responseWrapper2.getFile().getContentType());
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setContentLength(responseWrapper2.getFile().getSize());
+        return response;
     }
 
     public Config getConfig() {
@@ -792,5 +835,386 @@ public class Controller {
             return null;
         }
     }
+
+
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Cache — declare at class level in Controller
+// Key   : xslWebPath (e.g. "/images/IGRP/IGRP2.3/app/myapp/mypage/mypage.xsl")
+// Value : compiled Templates object (thread-safe, reusable)
+// ─────────────────────────────────────────────────────────────────────────
+    private static final ConcurrentHashMap<String, Templates> XSL_TEMPLATE_CACHE =
+            new ConcurrentHashMap<>();
+
+    // Optional: cache for resource bytes (xsl:include files)
+// Key   : webapp path
+// Value : byte[] of the file content
+    private static final ConcurrentHashMap<String, byte[]> XSL_RESOURCE_CACHE =
+            new ConcurrentHashMap<>();
+
+    // ─────────────────────────────────────────────────────────────────────────
+// tryTransformXmlWithStylesheetPI  — with template cache
+    /**
+     * If the XML contains <?xml-stylesheet href="...">, load that XSL from the webapp
+     * and transform XML -> HTML on the server.
+     *
+     * @return HTML string if transformed; null if no transform was applied.
+     */
+// ─────────────────────────────────────────────────────────────────────────
+    private String tryTransformXmlWithStylesheetPI(String xml) {
+        if (xml == null || xml.isBlank() || "xml".equals(Core.getParam("ir_cf")))
+            return null;
+
+        Matcher m = XML_STYLESHEET_HREF.matcher(xml);
+        if (!m.find()) return null;
+
+        String rawPath = m.group(1);
+        if (rawPath == null || rawPath.isBlank()) return null;
+
+        String xslWebPath = rawPath.split("\\?", 2)[0];
+        if (!xslWebPath.startsWith("/")) return null;
+
+        ServletContext ctx = Igrp.getInstance().getServlet().getServletContext();
+        xslWebPath = stripContextPath(ctx, xslWebPath);
+
+        try {
+            // ── 1. Get or compile Templates (expensive — cache it) ────────────
+            Templates templates = getOrCompileTemplates(xslWebPath, ctx);
+            if (templates == null) return null;
+
+            // ── 2. newTransformer() from cached Templates is cheap ────────────
+            Transformer transformer = templates.newTransformer();
+            transformer.setURIResolver(new WebAppXslUriResolver(ctx));
+
+            StreamSource xmlSource = new StreamSource(new StringReader(xml));
+            xmlSource.setSystemId("webapp:/dynamic.xml");
+
+            StringWriter out = new StringWriter();
+            transformer.transform(xmlSource, new StreamResult(out));
+            return out.toString();
+
+        } catch (Exception ex) {
+            LOGGER.warn("XSLT server-side transform failed for path={}", xslWebPath, ex);
+            return null;
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Compiles and caches a Templates object for the given XSL path.
+// Templates is thread-safe per JAXP spec — safe to share across threads.
+// ─────────────────────────────────────────────────────────────────────────
+    private static Templates getOrCompileTemplates(String xslWebPath, ServletContext ctx) {
+        return XSL_TEMPLATE_CACHE.computeIfAbsent(xslWebPath, path -> {
+            try (InputStream xslStream = ctx.getResourceAsStream(path)) {
+                if (xslStream == null) {
+                    LOGGER.warn("XSL not found in webapp: {}", path);
+                    return null;
+                }
+                TransformerFactory tf = TransformerFactory.newInstance();
+                tf.setURIResolver(new CachingWebAppXslUriResolver(ctx));
+
+                StreamSource xslSource = new StreamSource(xslStream);
+                xslSource.setSystemId("webapp:" + path);
+
+                return tf.newTemplates(xslSource); // compiles once, reused forever
+            } catch (Exception ex) {
+                LOGGER.warn("Failed to compile XSL template: {}", path, ex);
+                return null;
+            }
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+// ADD THIS METHOD inside the Controller class body
+// (e.g. just before the closing brace, after getComponent())
+// ═══════════════════════════════════════════════════════════════════════════════
+
+    /**
+     * Server-side XSLT 1.0 transformation.
+     *
+     * Used as a fallback by XsltTransformController when the browser's native
+     * XSLTProcessor is unavailable (planned browser deprecation).
+     *
+     * @param xmlStr    XML document as a String
+     * @param xslStr    XSL stylesheet as a String (includes already inlined by the client)
+     * @param xslParams optional map of XSL parameters (may be null or empty)
+     * @return          transformed output (HTML) as a String
+     * @throws Exception if the XML/XSL is malformed or the transform fails
+     */
+    public static String performXsltTransform(String xmlStr,
+                                              String xslStr,
+                                              Map<String, String> xslParams) throws Exception {
+
+        TransformerFactory factory = TransformerFactory.newInstance();
+        // Compile the stylesheet
+        Source xslSource = new StreamSource(new StringReader(xslStr));
+        Transformer transformer = factory.newTransformer(xslSource);
+
+        // Apply any XSL parameters
+        if (xslParams != null) {
+            for (Map.Entry<String, String> entry : xslParams.entrySet()) {
+                transformer.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // Run the transform
+        Source  xmlSource = new StreamSource(new StringReader(xmlStr));
+        StringWriter out  = new StringWriter();
+        transformer.transform(xmlSource, new StreamResult(out));
+
+        return out.toString();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Cache invalidation — call this when XSL files change (e.g. deploy/reload)
+// ─────────────────────────────────────────────────────────────────────────
+    public static void invalidateXslCache() {
+        XSL_TEMPLATE_CACHE.clear();
+        XSL_RESOURCE_CACHE.clear();
+        LOGGER.info("XSL template cache cleared ({} entries removed)", XSL_TEMPLATE_CACHE.size());
+    }
+
+    public static void invalidateXslCache(String xslWebPath) {
+        XSL_TEMPLATE_CACHE.remove(xslWebPath);
+        XSL_RESOURCE_CACHE.remove(xslWebPath);
+        LOGGER.info("XSL template cache cleared for: {}", xslWebPath);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// CachingWebAppXslUriResolver — same as WebAppXslUriResolver but caches
+// resource bytes for xsl:include / xsl:import lookups
+// ─────────────────────────────────────────────────────────────────────────
+    private static final class CachingWebAppXslUriResolver extends WebAppXslUriResolver {
+
+        CachingWebAppXslUriResolver(ServletContext ctx) {
+            super(ctx);
+        }
+
+        @Override
+        StreamSource openResource(String webPath) {
+            if (webPath == null) return null;
+
+            // Check byte cache first
+            byte[] cached = XSL_RESOURCE_CACHE.get(webPath);
+            if (cached != null) {
+                StreamSource src = new StreamSource(new ByteArrayInputStream(cached));
+                src.setSystemId("webapp:" + webPath);
+                return src;
+            }
+
+            // Not cached — read and store
+            try {
+                InputStream is = ctx.getResourceAsStream(webPath);
+                if (is == null) return null;
+
+                byte[] bytes;
+                try (is) { bytes = is.readAllBytes(); }
+
+                XSL_RESOURCE_CACHE.put(webPath, bytes);
+
+                StreamSource src = new StreamSource(new ByteArrayInputStream(bytes));
+                src.setSystemId("webapp:" + webPath);
+                return src;
+            } catch (Exception ignored) {
+                return null;
+            }
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+// Helper — strips context path prefix (e.g. "/IGRP") from a webapp path
+// ─────────────────────────────────────────────────────────────────────────
+    private static String stripContextPath(ServletContext ctx, String path) {
+        String ctxPath = ctx.getContextPath();
+        if (ctxPath != null && !ctxPath.isBlank() && !ctxPath.equals("/")
+                && path.startsWith(ctxPath + "/")) {
+            return path.substring(ctxPath.length());
+        }
+        return path;
+    }
+    /**
+     * Resolves XSL includes/imports inside the web application (ServletContext).
+     * Supports relative hrefs like "../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=19".
+     */
+    private static class WebAppXslUriResolver implements URIResolver {
+
+        protected final ServletContext ctx;
+
+        WebAppXslUriResolver(ServletContext ctx) {
+            this.ctx = ctx;
+        }
+
+        @Override
+        public Source resolve(String href, String base) {
+            if (href == null || href.isBlank()) return null;
+
+            String cleanHref = cleanHref(href);
+            String cleanBase = base != null ? cleanHref(base) : null;
+
+            // Internal IGRP route (webapps?r=...)
+            if (isIgrpRoute(cleanHref)) {
+                return resolveIgrpRoute(href);
+            }
+
+            // External http(s) — let the engine handle or block
+            if (cleanHref.matches("(?i)^https?://.*")) return null;
+
+            String resolvedPath = cleanHref.startsWith("/")
+                    ? normalizeWebPath(cleanHref)
+                    : resolveRelative(cleanHref, cleanBase);
+
+            if (resolvedPath == null) return null;
+
+            // Primary lookup then fallbacks
+            return firstNonNull(
+                    () -> openResource(resolvedPath)
+            );
+        }
+
+        // ── Path helpers ─────────────────────────────────────────────────────
+
+        /** Strips query string and "webapp:" prefix; strips context path. */
+        private String cleanHref(String raw) {
+            String s = raw.split("\\?", 2)[0];
+            if (s.startsWith("webapp:")) s = s.substring("webapp:".length());
+            String ctxPath = ctx.getContextPath();
+            if (ctxPath != null && !ctxPath.isBlank() && !ctxPath.equals("/") && s.toLowerCase().startsWith(ctxPath.toLowerCase() + "/"))
+                    s = s.substring(ctxPath.length());
+
+            return s;
+        }
+
+        private String resolveRelative(String href, String base) {
+            if (base == null) return null;
+            int lastSlash = base.lastIndexOf('/');
+            String baseDir = lastSlash >= 0 ? base.substring(0, lastSlash + 1) : "/";
+            return normalizeWebPath(baseDir + href);
+        }
+
+        private static boolean isIgrpRoute(String path) {
+            return path.equals("/webapps") || path.equals("webapps");
+        }
+
+
+
+
+
+        private static String normalizeWebPath(String path) {
+            Deque<String> stack = new ArrayDeque<>();
+            for (String part : path.split("/")) {
+                if (part.isEmpty() || ".".equals(part)) continue;
+                if ("..".equals(part)) { if (!stack.isEmpty()) stack.removeLast(); }
+                else stack.addLast(part);
+            }
+            StringBuilder sb = new StringBuilder("/");
+            Iterator<String> it = stack.iterator();
+            while (it.hasNext()) {
+                sb.append(it.next());
+                if (it.hasNext()) sb.append("/");
+            }
+            return sb.toString();
+        }
+
+        // ── Resource opening ─────────────────────────────────────────────────
+
+        // In WebAppXslUriResolver — change private to package-private
+        StreamSource openResource(String webPath) {  // remove "private"
+            if (webPath == null) return null;
+            try {
+                InputStream is = ctx.getResourceAsStream(webPath);
+                if (is == null) return null;
+                StreamSource src = new StreamSource(is);
+                src.setSystemId("webapp:" + webPath);
+                return src;
+            } catch (Exception ignored) {
+                return null;
+            }
+        }
+
+        // ── IGRP internal route resolver ─────────────────────────────────────
+
+        private Source resolveIgrpRoute(String originalHref) {
+            Map<String, List<String>> params = parseQueryString(originalHref);
+            List<String> rList = params.get("r");
+            if (rList == null || rList.isEmpty()) return null;
+
+            String r = rList.get(0);
+            String resolved = SecurtyCallPage.resolvePage(r);
+            if (resolved == null) return null;
+
+            String[] parts = resolved.split("/");
+            if (parts.length < 3) return null;
+
+            String app    = parts[0];
+            String page   = parts[1];
+            String action = parts[2];
+
+            QueryString<String, Object> qs = new QueryString<>();
+            params.forEach((k, vList) -> {
+                if (!"r".equals(k)) vList.forEach(v -> qs.addQueryString(k, v));
+            });
+
+            // Inline action params (e.g. "myAction&p_x=1")
+            if (action.contains("&")) {
+                String[] aParts = action.split("&", 2);
+                action = aParts[0];
+                parseInlineParams(aParts[1]).forEach(qs::addQueryString);
+            }
+
+            Response resp = new Controller().call(app, page, action, qs);
+            return (resp != null && resp.getContent() != null)
+                    ? new StreamSource(new StringReader(resp.getContent()))
+                    : null;
+        }
+
+        // ── Query string parsing ─────────────────────────────────────────────
+
+        private static Map<String, List<String>> parseQueryString(String href) {
+            Map<String, List<String>> result = new LinkedHashMap<>();
+            int q = href.indexOf('?');
+            if (q < 0) return result;
+            for (String pair : href.substring(q + 1).split("&")) {
+                String[] kv = pair.split("=", 2);
+                if (kv.length == 0 || kv[0].isEmpty()) continue;
+                String v = kv.length > 1 ? decode(kv[1]) : "";
+                result.computeIfAbsent(kv[0], k -> new ArrayList<>()).add(v);
+            }
+            return result;
+        }
+
+        private static Map<String, String> parseInlineParams(String raw) {
+            Map<String, String> result = new LinkedHashMap<>();
+            for (String pair : raw.split("&")) {
+                String[] kv = pair.split("=", 2);
+                if (kv.length > 0 && !kv[0].isEmpty())
+                    result.put(kv[0], kv.length > 1 ? decode(kv[1]) : "");
+            }
+            return result;
+        }
+
+        private static String decode(String s) {
+            try { return java.net.URLDecoder.decode(s, StandardCharsets.UTF_8); }
+            catch (Exception e) { return s; }
+        }
+
+        // ── Utility: first non-null from suppliers ───────────────────────────
+
+        @SafeVarargs
+        private static StreamSource firstNonNull(java.util.function.Supplier<StreamSource>... suppliers) {
+            for (var s : suppliers) {
+                StreamSource src = s.get();
+                if (src != null) return src;
+            }
+            // Return empty valid XSL to prevent XSLT engine crash on missing includes
+            LOGGER.warn("URIResolver: resource not found after all fallbacks");
+            return new StreamSource(new StringReader(
+                    "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"/>"
+            ));
+        }
+    }
+
+
+
+
 
 }
