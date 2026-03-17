@@ -5,7 +5,7 @@
 	<comment>All basic and advanced IGRP configuration parameters</comment>
 	
 	<!-- igrpweb environment parameter (dev|test|sta|prod) -->
-	<entry key="igrp.env">prod</entry>
+	<entry key="igrp.env">dev</entry>
 	
 	<entry key="igrp.datasource.connection-name">hibernate-igrp-core</entry>
 	
@@ -20,21 +20,21 @@
 	<!-- For login template change
 	<entry key="igrp.login.template">ds-beta</entry> -->
 
-	<entry key="igrp.authentication.govcv.enbaled">true</entry>
+	<entry key="igrp.authentication.govcv.enbaled">false</entry>
 
 	<!-- igrpweb identity server (autentika.gov.cv) service -->
-	<entry key="ids.autentika.enabled">true</entry>
-	<entry key="ids.autentika.RemoteUserStoreManagerService-wsdl-url">https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl</entry>
-	<entry key="ids.autentika.admin-usn">admin.igrp@nosi.cv</entry>
-	<entry key="ids.autentika.admin-pwd">!GRP&amp;ad!m!n</entry>
+	<entry key="ids.autentika.enabled">false</entry>
+	<entry key="ids.autentika.RemoteUserStoreManagerService-wsdl-url"></entry>
+	<entry key="ids.autentika.admin-usn"></entry>
+	<entry key="ids.autentika.admin-pwd"></entry>
 
 	<!-- Identity server parameters -->
-	<entry key="ids.oauth2-openid.client_id">SwfKPzC_RMSzMI6MfssFbZYHnZUa</entry>
-	<entry key="ids.oauth2-openid.client_secret">SUWpWZrSx9rDGvN03xIZ997l6RAa</entry>
-	<entry key="ids.oauth2-openid.endpoint.token">https://autentika.gov.cv/oauth2/token</entry>
+	<entry key="ids.oauth2-openid.client_id"></entry>
+	<entry key="ids.oauth2-openid.client_secret"></entry>
+	<entry key="ids.oauth2-openid.endpoint.token"></entry>
 	<entry key="ids.oauth2-openid.endpoint.user">https://autentika.gov.cv/oauth2/userinfo</entry>
 	<entry key="ids.oauth2-openid.endpoint.authorize">https://autentika.gov.cv/oauth2/authorize</entry>
-	<entry key="ids.oauth2-openid.endpoint.redirect_uri">http://localhost/IGRP/index.jsp</entry>
+	<entry key="ids.oauth2-openid.endpoint.redirect_uri"></entry>
 	<entry key="ids.oauth2-openid.endpoint.logout">https://autentika.gov.cv/oidc/logout</entry>
 	<!-- Ldap configuration parameters -->
 	<entry key="ldap.ad.url"></entry>
