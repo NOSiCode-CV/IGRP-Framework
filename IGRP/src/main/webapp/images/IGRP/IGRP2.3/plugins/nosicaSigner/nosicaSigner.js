@@ -140,105 +140,124 @@
                     </div>
                 </div> 
                 <script>
-                (function() {
-                    const fileInput = document.getElementById('p_nosicasigner_file');
-                    let canvas  = document.getElementById('canvas_frame');
-                    const context = canvas.getContext('2d');
+                    (function() {
 
-                    const nextBtn = document.getElementById('nextPage');
-                    const prevBtn = document.getElementById('prevPage');
+                    // --- Step 1: load pdf.js dynamically, then init ---
+                    function loadScript(src, onload) {
+                        // If already loaded, run immediately
+                        if (window.pdfjsLib) { onload(); return; }
+
+                        const script = document.createElement('script');
+                        script.src = src;
+                        script.onload = onload;
+                        document.head.appendChild(script);
+                    }
+
+                    function init() {
+                    // Polyfill
+                    if (!Promise.allSettled) {
+                    Promise.allSettled = function(promises) {
+                    return Promise.all(promises.map(p =>
+                    Promise.resolve(p).then(
+                    value  => ({ status: 'fulfilled', value }),
+                    reason => ({ status: 'rejected', reason })
+                    )
+                    ));
+                };
+                }
+
+                    // Worker
+                    pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+                    // --- Step 2: rest of your canvas code ---
+                    const fileInput = document.getElementById('p_nosicasigner_file');
+                    let canvas      = document.getElementById('canvas_frame');
+                    const context   = canvas.getContext('2d');
+                    const nextBtn   = document.getElementById('nextPage');
+                    const prevBtn   = document.getElementById('prevPage');
                     let currentPage = 1;
-                    let pdfDoc = null;
+                    let pdfDoc      = null;
+                    let totalPages  = 1;
 
                     function base64ToArrayBuffer(base64) {
-                        const binaryString = atob(base64);
-                        const len = binaryString.length;
-                        const bytes = new Uint8Array(len);
-                        for (let i = 0; i < len; i++) {
-                            bytes[i] = binaryString.charCodeAt(i);
-                        }
-                        return bytes.buffer;
-                    }
+                    const binaryString = atob(base64);
+                    const bytes = new Uint8Array(binaryString.length);
+                    for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                    return bytes.buffer;
+                }
 
                     function renderPage(pageNum) {
-                        //if (!pdfDoc) return;
-                        console.log("---------renderPage---------")
-                        pdfDoc.getPage(pageNum).then(page => {
-                            const viewport = page.getViewport({ scale: 1.5 });
-                            canvas.width = viewport.width;
-                            canvas.height = viewport.height;
-                            const renderContext = {
-                                canvasContext: context,
-                                viewport: viewport
-                            };
-                            page.render(renderContext);
-                        });
-                        document.getElementById('currentPage').textContent = currentPage;
-                    }
+                    console.log("---------renderPage---------");
+                    pdfDoc.getPage(pageNum).then(page => {
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.width  = viewport.width;
+                    canvas.height = viewport.height;
+                    page.render({ canvasContext: context, viewport });
+                });
+                    document.getElementById('currentPage').textContent = pageNum;
+                }
 
                     function loadPDF(arrayBuffer) {
-                        console.log("---------loadPDF---------")
-                        pdfjsLib.getDocument(arrayBuffer).promise.then(pdf => {
-                            pdfDoc = pdf;
-                                                                
-                            let totalPages = pdf.numPages; 
-                            currentPage = 1;                                   
-
-                            document.getElementById('totalPages').textContent = totalPages;
-                            renderPage(currentPage);     
-
-                        }).catch(error => {
-                            console.error('Erro ao carregar o PDF: ', error);
-                        });                       
-                    }
+                    console.log("---------loadPDF---------");
+                    pdfjsLib.getDocument(arrayBuffer).promise.then(pdf => {
+                    pdfDoc      = pdf;
+                    totalPages  = pdf.numPages;
+                    currentPage = 1;
+                    document.getElementById('totalPages').textContent = totalPages;
+                    renderPage(currentPage);
+                }).catch(error => {
+                    console.error('Erro ao carregar o PDF: ', error);
+                });
+                }
 
                     function loadSignedPDF(base64Pdf) {
+                    console.log('--------loadSignedPDF ---------');
+                    loadPDF(base64ToArrayBuffer(base64Pdf));
+                }
 
-                        const signature = document.getElementById('signature_holder');
-                    
-                        console.log('--------loadSignedPDF ---------');
-                        const arrayBuffer = base64ToArrayBuffer(base64Pdf);
-
-                        loadPDF(arrayBuffer);
-                    }
-
-                    fileInput.addEventListener('change', function(event) { 
-                        console.log("---------change---------")                     
-                        const file = event.target.files[0];
-                        if (file && file.type === 'application/pdf') {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                loadPDF(e.target.result);                               
-                            };
-                            reader.readAsArrayBuffer(file);
-                        } else {
-                            alert('Por favor, selecione um arquivo PDF.');
-                        }
-                    });
+                    fileInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file && file.type === 'application/pdf') {
+                    const reader = new FileReader();
+                    reader.onload = e => loadPDF(e.target.result);
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    alert('Por favor, selecione um arquivo PDF.');
+                }
+                });
 
                     prevBtn.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        if (currentPage <= 1) return; // Não ultrapassar a primeira página
-                        currentPage--;
-                        renderPage(currentPage);
-                    });
+                    event.preventDefault();
+                    if (currentPage <= 1) return;
+                    currentPage--;
+                    renderPage(currentPage);
+                });
 
                     nextBtn.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        if (currentPage >= totalPages) return; // Não ultrapassar a última página
-                        currentPage++;
-                        renderPage(currentPage);
-                    });  
+                    event.preventDefault();
+                    if (currentPage >= totalPages) return;
+                    currentPage++;
+                    renderPage(currentPage);
+                });
 
                     document.addEventListener('click', function (event) {
                         markClickPoint(event);
                     });
                     window.loadSignedPDF = loadSignedPDF;
+                }
+
+                    // --- Kick it off ---
+                    loadScript(
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+                    init
+                    );
+
                 })();
-                </script>
-                
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>`;
-            }
+                </script>`;
+}
         },
 
         setBase64Result : function(p){
@@ -771,13 +790,16 @@
         toSign : function (p) {
             const base64 = $('#nosicasigner_base64').val();
             const currentPage = document.getElementById('currentPage').innerHTML;
-            const rect = document.getElementById('canvas_frame').getBoundingClientRect();
+            const canvas  = document.getElementById('canvas_frame');
             const signature = document.getElementById('signature_holder');
+              const rect      = canvas.getBoundingClientRect();
 
-            signature.style.display = `none`;
+              signature.style.display = 'none';
 
-            //default pdf width
-            const displayWidth = 900;
+              // Use the coordinates stored by signerCanvas.js
+              const signX = Number.parseFloat(canvas.dataset.signX) || 0;
+              const signY = Number.parseFloat(canvas.dataset.signY) || 0;
+
 
             if(base64){
 
@@ -787,8 +809,8 @@
                     "pin"                    : p.pin,
                     "data"                   : base64,
                     "pageNumberToSign": currentPage,
-                    "xPosition": parseFloat(signature.style.left),
-                    "yPosition": displayWidth - parseFloat(signature.style.top),
+                    "xPosition"              : signX,
+                    "yPosition"              : signY,
                 };
 
                 $.IGRP.utils.loading.show();
@@ -914,29 +936,37 @@
             com.fetchFileToBlod(p);
         },
 
-        signerFileBeforSave : function(p){
-            $('#nosicasigner_file').addClass('hidden');
+           signerFileBeforSave : function(p){
+               $('#nosicasigner_file').addClass('hidden');
 
-            if(p.url){
+               if(p.url){
+                   com.fetchFileToBlod({
+                       url      : p.url,
+                       clicked  : p.clicked,
+                       complete : function(){
+                           const iframeSigner = $('.nosicasigner_iframe');
+                           iframeSigner.removeClass('hidden');
 
-                com.fetchFileToBlod({
-                    url      : p.url,
-                    clicked  : p.clicked,
-                    complete : function(){
-                        const iframeSigner = $('.nosicasigner_iframe');
+                           const base64Data = $('#nosicasigner_base64').val();
 
-                        iframeSigner.removeClass('hidden');
+                           // Poll until pdf.js finishes loading and exposes loadSignedPDF
+                           function tryLoad(attempts) {
+                               if (typeof window.loadSignedPDF === 'function') {
+                                   window.loadSignedPDF(base64Data);
+                               } else if (attempts > 0) {
+                                   setTimeout(() => tryLoad(attempts - 1), 100);
+                               } else {
+                                   console.error('loadSignedPDF not available after timeout');
+                               }
+                           }
+                           tryLoad(20); // retries every 100ms, up to 2 seconds
 
-                        $('iframe',iframeSigner).attr('src',p.url);
-
-                        com.controllModalAsigner(p.clicked);
-
-                        com.getAvailableTokens();
-                    }
-                });
-                
-            }
-        },
+                           com.controllModalAsigner(p.clicked);
+                           com.getAvailableTokens();
+                       }
+                   });
+               }
+           },
 
         controllModalAsigner : function(obj){
 

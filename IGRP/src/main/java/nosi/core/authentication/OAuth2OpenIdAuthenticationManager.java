@@ -72,6 +72,8 @@ public final class OAuth2OpenIdAuthenticationManager {
 		final var env = ConfigCommonMainConstants.IGRP_ENV.environmentValue();
 
 		if (user != null) {
+			session.setAttribute("_oidcIdToken", idToken);
+			session.setAttribute("_oidcState", sessionState);
 
 			if (user.getStatus() != 1)
 				throw new IllegalStateException("Este utilizador " + user.getName() + " ("+user.getEmail()+") encontra-se desativado.");
@@ -82,9 +84,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 			
 			AuthenticationManager.createSecurityContext(user, session);
 			AuthenticationManager.afterLogin(profile, user, request);
-			
-			session.setAttribute("_oidcIdToken", idToken);
-			session.setAttribute("_oidcState", sessionState);
 
 			user.setValid_until(refreshToken);
 			user.setOidcIdToken(idToken);
