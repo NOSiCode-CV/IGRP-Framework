@@ -1,11 +1,11 @@
-var SELECTFIELD = function(type,params){
+const SELECTFIELD = function(type,params){
 	Field.call(this,type,params);
 	
-	var field       = this;
+	let field       = this;
 
-	var GEN         = VARS.getGen();
+	let GEN         = VARS.getGen();
 
-	var proprieties = params && params.properties ? params.properties : false;
+	let proprieties = params?.properties ? params.properties : false;
 
 	field.xml.options = true;
 
@@ -29,9 +29,9 @@ var SELECTFIELD = function(type,params){
 			xslValue : 'multiple="multiple"', //XSL VALUE WHEN PROPRIETY IS TRUE
 			onEditionStart:function(v){
 				if(field.GET.delimiter){
-					var input = $('input',v.input)
+					let input = $('input',v.input)
 					input.on('change',function(){
-						var action = $(this).is(':checked') ? 'show' : 'hide';
+						let action = $(this).is(':checked') ? 'show' : 'hide';
 						$('.gen-properties-setts-holder div[rel="delimiter"]')[action]();
 					});
 				}
@@ -54,8 +54,8 @@ var SELECTFIELD = function(type,params){
 		});
 
 		GEN.setDomainAttr(field,{
-			value: proprieties && proprieties.domain ? proprieties.domain : '',
-			selected : proprieties && proprieties.domain_value ? proprieties.domain_value : false
+			value: proprieties?.domain ? proprieties.domain : '',
+			selected : proprieties?.domain_value ? proprieties.domain_value : false
 		});
 
 		field.parent.on('draw-end',function(){
@@ -64,13 +64,13 @@ var SELECTFIELD = function(type,params){
 	}
 
 	field.onEditionStart = function(){
-		var action = field.GET.multiple() ? 'show' : 'hide';
+		let action = field.GET.multiple() ? 'show' : 'hide';
 		$('.gen-properties-setts-holder div[rel="delimiter"]')[action]();
 	}
 
 
 }
-this[VARS.name].declareField({
+[VARS.name].declareField({
 	type:'select',
 	field:SELECTFIELD
 });
