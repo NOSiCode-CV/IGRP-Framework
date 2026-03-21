@@ -21,7 +21,7 @@
 
         request : function(p){
 			
-			var options = $.extend(true, {
+			let options = $.extend(true, {
 				data        : {},
 				headers	    : {
                     'Accept'      : 'application/json',
@@ -195,6 +195,9 @@
                     const viewport = page.getViewport({ scale: 1.5 });
                     canvas.width  = viewport.width;
                     canvas.height = viewport.height;
+                    canvas.dataset.pdfWidth   = page.view[2]; // PDF width in points
+                    canvas.dataset.pdfHeight  = page.view[3]; // PDF height in points
+                    canvas.dataset.renderScale = 1.5;
                     page.render({ canvasContext: context, viewport });
                 });
                     document.getElementById('currentPage').textContent = pageNum;
@@ -326,7 +329,7 @@
             availableCertes = [];
             availableTokens = [];
 
-            typeSigner  = 'SignPdf',
+            typeSigner  = 'SignPdf';
             objclicked     = null;
 
             $.IGRP.components.select2.setOptions({
@@ -787,31 +790,38 @@
             }
         },
 
-        toSign : function (p) {
-            const base64 = $('#nosicasigner_base64').val();
-            const currentPage = document.getElementById('currentPage').innerHTML;
-            const canvas  = document.getElementById('canvas_frame');
-            const signature = document.getElementById('signature_holder');
-              const rect      = canvas.getBoundingClientRect();
+       toSign : function(p) {
+           const base64    = $('#nosicasigner_base64').val();
+           const canvas    = document.getElementById('canvas_frame');
+           const signature = document.getElementById('signature_holder');
+           const rect      = canvas.getBoundingClientRect();
 
-              signature.style.display = 'none';
+           signature.style.display = 'none';
 
-              // Use the coordinates stored by signerCanvas.js
-              const signX = Number.parseFloat(canvas.dataset.signX) || 0;
-              const signY = Number.parseFloat(canvas.dataset.signY) || 0;
+           const signX       = Number.parseFloat(canvas.dataset.signX)      || 0;
+           const signY       = Number.parseFloat(canvas.dataset.signY)      || 0;
+           const renderScale = Number.parseFloat(canvas.dataset.renderScale) || 1.5;
 
+           // CSS display pixels → canvas pixels
+           const cssToCanvasX = canvas.width  / rect.width;
+           const cssToCanvasY = canvas.height / rect.height;
 
-            if(base64){
+           // Canvas pixels → PDF points, flip Y (PDF origin = bottom-left)
+           const pdfX =  (signX * cssToCanvasX) / renderScale;
+           const pdfY = (canvas.height - (signY * cssToCanvasY)) / renderScale;
 
-                const data = {
-                    "tokenId"                : ((p.tokenId*1) -1),
-                    "certificateSerialNumber": p.certSerNum,
-                    "pin"                    : p.pin,
-                    "data"                   : base64,
-                    "pageNumberToSign": currentPage,
-                    "xPosition"              : signX,
-                    "yPosition"              : signY,
-                };
+           console.log('toSign coords:', { signX, signY, pdfX, pdfY });
+
+           if(base64){
+               const data = {
+                   "tokenId"                : ((p.tokenId * 1) - 1),
+                   "certificateSerialNumber": p.certSerNum,
+                   "pin"                    : p.pin,
+                   "data"                   : base64,
+                   "pageNumberToSign"       : document.getElementById('currentPage').innerHTML,
+                   "xPosition"              : pdfX,
+                   "yPosition"              : pdfY,
+               };
 
                 $.IGRP.utils.loading.show();
 
