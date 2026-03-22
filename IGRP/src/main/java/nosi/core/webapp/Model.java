@@ -3,6 +3,7 @@ package nosi.core.webapp;
 import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
+import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
@@ -36,10 +37,12 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
+
 /**
  * We have function like loadFromlist for separatorlist and formlist, loadTable
  * for table/list.
- * 
+ *
  * @author Marcel Iekiny Apr 15, 2017
  */
 public abstract class Model { // IGRP super model
@@ -96,12 +99,12 @@ public abstract class Model { // IGRP super model
 				final String overrided = Core.getParam("overrided");
 				custom.getRows().forEach(v -> {
 					if (!v.getName().equalsIgnoreCase(BPMNConstants.PRM_RUNTIME_TASK)
-						&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION)
-						&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
-						&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_APP_ID)
-						&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_APP)
-						&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_TASK)
-						&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION)) {
+							&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION)
+							&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
+							&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_APP_ID)
+							&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_APP)
+							&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_TASK)
+							&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION)) {
 						if (overrided.equalsIgnoreCase("false")) {
 							if (Core.isNull(Core.getParam(v.getName(), false))) {
 								Core.setAttribute(v.getName(), v.getValue());
@@ -153,6 +156,13 @@ public abstract class Model { // IGRP super model
 		return null;
 	}
 
+	private String getFieldParamName(Field field) {
+		return ofNullable(field.getAnnotation(RParam.class))
+				.map(obj -> field.getAnnotation(RParam.class).rParamName())
+				.filter(rParamName -> !rParamName.isEmpty())
+				.orElse(field.getName()); // default case use the name of field;
+	}
+
 	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className)  {
 		if (query != null) {
 			final List<Tuple> queryResult = query.getResultList();
@@ -171,12 +181,13 @@ public abstract class Model { // IGRP super model
 						}
 						list.add(t);
 					} catch (SecurityException | NoSuchMethodException | InvocationTargetException
-							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
+							 | IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
 						e1.printStackTrace();
 					}
 				}
 				return list;
 			}
+
 		}
 		return null;
 	}
@@ -265,7 +276,7 @@ public abstract class Model { // IGRP super model
 					final String param = "p_" + name + "_fk";
 					String[] values1 = Core.getParamArray(param);
 					if((values1 == null || values1.length == 0) && (allFiles != null && allFiles.containsKey(param)))
-						values1 = allFiles.get(param).stream().map(Part::getName).toArray(String[]::new); 
+						values1 = allFiles.get(param).stream().map(Part::getName).toArray(String[]::new);
 					final String[] values2 = Core.getParamArray(param+ "_desc");
 					mapFk.put(name, values1 != null ? Arrays.asList(values1) : new ArrayList<>());
 					// If the field is checkbox, we don't have _check_desc with value2=null so
@@ -336,13 +347,109 @@ public abstract class Model { // IGRP super model
 					row++;
 				}
 			} catch (ClassNotFoundException | SecurityException | NoSuchMethodException | InvocationTargetException
-					| IllegalArgumentException | InstantiationException | IllegalAccessException e) { 
+					 | IllegalArgumentException | InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (IndexOutOfBoundsException ignored) {
-               // go to next -- Separator list
-            }
+				// go to next -- Separator list
+			}
 		}
 		this.loadModelFromAttribute();
+		this.handleSLMarkers();
+	}
+
+	private void handleSLMarkers() {
+		final Field[] declaredFields = this.getClass().getDeclaredFields();
+
+		final Set<String> slNames = Arrays.stream(declaredFields)
+				.filter(f -> f.isAnnotationPresent(SeparatorList.class))
+				.map(Field::getName)
+				.collect(Collectors.toSet());
+
+		if (slNames.isEmpty()) return;
+
+		if (Core.isHttpGet()) {
+			// Redirect happened — SL was rebuilt from DB, purge any stale markers
+			IGRPForm.hiddenFields.removeIf(h -> {
+				String name = String.valueOf(h.propertie().get("name"));
+				return slNames.stream().anyMatch(slName ->
+						name.equals("p_" + slName + "_del") ||
+								name.equals("p_" + slName + "_edit")
+				);
+			});
+			return;
+		}
+
+		if (!Core.isHttpPost()) return;
+
+		// POST — pre-collect _del values per SL so _edit can check against them
+		final Map<String, Set<String>> delValuesBySL = new HashMap<>();
+		for (Field field : declaredFields) {
+			if (!field.isAnnotationPresent(RParam.class) || !field.getType().getName().equals("[Ljava.lang.String;"))
+				continue;
+
+			final String paramName = this.getFieldParamName(field);
+
+			slNames.stream()
+					.filter(slName -> paramName.equals("p_" + slName + "_del"))
+					.findFirst()
+					.ifPresent(slName -> {
+						field.setAccessible(true);
+						try {
+							String[] values = (String[]) field.get(this);
+							if (values != null)
+								delValuesBySL.put(slName, Arrays.stream(values)
+										.filter(Core::isNotNull)
+										.collect(Collectors.toSet()));
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						} finally {
+							field.setAccessible(false);
+						}
+					});
+		}
+
+		for (Field field : declaredFields) {
+			if (!field.isAnnotationPresent(RParam.class) || !field.getType().getName().equals("[Ljava.lang.String;"))
+				continue;
+
+			final String paramName = this.getFieldParamName(field);
+
+			final String matchedSL = slNames.stream()
+					.filter(slName ->
+							paramName.equals("p_" + slName + "_del") ||
+									paramName.equals("p_" + slName + "_edit"))
+					.findFirst()
+					.orElse(null);
+
+			if (matchedSL == null) continue;
+
+			field.setAccessible(true);
+			try {
+				String[] values = (String[]) field.get(this);
+				if (values == null) continue;
+
+				String hiddenName = paramName.substring(2);
+				boolean isEdit = paramName.equals("p_" + matchedSL + "_edit");
+				Set<String> delValues = delValuesBySL.getOrDefault(matchedSL, Collections.emptySet());
+
+				List<String> alreadyAdded = IGRPForm.hiddenFields.stream()
+						.filter(h -> paramName.equals(h.propertie().get("name")))
+						.map(h -> String.valueOf(h.getValue()))
+						.collect(Collectors.toList());
+
+				Arrays.stream(values)
+						.filter(Core::isNotNull)
+						.filter(val -> !(isEdit && delValues.contains(val)))
+						.filter(val -> !alreadyAdded.contains(val))
+						.forEach(val -> Core.addHiddenField(hiddenName, val));
+
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} finally {
+				field.setAccessible(false);
+			}
+		}
+
 	}
 
 	private void loadData(Field m, String typeName,String value) throws IllegalArgumentException, IllegalAccessException {
@@ -453,7 +560,7 @@ public abstract class Model { // IGRP super model
 	}
 
 	private void loadArrayData(Field m, String typeName,String[] value) throws IllegalArgumentException, IllegalAccessException {
-       if (value != null) {
+		if (value != null) {
 			// Awesome !!! We need make casts for all [] primitive type ... pff
 			switch (typeName) {
 				case "[I": // Array of int
@@ -518,7 +625,7 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	
+
 	/**
 	 * When using this.forward("app","page","index",model, this.queryString());
 	 */
@@ -692,7 +799,7 @@ public abstract class Model { // IGRP super model
 								e.printStackTrace();
 							}finally {
 								method.setAccessible(false);
-							}							
+							}
 						}
 					}
 				}
@@ -704,12 +811,12 @@ public abstract class Model { // IGRP super model
 		}
 		if(queryString.getQueryString()!=null) {
 			queryString.getQueryString().forEach((key, value) -> {
-               final String[] val = value.toArray(new String[0]);
-               Core.setAttribute(key, val);
-            });
+				final String[] val = value.toArray(new String[0]);
+				Core.setAttribute(key, val);
+			});
 		}
 	}
-	
+
 	public void deleteTempFile() {
 		final Class<? extends Model> c = this.getClass();
 		for (Field m : c.getDeclaredFields()) {
@@ -773,7 +880,7 @@ public abstract class Model { // IGRP super model
 			m.setAccessible(false);
 		}
 	}
-	
+
 	public static String getParamFileId(String paramName) {
 		if(Core.isNotNull(paramName) && paramName.startsWith("p_")) {
 			return paramName+"_"+SUFIX_UPLOADED_FILE_ID;
