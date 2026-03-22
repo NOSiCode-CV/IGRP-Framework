@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
+import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
@@ -364,8 +365,102 @@ public abstract class Model implements Serializable { // IGRP super model
             }
 		}
 		this.loadModelFromAttribute();
+		this.handleSLMarkers();
 	}
 
+	private void handleSLMarkers() {
+		final var declaredFields = this.getClass().getDeclaredFields();
+
+		final var slNames = Arrays.stream(declaredFields)
+				.filter(f -> f.isAnnotationPresent(SeparatorList.class))
+				.map(Field::getName)
+				.collect(Collectors.toSet());
+
+		if (slNames.isEmpty()) return;
+
+		if (Core.isHttpGet()) {
+			// Redirect happened — SL was rebuilt from DB, purge any stale markers
+			IGRPForm.hiddenFields.removeIf(h -> {
+				String name = String.valueOf(h.propertie().get("name"));
+				return slNames.stream().anyMatch(slName ->
+						name.equals("p_" + slName + "_del") ||
+								name.equals("p_" + slName + "_edit")
+				);
+			});
+			return;
+		}
+
+		if (!Core.isHttpPost()) return;
+
+		// POST — pre-collect _del values per SL so _edit can check against them
+		final Map<String, Set<String>> delValuesBySL = new HashMap<>();
+		for (Field field : declaredFields) {
+			if (!field.isAnnotationPresent(RParam.class) || !field.getType().getName().equals("[Ljava.lang.String;"))
+				continue;
+
+			final String paramName = this.getFieldParamName(field);
+
+			slNames.stream()
+					.filter(slName -> paramName.equals("p_" + slName + "_del"))
+					.findFirst()
+					.ifPresent(slName -> {
+						field.setAccessible(true);
+						try {
+							String[] values = (String[]) field.get(this);
+							if (values != null)
+								delValuesBySL.put(slName, Arrays.stream(values)
+										.filter(Core::isNotNull)
+										.collect(Collectors.toSet()));
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						} finally {
+							field.setAccessible(false);
+						}
+					});
+		}
+
+		for (Field field : declaredFields) {
+			if (!field.isAnnotationPresent(RParam.class) || !field.getType().getName().equals("[Ljava.lang.String;"))
+				continue;
+
+			final String paramName = this.getFieldParamName(field);
+
+			final String matchedSL = slNames.stream()
+					.filter(slName ->
+							paramName.equals("p_" + slName + "_del") ||
+									paramName.equals("p_" + slName + "_edit"))
+					.findFirst()
+					.orElse(null);
+
+			if (matchedSL == null) continue;
+
+			field.setAccessible(true);
+			try {
+				String[] values = (String[]) field.get(this);
+				if (values == null) continue;
+
+				String hiddenName = paramName.substring(2);
+				boolean isEdit = paramName.equals("p_" + matchedSL + "_edit");
+				Set<String> delValues = delValuesBySL.getOrDefault(matchedSL, Set.of());
+
+				List<String> alreadyAdded = IGRPForm.hiddenFields.stream()
+						.filter(h -> paramName.equals(h.propertie().get("name")))
+						.map(h -> String.valueOf(h.getValue()))
+						.collect(Collectors.toList());
+
+				Arrays.stream(values)
+						.filter(Core::isNotNull)
+						.filter(val -> !(isEdit && delValues.contains(val)))
+						.filter(val -> !alreadyAdded.contains(val))
+						.forEach(val -> Core.addHiddenField(hiddenName, val));
+
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} finally {
+				field.setAccessible(false);
+			}
+		}
+	}
 	private void loadData(Field field, String value) throws IllegalArgumentException, IllegalAccessException {
 		String aux = value;
 		String defaultResult = aux != null && !aux.isEmpty() ? aux : null;
