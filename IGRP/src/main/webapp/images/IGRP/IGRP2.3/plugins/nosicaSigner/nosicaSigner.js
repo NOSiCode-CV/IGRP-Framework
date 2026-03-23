@@ -808,7 +808,8 @@
 
            // Canvas pixels → PDF points, flip Y (PDF origin = bottom-left)
            const pdfX =  (signX * cssToCanvasX) / renderScale;
-           const pdfY = (canvas.height - (signY * cssToCanvasY)) / renderScale;
+           const pdfY = (canvas.height - ((signY + signatureHeight) * cssToCanvasY)) / renderScale;
+
 
            console.log('toSign coords:', { signX, signY, pdfX, pdfY });
 

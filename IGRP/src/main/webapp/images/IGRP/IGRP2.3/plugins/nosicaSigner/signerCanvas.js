@@ -29,8 +29,9 @@ function markClickPoint(event) {
 
     if (clickX < 0 || clickX > rect.width || clickY < 0 || clickY > rect.height) return;
 
-    const posX = Math.min(Math.max(clickX, 0), rect.width  - signatureWidth);
-    const posY = Math.min(Math.max(clickY, 0), rect.height - signatureHeight);
+    const posX = Math.min(Math.max(clickX - signatureWidth  / 2, 0), rect.width  - signatureWidth);
+    const posY = Math.min(Math.max(clickY - signatureHeight / 2, 0), rect.height - signatureHeight);
+
 
     // ✅ Offset by canvas position inside .controls
     const canvasInControlsTop  = rect.top  - controlsRect.top;
