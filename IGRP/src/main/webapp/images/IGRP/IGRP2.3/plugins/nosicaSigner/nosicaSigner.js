@@ -128,7 +128,7 @@
                         </div>                                                     
                             <div class="controls">                                    
                                 <canvas id="canvas_frame" class="pdfCanvas" style="border:1px solid black;height: 750px;width: 600px;"></canvas>  
-                                <div id="signature_holder" style="display:none;height:80px;width:160px;position:relative;border:1px solid;background-color: rgba(104, 97, 97, 0.568);color:black">
+                                <div id="signature_holder" style="display:none;height:60px;width:160px;position:relative;border:1px solid;background-color: rgba(104, 97, 97, 0.568);color:black">
                                     <h3>
                                       X_______
                                     </h3>
@@ -197,7 +197,15 @@
                     canvas.height = viewport.height;
                     canvas.dataset.pdfWidth   = page.view[2]; // PDF width in points
                     canvas.dataset.pdfHeight  = page.view[3]; // PDF height in points
-                    canvas.dataset.renderScale = 1.5;
+                     // ✅ Adapt CSS display size for landscape/portrait
+                    const isLandscape = viewport.width > viewport.height;
+                    if (isLandscape) {
+                        canvas.style.width  = '750px';
+                        canvas.style.height = '500px';
+                    } else {
+                        canvas.style.width  = '600px';
+                        canvas.style.height = '750px';
+                    }
                     page.render({ canvasContext: context, viewport });
                 });
                     document.getElementById('currentPage').textContent = pageNum;
@@ -790,39 +798,76 @@
             }
         },
 
-       toSign : function(p) {
-           const base64    = $('#nosicasigner_base64').val();
-           const canvas    = document.getElementById('canvas_frame');
-           const signature = document.getElementById('signature_holder');
-           const rect      = canvas.getBoundingClientRect();
+        toSign : function(p) {
+            const base64    = $('#nosicasigner_base64').val();
+            const canvas    = document.getElementById('canvas_frame');
+            const signature = document.getElementById('signature_holder');
+            const rect      = canvas.getBoundingClientRect();
 
-           signature.style.display = 'none';
+            console.log('--- DIMENSÕES ---');
+            console.log('canvas.width / height:', canvas.width, canvas.height);
+            console.log('canvas CSS (rect):', rect.width, rect.height);
 
-           const signX       = Number.parseFloat(canvas.dataset.signX)      || 0;
-           const signY       = Number.parseFloat(canvas.dataset.signY)      || 0;
-           const renderScale = Number.parseFloat(canvas.dataset.renderScale) || 1.5;
+            const isLandscape = canvas.width > canvas.height;
 
-           // CSS display pixels → canvas pixels
-           const cssToCanvasX = canvas.width  / rect.width;
-           const cssToCanvasY = canvas.height / rect.height;
+            const pdfWidth  = isLandscape ? 842 : 595;
+            const pdfHeight = isLandscape ? 595 : 842;
 
-           // Canvas pixels → PDF points, flip Y (PDF origin = bottom-left)
-           const pdfX =  (signX * cssToCanvasX) / renderScale;
-           const pdfY = (canvas.height - ((signY + signatureHeight) * cssToCanvasY)) / renderScale;
+            console.log('PDF size:', pdfWidth, pdfHeight, 'landscape?', isLandscape);
+
+            const signatureRect = signature.getBoundingClientRect();
+
+            signature.style.display = 'none';
+
+            const signX = Number.parseFloat(canvas.dataset.signX) || 0;
+            const signY = Number.parseFloat(canvas.dataset.signY) || 0;
+
+            console.log('CSS coords:', { signX, signY });
+
+            const cssToCanvasX = canvas.width  / rect.width;
+            const cssToCanvasY = canvas.height / rect.height;
+
+            const xCanvas = signX * cssToCanvasX;
+            const yCanvas = signY * cssToCanvasY;
+
+            console.log('Canvas coords:', { xCanvas, yCanvas });
+
+            const signatureWidthCanvas  = signatureRect.width  * cssToCanvasX;
+            const signatureHeightCanvas = signatureRect.height * cssToCanvasY;
+
+            console.log('Signature size (canvas):', {
+                width: signatureWidthCanvas,
+                height: signatureHeightCanvas
+            });
+
+            const scaleX = pdfWidth  / canvas.width;
+            const scaleY = pdfHeight / canvas.height;
+
+            console.log('Scale:', { scaleX, scaleY });
+
+            let pdfX = xCanvas * scaleX;
+            let pdfY = (canvas.height - yCanvas - signatureHeightCanvas) * scaleY;
+
+            console.log('PDF coords FINAL:', { pdfX, pdfY });
+
+            if (pdfX === 0) pdfX += 1;
+            if (pdfY === 0) pdfY += 1;
 
 
-           console.log('toSign coords:', { signX, signY, pdfX, pdfY });
+            console.log('TESTE RÁPIDO:');
+            console.log('- topo canvas → y ~', pdfHeight);
+            console.log('- fundo canvas → y ~ 0');
 
-           if(base64){
-               const data = {
-                   "tokenId"                : ((p.tokenId * 1) - 1),
-                   "certificateSerialNumber": p.certSerNum,
-                   "pin"                    : p.pin,
-                   "data"                   : base64,
-                   "pageNumberToSign"       : document.getElementById('currentPage').innerHTML,
-                   "xPosition"              : pdfX,
-                   "yPosition"              : pdfY,
-               };
+            if(base64){
+                const data = {
+                    "tokenId"                : ((p.tokenId * 1) - 1),
+                    "certificateSerialNumber": p.certSerNum,
+                    "pin"                    : p.pin,
+                    "data"                   : base64,
+                    "pageNumberToSign"       : document.getElementById('currentPage').innerHTML,
+                    "xPosition"              : pdfX,
+                    "yPosition"              : pdfY,
+                };
 
                 $.IGRP.utils.loading.show();
 
@@ -845,7 +890,7 @@
                     }
 
                 }).fail(function(e){
-                    
+
                     console.log("error : ",e);
 
                     $.IGRP.notify({
