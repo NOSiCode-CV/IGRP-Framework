@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.util.Map;
 
 import java.util.HashMap;
+import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -81,7 +82,7 @@ public class FlashMessage implements Serializable{
 		return this.msgs.getMessagesAsString(name);
 	}
 	
-	public ArrayList<String> getMessages(String name){
+	public List<String> getMessages(String name){
 		return this.msgs.getMessages(name);
 	}
 
@@ -90,7 +91,7 @@ public class FlashMessage implements Serializable{
 		return this.msgs;
 	}*/
 	
-	private static class Message implements Serializable{ // inner/internal class for all message
+	public static class Message implements Serializable{ // inner/internal class for all message
 		
 		/**
 		 * 
@@ -137,7 +138,7 @@ public class FlashMessage implements Serializable{
 			return result.toString();
 		}
 		
-		public ArrayList<String> getMessages(String name){
+		public List<String> getMessages(String name){
 			ArrayList<String> result = new ArrayList<>(); // empty ArrayList for NullPointerException when return it ...
 			if(this.msg.containsKey(name)){
 				result = new ArrayList<>(this.msg.get(name)); // to make clone of collection
