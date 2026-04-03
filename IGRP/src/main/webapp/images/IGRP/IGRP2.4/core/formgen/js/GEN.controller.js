@@ -1,500 +1,936 @@
-var GENERATOR = function(genparams){
-	
-	var GEN                = this;
-	
-	var declaredContainers = [];
-	var declaredFields     = [];
-	var declaredHtmls      = [];
-	var CONTAINERS         = [];
-	var TMPL_INCLUDES      = [];
-	var modules            = null;
-	var counter            = 0;
-	var xslEditing         = false;
-	var baseXslSet         = false;
-	var configDataSet 	   = false,
-		acceptsRules 	   = ['hidden','checkbox','radio'];
-	
-	const version=(new Date()).getDate();
+const GENERATOR = function (genparams) {
 
-	/*EVENTS ARRAY*/
-	var readyEvents = [];
+    const setPLSQLValue = function (params) {
+        const p = params ? params : {};
+        const rel = p.rel ? p.rel : 'gen-plsql';
+        const btnController = p.controller ? p.controller : $(VARS.html.viewsController + '[rel="' + rel + '"]');
+        const viewr = $('#' + rel);
 
-	var initEvents = [];
+        btnController.removeClass('active');
 
-	var viewChangeEvents = [];
+        const xsltPath = btnController.attr('xslt-path');
+        const xsltFile = btnController.attr('xslt-file');
+        const txtarea = $('#' + rel + ' textarea');
+        const isIE = !!(window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i));
+        const enterParam = '$$enter$$';
 
-	var xslTmplPath = path+'/xsl/tmpl/';
+        //var mainXml = GEN.getXML();
 
-	GEN.params 			 = genparams;
-	
-	GEN.svApplet      	 = null;
+        const xslParams = isIE ? {jsEnter: enterParam} : false;
+        const xmlStr = GEN.getXML();
 
-	GEN.XML              = $($.parseXML(VARS.xml.init));
+        const plsqlXML = $.parseXML(xmlStr);
 
-	GEN.XSL              = null;
+        if (isIE)
+            replaceSpace($(plsqlXML));
 
-	GEN.importing        = false;
-	
-	GEN.STRUCTURE        = new GENSTRUCTURES( GEN );
+        GEN.waiting();
 
-	GEN.path             = path+VARS.genPath;
+        $('<div/>').XMLTransform({
+            xml: plsqlXML,
+            xsl: xsltPath + '/' + xsltFile,
+            xslParams: xslParams,
+            xslBasePath: xsltPath,
+            complete: function (d, e) {
 
-	GEN.defaultIncludes  = ['IGRP-functions.tmpl', 'IGRP-variables.tmpl','IGRP-home-include.tmpl','IGRP-utils.tmpl', 'parts.common','parts.head','parts.header','parts.scripts', 'parts.footer','parts.sidebar'];
+                let content = d.text();
+
+                const editorName = rel.split('gen-')[1] || 'plsql';
+
+                const editor = GEN[editorName + 'Editor'] || GEN.plsqlEditor;
+
+                const beginExp = '#gen(';
+
+                const endExp = ')/#';
 
 
-	
+                const cback = function (content) {
 
-	/**<xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=14"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=14"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=14"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=14"/> */
-	GEN.icons 			 = {};	
+                    if (isIE) {
+                        content = content.replaceAll(enterParam, '\n');
+                        content = content.replaceAll('$SPACE$', ' ');
+                        content = content.replaceAll('$space$', '_');
+                    }
 
-	GEN.proprieties 	 = {};
+                    const fBegin = getIndicesOf(beginExp, content),
 
-	GEN.SET  			 = {};
+                        fEnd = getIndicesOf(endExp, content);
 
-	GEN.GET 			 = {};
+                    if (fBegin[0])
+                        $.IGRP.notify({
+                            message: 'Something went wrong preserving your code. review your PL/SQL code!',
+                            type: 'warning'
+                        });
 
-	GEN.propertiesLabels = {};
+                    editor.setValue(content);
 
-	GEN.domains 		 = {};
-	
-	GEN.dom = $('#igrp-form-gen');
-	
-	GEN.files 			 = {
-		css : [],
-		js  : [],
-		xsl : []
-	};
-	
-	GEN.pfiles  = { // process files include
-		css : [
-				{file : '/core/igrp/toolsbar/toolsbar'},
-				{file : '/core/igrp/process/process'},
-				{file : '/plugins/view/igrp.view'}
-			  ],
-		js : [],
-		xsl : [
-				{file : 'IGRP-process-utils'}
-			  ]
-	};
+                    $(VARS.html.viewsController).removeClass('active');
 
-	GEN.tags = {
+                    if (params.activateBtn !== false)
 
-		list : {
-			
-			containers: {
+                        btnController.addClass('active');
 
-			},
+                    codeEditorView(true);
 
-			fields : {
+                    GEN.done();
 
-			}
+                    if (p.callback) p.callback(content);
 
-		},
+                    editor.refresh();
 
-		cycle : function(tag,arr,object){
-			
-			var r  = true,
-				id = object.GET && object.GET.id ?  object.GET.id() : -1;
+                    $('.gen-viewers-toolbar .gen-page-setts-ctrl').show();
+                };
 
-			for(var i = 0; i < arr.length; i++){
-					
-				var c = arr[i];
+                /* GOOGLE CHROME XSLT document() function hack */
+                //if(isIE){
+                //cback(content);
+                //}else{
 
-				if(c.GET.id() != id){
+                const begin = getIndicesOf(beginExp, content);
 
-					var t = c.GET.tag();
+                const end = getIndicesOf(endExp, content);
 
-					if(t == tag){
-						
-						r = false;
+                const canPreserve = begin.length === end.length;
 
-						break;
+                if (canPreserve && begin[0] && end[0])
 
-					}
-					
-				}
-				
-			}
+                    preserve_code(begin, {
 
-			return r;
-		},
+                        content: content,
 
-		valid : function(tag,object){
-			//console.log(object)
-			var r = true,
+                        end: end,
 
-				t = object.genType,
+                        callback: function (obj) {
 
-				a = t == 'container' ? GEN.getContainers() : GEN.getAllFields();
-			
-			return GEN.tags.cycle(tag, a, object);
+                            obj.forEach(function (o) {
+
+                                const oldText = o.oldText ? $.trim(o.oldText) : '';
+
+                                const currentText = o.text ? $.trim(o.text) : '';
+
+                                let _cnt = currentText || oldText;
+
+                                _cnt = $.trim(_cnt) === o.expression ? '' : _cnt;
+
+                                content = content.replaceAll(o.expression, '\n\n' + _cnt);
+                            });
+
+                            const eBegin = getIndicesOf(beginExp, content),
+
+                                eEnd = getIndicesOf(endExp, content);
+
+                            if (eBegin[0]) {
+
+                                $.IGRP.notify({
+                                    message: 'Something went wrong preserving your code. review your PL/SQL code!',
+                                    type: 'warning'
+                                });
+
+                                preserve_code(eBegin, {
+
+                                    content: content,
+
+                                    end: eEnd,
+
+                                    callback: function (obj) {
+
+                                        obj.forEach(function (o) {
+
+                                            console.log($.trim(o.text) === o.expression);
+
+                                            content = content.replaceAll(o.expression, '\n\n' + $.trim(o.text));
+                                        });
+
+                                        cback(content);
+
+                                    }
+
+                                });
+
+                            } else {
+
+                                cback(content);
+                            }
+
+
+                        }
+
+                    });
+                else
+                    cback(content);
+                /* /GOOGLE CHROME XSLT document() function hack */
+
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+
+
+    };
+    const genUICode = function (params) {
+
+        GEN.server.set(params);
+
+
+        /*//console.log(params);
+		var server = genparams.server || {},
+
+			codes  = server[params.mode];
+
+		if(codes[0]){
+
+
 
 		}
-		
-	};
 
-	
-	GEN.init = function(){
-		setVars();
-		getConfigData();
-		getBaseXSL();
-		setEvents();
+		params.callback();*/
 
-		GEN.GroupContainerMenus();
-	}
+    };
+    const openPLSQLSettings = function (t) {
 
-	GEN.getContainer = function(id){
-		var rtn = null;
-		for(var x = 0; x < CONTAINERS.length; x++){
-			if(CONTAINERS[x].id == id){
-				rtn = CONTAINERS[x];
-				break;
-			}
-		}
-		return rtn;
-	}
+        const modal = $('#gen-settings-modal'),
 
-	GEN.getContainerByTag = function(tag){
-		var rtn = null;
-		for(var x = 0; x < CONTAINERS.length; x++){
-			if(CONTAINERS[x].GET.tag() == tag){
-				rtn = CONTAINERS[x];
-				break;
-			}
-		}
-		return rtn;
-	}
+            fields = $('input,select,textarea', modal),
 
-	GEN.getContainers = function(){
-		return CONTAINERS;
-	}
+            trnsf = t && typeof t === 'string' ? t : getActiveEditorName(),
 
-	GEN.getContainerFolder = function(type){
-		return VARS.genPath+'/types/containers/'+type;
-	}
+            callback = typeof t === 'function' ? t : false,
 
-	GEN.getFieldFolder = function(type){
-		return VARS.genPath+'/types/fields/'+type;
-	}
+            objServ = $('div[item-name="page_service"]', modal),
 
-	GEN.validateContainerTag = function(container){
-		var count = 0;
-		CONTAINERS.forEach(function(c,i){
-			if(c.GET.type() == container.GET.type()){
-				count++;
-				if(c.proprieties.tag == container.proprieties.tag)
-					container.proprieties.tag = container.GET.tag()+count;
-			}
-		});
-	}
-	
-	GEN.openIgrpDoc = function(type){
-			
-		if($('#igrp-doc')[0] && $('#link_doc')[0]){
-			var url = $('#link_doc').val();
-			
-			url += url.indexOf('?') !== -1 ? '&' : '?'; 
-			
-			url += 'target=_blank&p_type='+type;
-			
-			$('#igrp-doc').attr({'href' : url, 'position' : type});
-		}
-	}
+            service = GEN.proprieties.service ? GEN.proprieties.service : {};
 
-	var tagsIncr = {};
 
-	var isTagValid = function(tag){
-		var rtn = true;
-		for(var i = 0; i < CONTAINERS.length; i++ ){
-			var o = CONTAINERS[i];
-			
-			if(o.GET.tag() == tag){
-				rtn = false;
-				break;
-			}
-		}
-		return rtn;
-	}
+        GEN.service.set(GEN);
+        objServ.append(GEN.proprieties.service.setter()[0]);
 
-	var validateTag = function(tag,incr){
-		var validTag = tag;
-		var objects  = GEN.getContainers();
-		var idx = incr ? incr+1 : 1;
-		
-		if(isTagValid(validTag+'_'+idx)){
-			validTag = validTag+'_'+idx;
-		}else{
-			validTag = validateTag(tag,idx);
-		}
-		//console.log(idx);
-		//console.log(isTagValid(tag+'_'+idx))
-		//validTag = isTagValid(tag+'_'+idx) ? tag+'_'+idx : validateTag(tag,idx);
-		return validTag;
-	}
+        if (service.code) {
 
-	GEN.initHtml_ROW = function(p){
+            $('#service_desc', objServ).val(service.desc);
+            $('#service_code', objServ).val(service.code);
+            $('#service_proc', objServ).val(service.proc);
 
-	}
+            GEN.SET.service({
+                desc: service.desc,
+                code: service.code,
+                proc: service.proc,
+                connectionsReq: service.connectionsReq,
+                connectionsRes: service.connectionsRes,
+                fieldsReq: service.fieldsReq,
+                fieldsRes: service.fieldsRes
+            });
 
-	GEN.initContainer_ROW = function(p){
-		//console.log(p);
-		//try{	
-			var genType     = p.genType;
+            GEN.service.checkService(GEN, service.code);
+        }
 
-			var type        = p.object.GET.type();
+        $.each($('.gen-page-setter'), function (i, s) {
 
-			var placeHolder = p.placeholder ? p.placeholder : p.column.find('>.gen-column-inner >'+VARS.html.containersPlaceHolder);
+            const setter = $(s),
+                rel = setter.attr('rel');
 
-			var callback    = p.callback ? p.callback : false;
-			
-			var fromSortable= placeHolder.find('>'+VARS.html.declaredContainers+':eq('+p.index+')')[0];
+            if (setter.attr('type') === 'checkbox')
+                setter.prop('checked', GEN.SETTINGS[rel]);
+            else
+                setter.val(GEN.SETTINGS[rel]);
 
-			var holder = p.holder && p.holder[0] ? p.holder : GEN.getItemBeforeDrop(type);
+        });
 
-			p.object.order = p.index;
+        modal.attr('transformer', trnsf);
 
-			CONTAINERS.push(p.object);
-			//init container: declare container holder
-	
-			p.object.init(callback);
+        modal.modal('show');
 
-			holder.append(p.object.holder);
+        modal[0].confirmCallback = callback;
 
-			GEN.checkColumnComponents( p.column );
+        return false;
+    };
+    const setCustomCSStoView = function () {
+        $('#custom-css').html(GEN.cssEditor.getValue())
+    };
+    const setJSValue = function (cb) {
+        codeEditorView(true);
+        if (cb) cb();
+    };
+    const setCustomJStoView = function () {
 
-			if(!fromSortable || p.clone){
-				p.column.find('> .gen-column-inner >'+VARS.html.containersPlaceHolder).insertAt(holder,p.object.order);
-			}
+        $('#custom-js').html(GEN.jsEditor.getValue())
+    };
+    const setXSLValue = function (cb) {
 
-			counter++;
-	}
+        const _c = GEN.getXSL({
+            removeGenAttrs: true
+        });
+        //_c = vkbeautify.xml(_c);
+        GEN.xslEditor.setValue(_c);
 
-	GEN.initObject_ROW = function(p){
-		//if(p.genType == 'container'){
-		GEN.initContainer_ROW(p);
-		//}
-	}
+        GEN.xslEditor.autoFormatRange({line: 0, ch: 0}, {line: GEN.xslEditor.lineCount()});
 
-	GEN.setContainer = function(container){
-		var genXMLElement = GEN.XML.find('content > '+container.GET.tag());
+        codeEditorView(true);
 
-		if(genXMLElement[0])
-			genXMLElement.replaceWith(containerXML.documentElement);
-		else
-			GEN.XML.find('content').insertAt(containerXML.documentElement,container.order);
-	}
+        if (cb) cb();
 
-	GEN.checkColumnComponents = function(col){
-		
-		if(col.find('>.gen-column-inner>.gen-container-placeholder>.gen-declared-containers')[0])
-			col.attr('empty',false);
-		else
-			col.attr('empty',true);
+        setTimeout(function () {
+            GEN.xmlEditor.refresh();
+        }, 200);
 
-		col.removeClass('distance-bottom');
-	}
+      //  GEN.setRules();
+    };
+    const setXMLValue = function (cb) {
+        const _c = vkbeautify.xml(GEN.getXML());
 
-	const getRulesActionsXML = ()=>{
-		let rtn = "";
+        GEN.xmlEditor.setValue(_c);
 
-		let content = "";
+        codeEditorView(true);
 
-		GEN.getAllFields().forEach( (field,i)=>{
-			if(field.rules && field.rules[0]){
-				field.rules.forEach( (rule,x)=>{
-					let actions = rule.actions?.replaceAll("'",'"');
-					if(actions){
-						actions = JSON.parse(actions);
-						if(actions && actions[0]){
-							actions.forEach( (action,z)=>{
-								if(
-									(action.gen_rule_action === 'remote' ||
-									action.gen_rule_action === 'remote_combobox' ||
-									action.gen_rule_action === 'remote_list')
-									&& action.gen_rule_procedure!='index'
-								 ){
+        setTimeout(function () {
+            if (cb) cb();
+            GEN.xmlEditor.refresh();
+        }, 1);
 
-									content+=`
+    };
+    const getXSLTop = function () {
+
+        let content = GEN.baseXSL.top;
+
+        let includes = "";
+        let includesBefore = getObjectCssFiles(GEN.getContainersIncludes(), 'container', 'before');
+
+        includesBefore += getObjectCssFiles(GEN.getFieldsIncludes(), 'field', 'before');
+
+        includes += getObjectCssFiles(GEN.getContainersIncludes(), 'container');
+
+        includes += getObjectCssFiles(GEN.getFieldsIncludes(), 'field');
+
+        if (GEN.files.css[0]) {
+
+            GEN.files.css.forEach(function (css) {
+
+                const path = GEN.getIncludeURL(css.file);
+
+                includes += '<link type="text/css" rel="stylesheet" href="' + path + '?v={$version}"/>';
+
+            });
+
+        }
+
+        if (GEN.SETTINGS.process) {
+
+            GEN.pfiles.css.forEach(function (css) {
+
+                includes += '<link type="text/css" rel="stylesheet" href="' + GEN.getIncludeURL(css.file) + '.css?v={$version}"/>';
+
+            });
+        }
+
+        includes += '<style>' + GEN.cssEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm, "") + '</style>'
+
+
+        //before
+        const idx = content.indexOf('<xsl:call-template name="igrp-head"/>');
+
+        content = content.insert(idx, includesBefore);
+
+        //after
+        const idxHeadEnd = content.indexOf('</head>');
+
+        content = content.insert(idxHeadEnd, includes);
+
+        return content;
+
+    };
+    const isTypeChangeble = function (type) {
+
+        let rtn = true;
+
+        if (type === 'button' || type === 'hidden' || type === 'map_widget')
+            rtn = false;
+
+        return rtn;
+
+    };
+    const getXSLBottom = function () {
+
+        let rtn = "";
+        let includesStr = GEN.getDefaultIncludesStr(true);
+        const includes = [];
+        const split = GEN.baseXSL.bottom.split('<!--INCLUDES-->');
+        const xslTmplPath = GEN.SETTINGS.gentype === 'java' ? '../../..' : '../..';
+
+        const includeTmpl = function (name) {
+
+            includes.push(name);
+
+            includesStr += '<xsl:include href="' + xslTmplPath + '/xsl/tmpl/' + name + '?v=' + version + '"/>';
+
+        };
+
+        let jsIncludes = "";
+
+        GEN.getContainers().forEach(function (c) {
+            /*XSL INCLUDES*/
+            if (c.getXSLIncludes) {
+                c.getXSLIncludes().array.forEach(function (iName) {
+                    if (includes[0]) {
+                        let found = false;
+                        for (let x = 0; x < includes.length; x++) {
+                            if (includes[x] === iName) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) includeTmpl(iName);
+                    } else {
+                        includeTmpl(iName);
+                    }
+                });
+            }
+
+        });
+
+        if (GEN.SETTINGS.process) {
+
+            GEN.pfiles.xsl.forEach(function (xsl) {
+
+                includeTmpl(xsl.file + '.tmpl.xsl');
+
+            });
+        }
+
+        //console.log(GEN.getContainersIncludes());
+        //console.log(GEN.getFieldsIncludes())
+
+        jsIncludes += getObjectJSFiles(GEN.getContainersIncludes(), 'container');
+
+        jsIncludes += getObjectJSFiles(GEN.getFieldsIncludes(), 'field');
+
+        if (GEN.files.js[0]) {
+
+            GEN.files.js.forEach(function (js) {
+
+                const path = GEN.getIncludeURL(js.file);
+
+                jsIncludes += '<script type="text/javascript" src="' + path + '"></script>';
+
+            });
+
+        }
+
+        rtn = split[0] + includesStr + split[1];
+
+        const idx = rtn.indexOf('</body>');
+
+        rtn = rtn.insert(idx, jsIncludes);
+
+        //omeText.replace(/(\r\n|\n|\r)/gm,"");
+        const bodyEnd = rtn.indexOf('</body>');
+
+        if (GEN.jsEditor.getValue())
+            rtn = rtn.insert(bodyEnd, '<script>' + GEN.jsEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm, "") + '</script>');
+
+        /*RULES SCRIPT*/
+        const rulesStr = GEN.getRules();
+
+        if (rulesStr) {
+
+
+            let caller = rulesStr.caller;
+
+            caller = GEN.escapeXSLChars(caller);
+
+            rtn = rtn.insert(bodyEnd, '<!-- RULES --><script src="{$path}/core/igrp/IGRP.rules.class.js"></script><script>\n' + caller + '</script>');
+        }
+
+
+        return rtn;
+    };
+    const GEN = this;
+
+    const declaredContainers = [];
+    const declaredFields = [];
+    const declaredHtmls = [];
+    let CONTAINERS = [];
+    const TMPL_INCLUDES = [];
+    let modules = null;
+    let counter = 0;
+    let xslEditing = false;
+    let baseXslSet = false;
+    let configDataSet = false;
+    const acceptsRules = ['hidden', 'checkbox', 'radio'];
+
+    const version = (new Date()).getDate();
+
+    /*EVENTS ARRAY*/
+    const readyEvents = [];
+
+    const initEvents = [];
+
+    const viewChangeEvents = [];
+
+    const xslTmplPath = path + '/xsl/tmpl/';
+
+    GEN.params = genparams;
+
+    GEN.svApplet = null;
+
+    GEN.XML = $($.parseXML(VARS.xml.init));
+
+    GEN.XSL = null;
+
+    GEN.importing = false;
+
+    GEN.STRUCTURE = new GENSTRUCTURES(GEN);
+
+    GEN.path = path + VARS.genPath;
+
+    GEN.defaultIncludes = ['IGRP-functions.tmpl', 'IGRP-variables.tmpl', 'IGRP-home-include.tmpl', 'IGRP-utils.tmpl', 'parts.common', 'parts.head', 'parts.header', 'parts.scripts', 'parts.footer', 'parts.sidebar'];
+
+
+    /**<xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=14"/>
+     <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=14"/>
+     <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=14"/>
+     <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=14"/> */
+    GEN.icons = {};
+
+    GEN.proprieties = {};
+
+    GEN.SET = {};
+
+    GEN.GET = {};
+
+    GEN.propertiesLabels = {};
+
+    GEN.domains = {};
+
+    GEN.dom = $('#igrp-form-gen');
+
+    GEN.files = {
+        css: [],
+        js: [],
+        xsl: []
+    };
+
+    GEN.pfiles = { // process files include
+        css: [
+            {file: '/core/igrp/toolsbar/toolsbar'},
+            {file: '/core/igrp/process/process'},
+            {file: '/plugins/view/igrp.view'}
+        ],
+        js: [],
+        xsl: [
+            {file: 'IGRP-process-utils'}
+        ]
+    };
+
+    GEN.tags = {
+
+        list: {
+
+            containers: {},
+
+            fields: {}
+
+        },
+
+        cycle: function (tag, arr, object) {
+
+            let r = true;
+            const id = object.GET && object.GET.id ? object.GET.id() : -1;
+
+            for (let i = 0; i < arr.length; i++) {
+
+                const c = arr[i];
+
+                if (c.GET.id() !== id) {
+
+                    const t = c.GET.tag();
+
+                    if (t === tag) {
+
+                        r = false;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            return r;
+        },
+
+        valid: function (tag, object) {
+            //console.log(object)
+            const r = true,
+
+                t = object.genType,
+
+                a = t === 'container' ? GEN.getContainers() : GEN.getAllFields();
+
+            return GEN.tags.cycle(tag, a, object);
+
+        }
+
+    };
+
+
+    GEN.init = function () {
+        setVars();
+        getConfigData();
+        getBaseXSL();
+        setEvents();
+
+        GEN.GroupContainerMenus();
+    }
+
+    GEN.getContainer = function (id) {
+        let rtn = null;
+        for (let x = 0; x < CONTAINERS.length; x++) {
+            if (CONTAINERS[x].id === id) {
+                rtn = CONTAINERS[x];
+                break;
+            }
+        }
+        return rtn;
+    }
+
+    GEN.getContainerByTag = function (tag) {
+        let rtn = null;
+        for (let x = 0; x < CONTAINERS.length; x++) {
+            if (CONTAINERS[x].GET.tag() === tag) {
+                rtn = CONTAINERS[x];
+                break;
+            }
+        }
+        return rtn;
+    }
+
+    GEN.getContainers = function () {
+        return CONTAINERS;
+    }
+
+    GEN.getContainerFolder = function (type) {
+        return VARS.genPath + '/types/containers/' + type;
+    }
+
+    GEN.getFieldFolder = function (type) {
+        return VARS.genPath + '/types/fields/' + type;
+    }
+
+    GEN.validateContainerTag = function (container) {
+        let count = 0;
+        CONTAINERS.forEach(function (c, i) {
+            if (c.GET.type() === container.GET.type()) {
+                count++;
+                if (c.proprieties.tag === container.proprieties.tag)
+                    container.proprieties.tag = container.GET.tag() + count;
+            }
+        });
+    }
+
+    GEN.openIgrpDoc = function (type) {
+
+        if ($('#igrp-doc')[0] && $('#link_doc')[0]) {
+            let url = $('#link_doc').val();
+
+            url += url.indexOf('?') !== -1 ? '&' : '?';
+
+            url += 'target=_blank&p_type=' + type;
+
+            $('#igrp-doc').attr({'href': url, 'position': type});
+        }
+    }
+
+    const tagsIncr = {};
+
+    const isTagValid = function (tag) {
+        let rtn = true;
+        for (let i = 0; i < CONTAINERS.length; i++) {
+            const o = CONTAINERS[i];
+
+            if (o.GET.tag() === tag) {
+                rtn = false;
+                break;
+            }
+        }
+        return rtn;
+    };
+
+    const validateTag = function (tag, incr) {
+        let validTag = tag;
+        const objects = GEN.getContainers();
+        const idx = incr ? incr + 1 : 1;
+
+        if (isTagValid(validTag + '_' + idx)) {
+            validTag = validTag + '_' + idx;
+        } else {
+            validTag = validateTag(tag, idx);
+        }
+        //console.log(idx);
+        //console.log(isTagValid(tag+'_'+idx))
+        //validTag = isTagValid(tag+'_'+idx) ? tag+'_'+idx : validateTag(tag,idx);
+        return validTag;
+    };
+
+    GEN.initHtml_ROW = function (p) {
+
+    }
+
+    GEN.initContainer_ROW = function (p) {
+        //console.log(p);
+        //try{
+        const genType = p.genType;
+
+        const type = p.object.GET.type();
+
+        const placeHolder = p.placeholder ? p.placeholder : p.column.find('>.gen-column-inner >' + VARS.html.containersPlaceHolder);
+
+        const callback = p.callback ? p.callback : false;
+
+        const fromSortable = placeHolder.find('>' + VARS.html.declaredContainers + ':eq(' + p.index + ')')[0];
+
+        const holder = p.holder && p.holder[0] ? p.holder : GEN.getItemBeforeDrop(type);
+
+        p.object.order = p.index;
+
+        CONTAINERS.push(p.object);
+        //init container: declare container holder
+
+        p.object.init(callback);
+
+        holder.append(p.object.holder);
+
+        GEN.checkColumnComponents(p.column);
+
+        if (!fromSortable || p.clone) {
+            p.column.find('> .gen-column-inner >' + VARS.html.containersPlaceHolder).insertAt(holder, p.object.order);
+        }
+
+        counter++;
+    }
+
+    GEN.initObject_ROW = function (p) {
+        //if(p.genType == 'container'){
+        GEN.initContainer_ROW(p);
+        //}
+    }
+
+    GEN.setContainer = function (container) {
+        const genXMLElement = GEN.XML.find('content > ' + container.GET.tag());
+
+        if (genXMLElement[0])
+            genXMLElement.replaceWith(containerXML.documentElement);
+        else
+            GEN.XML.find('content').insertAt(containerXML.documentElement, container.order);
+    }
+
+    GEN.checkColumnComponents = function (col) {
+
+        if (col.find('>.gen-column-inner>.gen-container-placeholder>.gen-declared-containers')[0])
+            col.attr('empty', false);
+        else
+            col.attr('empty', true);
+
+        col.removeClass('distance-bottom');
+    }
+
+    const getRulesActionsXML = () => {
+        let rtn = "";
+
+        let content = "";
+
+        GEN.getAllFields().forEach((field, i) => {
+            if (field.rules && field.rules[0]) {
+                field.rules.forEach((rule, x) => {
+                    let actions = rule.actions?.replaceAll("'", '"');
+                    if (actions) {
+                        actions = JSON.parse(actions);
+                        if (actions && actions[0]) {
+                            actions.forEach((action, z) => {
+                                if (
+                                    (action.gen_rule_action === 'remote' ||
+                                        action.gen_rule_action === 'remote_combobox' ||
+                                        action.gen_rule_action === 'remote_list')
+                                    && action.gen_rule_procedure !== 'index'
+                                ) {
+
+                                    content += `
 									<item type="specific" code="" rel="${action.gen_rule_procedure}">
 										<title>${action.gen_rule_procedure}</title>
 									</item>
 									`
-								 }
-							})
-						}
-					}
-				} )
-			}
-		} )
-		if(content){
-			rtn = `
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+        })
+        if (content) {
+            rtn = `
 				<page_rules_actions type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
 					${content}
 				</page_rules_actions>
 			`
-		}
-		return rtn;
-	}
+        }
+        return rtn;
+    }
 
-	GEN.getXML = function(p){
-		var _params = p ? p : {};
-		var rtn      = '',
-		    filename = GEN.DETAILS ? GEN.DETAILS.filename     : '',
-		    page     = GEN.DETAILS ? GEN.DETAILS.page         : '',
-		    app      = GEN.DETAILS ? GEN.DETAILS.app          : '',
-		    actionD  = GEN.DETAILS ? GEN.DETAILS.action_descr : '',
-		    blocklyXML = GetDefaultBlocklyXML(),
-		    
-		    blocklyImports = GetBlocklyImports();
-		var subpath = filename.substring(1);	
-		//rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+'..'+subpath.substring(subpath.indexOf('/'))+'" type="text/xsl"?>';
-		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+filename+'" type="text/xsl"?>';
+    GEN.getXML = function (p) {
+        const _params = p ? p : {};
+        let rtn = '';
+        const filename = GEN.DETAILS ? GEN.DETAILS.filename : '',
+            page = GEN.DETAILS ? GEN.DETAILS.page : '',
+            app = GEN.DETAILS ? GEN.DETAILS.app : '',
+            actionD = GEN.DETAILS ? GEN.DETAILS.action_descr : '',
+            blocklyXML = GetDefaultBlocklyXML(),
 
-		rtn+='<rows>';
-			rtn+=VARS.xml.site;
-			//page
-			rtn+='<page>'+page+'</page>';
-			//app
-			rtn+='<app>'+app+'</app>';
-			//rtn+='<template>velzon</template>';
-			//plsql
-			rtn+=VARS.xml.plsql();
-			//slide menu
-			rtn+='<slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />';
-			//top menu
-			rtn+='<top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />';
-			//content
-			rtn+='<content>';
-				rtn+='<title>'+actionD+'</title>';
-				//containers
-				if(_params.containersIDs){
-					_params.containersIDs.forEach(function(id){
-						var container = GEN.getContainer(id);
-						if(container && container.getXML){
-					
-							rtn+= $(container.getXML()).getXMLStr();
-							
-							if(container.onXMLGenerate)
-								rtn+=container.onXMLGenerate(rtn);
-						}
-					});
-				}else{
-					GEN.getContainers().forEach(function(c){
-					
-						if(c.getXML) {
+            blocklyImports = GetBlocklyImports();
+        const subpath = filename.substring(1);
+        //rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+'..'+subpath.substring(subpath.indexOf('/'))+'" type="text/xsl"?>';
+        rtn += '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="' + filename + '" type="text/xsl"?>';
 
-							rtn+= $(c.getXML()).getXMLStr();
+        rtn += '<rows>';
+        rtn += VARS.xml.site;
+        //page
+        rtn += '<page>' + page + '</page>';
+        //app
+        rtn += '<app>' + app + '</app>';
+        //rtn+='<template>velzon</template>';
+        //plsql
+        rtn += VARS.xml.plsql();
+        //slide menu
+        rtn += '<slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />';
+        //top menu
+        rtn += '<top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />';
+        //content
+        rtn += '<content>';
+        rtn += '<title>' + actionD + '</title>';
+        //containers
+        if (_params.containersIDs) {
+            _params.containersIDs.forEach(function (id) {
+                const container = GEN.getContainer(id);
+                if (container && container.getXML) {
 
-							if(c.onXMLGenerate)
-								rtn+=c.onXMLGenerate(rtn);
-						}
-					});
-				}
-			rtn+=getRulesActionsXML();
-			rtn+='</content>';
-			if(GEN.GET.service && GEN.GET.service().code)
-				rtn+=GEN.getFieldServiceMap(GEN.GET.service());
-			rtn+='<blockly>'+blocklyImports+blocklyXML+'</blockly>';
-		rtn+='</rows>';
-		
-		
-		
-		return rtn;
-		//return $.parseXML(rtn);
-	}
+                    rtn += $(container.getXML()).getXMLStr();
 
-	var removeGenAttrs = function(c){
-		var xsl = $($.parseXML(c));
+                    if (container.onXMLGenerate)
+                        rtn += container.onXMLGenerate(rtn);
+                }
+            });
+        } else {
+            GEN.getContainers().forEach(function (c) {
 
-		xsl.find('[gen-item-id]').removeAttr('gen-item-id');
+                if (c.getXML) {
 
-		xsl.find('[gen-id]').removeAttr('gen-id');
+                    rtn += $(c.getXML()).getXMLStr();
 
-		xsl.find('[gen-field-template]').removeAttr('gen-field-template');
+                    if (c.onXMLGenerate)
+                        rtn += c.onXMLGenerate(rtn);
+                }
+            });
+        }
+        rtn += getRulesActionsXML();
+        rtn += '</content>';
+        if (GEN.GET.service && GEN.GET.service().code)
+            rtn += GEN.getFieldServiceMap(GEN.GET.service());
+        rtn += '<blockly>' + blocklyImports + blocklyXML + '</blockly>';
+        rtn += '</rows>';
 
-		xsl.find('[gen-lbl-setter]').removeAttr('gen-lbl-setter');
-		
-		return xsl.getXMLStr();
-	}
 
-	var msgSet = false;
+        return rtn;
+        //return $.parseXML(rtn);
+    }
 
-	GEN.getXSL = function(options){
+    const removeGenAttrs = function (c) {
+        const xsl = $($.parseXML(c));
 
-		var o = options ? options : {};
+        xsl.find('[gen-item-id]').removeAttr('gen-item-id');
 
-		var _c = getXSLTop();
+        xsl.find('[gen-id]').removeAttr('gen-id');
 
-		msgSet = false
+        xsl.find('[gen-field-template]').removeAttr('gen-field-template');
 
-		var layoutRows = GEN.layout.getRows(true);
+        xsl.find('[gen-lbl-setter]').removeAttr('gen-lbl-setter');
 
-		var headerHTML = GEN.designRows( GEN.Headers.export() );
+        return xsl.getXMLStr();
+    };
 
-		_c+= GEN.designRows(layoutRows,{
-			main : true
-		});
+    let msgSet = false;
 
-		_c+=getXSLBottom();
+    GEN.getXSL = function (options) {
 
-		_c = GEN.setIGRPMessageTmpl(_c);
-		
-		if (GEN.SETTINGS.process)
-			_c = GEN.tmplProcessUtils(_c);
+        const o = options ? options : {};
 
-		if(o.removeGenAttrs)
-			_c = removeGenAttrs(_c);
+        let _c = getXSLTop();
 
-		_c = _c.replaceAll('<!--page-header-->', headerHTML);
-	
-		return _c;
-	}
+        msgSet = false
 
-	GEN.tmplProcessUtils = function(c){
-		try{
-			var doc      = $($.parseXML((' ' + c).slice(1))),
-		
-			content  = doc.find('#igrp-contents .content'),
-		
-			rows  	= content.find('>.row[id]');
-		
-			$('<xsl:call-template name="dynamic-tmpl-end"/>').insertAfter(rows);
-			
-			$('<xsl:call-template name="dynamic-tmpl-start"/>').insertBefore(rows);
-		
-			c = (new XMLSerializer()).serializeToString(doc[0]).replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
-		
-			}catch(err){
-				console.log(err);
-				console.log('ERROR SETTING IGRP PROCESS UTILS');
-			}	
-		return c;
-	};
-		
-	GEN.designRows_old = function(layoutRows,p){
-		var dParams = p ? p : {};
+        const layoutRows = GEN.layout.getRows(true);
 
-		var _c = '';
-		
-		var messageTMPL = '<xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>';
+        const headerHTML = GEN.designRows(GEN.Headers.export());
 
-		var isFirstFluid = layoutRows[0].propreties && layoutRows[0].propreties.class == 'row-fluid' ? true : false;
-		
-		var hasMoreThanOneRow = layoutRows.length > 1 ? true : false;
+        _c += GEN.designRows(layoutRows, {
+            main: true
+        });
 
-		/*//one row - not fluid
+        _c += getXSLBottom();
+
+        _c = GEN.setIGRPMessageTmpl(_c);
+
+        if (GEN.SETTINGS.process)
+            _c = GEN.tmplProcessUtils(_c);
+
+        if (o.removeGenAttrs)
+            _c = removeGenAttrs(_c);
+
+        _c = _c.replaceAll('<!--page-header-->', headerHTML);
+
+        return _c;
+    }
+
+    GEN.tmplProcessUtils = function (c) {
+        try {
+            const doc = $($.parseXML((' ' + c).slice(1))),
+
+                content = doc.find('#igrp-contents .content'),
+
+                rows = content.find('>.row[id]');
+
+            $('<xsl:call-template name="dynamic-tmpl-end"/>').insertAfter(rows);
+
+            $('<xsl:call-template name="dynamic-tmpl-start"/>').insertBefore(rows);
+
+            c = (new XMLSerializer()).serializeToString(doc[0]).replaceAll('xmlns="http://www.w3.org/1999/xhtml"', '');
+
+        } catch (err) {
+            console.log(err);
+            console.log('ERROR SETTING IGRP PROCESS UTILS');
+        }
+        return c;
+    };
+
+    GEN.designRows_old = function (layoutRows, p) {
+        const dParams = p ? p : {};
+
+        let _c = '';
+
+        const messageTMPL = '<xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>';
+
+        const isFirstFluid = layoutRows[0].propreties && layoutRows[0].propreties.class === 'row-fluid' ? true : false;
+
+        const hasMoreThanOneRow = layoutRows.length > 1 ? true : false;
+
+        /*//one row - not fluid
 		if(!hasMoreThanOneRow && !isFirstFluid){
 			c+='<MESSAGE>MESSAGE</MESSAGE>'
 		}
 
 		layoutRows.forEach(function(row,i){
-			
+
 			//console.log(row);
 			console.log('<row/>');
-			
+
 			if(isFirstFluid && !hasMoreThanOneRow){
 				c+='<MESSAGE>MESSAGE</MESSAGE>'
 			}
@@ -502,698 +938,693 @@ var GENERATOR = function(genparams){
 		});*/
 
 
+        layoutRows.forEach(function (row, i) {
 
-		layoutRows.forEach(function(row,i){
+            const isFullRow = row.columns[0] && row.columns[0].size === 'col-md-12';
 
-			var isFullRow = row.columns[0] && row.columns[0].size == 'col-md-12';
+            if (!isFullRow && i === 0 && !msgSet) {
+                _c += '<div class="row">';
+                _c += '<div class="gen-column col-md-12"><div class="gen-inner">';
+                _c += messageTMPL;
+                msgSet = true;
+                _c += '</div></div>';
+                _c += '</div>';
+            }
 
-			if(!isFullRow && i == 0 && !msgSet){
-				_c += '<div class="row">';
-					 	_c+='<div class="gen-column col-md-12"><div class="gen-inner">';
-					 		_c+=messageTMPL;
-							msgSet = true;
-					 	_c+='</div></div>';
-				_c += '</div>';
-			}
+            _c += '<div class="row" id="row-' + guid() + '">';
 
-			_c += '<div class="row" id="row-'+guid()+'">';
-			
-			row.columns.forEach(function(column,cidx){
-				_c+='<div class="gen-column '+column.size+'"><div class="gen-inner">';
+            row.columns.forEach(function (column, cidx) {
+                _c += '<div class="gen-column ' + column.size + '"><div class="gen-inner">';
 
-				var firstIsHeader = column.containers[0] && column.containers[0].proprieties.type == 'sectionheader';
+                const firstIsHeader = column.containers[0] && column.containers[0].proprieties.type === 'sectionheader';
 
-				if(!firstIsHeader && !msgSet && isFullRow){
-					_c+=messageTMPL;
-					msgSet = true;
-				}
-				
-				column.containers.forEach(function(_container,index){
-					var container = GEN.getContainer(_container.id);
-					
-					if(container)
-						_c+= container.XSLToString();
+                if (!firstIsHeader && !msgSet && isFullRow) {
+                    _c += messageTMPL;
+                    msgSet = true;
+                }
 
-					if(i == 0 && cidx == 0 && firstIsHeader && index == 0 && !msgSet && isFullRow){
-						_c+=messageTMPL;
-						msgSet = true;
-					}
+                column.containers.forEach(function (_container, index) {
+                    const container = GEN.getContainer(_container.id);
 
-				});
+                    if (container)
+                        _c += container.XSLToString();
 
-				_c+='</div></div>';
-			});
-			_c += '</div>';
-		});
+                    if (i === 0 && cidx === 0 && firstIsHeader && index === 0 && !msgSet && isFullRow) {
+                        _c += messageTMPL;
+                        msgSet = true;
+                    }
 
-		_c = _c.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"','');
-		_c = _c.replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
-		
-		return _c;
-	}
+                });
 
-	GEN.setIGRPMessageTmpl = function(_c,rows){
+                _c += '</div></div>';
+            });
+            _c += '</div>';
+        });
 
-		var messageTMPL = '<xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>',
+        _c = _c.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"', '');
+        _c = _c.replaceAll('xmlns="http://www.w3.org/1999/xhtml"', '');
 
-			rowMsg      = '<div class="row row-msg">'
-							 	+'<div class="gen-column col-md-12"><div class="gen-inner">'
-							 		+messageTMPL
-							 	+'</div></div>'
-						+'</div>';
-	
-		var tmpl = (' ' + _c).slice(1);
+        return _c;
+    }
 
-		try{
+    GEN.setIGRPMessageTmpl = function (_c, rows) {
 
-			var doc      	  = $($.parseXML(tmpl)),
+        const messageTMPL = '<xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>',
 
-				contents 	  = doc.find('#igrp-contents .content'),
+            rowMsg = '<div class="row row-msg">'
+                + '<div class="gen-column col-md-12"><div class="gen-inner">'
+                + messageTMPL
+                + '</div></div>'
+                + '</div>';
 
-				rows 	 	  = contents.find('>.row'),
+        const tmpl = (' ' + _c).slice(1);
 
-				firstRow 	  = rows.first(),
+        try {
 
-				isFirstFluid  = firstRow.hasClass('row-fluid'),
+            var doc = $($.parseXML(tmpl)),
 
-				firstCol 	  = firstRow.find('.gen-column').first(),
+                contents = doc.find('#igrp-contents .content'),
 
-				firstIsNavbar = firstCol.find('>.gen-inner>[tab-template="navbar"]'),
+                rows = contents.find('>.row'),
 
-				isFirstHeader = firstCol.find('>.gen-inner>xsl\\:if>section.content-header');
+                firstRow = rows.first(),
 
-				isFull 	      = firstCol.hasClass('col-sm-12') && isFirstHeader[0] ? true : false;
+                isFirstFluid = firstRow.hasClass('row-fluid'),
 
-				if(isFull || (isFirstFluid && firstIsNavbar.index() == 0) ){
-					
-					if(isFirstHeader[0] && isFirstHeader.parent().index() == 0)
+                firstCol = firstRow.find('.gen-column').first(),
 
-						$(messageTMPL).insertAfter(isFirstHeader.parent());
+                firstIsNavbar = firstCol.find('>.gen-inner>[tab-template="navbar"]'),
 
-					else if(firstIsNavbar.index() == 0)
+                isFirstHeader = firstCol.find('>.gen-inner>xsl\\:if>section.content-header');
 
-						$(messageTMPL).insertAfter(firstIsNavbar);
+            isFull = firstCol.hasClass('col-sm-12') && isFirstHeader[0] ? true : false;
 
-					else
-						contents.prepend($(rowMsg));
-					
-				}else{
+            if (isFull || (isFirstFluid && firstIsNavbar.index() === 0)) {
 
-					if(isFirstFluid){
+                if (isFirstHeader[0] && isFirstHeader.parent().index() === 0)
 
-						$(rowMsg).insertAfter(firstRow)
+                    $(messageTMPL).insertAfter(isFirstHeader.parent());
 
-					}else{
+                else if (firstIsNavbar.index() === 0)
 
-						contents.prepend($(rowMsg));
+                    $(messageTMPL).insertAfter(firstIsNavbar);
 
-					}
-					
+                else
+                    contents.prepend($(rowMsg));
 
-				}
+            } else {
 
-			    _c = (new XMLSerializer()).serializeToString(doc[0]).replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
-			  	
+                if (isFirstFluid) {
 
-		}catch(err){
-			console.log(err);
-			console.log('ERROR SETTING IGRP MESSAGES')
-		}
+                    $(rowMsg).insertAfter(firstRow)
 
-		return _c;
-	};
+                } else {
 
-	GEN.designRows = function(layoutRows,p){
+                    contents.prepend($(rowMsg));
 
-		var dParams = p ? p : {};
+                }
 
-		var _c = '';
 
-		layoutRows.forEach(function(row,i){
+            }
 
-			var rowClss = row.propreties ? row.propreties.class : '';
+            _c = (new XMLSerializer()).serializeToString(doc[0]).replaceAll('xmlns="http://www.w3.org/1999/xhtml"', '');
 
-			_c += '<div class="row '+rowClss+'" id="row-'+guid()+'">';
-			
-			row.columns.forEach(function(column,cidx){
-				_c+='<div class="gen-column '+column.size+'"><div class="gen-inner">';
-				
-				column.containers.forEach(function(_container,index){
 
-					var container = GEN.getContainer(_container.id);
-					
-					if(container)
-						_c+= container.XSLToString();
+        } catch (err) {
+            console.log(err);
+            console.log('ERROR SETTING IGRP MESSAGES')
+        }
 
-				});
+        return _c;
+    };
 
-				_c+='</div></div>';
+    GEN.designRows = function (layoutRows, p) {
 
-			});
+        const dParams = p ? p : {};
 
-			_c += '</div>';
-		});
+        let _c = '';
 
+        layoutRows.forEach(function (row, i) {
 
-		_c = _c.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"','');
+            const rowClss = row.propreties ? row.propreties.class : '';
 
-		_c = _c.replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
-		
-		return _c;
-	}
+            _c += '<div class="row ' + rowClss + '" id="row-' + guid() + '">';
 
-	
+            row.columns.forEach(function (column, cidx) {
+                _c += '<div class="gen-column ' + column.size + '"><div class="gen-inner">';
 
-	GEN.removeContainer = function(id){
-		
-		for(var x = 0; x < CONTAINERS.length; x++){
-			var container = CONTAINERS[x];
-			
-			if(container.id == id){
-				var idx = CONTAINERS.indexOf(container);
-				var column = $(container.holder.parents('.gen-column')[0]);
-				if(idx > -1){
+                column.containers.forEach(function (_container, index) {
 
-					if(container.contents){
-						var contentsContainers = container.holder.find('.gen-container-holder');
-	
-						$.each(contentsContainers,function(i,c){
-					   		var cId   = $(c).attr('id');
-					   		var cType = $(c).attr('type');
+                    const container = GEN.getContainer(_container.id);
 
-					   		if(cId) GEN.removeContainer(cId);
-					   		
-					    });
-					}
+                    if (container)
+                        _c += container.XSLToString();
 
-					container.GET.fields().forEach(function(f){
+                });
 
-						container.removeField(f.id,false,false)
+                _c += '</div></div>';
 
-					});
+            });
 
-					container.onRemove();
-					CONTAINERS.splice(idx,1);					
-					container.holder.parent().remove();
+            _c += '</div>';
+        });
 
-					GEN.checkColumnComponents(column);
-					
-					/**/
 
-				}
-				
-				if(GEN.edit.object && container.id == GEN.edit.object.id) GEN.edit.hide();
+        _c = _c.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"', '');
 
-				counter--;
-				
-				break;
-			}
-		}
-	}
+        _c = _c.replaceAll('xmlns="http://www.w3.org/1999/xhtml"', '');
 
-	var removeAllContainers = function(){
-		for(var x = CONTAINERS.length-1 ; x >= 0 ; x-- )			
-			GEN.removeContainer(CONTAINERS[x].id);
-		CONTAINERS = [];
-		$(VARS.html.view+'>#gen-design>.gen-rows-holder .row').remove();
-
-	}
-
-	var setUndeclared = function(c){
-		//console.log(declaredContainers);
-		var liHolder = $('.gen-declared-containers:eq('+c.index+')',c.column);
-		
-		if(liHolder.attr('type') == c.name)
-			liHolder.addClass('gen-undeclared');
-
-		console.log(c.name+' not declared!')
-	}
-
-	//var getGenFieldObject = function
-
-	GEN.dropContainers_ROW = function(containers,params){
-
-		hasChanged = true;
-
-		var indx = params && params.index >= 0 ? params.index : 0;
-
-	
-
-		if(indx < containers.length){
-			
-			var dropped    = containers[indx];
-
-			var objectType = dropped.params.genType ? dropped.params.genType : 'container'; 
-
-			var declared   = GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'] ? GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'](dropped.name) : null;
-
-
-			console.log(dropped)
-			
-			if(declared){
-
-				if(objectType == 'container'){
-					
-					var fields = [];
-
-					var _dcb = function(found){
-				
-						var object = new declared[objectType](dropped.name,dropped.params);
-
-						var objectParams = {
-							genType    : objectType,
-							object     : object,
-							index      : dropped.index,
-							holder     : dropped.holder,
-							row        : dropped.row,
-							column     : dropped.column,
-							clone      : dropped.clone,
-							placeholder: params.placeholder ? params.placeholder : null,
-							callback   : function(){
-
-								GEN.dom.trigger( 'container-set', [object] )
-								
-								GEN.dropContainers_ROW(containers,{
-									index:indx+1,
-									callback: params && params.callback ? ()=>{
-										return params.callback( object )
-									} : null
-								});
-
-							}
-						};
-						//objectParams
-						GEN.initObject_ROW(objectParams);
-	
-					}
-					
-					if(dropped.params.copy){
-						//copy fields from given page
-
-						GEN.getPageJSON(dropped.params.copy.id,function(containers,data){
-							
-							var rtn = true;
-							
-							if(!containers[0]){
-								
-								dropped.params.copy = false;
-								
-								if(dropped.params.copy)
-									
-									dropped.params.copy.found = false;
-								
-								_dcb(rtn);
-
-							}else{
-								
-								var arr = $.grep(containers,function(c){
-									
-									return c.proprieties.tag == dropped.params.copy.container
-								});
-	
-								if(arr[0]){
-	
-									var container = arr[0];
-	
-									dropped.params.copy.plsql = data.plsql;
-	
-									container.fields.forEach(function(_field){
-										var f = GEN.getDeclaredField(_field.properties.type);
-										if(f) fields.push(new f.field(_field.properties.type,_field));
-									});
-	
-									if(container.contextMenu)
-										dropped.params.contextMenu = container.contextMenu;
-	
-									dropped.params.fields = fields;
-	
-									dropped.params.style = container.style;
-	
-									dropped.params.options = container.options;
-								
-									dropped.params.xsl = container.xsl;
-	
-									dropped.params.proprieties = container.proprieties;
-	
-									
-	
-								}else{
-	
-									rtn = false;
-								}
-	
-								if(dropped.params.copy)
-									dropped.params.copy.found = rtn;
-								
-								_dcb(rtn);
-								
-							}
-							
-								
-						});
-
-					}else{		
-
-						
-
-						//setFields object to Fields()
-						if(dropped.params && dropped.params.fields && dropped.params.fields[0]){
-							
-							dropped.params.fields.forEach(function(_field){
-								
-								var fieldObject = jQuery.extend(true, {}, _field);
-
-								var vField = fieldObject.properties ? fieldObject : {
-
-									properties: fieldObject
-
-								};
-
-								var f = GEN.getDeclaredField(vField.properties.type);
-
-								if(f) fields.push(new f.field(vField.properties.type,vField));
-
-							});
-						}
-
-						dropped.params.fields = fields;
-
-						_dcb(true);
-
-					}
-				}
-
-
-			}else{
-				setUndeclared(dropped);
-				GEN.dropContainers_ROW(containers,{
-					index:indx+1,
-					callback: params ? params.callback : null
-				});
-			}
-
-		}
-		else if(params.callback) {
-
-			params.callback();
-		}
-	}
-	
-	GEN.declareContainer = function(d){		
-		if(!GEN.getDeclaredContainers(d.name)){
-			var menuItem = $(VARS.html.containers+'[name="'+d.name+'"], .page-header-item[type="'+d.name+'"]');
-			d.accept = menuItem.attr('accept') ? menuItem.attr('accept').split(',') :  [];
-			d.reject = menuItem.attr('reject') ? menuItem.attr('reject').split(',') :  [];
-			d.hasField = menuItem.attr('hasfield') != 'false';
-
-			declaredContainers.push(d);
-
-			menuItem.addClass('active');//set container html visible
-
-		}else{
-			console.log('container exists!')
-		}
-	}
-
-	GEN.getDeclaredContainers = function(name){
-		var rtn = null;
-		for(var x = 0; x < declaredContainers.length; x++){
-			if(declaredContainers[x].name == name){
-				rtn = declaredContainers[x];
-				break;
-			}
-		}
-		return rtn;
-	}
-
-	GEN.getAllDeclaredContainers = function(){
-		return declaredContainers;
-	}
-
-	GEN.declareHtml = function(h){
-		//console.log(h);
-		if(!GEN.getDeclaredHtmls(h.type)){
-			declaredHtmls.push(h);
-			$(VARS.html.htmls+'[type="'+h.type+'"]').addClass('active');//set container html visible
-		}else{
-			console.log('field exists!')
-		}
-		//console.log(declaredHtmls)
-	}
-
-	GEN.getDeclaredHtmls = function(type){
-		var rtn = null;
-		for(var x = 0; x < declaredHtmls.length; x++){
-			if(declaredHtmls[x].type == type){
-				rtn = declaredHtmls[x];
-				break;
-			}
-		}
-		return rtn;
-	}
-
-	GEN.declareField = function(f){
-		if(!GEN.getDeclaredField(f.type)){
-			declaredFields.push(f);
-			$(VARS.html.fields+'[type="'+f.type+'"]').addClass('active');//set container html visible
-		}else{
-			console.log('field exists!')
-		}
-	}
-
-
-	GEN.getDeclaredField = function(type){
-		var rtn = null;
-		for(var x = 0; x < declaredFields.length; x++){
-			if(declaredFields[x].type == type){
-				rtn = declaredFields[x];
-				break;
-			}
-		}
-		return rtn;
-	}
-
-	GEN.getDeclaredFields = function(){
-		return declaredFields;
-	}
-
-	var configAutoTagSetter = function(input,object){
-		var holder  = $('<div class="input-group"/>') ;
-		var checkH  = $('<div class="input-group-addon d-flex align-items-center justify-content-center auto-tagger" title="Auto Tag" alt="Auto Tag" />');
-		var autotag = $('<input type="checkbox" class="autotag-setter"/>');			
-		
-		autotag.prop('checked',object.autoTag);
-		
-		autotag.on('change',function(){
-			var val = $(this).is(':checked')
-			object.autoTag = val;
-			$('.propriety-setter',input).attr('disabled',val);
-
-			if(val)
-				$('.propriety-setter[rel="label"]').trigger('keyup');
-
-		});
-
-		checkH.append(autotag);
-
-		if(object.autoTag)
-			$('.propriety-setter',input).attr('disabled',true);
-
-		$('input',input).appendTo(holder);
-
-		holder.append(checkH);
-
-		input.append(holder);
-	}
-
-	GEN.getPageJSON = function(id,callback){
-		var link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';	
-		var req  = null;
-		var action = $.grep(GEN.DETAILS.linkPageList,function(p,e){
-			
-			return p.page == id;
-			
-		})[0];
-		
-		var app = action && action.app ? action.app : '';
-		
-		if(id){
-			
-			req = $.getJSON(link+id+'&p_app='+app,function(data){
-				
-				if(data){
-					
-					var containers = GEN.layout.getAllContainers(data.rows);
-					
-					
-					if(callback) 
-						
-						callback(containers,data);
-					
-				}else{
-					
-					if(callback) 
-						
-						callback([],data);
-					
-				}
-					
-
-			}).fail(function(){
-				console.log('fail');
-				callback([]);
-			});
-
-		}	
-		
-		return req;
-	}
-	//setContainerCopyOptions
-	var setContainerCopyOptions = function(object){
-		var pageSelect = $(VARS.html.pageCopySelecter);
-		var cList      = $(VARS.html.pageCopyContainerList);
-
-		pageSelect[0].onContainersSet = function(){};
-
-		pageSelect.append('<option value=""></option>');
-		
-		GEN.DETAILS.linkPageList.forEach(function(page){
-			var option = '<option value="'+page.page+'">'+page.description+'</option>';
-			pageSelect.append(option);
-		});
-
-		pageSelect.on('change',function(){
-
-			var container = GEN.edit.object;
-			var id       = $(this).val();
-
-			$(VARS.html.pageCopyContainerList).html('');
-
-			if(container && container.genType == 'container' && id){
-
-				GEN.getPageJSON(id,function(containers,data){
-					if(containers[0]){
-						containers.forEach(function(c){
-
-							if(c.proprieties.type == container.GET.type()){
-								var copy = $('<div class="radio">'+
-										       ' <label>'+
-										            '<input type="radio" name="gen-c-copy" value="'+c.proprieties.tag+'" class="radiolist" />'+
-										            '<span>'+c.proprieties.tag+'</span>'+
-										        '</label>'+
-										     '</div>')
-
-								copy.on('change',function(){
-									GEN.edit.copyData = data.plsql;
-									GEN.edit.copyProperties = c;
-									return false;
-								});
-
-								cList.append(copy)
-							}
-						});
-						pageSelect[0].onContainersSet();
-					}
-				});
-			}
-			
-		});
-	}
-
-	GEN.getSetter = function(p){
-		var type      = p.type; 
-		var propriety = p.propriety;
-		var object    = p.object;
-		
-		var objectProperties = object.getPropertyOptions && object.getPropertyOptions(propriety) ? object.getPropertyOptions(propriety) : null;
-		var pLabel           = object.propertiesLabels[propriety] ? object.propertiesLabels[propriety] : capitalizeFirstLetter(propriety);
-		var size             = objectProperties && objectProperties.size ? objectProperties.size : object.proprieties[p.propriety].size ? object.proprieties[p.propriety].size : '6';
-		//objectProperties.size ? size = objectProperties.size : 
-		var attrsObj = object.propertiesOptions && object.propertiesOptions[propriety] && object.propertiesOptions[propriety].attrs ? object.propertiesOptions[propriety].attrs : {};
-		var attrsStr = "";
-
-		var setOnConfirm = objectProperties && objectProperties.setOnConfirm == false ? false : true;
-		var setterClass  = setOnConfirm ? VARS.edition.class.propSetter : '';
-
-
-		for(var a in attrsObj){
-			attrsStr+=' '+a+'="'+attrsObj[a]+'" '
-		}
-
-		if(type == 'checkbox')
-			size = '4';
-
-		var _class    = object.proprieties[p.propriety].class ? object.proprieties[p.propriety].class : '';
-
-		var holder    = $('<div '+attrsStr+' rel="'+propriety+'" item-name="edit-'+propriety+'" class="form-group col-md-'+size+' '+_class+' col-xs-12"></div>');
-		var label     = $('<label>'+pLabel+'</label>');
-		var value     = object.GET[propriety] ? object.GET[propriety]() : '';
-
-
-		
-		switch(type){
-			
-			//OPTIONS / comboboxx
-			case 'select':
-				var canAdd   = objectProperties.canAdd ? ' can-add="true"' : '';
-				var addCb    = objectProperties.onOptionAdd ? objectProperties.onOptionAdd : function(){};
-				var multiple = objectProperties && objectProperties.value && objectProperties.value.multiple ? 'multiple="true"' : '';
-				var select   = $('<select'+canAdd+' name="edit-'+propriety+'" '+multiple+' rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'"/>');
-				var options  = typeof object.proprieties[propriety].options === 'function' ? object.proprieties[propriety].options() : object.proprieties[propriety].options;
-				
-				var drawOptions = function(ops){
-					
-					ops.forEach(function(o){
-						
-						var _label = o.label || o.text || "";
-						
-						var opt   = $('<option value="'+o.value+'">'+_label+'</option>'), 
-							selected;
-						if(Array.isArray(value))
-							value.forEach(function(v){
-								if(v == o.value)
-									opt.attr('selected',true);
-							});
-						else{
-							if(value == o.value)
-								opt.attr('selected',true);
-						}
-						
-						
-						select.append(opt)
-
-					});
-					
-				}
-				
-				if(options.then){
-					
-					options.then(function(data){
-						
-						if(options.onFinish)
-							
-							drawOptions( options.onFinish(data) );
-						
-					})
-					
-				}else{
-					
-					drawOptions( options );
-					
-				}
-				
-				/**/
-				
-				holder.append(label);
-
-				holder.append(select);
-
-			break;
-			//TRUE / FALSE
-			case 'checkbox': 
-				var checked = value ? ' checked="true"' : '';
-				const check_id = (new Date()).getTime();
-				holder.append(`
+        return _c;
+    }
+
+
+    GEN.removeContainer = function (id) {
+
+        for (let x = 0; x < CONTAINERS.length; x++) {
+            const container = CONTAINERS[x];
+
+            if (container.id === id) {
+                const idx = CONTAINERS.indexOf(container);
+                const column = $(container.holder.parents('.gen-column')[0]);
+                if (idx > -1) {
+
+                    if (container.contents) {
+                        const contentsContainers = container.holder.find('.gen-container-holder');
+
+                        $.each(contentsContainers, function (i, c) {
+                            const cId = $(c).attr('id');
+                            const cType = $(c).attr('type');
+
+                            if (cId) GEN.removeContainer(cId);
+
+                        });
+                    }
+
+                    container.GET.fields().forEach(function (f) {
+
+                        container.removeField(f.id, false, false)
+
+                    });
+
+                    container.onRemove();
+                    CONTAINERS.splice(idx, 1);
+                    container.holder.parent().remove();
+
+                    GEN.checkColumnComponents(column);
+
+                    /**/
+
+                }
+
+                if (GEN.edit.object && container.id === GEN.edit.object.id) GEN.edit.hide();
+
+                counter--;
+
+                break;
+            }
+        }
+    }
+
+    const removeAllContainers = function () {
+        for (let x = CONTAINERS.length - 1; x >= 0; x--)
+            GEN.removeContainer(CONTAINERS[x].id);
+        CONTAINERS = [];
+        $(VARS.html.view + '>#gen-design>.gen-rows-holder .row').remove();
+
+    };
+
+    const setUndeclared = function (c) {
+        //console.log(declaredContainers);
+        const liHolder = $('.gen-declared-containers:eq(' + c.index + ')', c.column);
+
+        if (liHolder.attr('type') === c.name)
+            liHolder.addClass('gen-undeclared');
+
+        console.log(c.name + ' not declared!')
+    };
+
+    //var getGenFieldObject = function
+
+    GEN.dropContainers_ROW = function (containers, params) {
+
+        let hasChanged = true;
+
+        const indx = params && params.index >= 0 ? params.index : 0;
+
+
+        if (indx < containers.length) {
+
+            const dropped = containers[indx];
+
+            const objectType = dropped.params.genType ? dropped.params.genType : 'container';
+
+            const declared = GEN['getDeclared' + capitalizeFirstLetter(objectType) + 's'] ? GEN['getDeclared' + capitalizeFirstLetter(objectType) + 's'](dropped.name) : null;
+
+
+            console.log(dropped)
+
+            if (declared) {
+
+                if (objectType === 'container') {
+
+                    const fields = [];
+
+                    const _dcb = function (found) {
+
+                        const object = new declared[objectType](dropped.name, dropped.params);
+
+                        const objectParams = {
+                            genType: objectType,
+                            object: object,
+                            index: dropped.index,
+                            holder: dropped.holder,
+                            row: dropped.row,
+                            column: dropped.column,
+                            clone: dropped.clone,
+                            placeholder: params.placeholder ? params.placeholder : null,
+                            callback: function () {
+
+                                GEN.dom.trigger('container-set', [object])
+
+                                GEN.dropContainers_ROW(containers, {
+                                    index: indx + 1,
+                                    callback: params && params.callback ? () => {
+                                        return params.callback(object)
+                                    } : null
+                                });
+
+                            }
+                        };
+                        //objectParams
+                        GEN.initObject_ROW(objectParams);
+
+                    };
+
+                    if (dropped.params.copy) {
+                        //copy fields from given page
+
+                        GEN.getPageJSON(dropped.params.copy.id, function (containers, data) {
+
+                            let rtn = true;
+
+                            if (!containers[0]) {
+
+                                dropped.params.copy = false;
+
+                                if (dropped.params.copy)
+
+                                    dropped.params.copy.found = false;
+
+                                _dcb(rtn);
+
+                            } else {
+
+                                const arr = $.grep(containers, function (c) {
+
+                                    return c.proprieties.tag === dropped.params.copy.container
+                                });
+
+                                if (arr[0]) {
+
+                                    const container = arr[0];
+
+                                    dropped.params.copy.plsql = data.plsql;
+
+                                    container.fields.forEach(function (_field) {
+                                        const f = GEN.getDeclaredField(_field.properties.type);
+                                        if (f) fields.push(new f.field(_field.properties.type, _field));
+                                    });
+
+                                    if (container.contextMenu)
+                                        dropped.params.contextMenu = container.contextMenu;
+
+                                    dropped.params.fields = fields;
+
+                                    dropped.params.style = container.style;
+
+                                    dropped.params.options = container.options;
+
+                                    dropped.params.xsl = container.xsl;
+
+                                    dropped.params.proprieties = container.proprieties;
+
+
+                                } else {
+
+                                    rtn = false;
+                                }
+
+                                if (dropped.params.copy)
+                                    dropped.params.copy.found = rtn;
+
+                                _dcb(rtn);
+
+                            }
+
+
+                        });
+
+                    } else {
+
+
+                        //setFields object to Fields()
+                        if (dropped.params && dropped.params.fields && dropped.params.fields[0]) {
+
+                            dropped.params.fields.forEach(function (_field) {
+
+                                const fieldObject = jQuery.extend(true, {}, _field);
+
+                                const vField = fieldObject.properties ? fieldObject : {
+
+                                    properties: fieldObject
+
+                                };
+
+                                const f = GEN.getDeclaredField(vField.properties.type);
+
+                                if (f) fields.push(new f.field(vField.properties.type, vField));
+
+                            });
+                        }
+
+                        dropped.params.fields = fields;
+
+                        _dcb(true);
+
+                    }
+                }
+
+
+            } else {
+                setUndeclared(dropped);
+                GEN.dropContainers_ROW(containers, {
+                    index: indx + 1,
+                    callback: params ? params.callback : null
+                });
+            }
+
+        } else if (params.callback) {
+
+            params.callback();
+        }
+    }
+
+    GEN.declareContainer = function (d) {
+        if (!GEN.getDeclaredContainers(d.name)) {
+            const menuItem = $(VARS.html.containers + '[name="' + d.name + '"], .page-header-item[type="' + d.name + '"]');
+            d.accept = menuItem.attr('accept') ? menuItem.attr('accept').split(',') : [];
+            d.reject = menuItem.attr('reject') ? menuItem.attr('reject').split(',') : [];
+            d.hasField = menuItem.attr('hasfield') !== 'false';
+
+            declaredContainers.push(d);
+
+            menuItem.addClass('active');//set container html visible
+
+        } else {
+            console.log('container exists!')
+        }
+    }
+
+    GEN.getDeclaredContainers = function (name) {
+        let rtn = null;
+        for (let x = 0; x < declaredContainers.length; x++) {
+            if (declaredContainers[x].name === name) {
+                rtn = declaredContainers[x];
+                break;
+            }
+        }
+        return rtn;
+    }
+
+    GEN.getAllDeclaredContainers = function () {
+        return declaredContainers;
+    }
+
+    GEN.declareHtml = function (h) {
+        //console.log(h);
+        if (!GEN.getDeclaredHtmls(h.type)) {
+            declaredHtmls.push(h);
+            $(VARS.html.htmls + '[type="' + h.type + '"]').addClass('active');//set container html visible
+        } else {
+            console.log('field exists!')
+        }
+        //console.log(declaredHtmls)
+    }
+
+    GEN.getDeclaredHtmls = function (type) {
+        let rtn = null;
+        for (let x = 0; x < declaredHtmls.length; x++) {
+            if (declaredHtmls[x].type === type) {
+                rtn = declaredHtmls[x];
+                break;
+            }
+        }
+        return rtn;
+    }
+
+    GEN.declareField = function (f) {
+        if (!GEN.getDeclaredField(f.type)) {
+            declaredFields.push(f);
+            $(VARS.html.fields + '[type="' + f.type + '"]').addClass('active');//set container html visible
+        } else {
+            console.log('field exists!')
+        }
+    }
+
+
+    GEN.getDeclaredField = function (type) {
+        let rtn = null;
+        for (let x = 0; x < declaredFields.length; x++) {
+            if (declaredFields[x].type === type) {
+                rtn = declaredFields[x];
+                break;
+            }
+        }
+        return rtn;
+    }
+
+    GEN.getDeclaredFields = function () {
+        return declaredFields;
+    }
+
+    const configAutoTagSetter = function (input, object) {
+        const holder = $('<div class="input-group"/>');
+        const checkH = $('<div class="input-group-addon d-flex align-items-center justify-content-center auto-tagger" title="Auto Tag" alt="Auto Tag" />');
+        const autotag = $('<input type="checkbox" class="autotag-setter"/>');
+
+        autotag.prop('checked', object.autoTag);
+
+        autotag.on('change', function () {
+            const val = $(this).is(':checked');
+            object.autoTag = val;
+            $('.propriety-setter', input).attr('disabled', val);
+
+            if (val)
+                $('.propriety-setter[rel="label"]').trigger('keyup');
+
+        });
+
+        checkH.append(autotag);
+
+        if (object.autoTag)
+            $('.propriety-setter', input).attr('disabled', true);
+
+        $('input', input).appendTo(holder);
+
+        holder.append(checkH);
+
+        input.append(holder);
+    };
+
+    GEN.getPageJSON = function (id, callback) {
+        const link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';
+        let req = null;
+        const action = $.grep(GEN.DETAILS.linkPageList, function (p, e) {
+
+            return p.page === id;
+
+        })[0];
+
+        const app = action && action.app ? action.app : '';
+
+        if (id) {
+
+            req = $.getJSON(link + id + '&p_app=' + app, function (data) {
+
+                if (data) {
+
+                    const containers = GEN.layout.getAllContainers(data.rows);
+
+
+                    if (callback)
+
+                        callback(containers, data);
+
+                } else {
+
+                    if (callback)
+
+                        callback([], data);
+
+                }
+
+
+            }).fail(function () {
+                console.log('fail');
+                callback([]);
+            });
+
+        }
+
+        return req;
+    }
+    //setContainerCopyOptions
+    const setContainerCopyOptions = function (object) {
+        const pageSelect = $(VARS.html.pageCopySelecter);
+        const cList = $(VARS.html.pageCopyContainerList);
+
+        pageSelect[0].onContainersSet = function () {
+        };
+
+        pageSelect.append('<option value=""></option>');
+
+        GEN.DETAILS.linkPageList.forEach(function (page) {
+            const option = '<option value="' + page.page + '">' + page.description + '</option>';
+            pageSelect.append(option);
+        });
+
+        pageSelect.on('change', function () {
+
+            const container = GEN.edit.object;
+            const id = $(this).val();
+
+            $(VARS.html.pageCopyContainerList).html('');
+
+            if (container && container.genType === 'container' && id) {
+
+                GEN.getPageJSON(id, function (containers, data) {
+                    if (containers[0]) {
+                        containers.forEach(function (c) {
+
+                            if (c.proprieties.type === container.GET.type()) {
+                                const copy = $('<div class="radio">' +
+                                    ' <label>' +
+                                    '<input type="radio" name="gen-c-copy" value="' + c.proprieties.tag + '" class="radiolist" />' +
+                                    '<span>' + c.proprieties.tag + '</span>' +
+                                    '</label>' +
+                                    '</div>');
+
+                                copy.on('change', function () {
+                                    GEN.edit.copyData = data.plsql;
+                                    GEN.edit.copyProperties = c;
+                                    return false;
+                                });
+
+                                cList.append(copy)
+                            }
+                        });
+                        pageSelect[0].onContainersSet();
+                    }
+                });
+            }
+
+        });
+    };
+
+    GEN.getSetter = function (p) {
+        const type = p.type;
+        const propriety = p.propriety;
+        const object = p.object;
+
+        const objectProperties = object.getPropertyOptions && object.getPropertyOptions(propriety) ? object.getPropertyOptions(propriety) : null;
+        const pLabel = object.propertiesLabels[propriety] ? object.propertiesLabels[propriety] : capitalizeFirstLetter(propriety);
+        let size = objectProperties && objectProperties.size ? objectProperties.size : object.proprieties[p.propriety].size ? object.proprieties[p.propriety].size : '6';
+        //objectProperties.size ? size = objectProperties.size :
+        const attrsObj = object.propertiesOptions && object.propertiesOptions[propriety] && object.propertiesOptions[propriety].attrs ? object.propertiesOptions[propriety].attrs : {};
+        let attrsStr = "";
+
+        const setOnConfirm = !(objectProperties && objectProperties.setOnConfirm === false);
+        const setterClass = setOnConfirm ? VARS.edition.class.propSetter : '';
+
+
+        for (let a in attrsObj) {
+            attrsStr += ' ' + a + '="' + attrsObj[a] + '" '
+        }
+
+        if (type === 'checkbox')
+            size = '4';
+
+        const _class = object.proprieties[p.propriety].class ? object.proprieties[p.propriety].class : '';
+
+        const holder = $('<div ' + attrsStr + ' rel="' + propriety + '" item-name="edit-' + propriety + '" class="form-group col-md-' + size + ' ' + _class + ' col-xs-12"></div>');
+        const label = $('<label>' + pLabel + '</label>');
+        const value = object.GET[propriety] ? object.GET[propriety]() : '';
+
+
+        switch (type) {
+
+            //OPTIONS / comboboxx
+            case 'select':
+                const canAdd = objectProperties.canAdd ? ' can-add="true"' : '';
+                const addCb = objectProperties.onOptionAdd ? objectProperties.onOptionAdd : function () {
+                };
+                const multiple = objectProperties && objectProperties.value && objectProperties.value.multiple ? 'multiple="true"' : '';
+                const select = $('<select' + canAdd + ' name="edit-' + propriety + '" ' + multiple + ' rel="' + propriety + '" class="form-control ' + VARS.edition.class.propSetter + '"/>');
+                const options = typeof object.proprieties[propriety].options === 'function' ? object.proprieties[propriety].options() : object.proprieties[propriety].options;
+
+                const drawOptions = function (ops) {
+
+                    ops.forEach(function (o) {
+
+                        const _label = o.label || o.text || "";
+
+                        const opt = $('<option value="' + o.value + '">' + _label + '</option>');
+                        let selected;
+                        if (Array.isArray(value))
+                            value.forEach(function (v) {
+                                if (v === o.value)
+                                    opt.attr('selected', true);
+                            });
+                        else {
+                            if (value === o.value)
+                                opt.attr('selected', true);
+                        }
+
+
+                        select.append(opt)
+
+                    });
+
+                };
+
+                if (options.then) {
+
+                    options.then(function (data) {
+
+                        if (options.onFinish)
+
+                            drawOptions(options.onFinish(data));
+
+                    })
+
+                } else {
+
+                    drawOptions(options);
+
+                }
+
+                /**/
+
+                holder.append(label);
+
+                holder.append(select);
+
+                break;
+            //TRUE / FALSE
+            case 'checkbox':
+                const checked = value ? ' checked="true"' : '';
+                const check_id = (new Date()).getTime();
+                holder.append(`
 				<div class="form-check form-switch form-switch-md" >
 					<input ${checked} id="${propriety}-${check_id}" rel="${propriety}" type="checkbox" name="" class="${VARS.edition.class.propSetter} checker checkbox form-check-input " label="${capitalizeFirstLetter(pLabel)}"/>
 					<label class="form-check-label " for="${propriety}-${check_id}">
@@ -1202,119 +1633,120 @@ var GENERATOR = function(genparams){
 				</div>
 				`)
 
-				/*holder.append('<div class="checkbox form-check-offset">'+
+                /*holder.append('<div class="checkbox form-check-offset">'+
 							      '<label>'+
 							        '<input '+checked+' rel="'+propriety+'" class="'+VARS.edition.class.propSetter+' checker" type="checkbox"/> <span>'+capitalizeFirstLetter(pLabel)+'</span>'+
 							      '</label>'+
 							  '</div>');*/
-			break;
-			//LIST FROM ARRAY / in given template
-			case'list':
-				
-				var items       = object.proprieties[propriety].list.items;
-				var iTmpl       = object.proprieties[propriety].list.itemTemplate;
-				var hasSearcher = object.proprieties[propriety].list.searcher ? true : false;
-				var onSelect    = object.proprieties[propriety].list.onSelect ? object.proprieties[propriety].list.onSelect : function(){};
-				var valueKey    = object.proprieties[propriety].list.key ? object.proprieties[propriety].list.key : 'value';
-				var activeValue = object.GET[propriety] && object.GET[propriety]() ? object.GET[propriety]() : '';
-				var searcher    = null;
-				var listHolder = $('<div class="gen-edition-list-holder"/>');
-				var inputSetter = $('<input type="hidden" value="'+activeValue+'" class="'+VARS.edition.class.propSetter+'" rel="'+propriety+'"/>')
+                break;
+            //LIST FROM ARRAY / in given template
+            case'list':
 
-				if(hasSearcher){
-					
-					searcher = $('<div class="form-group gen-list-searcher col-md-6"><input class="form-control" type="text" placeholder="Pesquisar"></div>')
-					
-					searcher.on('keyup','input',function(){
-						
-						var word = $(this).val();
-						var items = listHolder.find('.gen-list-item-setter');
-						
-						items.addClass('hidden');
+                const items = object.proprieties[propriety].list.items;
+                const iTmpl = object.proprieties[propriety].list.itemTemplate;
+                const hasSearcher = object.proprieties[propriety].list.searcher ? true : false;
+                const onSelect = object.proprieties[propriety].list.onSelect ? object.proprieties[propriety].list.onSelect : function () {
+                };
+                const valueKey = object.proprieties[propriety].list.key ? object.proprieties[propriety].list.key : 'value';
+                const activeValue = object.GET[propriety] && object.GET[propriety]() ? object.GET[propriety]() : '';
+                let searcher = null;
+                const listHolder = $('<div class="gen-edition-list-holder"/>');
+                const inputSetter = $('<input type="hidden" value="' + activeValue + '" class="' + VARS.edition.class.propSetter + '" rel="' + propriety + '"/>');
 
-						$.each( items.filter('[value*="'+word+'"]'),function(i,li){
-							$(li).removeClass('hidden');
-						});
-						
-						if(word.length == 0)
-							items.removeClass('hidden');
-					});
-				}
+                if (hasSearcher) {
 
-				holder.append([label,searcher,listHolder]);
+                    searcher = $('<div class="form-group gen-list-searcher col-md-6"><input class="form-control" type="text" placeholder="Pesquisar"></div>')
 
-				if(items && items[0]){
-					for(var i=0; i<items.length; i++){
-						var iStr = iTmpl;
-						if( typeof iStr == 'function' ){
-							iStr = iStr(items[i])
-						}else{
-							for(var k in items[i]){
-								iStr.replaceAll('#'+k+'#',items[i][k]);
-							}
-						}
-						
-						var itemHolder = $(iStr);
+                    searcher.on('keyup', 'input', function () {
 
-						itemHolder.attr('value',items[i][valueKey]).addClass('gen-list-item-setter');
-						
-						if(itemHolder.attr('value') == activeValue)
-							itemHolder.addClass('active');
+                        const word = $(this).val();
+                        const items = listHolder.find('.gen-list-item-setter');
 
-						itemHolder.on('click',function(){
-							$('.gen-list-item-setter',holder).removeClass('active');
-							$(this).addClass('active');
-							holder.find('.'+VARS.edition.class.propSetter).val( $(this).attr('value') ).trigger('change');
-							onSelect( $(this).attr('value'), this );
-						});
+                        items.addClass('hidden');
 
-						listHolder.append(itemHolder);
-					}
-					holder.append(inputSetter)
-				}
-			break;
-			//separatorlist
-			case 'separatorlist':
-				
-				if(GEN.attributes && GEN.attributes.get)
-					
-					var html = GEN.attributes.get({
-						type 	: type,
-						options : objectProperties,
-						target 	: object
-					});
+                        $.each(items.filter('[value*="' + word + '"]'), function (i, li) {
+                            $(li).removeClass('hidden');
+                        });
 
-				holder.append(html);
-				/*console.log('fasdjlfasd')
+                        if (word.length === 0)
+                            items.removeClass('hidden');
+                    });
+                }
+
+                holder.append([label, searcher, listHolder]);
+
+                if (items && items[0]) {
+                    for (let i = 0; i < items.length; i++) {
+                        let iStr = iTmpl;
+                        if (typeof iStr == 'function') {
+                            iStr = iStr(items[i])
+                        } else {
+                            for (let k in items[i]) {
+                                iStr.replaceAll('#' + k + '#', items[i][k]);
+                            }
+                        }
+
+                        const itemHolder = $(iStr);
+
+                        itemHolder.attr('value', items[i][valueKey]).addClass('gen-list-item-setter');
+
+                        if (itemHolder.attr('value') === activeValue)
+                            itemHolder.addClass('active');
+
+                        itemHolder.on('click', function () {
+                            $('.gen-list-item-setter', holder).removeClass('active');
+                            $(this).addClass('active');
+                            holder.find('.' + VARS.edition.class.propSetter).val($(this).attr('value')).trigger('change');
+                            onSelect($(this).attr('value'), this);
+                        });
+
+                        listHolder.append(itemHolder);
+                    }
+                    holder.append(inputSetter)
+                }
+                break;
+            //separatorlist
+            case 'separatorlist':
+
+                if (GEN.attributes && GEN.attributes.get)
+
+                    var html = GEN.attributes.get({
+                        type: type,
+                        options: objectProperties,
+                        target: object
+                    });
+
+                holder.append(html);
+                /*console.log('fasdjlfasd')
 				*/
 
-			break;
-			
-			//formlist attribute
-			
-			case 'formlist':
+                break;
 
-				holder.append(label);
-				
-				try{
-				
-					if(objectProperties.value && objectProperties.value.setter){
-						
-						var setter            = object.proprieties[propriety].setter().addClass(setterClass).attr('rel',p.propriety);
-						
-						if(objectProperties.type)
-							
-							setter.attr('type',objectProperties.type || 'custom');
-						
-						holder.append(setter);
-						
-					}else{
-						
-						var objectName = object.GET.tag(),
+            //formlist attribute
 
-							attName    = p.propriety,
-	
-							flist 	   = $(`
+            case 'formlist':
+
+                holder.append(label);
+
+                try {
+
+                    if (objectProperties.value && objectProperties.value.setter) {
+
+                        var setter = object.proprieties[propriety].setter().addClass(setterClass).attr('rel', p.propriety);
+
+                        if (objectProperties.type)
+
+                            setter.attr('type', objectProperties.type || 'custom');
+
+                        holder.append(setter);
+
+                    } else {
+
+                        const objectName = object.GET.tag(),
+
+                            attName = p.propriety,
+
+                            flist = $(`
 							<div 
 								class="box box-table-contents card igrp-formlist-wrapper gen-container-item gen-formlist-attr-holder" 
 								gen-class="" 
@@ -1342,111 +1774,111 @@ var GENERATOR = function(genparams){
 								</div>
 							</div>
 							`),
-	
-							fields 	   =  objectProperties.fields || false;
-	
-						flist.addClass(setterClass).attr('rel',p.propriety).attr('type','formlist');
-	
-						$('.IGRP_formlist',flist).IGRP_formlist({
-	
-							fields : fields,
-	
-							data : object.GET[p.propriety]()
-	
-						});
-	
-						if(objectProperties.sortable)
-	
-							flist.find('tbody').sortable({
-								
-								items: 'tr'
-	
-							}).disableSelection();
-	
-	
-						holder.append( flist )
-						
-					}
-					
 
-				}catch(err){
+                            fields = objectProperties.fields || false;
 
-					console.log(err)
+                        flist.addClass(setterClass).attr('rel', p.propriety).attr('type', 'formlist');
 
-				}	
-				
+                        $('.IGRP_formlist', flist).IGRP_formlist({
 
-			break;
-			
-			// CUSTOM SETTER / returns the setter $('<div/>')
-			case 'custom':
-				holder.append(label);
+                            fields: fields,
 
-				try{
-					//console.log(object)
-					var setter            = object.proprieties[propriety].setter().addClass(setterClass).attr('rel',p.propriety);
-					
-					if(objectProperties.type)
-					
-						setter.attr('type',objectProperties.type || 'custom');
+                            data: object.GET[p.propriety]()
 
-					holder.append(setter);
+                        });
 
-				}catch(e){
-					console.log(e);
-				}
-				
-			break;
-			case 'event':
-				holder.append(label);
-				holder.append($('<input rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'" change-event="'+object.proprieties[propriety].changeEvent+'" value="'+value+'" type="text"/>'));
-			break;
-			case 'textarea':
-				holder.append(label);
-				holder.append($('<textarea name="edit-'+propriety+'" rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'" type="'+type+'">'+value+'</textarea>'));
-			break;
-			case 'texteditor':
-				
-				var id = 'edit-'+propriety+'-'+(new Date()).getTime();
+                        if (objectProperties.sortable)
 
-				holder.append(label);
-				holder.append($('<textarea id="'+id+'" name="edit-'+propriety+'" rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'" type="'+type+'">'+value+'</textarea>'));
-				
-				setTimeout(function(){
+                            flist.find('tbody').sortable({
 
-					$.IGRP.components.form.texteditor({
-						parent : holder,
-						selector : '#'+id
-					});
+                                items: 'tr'
 
-				},100)
+                            }).disableSelection();
 
-			break;
-			default:
-				holder.append(label);
-				holder.append($('<input name="edit-'+propriety+'" rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'" value="'+value+'" type="'+type+'"/>'));
-			break;
-		}
 
-		/*if(objectProperties && objectProperties.help){
+                        holder.append(flist)
+
+                    }
+
+
+                } catch (err) {
+
+                    console.log(err)
+
+                }
+
+
+                break;
+
+            // CUSTOM SETTER / returns the setter $('<div/>')
+            case 'custom':
+                holder.append(label);
+
+                try {
+                    //console.log(object)
+                    var setter = object.proprieties[propriety].setter().addClass(setterClass).attr('rel', p.propriety);
+
+                    if (objectProperties.type)
+
+                        setter.attr('type', objectProperties.type || 'custom');
+
+                    holder.append(setter);
+
+                } catch (e) {
+                    console.log(e);
+                }
+
+                break;
+            case 'event':
+                holder.append(label);
+                holder.append($('<input rel="' + propriety + '" class="form-control ' + VARS.edition.class.propSetter + '" change-event="' + object.proprieties[propriety].changeEvent + '" value="' + value + '" type="text"/>'));
+                break;
+            case 'textarea':
+                holder.append(label);
+                holder.append($('<textarea name="edit-' + propriety + '" rel="' + propriety + '" class="form-control ' + VARS.edition.class.propSetter + '" type="' + type + '">' + value + '</textarea>'));
+                break;
+            case 'texteditor':
+
+                const id = 'edit-' + propriety + '-' + (new Date()).getTime();
+
+                holder.append(label);
+                holder.append($('<textarea id="' + id + '" name="edit-' + propriety + '" rel="' + propriety + '" class="form-control ' + VARS.edition.class.propSetter + '" type="' + type + '">' + value + '</textarea>'));
+
+                setTimeout(function () {
+
+                    $.IGRP.components.form.texteditor({
+                        parent: holder,
+                        selector: '#' + id
+                    });
+
+                }, 100)
+
+                break;
+            default:
+                holder.append(label);
+                holder.append($('<input name="edit-' + propriety + '" rel="' + propriety + '" class="form-control ' + VARS.edition.class.propSetter + '" value="' + value + '" type="' + type + '"/>'));
+                break;
+        }
+
+        /*if(objectProperties && objectProperties.help){
 			console.log(holder);
 		}*/
 
-		/*if(propriety == 'tag'){
+        /*if(propriety == 'tag'){
 			$('.propriety-setter',holder).attr('maxlength',8);
 		}*/
 
-		return holder;
-	}
+        return holder;
+    }
 
-	GEN.attrsForm = function(object){
-		var checkers   = [];
-		var formHolder = $(VARS.edition.modal).find('.modal-body [rel="properties"]');
-		var inputFieldsHolder = $('<div class="input-fields row m-0 p-0" style="height:fit-content"></div>')
-		
-		formHolder.html('');
+    GEN.attrsForm = function (object) {
+        const checkers = [];
+        const formHolder = $(VARS.edition.modal).find('.modal-body [rel="properties"]');
+        const inputFieldsHolder = $('<div class="input-fields row m-0 p-0" style="height:fit-content"></div>');
 
-		formHolder.append(`
+        formHolder.html('');
+
+        formHolder.append(`
 			<div class="mb-3">
 				<a class="border-bottom text-muted d-block py-2 mb-2 h5" data-bs-toggle="collapse" href="#group-field-default" >
 					Definições
@@ -1460,58 +1892,58 @@ var GENERATOR = function(genparams){
 			</div>
 		`);
 
-		formHolder.append(inputFieldsHolder);
+        formHolder.append(inputFieldsHolder);
 
-		for(var p in object.proprieties){ // ciclo nas proprieades do elemento
-			
-			var objectProperties = object.getPropertyOptions && object.getPropertyOptions(p) ? object.getPropertyOptions(p) : object.propertiesOptions[p] || null;
-			
-			if( object.isEditable(p) && p != 'type' && p != 'name'){
-				
-				var input     = false;
+        for (let p in object.proprieties) { // ciclo nas proprieades do elemento
 
-				var inputType = null;
+            const objectProperties = object.getPropertyOptions && object.getPropertyOptions(p) ? object.getPropertyOptions(p) : object.propertiesOptions[p] || null;
 
-				if( objectProperties && objectProperties['inputType'])
-					
-					inputType = objectProperties['inputType']
-				
-				else
-					
-					switch(typeof object.proprieties[p]){
-						case 'string':
-							inputType = objectProperties && objectProperties.inputType ? objectProperties.inputType : 'text';
-						break;
-						case 'number':
-							inputType = 'number';
-						break;
-						case 'boolean':
-							inputType = 'checkbox';
-						break;
-		
-						case 'object':
-		
-							if(objectProperties && objectProperties.type && objectProperties.type == 'formlist')
-								inputType = 'formlist';
-							
-							else if(object.proprieties[p].options)
-								inputType = 'select';
-							else if(object.proprieties[p].list)
-								inputType = 'list';
-							else if (object.proprieties[p].setter)
-								inputType = 'custom';
-							else if(object.proprieties[p].changeEvent)
-								inputType = 'event';
-							else if(objectProperties && objectProperties.type && objectProperties.type == 'separatorlist')
-								inputType = objectProperties.type;
-							else 
-								inputType = 'text';
-						break;
-					}	
-				
-				if(objectProperties?.type == 'separator'){
-				
-					input = $(`
+            if (object.isEditable(p) && p !== 'type' && p !== 'name') {
+
+                let input = false;
+
+                let inputType = null;
+
+                if (objectProperties && objectProperties['inputType'])
+
+                    inputType = objectProperties['inputType']
+
+                else
+
+                    switch (typeof object.proprieties[p]) {
+                        case 'string':
+                            inputType = objectProperties && objectProperties.inputType ? objectProperties.inputType : 'text';
+                            break;
+                        case 'number':
+                            inputType = 'number';
+                            break;
+                        case 'boolean':
+                            inputType = 'checkbox';
+                            break;
+
+                        case 'object':
+
+                            if (objectProperties && objectProperties.type && objectProperties.type === 'formlist')
+                                inputType = 'formlist';
+
+                            else if (object.proprieties[p].options)
+                                inputType = 'select';
+                            else if (object.proprieties[p].list)
+                                inputType = 'list';
+                            else if (object.proprieties[p].setter)
+                                inputType = 'custom';
+                            else if (object.proprieties[p].changeEvent)
+                                inputType = 'event';
+                            else if (objectProperties && objectProperties.type && objectProperties.type === 'separatorlist')
+                                inputType = objectProperties.type;
+                            else
+                                inputType = 'text';
+                            break;
+                    }
+
+                if (objectProperties?.type === 'separator') {
+
+                    input = $(`
 						<div class="mb-3 ">
 							<a class="border-bottom text-muted d-block py-2 mb-2 h5" data-bs-toggle="collapse" href="#group-field-${p}" > ${objectProperties.value}</a>
 							<div class="collapse" id="group-field-${p}" data-bs-parent="#properties-accordion">
@@ -1521,826 +1953,819 @@ var GENERATOR = function(genparams){
 						</div>
 					`);
 
-	
-					if( objectProperties?.order>=0)
-						inputFieldsHolder.insertAt(input,objectProperties.order)
-					else
-						inputFieldsHolder.append(input);
 
-		
-				}else{	
-
-					input = GEN.getSetter({
-						type      : inputType,
-						propriety : p,
-						object    : object,
-						definition : objectProperties && objectProperties.hasOwnProperty(p) ? objectProperties[p] : null,
-					});
-
-				}
-				
-				if(input) {
-						
-					if(p == 'tag') {
-						
-						input.attr('required','true');
-
-						$('.propriety-setter',input).attr('required','true')
-						
-						configAutoTagSetter(input,object);
-
-					}
-
-					if(p == 'type_changer'){
-
-						input.find('label').remove();
-
-						$('#gen-edition-modal .modal-footer .info.type').html( input );
-
-					}else{
-
-						if( objectProperties?.type != 'separator' ){
-
-							const groupRel = (objectProperties?.group || 'default' );
-							const groupHolder =  $('.group-fields[rel="'+groupRel+'"]');
-							const groupCheckHolder =  $('.group-fields-checkers[rel="'+groupRel+'"]');
-
-							if(inputType == 'checkbox'){
-
-								groupCheckHolder.append(input);
-		
-							}else{
-		
-								if( objectProperties?.order>=0)
-									groupHolder.insertAt(input,objectProperties.order)
-								else
-									groupHolder.append(input);
-		
-							}
-
-						}
-
-					}
-
-					if(objectProperties && objectProperties.hidden)
-						input.addClass('hidden');
-
-					if(object.propertiesOptions[p] && object.propertiesOptions[p].onEditionStart)
-						object.propertiesOptions[p].onEditionStart( {
-							property : p,
-							value    : object.GET[p](),
-							input : input,
-							modal: $(VARS.edition.modal)
-						} )
-					
-				}
-			}
-		}
-		//checkers on bottom
-		//formHolder.append($(`<div class="gen-propreties-checkers-holder d-flex flex-wrap row mx-0 mt-4"/>`).append(checkers))
-	}
-	
-	GEN.confirmEdition = function(o){
-		
-		var options = $.extend({
-			hide : true,
-			afterTransform : function(){}
-		},o);
-		
-		var setters      = $(VARS.edition.modal+' [rel="properties"] .'+VARS.edition.class.propSetter+', '+VARS.edition.modal+' .modal-footer .propriety-setter');
-		
-		var __tag        = setters.filter('[rel="tag"]');
-
-		var transformer = GEN.edit.object.genType == 'container' ? GEN.edit.object : GEN.edit.object.parent;
-		
-		$('.gen-tag-exist-err').remove();
-		
-		if(__tag.valid()){
-
-			if( GEN.tags.valid( __tag.val() , GEN.edit.object )  ){
-
-				var styleSetters = $(VARS.edition.modal+' [rel="style"] .style-setter');
-			
-				$.each(setters,function(i,setter){
-					
-					var type  = $(setter).attr('type');
-
-					var rel   = $(setter).attr('rel');
-
-					var value = null;
-
-					switch(type){
-
-						case 'checkbox':
-
-							value = $(setter).is(':checked');
-
-						break;
-
-						case 'formlist':
-
-							value = $('.IGRP_formlist',setter)[0]._export();
-
-						break;
-
-						case 'attrvalue':
-
-							value = $(setter).attr('attr-value') ? $(setter).attr('attr-value') : ''
-
-						break;
-						
-						case 'texteditor':
-
-							var id = $(setter).attr('id'),
-
-								val = CKEDITOR.instances[id].getData();
-
-							value = val;
-
-						break;
-
-						default: 
-
-							value = $(setter).val();
+                    if (objectProperties?.order >= 0)
+                        inputFieldsHolder.insertAt(input, objectProperties.order)
+                    else
+                        inputFieldsHolder.append(input);
 
 
-					}					
-					
-					/*if(type == 'checkbox')
+                } else {
+
+                    input = GEN.getSetter({
+                        type: inputType,
+                        propriety: p,
+                        object: object,
+                        definition: objectProperties && objectProperties.hasOwnProperty(p) ? objectProperties[p] : null,
+                    });
+
+                }
+
+                if (input) {
+
+                    if (p === 'tag') {
+
+                        input.attr('required', 'true');
+
+                        $('.propriety-setter', input).attr('required', 'true')
+
+                        configAutoTagSetter(input, object);
+
+                    }
+
+                    if (p === 'type_changer') {
+
+                        input.find('label').remove();
+
+                        $('#gen-edition-modal .modal-footer .info.type').html(input);
+
+                    } else {
+
+                        if (objectProperties?.type !== 'separator') {
+
+                            const groupRel = (objectProperties?.group || 'default');
+                            const groupHolder = $('.group-fields[rel="' + groupRel + '"]');
+                            const groupCheckHolder = $('.group-fields-checkers[rel="' + groupRel + '"]');
+
+                            if (inputType === 'checkbox') {
+
+                                groupCheckHolder.append(input);
+
+                            } else {
+
+                                if (objectProperties?.order >= 0)
+                                    groupHolder.insertAt(input, objectProperties.order)
+                                else
+                                    groupHolder.append(input);
+
+                            }
+
+                        }
+
+                    }
+
+                    if (objectProperties && objectProperties.hidden)
+                        input.addClass('hidden');
+
+                    if (object.propertiesOptions[p] && object.propertiesOptions[p].onEditionStart)
+                        object.propertiesOptions[p].onEditionStart({
+                            property: p,
+                            value: object.GET[p](),
+                            input: input,
+                            modal: $(VARS.edition.modal)
+                        })
+
+                }
+            }
+        }
+        //checkers on bottom
+        //formHolder.append($(`<div class="gen-propreties-checkers-holder d-flex flex-wrap row mx-0 mt-4"/>`).append(checkers))
+    }
+
+    GEN.confirmEdition = function (o) {
+
+        const options = $.extend({
+            hide: true,
+            afterTransform: function () {
+            }
+        }, o);
+
+        const setters = $(VARS.edition.modal + ' [rel="properties"] .' + VARS.edition.class.propSetter + ', ' + VARS.edition.modal + ' .modal-footer .propriety-setter');
+
+        const __tag = setters.filter('[rel="tag"]');
+
+        const transformer = GEN.edit.object.genType === 'container' ? GEN.edit.object : GEN.edit.object.parent;
+
+        $('.gen-tag-exist-err').remove();
+
+        if (__tag.valid()) {
+
+            if (GEN.tags.valid(__tag.val(), GEN.edit.object)) {
+
+                const styleSetters = $(VARS.edition.modal + ' [rel="style"] .style-setter');
+
+                $.each(setters, function (i, setter) {
+
+                    const type = $(setter).attr('type');
+
+                    const rel = $(setter).attr('rel');
+
+                    let value = null;
+
+                    switch (type) {
+
+                        case 'checkbox':
+
+                            value = $(setter).is(':checked');
+
+                            break;
+
+                        case 'formlist':
+
+                            value = $('.IGRP_formlist', setter)[0]._export();
+
+                            break;
+
+                        case 'attrvalue':
+
+                            value = $(setter).attr('attr-value') ? $(setter).attr('attr-value') : ''
+
+                            break;
+
+                        case 'texteditor':
+
+                            const id = $(setter).attr('id'),
+
+                                val = CKEDITOR.instances[id].getData();
+
+                            value = val;
+
+                            break;
+
+                        default:
+
+                            value = $(setter).val();
+
+
+                    }
+
+                    /*if(type == 'checkbox')
 
 						value = $(setter).is(':checked');
 					else
 						value = $(setter).val();*/
 
-					if(GEN.edit.object && GEN.edit.object.SET[rel])
+                    if (GEN.edit.object && GEN.edit.object.SET[rel])
 
-						GEN.edit.object.SET[rel](value);
-					
-					
-					
-					//$(document).trigger('gen-edition-confirm', )
+                        GEN.edit.object.SET[rel](value);
 
-				});
 
-				if(GEN.edit.object){
-					
-					//XSL CHANGES
-					GEN.edit.checkXSLChanges();
+                    //$(document).trigger('gen-edition-confirm', )
 
-					//STYLE TAB SETTER
-					$.each(styleSetters,function(i,style){
+                });
 
-					 	if(GEN.edit.object.customStyle){
-					 		var rel   = $(style).attr('rel');
-					 		var value = $(style).val();
+                if (GEN.edit.object) {
 
-					 		GEN.edit.object.customStyle[rel] = value;
-					 	}
+                    //XSL CHANGES
+                    GEN.edit.checkXSLChanges();
 
-					});
+                    //STYLE TAB SETTER
+                    $.each(styleSetters, function (i, style) {
 
-					//RULES
-					if(GEN.edit.object.formField || $.inArray(GEN.edit.object.type,acceptsRules) !== -1){
-						
-						var slist = $('#gen-rules-holder.IGRP-separatorlist',$(VARS.edition.dialog))[0];
-						// EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
-						var isTable = GEN.edit.object.parent.type == 'table' || GEN.edit.object.parent.type == 'formlist' ? true : false;
-						
+                        if (GEN.edit.object.customStyle) {
+                            const rel = $(style).attr('rel');
+                            const value = $(style).val();
 
-						var rule = slist.toJSON({
-							excludeNamePrefix:'gen_rule_',
-							params : {
-								isTable    : isTable
-							}
-						});
+                            GEN.edit.object.customStyle[rel] = value;
+                        }
 
-						GEN.edit.object.setRules( rule );
-						//var rulesDataArr = $('.gen-properties-setts-holder[rel="rules"] #gen-rules-table input:not(.sl-row-id)').serializeArray();
-						//GEN.edit.object.setRules(rulesDataArr);
-					}
+                    });
 
-					//copy options
-					if(GEN.edit.object.genType == 'container'){
-						var pageSelect = $(VARS.html.pageCopySelecter);
-						var checked    = $('[name="gen-c-copy"]:checked');
+                    //RULES
+                    if (GEN.edit.object.formField || $.inArray(GEN.edit.object.type, acceptsRules) !== -1) {
 
-						var copyOptions = pageSelect.val() && checked[0] ? {
-											id         : pageSelect.val(),
-											container  : checked.val(),
-											description: $('option[value="'+pageSelect.val()+'"]',pageSelect).text(),
-											settings   : GEN.edit.copyProperties,
-											plsql      : GEN.edit.copyData
-										} : false;
-			
-						GEN.edit.object.copy(copyOptions);
+                        const slist = $('#gen-rules-holder.IGRP-separatorlist', $(VARS.edition.dialog))[0];
+                        // EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
+                        const isTable = GEN.edit.object.parent.type === 'table' || GEN.edit.object.parent.type === 'formlist';
 
-					}
-					//tabs and boxes - have containers inside
-					if(GEN.edit.object.contents)
 
-						setHtmlStyle(GEN.edit.object);
+                        const rule = slist.toJSON({
+                            excludeNamePrefix: 'gen_rule_',
+                            params: {
+                                isTable: isTable
+                            }
+                        });
 
-					if(GEN.edit.object.onEditionConfirm) 
+                        GEN.edit.object.setRules(rule);
+                        //var rulesDataArr = $('.gen-properties-setts-holder[rel="rules"] #gen-rules-table input:not(.sl-row-id)').serializeArray();
+                        //GEN.edit.object.setRules(rulesDataArr);
+                    }
 
-						GEN.edit.object.onEditionConfirm(GEN.edit.object);
+                    //copy options
+                    if (GEN.edit.object.genType === 'container') {
+                        const pageSelect = $(VARS.html.pageCopySelecter);
+                        const checked = $('[name="gen-c-copy"]:checked');
 
-				}
-				
-				transformer.Transform({
-					
-					callback : options.afterTransform
-					
-				});
+                        const copyOptions = pageSelect.val() && checked[0] ? {
+                            id: pageSelect.val(),
+                            container: checked.val(),
+                            description: $('option[value="' + pageSelect.val() + '"]', pageSelect).text(),
+                            settings: GEN.edit.copyProperties,
+                            plsql: GEN.edit.copyData
+                        } : false;
 
-				/*if(GEN.edit.object && ( GEN.edit.object.genType == 'container' || GEN.edit.object.genType == 'html') )
+                        GEN.edit.object.copy(copyOptions);
+
+                    }
+                    //tabs and boxes - have containers inside
+                    if (GEN.edit.object.contents)
+
+                        setHtmlStyle(GEN.edit.object);
+
+                    if (GEN.edit.object.onEditionConfirm)
+
+                        GEN.edit.object.onEditionConfirm(GEN.edit.object);
+
+                }
+
+                transformer.Transform({
+
+                    callback: options.afterTransform
+
+                });
+
+                /*if(GEN.edit.object && ( GEN.edit.object.genType == 'container' || GEN.edit.object.genType == 'html') )
 					GEN.edit.object.Transform();
 				else
 					GEN.edit.object.parent.Transform();*/
-				
-				$(document).trigger('gen-'+GEN.edit.object.genType+'-edition-confirm', [GEN.edit.object]);
-				
-				if(options.hide)
-					
-					$(VARS.edition.modal).modal('hide');
-				
-				
-				
-			
-			}else{
-				__tag.parent().prepend('<label for="edit-tag" generated="true" class="error form-validator-label gen-tag-exist-err">Tag existente!</label>')
-				
-				$('#gen-edition-modal').scrollTop(0);
-			}
-		}else{
 
-			$('#gen-edition-modal').scrollTop(0);
-		}
+                $(document).trigger('gen-' + GEN.edit.object.genType + '-edition-confirm', [GEN.edit.object]);
 
-		return false;
+                if (options.hide)
 
-		
-	}
-
-	GEN.edit = function(object,p){
-		
-		var modal   		= $(VARS.edition.modal);
-		var genType 		= object.genType;
-		var type    		= object.GET.type();
-		var id      		= object.GET.id();
-		var options 		= p ? p : {};
-		var initialPosition = object.position != undefined && object.position != -1 ? object.position : object.order;
-
-		GEN.edit.object = object;
-
-		//console.log(object)
-		
-		GEN.edit.copyProperties = null;
-
-		GEN.edit.copyData = null;
-
-		//style config : if container hasTableRows, ID style is disabled
-		var fieldsRepeat = genType == 'field' ? object.parent.hasTableRows : false;
-
-		//fields type change
-		if(genType == 'field' && isTypeChangeble(object.type))
-			
-			object.setPropriety({
-				name : 'type_changer',
-				label : 'Type',
-				value:{
-					value : object.type,
-					options : function(){
-						var rtn =  [];
-
-						GEN.getDeclaredFields().forEach(function(_f){
-							if(object.parent.validField(_f.type))
-								rtn.push({ value : _f.type, label:capitalizeFirstLetter(_f.type) })
-						});
-
-						return rtn;
-					}()
-				},
-				onChange:function(v){
-					
-					if(v != object.type){
-						
-						var dfield = GEN.getDeclaredField(v),
-
-							nfield = new dfield.field(v,{
-								properties : null,
-								style      : object.customStyle,
-								options    : {
-									rules  : object.rules || null
-								}
-							}),
-
-							nprop  = {};
-
-						nfield.order = initialPosition;
-
-						console.log(initialPosition)
-
-						object.parent.SET.field(nfield,function(){
-							
-							for(var p in nfield.proprieties){
-
-								if(p in object.proprieties){
-
-									nfield.proprieties[p] = object.proprieties[p];
-
-								}
-
-							}
-
-							object.parent.removeField( object.id, false,true,function(){});
+                    $(VARS.edition.modal).modal('hide');
 
 
-						
-						});
-					
-					}
+            } else {
+                __tag.parent().prepend('<label for="edit-tag" generated="true" class="error form-validator-label gen-tag-exist-err">Tag existente!</label>')
 
-				}
-			});
-		
-		//table fields do not have ID's (because they repeat)
-		if(fieldsRepeat){
-			object.customStyle.id = '';
-			$('.style-setter[rel="id"]',modal).attr('disabled',true);
-		}
+                $('#gen-edition-modal').scrollTop(0);
+            }
+        } else {
 
-		modal.attr('gen-type',genType);
-		
-		modal.attr('object-type',type);
-		
-		modal.attr('object-id',id);
+            $('#gen-edition-modal').scrollTop(0);
+        }
 
-		if(object.parent)
+        return false;
 
-			$('.modal-footer .info.parent',modal).text(object.parent.GET.tag()).show();
 
-		$('.modal-footer .info.object',modal).text(object.GET.tag()).show();
+    }
 
-		$('.modal-footer .info.type',modal).text(object.GET.type()).show();
+    GEN.edit = function (object, p) {
 
-		if(GEN.edit.object.xslOptions)
+        const modal = $(VARS.edition.modal);
+        const genType = object.genType;
+        const type = object.GET.type();
+        const id = object.GET.id();
+        const options = p ? p : {};
+        const initialPosition = object.position !== undefined && object.position !== -1 ? object.position : object.order;
 
-			$('#use-default-xsl').prop('checked', GEN.edit.object.xslOptions.useDefault);
+        GEN.edit.object = object;
 
-		if(GEN.edit.object.customStyle)
-			for(var s in GEN.edit.object.customStyle){
-				$('.style-setter[rel="'+s+'"]',modal).val( GEN.edit.object.customStyle[s] );
-			}
+        //console.log(object)
 
-		//COPY CLEAR
-		$(VARS.html.pageCopyContainerList).html('');
+        GEN.edit.copyProperties = null;
 
-		$('.modal-header ul li[rel="fields"]',modal).hide();
+        GEN.edit.copyData = null;
 
-		if(genType == 'container'){
-			if(GEN.edit.object.copyOptions){
-				//$(VARS.html.pageCopyContainerList).html('');
-				$(VARS.html.pageCopySelecter)[0].onContainersSet = function(){
-					var radio = $(VARS.html.pageCopyContainerList).find('input[value="'+GEN.edit.object.copyOptions.container+'"]')
-					radio.prop('checked',true);
-					radio.trigger('change');
-				}
+        //style config : if container hasTableRows, ID style is disabled
+        const fieldsRepeat = genType === 'field' ? object.parent.hasTableRows : false;
 
-				$(VARS.html.pageCopySelecter).select2('val',GEN.edit.object.copyOptions.id);
-			}
+        //fields type change
+        if (genType === 'field' && isTypeChangeble(object.type))
 
-			
-			if(GEN.edit.object.fields || GEN.edit.object.contextMenu ){
-				
-				$('.modal-header ul li[rel="fields"]',modal).show();
+            object.setPropriety({
+                name: 'type_changer',
+                label: 'Type',
+                value: {
+                    value: object.type,
+                    options: function () {
+                        const rtn = [];
 
-			}
-				
-			
-		}
+                        GEN.getDeclaredFields().forEach(function (_f) {
+                            if (object.parent.validField(_f.type))
+                                rtn.push({value: _f.type, label: capitalizeFirstLetter(_f.type)})
+                        });
 
-		GEN.attrsForm(object);
+                        return rtn;
+                    }()
+                },
+                onChange: function (v) {
 
-		if(object.onEditionStart)
-			object.onEditionStart();
+                    if (v !== object.type) {
 
-		GEN.edit.configXSLData();
+                        const dfield = GEN.getDeclaredField(v),
 
-		if(options.tab)
-			$(modal.find('.modal-header > ul > li[rel="'+options.tab+'"]')[0]).click()
-		else
-			$(modal.find('.modal-header > ul > li')[0]).click();
+                            nfield = new dfield.field(v, {
+                                properties: null,
+                                style: object.customStyle,
+                                options: {
+                                    rules: object.rules || null
+                                }
+                            }),
 
-		const inputs = $('select:not(.select2)',modal);
+                            nprop = {};
 
-		inputs.each( (i,el)=>{
-			
-			if($(el).data('select2'))
-				$(el).select2('destroy');
+                        nfield.order = initialPosition;
 
-			$.IGRP.components.choices?.init( $(el) );
+                        console.log(initialPosition)
 
-		});
+                        object.parent.SET.field(nfield, function () {
 
-		//$('select',modal).select2();
+                            for (let p in nfield.proprieties) {
 
-		/*FORM FIELD RULES SET/ SHOW/HIDE*/
-		if(object.formField || $.inArray(object.type,acceptsRules) !== -1)
-			GENRULES.setTargets(object,GEN);
-		else
-			$('.modal-header ul li[rel="rules"]',modal).hide();
-		
-		$(document).trigger('gen-edition', [{ object: object }]);
-		
-		$(document).trigger('gen-'+genType+'-edition', [object]);
-		
-		$(document).trigger('gen-edition-show', {
-			onEdition : object,
-			modal : modal
-		});
-		
-		$(document).on('change','select[name="edit-type_changer"]',function(){
-			GEN.openIgrpDoc($(this).val());
-		});
+                                if (p in object.proprieties) {
 
-		
-		console.log(object.propertiesActiveTab)
-		if(object.propertiesActiveTab){
-			try{
-				var myCollapse = document.getElementById(object.propertiesActiveTab)
-				new bootstrap.Collapse(myCollapse, {
-					toggle: true
-				});
+                                    nfield.proprieties[p] = object.proprieties[p];
 
-			}catch(error){
-				console.log(error);
-			}
-		}
+                                }
 
-		GEN.edit.show();
-	}
+                            }
 
-	GEN.edit.XSLEditor = null;
+                            object.parent.removeField(object.id, false, true, function () {
+                            });
 
-	GEN.edit.saveChanges = function(v) {
-		var object   = GEN.edit.object;
-		//var template = object.template ? object.template : object.templates;
-		//console.log( GEN.edit.XSLEditor )
-		//object.customTemplate = v;
 
-		//console.log(object)
-	}
+                        });
 
-	$('#use-default-xsl').on('change',function(){
-		var isChecked = $(this).is(':checked');
+                    }
 
-		$('#gen-edit-xsl').attr('use-default', isChecked )
-		//console.log(isChecked)
-		if(isChecked){
-			//GEN.edit.XSLEditor.set
-		}
+                }
+            });
 
-		//GEN.edit.object.xslOptions.useDefault = isChecked;
+        //table fields do not have ID's (because they repeat)
+        if (fieldsRepeat) {
+            object.customStyle.id = '';
+            $('.style-setter[rel="id"]', modal).attr('disabled', true);
+        }
 
-		///GEN.edit.XSLEditor.options.readOnly = isChecked;
-		/*if(GEN.edit.XSLEditor.options.readOnly)
+        modal.attr('gen-type', genType);
+
+        modal.attr('object-type', type);
+
+        modal.attr('object-id', id);
+
+        if (object.parent)
+
+            $('.modal-footer .info.parent', modal).text(object.parent.GET.tag()).show();
+
+        $('.modal-footer .info.object', modal).text(object.GET.tag()).show();
+
+        $('.modal-footer .info.type', modal).text(object.GET.type()).show();
+
+        if (GEN.edit.object.xslOptions)
+
+            $('#use-default-xsl').prop('checked', GEN.edit.object.xslOptions.useDefault);
+
+        if (GEN.edit.object.customStyle)
+            for (let s in GEN.edit.object.customStyle) {
+                $('.style-setter[rel="' + s + '"]', modal).val(GEN.edit.object.customStyle[s]);
+            }
+
+        //COPY CLEAR
+        $(VARS.html.pageCopyContainerList).html('');
+
+        $('.modal-header ul li[rel="fields"]', modal).hide();
+
+        if (genType === 'container') {
+            if (GEN.edit.object.copyOptions) {
+                //$(VARS.html.pageCopyContainerList).html('');
+                $(VARS.html.pageCopySelecter)[0].onContainersSet = function () {
+                    const radio = $(VARS.html.pageCopyContainerList).find('input[value="' + GEN.edit.object.copyOptions.container + '"]');
+                    radio.prop('checked', true);
+                    radio.trigger('change');
+                }
+
+                $(VARS.html.pageCopySelecter).select2('val', GEN.edit.object.copyOptions.id);
+            }
+
+
+            if (GEN.edit.object.fields || GEN.edit.object.contextMenu) {
+
+                $('.modal-header ul li[rel="fields"]', modal).show();
+
+            }
+
+
+        }
+
+        GEN.attrsForm(object);
+
+        if (object.onEditionStart)
+            object.onEditionStart();
+
+        GEN.edit.configXSLData();
+
+        if (options.tab)
+            $(modal.find('.modal-header > ul > li[rel="' + options.tab + '"]')[0]).click()
+        else
+            $(modal.find('.modal-header > ul > li')[0]).click();
+
+        const inputs = $('select:not(.select2)', modal);
+
+        inputs.each((i, el) => {
+
+            if ($(el).data('select2'))
+                $(el).select2('destroy');
+
+            $.IGRP.components.choices?.init($(el));
+
+        });
+
+        //$('select',modal).select2();
+
+        /*FORM FIELD RULES SET/ SHOW/HIDE*/
+        if (object.formField || $.inArray(object.type, acceptsRules) !== -1)
+            GENRULES.setTargets(object, GEN);
+        else
+            $('.modal-header ul li[rel="rules"]', modal).hide();
+
+        $(document).trigger('gen-edition', [{object: object}]);
+
+        $(document).trigger('gen-' + genType + '-edition', [object]);
+
+        $(document).trigger('gen-edition-show', {
+            onEdition: object,
+            modal: modal
+        });
+
+        $(document).on('change', 'select[name="edit-type_changer"]', function () {
+            GEN.openIgrpDoc($(this).val());
+        });
+
+
+        console.log(object.propertiesActiveTab)
+        if (object.propertiesActiveTab) {
+            try {
+                const myCollapse = document.getElementById(object.propertiesActiveTab);
+                new bootstrap.Collapse(myCollapse, {
+                    toggle: true
+                });
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        GEN.edit.show();
+    }
+
+    GEN.edit.XSLEditor = null;
+
+    GEN.edit.saveChanges = function (v) {
+        const object = GEN.edit.object;
+        //var template = object.template ? object.template : object.templates;
+        //console.log( GEN.edit.XSLEditor )
+        //object.customTemplate = v;
+
+        //console.log(object)
+    }
+
+    $('#use-default-xsl').on('change', function () {
+        const isChecked = $(this).is(':checked');
+
+        $('#gen-edit-xsl').attr('use-default', isChecked)
+        //console.log(isChecked)
+        if (isChecked) {
+            //GEN.edit.XSLEditor.set
+        }
+
+        //GEN.edit.object.xslOptions.useDefault = isChecked;
+
+        ///GEN.edit.XSLEditor.options.readOnly = isChecked;
+        /*if(GEN.edit.XSLEditor.options.readOnly)
 			GEN.edit.XSLEditor.options.readOnly = false;
 		else
 			GEN.edit.XSLEditor.options.readOnly = true;
 
 		console.log(GEN.edit.XSLEditor.options.readOnly)*/
-	});
+    });
 
-	GEN.edit.checkXSLChanges = function(){
-		var object    = GEN.edit.object;
-		var template  = object.template ? object.template : object.templates;
-		var isChecked = $('#use-default-xsl').is(':checked');
+    GEN.edit.checkXSLChanges = function () {
+        const object = GEN.edit.object;
+        const template = object.template ? object.template : object.templates;
+        const isChecked = $('#use-default-xsl').is(':checked');
 
-		object.xslOptions.useDefault = isChecked;
+        object.xslOptions.useDefault = isChecked;
 
-		if(!isChecked)
-			object.xslOptions.template = GEN.edit.XSLEditor.getValue();
-		else
-			object.xslOptions.template = false;
+        if (!isChecked)
+            object.xslOptions.template = GEN.edit.XSLEditor.getValue();
+        else
+            object.xslOptions.template = false;
 
 
-	};
+    };
 
-	GEN.edit.setXSLValue = function(template){
+    GEN.edit.setXSLValue = function (template) {
 
-		var modal    = $(VARS.edition.modal);
-		
-		var hasManyTemplates = GEN.edit.object.templates ? Object.keys(GEN.edit.object.templates).length > 1 : false;
+        const modal = $(VARS.edition.modal);
 
-		if(template && !hasManyTemplates){
-			
-			$(modal.find('ul li[rel="xsl"]')).show();
+        const hasManyTemplates = GEN.edit.object.templates ? Object.keys(GEN.edit.object.templates).length > 1 : false;
 
-			GEN.edit.XSLEditor.setValue(template);
-			
-			GEN.edit.XSLEditor.autoFormatRange({line:0, ch:0}, {line:GEN.edit.XSLEditor.lineCount()});
-		    
-		    codeEditorView(true);
-		    
-		    setTimeout(function() {
-		    	
-			  	GEN.edit.XSLEditor.refresh();  
+        if (template && !hasManyTemplates) {
 
-			},400);
+            $(modal.find('ul li[rel="xsl"]')).show();
 
-		}else{
-			$(modal.find('ul li[rel="xsl"]')).hide();
-		}
+            GEN.edit.XSLEditor.setValue(template);
 
-	}
+            GEN.edit.XSLEditor.autoFormatRange({line: 0, ch: 0}, {line: GEN.edit.XSLEditor.lineCount()});
 
-	GEN.edit.configXSLData = function(){
-		
-		var modal    = $(VARS.edition.modal);
+            codeEditorView(true);
 
-		var template =  GEN.edit.object.XSLToString();
-		//var template = GEN.edit.object.template ? GEN.edit.object.XSLToString() : GEN.edit.object.templates[Object.keys(GEN.edit.object.templates)[0]];
-		
-		$('.object-xsl-templates',modal).hide().html('');
+            setTimeout(function () {
 
-		GEN.edit.setXSLValue(template);
+                GEN.edit.XSLEditor.refresh();
 
-		$('#gen-edit-xsl').attr('use-default', GEN.edit.object.xslOptions.useDefault )
-		/*if(typeof template == 'object'){ 
+            }, 400);
+
+        } else {
+            $(modal.find('ul li[rel="xsl"]')).hide();
+        }
+
+    }
+
+    GEN.edit.configXSLData = function () {
+
+        const modal = $(VARS.edition.modal);
+
+        const template = GEN.edit.object.XSLToString();
+        //var template = GEN.edit.object.template ? GEN.edit.object.XSLToString() : GEN.edit.object.templates[Object.keys(GEN.edit.object.templates)[0]];
+
+        $('.object-xsl-templates', modal).hide().html('');
+
+        GEN.edit.setXSLValue(template);
+
+        $('#gen-edit-xsl').attr('use-default', GEN.edit.object.xslOptions.useDefault)
+        /*if(typeof template == 'object'){
 
 			if(Object.keys(template).length > 1){
 				for(var t in template){
 					$('.object-xsl-templates').show().append('<option value="'+t+'">'+t+'</option>');
 				}
 			}
-			
+
 			GEN.edit.setXSLValue( template[Object.keys(template)[0]] )
-		
+
 		}else{
 			GEN.edit.setXSLValue(template);
 		}*/
 
-	};
+    };
 
-	GEN.edit.show = function(){
-		var modal   = $(VARS.edition.modal);
-		modal.modal('show');
+    GEN.edit.show = function () {
+        const modal = $(VARS.edition.modal);
+        modal.modal('show');
 
-		var first = modal.find('.'+VARS.edition.class.propSetter+':not([type="checkbox"]):not(select)')[0];
-		
-		if(first){
-			setTimeout(function(){
-				first.select();
-			},500);
-		}
-			
-	}
+        const first = modal.find('.' + VARS.edition.class.propSetter + ':not([type="checkbox"]):not(select)')[0];
 
-	GEN.edit.hide = function(){
-		var modal          = $(VARS.edition.modal);
-		var rseparatorlist = $('[rel="rules"] .IGRP-separatorlist',modal)[0];
+        if (first) {
+            setTimeout(function () {
+                first.select();
+            }, 500);
+        }
 
-		GEN.edit.object.propertiesActiveTab = $('.accordion a[data-bs-toggle="collapse"][aria-expanded="true"]',VARS.edition.modal).attr('href')?.split('#')[1];
+    }
 
-		GEN.edit.XSLEditor.setValue('');
+    GEN.edit.hide = function () {
+        const modal = $(VARS.edition.modal);
+        const rseparatorlist = $('[rel="rules"] .IGRP-separatorlist', modal)[0];
 
-		codeEditorView(false);
+        GEN.edit.object.propertiesActiveTab = $('.accordion a[data-bs-toggle="collapse"][aria-expanded="true"]', VARS.edition.modal).attr('href')?.split('#')[1];
 
-	  	setTimeout(function() {
-		   GEN.edit.XSLEditor.refresh();  
-		},400);
+        GEN.edit.XSLEditor.setValue('');
 
-		$('#content[rel="gen-contents-holder"]').removeClass('editing');
+        codeEditorView(false);
 
-		$(VARS.edition.holder).removeClass('active');
+        setTimeout(function () {
+            GEN.edit.XSLEditor.refresh();
+        }, 400);
 
-		$(VARS.edition.modal).find('.modal-body [rel="properties"]').html('');
+        $('#content[rel="gen-contents-holder"]').removeClass('editing');
 
-		$(VARS.edition.dialog).attr('gen-type','');
-		$(VARS.edition.dialog).attr('object-type','');
-		$(VARS.edition.dialog).attr('object-id','');
+        $(VARS.edition.holder).removeClass('active');
 
-		$('.modal-footer .info',modal).hide();
+        $(VARS.edition.modal).find('.modal-body [rel="properties"]').html('');
 
-		$('.modal-footer .info.parent',modal).text('');
+        $(VARS.edition.dialog).attr('gen-type', '');
+        $(VARS.edition.dialog).attr('object-type', '');
+        $(VARS.edition.dialog).attr('object-id', '');
 
-		$('.modal-footer .info.object',modal).text('');
+        $('.modal-footer .info', modal).hide();
 
-		$('.modal-footer .info.type',modal).text('');
+        $('.modal-footer .info.parent', modal).text('');
 
-		$('.modal-header ul li[rel="rules"]',modal).hide();
-		
-		rseparatorlist.resetAll();
-		
+        $('.modal-footer .info.object', modal).text('');
 
-		/* style*/
+        $('.modal-footer .info.type', modal).text('');
 
-		$('.style-setter',modal).val('');
-		
-		$('.style-setter[rel="id"]',modal).removeAttr('disabled');
+        $('.modal-header ul li[rel="rules"]', modal).hide();
 
-		//copy
-		//console.log( $(VARS.html.pageCopySelecter). )
-		$(VARS.html.pageCopySelecter).select2('val','');
-		$(VARS.html.pageCopyContainerList).html('');
-
-		GEN.edit.copyProperties = null;
-		GEN.edit.copyData = null;
-
-		xslEditing = false;
-		if(GEN.edit.object){
-			
-			if(GEN.edit.object.proprieties && GEN.edit.object.proprieties.type_changer)
-			
-				delete GEN.edit.object.proprieties.type_changer;
-
-		}
-		setTimeout(function(){
-			//GEN.edit.object = null;
-		},150);
-		
-		modal.trigger('modal-close');
-
-	}
-
-	GEN.templates = {
-		container : {
-			
-		},
-		field     : {
-
-		},
-		set:function(p){
-			//if(!GEN.templates[p.genType][p.name]){
-			var object = GEN.templates[p.genType][p.name] ? GEN.templates[p.genType][p.name] : GEN.templates[p.genType][p.name] = {};
-
-			if(p.template)
-				object.template = p.template;
-
-			if(p.fieldTemplate)
-				object.field = p.fieldTemplate;
-
-			if(p.container && p.fieldContainerTemplate)
-				object[p.container] = p.fieldContainerTemplate;
-
-		},
-		get:function(p){
-			return GEN.templates[p.genType][p.name]
-		}
-	}
+        rseparatorlist.resetAll();
 
 
-	GEN.getAllContents = function(){
-		var rtn = [];
-		
-		$.each($('.gen-container-holder'),function(i,c){
-			var id        = $(c).attr('id');
-			var container = GEN.getContainer(id);
-			if(container){
-				rtn.push({
-					container : container,
-					fields    : container.GET.fields()
-				});
-			} 
-		});
+        /* style*/
 
-		return rtn;
-	}
+        $('.style-setter', modal).val('');
 
-	GEN.getAllFields = function(){
-		var rtn = [];
-		CONTAINERS.forEach(function(c){
-			rtn = rtn.concat(c.GET.fields())
-		});
-		return rtn;
-	}
+        $('.style-setter[rel="id"]', modal).removeAttr('disabled');
 
-	GEN.getAllFieldsAndMenus = function(){
-		
-		var rtn = [];
+        //copy
+        //console.log( $(VARS.html.pageCopySelecter). )
+        $(VARS.html.pageCopySelecter).select2('val', '');
+        $(VARS.html.pageCopyContainerList).html('');
 
-		CONTAINERS.forEach(function(c){
+        GEN.edit.copyProperties = null;
+        GEN.edit.copyData = null;
 
-			rtn = rtn.concat(c.GET.fields())
-			
-			if(c.contextMenu)
+        xslEditing = false;
+        if (GEN.edit.object) {
 
-				rtn = rtn.concat(c.contextMenu.getFields())
-		});
+            if (GEN.edit.object.proprieties && GEN.edit.object.proprieties.type_changer)
 
-		return rtn;
-	};
+                delete GEN.edit.object.proprieties.type_changer;
 
-	GEN.getFieldByTag = function(tag){
-		
-		var fields = GEN.getAllFieldsAndMenus(),
+        }
+        setTimeout(function () {
+            //GEN.edit.object = null;
+        }, 150);
 
-			rtn    = null;
+        modal.trigger('modal-close');
 
-		for(var i = 0; i < fields.length; i++){
-			
-			var field = fields[i];
+    }
 
-			if(field.GET.tag() == tag){
-				rtn = field;
-				break;
-			}
+    GEN.templates = {
+        container: {},
+        field: {},
+        set: function (p) {
+            //if(!GEN.templates[p.genType][p.name]){
+            const object = GEN.templates[p.genType][p.name] ? GEN.templates[p.genType][p.name] : GEN.templates[p.genType][p.name] = {};
 
-		}
+            if (p.template)
+                object.template = p.template;
 
-		return rtn;
+            if (p.fieldTemplate)
+                object.field = p.fieldTemplate;
 
-	}
+            if (p.container && p.fieldContainerTemplate)
+                object[p.container] = p.fieldContainerTemplate;
 
-	GEN.getFieldByAttr = function(attr,value){
-		var rtn = false;
-		var fields = GEN.getAllFields();
-		for(var i = 0; i < fields.length; i++){
-			var f = fields[i];
-			if(f.GET[attr] && f.GET[attr]() == value){
-				rtn = f;
-			}
-		}
-		return rtn;
-	}
-	GEN.getFieldsPreservedCodes = function(mode,part){
-
-		var rtn = [];
-
-		GEN.getAllFieldsAndMenus().forEach(function(f){
-
-			if(f.server.preserved[mode] && f.server.preserved[mode][part]){
-				
-				rtn.push(f);
-
-			}
-
-		});
-
-		return rtn;
-
-	}
-	GEN.getFieldsIncludes = function(){
-		var rtn = {};
-		var idx  = 0;
-		var ctrl = {};
-		GEN.getContainers().forEach(function(c,ci){
-			//console.log(c);
-			if(c.GET.fields){
-				c.GET.fields().forEach(function(f,fi){
-					var type = f.type;
-					//console.log(f.type.toUpperCase());
-					//console.log(f.includes)
-					if(f.includes && ( f.includes.css || f.includes.js || f.includes.xsl) ){
-						
-						if(!rtn[type])
-							rtn[type] = {
-								xsl:[],
-								css:[],
-								js :[]
-							}
-						//else
+        },
+        get: function (p) {
+            return GEN.templates[p.genType][p.name]
+        }
+    }
 
 
-						for(i in f.includes){
-							rtn[type][i] = $.merge(rtn[type][i], f.includes[i]);
-						}
-					}
-				});
-			}
-		});
-		//console.log(rtn)
-		return rtn;
-	}
+    GEN.getAllContents = function () {
+        const rtn = [];
 
-	GEN.getContainersIncludes = function(){
-		var rtn = {};
-		var idx  = 0;
-		var ctrl = {};
+        $.each($('.gen-container-holder'), function (i, c) {
+            const id = $(c).attr('id');
+            const container = GEN.getContainer(id);
+            if (container) {
+                rtn.push({
+                    container: container,
+                    fields: container.GET.fields()
+                });
+            }
+        });
 
-		GEN.getContainers().forEach(function(c){
-			var type = c.type;
-			if(c.includes && ( c.includes.css || c.includes.js || c.includes.xsl) ){
-				if(!rtn[type])
-					rtn[type] = {
-						xsl:[],
-						css:[],
-						js :[]
-					}
+        return rtn;
+    }
 
-				for(i in c.includes){
-					rtn[type][i] = $.merge(rtn[type][i], c.includes[i]);
-				}
+    GEN.getAllFields = function () {
+        let rtn = [];
+        CONTAINERS.forEach(function (c) {
+            rtn = rtn.concat(c.GET.fields())
+        });
+        return rtn;
+    }
 
-			}
-		});
+    GEN.getAllFieldsAndMenus = function () {
 
-		//console.log(rtn)
+        let rtn = [];
 
-		return rtn;
-	}
+        CONTAINERS.forEach(function (c) {
 
-	/*GEN.getAllFieldsType = function(){
+            rtn = rtn.concat(c.GET.fields())
+
+            if (c.contextMenu)
+
+                rtn = rtn.concat(c.contextMenu.getFields())
+        });
+
+        return rtn;
+    };
+
+    GEN.getFieldByTag = function (tag) {
+
+        const fields = GEN.getAllFieldsAndMenus();
+        let rtn = null;
+
+        for (let i = 0; i < fields.length; i++) {
+
+            const field = fields[i];
+
+            if (field.GET.tag() === tag) {
+                rtn = field;
+                break;
+            }
+
+        }
+
+        return rtn;
+
+    }
+
+    GEN.getFieldByAttr = function (attr, value) {
+        let rtn = false;
+        const fields = GEN.getAllFields();
+        for (let i = 0; i < fields.length; i++) {
+            const f = fields[i];
+            if (f.GET[attr] && f.GET[attr]() === value) {
+                rtn = f;
+            }
+        }
+        return rtn;
+    }
+    GEN.getFieldsPreservedCodes = function (mode, part) {
+
+        const rtn = [];
+
+        GEN.getAllFieldsAndMenus().forEach(function (f) {
+
+            if (f.server.preserved[mode] && f.server.preserved[mode][part]) {
+
+                rtn.push(f);
+
+            }
+
+        });
+
+        return rtn;
+
+    }
+    GEN.getFieldsIncludes = function () {
+        const rtn = {};
+        const idx = 0;
+        const ctrl = {};
+        GEN.getContainers().forEach(function (c, ci) {
+            //console.log(c);
+            if (c.GET.fields) {
+                c.GET.fields().forEach(function (f, fi) {
+                    const type = f.type;
+                    //console.log(f.type.toUpperCase());
+                    //console.log(f.includes)
+                    if (f.includes && (f.includes.css || f.includes.js || f.includes.xsl)) {
+
+                        if (!rtn[type])
+                            rtn[type] = {
+                                xsl: [],
+                                css: [],
+                                js: []
+                            }
+                        //else
+
+
+                        for (i in f.includes) {
+                            rtn[type][i] = $.merge(rtn[type][i], f.includes[i]);
+                        }
+                    }
+                });
+            }
+        });
+        //console.log(rtn)
+        return rtn;
+    }
+
+    GEN.getContainersIncludes = function () {
+        const rtn = {};
+        const idx = 0;
+        const ctrl = {};
+
+        GEN.getContainers().forEach(function (c) {
+            const type = c.type;
+            if (c.includes && (c.includes.css || c.includes.js || c.includes.xsl)) {
+                if (!rtn[type])
+                    rtn[type] = {
+                        xsl: [],
+                        css: [],
+                        js: []
+                    }
+
+                for (i in c.includes) {
+                    rtn[type][i] = $.merge(rtn[type][i], c.includes[i]);
+                }
+
+            }
+        });
+
+        //console.log(rtn)
+
+        return rtn;
+    }
+
+    /*GEN.getAllFieldsType = function(){
 		var rtn  = [];
 		var idx  = 0;
 		var ctrl = {};
@@ -2375,189 +2800,187 @@ var GENERATOR = function(genparams){
 	}*/
 
 
-	GEN.writeCode = function(){
-		var rtn;
-		var content = GEN.baseXSL.top;
-		
-		CONTAINERS.forEach(function(container){
-			content = content+container.genXSL();
-		});
+    GEN.writeCode = function () {
+        let rtn;
+        let content = GEN.baseXSL.top;
 
-		content = content+GEN.baseXSL.bottom;
+        CONTAINERS.forEach(function (container) {
+            content = content + container.genXSL();
+        });
 
-		rtn = content;
-		
-		return rtn;
-	}
+        content = content + GEN.baseXSL.bottom;
 
-	GEN.on = function(ev,callback){
-		switch(ev){
-			case 'dialog-edition-hide':
+        rtn = content;
 
-			break;
+        return rtn;
+    }
 
-			case 'view-change':
-				viewChangeEvents.push(callback);
-			break;
+    GEN.on = function (ev, callback) {
+        switch (ev) {
+            case 'dialog-edition-hide':
 
-			case 'init':
-				initEvents.push(callback);
-			break;
-			case 'ready':
-				readyEvents.push(callback);
-			break;
-		}
-	}
+                break;
 
-	var executeEvents = function(evs,param){
-		try{
-			evs.forEach(function(ev){
-				ev(param);
-			});
-		}catch(e){
-			console.log(e);
-		}
-	}
+            case 'view-change':
+                viewChangeEvents.push(callback);
+                break;
 
-	var _import = function(op){
-		if(op){
-			$('body').addClass('importing');
-			//GEN.onImportStart();
-		}else{
-			$('body').removeClass('importing');
-			//GEN.onImportEnd();
-		}
-		GEN.importing = op;
-	}
-	
-	var strToJson = function(str){
-		rtn = false;
-		try{
-			rtn = $.parseJSON(str);
-		}catch(e){
-			_import(false);
-			console.log('invalid json:');
-			console.log(str);
-			GEN.layout.addRow({ index:0 })
-		}
-		return rtn;
-	}
-	
-	GEN.import = function(data,_p){
+            case 'init':
+                initEvents.push(callback);
+                break;
+            case 'ready':
+                readyEvents.push(callback);
+                break;
+        }
+    }
 
-		GEN.importedData = data;
-		
-		var arr = [];
+    const executeEvents = function (evs, param) {
+        try {
+            evs.forEach(function (ev) {
+                ev(param);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
-		var json = typeof data == 'string' ? strToJson(data) : data;
+    const _import = function (op) {
+        if (op) {
+            $('body').addClass('importing');
+            //GEN.onImportStart();
+        } else {
+            $('body').removeClass('importing');
+            //GEN.onImportEnd();
+        }
+        GEN.importing = op;
+    };
 
-		if(!json.rows){
-			var rows = json;
-			json = {
-				rows:rows
-			}
-		}
+    const strToJson = function (str) {
+        rtn = false;
+        try {
+            rtn = $.parseJSON(str);
+        } catch (e) {
+            _import(false);
+            console.log('invalid json:');
+            console.log(str);
+            GEN.layout.addRow({index: 0})
+        }
+        return rtn;
+    };
 
-		if(json){
+    GEN.import = function (data, _p) {
 
-			GEN.files = json.files || {
-				css : [],
-				js  : [],
-				xsl : []
-			};
-			
+        GEN.importedData = data;
 
-			
+        var arr = [];
 
-			//draw page rows
-			if(json.rows && json.rows[0]){
-				
+        let json = typeof data == 'string' ? strToJson(data) : data;
 
-				removeAllContainers();
+        if (!json.rows) {
+            const rows = json;
+            json = {
+                rows: rows
+            }
+        }
 
-				if( !json.version )
+        if (json) {
 
-					GEN.convertTo2dot4( json );
-				
-				//css value
-				if(json.css){
-					GEN.cssEditor.setValue(json.css);
-					setCustomCSStoView();
-				}
+            GEN.files = json.files || {
+                css: [],
+                js: [],
+                xsl: []
+            };
 
-				if(GEN.files.css[0]){
-					
-					GEN.files.css.forEach(function(f){
 
-						GEN.includeToHead({
-							type : 'css',
-							path : GEN.getIncludeURL(f.file)
-						});
+            //draw page rows
+            if (json.rows && json.rows[0]) {
 
-					});
 
-				}
+                removeAllContainers();
 
-				if(json.js){
-					GEN.jsEditor.setValue(json.js);
-					setCustomJStoView();
-				}
+                if (!json.version)
 
-				if(GEN.files.js[0]){
-					
-					GEN.files.js.forEach(function(f){
+                    GEN.convertTo2dot4(json);
 
-						GEN.includeToHead({
-							type : 'js',
-							path : GEN.getIncludeURL(f.file)
-						});
+                //css value
+                if (json.css) {
+                    GEN.cssEditor.setValue(json.css);
+                    setCustomCSStoView();
+                }
 
-					});
-					
-				}
+                if (GEN.files.css[0]) {
 
-				//js value
-				//set here
+                    GEN.files.css.forEach(function (f) {
 
-				var arr = GEN.addContainersPerRow(json.rows);
+                        GEN.includeToHead({
+                            type: 'css',
+                            path: GEN.getIncludeURL(f.file)
+                        });
 
-				GEN.dropContainers_ROW(arr,{
-					
-					callback:function(){
+                    });
 
-						if(_p && _p.callback) _p.callback();
-						
-						$(window).resize();
-						
-						GEN.done();
-						
-						_import(false);
+                }
 
-						$(document).trigger('import-complete', [json])
-					}
-				});
+                if (json.js) {
+                    GEN.jsEditor.setValue(json.js);
+                    setCustomJStoView();
+                }
 
-			}else{
+                if (GEN.files.js[0]) {
 
-				var startCb = function(){
-					GEN.done();
+                    GEN.files.js.forEach(function (f) {
 
-					_import(false);
+                        GEN.includeToHead({
+                            type: 'js',
+                            path: GEN.getIncludeURL(f.file)
+                        });
 
-					if(_p && _p.callback) _p.callback();
+                    });
 
-				}
-				
-				if(json && (!json.rows || !json.rows[0])) {
-					
-					var row = GEN.layout.addRow({
-						index:0,
-						//class : 'page-header-row'
-					});
+                }
 
-					startCb();
-				
-					/*var PageTitleComponent = {
+                //js value
+                //set here
+
+                var arr = GEN.addContainersPerRow(json.rows);
+
+                GEN.dropContainers_ROW(arr, {
+
+                    callback: function () {
+
+                        if (_p && _p.callback) _p.callback();
+
+                        $(window).resize();
+
+                        GEN.done();
+
+                        _import(false);
+
+                        $(document).trigger('import-complete', [json])
+                    }
+                });
+
+            } else {
+
+                const startCb = function () {
+                    GEN.done();
+
+                    _import(false);
+
+                    if (_p && _p.callback) _p.callback();
+
+                };
+
+                if (json && (!json.rows || !json.rows[0])) {
+
+                    const row = GEN.layout.addRow({
+                        index: 0,
+                        //class : 'page-header-row'
+                    });
+
+                    startCb();
+
+                    /*var PageTitleComponent = {
 						name   : 'sectionheader',
 						row    : row,
 						column : row.find('>.gen-column'),
@@ -2573,582 +2996,576 @@ var GENERATOR = function(genparams){
 					}
 
 
-					GEN.dropContainers_ROW([],{ 
+					GEN.dropContainers_ROW([],{
 						callback:function(){
 							row.find('>.gen-column').attr('empty','true').addClass('distance-bottom');
 							startCb();
 						}
 					});*/
 
-				}else{
-					startCb();
-				}
+                } else {
+                    startCb();
+                }
 
-				
-			}
 
-			if(json.header){
-				GEN.Headers.import( json.header );
-			}else{
-				GEN.Headers.add('page_header_basic');
-			}
+            }
 
-			if(json.plsql)
-				for(var p in json.plsql){
+            if (json.header) {
+                GEN.Headers.import(json.header);
+            } else {
+                GEN.Headers.add('page_header_basic');
+            }
 
-					if(p == 'gentype' && !json.plsql[p] )
-						
-						json.plsql[p] = GEN.SETTINGS.gentype;
+            if (json.plsql)
+                for (let p in json.plsql) {
 
-					if(p === 'package' && json.plsql[p]?.indexOf('.pages')>=0 ){
-						json.plsql[p] = json.plsql[p].split('.pages')[0];
-					}
-					
-					GEN.SETTINGS.SET(p,json.plsql[p]);
-				}
+                    if (p === 'gentype' && !json.plsql[p])
 
-			if (json.service) {
+                        json.plsql[p] = GEN.SETTINGS.gentype;
 
-				GEN.service.set(GEN);
+                    if (p === 'package' && json.plsql[p]?.indexOf('.pages') >= 0) {
+                        json.plsql[p] = json.plsql[p].split('.pages')[0];
+                    }
 
-				GEN.SET.service({
-					desc 			: json.service.desc,
-					code 			: json.service.code,
-					proc 			: json.service.proc,
-					connectionsReq	: json.service.connectionsReq,
-					connectionsRes 	: json.service.connectionsRes,
-					fieldsReq 	   	: json.service.fieldsReq,
-					fieldsRes 	   	: json.service.fieldsRes
-				});
+                    GEN.SETTINGS.SET(p, json.plsql[p]);
+                }
 
-			}
-			
-			$('#igrp-form-gen').trigger( 'on-import', [json] );
-		}
-	}
+            if (json.service) {
 
-	GEN.addContainersPerRow = function(rows,parent){
-		var arr = [];
-		
-		rows.forEach(function(_row,index){
-				
-			GEN.layout.addRow({
-				index:index,
-				columns:_row.columns,
-				parent: parent ? parent : false,
-				class : _row.propreties && _row.propreties.class ? _row.propreties.class : '',
-				callback:function(p){
-				
-					p.columns.forEach(function(c){
+                GEN.service.set(GEN);
 
-						c.containers.forEach(function(params,containerIndex){
-							var name        = params.proprieties.type;
-							var container   = {
-								name        : name,
-								params      : params,  
-								row         : p.row,
-								column      : c.html,
-								index       : containerIndex,
-							}
-						
-							arr.push(container);
-						});
-					});
-				}
-			});
-		});
+                GEN.SET.service({
+                    desc: json.service.desc,
+                    code: json.service.code,
+                    proc: json.service.proc,
+                    connectionsReq: json.service.connectionsReq,
+                    connectionsRes: json.service.connectionsRes,
+                    fieldsReq: json.service.fieldsReq,
+                    fieldsRes: json.service.fieldsRes
+                });
 
-		return arr;
-	}
+            }
 
-	GEN.export = function(){
-		//console.log(GEN.cssEditor.getValue().replaceAll(' ',''))
-		var page = {
-			rows    : GEN.layout.getRows(),
-			header  : GEN.Headers.export()[0], 
-			plsql   : GEN.SETTINGS.toJson(),
-			css     : GEN.cssEditor.getValue(),
-			js 	    : GEN.jsEditor.getValue(),
-			files   : GEN.files,
-			service : GEN.proprieties.service,
-			version : '2.4'
-		}
-		//console.log(page);		
-		//console.log(JSON.stringify(page));
-			
-		$('#igrp-form-gen').trigger('on-export', [page]);
-		
-		return JSON.stringify(page);
-	}
+            $('#igrp-form-gen').trigger('on-import', [json]);
+        }
+    }
 
-	GEN.getDefaultIncludesStr = function(relative){
+    GEN.addContainersPerRow = function (rows, parent) {
+        const arr = [];
 
-		var rtn = "";
+        rows.forEach(function (_row, index) {
 
-		var xslTmplPath = GEN.SETTINGS.gentype == 'java' ? '../../..' : '../..';
-		
-		var iPath = relative ? xslTmplPath : path;
-		
-		GEN.defaultIncludes.forEach(function(name){
+            GEN.layout.addRow({
+                index: index,
+                columns: _row.columns,
+                parent: parent ? parent : false,
+                class: _row.propreties && _row.propreties.class ? _row.propreties.class : '',
+                callback: function (p) {
 
-			rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/'+name+'.xsl?v='+version+'"/>';
-		
-		});
+                    p.columns.forEach(function (c) {
 
-		if(GEN.files.xsl[0]){
+                        c.containers.forEach(function (params, containerIndex) {
+                            const name = params.proprieties.type;
+                            const container = {
+                                name: name,
+                                params: params,
+                                row: p.row,
+                                column: c.html,
+                                index: containerIndex,
+                            };
 
-			GEN.files.xsl.forEach(function(x){
-				rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/'+x.file+'?v='+version+'"/>';
-			});
-		}
+                            arr.push(container);
+                        });
+                    });
+                }
+            });
+        });
 
-		
-		
-		return rtn;
-	}
+        return arr;
+    }
 
-	GEN.includeTemplates = function(names){
-		var idx  = GEN.baseXSL.bottom.indexOf('</xsl:stylesheet>');
-		var iPath = path;
+    GEN.export = function () {
+        //console.log(GEN.cssEditor.getValue().replaceAll(' ',''))
+        const page = {
+            rows: GEN.layout.getRows(),
+            header: GEN.Headers.export()[0],
+            plsql: GEN.SETTINGS.toJson(),
+            css: GEN.cssEditor.getValue(),
+            js: GEN.jsEditor.getValue(),
+            files: GEN.files,
+            service: GEN.proprieties.service,
+            version: '2.4'
+        };
+        //console.log(page);
+        //console.log(JSON.stringify(page));
 
-		names.forEach(function(name){
-			var tmpl = '<xsl:include href="'+iPath+'/xsl/tmpl/IGRP-'+name+'.xsl?v='+version+'"/>';
+        $('#igrp-form-gen').trigger('on-export', [page]);
 
-			if(!isIncluded(name)){
-				GEN.XSL.find('stylesheet').append(tmpl);
-				TMPL_INCLUDES.push(name);
-			}
-		});
-	}
+        return JSON.stringify(page);
+    }
 
-	GEN.getIncludedTemplatesStr = function(relative){
-		var rtn = "";
-		var iPath = path;
+    GEN.getDefaultIncludesStr = function (relative) {
 
-		var xslTmplPath = GEN.SETTINGS.gentype == 'java' ? '../../..' : '../..';
+        let rtn = "";
 
-		var includStr = relative ? xslTmplPath : iPath;
+        const xslTmplPath = GEN.SETTINGS.gentype === 'java' ? '../../..' : '../..';
 
-		TMPL_INCLUDES.forEach(function(tmpl){
-			rtn = rtn + '<xsl:include href="'+includStr+'/xsl/tmpl/IGRP-'+tmpl+'.xsl?v='+version+'"/>';
-		})
-		return rtn;
-	}
+        const iPath = relative ? xslTmplPath : path;
 
-	var isHeadIncluded = function(path){
-		var rtn = false;
+        GEN.defaultIncludes.forEach(function (name) {
 
-		if(GEN.baseXSL.top.indexOf(path) != -1) rtn = true;
-		
-		return rtn;
-	}
+            rtn += '<xsl:include href="' + iPath + '/xsl/tmpl/' + name + '.xsl?v=' + version + '"/>';
 
-	var setToBaseXslHeader = function(path){
-		var idx = GEN.baseXSL.top.indexOf('</head>');
-		if(!isHeadIncluded(path)){
-			//GEN.baseXSL.top = GEN.baseXSL.top.insert(idx,path);
-		}
-	};
+        });
 
-	var includeToHead = function(p){
-		
-		var relative   = p.relative == false ? false : true; 
+        if (GEN.files.xsl[0]) {
 
-		var link       = relative ? '{$path}'+p.path : p.path;
+            GEN.files.xsl.forEach(function (x) {
+                rtn += '<xsl:include href="' + iPath + '/xsl/tmpl/' + x.file + '?v=' + version + '"/>';
+            });
+        }
 
-		var media      = p.media ? 'media="'+p.media+'"' : '',
-			charset    = p.charset ? 'charset="'+p.charset+'"' : ''; 
 
-		var xslInclude = p.type == 'css' ? '<link '+media+' rel="stylesheet" type="text/css" href="'+link+'"/>' :
-					     p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+link+'"></script>' : null;
-		
-		var viewLink    = p.path;
+        return rtn;
+    }
 
-		if(!relative && p.path.indexOf('{$path}') == 0)
-			viewLink = path+p.path.split('{$path}').pop();
+    GEN.includeTemplates = function (names) {
+        const idx = GEN.baseXSL.bottom.indexOf('</xsl:stylesheet>');
+        const iPath = path;
 
-		if(viewLink.indexOf('{$path}') >= 0)
-			viewLink = viewLink.replace('{$path}', path);
+        names.forEach(function (name) {
+            const tmpl = '<xsl:include href="' + iPath + '/xsl/tmpl/IGRP-' + name + '.xsl?v=' + version + '"/>';
 
-		var viewInclude = p.type == 'css' ? '<link media="'+media+'" rel="stylesheet" type="text/css" href="'+viewLink+'?v='+version+'"/>' :
-					      p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+viewLink+'?v='+version+'"></script>' : null;
+            if (!isIncluded(name)) {
+                GEN.XSL.find('stylesheet').append(tmpl);
+                TMPL_INCLUDES.push(name);
+            }
+        });
+    }
 
-	    //include css to the GEN VIEW
-		if(!GEN.viewFileIncluded(viewLink,p.type)) {
+    GEN.getIncludedTemplatesStr = function (relative) {
+        let rtn = "";
+        const iPath = path;
 
-			if(p.type == 'css')
-				$(viewInclude).insertBefore( $('style#custom-css') );
+        const xslTmplPath = GEN.SETTINGS.gentype === 'java' ? '../../..' : '../..';
 
-			else
-				$('html head').append(viewInclude);
-				/*var script  = document.createElement('script'),
-					head    = document.getElementsByTagName('head')[0];
-				script.type = 'text/javascript';
-				script.src  = viewLink;
-				head.appendChild(script);*/
-			}
-		
-		//$('html head').append(viewInclude);
-	};
+        const includStr = relative ? xslTmplPath : iPath;
 
-	GEN.includeToHead = function(p){
-		/*
+        TMPL_INCLUDES.forEach(function (tmpl) {
+            rtn = rtn + '<xsl:include href="' + includStr + '/xsl/tmpl/IGRP-' + tmpl + '.xsl?v=' + version + '"/>';
+        })
+        return rtn;
+    }
+
+    const isHeadIncluded = function (path) {
+        let rtn = false;
+
+        if (GEN.baseXSL.top.indexOf(path) !== -1) rtn = true;
+
+        return rtn;
+    };
+
+    const setToBaseXslHeader = function (path) {
+        const idx = GEN.baseXSL.top.indexOf('</head>');
+        if (!isHeadIncluded(path)) {
+            //GEN.baseXSL.top = GEN.baseXSL.top.insert(idx,path);
+        }
+    };
+
+    const includeToHead = function (p) {
+
+        const relative = p.relative === false ? false : true;
+
+        const link = relative ? '{$path}' + p.path : p.path;
+
+        const media = p.media ? 'media="' + p.media + '"' : '',
+            charset = p.charset ? 'charset="' + p.charset + '"' : '';
+
+        const xslInclude = p.type === 'css' ? '<link ' + media + ' rel="stylesheet" type="text/css" href="' + link + '"/>' :
+            p.type === 'js' ? '<script ' + charset + ' type="text/javascript" src="' + link + '"></script>' : null;
+
+        let viewLink = p.path;
+
+        if (!relative && p.path.indexOf('{$path}') === 0)
+            viewLink = path + p.path.split('{$path}').pop();
+
+        if (viewLink.indexOf('{$path}') >= 0)
+            viewLink = viewLink.replace('{$path}', path);
+
+        const viewInclude = p.type === 'css' ? '<link media="' + media + '" rel="stylesheet" type="text/css" href="' + viewLink + '?v=' + version + '"/>' :
+            p.type === 'js' ? '<script ' + charset + ' type="text/javascript" src="' + viewLink + '?v=' + version + '"></script>' : null;
+
+        //include css to the GEN VIEW
+        if (!GEN.viewFileIncluded(viewLink, p.type)) {
+
+            if (p.type === 'css')
+                $(viewInclude).insertBefore($('style#custom-css'));
+
+            else
+                $('html head').append(viewInclude);
+            /*var script  = document.createElement('script'),
+                head    = document.getElementsByTagName('head')[0];
+            script.type = 'text/javascript';
+            script.src  = viewLink;
+            head.appendChild(script);*/
+        }
+
+        //$('html head').append(viewInclude);
+    };
+
+    GEN.includeToHead = function (p) {
+        /*
 			type     : 'css/js'
 			relative : true/false - path relative to IGRP structure
 			path     : 'path to the file',
 		*/
-		if(p[0])
-			p.forEach(function(include){ includeToHead(include); })
-		else
-			includeToHead(p);
-	}
+        if (p[0])
+            p.forEach(function (include) {
+                includeToHead(include);
+            })
+        else
+            includeToHead(p);
+    }
 
-	GEN.isHeadIncluded = function(path){
-		return GEN.viewFileIncluded(path,'css');
-	}
+    GEN.isHeadIncluded = function (path) {
+        return GEN.viewFileIncluded(path, 'css');
+    }
 
-	GEN.viewFileIncluded = function(path,type){
-		var rtn      = false;
+    GEN.viewFileIncluded = function (path, type) {
+        let rtn = false;
 
-		var viewFiles = type=='css' ? $('link[rel="stylesheet"]') : $('script');
-		var attrName  = type=='css' ? 'href' : 'src';
+        const viewFiles = type === 'css' ? $('link[rel="stylesheet"]') : $('script');
+        const attrName = type === 'css' ? 'href' : 'src';
 
-		for(var i = 0; i < viewFiles.length ; i++){
-			var link  = $(viewFiles[i]);
-			var vpath = link.attr(attrName);
+        for (let i = 0; i < viewFiles.length; i++) {
+            const link = $(viewFiles[i]);
+            const vpath = link.attr(attrName);
 
-			if(vpath && vpath.indexOf(path) != -1){
-				rtn = true;
-				break;
-			}
-		}
+            if (vpath && vpath.indexOf(path) !== -1) {
+                rtn = true;
+                break;
+            }
+        }
 
-		return rtn;
-	}
+        return rtn;
+    }
 
-	var isIncluded = function(name){
-		var rtn = false;
-		for(var i = 0; i < TMPL_INCLUDES.length; i++){
-			if(TMPL_INCLUDES[i] == name){
-				rtn = true;
-				break;
-			} 
-		}
-		return rtn;
-	}
-	var decodeHTML = function(s) { // e.g. using jQuery
-    	return $('<div>' + s + '</div>').text();
-	}
+    var isIncluded = function (name) {
+        let rtn = false;
+        for (let i = 0; i < TMPL_INCLUDES.length; i++) {
+            if (TMPL_INCLUDES[i] === name) {
+                rtn = true;
+                break;
+            }
+        }
+        return rtn;
+    }
+    const decodeHTML = function (s) { // e.g. using jQuery
+        return $('<div>' + s + '</div>').text();
+    };
 
-	var setHtmlStyle = function(o){
-		
-		if(o && o.customStyle){
+    var setHtmlStyle = function (o) {
 
-			var itemHolder = $('>.container-contents>.gen-container-item',o.holder),
+        if (o && o.customStyle) {
 
-				setClss    = itemHolder.attr('gen-class');
+            const itemHolder = $('>.container-contents>.gen-container-item', o.holder),
 
-			itemHolder.attr('id',o.customStyle.id);
+                setClss = itemHolder.attr('gen-class');
 
-			itemHolder.removeClass(setClss).addClass(o.customStyle.class);
+            itemHolder.attr('id', o.customStyle.id);
 
-			itemHolder.attr('style',o.customStyle.inline);
+            itemHolder.removeClass(setClss).addClass(o.customStyle.class);
 
-		}
+            itemHolder.attr('style', o.customStyle.inline);
 
-	}
+        }
 
-	var getActiveEditor = function(){
-		var active = $('#gen-views-ctrl li.active').attr('rel');
-		var editorName = active.split('gen-').pop();
-		var editor     = GEN[editorName+'Editor'];
+    }
 
-		return editor;
-	}
+    const getActiveEditor = function () {
+        const active = $('#gen-views-ctrl li.active').attr('rel');
+        const editorName = active.split('gen-').pop();
+        const editor = GEN[editorName + 'Editor'];
 
-	var getActiveEditorName = function(){
-		var active = $('#gen-views-ctrl li.active').attr('rel');
-		var editorName = active.split('gen-').pop();
-		
-		return editorName;
-	}
+        return editor;
+    };
 
-	var getEditorType = function(){
-		var active = $('#gen-views-ctrl li.active').attr('rel');
-		var editorName = active.split('gen-').pop();
-		
-		if(editorName == 'plsql')
-			editorName = 'sql';
-		
-		return editorName;
-	}
+    const getActiveEditorName = function () {
+        const active = $('#gen-views-ctrl li.active').attr('rel');
+        const editorName = active.split('gen-').pop();
 
-	var setEvents = function(){
-		
-		$(document).keydown(function(event) {
+        return editorName;
+    };
 
-		    if((event.ctrlKey || event.metaKey) && event.which == 83) {
-		    	
-		    	event.preventDefault();
-		    	
-		    	$('.form-gen-save').click();
+    const getEditorType = function () {
+        const active = $('#gen-views-ctrl li.active').attr('rel');
+        let editorName = active.split('gen-').pop();
 
-		        return false;
-		    }
-		    
-		});
-		
-		$(document).on('click','.gen-editor-errors table tr',function(){
-			
-			if( GEN.server.activeMenu.editor ){
-				
-				var line = ($(this).attr('line')*1) - 1;
-				
-				GEN.server.activeMenu.editor.setSelection( { line: line, ch: 0 }, { line:line } )
-				
-			}
-			
-		});
+        if (editorName === 'plsql')
+            editorName = 'sql';
 
-		$('.gen-download-content').on('click',function(e){
+        return editorName;
+    };
 
-			try{
-				var editor     = getActiveEditor();
-				if(editor){
-					var name = GEN.DETAILS.filename.split('.xsl')[0];
-					var type = getEditorType();
+    var setEvents = function () {
 
-					var value = type =='xml' || type =='xsl' ? vkbeautify.xml(value) : editor.getValue();
+        $(document).keydown(function (event) {
 
-					var href = "data:text/plain;charset=UTF-8,"+editor.getValue();
-					
-					var fileName = name+'.'+type;
+            if ((event.ctrlKey || event.metaKey) && event.which === 83) {
 
-					$(this).attr('href',href);
-					$(this).attr('download',fileName)
-					
-				}
-				
-			}catch(error){
-				console.log(error);
-			}
-			//return false;
-		});
+                event.preventDefault();
 
-		$('.gen-copy-to-clipboard').on('click',function(e){
-			var _this  = $(this);			
-			try{
-				var editor     = getActiveEditor();
-				
-				if(editor){
-					
-					var value      = editor.getValue();
-				
-					copyToClipboard( value , function(){
-						_this.addClass('active');
-						
-						setTimeout(function(){
-							_this.removeClass('active');
-						},500);
+                $('.form-gen-save').click();
 
-						editor.execCommand('selectAll')
-					});
-				}
-				
-			}catch(error){
-				console.log(error);
-			}
-			return false;
-		});
+                return false;
+            }
+
+        });
+
+        $(document).on('click', '.gen-editor-errors table tr', function () {
+
+            if (GEN.server.activeMenu.editor) {
+
+                const line = ($(this).attr('line') * 1) - 1;
+
+                GEN.server.activeMenu.editor.setSelection({line: line, ch: 0}, {line: line})
+
+            }
+
+        });
+
+        $('.gen-download-content').on('click', function (e) {
+
+            try {
+                const editor = getActiveEditor();
+                if (editor) {
+                    const name = GEN.DETAILS.filename.split('.xsl')[0];
+                    const type = getEditorType();
+
+                    const value = type === 'xml' || type === 'xsl' ? vkbeautify.xml(value) : editor.getValue();
+
+                    const href = "data:text/plain;charset=UTF-8," + editor.getValue();
+
+                    const fileName = name + '.' + type;
+
+                    $(this).attr('href', href);
+                    $(this).attr('download', fileName)
+
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+            //return false;
+        });
+
+        $('.gen-copy-to-clipboard').on('click', function (e) {
+            const _this = $(this);
+            try {
+                const editor = getActiveEditor();
+
+                if (editor) {
+
+                    const value = editor.getValue();
+
+                    copyToClipboard(value, function () {
+                        _this.addClass('active');
+
+                        setTimeout(function () {
+                            _this.removeClass('active');
+                        }, 500);
+
+                        editor.execCommand('selectAll')
+                    });
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+            return false;
+        });
 //		Change theme of the codemirror
-		$('#code-mirror-theme-selector').on('click',function(){
-			
-			var activeEditor = getActiveEditor();		
-			if(activeEditor){			
-				activeEditor.setOption('theme',$(this).val());	
-				}	
-			if( GEN.server.activeMenu.editor ){
-			GEN.server.activeMenu.editor.setOption('theme',$(this).val());
-			}
-			});
-		
-		
-		
-		
-		//subversionpathERSION APPLET CONTROLLER
-		$('#gen-execute-subv').on('click',function(){
-			setPLSQLValue({
-				callback:function(){
-					svapi.executeActiveX(GEN.SETTINGS.toJson());
-				}
-			});
-			return false;
-		});
-		
-		//GEN VIEWS CONTROLLER
-		$(VARS.html.viewsController).on('click',function(e){
-			var ctrl       = $(this), 
-				rel        = ctrl.attr('rel'),
-				viewr      = $('#'+rel),
-				editorName = rel.substring(4),
-				editor     = GEN[editorName+'Editor'];
+        $('#code-mirror-theme-selector').on('click', function () {
 
-			$('.gen-viewers-toolbar .gen-page-setts-ctrl').hide();
-			
-			$('.gen-viewers-toolbar .gen-toolbar-items').hide();
+            const activeEditor = getActiveEditor();
+            if (activeEditor) {
+                activeEditor.setOption('theme', $(this).val());
+            }
+            if (GEN.server.activeMenu.editor) {
+                GEN.server.activeMenu.editor.setOption('theme', $(this).val());
+            }
+        });
 
-			var callback = function(){
 
-				$(VARS.html.viewers).removeClass('active');
+        //subversionpathERSION APPLET CONTROLLER
+        $('#gen-execute-subv').on('click', function () {
+            setPLSQLValue({
+                callback: function () {
+                    svapi.executeActiveX(GEN.SETTINGS.toJson());
+                }
+            });
+            return false;
+        });
 
-				$(VARS.html.viewsController).removeClass('active');
-		
-				ctrl.addClass('active');
+        //GEN VIEWS CONTROLLER
+        $(VARS.html.viewsController).on('click', function (e) {
+            const ctrl = $(this),
+                rel = ctrl.attr('rel'),
+                viewr = $('#' + rel),
+                editorName = rel.substring(4),
+                editor = GEN[editorName + 'Editor'];
 
-				viewr.addClass('active');
-				
-				if(rel != 'gen-design')
-					$.IGRP.components.sideBar.hide();
-				else
-					$.IGRP.components.sideBar.show();
-				
-				if(editor){
-					editor.refresh();
-        			editor.focus();
-				}
+            $('.gen-viewers-toolbar .gen-page-setts-ctrl').hide();
 
-				$('body').attr('view',rel);
-				
-				try{
-					
-					$('.gen-viewers-toolbar .gen-toolbar-items[rel*="'+rel.split('gen-')[1]+'"]').show();
-					
-				}catch(_err){
-					
-				}
-				
-				
+            $('.gen-viewers-toolbar .gen-toolbar-items').hide();
 
-				executeEvents(viewChangeEvents,{
-					id   : rel,
-					view : rel.split('gen-').join('')	
-				});
+            const callback = function () {
 
-			};
+                $(VARS.html.viewers).removeClass('active');
 
-			//XSL VIEW
-			switch(rel){
+                $(VARS.html.viewsController).removeClass('active');
 
-				case 'gen-css':
-					setCSSValue(callback);   
-				break;
+                ctrl.addClass('active');
 
-				case 'gen-js':
-					setJSValue(callback);   
-				break;
+                viewr.addClass('active');
 
-				case 'gen-xsl':
-					setXSLValue(callback);
-				break;
+                if (rel !== 'gen-design')
+                    $.IGRP.components.sideBar.hide();
+                else
+                    $.IGRP.components.sideBar.show();
 
-				case 'gen-xml':
-					setXMLValue(callback);
-				break;
+                if (editor) {
+                    editor.refresh();
+                    editor.focus();
+                }
 
-				case 'gen-plsql':
-					
-					if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
-						setPLSQLValue({
-							callback:callback
-						});
-						//console.log($('#gen-page-setts-ctrl'))
-						
-					}
-						
-					else{
-						openPLSQLSettings('plsql');
-					}
-				break;
+                $('body').attr('view', rel);
 
-				case 'gen-java':
-					
-					if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
-						
-						genUICode({
-							mode    : 'java',
-							callback:callback
+                try {
 
-						})
-						/*setPLSQLValue({
+                    $('.gen-viewers-toolbar .gen-toolbar-items[rel*="' + rel.split('gen-')[1] + '"]').show();
+
+                } catch (_err) {
+
+                }
+
+
+                executeEvents(viewChangeEvents, {
+                    id: rel,
+                    view: rel.split('gen-').join('')
+                });
+
+            };
+
+            //XSL VIEW
+            switch (rel) {
+
+                case 'gen-css':
+                    setCSSValue(callback);
+                    break;
+
+                case 'gen-js':
+                    setJSValue(callback);
+                    break;
+
+                case 'gen-xsl':
+                    setXSLValue(callback);
+                    break;
+
+                case 'gen-xml':
+                    setXMLValue(callback);
+                    break;
+
+                case 'gen-plsql':
+
+                    if (GEN.SETTINGS.html && GEN.SETTINGS.package) {
+                        setPLSQLValue({
+                            callback: callback
+                        });
+                        //console.log($('#gen-page-setts-ctrl'))
+
+                    } else {
+                        openPLSQLSettings('plsql');
+                    }
+                    break;
+
+                case 'gen-java':
+
+                    if (GEN.SETTINGS.html && GEN.SETTINGS.package) {
+
+                        genUICode({
+                            mode: 'java',
+                            callback: callback
+
+                        })
+                        /*setPLSQLValue({
 							rel:'gen-java',
 							callback:callback
 						});*/
-					}
-						
-					else{
-						openPLSQLSettings('java');
-					}
-				break;
+                    } else {
+                        openPLSQLSettings('java');
+                    }
+                    break;
 
-				default:
-					codeEditorView(false);
-					callback();
-			}
-			
-			GEN.resizeCodeMirrorArea( );
+                default:
+                    codeEditorView(false);
+                    callback();
+            }
 
-			GEN.SETTINGS.hide( );
-			
-		});
-		//views controllers submenu
-		$('.gen-v-types-sub-item').on('click',function(e){
-			e.stopPropagation();
-		});
+            GEN.resizeCodeMirrorArea();
 
-		/*drag containers*/
-		$(VARS.html.containers+','+VARS.html.htmls).draggable({
-			helper:function(e){
-				return GEN.getItemBeforeDrop($(e.currentTarget).attr('name'));
-			},
-			start:function(e,ui){
-				$(e.currentTarget).addClass('draggin')
-			},
-			stop:function(e,ui){
-				$(e.target).removeClass('draggin')
-			},
-			cursor: 'move',
-			scroll:false,
-			zIndex: 1000,
-			connectToSortable:VARS.html.containersPlaceHolder
-		});
+            GEN.SETTINGS.hide();
 
-		$(VARS.html.fields).draggable({
-			helper:function(e){
-				return GEN.getItemBeforeDrop($(e.currentTarget).attr('name'),'field').attr('style','min-height:12px;visibility:hidden')
-			},
-			cursor: 'move',
-			zIndex: 1000,
-			scroll:false,
-			start:function(e,ui){
-				$(e.currentTarget).addClass('draggin')
-			},
-			stop:function(e,ui){
-				$(e.target).removeClass('draggin')
-			},
-			connectToSortable:'.gen-sortable'
-		});
+        });
+        //views controllers submenu
+        $('.gen-v-types-sub-item').on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        /*drag containers*/
+        $(VARS.html.containers + ',' + VARS.html.htmls).draggable({
+            helper: function (e) {
+                return GEN.getItemBeforeDrop($(e.currentTarget).attr('name'));
+            },
+            start: function (e, ui) {
+                $(e.currentTarget).addClass('draggin')
+            },
+            stop: function (e, ui) {
+                $(e.target).removeClass('draggin')
+            },
+            cursor: 'move',
+            scroll: false,
+            zIndex: 1000,
+            connectToSortable: VARS.html.containersPlaceHolder
+        });
+
+        $(VARS.html.fields).draggable({
+            helper: function (e) {
+                return GEN.getItemBeforeDrop($(e.currentTarget).attr('name'), 'field').attr('style', 'min-height:12px;visibility:hidden')
+            },
+            cursor: 'move',
+            zIndex: 1000,
+            scroll: false,
+            start: function (e, ui) {
+                $(e.currentTarget).addClass('draggin')
+            },
+            stop: function (e, ui) {
+                $(e.target).removeClass('draggin')
+            },
+            connectToSortable: '.gen-sortable'
+        });
 
 
-		$('#download-gen-xsl').on('click',function(){
-			genxsl.download();
-			return false;
-		});
+        $('#download-gen-xsl').on('click', function () {
+            genxsl.download();
+            return false;
+        });
 
-		/*EDITION CONTROLLERS*/
-		/*$('.gen-edition-title-ctrl').on('click',function(){
+        /*EDITION CONTROLLERS*/
+        /*$('.gen-edition-title-ctrl').on('click',function(){
 			var rel = $(this).attr('rel');
 			var content = $('.gen-edition-contents[rel="'+rel+'"]');
-			
+
 			$('.gen-edition-contents').not(content).slideUp(300);
 			content.slideDown(300);
 
@@ -3156,72 +3573,71 @@ var GENERATOR = function(genparams){
 			$(this).addClass('active');
 		});*/
 
-		//edition menu
-		$('#gen-edition-modal .modal-header ul li').on('click',function(){
-			var rel = $(this).attr('rel');
-			$('.gen-properties-setts-holder').removeClass('active');
-			$('.gen-properties-setts-holder[rel="'+rel+'"]').addClass('active');
-			$('#gen-edition-modal .modal-header ul li').removeClass('active');
+        //edition menu
+        $('#gen-edition-modal .modal-header ul li').on('click', function () {
+            const rel = $(this).attr('rel');
+            $('.gen-properties-setts-holder').removeClass('active');
+            $('.gen-properties-setts-holder[rel="' + rel + '"]').addClass('active');
+            $('#gen-edition-modal .modal-header ul li').removeClass('active');
 
-			$('#gen-edition-modal').attr('view',rel);
+            $('#gen-edition-modal').attr('view', rel);
 
-			
 
-			$(this).addClass('active');
-		});
+            $(this).addClass('active');
+        });
 
-		//edition xsl templates menu
-		$('#gen-edition-modal .object-xsl-templates').on('change',function(){
-			var rel = $(this).val();
-			if(GEN.edit.object && GEN.edit.object.templates)
-				GEN.edit.setXSLValue(GEN.edit.object.templates[rel])
-			
-		});
+        //edition xsl templates menu
+        $('#gen-edition-modal .object-xsl-templates').on('change', function () {
+            const rel = $(this).val();
+            if (GEN.edit.object && GEN.edit.object.templates)
+                GEN.edit.setXSLValue(GEN.edit.object.templates[rel])
 
-		//LABEL / TITLE keyup to set autotag
-		$(VARS.edition.modal+' [rel="properties"]').on('keyup','.propriety-setter[rel="label"]',function(){
-			var o = GEN.edit.object;
-			if(o.autoTag){
-				var val = $(this).val();
-				$(VARS.edition.modal+' [rel="properties"] .propriety-setter[rel="tag"]').val( replaceSpecialChars(val) )
-			}
-		});
+        });
 
-		/*edition confirm*/
-		$('#gen-edit-confirm').on('click',function(){
+        //LABEL / TITLE keyup to set autotag
+        $(VARS.edition.modal + ' [rel="properties"]').on('keyup', '.propriety-setter[rel="label"]', function () {
+            const o = GEN.edit.object;
+            if (o.autoTag) {
+                const val = $(this).val();
+                $(VARS.edition.modal + ' [rel="properties"] .propriety-setter[rel="tag"]').val(replaceSpecialChars(val))
+            }
+        });
 
-			GEN.confirmEdition();
-			
-		});
+        /*edition confirm*/
+        $('#gen-edit-confirm').on('click', function () {
 
-		$(VARS.edition.dialog).on('click','[rel="gen-edt-cancel"]',function(){
-			GEN.edit.hide();
-		});
+            GEN.confirmEdition();
 
-		$(VARS.edition.modal).on("hidden.bs.modal hidden",function(){
-			GEN.edit.hide();
-		});
+        });
 
-		//apply edition
-		$(VARS.edition.dialog).on('click','[rel="gen-edt-apply"]',function(){
-			if(GEN.edit.object){
-				if(GEN.edit.object.genType == 'container')
-					GEN.edit.object.Transform();
-				else
-					GEN.edit.object.parent.Transform()
-			}
-			//GEN.edit.hide();
-			return false;
-		});
+        $(VARS.edition.dialog).on('click', '[rel="gen-edt-cancel"]', function () {
+            GEN.edit.hide();
+        });
 
-		//RULES EVENTS
-		GENRULES.init( $('#gen-rules-holder')[0] );
-		
-		//PAGE SETTINGS CONTROLLERS---------------------
-		/*$('.gen-page-setter.text').on('blur',function(){
+        $(VARS.edition.modal).on("hidden.bs.modal hidden", function () {
+            GEN.edit.hide();
+        });
+
+        //apply edition
+        $(VARS.edition.dialog).on('click', '[rel="gen-edt-apply"]', function () {
+            if (GEN.edit.object) {
+                if (GEN.edit.object.genType === 'container')
+                    GEN.edit.object.Transform();
+                else
+                    GEN.edit.object.parent.Transform()
+            }
+            //GEN.edit.hide();
+            return false;
+        });
+
+        //RULES EVENTS
+        GENRULES.init($('#gen-rules-holder')[0]);
+
+        //PAGE SETTINGS CONTROLLERS---------------------
+        /*$('.gen-page-setter.text').on('blur',function(){
 			var rel   = $(this).attr('rel'),
 				value = $(this).val();
-				
+
 			GEN.SETTINGS.SET(rel,value);
 		});
 
@@ -3235,1280 +3651,982 @@ var GENERATOR = function(genparams){
 		$('.gen-page-setter.select').on('change',function(){
 			var rel   = $(this).attr('rel');
 			var value = $(this).val();
-				
+
 			GEN.SETTINGS.SET(rel,value);
 		});*/
 
-		$('#gen-page-setts-confirm').on('click',function(){
+        $('#gen-page-setts-confirm').on('click', function () {
 
-			var modal   = $('#gen-settings-modal'),
+            const modal = $('#gen-settings-modal'),
 
-				fields  = $('input[required]',modal);
+                fields = $('input[required]', modal);
 
-			if(fields.valid()){
-				var trsf = modal.attr('transformer') || getActiveEditorName();
+            if (fields.valid()) {
+                const trsf = modal.attr('transformer') || getActiveEditorName();
 
-				$.each($('.gen-page-setter'),function(i,s){
-					var setter = $(s);
-					var rel    = setter.attr('rel');
-					var val    = setter.attr('type') == 'checkbox' ? setter.is(':checked') : setter.val();
-					
-					GEN.SETTINGS.SET(rel,val);
-				});
-				
-				$(VARS.html.viewsController+'[rel="gen-'+trsf+'"]').click();
+                $.each($('.gen-page-setter'), function (i, s) {
+                    const setter = $(s);
+                    const rel = setter.attr('rel');
+                    const val = setter.attr('type') === 'checkbox' ? setter.is(':checked') : setter.val();
 
-				if(modal[0].confirmCallback && typeof modal[0].confirmCallback === 'function')
+                    GEN.SETTINGS.SET(rel, val);
+                });
 
-					modal[0].confirmCallback();
+                $(VARS.html.viewsController + '[rel="gen-' + trsf + '"]').click();
 
-				$('.gen-btn-service',modal).remove();
+                if (modal[0].confirmCallback && typeof modal[0].confirmCallback === 'function')
 
-				modal.modal('hide');
-			}
+                    modal[0].confirmCallback();
 
-		});
+                $('.gen-btn-service', modal).remove();
 
-		$('#gen-settings-modal').on('hidden.bs.modal',function(){
-		
-			this.confirmCallback = null;
-			$('.gen-btn-service',this).remove();
-		
-		});
-		
-		$('.gen-page-setts-ctrl').on('click',function(){
-			
-			//var editorName = getActiveEditorName() || 'plsql';
+                modal.modal('hide');
+            }
 
-			//GEN.SETTINGS.gentype = editorName;			
-			openPLSQLSettings();
-		});
+        });
 
-		$('.gen-page-setter').on('keyup change',function(){
-			GEN.SETTINGS.checkBtn();
-		});
-		//
-		//---------------------------------------------
-		$(VARS.html.view).off('click','.bClick');
+        $('#gen-settings-modal').on('hidden.bs.modal', function () {
 
-		$(VARS.html.view).on('click','.bClick',function(){
-			return false;
-		});
+            this.confirmCallback = null;
+            $('.gen-btn-service', this).remove();
 
-		/*SAVE PAGE*/
-		$('.form-gen-save').on('click',function(e){
-			
-			e.preventDefault();
-			$('.form-gen-save .fa-cog').removeClass("hidden");   
-			var clicked = $(this);
-			
-			//console.log( SaveBlocks )
+        });
 
-			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
-				
-				var vUrl    = $(this).attr('href') ? $(this).attr('href') : $(this).attr('fw_href') ;
-				var pageXML = vkbeautify.xml(GEN.getXML());
-				var pageXSL = vkbeautify.xmlmin(GEN.getXSL({
-					removeGenAttrs:true
-				}));
+        $('.gen-page-setts-ctrl').on('click', function () {
 
-				var vItemId = getPageId();
+            //var editorName = getActiveEditorName() || 'plsql';
 
-				var exportJSON = GEN.export();
+            //GEN.SETTINGS.gentype = editorName;
+            openPLSQLSettings();
+        });
 
-				var vParam  =  [
-					{ name:'p_data'    , value: exportJSON },//json
-					{ name:'p_page_xml', value: pageXML },//xml
-					{ name:'p_page_xsl', value: pageXSL },//xsl
-					//{ name:'p_page_java',value:javaStr},//java
-					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
-				];
-				
-				//$('#igrp-form-gen').trigger('on-page-save', [vParam]);
+        $('.gen-page-setter').on('keyup change', function () {
+            GEN.SETTINGS.checkBtn();
+        });
+        //
+        //---------------------------------------------
+        $(VARS.html.view).off('click', '.bClick');
 
-				console.log(exportJSON);
+        $(VARS.html.view).on('click', '.bClick', function () {
+            return false;
+        });
 
-				var notifyOptions = {
-					delay: 12000,
-					placement: {
-						from: "top",
-						align: "right"
-					},
-					offset:{
-						y : 60
-					}
-				};
+        /*SAVE PAGE*/
+        $('.form-gen-save').on('click', function (e) {
 
-				var saveArrItems = [
-					{name:'p_id_objeto', value:vItemId},
-	           		{name:'p_table_name', value:GEN.SETTINGS.table},
-	           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				];
-				
-				var __genType = GEN.SETTINGS.gentype;	
+            e.preventDefault();
+            $('.form-gen-save .fa-cog').removeClass("hidden");
+            const clicked = $(this);
 
-				$('body').attr('has-message','false');
+            //console.log( SaveBlocks )
 
-				$('#gen-noif-holder').html('');
+            if (GEN.SETTINGS.html && GEN.SETTINGS.package) {
 
-				var compileCallback = function(){
-					
-					try{
+                const vUrl = $(this).attr('href') ? $(this).attr('href') : $(this).attr('fw_href');
+                const pageXML = vkbeautify.xml(GEN.getXML());
+                const pageXSL = vkbeautify.xmlmin(GEN.getXSL({
+                    removeGenAttrs: true
+                }));
 
-						if(__genType == 'java') 
+                const vItemId = getPageId();
 
-							saveArrItems.push( { name:'p_package', value: GEN.SETTINGS.package } );
+                const exportJSON = GEN.export();
 
-						$.IGRP.utils.submitStringAsFile({
-							pUrl        : vUrl,
-							pNotify     : false,
-							pLoading    : true,
-				         	pParam      : {
-				          		pArrayFiles : vParam,
-					           	pArrayItem  : saveArrItems
-					        },
-							pComplete   :function(req,text,status){
+                const vParam = [
+                    {name: 'p_data', value: exportJSON},//json
+                    {name: 'p_page_xml', value: pageXML},//xml
+                    {name: 'p_page_xsl', value: pageXSL},//xsl
+                    //{ name:'p_page_java',value:javaStr},//java
+                    //{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+                ];
 
-								if(__genType == 'java'){
+                //$('#igrp-form-gen').trigger('on-page-save', [vParam]);
 
-									GEN.removeEditorsErrors(true);
-								
-									var msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
-									var nomsg = true; 
-									$('.form-gen-save .fa-cog').addClass("hidden");
-									$.each(msgs,function(i,msg){
-										nomsg = false; 
-										var mtype  	 = $(msg).attr('type'),
-											vtype    = mtype == 'error' ? 'danger' : mtype,
-											jsonStr  = $(msg).text(),
-											jsonRes  = JSON.parse(jsonStr),
-											text     = jsonRes.msg;
+                console.log(exportJSON);
 
-										notifyOptions.type = vtype;
-										$.notify({		
-											
-											message:$('<div />').html(text).text() ,
-											
-										},notifyOptions);
-										
-										GEN.showEditorsErrors(jsonRes,mtype);
-									});
-									if(nomsg){
-										console.log("no msg");
-										notifyOptions.type='warning';
-											$.notify({													
-											message:"Check your login session! No response from server!" ,
-											
-										},notifyOptions);
-									}
-								
-									GEN.resizeCodeMirrorArea();
+                const notifyOptions = {
+                    delay: 12000,
+                    placement: {
+                        from: "top",
+                        align: "right"
+                    },
+                    offset: {
+                        y: 60
+                    }
+                };
 
-								}else
+                const saveArrItems = [
+                    {name: 'p_id_objeto', value: vItemId},
+                    {name: 'p_table_name', value: GEN.SETTINGS.table},
+                    {name: 'p_pkg_html_name', value: GEN.SETTINGS.html},
+                ];
 
-								if(__genType == 'plsql'){
+                const __genType = GEN.SETTINGS.gentype;
 
-									var msgs = $(req.response).find("message[type!='confirm'][type!='debug']");
+                $('body').attr('has-message', 'false');
 
-									$.each(msgs,function(i,msg){
-										var type = $(msg).attr('type');
-										var text = $(msg).text();
+                $('#gen-noif-holder').html('');
 
-										$.notify({
-											message: text,
+                const compileCallback = function () {
 
-										},{
-											type:'success',
-											delay: 8000,
-										});
+                    try {
 
-									});
+                        if (__genType === 'java')
 
-								}
+                            saveArrItems.push({name: 'p_package', value: GEN.SETTINGS.package});
 
-							},
-							pError:function(request){
-								
-								notifyOptions.type = 'danger';								
-								$.notify({
-									message: request.statusText
-								},notifyOptions);
-								
-							}
-				        });
-							
+                        $.IGRP.utils.submitStringAsFile({
+                            pUrl: vUrl,
+                            pNotify: false,
+                            pLoading: true,
+                            pParam: {
+                                pArrayFiles: vParam,
+                                pArrayItem: saveArrItems
+                            },
+                            pComplete: function (req, text, status) {
 
-				    }catch(errr){
-						$('.form-gen-save .fa-cog').addClass("hidden");  
-						$.IGRP.notify({
-							message : "Error 3028: "+err,
-							type    : 'alert'
-						});
-				    	
+                                let msgs;
+                                if (__genType === 'java') {
 
-				    }
+                                    GEN.removeEditorsErrors(true);
 
-				};
-				
-				try{
+                                    msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
+                                    let nomsg = true;
+                                    $('.form-gen-save .fa-cog').addClass("hidden");
+                                    $.each(msgs, function (i, msg) {
+                                        nomsg = false;
+                                        const mtype = $(msg).attr('type'),
+                                            vtype = mtype === 'error' ? 'danger' : mtype,
+                                            jsonStr = $(msg).text(),
+                                            jsonRes = JSON.parse(jsonStr),
+                                            text = jsonRes.msg;
 
-					if(__genType == 'java')
-						
-						GEN.server.compile({
-							mode : 'java',
-							then : function(results){
-								results.forEach(function(r){									
-									var name = r.name.toLowerCase();
-									vParam.push({
-										name : 'p_'+name,
-										value : r.code
-									});								
-								});
-								compileCallback();
-								}
-						});	
+                                        notifyOptions.type = vtype;
+                                        $.notify({
 
-					if(__genType == 'plsql')
-						compileCallback();		
-					
-				}catch(err){
-					$('.form-gen-save .fa-cog').addClass("hidden");   
-					
-					$.IGRP.notify({
-						message : "Error 3064: "+err,
-						type    : 'alert'
-					});
-				}	
+                                            message: $('<div />').html(text).text(),
 
-				
-			}else{
-				openPLSQLSettings(function(){
-					
-					clicked.click();
+                                        }, notifyOptions);
 
-				});
-			}
-			return false;
-		});
+                                        GEN.showEditorsErrors(jsonRes, mtype);
+                                    });
+                                    if (nomsg) {
+                                        console.log("no msg");
+                                        notifyOptions.type = 'warning';
+                                        $.notify({
+                                            message: "Check your login session! No response from server!",
 
-		/* CHANGE APP HANDLER */
-		$('#gen-app-choser select').on('change',function(){
-			var select = $(this);
-			if(!select.hasClass('loadin')){
-				
+                                        }, notifyOptions);
+                                    }
+
+                                    GEN.resizeCodeMirrorArea();
+
+                                } else if (__genType === 'plsql') {
+
+                                    msgs = $(req.response).find("message[type!='confirm'][type!='debug']");
+
+                                    $.each(msgs, function (i, msg) {
+                                        const type = $(msg).attr('type');
+                                        const text = $(msg).text();
+
+                                        $.notify({
+                                            message: text,
+
+                                        }, {
+                                            type: 'success',
+                                            delay: 8000,
+                                        });
+
+                                    });
+
+                                }
+
+                            },
+                            pError: function (request) {
+
+                                notifyOptions.type = 'danger';
+                                $.notify({
+                                    message: request.statusText
+                                }, notifyOptions);
+
+                            }
+                        });
+
+
+                    } catch (errr) {
+                        $('.form-gen-save .fa-cog').addClass("hidden");
+                        $.IGRP.notify({
+                            message: "Error 3028: " + err,
+                            type: 'alert'
+                        });
+
+
+                    }
+
+                };
+
+                try {
+
+                    if (__genType === 'java')
+
+                        GEN.server.compile({
+                            mode: 'java',
+                            then: function (results) {
+                                results.forEach(function (r) {
+                                    const name = r.name.toLowerCase();
+                                    vParam.push({
+                                        name: 'p_' + name,
+                                        value: r.code
+                                    });
+                                });
+                                compileCallback();
+                            }
+                        });
+
+                    if (__genType === 'plsql')
+                        compileCallback();
+
+                } catch (err) {
+                    $('.form-gen-save .fa-cog').addClass("hidden");
+
+                    $.IGRP.notify({
+                        message: "Error 3064: " + err,
+                        type: 'alert'
+                    });
+                }
+
+
+            } else {
+                openPLSQLSettings(function () {
+
+                    clicked.click();
+
+                });
+            }
+            return false;
+        });
+
+        /* CHANGE APP HANDLER */
+        $('#gen-app-choser select').on('change', function () {
+            const select = $(this);
+            if (!select.hasClass('loadin')) {
+
 //				select.addClass('loadin');
 
-				var vApp = select.val(), 
-					vUrl = $("input[name='p_env_frm_url']").val() ? $("input[name='p_env_frm_url']").val() : 'GEN.APP.TEST.xml';
-				
-				if(vApp){
-					$.ajax({
-						url:vUrl,
-						data:select.attr('name')+'='+vApp,
-						success:function(content){
-							var xsl = path+'/xsl/tmpl/IGRP-tree-menu.tmpl.xsl';
-							var xml = $(content).find('rows > content > table').getXMLDocument();
-							
-							if(xml){
-								$('#gen-apps-holder').XMLTransform({
-									xml     	 : xml,
-									xsl     	 : xsl,
-									loading      : true,
-									xslParams    : { 
-										template : 'tree-menu',
-										delete   : 'false' 
-									},
-									complete     : function(data){
-										select.removeClass('loadin');
-									},
-									error        : function(error){
-										select.removeClass('loadin');
-									}
-								});
-							}else{
-								select.removeClass('loadin');
-								alert('error')
-							}
-						}
-					});
-				}
-			}
-			return false;
-		});
-	
-		/*ADD APP MODULE*/
-		$('#gen-apps-holder').on('click','.tree-menu-options .btn',function(){			
-			var type = 'add';
-			var id = $(this).parents('li').find('a').attr('idobj');
-
-			setIframeContentLookup({
-				pUrl        : modules.saveLink,
-				holder      : modules.holder,
-				iframe      : modules.holder.find('iframe'),
-				pBeforeReady:function(contents){
-					contents.find('body').addClass('iframe-full-sreen');
-					contents.find('.box-head.showTabMobile').attr('style','display:none!important');
-					contents.find('.bClick[target="_close"]').on('click',modules.hide);
-				},
-				pCallback   :function(){
-					modules.show();
-				}
-			});
-
-			return false;
-		});
-
-		$('#gen-apps-holder').on('click','li a[href]',function(){
-			var page = $(this);
-			if(!page.hasClass('selected') && !GEN.importing){
-				try{
-					loadPageContents({
-						id       : page.attr('idobj'),
-						source   : page.attr('href')
-					});
-				}catch(e){
-					console.log(e)
-				}
-			}
-			return false;
-		});
-		
-
-		//before unload
-		window.onbeforeunload = function() {
-			return "Tenha aten\u00e7\u00e3o \u00e0s altera\u00e7\u00f5es!";
-		};
-
-		GEN.edit.XSLEditor = CodeMirror($('#gen-edit-xsl')[0], {			
-	          lineNumbers : true,			
-			 foldGutter: true,
-			 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"],
-			 lineWrapping : true,
-	         matchBrackets : true,
-	  		autoCloseBrackets : true,  
-			readOnly:false,
-	        mode: "xml",
-	        matchTags: {bothTags: true},
-			autofocus:true,
-	        enterMode:'indent',
-	        smartIndent:true,
-	        extraKeys: {
-	          "'<'": CM_XSLT_completeAfter,
-	          "'/'": CM_XSLT_completeIfAfterLt,
-	          "' '": CM_XSLT_completeIfInTag,
-	          "'='": CM_XSLT_completeIfInTag,
-	          "Ctrl-J": "toMatchingTag",        
-				 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor());}, 
-	          "Ctrl-Space": function(cm) {
-	            CodeMirror.showHint(cm, CodeMirror.hint.xml, {schemaInfo: CM_XSLT_tags});
-	          }
-	        }
-      	});
-
-      	GEN.edit.XSLEditor.on('change',function(e){
-      		//GEN.edit.saveChanges(e.getValue());
-      	})
-
-      	GEN.edit.XSLEditor.on('mousedown',function(e){
-      		//xslEditing = true;
-      	});
-
-      	GEN.edit.XSLEditor.on('blur',function(e){
-      		//xslEditing = false;
-      	});
-
-      	//MESSAGES CONTROL
-      	$('#gen-noif-holder').on('click','.close',function(){
-      		var qtd = $('#gen-noif-holder .notification').length-1;
-      		if(qtd == 0)
-      			$('body').attr('has-message','false')
-      	});
-
-      	$(window).resize(function(){
-      		resizeCodeMirrorArea();
-      	});
-
-      	$('body').on('click','.container-contents a[target],.container-contents button[target]',function(e){
-      		e.preventDefault();
-      		e.stopPropagation();
-      		return false;
-      	});
-
-		/*sort containers*/
-		//GEN.configSortable($(VARS.html.containersPlaceHolder));
-	}
-
-	GEN.showEditorsErrors = function(jsonRes,type){
-		if(jsonRes.errors){
-											
-			for(var file in jsonRes.errors){
-				
-				var partErrors = jsonRes.errors[file],
-				
-					part 	   = file.split('.java').join(''),
-					
-					menu 	   = $('.list-group-item.server-transform[file-name="'+file+'"]'),
-					
-					menuType   = menu.attr('part'),
-					
-					editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),
-					
-					errorsW    = $('<div class="gen-editor-errors col-sm-10"><div class="btn btn-default btn-sm gen-editor-errors-close" onclick="__GEN.removeEditorsErrors(true)"><i class="fa fa-times"></i></div><table><tbody/></table></div>');
-				
-				editor.addClass('has-error');
-				
-				menu.addClass('has-error');
-				//console.log(menu);
-				
-				partErrors.forEach(function(err){
-					
-					//console.log(GEN.server.activeMenu)
-					
-					GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-'+type);
-					
-					errorsW.find('tbody').append(
-							
-						'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err[type]+'</td></tr>'
-					);				
-					
-				});
-				
-				editor.append(errorsW);
-				
-				GEN.server.activeMenu.editor.refresh();
-			}
-		}
-										
-	}
-
-	GEN.removeEditorsErrors = function(resize){
-		
-		$('.gen-editor-errors').remove();
-		
-		$('.server-editor').removeClass(function (index, css) {
-			return (css.match (/\bhas-\S+/g) || []).join(' ');
-		});
-		
-		$('.server-transform').removeClass(function (index, css) {
-			return (css.match (/\bhas-\S+/g) || []).join(' '); 
-		});
-		
-		$('.CodeMirror-gutter-wrapper').removeClass(function (index, css) {
-			return (css.match (/\bhas-\S+/g) || []).join(' ');
-		});
-		
-		if(resize)
-			
-			GEN.resizeCodeMirrorArea();
-	}
-
-	GEN.getItemBeforeDrop = function(type,genType){
-		var gType = genType ? genType : 'container';
-
-		return HTML({
-			tag:'li',
-			name:type,
-			type:type,
-
-			//type:gType,
-			class:'gen-declared-'+gType+'s'
-		});
-	}
-
-	var configDroppedItem = function(item){
-		item.removeAttr('style');
-	}			
-
-	var getConfigData = function(){
-		if(genparams.configURL){
-			$.ajax({
-				url:genparams.configURL,
-				success:function(configData){
-					configDataSet = true;
-					
-					GEN.UTILS = typeof configData == 'string' ? $.parseJSON(configData) : configData;
-
-					//loadDomains();
-
-					loadPageContents({ source: genparams.dataSrc });
-				}
-			})
-		}
-
-	}
-
-	var getBaseXSL = function(){//GET PAGE BASE XSL 
-  		
-  		$.ajax({
-
-  			url : GEN.path+'/util/base.xsl',
-
-  			success:function(base,e,d){
-
-  				//var xmlString = (new XMLSerializer()).serializeToString(base);
-
-  				var xmlString = d.responseText;
-			    
-			    var parts = xmlString.split('<!--SPLIT-->');
-
-			    GEN.XSL = $(xmlString);
-			
-			    GEN.baseXSL = {
-			    	top    : parts[0],
-			    	main   : '',
-			    	bottom : parts[1]
-			    }
-
-			    GEN.includeTemplates(['home-include','slide-menu']);
-
-			    configCodeEditor();
-
-				configPLSQLEditor();
-
-				//configJAVAEditor();
-
-				baseXslSet = true;
-
-				loadPageContents({ source: genparams.dataSrc });
-
-			    //if(json && json[0]) GEN.import();
-  			}
-  		})
-	}
-
-	var transformXMLtoJson = function(data,callback){
-		//console.log(data);
-		if(data && callback){
-			callback($(data).to2DOT2());
-		}
-	}
-
-	var setNewGenPage = function(p){
-		setPageTitle(p.title);
-		setPageId(p.id);
-		$('#gen-apps-holder li a').removeClass('selected');
-		$('#gen-apps-holder li a[idobj="'+p.id+'"]').addClass('selected');
-	}
-
-
-	var loadDomains = function(cback){
-		
-		var jsonFound = false;
-
-		var setDomains = function(d){
-
-			GEN.DETAILS.domains = [{
-				value:'',
-				label:''
-			}];
-
-			d.list.forEach(function(i){
-				
-				GEN.DETAILS.domains.push({
-					value : i,
-					label : i
-				});
-
-			});
-		}
-
-		$.ajax({
-			url:GEN.UTILS.link_domains+GEN.DETAILS.id,
-			success:function(d){ 
-				
-				setDomains(d);
-
-				jsonFound = d;
-
-				
-			},
-			complete:function(d){
-				
-				if(!jsonFound){
-
-					var txt = d.responseText;
-					txt = txt.replaceAll('\t"','"');
-					txt = txt.replaceAll('\t\t"','"');
-					txt = txt.replaceAll('  "','"');
-					txt = txt.replaceAll(' "','"');
-
-					setDomains( JSON.parse(txt) );
-
-				}
-
-				if( cback )
-
-					cback();
-
-			}
-		})
-	};
-
-	var loadPageContents = function(p){
-		
-		if(baseXslSet && configDataSet){
-
-			var id = p.id ? p.id : getPageId() ;
-			if(id){
-				//GET PAGE DETAILS AND LOAD CONTENTS
-				$.ajax({
-					url : GEN.UTILS.link_page_detail+id,
-					success:function(pageDetailsStr){
-						//console.log(pageDetailsStr)
-						GEN.DETAILS = typeof pageDetailsStr == 'string' ? $.parseJSON(pageDetailsStr) : pageDetailsStr;
-						
-						$('#gen-page-title').text(GEN.DETAILS.action_descr).hide();
-						//console.log(GEN.DETAILS)
-
-						loadDomains(function(){
-
-							$.ajax({
-								url:GEN.UTILS.link_page_list+GEN.DETAILS.app,
-								success:function(str){
-									try{
-										GEN.DETAILS.linkPageList = typeof str == 'string' ? $.parseJSON(str) : str;
-										
-										setContainerCopyOptions();
-
-									}catch(e){
-										console.log('invalid json: '+str);
-									}
-								},
-								complete:function(){
-									//LOAD PAGE CONTENT
-
-									if(p.source){
-										loadData(p.source,function(){
-
-											setNewGenPage({
-												title : GEN.DETAILS.action_descr,
-												id    : id
-											});
-
-											executeEvents(readyEvents);
-										});
-									}else{
-										initBlank();
-										executeEvents(readyEvents);
-									}
-								}
-							});
-
-						});
-
-						//GET PAGE LINKS LIST
-					}
-				});
-			}else{
-				initBlank();
-			}
-			
-		}	
-	}
-
-	var initBlank = function(){
-		GEN.layout.addRow({index:0});
-		GEN.done();
-	}
-
-	var loadData = function(url,callback){
-		
-		_import(true);
-		
-		$.ajax({	
-
-			url:url,
-			//cache:false,
-			success:function(d,s,r){
-
-				var contentType = r.getResponseHeader('content-type') || 'json';
-
-				var type = contentType.split(';')[0];
-
-				if(type.indexOf('xml') != -1)
-
-					transformXMLtoJson(d, function(str){	
-						
-						GEN.import(str,{callback:callback})
-
-					});
-
-				else
-					GEN.import(d,{callback:callback});
-			},
-			error:function(){
-
-				console.log('error loading data!');
-
-				_import(false);
-				
-			},
-			complete:function(r){
-				/*var contentType = r.getResponseHeader('Content-Type');
+                const vApp = select.val(),
+                    vUrl = $("input[name='p_env_frm_url']").val() ? $("input[name='p_env_frm_url']").val() : 'GEN.APP.TEST.xml';
+
+                if (vApp) {
+                    $.ajax({
+                        url: vUrl,
+                        data: select.attr('name') + '=' + vApp,
+                        success: function (content) {
+                            const xsl = path + '/xsl/tmpl/IGRP-tree-menu.tmpl.xsl';
+                            const xml = $(content).find('rows > content > table').getXMLDocument();
+
+                            if (xml) {
+                                $('#gen-apps-holder').XMLTransform({
+                                    xml: xml,
+                                    xsl: xsl,
+                                    loading: true,
+                                    xslParams: {
+                                        template: 'tree-menu',
+                                        delete: 'false'
+                                    },
+                                    complete: function (data) {
+                                        select.removeClass('loadin');
+                                    },
+                                    error: function (error) {
+                                        select.removeClass('loadin');
+                                    }
+                                });
+                            } else {
+                                select.removeClass('loadin');
+                                alert('error')
+                            }
+                        }
+                    });
+                }
+            }
+            return false;
+        });
+
+        /*ADD APP MODULE*/
+        $('#gen-apps-holder').on('click', '.tree-menu-options .btn', function () {
+            const type = 'add';
+            const id = $(this).parents('li').find('a').attr('idobj');
+
+            setIframeContentLookup({
+                pUrl: modules.saveLink,
+                holder: modules.holder,
+                iframe: modules.holder.find('iframe'),
+                pBeforeReady: function (contents) {
+                    contents.find('body').addClass('iframe-full-sreen');
+                    contents.find('.box-head.showTabMobile').attr('style', 'display:none!important');
+                    contents.find('.bClick[target="_close"]').on('click', modules.hide);
+                },
+                pCallback: function () {
+                    modules.show();
+                }
+            });
+
+            return false;
+        });
+
+        $('#gen-apps-holder').on('click', 'li a[href]', function () {
+            const page = $(this);
+            if (!page.hasClass('selected') && !GEN.importing) {
+                try {
+                    loadPageContents({
+                        id: page.attr('idobj'),
+                        source: page.attr('href')
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+            return false;
+        });
+
+
+        //before unload
+        window.onbeforeunload = function () {
+            return "Tenha aten\u00e7\u00e3o \u00e0s altera\u00e7\u00f5es!";
+        };
+
+        GEN.edit.XSLEditor = CodeMirror($('#gen-edit-xsl')[0], {
+            lineNumbers: true,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+            lineWrapping: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            readOnly: false,
+            mode: "xml",
+            matchTags: {bothTags: true},
+            autofocus: true,
+            enterMode: 'indent',
+            smartIndent: true,
+            extraKeys: {
+                "'<'": CM_XSLT_completeAfter,
+                "'/'": CM_XSLT_completeIfAfterLt,
+                "' '": CM_XSLT_completeIfInTag,
+                "'='": CM_XSLT_completeIfInTag,
+                "Ctrl-J": "toMatchingTag",
+                "Ctrl-Q": function (cm) {
+                    cm.foldCode(cm.getCursor());
+                },
+                "Ctrl-Space": function (cm) {
+                    CodeMirror.showHint(cm, CodeMirror.hint.xml, {schemaInfo: CM_XSLT_tags});
+                }
+            }
+        });
+
+        GEN.edit.XSLEditor.on('change', function (e) {
+            //GEN.edit.saveChanges(e.getValue());
+        })
+
+        GEN.edit.XSLEditor.on('mousedown', function (e) {
+            //xslEditing = true;
+        });
+
+        GEN.edit.XSLEditor.on('blur', function (e) {
+            //xslEditing = false;
+        });
+
+        //MESSAGES CONTROL
+        $('#gen-noif-holder').on('click', '.close', function () {
+            const qtd = $('#gen-noif-holder .notification').length - 1;
+            if (qtd === 0)
+                $('body').attr('has-message', 'false')
+        });
+
+        $(window).resize(function () {
+            resizeCodeMirrorArea();
+        });
+
+        $('body').on('click', '.container-contents a[target],.container-contents button[target]', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+
+        /*sort containers*/
+        //GEN.configSortable($(VARS.html.containersPlaceHolder));
+    }
+
+    GEN.showEditorsErrors = function (jsonRes, type) {
+        if (jsonRes.errors) {
+
+            for (let file in jsonRes.errors) {
+
+                const partErrors = jsonRes.errors[file],
+
+                    part = file.split('.java').join(''),
+
+                    menu = $('.list-group-item.server-transform[file-name="' + file + '"]'),
+
+                    menuType = menu.attr('part'),
+
+                    editor = $('.server-editor[editor-part="' + menuType + '"]'),
+
+                    errorsW = $('<div class="gen-editor-errors col-sm-10"><div class="btn btn-default btn-sm gen-editor-errors-close" onclick="__GEN.removeEditorsErrors(true)"><i class="fa fa-times"></i></div><table><tbody/></table></div>');
+
+                editor.addClass('has-error');
+
+                menu.addClass('has-error');
+                //console.log(menu);
+
+                partErrors.forEach(function (err) {
+
+                    //console.log(GEN.server.activeMenu)
+
+                    GEN.server.activeMenu.editor.addLineClass((err.line * 1) - 1, 'gutter', 'has-' + type);
+
+                    errorsW.find('tbody').append(
+                        '<tr line="' + err.line + '"><td class="gen-editor-err-line">' + err.line + '</td><td class="gen-editor-err-desc">' + err[type] + '</td></tr>'
+                    );
+
+                });
+
+                editor.append(errorsW);
+
+                GEN.server.activeMenu.editor.refresh();
+            }
+        }
+
+    }
+
+    GEN.removeEditorsErrors = function (resize) {
+
+        $('.gen-editor-errors').remove();
+
+        $('.server-editor').removeClass(function (index, css) {
+            return (css.match(/\bhas-\S+/g) || []).join(' ');
+        });
+
+        $('.server-transform').removeClass(function (index, css) {
+            return (css.match(/\bhas-\S+/g) || []).join(' ');
+        });
+
+        $('.CodeMirror-gutter-wrapper').removeClass(function (index, css) {
+            return (css.match(/\bhas-\S+/g) || []).join(' ');
+        });
+
+        if (resize)
+
+            GEN.resizeCodeMirrorArea();
+    }
+
+    GEN.getItemBeforeDrop = function (type, genType) {
+        const gType = genType ? genType : 'container';
+
+        return HTML({
+            tag: 'li',
+            name: type,
+            type: type,
+
+            //type:gType,
+            class: 'gen-declared-' + gType + 's'
+        });
+    }
+
+    const configDroppedItem = function (item) {
+        item.removeAttr('style');
+    };
+
+    var getConfigData = function () {
+        if (genparams.configURL) {
+            $.ajax({
+                url: genparams.configURL,
+                success: function (configData) {
+                    configDataSet = true;
+
+                    GEN.UTILS = typeof configData == 'string' ? $.parseJSON(configData) : configData;
+
+                    //loadDomains();
+
+                    loadPageContents({source: genparams.dataSrc});
+                }
+            })
+        }
+
+    }
+
+    var getBaseXSL = function () {//GET PAGE BASE XSL
+
+        $.ajax({
+
+            url: GEN.path + '/util/base.xsl',
+
+            success: function (base, e, d) {
+
+                //var xmlString = (new XMLSerializer()).serializeToString(base);
+
+                const xmlString = d.responseText;
+
+                const parts = xmlString.split('<!--SPLIT-->');
+
+                GEN.XSL = $(xmlString);
+
+                GEN.baseXSL = {
+                    top: parts[0],
+                    main: '',
+                    bottom: parts[1]
+                }
+
+                GEN.includeTemplates(['home-include', 'slide-menu']);
+
+                configCodeEditor();
+
+                configPLSQLEditor();
+
+                //configJAVAEditor();
+
+                baseXslSet = true;
+
+                loadPageContents({source: genparams.dataSrc});
+
+                //if(json && json[0]) GEN.import();
+            }
+        })
+    }
+
+    const transformXMLtoJson = function (data, callback) {
+        //console.log(data);
+        if (data && callback) {
+            callback($(data).to2DOT2());
+        }
+    };
+
+    const setNewGenPage = function (p) {
+        setPageTitle(p.title);
+        setPageId(p.id);
+        $('#gen-apps-holder li a').removeClass('selected');
+        $('#gen-apps-holder li a[idobj="' + p.id + '"]').addClass('selected');
+    };
+
+
+    const loadDomains = function (cback) {
+
+        let jsonFound = false;
+
+        const setDomains = function (d) {
+
+            GEN.DETAILS.domains = [{
+                value: '',
+                label: ''
+            }];
+
+            d.list.forEach(function (i) {
+
+                GEN.DETAILS.domains.push({
+                    value: i,
+                    label: i
+                });
+
+            });
+        };
+
+        $.ajax({
+            url: GEN.UTILS.link_domains + GEN.DETAILS.id,
+            success: function (d) {
+
+                setDomains(d);
+
+                jsonFound = d;
+
+
+            },
+            complete: function (d) {
+
+                if (!jsonFound) {
+
+                    let txt = d.responseText;
+                    txt = txt.replaceAll('\t"', '"');
+                    txt = txt.replaceAll('\t\t"', '"');
+                    txt = txt.replaceAll('  "', '"');
+                    txt = txt.replaceAll(' "', '"');
+
+                    setDomains(JSON.parse(txt));
+
+                }
+
+                if (cback)
+
+                    cback();
+
+            }
+        })
+    };
+
+    var loadPageContents = function (p) {
+
+        if (baseXslSet && configDataSet) {
+
+            const id = p.id ? p.id : getPageId();
+            if (id) {
+                //GET PAGE DETAILS AND LOAD CONTENTS
+                $.ajax({
+                    url: GEN.UTILS.link_page_detail + id,
+                    success: function (pageDetailsStr) {
+                        //console.log(pageDetailsStr)
+                        GEN.DETAILS = typeof pageDetailsStr == 'string' ? $.parseJSON(pageDetailsStr) : pageDetailsStr;
+
+                        $('#gen-page-title').text(GEN.DETAILS.action_descr).hide();
+                        //console.log(GEN.DETAILS)
+
+                        loadDomains(function () {
+
+                            $.ajax({
+                                url: GEN.UTILS.link_page_list + GEN.DETAILS.app,
+                                success: function (str) {
+                                    try {
+                                        GEN.DETAILS.linkPageList = typeof str == 'string' ? $.parseJSON(str) : str;
+
+                                        setContainerCopyOptions();
+
+                                    } catch (e) {
+                                        console.log('invalid json: ' + str);
+                                    }
+                                },
+                                complete: function () {
+                                    //LOAD PAGE CONTENT
+
+                                    if (p.source) {
+                                        loadData(p.source, function () {
+
+                                            setNewGenPage({
+                                                title: GEN.DETAILS.action_descr,
+                                                id: id
+                                            });
+
+                                            executeEvents(readyEvents);
+                                        });
+                                    } else {
+                                        initBlank();
+                                        executeEvents(readyEvents);
+                                    }
+                                }
+                            });
+
+                        });
+
+                        //GET PAGE LINKS LIST
+                    }
+                });
+            } else {
+                initBlank();
+            }
+
+        }
+    }
+
+    var initBlank = function () {
+        GEN.layout.addRow({index: 0});
+        GEN.done();
+    }
+
+    var loadData = function (url, callback) {
+
+        _import(true);
+
+        $.ajax({
+
+            url: url,
+            //cache:false,
+            success: function (d, s, r) {
+
+                const contentType = r.getResponseHeader('content-type') || 'json';
+
+                const type = contentType.split(';')[0];
+
+                if (type.indexOf('xml') !== -1)
+
+                    transformXMLtoJson(d, function (str) {
+
+                        GEN.import(str, {callback: callback})
+
+                    });
+
+                else
+                    GEN.import(d, {callback: callback});
+            },
+            error: function () {
+
+                console.log('error loading data!');
+
+                _import(false);
+
+            },
+            complete: function (r) {
+                /*var contentType = r.getResponseHeader('Content-Type');
 				var type = contentType.split(';')[0];
 				var data = r.responseText;
-		
+
 				if(type.indexOf('xml') != -1)
 					transformXMLtoJson(data, function(str){GEN.import(str,{callback:callback})});
 				else
 					GEN.import(data,{callback:callback});*/
-			}
-		});
-	}
+            }
+        });
+    }
 
-	var setVars = function(){ //SET CONTAINER VARIABLES
+    var setVars = function () { //SET CONTAINER VARIABLES
 
-		GEN.VIEW = $('#igrp-contents');
+        GEN.VIEW = $('#igrp-contents');
 
-		GEN.CONTENT = $(VARS.html.content);
+        GEN.CONTENT = $(VARS.html.content);
 
-		GEN.layout = new GEN_LAYOUT(VARS.html.view);
+        GEN.layout = new GEN_LAYOUT(VARS.html.view);
 
-		GEN.service = new GENSERVICE(GEN);
+        GEN.service = new GENSERVICE(GEN);
 
-		GEN.layout.rowDeleteConfirm = function(rowHtml){
-			if(rowHtml){
-				var holders = rowHtml.find('.'+VARS.class.containersHolder);
-				$.each(holders,function(i,h){
-					var id = $(h).attr('id');
-					GEN.removeContainer(id);
-				});
-			}
-			//console.log(CONTAINERS)
-		}
+        GEN.layout.rowDeleteConfirm = function (rowHtml) {
+            if (rowHtml) {
+                const holders = rowHtml.find('.' + VARS.class.containersHolder);
+                $.each(holders, function (i, h) {
+                    const id = $(h).attr('id');
+                    GEN.removeContainer(id);
+                });
+            }
+            //console.log(CONTAINERS)
+        }
 
-		GEN.imagesURL  = genparams && genparams.imagesURL ? genparams.imagesURL : '';
+        GEN.imagesURL = genparams && genparams.imagesURL ? genparams.imagesURL : '';
 
-		GEN.sourcePath = genparams.sourcePath ? genparams.sourcePath : path+'/core/formgen/types/components.xml';
-		
-		GEN.images = {}
+        GEN.sourcePath = genparams.sourcePath ? genparams.sourcePath : path + '/core/formgen/types/components.xml';
 
-		modules = {
-			holder  :$('#gen-apps-modules-frame'),
-			iframe  :$('#gen-apps-modules-frame iframe'),
-			saveLink:$('#gen-apps-modules-frame').attr('link'),
-			show:function(e){
-				IGRP_blackBody({pType:true});
-				modules.holder.show();
-			},
-			hide:function(e){
-				modules.holder.hide();
-				IGRP_blackBody({pType:false});
-			}
-		}
+        GEN.images = {}
+
+        modules = {
+            holder: $('#gen-apps-modules-frame'),
+            iframe: $('#gen-apps-modules-frame iframe'),
+            saveLink: $('#gen-apps-modules-frame').attr('link'),
+            show: function (e) {
+                IGRP_blackBody({pType: true});
+                modules.holder.show();
+            },
+            hide: function (e) {
+                modules.holder.hide();
+                IGRP_blackBody({pType: false});
+            }
+        }
 
 
-		GEN.SETTINGS = {
-			//title   : '',
-			instance       : '',
-			table          : '',
-			package        : '',
-			html           : '',
-			gentype        : $('.gen-page-setter[rel="gentype"] option[selected]').val() || 'java', 
-			replace        : false,
-			label          : false,
-			biztalk        : false,
-			process 	   : false,
-			subversionpath : '',
-			
-			GET     : function(attr){
-				return GEN.SETTINGS.hasOwnProperty(attr) ? GEN.SETTINGS[attr] : '';
-			},
-			SET     : function(attr,val){
+        GEN.SETTINGS = {
+            //title   : '',
+            instance: '',
+            table: '',
+            package: '',
+            html: '',
+            gentype: $('.gen-page-setter[rel="gentype"] option[selected]').val() || 'java',
+            replace: false,
+            label: false,
+            biztalk: false,
+            process: false,
+            subversionpath: '',
 
-				if(GEN.SETTINGS.hasOwnProperty(attr))
+            GET: function (attr) {
+                return GEN.SETTINGS.hasOwnProperty(attr) ? GEN.SETTINGS[attr] : '';
+            },
+            SET: function (attr, val) {
 
-					GEN.SETTINGS[attr] = val;
+                if (GEN.SETTINGS.hasOwnProperty(attr))
 
-				if(typeof val == 'boolean')
-					$('.gen-page-setter[rel="'+attr+'"]').prop('checked', val)
-				else
-					$('.gen-page-setter[rel="'+attr+'"]').val(val);
+                    GEN.SETTINGS[attr] = val;
 
-				GEN.SETTINGS.checkBtn();
+                if (typeof val == 'boolean')
+                    $('.gen-page-setter[rel="' + attr + '"]').prop('checked', val)
+                else
+                    $('.gen-page-setter[rel="' + attr + '"]').val(val);
 
-			},
-			checkBtn:function(){
-				
-				/*if(GEN.SETTINGS.GET('package') && GEN.SETTINGS.GET('html') && GEN.SETTINGS.GET('subversionpath'))
+                GEN.SETTINGS.checkBtn();
+
+            },
+            checkBtn: function () {
+
+                /*if(GEN.SETTINGS.GET('package') && GEN.SETTINGS.GET('html') && GEN.SETTINGS.GET('subversionpath'))
 					$('#gen-execute-subv').removeAttr('disabled');
 				else
 					$('#gen-execute-subv').attr('disabled','disabled');*/
-				
-			},
-			toJson:function(){
-				var rtn = {};
-				
-				for(var s in GEN.SETTINGS){
-					if(typeof GEN.SETTINGS[s] != 'function')
-						rtn[s] = GEN.SETTINGS[s];
-				}
-
-				return rtn;
-			},
-
-			hide:function(){
-				GEN.shadow(false);
-				$('#content[rel="gen-contents-holder"]').removeClass('editing');
-				$('#gen-page-settings').removeClass('active');
-			},
-			show:function(){
-				GEN.shadow(true);
-				//$('#gen-settings-title').text('Propriedades da P\u00e1gina');
-				$('#content[rel="gen-contents-holder"]').addClass('editing');
-				$('#gen-page-settings').addClass('active');
-			},
-			toggle:function(){
-				$('#content[rel="gen-contents-holder"]').toggleClass('editing');
-				$('#gen-page-settings').toggleClass('active');
-			}
-		}
-
-		GEN.SETTINGS.checkBtn();
-
-		//get icons
-		GEN.getImagesFromDir({
-			dir      : path+'/core/fontawesome/fa.icons.json',
-			id       : 'fontawesome',
-			callback : function(icons){
-
-				var list = {};
-
-				for(var categories in icons){
-					var items = icons[categories];
-					for(var i in items){
-
-						if(!list[i]){
-							list[i] = items[i];
-						}else{
-							items[i].duplicated = true;
-						}
-					}
-				}
-
-				GEN.icons.fontawesome = typeof icons == 'string' ? $.parseJSON(icons) :  icons;
-
-				VARS.fontawesome.setHTML( GEN.icons.fontawesome );
-
-			}
-		});
-
-	}
-
-	//11/05/2023 - William Lima
-	
-
-	var resizeCodeMirrorArea = function(){
-
-		var h = $(window).height()-95;
-		
-		$('.gen-viewers .cm-s-default').each(function(i,cm){
-			
-			if( $(cm).parent().hasClass('has-error') ){
-					
-				$(cm).height(h-160);
-				
-			}else{
-				
-				$(cm).height(h);
-				
-			}
-			
-		})
-		
-		$('.gen-editor-toolsbar').height( h );
-
-	}
-
-	GEN.resizeCodeMirrorArea  = resizeCodeMirrorArea;
-
-	var codeEditorView = function(o){
-		var operation = o ? 'addClass' : 'removeClass';
-		
-		if(o) window.scrollTo(0, 0);
-
-		$('html')[operation]('editor-view');
-	}
-
-	//CSS CONTROLS
-	var setCSSValue = function(cb){
-
-		codeEditorView(true);
-
-	    setTimeout(function() {
-	    	if(cb) cb();
-		   	GEN.cssEditor.refresh();
-		},15);
-	}
 
-	var setCustomCSStoView = function(){
-		$('#custom-css').html(GEN.cssEditor.getValue())
-	}
+            },
+            toJson: function () {
+                const rtn = {};
 
+                for (let s in GEN.SETTINGS) {
+                    if (typeof GEN.SETTINGS[s] != 'function')
+                        rtn[s] = GEN.SETTINGS[s];
+                }
 
-	var setJSValue = function(cb){
-		codeEditorView(true);
-		if(cb) cb();
-	}
+                return rtn;
+            },
 
-	var setCustomJStoView = function(){
+            hide: function () {
+                GEN.shadow(false);
+                $('#content[rel="gen-contents-holder"]').removeClass('editing');
+                $('#gen-page-settings').removeClass('active');
+            },
+            show: function () {
+                GEN.shadow(true);
+                //$('#gen-settings-title').text('Propriedades da P\u00e1gina');
+                $('#content[rel="gen-contents-holder"]').addClass('editing');
+                $('#gen-page-settings').addClass('active');
+            },
+            toggle: function () {
+                $('#content[rel="gen-contents-holder"]').toggleClass('editing');
+                $('#gen-page-settings').toggleClass('active');
+            }
+        }
 
-		$('#custom-js').html(GEN.jsEditor.getValue())
-	}
+        GEN.SETTINGS.checkBtn();
 
-	var setXSLValue = function(cb){
-		
-		var _c = GEN.getXSL({
-			removeGenAttrs:true
-		});
-		//_c = vkbeautify.xml(_c);
-		GEN.xslEditor.setValue(_c);
-	    
-	    GEN.xslEditor.autoFormatRange({line:0, ch:0}, {line:GEN.xslEditor.lineCount()});
+        //get icons
+        GEN.getImagesFromDir({
+            dir: path + '/core/fontawesome/fa.icons.json',
+            id: 'fontawesome',
+            callback: function (icons) {
 
-	    codeEditorView(true);
+                const list = {};
 
-	    if(cb) cb();
+                for (let categories in icons) {
+                    const items = icons[categories];
+                    for (let i in items) {
 
-	    setTimeout(function() {
-		  	GEN.xmlEditor.refresh();  
-		},200);
+                        if (!list[i]) {
+                            list[i] = items[i];
+                        } else {
+                            items[i].duplicated = true;
+                        }
+                    }
+                }
 
-		//GEN.setRules();
-	}
+                GEN.icons.fontawesome = typeof icons == 'string' ? $.parseJSON(icons) : icons;
 
-	var setXMLValue = function(cb){
-		var _c = vkbeautify.xml(GEN.getXML());
+                VARS.fontawesome.setHTML(GEN.icons.fontawesome);
 
-		GEN.xmlEditor.setValue(_c);
+            }
+        });
 
-		codeEditorView(true);
+    }
 
-		setTimeout(function() {
-			if(cb) cb();
-		   	GEN.xmlEditor.refresh();  
-		},1);
-		
-	}
+    //11/05/2023 - William Lima
 
-	var replaceSpace = function(e){
-		if(e.find('*')[0])
-			$.each(e.find('*'),function(i,el){
-				replaceSpace($(el));
-			})
-		else
-			e[0].textContent = e[0].textContent.replaceAll(' ','$SPACE$')
-	}
 
+    var resizeCodeMirrorArea = function () {
 
-	GEN.setPropriety = function(p){
-		if(p.name != 'type' && p.name != 'tag'){
+        const h = $(window).height() - 95;
 
-			GEN.proprieties[p.name] = p.hasOwnProperty('value') ? p.value : p.propriety;
-			
-			if(p.label) GEN.propertiesLabels[p.name] = p.label;
+        $('.gen-viewers .cm-s-default').each(function (i, cm) {
 
-			/* setter */
-			var isInt = typeof p.value == 'number';
+            if ($(cm).parent().hasClass('has-error')) {
 
-			GEN.SET[p.name] = function(value,_params){
-				var _value = isInt ? parseInt(value) : value;
+                $(cm).height(h - 160);
 
-				//console.log(p.value)
+            } else {
 
-				if(typeof p.value == 'object')
-					GEN.proprieties[p.name].value = _value;
-				else
-					GEN.proprieties[p.name] = _value;
-			}
-			/* getter */
+                $(cm).height(h);
 
-			GEN.GET[p.name] = function(){
-				var rtn;
-				if(typeof p.value == 'object'){
-					var hasValueAttr = 'value' in GEN.proprieties[p.name];
-					var val = hasValueAttr ? GEN.proprieties[p.name].value : GEN.proprieties[p.name];
-					rtn = val;
-				}else{
-					rtn = GEN.proprieties[p.name];
-				}
+            }
 
-				return rtn;
-			}
-		}
-	};
+        })
 
+        $('.gen-editor-toolsbar').height(h);
 
-	var openPLSQLSettings = function(t){
+    }
 
-		var modal    = $('#gen-settings-modal'),
+    GEN.resizeCodeMirrorArea = resizeCodeMirrorArea;
 
-			fields   = $('input,select,textarea',modal),
+    var codeEditorView = function (o) {
+        const operation = o ? 'addClass' : 'removeClass';
 
-			trnsf    = t && typeof t === 'string' ? t : getActiveEditorName(),
+        if (o) window.scrollTo(0, 0);
 
-			callback = typeof t === 'function' ? t : false,
+        $('html')[operation]('editor-view');
+    }
 
-			objServ  = $('div[item-name="page_service"]',modal),
+    //CSS CONTROLS
+    var setCSSValue = function (cb) {
 
-			service  = GEN.proprieties.service ? GEN.proprieties.service : {};
+        codeEditorView(true);
 
-		
+        setTimeout(function () {
+            if (cb) cb();
+            GEN.cssEditor.refresh();
+        }, 15);
+    }
 
-		GEN.service.set(GEN);
-		objServ.append(GEN.proprieties.service.setter()[0]);
-		
-		if(service.code){
 
-			$('#service_desc',objServ).val(service.desc);
-			$('#service_code',objServ).val(service.code);
-			$('#service_proc',objServ).val(service.proc);
+    const replaceSpace = function (e) {
+        if (e.find('*')[0])
+            $.each(e.find('*'), function (i, el) {
+                replaceSpace($(el));
+            })
+        else
+            e[0].textContent = e[0].textContent.replaceAll(' ', '$SPACE$')
+    };
 
-			GEN.SET.service({
-				desc 			: service.desc,
-				code 			: service.code,
-				proc 			: service.proc,
-				connectionsReq	: service.connectionsReq,
-				connectionsRes 	: service.connectionsRes,
-				fieldsReq 	   	: service.fieldsReq,
-				fieldsRes 	   	: service.fieldsRes
-			});
 
-			GEN.service.checkService(GEN,service.code);
-		}
+    GEN.setPropriety = function (p) {
+        if (p.name !== 'type' && p.name !== 'tag') {
 
-		$.each($('.gen-page-setter'),function(i,s){
-			
-			var setter = $(s),
-				rel    = setter.attr('rel');
+            GEN.proprieties[p.name] = p.hasOwnProperty('value') ? p.value : p.propriety;
 
-			if(setter.attr('type') == 'checkbox')
-				setter.prop('checked',GEN.SETTINGS[rel]);
-			else
-				setter.val(GEN.SETTINGS[rel]);
-		
-		});
+            if (p.label) GEN.propertiesLabels[p.name] = p.label;
 
-		modal.attr('transformer',trnsf);
+            /* setter */
+            const isInt = typeof p.value == 'number';
 
-		modal.modal('show');
+            GEN.SET[p.name] = function (value, _params) {
+                const _value = isInt ? parseInt(value) : value;
 
-		modal[0].confirmCallback = callback;
+                //console.log(p.value)
 
-		return false;
-	}	
+                if (typeof p.value == 'object')
+                    GEN.proprieties[p.name].value = _value;
+                else
+                    GEN.proprieties[p.name] = _value;
+            }
+            /* getter */
 
+            GEN.GET[p.name] = function () {
+                let rtn;
+                if (typeof p.value == 'object') {
+                    const hasValueAttr = 'value' in GEN.proprieties[p.name];
+                    rtn = hasValueAttr ? GEN.proprieties[p.name].value : GEN.proprieties[p.name];
+                } else {
+                    rtn = GEN.proprieties[p.name];
+                }
 
-	var genUICode = function(params){	
+                return rtn;
+            }
+        }
+    };
 
-		GEN.server.set(params);
-		
-		
-		
-		
-		/*//console.log(params);
-		var server = genparams.server || {},
 
-			codes  = server[params.mode];
-
-		if(codes[0]){
-
-
-
-		}
-
-		params.callback();*/
-
-	}
-
-
-	var setPLSQLValue = function(params){
-		var p             = params ? params : {};  
-		var rel           = p.rel ? p.rel : 'gen-plsql';
-		var btnController = p.controller ? p.controller : $(VARS.html.viewsController+'[rel="'+rel+'"]');
-		var viewr         = $('#'+rel);
-
-		btnController.removeClass('active');
-
-		var xsltPath    = btnController.attr('xslt-path'); 
-		var xsltFile    = btnController.attr('xslt-file'); 
-		var txtarea     = $('#'+rel+' textarea');
-		var isIE        = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false;
-		var enterParam  = '$$enter$$';
-
-		//var mainXml = GEN.getXML();
-
-		var xslParams = isIE ? { jsEnter:enterParam } : false;
-		var xmlStr = GEN.getXML();
-		
-		var plsqlXML  = $.parseXML(xmlStr);
-		
-		if(isIE)
-			replaceSpace( $(plsqlXML) );
-
-		GEN.waiting();
-
-		$('<div/>').XMLTransform({
-			xml         : plsqlXML,
-			xsl         : xsltPath+'/'+xsltFile,
-			xslParams   : xslParams,
-			xslBasePath : xsltPath,
-			complete    : function(d,e){
-				
-				var content = d.text();
-
-				var editorName = rel.split('gen-')[1] ||  'plsql';
-
-				var editor = GEN[editorName+'Editor'] || GEN.plsqlEditor;
-
-				var beginExp = '#gen(';
-
-				var endExp   = ')/#';
-
-
-				var cback = function(content){
-					
-					if(isIE){
-						content = content.replaceAll(enterParam,'\n');
-						content = content.replaceAll('$SPACE$',' ');
-						content = content.replaceAll('$space$','_');
-					}
-
-					var fBegin = getIndicesOf(beginExp, content),
-
-						fEnd   = getIndicesOf(endExp, content);
-
-					if(fBegin[0])
-						$.IGRP.notify({
-							message : 'Something went wrong preserving your code. review your PL/SQL code!',
-							type    : 'warning'
-						});
-
-					editor.setValue(content);
-
-					$(VARS.html.viewsController).removeClass('active');
-
-					if(params.activateBtn != false)
-
-						btnController.addClass('active');
-
-					codeEditorView(true);
-
-					GEN.done();
-
-					if(p.callback) p.callback(content);
-
-					editor.refresh();
-
-					$('.gen-viewers-toolbar .gen-page-setts-ctrl').show();
-				}
-
-				/* GOOGLE CHROME XSLT document() function hack */
-				//if(isIE){
-					//cback(content);
-				//}else{
-
-				var begin = getIndicesOf(beginExp, content);
-
-				var end  = getIndicesOf(endExp, content);
-
-				var canPreserve = begin.length == end.length;
-
-				if(canPreserve && begin[0] && end[0])
-					
-					preserve_code(begin,{
-
-						content :content,
-
-						end     :end,
-
-						callback:function(obj){
-							
-							obj.forEach(function(o){
-
-								var oldText = o.oldText ? $.trim(o.oldText) : '';
-
-								var currentText = o.text ? $.trim(o.text) : '';
-
-								var _cnt = currentText || oldText;
-
-								_cnt = $.trim(_cnt) == o.expression ? '' : _cnt;
-
-								content = content.replaceAll(o.expression,'\n\n'+_cnt);
-							});
-
-							var eBegin = getIndicesOf(beginExp, content),
-
-								eEnd   = getIndicesOf(endExp, content);
-
-							if( eBegin[0] ){
-
-								$.IGRP.notify({
-									message : 'Something went wrong preserving your code. review your PL/SQL code!',
-									type    : 'warning'
-								});
-
-								preserve_code(eBegin,{
-
-									content :content,
-
-									end     :eEnd,
-
-									callback:function(obj){
-										
-										obj.forEach(function(o){
-
-											console.log( $.trim(o.text) == o.expression );
-
-											content = content.replaceAll(o.expression,'\n\n'+$.trim(o.text));
-										});
-
-										cback(content);
-										
-									}
-
-								});
-
-							}else{
-
-								cback(content);
-							}
-
-							
-						}
-
-					});
-				else
-					cback(content);
-				/* /GOOGLE CHROME XSLT document() function hack */
-
-			},
-			error:function(e){
-				console.log(e);
-			}
-		});
-		
-		
-	}
-
-	var configCodeEditor = function(){
-		/*get editor*/
+    var configCodeEditor = function () {
+        /*get editor*/
         GEN.xslEditor = CodeMirror($(VARS.html.codeArea)[0], {
-          //value: content,
-          mode: "application/xml",
-          matchTags: {bothTags: true},  		
-          lineNumbers : true,
-		 extraKeys: { "Ctrl-J": "toMatchingTag",        
-			 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-		 foldGutter: true,
-		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]		,    
-          autofocus:true,
-          enterMode:'indent',
-          smartIndent:true,
-          lineWrapping : true,
-         matchBrackets : true,
-  		autoCloseBrackets : true,
-          readOnly:true
+            //value: content,
+            mode: "application/xml",
+            matchTags: {bothTags: true},
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-J": "toMatchingTag",
+                "Ctrl-Q": function (cm) {
+                    cm.foldCode(cm.getCursor());
+                }
+            },
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+            autofocus: true,
+            enterMode: 'indent',
+            smartIndent: true,
+            lineWrapping: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            readOnly: true
         });
 
         GEN.xslEditor.refresh();
@@ -4516,422 +4634,430 @@ var GENERATOR = function(genparams){
 
         /*xml Editor*/
         GEN.xmlEditor = CodeMirror($('#gen-xml-view')[0], {
-        	matchTags: {bothTags: true},
-			autofocus:true,
-			 lineNumbers : true,
-          	enterMode:'indent',
-          	smartIndent:true,
-          	extraKeys: { "Ctrl-J": "toMatchingTag",        
-    			 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-    		 foldGutter: true,
-    		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]		,    
-              autofocus:true,
-          	readOnly:true,
-          	 lineWrapping : true,
-            matchBrackets : true,
-           	autoCloseBrackets : true,
-          	mode: "text/xml"
+            matchTags: {bothTags: true},
+            autofocus: true,
+            lineNumbers: true,
+            enterMode: 'indent',
+            smartIndent: true,
+            extraKeys: {
+                "Ctrl-J": "toMatchingTag",
+                "Ctrl-Q": function (cm) {
+                    cm.foldCode(cm.getCursor());
+                }
+            },
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+            readOnly: true,
+            lineWrapping: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            mode: "text/xml"
         });
         GEN.xmlEditor.refresh();
         GEN.xmlEditor.focus();
 
         //CSS
         /*css Editor*/
-        GEN.cssEditor = CodeMirror($('#gen-css-view')[0],{
-	        lineNumbers : true,
-	        matchBrackets : true,
-	       	autoCloseBrackets: true,
-	        mode: "text/x-less"
-	    });
+        GEN.cssEditor = CodeMirror($('#gen-css-view')[0], {
+            lineNumbers: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            mode: "text/x-less"
+        });
 
-        GEN.cssEditor.on('blur',setCustomCSStoView);
+        GEN.cssEditor.on('blur', setCustomCSStoView);
 
         GEN.cssEditor.refresh();
         GEN.cssEditor.focus();
 
         /*JS Editor*/
-        GEN.jsEditor = CodeMirror($('#gen-js-view')[0],{
-	        lineNumbers : true,
-	        matchTags: {bothTags: true}, 
-	        extraKeys: { "Ctrl-J": "toMatchingTag",        
-				 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-			 foldGutter: true,
-			 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]		,    
-	          autofocus:true,
-	          enterMode:'indent',
-	          smartIndent:true,
-	          lineWrapping : true,
-	         matchBrackets : true,
-	  		autoCloseBrackets : true,
-	  		mode: "text/javascript"
-	    });
+        GEN.jsEditor = CodeMirror($('#gen-js-view')[0], {
+            lineNumbers: true,
+            matchTags: {bothTags: true},
+            extraKeys: {
+                "Ctrl-J": "toMatchingTag",
+                "Ctrl-Q": function (cm) {
+                    cm.foldCode(cm.getCursor());
+                }
+            },
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+            autofocus: true,
+            enterMode: 'indent',
+            smartIndent: true,
+            lineWrapping: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            mode: "text/javascript"
+        });
 
-        GEN.jsEditor.on('blur',setCustomJStoView);
+        GEN.jsEditor.on('blur', setCustomJStoView);
 
         GEN.jsEditor.refresh();
         GEN.jsEditor.focus();
 
-	}	
+    }
 
-	var configPLSQLEditor = function(){
-		/*get editor*/
+    var configPLSQLEditor = function () {
+        /*get editor*/
         GEN.plsqlEditor = CodeMirror($('#gen-plsql-view')[0], {
-        	mode: 'text/x-plsql',
-        	readOnly:true,
-		    lineNumbers: false,
-		    matchBrackets : true,
-		    hintOptions: {tables: {
-		      users: {name: null, score: null, birthDate: null},
-		      countries: {name: null, population: null, size: null}
-		    }}
+            mode: 'text/x-plsql',
+            readOnly: true,
+            lineNumbers: false,
+            matchBrackets: true,
+            hintOptions: {
+                tables: {
+                    users: {name: null, score: null, birthDate: null},
+                    countries: {name: null, population: null, size: null}
+                }
+            }
         });
         GEN.plsqlEditor.refresh();
         GEN.plsqlEditor.focus();
-	}
-	
-//	NOT IN USE -------------------
-	var configJAVAEditor = function(){
+    }
 
-		CodeMirror.commands.autocomplete = function(cm) {
-	        CodeMirror.showHint(cm, CodeMirror.hint.anyword); 
-	    };
-		/*get editor*/
+//	NOT IN USE -------------------
+    const configJAVAEditor = function () {
+
+        CodeMirror.commands.autocomplete = function (cm) {
+            CodeMirror.showHint(cm, CodeMirror.hint.anyword);
+        };
+        /*get editor*/
         GEN.javaEditor = CodeMirror($('#gen-java-view')[0], {
-	    	 lineNumbers: true,
-	   		 matchBrackets: true,
-	   		 autoCloseBrackets: true,
-	   		 mode: "text/x-java",
-	   		 extraKeys: {
-	   		 	"Ctrl-Space": "autocomplete"
-	   		 },
-	   		 autohint: true,
-			 lineWrapping: true,
-			 //lint:true
+            lineNumbers: true,
+            matchBrackets: true,
+            autoCloseBrackets: true,
+            mode: "text/x-java",
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            autohint: true,
+            lineWrapping: true,
+            //lint:true
         });
-       
+
         GEN.javaEditor.refresh();
 
         GEN.javaEditor.focus();
 
-        GEN.javaEditor.on('blur',function(cm,change) {
-        	
-        	var m = GEN.server.activeMenu,
+        GEN.javaEditor.on('blur', function (cm, change) {
 
-        		p = GEN.server.preserved;
+            const m = GEN.server.activeMenu,
 
-        	if(p[m.mode] && p[m.mode][m.part]){
+                p = GEN.server.preserved;
 
-        		 p[m.mode][m.part] = GEN.javaEditor.getValue();
+            if (p[m.mode] && p[m.mode][m.part]) {
 
-        	};
+                p[m.mode][m.part] = GEN.javaEditor.getValue();
 
-        	//console.log(GEN.javaEditor.getValue());
-        	//console.log(GEN.server.preserved)
+            }
+            ;
 
-		    /*if ( readOnlyLines.indexOf(change.from.line) ) {
-		        change.cancel();
-		    }*/
-		});
+            //console.log(GEN.javaEditor.getValue());
+            //console.log(GEN.server.preserved)
+
+            /*if ( readOnlyLines.indexOf(change.from.line) ) {
+                change.cancel();
+            }*/
+        });
 
         //var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
 
-      	//CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+        //CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
 
-	}
+    };
 
-	GEN.getJava = function(callback){
-		if(GEN.javaEditor)
-			
-			setPLSQLValue({
-				rel:'gen-java',
-				activateBtn : false,
-				callback:callback
-			});
-		
-			//return GEN.javaEditor.getValue();
+    GEN.getJava = function (callback) {
+        if (GEN.javaEditor)
 
-	};
+            setPLSQLValue({
+                rel: 'gen-java',
+                activateBtn: false,
+                callback: callback
+            });
 
-	GEN.setEditionDialogPosition = function(e){
+        //return GEN.javaEditor.getValue();
 
-		try{
-			if(GEN.edit.object){
-				var object   = GEN.edit.object;
-				var firstInput = $(VARS.edition.dialog+' #gen-edition-proprieties .proprieties-holder:first-child input');
-	
-				GEN.edit.show();
-				//$(VARS.edition.holder).addClass('active');
-				
-				object.holder.addClass('on-edition');
-				
-				object.holder.parents('table').find('#'+object.GET.id()).addClass('on-edition');
+    };
 
-				$('#content[rel="gen-contents-holder"]').addClass('editing');
+    GEN.setEditionDialogPosition = function (e) {
 
-				if(firstInput.attr('type') == 'text' || firstInput.attr('type') == 'number')
-					firstInput[0].select();
-				
-				GEN.resizeView();
-			}
-		}catch(err){
-			GEN.edit.hide();
-			console.log(err);
-		}
-	}
+        try {
+            if (GEN.edit.object) {
+                const object = GEN.edit.object;
+                const firstInput = $(VARS.edition.dialog + ' #gen-edition-proprieties .proprieties-holder:first-child input');
 
-	GEN.setBtnActionAttr = function(field,p){
+                GEN.edit.show();
+                //$(VARS.edition.holder).addClass('active');
+
+                object.holder.addClass('on-edition');
+
+                object.holder.parents('table').find('#' + object.GET.id()).addClass('on-edition');
+
+                $('#content[rel="gen-contents-holder"]').addClass('editing');
+
+                if (firstInput.attr('type') === 'text' || firstInput.attr('type') === 'number')
+                    firstInput[0].select();
+
+                GEN.resizeView();
+            }
+        } catch (err) {
+            GEN.edit.hide();
+            console.log(err);
+        }
+    }
+
+    GEN.setBtnActionAttr = function (field, p) {
         //set options value
         //var options = [{ value:GEN.DETAILS.page, label:GEN.DETAILS.page_descr }];
-        var options = [];
-        var value   = p.value;
-        var tagName = p.tag || 'action';
-        var type    = p.type || 'text';
+        const options = [];
+        let value = p.value;
+        const tagName = p.tag || 'action';
+        const type = p.type || 'text';
 
-        if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
-               
-               GEN.DETAILS.linkPageList.forEach(function(page){
-                     options.push({
-                            value      : page.page.toString(),
-                            label      : page.description,
-                            attributes : [
-                                  { name:'app',value:page.app },
-                                  { name:'page',value:page.page },
-                                  { name:'action',value:page.action },
-                                  { name:'link',value: /*GEN.UTILS.link_preview+*/page.link }
-                            ]
-                     });
-               });
+        if (GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
 
-        var setBTNAction = function(id,object){
-               if(options[0])
-                     for(var i = 0; i < options.length; i++){
-                            var o = options[i];
-                            field.action = {};
+            GEN.DETAILS.linkPageList.forEach(function (page) {
+                options.push({
+                    value: page.page.toString(),
+                    label: page.description,
+                    attributes: [
+                        {name: 'app', value: page.app},
+                        {name: 'page', value: page.page},
+                        {name: 'action', value: page.action},
+                        {name: 'link', value: /*GEN.UTILS.link_preview+*/page.link}
+                    ]
+                });
+            });
 
-                            if(o.value && (id == o.value) ){
-                                         o.attributes.forEach(function(att){
-                                               field.action[att.name] = att.value
-                                         });
+        const setBTNAction = function (id, object) {
+            if (options[0])
+                for (let i = 0; i < options.length; i++) {
+                    const o = options[i];
+                    field.action = {};
 
-                                         if(p.onChange)
-                                               p.onChange({
-                                                      value : id,
-                                                      params : field.action
-                                                });
+                    if (o.value && (id === o.value)) {
+                        o.attributes.forEach(function (att) {
+                            field.action[att.name] = att.value
+                        });
 
-                                         break;
-                                  }
-                                         
+                        if (p.onChange)
+                            p.onChange({
+                                value: id,
+                                params: field.action
+                            });
+
+                        break;
+                    }
 
 
-                     }
+                }
+        };
+
+        if (typeof p.value == 'object') {
+            for (var i = 0; i < options.length; i++) {
+                var o = options[i];
+                if (o.attributes && o.attributes[0].value === p.value.app && o.attributes[1].value === p.value.page && o.attributes[2].value === p.value.action) {
+                    value = o.value;
+                    field.proprieties.action = value;
+                }
+            }
         }
 
-        if(typeof p.value == 'object'){
-               for(var i=0;i<options.length;i++){
-                     var o = options[i];
-                     if(o.attributes && o.attributes[0].value == p.value.app && o.attributes[1].value == p.value.page && o.attributes[2].value == p.value.action){
-                            value = o.value;
-                            field.proprieties.action = value;
-                     }
-               }
-        }
+        const params = {
+            name: tagName,
+            value: {
+                value: value ? value : GEN.DETAILS.id,
+                options: options,
+                type: type
+            },
+            fieldType: p.fieldType,
+            isField: p.isField || false,
+            valuePersist: p.valuePersist || false,
+            onChange: function (val) {
 
-        var params = {
-               name: tagName,
-               value:{
-                     value   : value ? value : GEN.DETAILS.id,
-                     options : options,
-                     type : type
-               },
-               fieldType : p.fieldType,
-               isField : p.isField || false,
-               valuePersist : p.valuePersist || false,
-               onChange:function(val){
-            	   
-            	   var val   = field.GET[tagName](),
-                   
-                   isNum = /^\d+$/.test( val );
-            
-            if(isNum){                   
-                   for(var i = 0; i < GEN.DETAILS.linkPageList.length; i++){                                
-                         var pg = GEN.DETAILS.linkPageList[i];
-                         if(pg.id == val){                                
-                                val = pg.page;                                
-                                break;
-                         }                         
-                   }
-            	}
-            setBTNAction(val);
-               }
-        }
-        
-        if(p.order >= 0)
-               params.order = p.order;
-        
-        if(p.xmlAttr)
-               params.xmlAttr = p.xmlAttr
+                var val = field.GET[tagName](),
+
+                    isNum = /^\d+$/.test(val);
+
+                if (isNum) {
+                    for (let i = 0; i < GEN.DETAILS.linkPageList.length; i++) {
+                        const pg = GEN.DETAILS.linkPageList[i];
+                        if (pg.id === val) {
+                            val = pg.page;
+                            break;
+                        }
+                    }
+                }
+                setBTNAction(val);
+            }
+        };
+
+        if (p.order >= 0)
+            params.order = p.order;
+
+        if (p.xmlAttr)
+            params.xmlAttr = p.xmlAttr
 
         field.setPropriety(params);
 
-        if(p.customAction){
+        if (p.customAction) {
 
-               field.setPropriety({
-                     name : 'custom_action',
-                     label:'Custom Action',
-                     value : '',
-                     order : p.order || -1
-                     //size : 12
-               });
+            field.setPropriety({
+                name: 'custom_action',
+                label: 'Custom Action',
+                value: '',
+                order: p.order || -1
+                //size : 12
+            });
 
-               field.setPropriety({
-                     name : 'action_type',
-                     label : 'Custom Action',
-                     value : false,
-                     onEditionStart : function(o){
+            field.setPropriety({
+                name: 'action_type',
+                label: 'Custom Action',
+                value: false,
+                onEditionStart: function (o) {
 
-                            var customHolder = $('.gen-properties-setts-holder>[rel="custom_action"]'),
+                    const customHolder = $('.gen-properties-setts-holder>[rel="custom_action"]'),
 
-                                  actionHolder = $('.gen-properties-setts-holder>[rel="action"]');
+                        actionHolder = $('.gen-properties-setts-holder>[rel="action"]');
 
-                            var checkTypes = function(v){
+                    const checkTypes = function (v) {
 
-                                  if(v){
+                        if (v) {
 
-                                         customHolder.show();
+                            customHolder.show();
 
-                                         actionHolder.hide();
-                                         
-                                         //customHolder.insertAt(  )
+                            actionHolder.hide();
 
-                                  }else{
+                            //customHolder.insertAt(  )
 
-                                         customHolder.hide();
+                        } else {
 
-                                         actionHolder.show();
+                            customHolder.hide();
 
-                                  }
+                            actionHolder.show();
 
-                            };
+                        }
 
-                            o.input.on('change',function(){
+                    };
 
-                                  var value = $(this).find('input').is(':checked');
+                    o.input.on('change', function () {
 
-                                  checkTypes(value);
+                        const value = $(this).find('input').is(':checked');
 
-                            });
+                        checkTypes(value);
 
-                            checkTypes(o.value);
-                            
+                    });
 
-                     }
-               });
+                    checkTypes(o.value);
+
+
+                }
+            });
 
         }
-        
-        var val   = field.GET[tagName](),
-        
-               isNum = /^\d+$/.test( val );
-        
-        if(isNum){
-               
-               for(var i = 0; i < GEN.DETAILS.linkPageList.length; i++){
-                            
-                     var pg = GEN.DETAILS.linkPageList[i];
 
-                     if(pg.id == val){
-                            
-                            val = pg.page;
-                            
-                            break;
-                     }
-                     
-               }
+        var val = field.GET[tagName](),
+
+            isNum = /^\d+$/.test(val);
+
+        if (isNum) {
+
+            for (var i = 0; i < GEN.DETAILS.linkPageList.length; i++) {
+
+                var pg = GEN.DETAILS.linkPageList[i];
+
+                if (pg.id === val) {
+
+                    val = pg.page;
+
+                    break;
+                }
+
+            }
 
         }
 
         setBTNAction(val);
-  }
+    }
 
 
+    GEN.getSrcFields = function (arr) {
 
-	GEN.getSrcFields = function(arr){
+        const array = arr && $.isArray(arr) ? arr : ['img', 'iframe'];
+        options = [];
 
-		var array 	= arr && $.isArray(arr) ? arr : ['img','iframe'];
-			options = [];
+        options.push({value: '', label: '-- Fields --'});
 
-		options.push({value:'', label:'-- Fields --'});
+        GEN.getContainers().forEach(function (c) {
+            if ($.inArray(c.GET.type(), array) !== -1)
+                options.push({value: c.GET.tag(), label: c.GET.tag()});
 
-		GEN.getContainers().forEach(function(c){
-			if($.inArray(c.GET.type(),array) != -1)
-				options.push({value:c.GET.tag(), label:c.GET.tag()});
+            if (c.GET.type() !== 'table') {
+                c.GET.fields().forEach(function (f) {
+                    if ($.inArray(c.GET.type(), array) !== -1)
+                        options.push({value: f.GET.tag(), label: f.GET.tag()});
+                });
+            }
 
-			if(c.GET.type() != 'table'){
-				c.GET.fields().forEach(function(f){
-					if($.inArray(c.GET.type(),array) != -1)
-						options.push({value:f.GET.tag(), label:f.GET.tag()});
-				});
-			}
+            if (c.contents) {
+                c.contents.forEach(function (i) {
+                    if (i.genType === 'field') {
+                        if ($.inArray(c.GET.type(), array) !== -1)
+                            options.push({value: f.GET.tag(), label: f.GET.tag()});
+                    }
+                })
+            }
+        });
 
-			if(c.contents){
-				c.contents.forEach(function(i){
-					if(i.genType == 'field'){
-						if($.inArray(c.GET.type(),array) != -1)
-							options.push({value:f.GET.tag(), label:f.GET.tag()});
-					}
-				})
-			}
-		});
+        return options;
+    }
 
-		return options;
-	}
+    GEN.getDomainValues = function (type, callback) {
+        //
+        if (type) {
 
-	GEN.getDomainValues = function(type,callback){
-		//
-		if(type){
-			
-			if(!GEN.domains[type]){
-				
-				var url = GEN.UTILS.link_domains_value+type;
+            if (!GEN.domains[type]) {
 
-				$('#gen-edit-confirm').attr('disabled',true);
+                const url = GEN.UTILS.link_domains_value + type;
 
-				$.ajax({
-					
-					url : url,
-					
-					success:function(d){
-						
-						console.log(d)
+                $('#gen-edit-confirm').attr('disabled', true);
 
-						GEN.domains[type] = d;
+                $.ajax({
 
-					},
+                    url: url,
 
-					complete:function(){
-						
-						$('#gen-edit-confirm').removeAttr('disabled');
+                    success: function (d) {
 
-						if(callback)
-							callback();
+                        console.log(d)
 
-					}
-				})
-			}else{
+                        GEN.domains[type] = d;
 
-				if(callback)
-					callback();
+                    },
 
-			}
-			
+                    complete: function () {
 
-		}
-		
-	};
+                        $('#gen-edit-confirm').removeAttr('disabled');
+
+                        if (callback)
+                            callback();
+
+                    }
+                })
+            } else {
+
+                if (callback)
+                    callback();
+
+            }
 
 
-	/*GEN.setDomainAttr = function(f,p){
+        }
+
+    };
+
+
+    /*GEN.setDomainAttr = function(f,p){
 
 		f.setProperty({
 			name : 'domain_value',
@@ -4949,9 +5075,9 @@ var GENERATOR = function(genparams){
 				options:GEN.DETAILS.domains
 			},
 			onChange:function(v){
-				
+
 				var dval = GEN.domains[v];
-				
+
 				if(dval)
 					f.proprieties.domain_value = GEN.domains[v];
 				else
@@ -4959,10 +5085,10 @@ var GENERATOR = function(genparams){
 
 			},
 			onEditionStart:function(o){
-				
+
 				var select = $('select',o.input);
-				
-				select.on("change", function (e){ 
+
+				select.on("change", function (e){
 
 					var value  = select.val();
 
@@ -4978,851 +5104,925 @@ var GENERATOR = function(genparams){
 		});
 
 	};*/
-	
-	GEN.setDomainAttr = function(f,p){
 
-		f.setProperty({
+    GEN.setDomainAttr = function (f, p) {
 
-			name : 'domain_value',
+        f.setProperty({
 
-			editable:false,
+            name: 'domain_value',
 
-			value: p.selected || '',
-			
-			getter : function(){
-				
-				return f.proprieties.domain_value
-				
-			},
+            editable: false,
 
-			onChange:function(v){
-				
+            value: p.selected || '',
 
-				f.proprieties.domain_value = v;
+            getter: function () {
 
-			}
-		});
+                return f.proprieties.domain_value
 
-		f.setProperty({
-			name:'domain',
-			value:{
-				value: p.value || '',
-				options:GEN.DETAILS.domains
-			},
-			onChange:function(v){
-				
-				var dval = GEN.domains[v];
-				
-				if(dval){
-					
-					f.proprieties.domain_value = GEN.domains[v];
-				}else{
-					
-					f.proprieties.domain_value = f.proprieties.domain_value || [];
-				}
+            },
 
-			},
-			onEditionStart:function(o){
-				
-				var select = $('select',o.input);
-				
-				select.on("change", function (e){ 
+            onChange: function (v) {
 
-					var value  = select.val();
-				
-					if(value)
 
-						GEN.getDomainValues( value );
+                f.proprieties.domain_value = v;
 
-				});
+            }
+        });
 
-				select.trigger('change');
+        f.setProperty({
+            name: 'domain',
+            value: {
+                value: p.value || '',
+                options: GEN.DETAILS.domains
+            },
+            onChange: function (v) {
 
-			}
-		});
+                const dval = GEN.domains[v];
 
-	};
+                if (dval) {
 
-	var targetRulesSet = false;
+                    f.proprieties.domain_value = GEN.domains[v];
+                } else {
 
-	GEN.removeIncluds = function (arr, t, obj) {
-		arr.forEach(function (e) {
+                    f.proprieties.domain_value = f.proprieties.domain_value || [];
+                }
 
-			if (obj && obj.includes[t]){
+            },
+            onEditionStart: function (o) {
 
-				obj.includes[t] = obj.includes[t].filter(item => item.path != e.path);
-			}
-		});
-	};
+                const select = $('select', o.input);
 
-	const nosicaSignerIncludesFiles = function(field,v){
+                select.on("change", function (e) {
 
-		const flIncludes = {
-			css :[
-				{ path:'/plugins/select2/select2.style.css' },
-				{ path:'/plugins/select2/select2.min.css' },
-				{ path:'/plugins/virtualkeyboard/vkb.css' }
-			],
-			js  : [
-				{ path:'/plugins/nosicaSigner/nosicaSigner.js'},
-				{ path:'/plugins/select2/select2.init.js'},
-				{ path:'/plugins/select2/select2.full.min.js'},
-				{ path:'/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js'}
-				
-			]
-		};
+                    const value = select.val();
 
-		if(v.includes('signer')){
-			flIncludes.js.forEach(function (e) {
-				field.includes.js.unshift(e);
-			});
+                    if (value)
 
-			flIncludes.css.forEach(function (e) {
-				field.includes.css.unshift(e);
-			});
+                        GEN.getDomainValues(value);
 
-		}else{
-			GEN.removeIncluds(flIncludes.js,'js',field);
-			GEN.removeIncluds(flIncludes.css,'css',field);
-		}
-	}
+                });
 
-	GEN.setTargetAttr = function(field,p){
+                select.trigger('change');
 
-		field.setPropriety({
-			name: 'target',
-			value:{
-				value:p.value ? p.value : '_blank',
-				options: $.IGRP.defaults.buttons.targets()
-			},
-			onChange:function(v){
-				
-				if(field.SET.list_source && v != 'listAssociation')
-					
-					field.SET.list_source('');
+            }
+        });
 
-				nosicaSignerIncludesFiles(field,v);
-					
-			},
-			onEditionStart : function(o){
+    };
 
-				const target = field.GET.target ? field.GET.target() : null;
+    let targetRulesSet = false;
 
-				nosicaSignerIncludesFiles(field,target);
-				
-			}
-			
-		});
+    GEN.removeIncluds = function (arr, t, obj) {
+        arr.forEach(function (e) {
 
-		field.setPropriety({
-			label 	 : 'Request Fields',
-			name     : 'request_fields',
-			order	 : 5,			
-			value    : {
-				value : '',
-				options : function(){
-					var options = [];
-					GEN.getAllFields().forEach(function(f){
-						options.push({
-							label : f.GET.label ? f.GET.label() : f.GET.tag(),
-							value : f.GET.name()
-						});
-					});
-					return options;
-				},
-				multiple : true
-			},
-			onEditionStart : function(o){
-				
-				var checkTarget = function(v){
-					var val = v ? v : field.GET.target ? field.GET.target() : null;
+            if (obj && obj.includes[t]) {
 
-					var target = val || null;
+                obj.includes[t] = obj.includes[t].filter(item => item.path !== e.path);
+            }
+        });
+    };
 
-					if( target == 'remote_call')
-						o.input.show();
-					else
-						o.input.hide();
-				}
+    const nosicaSignerIncludesFiles = function (field, v) {
 
-				$('select[name="edit-target"]').on('change',function(){
-					var target = $(this).val();
-					checkTarget(target);
-				});
+        const flIncludes = {
+            css: [
+                {path: '/plugins/select2/select2.style.css'},
+                {path: '/plugins/select2/select2.min.css'},
+                {path: '/plugins/virtualkeyboard/vkb.css'}
+            ],
+            js: [
+                {path: '/plugins/nosicaSigner/nosicaSigner.js'},
+                {path: '/plugins/select2/select2.init.js'},
+                {path: '/plugins/select2/select2.full.min.js'},
+                {path: '/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js'}
 
-				checkTarget();
+            ]
+        };
 
-			}
-		});
+        if (v.includes('signer')) {
+            flIncludes.js.forEach(function (e) {
+                field.includes.js.unshift(e);
+            });
 
-		field.setPropriety({
-			label 	 : 'Fields',
-			name     :'target_fields',
-			value    : {
-				value : '',
-				options : GEN.getSrcFields
-			},
-			onEditionStart : function(o){
+            flIncludes.css.forEach(function (e) {
+                field.includes.css.unshift(e);
+            });
 
-				if( field.GET.target && (field.GET.target() == "exportall" || field.GET.target() == "changesrc"))
-					o.input.show();
-				else
-					o.input.hide();
-				
-			}
-		});
-		
-		var RemoveAssociationFeatures = function(field, list){
-			
-			var parentTag = field.id;
-			
-			var targetHiddenField = field.parent.GET.fieldByTag( parentTag+'_association_id' );
-			
-			if(targetHiddenField)
+        } else {
+            GEN.removeIncluds(flIncludes.js, 'js', field);
+            GEN.removeIncluds(flIncludes.css, 'css', field);
+        }
+    }
 
-				field.parent.removeField( targetHiddenField.id, false, false );
-			
-			field.parent.customStyle.class = field.parent.customStyle.class.replaceAll('list-association-target','');
-			
-			setTimeout(function(){
-				
-				if(list){
-					
-					var sourceHiddenField = list.GET.fieldByTag( parentTag+'_association_rel' );
-					
-					list.customStyle.class = list.customStyle.class.replaceAll('list-association-source','');
-					
-					if(sourceHiddenField)
+    GEN.setTargetAttr = function (field, p) {
 
-						list.removeField( sourceHiddenField.id, false );
-					
-					delete list.htmlAttributes['association-target-name'];
+        field.setPropriety({
+            name: 'target',
+            value: {
+                value: p.value ? p.value : '_blank',
+                options: $.IGRP.defaults.buttons.targets()
+            },
+            onChange: function (v) {
 
-				}
-				
-			}, 350);
-			
-		};
-		
-		if(field.parent && field.parent.xml && field.parent.xml.table ){
-			
-			field.setPropriety({
-				label 	 : 'List Source',
-				name     :'list_source',
-				order    : 3,
-				value    : {
-					value : '',
-					options : function(){
-						
-						var options = [{
-							
-							label : '', value : ''
-								
-						}];
-						
-						GEN.getContainers().forEach(function(c){
+                if (field.SET.list_source && v !== 'listAssociation')
 
-							if(field.parent.GET.tag() != c.GET.tag() && c.xml.table)
-								
-								options.push({
-									
-									label : c.GET.tag(),
-									
-									value : c.id
-									
-								});
-							
-						});
-					
-						return options;
-						
-					}
-				},
-				
-				onEditionStart : function(e){
-					
-					var holder = e.input;
-					
-					var toggle = function(v){
-						
-						var val    = v || field.GET.target(),
-						
-							action = val == 'listAssociation' ? 'show' : 'hide';
-						
-						holder[action]();
-						
-					};
-			
-					$('.propriety-setter[rel="target"]').on('change', function(){
-						
-						toggle( $(this).val() );
-						
-					});
-					
-					toggle();
-					
-				},
-				onChange:function(v,params){
-					
-					try{
+                    field.SET.list_source('');
 
-						if(v){
-							
-							var list 				= GEN.getContainer(v),
-							
-								setFieldCallback = function(list){
-								
-									var parentTag = field.id;
-								
-									var sourceHiddenField = list.GET.fieldByTag( parentTag+'_association_rel' ),
-									
-										targetHiddenField = field.parent.GET.fieldByTag(parentTag+'_association_id'),
-										
-										hiddenClass	      = GEN.getDeclaredField('hidden');
-									
-									list.htmlAttributes['association-target-name'] = field.parent.GET.tag();
-									
-									if(!targetHiddenField){
-										
-										var targetHiddenField = new hiddenClass.field('hidden',{});
-										
-										targetHiddenField.SET.tag( parentTag+'_association_id' );
-										
-										field.parent.SET.fields( [targetHiddenField] );
-										
-									}
-									
-									if(!sourceHiddenField){
-										
-										var sourceHiddenField = new hiddenClass.field('hidden', {} );
-								
-										sourceHiddenField.SET.tag( parentTag+'_association_rel' );
-										
-										list.customStyle.class = list.customStyle.class+' list-association-source';
-										
-										field.parent.customStyle.class = field.parent.customStyle.class+' list-association-target';
-										
-										list.SET.fields([sourceHiddenField]);
-										
-										/*field.parent.holder.on('tag-change', function(e,tag){
-										
+                nosicaSignerIncludesFiles(field, v);
+
+            },
+            onEditionStart: function (o) {
+
+                const target = field.GET.target ? field.GET.target() : null;
+
+                nosicaSignerIncludesFiles(field, target);
+
+            }
+
+        });
+
+        field.setPropriety({
+            label: 'Request Fields',
+            name: 'request_fields',
+            order: 5,
+            value: {
+                value: '',
+                options: function () {
+                    const options = [];
+                    GEN.getAllFields().forEach(function (f) {
+                        options.push({
+                            label: f.GET.label ? f.GET.label() : f.GET.tag(),
+                            value: f.GET.name()
+                        });
+                    });
+                    return options;
+                },
+                multiple: true
+            },
+            onEditionStart: function (o) {
+
+                const checkTarget = function (v) {
+                    const val = v ? v : field.GET.target ? field.GET.target() : null;
+
+                    const target = val || null;
+
+                    if (target === 'remote_call')
+                        o.input.show();
+                    else
+                        o.input.hide();
+                };
+
+                $('select[name="edit-target"]').on('change', function () {
+                    const target = $(this).val();
+                    checkTarget(target);
+                });
+
+                checkTarget();
+
+            }
+        });
+
+        field.setPropriety({
+            label: 'Fields',
+            name: 'target_fields',
+            value: {
+                value: '',
+                options: GEN.getSrcFields
+            },
+            onEditionStart: function (o) {
+
+                if (field.GET.target && (field.GET.target() === "exportall" || field.GET.target() === "changesrc"))
+                    o.input.show();
+                else
+                    o.input.hide();
+
+            }
+        });
+
+        const RemoveAssociationFeatures = function (field, list) {
+
+            const parentTag = field.id;
+
+            const targetHiddenField = field.parent.GET.fieldByTag(parentTag + '_association_id');
+
+            if (targetHiddenField)
+
+                field.parent.removeField(targetHiddenField.id, false, false);
+
+            field.parent.customStyle.class = field.parent.customStyle.class.replaceAll('list-association-target', '');
+
+            setTimeout(function () {
+
+                if (list) {
+
+                    const sourceHiddenField = list.GET.fieldByTag(parentTag + '_association_rel');
+
+                    list.customStyle.class = list.customStyle.class.replaceAll('list-association-source', '');
+
+                    if (sourceHiddenField)
+
+                        list.removeField(sourceHiddenField.id, false);
+
+                    delete list.htmlAttributes['association-target-name'];
+
+                }
+
+            }, 350);
+
+        };
+
+        if (field.parent && field.parent.xml && field.parent.xml.table) {
+
+            field.setPropriety({
+                label: 'List Source',
+                name: 'list_source',
+                order: 3,
+                value: {
+                    value: '',
+                    options: function () {
+
+                        const options = [{
+
+                            label: '', value: ''
+
+                        }];
+
+                        GEN.getContainers().forEach(function (c) {
+
+                            if (field.parent.GET.tag() !== c.GET.tag() && c.xml.table)
+
+                                options.push({
+
+                                    label: c.GET.tag(),
+
+                                    value: c.id
+
+                                });
+
+                        });
+
+                        return options;
+
+                    }
+                },
+
+                onEditionStart: function (e) {
+
+                    const holder = e.input;
+
+                    const toggle = function (v) {
+
+                        const val = v || field.GET.target(),
+
+                            action = val === 'listAssociation' ? 'show' : 'hide';
+
+                        holder[action]();
+
+                    };
+
+                    $('.propriety-setter[rel="target"]').on('change', function () {
+
+                        toggle($(this).val());
+
+                    });
+
+                    toggle();
+
+                },
+                onChange: function (v, params) {
+
+                    try {
+
+                        if (v) {
+
+                            var list = GEN.getContainer(v),
+
+                                setFieldCallback = function (list) {
+
+                                    const parentTag = field.id;
+
+                                    var sourceHiddenField = list.GET.fieldByTag(parentTag + '_association_rel'),
+
+                                        targetHiddenField = field.parent.GET.fieldByTag(parentTag + '_association_id'),
+
+                                        hiddenClass = GEN.getDeclaredField('hidden');
+
+                                    list.htmlAttributes['association-target-name'] = field.parent.GET.tag();
+
+                                    if (!targetHiddenField) {
+
+                                        var targetHiddenField = new hiddenClass.field('hidden', {});
+
+                                        targetHiddenField.SET.tag(parentTag + '_association_id');
+
+                                        field.parent.SET.fields([targetHiddenField]);
+
+                                    }
+
+                                    if (!sourceHiddenField) {
+
+                                        var sourceHiddenField = new hiddenClass.field('hidden', {});
+
+                                        sourceHiddenField.SET.tag(parentTag + '_association_rel');
+
+                                        list.customStyle.class = list.customStyle.class + ' list-association-source';
+
+                                        field.parent.customStyle.class = field.parent.customStyle.class + ' list-association-target';
+
+                                        list.SET.fields([sourceHiddenField]);
+
+                                        /*field.parent.holder.on('tag-change', function(e,tag){
+
 											sourceHiddenField.SET.tag( tag+'_lst_association_rel' );
-											
+
 											sourceHiddenField.parent.Transform();
-											
+
 										});*/
-										
-										
-									}
-								
-								}
-							
-							if(list)
-								
-								setFieldCallback(list);
-								
-							else
-								
-								GEN.dom.on('container-set', function(e,container){
-							
-									if(container.id == v)
-									
-										setFieldCallback(container);
 
-								});
-								
-						}else{
-							
-							var list = params.oldValue ?  GEN.getContainer(params.oldValue) : false;
-							
-							RemoveAssociationFeatures(field, list);
-							
-						}
 
-					}catch(e){
-						
-						console.log(e);
-						
-					}
-					
-				}
-				
-			});
-			
-			field.parent.holder.on('field-remove', function(e,field){
-				
-				if(field.GET.list_source && field.GET.list_source()){
-					
-					var list = GEN.getContainer( field.GET.list_source() );
+                                    }
 
-					RemoveAssociationFeatures( field, list );
-				}
-				
-			});
-			
-		}
+                                }
 
-		field.setPropriety({
-			name    :'closerefresh',
-			label   :'Refresh Parent',
-			value   :false,
-			xslValue:'close="refresh"',
-			onEditionStart : function(o){
-				
-				if(
-					field.GET.target && field.GET.target() == 'modal' ||
-					field.GET.target && field.GET.target() == 'right_panel' || 
-				   	field.GET.target && field.GET.target() == 'mpsubmit'   || 
-				   	field.GET.target && field.GET.target() == 'right_panel_submit'
-				)
+                            if (list)
 
-					o.input.show();
+                                setFieldCallback(list);
 
-				else
-					
-					o.input.hide();
+                            else
 
-			}
+                                GEN.dom.on('container-set', function (e, container) {
 
-		});
-		
-		field.setPropriety({
-			name    :'refresh_components',
-			label   :'Reload Components',
-			order   : 3,
-			
-			value   :{
-				value : '',
-				multiple : true,
-				options : function(){
-					
-					var comArr = [];
-					
-					GEN.getContainers().forEach(function(com){
-						
-						comArr.push({
-							value : com.GET.tag(),
-							label : com.GET.tag()
-						})
-						
-					})
-					
-					return comArr;
-					
-				}
-			},
-			onEditionStart : function(o){
-				
-				var toggle = function(v){
-					
-					//var _target = v || ( field.GET.target ?  field.GET.target : null),
-					var _target = v || ( field.GET.target ?  field.GET.target() : null),
-					
-						action  = (_target == 'submit_ajax' || _target == 'submit_notvalidate'  || _target == 'submitpage2file') ? 'show' : 'hide'; 
-					
-					o.input[action]();
-					
-				};
-				
-				$('#gen-edition-modal select[name="edit-target"]').on('change', function(){
-					
-					toggle( $(this).val() );
-					
-				});
-				
-				toggle();
+                                    if (container.id === v)
 
-			}
+                                        setFieldCallback(container);
 
-		});
-		
-		field.setPropriety({
-			name    :'refresh_submit',
-			label   :'Submit',
-			value   :false,
-			xslValue:'refresh-submit="true"',
-			onEditionStart : function(o){
-				
-				setTimeout(function(){
-					
-					var ctrlSelector = '.propriety-setter.checker[rel="closerefresh"]';
-					
-					var checkVisibility = function(){
-						
-						var closeref = $(ctrlSelector),
-						
-							action = closeref.is(':checked') ? 'show' : 'hide';
-						
-						console.log(action);
+                                });
 
-						o.input[action]();
-						
-					};
-					
-					$('#gen-edition-modal').on('change', ctrlSelector, checkVisibility);
-					
-					checkVisibility();
-					
-				},250);
-				
+                        } else {
 
-			}
+                            var list = params.oldValue ? GEN.getContainer(params.oldValue) : false;
 
-		});
-		
-		var jsIncludes = [
-			{ path: '/plugins/sharpadbclient/sharpadbclient.js' }
-		];
-	
-		field.setPropriety({
-			label: 'Sharp Adb Client Action',
-			name: 'adbcli',
-			order: 6,
-			value: {
-				value: '',
-				options: $.IGRP.defaults.buttons.sharpadbclient
-			}, 
-			onEditionStart: function (o) {
-	
-				var checkTarget = function (v) {
-					var target = v ? v : field.GET.target ? field.GET.target() : null;
-	
-					if (target == 'sharpadbclient') {
-	
-						o.input.show();
-	
-						jsIncludes.forEach(function (e) {
-							field.includes.js.unshift(e);
-						});
-					}
-	
-					else {
-						if ($.IGRP.components.select2) {
-							$.IGRP.components.select2.select2Init({
-								field: $('select', o.input)
-							});
-						}
-	
-						o.input.hide();
-	
-						GEN.removeIncluds(jsIncludes, 'js',field);
-					}
-				}
-	
-				$('select[name="edit-target"]').on('change', function () {
-					checkTarget($(this).val());
-				});
-	
-				checkTarget();
-			}
-		});
-		
-		if(!targetRulesSet){
-			$.IGRP.rules.set({"edit-target":[
-				{"name":"","event":"change","condition":"equal","value":"changesrc","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-target_fields","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false},
-				{"name":"","event":"change","condition":"equal","value":"modal","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false},
-				{"name":"","event":"change","condition":"equal","value":"right_panel","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false},
-				{"name":"","event":"change","condition":"equal","value":"mpsubmit","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false},
-				{"name":"","event":"change","condition":"equal","value":"right_panel_submit","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false}
-			]});
-			targetRulesSet = true;
-		}
+                            RemoveAssociationFeatures(field, list);
 
-	};
+                        }
 
-	GEN.setBTNClass = function(field,_default, prefix){
+                    } catch (e) {
 
-		var pref = prefix ? prefix+' ' : '';
+                        console.log(e);
 
-		field.setPropriety({
-			name:'class',
-			value:{
-				value :_default ? _default : 'primary',
-				size  : '12',
-				list  : {
-					items:[
-						{ label:'Primary',value   :pref+'primary' },
-						{ label:'Secondary',value :pref+'secondary' },
-						{ label:'Success',value   :pref+'success' },
-						{ label:'Info',value      :pref+'info' },
-						{ label:'Warning',value   :pref+'warning' },
-						{ label:'Danger',value    :pref+'danger' },
-						{ label:'Dark',value    :pref+'dark' },
-						{ label:'Light',value    :pref+'light' },
-						{ label:'Link',value    :pref+'link-primary' },
-						/*{ label:'Success',value    :pref+'link-success' },
+                    }
+
+                }
+
+            });
+
+            field.parent.holder.on('field-remove', function (e, field) {
+
+                if (field.GET.list_source && field.GET.list_source()) {
+
+                    const list = GEN.getContainer(field.GET.list_source());
+
+                    RemoveAssociationFeatures(field, list);
+                }
+
+            });
+
+        }
+
+        field.setPropriety({
+            name: 'closerefresh',
+            label: 'Refresh Parent',
+            value: false,
+            xslValue: 'close="refresh"',
+            onEditionStart: function (o) {
+
+                if (
+                    field.GET.target && field.GET.target() === 'modal' ||
+                    field.GET.target && field.GET.target() === 'right_panel' ||
+                    field.GET.target && field.GET.target() === 'mpsubmit' ||
+                    field.GET.target && field.GET.target() === 'right_panel_submit'
+                )
+
+                    o.input.show();
+
+                else
+
+                    o.input.hide();
+
+            }
+
+        });
+
+        field.setPropriety({
+            name: 'refresh_components',
+            label: 'Reload Components',
+            order: 3,
+
+            value: {
+                value: '',
+                multiple: true,
+                options: function () {
+
+                    const comArr = [];
+
+                    GEN.getContainers().forEach(function (com) {
+
+                        comArr.push({
+                            value: com.GET.tag(),
+                            label: com.GET.tag()
+                        })
+
+                    })
+
+                    return comArr;
+
+                }
+            },
+            onEditionStart: function (o) {
+
+                const toggle = function (v) {
+
+                    //var _target = v || ( field.GET.target ?  field.GET.target : null),
+                    const _target = v || (field.GET.target ? field.GET.target() : null),
+
+                        action = (_target === 'submit_ajax' || _target === 'submit_notvalidate' || _target === 'submitpage2file') ? 'show' : 'hide';
+
+                    o.input[action]();
+
+                };
+
+                $('#gen-edition-modal select[name="edit-target"]').on('change', function () {
+
+                    toggle($(this).val());
+
+                });
+
+                toggle();
+
+            }
+
+        });
+
+        field.setPropriety({
+            name: 'refresh_submit',
+            label: 'Submit',
+            value: false,
+            xslValue: 'refresh-submit="true"',
+            onEditionStart: function (o) {
+
+                setTimeout(function () {
+
+                    const ctrlSelector = '.propriety-setter.checker[rel="closerefresh"]';
+
+                    const checkVisibility = function () {
+
+                        const closeref = $(ctrlSelector),
+
+                            action = closeref.is(':checked') ? 'show' : 'hide';
+
+                        console.log(action);
+
+                        o.input[action]();
+
+                    };
+
+                    $('#gen-edition-modal').on('change', ctrlSelector, checkVisibility);
+
+                    checkVisibility();
+
+                }, 250);
+
+
+            }
+
+        });
+
+        const jsIncludes = [
+            {path: '/plugins/sharpadbclient/sharpadbclient.js'}
+        ];
+
+        field.setPropriety({
+            label: 'Sharp Adb Client Action',
+            name: 'adbcli',
+            order: 6,
+            value: {
+                value: '',
+                options: $.IGRP.defaults.buttons.sharpadbclient
+            },
+            onEditionStart: function (o) {
+
+                const checkTarget = function (v) {
+                    const target = v ? v : field.GET.target ? field.GET.target() : null;
+
+                    if (target === 'sharpadbclient') {
+
+                        o.input.show();
+
+                        jsIncludes.forEach(function (e) {
+                            field.includes.js.unshift(e);
+                        });
+                    } else {
+                        if ($.IGRP.components.select2) {
+                            $.IGRP.components.select2.select2Init({
+                                field: $('select', o.input)
+                            });
+                        }
+
+                        o.input.hide();
+
+                        GEN.removeIncluds(jsIncludes, 'js', field);
+                    }
+                };
+
+                $('select[name="edit-target"]').on('change', function () {
+                    checkTarget($(this).val());
+                });
+
+                checkTarget();
+            }
+        });
+
+        if (!targetRulesSet) {
+            $.IGRP.rules.set({
+                "edit-target": [
+                    {
+                        "name": "",
+                        "event": "change",
+                        "condition": "equal",
+                        "value": "changesrc",
+                        "value2": "",
+                        "patern": "",
+                        "patern_custom": "",
+                        "action": "show",
+                        "targets": "edit-target_fields",
+                        "procedure": "",
+                        "msg_type": "",
+                        "msg": "",
+                        "opposite": "1",
+                        "isTable": false
+                    },
+                    {
+                        "name": "",
+                        "event": "change",
+                        "condition": "equal",
+                        "value": "modal",
+                        "value2": "",
+                        "patern": "",
+                        "patern_custom": "",
+                        "action": "show",
+                        "targets": "edit-closerefresh",
+                        "procedure": "",
+                        "msg_type": "",
+                        "msg": "",
+                        "opposite": "1",
+                        "isTable": false
+                    },
+                    {
+                        "name": "",
+                        "event": "change",
+                        "condition": "equal",
+                        "value": "right_panel",
+                        "value2": "",
+                        "patern": "",
+                        "patern_custom": "",
+                        "action": "show",
+                        "targets": "edit-closerefresh",
+                        "procedure": "",
+                        "msg_type": "",
+                        "msg": "",
+                        "opposite": "",
+                        "isTable": false
+                    },
+                    {
+                        "name": "",
+                        "event": "change",
+                        "condition": "equal",
+                        "value": "mpsubmit",
+                        "value2": "",
+                        "patern": "",
+                        "patern_custom": "",
+                        "action": "show",
+                        "targets": "edit-closerefresh",
+                        "procedure": "",
+                        "msg_type": "",
+                        "msg": "",
+                        "opposite": "",
+                        "isTable": false
+                    },
+                    {
+                        "name": "",
+                        "event": "change",
+                        "condition": "equal",
+                        "value": "right_panel_submit",
+                        "value2": "",
+                        "patern": "",
+                        "patern_custom": "",
+                        "action": "show",
+                        "targets": "edit-closerefresh",
+                        "procedure": "",
+                        "msg_type": "",
+                        "msg": "",
+                        "opposite": "",
+                        "isTable": false
+                    }
+                ]
+            });
+            targetRulesSet = true;
+        }
+
+    };
+
+    GEN.setBTNClass = function (field, _default, prefix) {
+
+        const pref = prefix ? prefix + ' ' : '';
+
+        field.setPropriety({
+            name: 'class',
+            value: {
+                value: _default ? _default : 'primary',
+                size: '12',
+                list: {
+                    items: [
+                        {label: 'Primary', value: pref + 'primary'},
+                        {label: 'Secondary', value: pref + 'secondary'},
+                        {label: 'Success', value: pref + 'success'},
+                        {label: 'Info', value: pref + 'info'},
+                        {label: 'Warning', value: pref + 'warning'},
+                        {label: 'Danger', value: pref + 'danger'},
+                        {label: 'Dark', value: pref + 'dark'},
+                        {label: 'Light', value: pref + 'light'},
+                        {label: 'Link', value: pref + 'link-primary'},
+                        /*{ label:'Success',value    :pref+'link-success' },
 						{ label:'Warning',value    :'link-warning' },
 						{ label:'Danger',value    :'link-danger' },
 						{ label:'Dark',value    :'link-dark' },*/
-					],
-					itemTemplate:({label, value})=>{
-						value = value.indexOf('link')>=0? value :'btn-'+value;
-						return `<span class="btn btn-sm  ${value}">${label}</span>`
-					}
-				}
-			},
-			onEditionStart : function(o){
+                    ],
+                    itemTemplate: ({label, value}) => {
+                        value = value.indexOf('link') >= 0 ? value : 'btn-' + value;
+                        return `<span class="btn btn-sm  ${value}">${label}</span>`
+                    }
+                }
+            },
+            onEditionStart: function (o) {
 
-				const bt_class = "btn-sm btn d-flex align-items-center";
+                const bt_class = "btn-sm btn d-flex align-items-center";
 
-				var checkClss = function(v) {
+                const checkClss = function (v) {
 
-					var val = v || field.GET.class();
+                    const val = v || field.GET.class();
 
-					setTimeout( function(){
+                    setTimeout(function () {
 
-						if(val?.indexOf('link-') >= 0 ){
-							$('[item-name="edit-btnStyle"]' ).hide()
-						}else{
-							$('[item-name="edit-btnStyle"]' ).show()
-						}
+                        if (val?.indexOf('link-') >= 0) {
+                            $('[item-name="edit-btnStyle"]').hide()
+                        } else {
+                            $('[item-name="edit-btnStyle"]').show()
+                        }
 
-						$('[item-name="edit-btnStyle"] .btn-style-item button' ).each( function(i,el){
-							var style = $(this).parent().attr('value');
-							$(this).attr('class', bt_class+' '+style+'-'+val);
-						});
+                        $('[item-name="edit-btnStyle"] .btn-style-item button').each(function (i, el) {
+                            const style = $(this).parent().attr('value');
+                            $(this).attr('class', bt_class + ' ' + style + '-' + val);
+                        });
 
-					}, 100 );
+                    }, 100);
 
-				};
+                };
 
-				$('#gen-edition-modal [item-name="edit-class"] .btn').on('click', function(){
+                $('#gen-edition-modal [item-name="edit-class"] .btn').on('click', function () {
 
-					var val = $(this).attr('value');//?.split('btn-')[1]
-					
-					checkClss(val);
-				});
+                    const val = $(this).attr('value');//?.split('btn-')[1]
 
-				checkClss();
+                    checkClss(val);
+                });
 
-			}
-		});
-	}
+                checkClss();
 
-	GEN.getFieldSize = function(m){
-		var arr = [],
-			max = m || 12
-			
-  		for(var i = max; i>=1; i--){
-  			arr.push({
-  				value:i,
-  				label:'col-sm-'+i+'  ('+((i*100)/12).toFixed(0)+'%)'
-  			});
-  		}
-  		return arr;
-	}
-	
-	GEN.getFieldSizeOptions = function(field){
-		
-		var sizeOptions = field.GET.type() == 'texteditor' || field.GET.type() == 'separator' ? 
-		  {
-		  	value: 12,
-		  	options:[{value:12,label:'col-sm-12 (100%)'}]
-		  } :
-		  {
-		  	value: field.parent.formOptions ? field.parent.formOptions.lastSize : 12,
-		  	options:GEN.getFieldSize()
-		  	//options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
-		  }
-		
-		return sizeOptions
-	}
+            }
+        });
+    }
 
-	GEN.setFormFieldAttr = function(field){
-		
-		var container = field.parent;
-		
-		var type 	  = field.GET.type();
-		//console.log(field);
-		container.formOptions = {
-			lastSize:container.formOptions && container.formOptions.lastSize ? container.formOptions.lastSize : '3'
-		}
+    GEN.getFieldSize = function (m) {
+        const arr = [],
+            max = m || 12;
 
-		field.setPropriety({
-			name:'maxlength',
-			propriety:250,
-			onChange:function(value){
-				field.holder.find('[maxlength]').attr('maxlength',value);
-			}
-		});
+        for (let i = max; i >= 1; i--) {
+            arr.push({
+                value: String(i),
+                label: 'col-sm-' + i + '  (' + ((i * 100) / 12).toFixed(0) + '%)'
+            });
+        }
+        return arr;
+    }
 
-		if(!field.hidden){
-			//var defaultSize = field.GET.type() == 'radiolist' || field.GET.type() == 'checkboxlist' ? 12 : container.formOptions.lastSize;
-			var sizeOptions = type == 'texteditor' || type == 'separator' ? 
-			  {
-			  	value: 12,
-			  	options:[{value:12,label:'col-sm-12 (100%)'}]
-			  } :
-			  {
-			  	value: container.formOptions.lastSize,
-			  	options:GEN.getFieldSize()
-			  	//options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
-			  }
+    GEN.getFieldSizeOptions = function (field) {
 
-			//if(){	
-			  const setFieldAttr = ['electronicsignature','button', 'img', 'plaintext', 'separator', 'link'];
+        const sizeOptions = field.GET.type() === 'texteditor' || field.GET.type() === 'separator' ?
+            {
+                value: '12',                                    // string
+                options: [{value: '12', label: 'col-sm-12 (100%)'}]
+            } :
+            {
+                value: String(field.parent.formOptions ? field.parent.formOptions.lastSize : 12),  // force string
+                options: GEN.getFieldSize()
+            };
 
-				if(!setFieldAttr.includes(type)){
+        return sizeOptions
+    }
 
-					field.setPropriety({
-						name:'required',
-						value    : false,
-						xslValue : 'required="required"' //XSL VALUE WHEN PROPRIETY IS TRUE
-					});
+    GEN.setFormFieldAttr = function (field) {
 
-					if(type != "file"){
-						field.setPropriety({
-							name:'change',
-							propriety:false,
-							xslValue : 'IGRP_change' //XSL VALUE WHEN PROPRIETY IS TRUE
-						});
-					}
+        const container = field.parent;
 
-					const setReadonly = ["select", "file", 'filesigner'];
+        const type = field.GET.type();
+        //console.log(field);
+        container.formOptions = {
+            lastSize: container.formOptions && container.formOptions.lastSize ? container.formOptions.lastSize : '3'
+        }
 
-					if(!setReadonly.includes(type)){
-						field.setPropriety({
-							name:'readonly',
-							propriety:false,
-							xslValue : 'readonly="readonly"' //XSL VALUE WHEN PROPRIETY IS TRUE
-						});
-					}
+        field.setPropriety({
+            name: 'maxlength',
+            propriety: 250,
+            onChange: function (value) {
+                field.holder.find('[maxlength]').attr('maxlength', value);
+            }
+        });
 
-					if(field.type != 'filesigner'){
-						field.setPropriety({
-							name:'disabled',
-							propriety:false,
-							xslValue : 'disabled="disabled"' //XSL VALUE WHEN PROPRIETY IS TRUE
-						});
-					}
+        if (!field.hidden) {
+            //var defaultSize = field.GET.type() == 'radiolist' || field.GET.type() == 'checkboxlist' ? 12 : container.formOptions.lastSize;
+            const sizeOptions = type === 'texteditor' || type === 'separator' ?
+                {
+                    value: 12,
+                    options: [{value: 12, label: 'col-sm-12 (100%)'}]
+                } :
+                {
+                    value: container.formOptions.lastSize,
+                    options: GEN.getFieldSize()
+                    //options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
+                };
 
-					const setDisablehtml = ['text', 'textarea']
+            //if(){
+            const setFieldAttr = ['electronicsignature', 'button', 'img', 'plaintext', 'separator', 'link'];
 
-					if(setDisablehtml.includes(type)){
-						field.setPropriety({
-							label	 :'Disable HTML',
-							name	 :'disablehtml',
-							propriety:true,
-							xslValue : 'disablehtml="true"' //XSL VALUE WHEN PROPRIETY IS TRUE
-						});
-					}
-				}
+            if (!setFieldAttr.includes(type)) {
 
-				const setPlaceholder = [
-					'electronicsignature', 
-					'filesigner',
-					"button", 
-					"plaintext", 
-					"select", 
-					"file", 
-					"radio", 
-					"checkbox", 
-					"radiolist", 
-					"checkboxlist",
-					"separator"
-				];
+                field.setPropriety({
+                    name: 'required',
+                    value: false,
+                    xslValue: 'required="required"' //XSL VALUE WHEN PROPRIETY IS TRUE
+                });
 
-				if(!setPlaceholder.includes(type)){
+                if (type !== "file") {
+                    field.setPropriety({
+                        name: 'change',
+                        propriety: false,
+                        xslValue: 'IGRP_change' //XSL VALUE WHEN PROPRIETY IS TRUE
+                    });
+                }
 
-					field.setPropriety({
-						name:'placeholder',
-						value: ''
-					});
-					
-					if(container.GET.type() != 'formlist' ){
-					
-						/*field.setPropriety({
+                const setReadonly = ["select", "file", 'filesigner'];
+
+                if (!setReadonly.includes(type)) {
+                    field.setPropriety({
+                        name: 'readonly',
+                        propriety: false,
+                        xslValue: 'readonly="readonly"' //XSL VALUE WHEN PROPRIETY IS TRUE
+                    });
+                }
+
+                if (field.type !== 'filesigner') {
+                    field.setPropriety({
+                        name: 'disabled',
+                        propriety: false,
+                        xslValue: 'disabled="disabled"' //XSL VALUE WHEN PROPRIETY IS TRUE
+                    });
+                }
+
+                const setDisablehtml = ['text', 'textarea']
+
+                if (setDisablehtml.includes(type)) {
+                    field.setPropriety({
+                        label: 'Disable HTML',
+                        name: 'disablehtml',
+                        propriety: true,
+                        xslValue: 'disablehtml="true"' //XSL VALUE WHEN PROPRIETY IS TRUE
+                    });
+                }
+            }
+
+            const setPlaceholder = [
+                'electronicsignature',
+                'filesigner',
+                "button",
+                "plaintext",
+                "select",
+                "file",
+                "radio",
+                "checkbox",
+                "radiolist",
+                "checkboxlist",
+                "separator"
+            ];
+
+            if (!setPlaceholder.includes(type)) {
+
+                field.setPropriety({
+                    name: 'placeholder',
+                    value: ''
+                });
+
+                if (container.GET.type() !== 'formlist') {
+
+                    /*field.setPropriety({
 							label    : 'Description Label',
 							name     : 'desclabel',
 							value 	 : false,
 							xslValue : 'desclabel'
 						});*/
-					}
-				}
+                }
+            }
 
-				if((type && type == 'text') && (container.GET.type() == 'formlist' || container.GET.type() == 'form')){
+            if ((type && type === 'text') && (container.GET.type() === 'formlist' || container.GET.type() === 'form')) {
 
-					let inputMaskIncludes 	= [
-						{path : '/plugins/inputmask/igrp.inputmask.js'},
-						{path : '/plugins/inputmask/jquery.inputmask.min.js'}
-					],
-					removeIncludesJs 	= function(arr){
-						arr.forEach(function(e){
-							for( var i = 0; i < field.includes.js.length; i++){
-								var inc = field.includes.js[i];
-								if(inc.path == e.path){
-									var index = field.includes.js.indexOf(inc);
-									if (index > -1) 
-										field.includes.js.splice(index, 1);
-									break;
-								}
-							}
-						});
-					},
-					inputMaskInc = false;
+                let inputMaskIncludes = [
+                        {path: '/plugins/inputmask/igrp.inputmask.js'},
+                        {path: '/plugins/inputmask/jquery.inputmask.min.js'}
+                    ],
+                    removeIncludesJs = function (arr) {
+                        arr.forEach(function (e) {
+                            for (let i = 0; i < field.includes.js.length; i++) {
+                                const inc = field.includes.js[i];
+                                if (inc.path === e.path) {
+                                    const index = field.includes.js.indexOf(inc);
+                                    if (index > -1)
+                                        field.includes.js.splice(index, 1);
+                                    break;
+                                }
+                            }
+                        });
+                    },
+                    inputMaskInc = false;
 
-					if(!inputMaskInc && field?.proprieties?.inputmask !== undefined){
-						inputMaskIncludes.forEach(function(e){
-							field.includes.js.unshift(e);
-						});
-						inputMaskInc = true;
-					}
+                if (!inputMaskInc && field?.proprieties?.inputmask !== undefined) {
+                    inputMaskIncludes.forEach(function (e) {
+                        field.includes.js.unshift(e);
+                    });
+                    inputMaskInc = true;
+                }
 
-					field.setPropriety({
-						name:'inputmask',
-						label:'Input Mask',
-						value:{
-							value:'',
-							options:[
-								{value:'',label:'-- Select Mask --'},
-								{value:'currency',label:'Currency Mask (#.##0)'},
-								{value:'date',label:'Date Mask (DD-MM-YYYY)'},
-								{value:'monthYear',label:'Date Mask (MM-YYYY)'}
-							]
-						},
-						onChange:function(v){
-							
-							if(v !== undefined && v !== ''){
-		
-								if(!inputMaskInc){
-									inputMaskIncludes.forEach(function(e){
-										field.includes.js.unshift(e);
-									});
-									inputMaskInc = true;
-								}					
-							}else{
-								removeIncludesJs(inputMaskIncludes);
-								inputMaskInc = false;
-							}
+                field.setPropriety({
+                    name: 'inputmask',
+                    label: 'Input Mask',
+                    value: {
+                        value: '',
+                        options: [
+                            {value: '', label: '-- Select Mask --'},
+                            {value: 'currency', label: 'Currency Mask (#.##0)'},
+                            {value: 'date', label: 'Date Mask (DD-MM-YYYY)'},
+                            {value: 'monthYear', label: 'Date Mask (MM-YYYY)'}
+                        ]
+                    },
+                    onChange: function (v) {
 
-						}
-					});
-				}
-			//}
-			
-			field.setPropriety({
-				label     : 'Field Size',
-				name      : 'size',
-				propriety : GEN.getFieldSizeOptions(field),
-				onChange:function(value){
-					container.formOptions.lastSize = value;
-				}
-			});
+                        if (v !== undefined && v !== '') {
 
-			if(type == 'checkboxlist' || type == 'radiolist'){
-				field.setPropriety({
-					label      : 'Child Size',
-					name       : 'child_size',
-					propriety  : {
-						value  : 12,
-						options: GEN.getFieldSize()
-					}
-				});
-			}
+                            if (!inputMaskInc) {
+                                inputMaskIncludes.forEach(function (e) {
+                                    field.includes.js.unshift(e);
+                                });
+                                inputMaskInc = true;
+                            }
+                        } else {
+                            removeIncludesJs(inputMaskIncludes);
+                            inputMaskInc = false;
+                        }
 
-			const hideRightProprietys = ['filesigner', 'electronicsignature'];
-			
-			/*if(!hideRightProprietys.includes(type)){
+                    }
+                });
+            }
+            //}
+
+            field.setPropriety({
+                label: 'Field Size',
+                name: 'size',
+                propriety: GEN.getFieldSizeOptions(field),
+                onChange: function (value) {
+                    container.formOptions.lastSize = value;
+                }
+            });
+
+            if (type === 'checkboxlist' || type === 'radiolist') {
+                field.setPropriety({
+                    label: 'Child Size',
+                    name: 'child_size',
+                    propriety: {
+                        value: 12,
+                        options: GEN.getFieldSize()
+                    }
+                });
+            }
+
+            const hideRightProprietys = ['filesigner', 'electronicsignature'];
+
+            /*if(!hideRightProprietys.includes(type)){
 				field.setPropriety({
 					name      :'right',
 					value     :false,
@@ -5830,688 +6030,536 @@ var GENERATOR = function(genparams){
 				});
 			}*/
 
-			const hideFormField = ['separator','link','plaintext','button','img']
+            const hideFormField = ['separator', 'link', 'plaintext', 'button', 'img']
 
-			if(!hideFormField.includes(type))
-				field.formField = true;
+            if (!hideFormField.includes(type))
+                field.formField = true;
 
-		}else{
-			//field.xml.tag = 'hidden';
-		}
-		
-		GEN.SetJavaTypeAttr( field )
-	}
-	
-	GEN.SetJavaTypeAttr = function(field){
-		
-		if( field.type == 'hidden' || 
-				field.type == 'select' || 
-				field.type == 'number' || 
-				field.type == 'checkboxlist' || 
-				field.type == 'radiolist' || 
-				field.type == 'radio' ||
-				field.type == 'checkbox' ||
-				field.hidden)
-			
-				field.setPropriety({
-					name:'java-type',
-					label : 'Java Type',
-					value : {
-						value : field.javaType || '',
-							options : [
-											{ value : '', label : '' },											
-											{ value : 'Long', label : 'Long' },
-											{ value : 'String', label : 'String' },
-											{ value : 'String[]', label : 'String[]' },
-											{ value : 'BigInteger', label : 'BigInteger' },
-											{ value : 'BigDecimal', label : 'BigDecimal' },
-											{ value : 'Integer', label : 'Integer' },	
-											{ value : 'Short', label : 'Short' },
-											{ value : 'Float', label : 'Float' },
-											{ value : 'Double', label : 'Double' },
-											{ value : 'int', label : 'int' },										
-											{ value : 'double', label : 'double' },
-											{ value : 'float', label : 'float' },
-											{ value : 'short', label : 'short' },
-											{ value : 'long', label : 'long' },
-										]
-							}
-					})
-			
-	}
-	
-	GEN.setImgAttr = function(field,p){
+        } else {
+            //field.xml.tag = 'hidden';
+        }
 
-		var fParent = field.parent || false;
+        GEN.SetJavaTypeAttr(field)
+    }
 
-		field.setPropriety({
-			name     : 'iconColor',
-			value    : field.proprieties.iconColor ? field.proprieties.iconColor : '#333',
-			editable : false
-		});
+    GEN.SetJavaTypeAttr = function (field) {
 
-		field.setPropriety({
-			name     : 'iconClass',
-			value    : field.proprieties.iconClass ? field.proprieties.iconClass : '',
-			editable : false
-		});
+        if (field.type === 'hidden' ||
+            field.type === 'select' ||
+            field.type === 'number' ||
+            field.type === 'checkboxlist' ||
+            field.type === 'radiolist' ||
+            field.type === 'radio' ||
+            field.type === 'checkbox' ||
+            field.hidden)
+
+            field.setPropriety({
+                name: 'java-type',
+                label: 'Java Type',
+                value: {
+                    value: field.javaType || '',
+                    options: [
+                        {value: '', label: ''},
+                        {value: 'Long', label: 'Long'},
+                        {value: 'String', label: 'String'},
+                        {value: 'String[]', label: 'String[]'},
+                        {value: 'BigInteger', label: 'BigInteger'},
+                        {value: 'BigDecimal', label: 'BigDecimal'},
+                        {value: 'Integer', label: 'Integer'},
+                        {value: 'Short', label: 'Short'},
+                        {value: 'Float', label: 'Float'},
+                        {value: 'Double', label: 'Double'},
+                        {value: 'int', label: 'int'},
+                        {value: 'double', label: 'double'},
+                        {value: 'float', label: 'float'},
+                        {value: 'short', label: 'short'},
+                        {value: 'long', label: 'long'},
+                    ]
+                }
+            })
+
+    }
+
+    GEN.setImgAttr = function (field, p) {
+
+        const fParent = field.parent || false;
+
+        field.setPropriety({
+            name: 'iconColor',
+            value: field.proprieties.iconColor ? field.proprieties.iconColor : '#333',
+            editable: false
+        });
+
+        field.setPropriety({
+            name: 'iconClass',
+            value: field.proprieties.iconClass ? field.proprieties.iconClass : '',
+            editable: false
+        });
 
 
-		var name = p.name ? p.name : 'img';
+        const name = p.name ? p.name : 'img';
 
-		field.setPropriety({
-			name      : name,
-			label     : 'Icon',
-			type 	  : 'attrvalue',
-			value : {
-				value : p.value,
-				size  : '12',
-				class : 'gen-fa-icon-setter',
-				//color : field.GET.iconColor(),
-				icon  : '',
-				setter:function(){
+        field.setPropriety({
+            name: name,
+            label: 'Icon',
+            type: 'attrvalue',
+            value: {
+                value: p.value,
+                size: '12',
+                class: 'gen-fa-icon-setter',
+                //color : field.GET.iconColor(),
+                icon: '',
+                setter: function () {
 
-					var holder = $(VARS.fontawesome.setter).clone(true);
+                    const holder = $(VARS.fontawesome.setter).clone(true);
 
-					var img = field.GET[name]();
+                    const img = field.GET[name]();
 
-					holder.attr('attr-value',img);
+                    holder.attr('attr-value', img);
 
-					holder.trigger('attr-value-change', [img]);
+                    holder.trigger('attr-value-change', [img]);
 
-					var activeItem = $('.gen-fa-icon[rel="'+img+'"]',holder);
+                    const activeItem = $('.gen-fa-icon[rel="' + img + '"]', holder);
 
-					var activeParent = activeItem.attr('parent');
+                    const activeParent = activeItem.attr('parent');
 
-					activeItem.addClass('active');
+                    activeItem.addClass('active');
 
-					$('.nav-tabs>li',holder).removeClass('active');
+                    $('.nav-tabs>li', holder).removeClass('active');
 
-					$('.tab-pane',holder).removeClass('active in');
+                    $('.tab-pane', holder).removeClass('active in');
 
-					$('.nav-tabs>li[rel="'+activeParent+'"]',holder).addClass('active');
+                    $('.nav-tabs>li[rel="' + activeParent + '"]', holder).addClass('active');
 
-					$('.tab-pane#gen-fa-'+activeParent,holder).addClass('active in');
+                    $('.tab-pane#gen-fa-' + activeParent, holder).addClass('active in');
 
-					holder.on('click','.gen-fa-icon',function(){
+                    holder.on('click', '.gen-fa-icon', function () {
 
-						var rel = $(this).attr('rel');
+                        const rel = $(this).attr('rel');
 
-						$('.gen-fa-icon',holder).removeClass('active');
-	    				
-	    				$(this).addClass('active');
+                        $('.gen-fa-icon', holder).removeClass('active');
 
-	    				holder.attr('attr-value',rel);
+                        $(this).addClass('active');
 
-						holder.trigger('attr-value-change', [rel]);
+                        holder.attr('attr-value', rel);
 
-	    				//field.SET[name]( rel );
+                        holder.trigger('attr-value-change', [rel]);
 
-					});
+                        //field.SET[name]( rel );
 
-					setTimeout(function(){
-						
-						try{
-							$('.tab-content').animate({
-						        scrollTop: activeItem.position().top
-						    }, 400);
-							
-						}catch(err){
-							console.log(err)
-							return;
-						}
-						
-						//$('.nav-tabs',holder).tabdrop();
-						
-					},250);
-					
+                    });
 
-					return holder;
-				},
-				onChange:function(v){
-			
-				}
-			},
-			isField:p.isField,
-			valuePersist:p.valuePersist
-		});
+                    setTimeout(function () {
 
-		(function(){
-			var faSetter  = ()=>$('.gen-fa-setter');
-			var btnClssSetter = ()=>$('.propriety-setter[rel="class"]');
-			var btnStyleSetter = ()=>$('.propriety-setter[rel="btnStyle"]');
-			var labelSetter = ()=>$('.propriety-setter[rel="label"]');
-			//var set
-			field.setPropriety({
-				name     : 'iconPosition',
-				label:'Posição do Icon',
-				value    : {
-					value:  field.proprieties.iconPosition ? field.proprieties.iconPosition : 'left',
-					list  : {
-						items:[
-							{value:'left',label:'Esquerda'},
-							{value:'right',label:'Direita'}
-						],
-						itemTemplate: ({label,value})=>{
-							const icon = faSetter().attr('attr-value') ||  `ri-arrow-${value}-line`;
-							const iconPosition = value;
-							const _label = field.GET.label && field.GET.label() || label;
-							const clss = btnClssSetter().val();
-							const style = btnStyleSetter().val();
+                        try {
+                            $('.tab-content').animate({
+                                scrollTop: activeItem.position().top
+                            }, 400);
 
-							return (
-							`<div>
+                        } catch (err) {
+                            console.log(err)
+                            return;
+                        }
+
+                        //$('.nav-tabs',holder).tabdrop();
+
+                    }, 250);
+
+
+                    return holder;
+                },
+                onChange: function (v) {
+
+                }
+            },
+            isField: p.isField,
+            valuePersist: p.valuePersist
+        });
+
+        (function () {
+            const faSetter = () => $('.gen-fa-setter');
+            const btnClssSetter = () => $('.propriety-setter[rel="class"]');
+            const btnStyleSetter = () => $('.propriety-setter[rel="btnStyle"]');
+            const labelSetter = () => $('.propriety-setter[rel="label"]');
+            //var set
+            field.setPropriety({
+                name: 'iconPosition',
+                label: 'Posição do Icon',
+                value: {
+                    value: field.proprieties.iconPosition ? field.proprieties.iconPosition : 'left',
+                    list: {
+                        items: [
+                            {value: 'left', label: 'Esquerda'},
+                            {value: 'right', label: 'Direita'}
+                        ],
+                        itemTemplate: ({label, value}) => {
+                            const icon = faSetter().attr('attr-value') || `ri-arrow-${value}-line`;
+                            const iconPosition = value;
+                            const _label = field.GET.label && field.GET.label() || label;
+                            const clss = btnClssSetter().val();
+                            const style = btnStyleSetter().val();
+
+                            return (
+                                `<div>
 								<a icon-position="${value}" href="#" class=" btn-label  btn btn-sm ${style}-${clss} icon-position-prop d-flex align-items-center">
 									<i class="label-icon fa ${icon}"></i>
-									<span  class="btn-text" text="${ value == 'right' ? 'Direita' : 'Esquerda' }">${_label}</span>
+									<span  class="btn-text" text="${value === 'right' ? 'Direita' : 'Esquerda'}">${_label}</span>
 								</a>
 							</div>`
-							)
-						}
-					}
-				},
-				onEditionStart : (v)=>{
-					var setBtnClss = ()=>{
-						$('.icon-position-prop', v.input).each((i,el)=>{
-							const prefix = "btn-";
-							const classes = el.className.split(" ").filter(c => !c.startsWith(prefix));
-							const clss = btnClssSetter().val();
-							const style = btnStyleSetter().val();
+                            )
+                        }
+                    }
+                },
+                onEditionStart: (v) => {
+                    const setBtnClss = () => {
+                        $('.icon-position-prop', v.input).each((i, el) => {
+                            const prefix = "btn-";
+                            const classes = el.className.split(" ").filter(c => !c.startsWith(prefix));
+                            const clss = btnClssSetter().val();
+                            const style = btnStyleSetter().val();
 
-							el.className = classes.join(" ").trim()+` ${style}-${clss} btn-label btn-sm`;
-						})
-					}
+                            el.className = classes.join(" ").trim() + ` ${style}-${clss} btn-label btn-sm`;
+                        })
+                    };
 
-					btnClssSetter().on('change', setBtnClss);
+                    btnClssSetter().on('change', setBtnClss);
 
-					btnStyleSetter().on('change', setBtnClss);
+                    btnStyleSetter().on('change', setBtnClss);
 
-					labelSetter().on('blur', ()=>{
-						$('.btn-text', v.input).each( (i,t)=>{
-							$(t).text( labelSetter().val() || $(t).attr('text') )
-						} )
-						
-				
-					})
+                    labelSetter().on('blur', () => {
+                        $('.btn-text', v.input).each((i, t) => {
+                            $(t).text(labelSetter().val() || $(t).attr('text'))
+                        })
 
-					faSetter().on('attr-value-change', (e,icon)=>{
-						$('.icon-position-prop', v.input).find('i').attr('class', `label-icon fa ${icon}`)
-					});
-				}
-			
-			});
-		})();
-		
-	}
 
-	GEN.getImagesFromDir = function (p){
-		var element;
-		
-		if(GEN.images[p.id]){
-			if(p.callback) p.callback(GEN.images[p.id]);
-			//element = GEN.images[p.paramName];
-		}else{
-			var link = p.paramName ? p.dir+p.paramName : p.dir;
-			$.ajax({
-				url:link,
-				dataType :'json',
-				success:function(data){
-					if(p.callback) p.callback(data);
-					GEN.images[p.id] = data;
-				}
-			});
-		}
-		return element;
-	}
+                    })
 
-	GEN.MESSAGE = function(p){
-		console.log(p.text);
-		console.log(p.console);
-		console.log(p.error);
-	}
+                    faSetter().on('attr-value-change', (e, icon) => {
+                        $('.icon-position-prop', v.input).find('i').attr('class', `label-icon fa ${icon}`)
+                    });
+                }
 
-	GEN.resizeView = function(){
-		setTimeout(function(){
-			$(window).resize();
-		},60);
-	}
+            });
+        })();
 
-	GEN.configSortable = function(placeholder){
-		
-		//if(!placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy'))
-		
-		placeholder.sortable({
-			delay: 150,
-			connectWith: '.gen-container-placeholder',
-			scroll: false,
-			forcePlaceholderSize: true,
-			placeholder: VARS.class.placeHolderHover,
-			items: "> li",
-			handle: '.container-mover',
-			tolerance:'pointer',
-			helper:function(){ return $('<div></div>') },
-			sort:function(e,ui){
-				
-				if(placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy')){
-					ui.placeholder.hide();
-					//return false;
-				}else{
-					ui.placeholder.show();
-				}
-					
-				
-			},
-			receive:function(e,ui){
-				if(placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy')){
-					console.log(ui)
-					return false;
-				}
-					
-					
-				
-				if(ui.helper && ui.helper.hasClass('gen-declared-containers')){
-				
-					//NEW ELEMENT DROP
-					var liHolder = ui.helper;
-					var column   = $(e.target).parents(VARS.layout.columns);
-					var row      = column.parent();
-					var index    = liHolder.index();
-					var ph       = $(e.target);
-					var type 	 = ui.item.attr('type');
+    }
 
-					if(index >= 0){
-						var name   = ui.item.attr('name');
+    GEN.getImagesFromDir = function (p) {
+        let element;
 
-						var container = {
-							name   : name,
-							row    : row,
-							column : column,
-							index  : index,
-							holder : liHolder,
-							params : {
-								genType   : type
-							}
-						}
+        if (GEN.images[p.id]) {
+            if (p.callback) p.callback(GEN.images[p.id]);
+            //element = GEN.images[p.paramName];
+        } else {
+            const link = p.paramName ? p.dir + p.paramName : p.dir;
+            $.ajax({
+                url: link,
+                dataType: 'json',
+                success: function (data) {
+                    if (p.callback) p.callback(data);
+                    GEN.images[p.id] = data;
+                }
+            });
+        }
+        return element;
+    }
 
-						GEN.dropContainers_ROW([container],{
-							placeholder:ph,
-							callback : (c)=>{
-								//console.log(c)
-								GEN.edit( c );
-							}
-							
-						});
+    GEN.MESSAGE = function (p) {
+        console.log(p.text);
+        console.log(p.console);
+        console.log(p.error);
+    }
 
-					}else liHolder.remove();
-					
-					liHolder.removeAttr('style');
-				}else{	
-					//MOVED TO ANOTHER PH												 
-					var holder = ui.item,
-						col    = $(holder.parents('.gen-column')[0]);
+    GEN.resizeView = function () {
+        setTimeout(function () {
+            $(window).resize();
+        }, 60);
+    }
 
-					holder.removeAttr('style');
+    GEN.configSortable = function (placeholder) {
 
-					GEN.checkColumnComponents(col);
-				}
+        //if(!placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy'))
 
-				var sender = ui.sender;
+        placeholder.sortable({
+            delay: 150,
+            connectWith: '.gen-container-placeholder',
+            scroll: false,
+            forcePlaceholderSize: true,
+            placeholder: VARS.class.placeHolderHover,
+            items: "> li",
+            handle: '.container-mover',
+            tolerance: 'pointer',
+            helper: function () {
+                return $('<div></div>')
+            },
+            sort: function (e, ui) {
 
-				var senderCol = $(sender.parents('.gen-column')[0]);
+                if (placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy')) {
+                    ui.placeholder.hide();
+                    //return false;
+                } else {
+                    ui.placeholder.show();
+                }
 
-				GEN.checkColumnComponents(senderCol);
 
-				/*if(!sender.find('>.gen-declared-containers')[0])
+            },
+            receive: function (e, ui) {
+                if (placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy')) {
+                    console.log(ui)
+                    return false;
+                }
+
+
+                if (ui.helper && ui.helper.hasClass('gen-declared-containers')) {
+
+                    //NEW ELEMENT DROP
+                    const liHolder = ui.helper;
+                    const column = $(e.target).parents(VARS.layout.columns);
+                    const row = column.parent();
+                    const index = liHolder.index();
+                    const ph = $(e.target);
+                    const type = ui.item.attr('type');
+
+                    if (index >= 0) {
+                        const name = ui.item.attr('name');
+
+                        const container = {
+                            name: name,
+                            row: row,
+                            column: column,
+                            index: index,
+                            holder: liHolder,
+                            params: {
+                                genType: type
+                            }
+                        };
+
+                        GEN.dropContainers_ROW([container], {
+                            placeholder: ph,
+                            callback: (c) => {
+                                //console.log(c)
+                                GEN.edit(c);
+                            }
+
+                        });
+
+                    } else liHolder.remove();
+
+                    liHolder.removeAttr('style');
+                } else {
+                    //MOVED TO ANOTHER PH
+                    const holder = ui.item,
+                        col = $(holder.parents('.gen-column')[0]);
+
+                    holder.removeAttr('style');
+
+                    GEN.checkColumnComponents(col);
+                }
+
+                const sender = ui.sender;
+
+                const senderCol = $(sender.parents('.gen-column')[0]);
+
+                GEN.checkColumnComponents(senderCol);
+
+                /*if(!sender.find('>.gen-declared-containers')[0])
 					console.log(sender.parent())*/
 
-				$('#gen-design .ui-sortable-helper').remove();
-			},
-			stop:function(e,ui){	
-				var holder = ui.item;
-				holder.removeAttr('style');
-				$('#gen-design .ui-sortable-helper').remove();
-			},
-			update:function(e,ui){
-				$('#gen-design .ui-sortable-helper').remove();
-			},
-			remove:function(e,ui){
-				$('#gen-design .ui-sortable-helper').remove();
-				console.log('remove')
-			},
-			change : function(e,ui){
-				
-				if(ui.sender && ui.sender.find('>.gen-declared-containers').length <= 1){
-
-					var senderCol = $(ui.sender.parents('.gen-column')[0]);
-
-					senderCol.attr('empty',true)
-				}
-	
-			}
-		}).disableSelection();
-	}
-
-	GEN.shadow = function(o){
-		if(o) GEN.CONTENT.addClass('shadow');
-		else  GEN.CONTENT.removeClass('shadow');
-	}
-
-	GEN.getRules = function(){
-		var fields = GEN.getAllFields();
-		var rules = {};
-
-		fields.forEach(function(f){
-
-			var fname = f.GET.name();
-			if(f.rules &&  f.rules[0])
-				rules[fname] = f.rules;
-		
-		});
-
-		return GENRULES.add(rules);
-	}
-
-	GEN.escapeXSLChars = function(str){
-
-		str = str.replaceAll('<','&lt;');
-
-		str = str.replaceAll('>','&gt;');
-
-		str = str.replaceAll('&','&amp;');
-
-		return str;
-	}
-
-	var getPageId = function(){
-		return $('#id_objeto').val();
-	}
-
-	var setPageId = function(id){
-		$('#id_objeto').val(id);
-	}
-
-	var setPageTitle = function(title){
-		$('.gen-page-title').text(title);
-	}
-
-	GEN.getIncludeURL = function(url){
-		var isExternal = /^https?:\/\//i.test(url);
-		var relative = isExternal ? false : true;
-		var path     = relative ? '{$path}'+url : url;
-
-		return path;
-	}	
-
-	var getObjectCssFiles = function(incObjects,genType, position="after"){
-		var rtn = "";
-		var folderGetter = genType == 'container' ? 'getContainerFolder' : 'getFieldFolder';
-		
-		for(var type in incObjects){
-
-		 	if( incObjects[type].css[0] ){
-		 		//rtn+='<!-- '+type.toUpperCase()+' CSS INCLUDES -->';
-		 		incObjects[type].css.forEach(function(css){
-		 			
-		 			if(css.path){
-
-		 				var isExternal = /^https?:\/\//i.test(css.path);
-		 				var relative = css.relative == false || isExternal ? false : true;
-						var path     = relative ? '{$path}'+css.path : css.path;
-		 				var media    = css.media ? 'media="'+css.media+'"' : '';
-
-						var declaredPos = css.position || "after";
-
-		 				if(rtn.indexOf(path) == -1 && declaredPos == position)
-		 					rtn+='<link '+media+' rel="stylesheet" type="text/css" href="'+path+'?v={$version}"/>';
-
-		 			}else if(css.import){
-						for(var c in css.import){
-							if(css.import[c] == 'import.all'){
-								//console.log('import all')
-							}else{
-								if(css.import[c][0]){
-									css.import[c].forEach(function(f){
-										path = '{$path}'+ VARS.genPath+'/types/containers/'+c+'/includes/'+f;
-										//var declaredPos = f.position || "after";
-										if(rtn.indexOf(path) == -1)
-											rtn+='<link rel="stylesheet" type="text/css" href="'+path+'?v={$version}"/>';
-									});
-								}
-							}
-						}
-					}
-		 			
-		 		});
-		 	}
-		 }
-		 return rtn;
-	}
-
-	var getObjectJSFiles = function(incObjects,genType){
-		var rtn          = "";
-		var folderGetter = genType == 'container' ? 'getContainerFolder' : 'getFieldFolder';
-		
-		for(var type in incObjects){
-
-			if( incObjects[type].js[0] ){
-
-				rtn+='<!-- '+type.toUpperCase()+' JS INCLUDES -->';
-				
-				incObjects[type].js.forEach(function(js){
-					if(js.path){
-						var isExternal = /^https?:\/\//i.test(js.path);
-						var relative = js.relative == false || isExternal ? false : true;
-						var path     = relative ? '{$path}'+js.path : js.path,
-							charset  = js.charset ? 'charset="'+js.charset+'"' : '';;
-						if(rtn.indexOf(path) == -1)
-							rtn+='<script '+charset+' type="text/javascript" src="'+path+'?v={$version}"></script>'
-					}else if(js.import){
-						for(var c in js.import){
-							if(js.import[c] == 'import.all'){
-								//console.log('import all')
-							}else{
-								if(js.import[c][0]){
-									js.import[c].forEach(function(f){
-										path = '{$path}'+ VARS.genPath+'/types/containers/'+c+'/includes/'+f;
-										if(rtn.indexOf(path) == -1)
-											rtn+='<script '+charset+' type="text/javascript" src="'+path+'?v={$version}"></script>';
-									});
-								}
-							}
-						}
-					}
-				});
-
-			}
-		}
-		 return rtn;
-	}
-
-	var getXSLTop = function(){
-
-		var content = GEN.baseXSL.top;
-		
-		var includes = "";
-		var includesBefore  = getObjectCssFiles(GEN.getContainersIncludes(),'container', 'before');
-
-		includesBefore+=getObjectCssFiles(GEN.getFieldsIncludes(),'field','before');
-
-		includes+=getObjectCssFiles(GEN.getContainersIncludes(),'container');
-
-		includes+=getObjectCssFiles(GEN.getFieldsIncludes(),'field');
-
-		if(GEN.files.css[0]){
-			
-			GEN.files.css.forEach(function(css){
-				
-				var path = GEN.getIncludeURL(css.file);
-
-		 		includes+='<link type="text/css" rel="stylesheet" href="'+path+'?v={$version}"/>';
-
-			});
-			
-		}
-		
-		if (GEN.SETTINGS.process){
-			
-			GEN.pfiles.css.forEach(function(css){
-				
-				includes+='<link type="text/css" rel="stylesheet" href="'+GEN.getIncludeURL(css.file)+'.css?v={$version}"/>';
-				
-			});
-		}
-
-		includes+='<style>'+GEN.cssEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</style>'
-			
-
-		//before
-		var idx = content.indexOf('<xsl:call-template name="igrp-head"/>');
-
-		content = content.insert(idx,includesBefore);
-		
-		//after
-		var idxHeadEnd = content.indexOf('</head>');
-
-		content = content.insert(idxHeadEnd,includes);
-
-		return content;
-
-	}
-
-	var getXSLBottom = function(){
-
-		var rtn         = "";
-		var includesStr = GEN.getDefaultIncludesStr(true);
-		var includes    = [];
-		var split       = GEN.baseXSL.bottom.split('<!--INCLUDES-->');
-		var xslTmplPath = GEN.SETTINGS.gentype == 'java' ? '../../..' : '../..';
-
-		var includeTmpl = function(name){
-
-			includes.push(name);
-
-			includesStr+='<xsl:include href="'+xslTmplPath+'/xsl/tmpl/'+name+'?v='+version+'"/>';
-
-		}
-		
-		var jsIncludes = "";
-
-		GEN.getContainers().forEach(function(c){
-			/*XSL INCLUDES*/
-			if(c.getXSLIncludes){
-				c.getXSLIncludes().array.forEach(function(iName){
-					if(includes[0]){
-						var found = false;
-						for(var x = 0; x < includes.length; x++){
-							if(includes[x] == iName){
-								found = true;
-								break;
-							}
-						}
-						if(!found) includeTmpl(iName);
-					}else{
-						includeTmpl(iName);
-					}
-				});
-			}
-			
-		});
-		
-		if(GEN.SETTINGS.process){
-			
-			GEN.pfiles.xsl.forEach(function(xsl){
-				
-				includeTmpl(xsl.file+'.tmpl.xsl');
-				
-			});
-		}
-		
-		//console.log(GEN.getContainersIncludes());
-		//console.log(GEN.getFieldsIncludes())
-
-		jsIncludes+=getObjectJSFiles(GEN.getContainersIncludes(),'container');
-
-		jsIncludes+=getObjectJSFiles(GEN.getFieldsIncludes(),'field');
-
-		if(GEN.files.js[0]){
-			
-			GEN.files.js.forEach(function(js){
-				
-				var path = GEN.getIncludeURL(js.file);
-
-		 		jsIncludes+='<script type="text/javascript" src="'+path+'"></script>';
-
-			});
-			
-		}
-
-		rtn = split[0]+includesStr+split[1];
-		
-		var idx = rtn.indexOf('</body>');
-		
-		rtn = rtn.insert(idx,jsIncludes);
-
-		//omeText.replace(/(\r\n|\n|\r)/gm,"");
-		var bodyEnd  = rtn.indexOf('</body>');
-
-		if(GEN.jsEditor.getValue())
-			rtn = rtn.insert(bodyEnd,'<script>'+GEN.jsEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</script>');
-
-		/*RULES SCRIPT*/
-		var rulesStr = GEN.getRules();
-
-		if(rulesStr){
-
-		
-			var caller 	 = rulesStr.caller;
-
-			caller = GEN.escapeXSLChars( caller );
-
-			rtn = rtn.insert(bodyEnd,'<!-- RULES --><script src="{$path}/core/igrp/IGRP.rules.class.js"></script><script>\n'+caller+'</script>');
-		}
-		
-
-		return rtn;
-	}
-
-	var isTypeChangeble = function(type){
-
-		var rtn = true;
-
-		if(type == 'button' || type =='hidden' || type=='map_widget')
-			rtn = false;
-
-		return rtn;
-
-	}
-
-	var containersNameMask = function(name){
-		var rName = name;
-		
-		//if(name == 'graphic') rName = 'chart';
-		
-		return rName;
-	}
-
-	var start = function(){
-		$('body').addClass('startin');
-	}
-	GEN.done = function(){
-		$('body').removeClass('startin waiting');
-	}
-
-	GEN.waiting = function(o){
-		var act = o == false ? 'removeClass' : 'addClass';
- 		$('body')[act]('waiting');
-	}
-	
-	//subscribe
-	GEN.onImportEnd   = function(){};
-
-	GEN.onImportStart = function(){};
-
-	$(window).on('load', function() {
-		//console.log('init');
-		GEN.init();
-	});
-}
+                $('#gen-design .ui-sortable-helper').remove();
+            },
+            stop: function (e, ui) {
+                const holder = ui.item;
+                holder.removeAttr('style');
+                $('#gen-design .ui-sortable-helper').remove();
+            },
+            update: function (e, ui) {
+                $('#gen-design .ui-sortable-helper').remove();
+            },
+            remove: function (e, ui) {
+                $('#gen-design .ui-sortable-helper').remove();
+                console.log('remove')
+            },
+            change: function (e, ui) {
+
+                if (ui.sender && ui.sender.find('>.gen-declared-containers').length <= 1) {
+
+                    const senderCol = $(ui.sender.parents('.gen-column')[0]);
+
+                    senderCol.attr('empty', true)
+                }
+
+            }
+        }).disableSelection();
+    }
+
+    GEN.shadow = function (o) {
+        if (o) GEN.CONTENT.addClass('shadow');
+        else GEN.CONTENT.removeClass('shadow');
+    }
+
+    GEN.getRules = function () {
+        const fields = GEN.getAllFields();
+        const rules = {};
+
+        fields.forEach(function (f) {
+
+            const fname = f.GET.name();
+            if (f.rules && f.rules[0])
+                rules[fname] = f.rules;
+
+        });
+
+        return GENRULES.add(rules);
+    }
+
+    GEN.escapeXSLChars = function (str) {
+
+        str = str.replaceAll('<', '&lt;');
+
+        str = str.replaceAll('>', '&gt;');
+
+        str = str.replaceAll('&', '&amp;');
+
+        return str;
+    }
+
+    var getPageId = function () {
+        return $('#id_objeto').val();
+    }
+
+    var setPageId = function (id) {
+        $('#id_objeto').val(id);
+    }
+
+    var setPageTitle = function (title) {
+        $('.gen-page-title').text(title);
+    }
+
+    GEN.getIncludeURL = function (url) {
+        const isExternal = /^https?:\/\//i.test(url);
+        const relative = isExternal ? false : true;
+        const path = relative ? '{$path}' + url : url;
+
+        return path;
+    }
+
+    const getObjectCssFiles = function (incObjects, genType, position = "after") {
+        let rtn = "";
+        const folderGetter = genType === 'container' ? 'getContainerFolder' : 'getFieldFolder';
+
+        for (let type in incObjects) {
+
+            if (incObjects[type].css[0]) {
+                //rtn+='<!-- '+type.toUpperCase()+' CSS INCLUDES -->';
+                incObjects[type].css.forEach(function (css) {
+
+                    if (css.path) {
+
+                        const isExternal = /^https?:\/\//i.test(css.path);
+                        const relative = !(css.relative === false || isExternal);
+                        var path = relative ? '{$path}' + css.path : css.path;
+                        const media = css.media ? 'media="' + css.media + '"' : '';
+
+                        const declaredPos = css.position || "after";
+
+                        if (rtn.indexOf(path) === -1 && declaredPos === position)
+                            rtn += '<link ' + media + ' rel="stylesheet" type="text/css" href="' + path + '?v={$version}"/>';
+
+                    } else if (css.import) {
+                        for (let c in css.import) {
+                            if (css.import[c] === 'import.all') {
+                                //console.log('import all')
+                            } else {
+                                if (css.import[c][0]) {
+                                    css.import[c].forEach(function (f) {
+                                        path = '{$path}' + VARS.genPath + '/types/containers/' + c + '/includes/' + f;
+                                        //var declaredPos = f.position || "after";
+                                        if (rtn.indexOf(path) === -1)
+                                            rtn += '<link rel="stylesheet" type="text/css" href="' + path + '?v={$version}"/>';
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                });
+            }
+        }
+        return rtn;
+    };
+
+    const getObjectJSFiles = function (incObjects, genType) {
+        let rtn = "";
+        const folderGetter = genType === 'container' ? 'getContainerFolder' : 'getFieldFolder';
+
+        for (let type in incObjects) {
+
+            if (incObjects[type].js[0]) {
+
+                rtn += '<!-- ' + type.toUpperCase() + ' JS INCLUDES -->';
+
+                incObjects[type].js.forEach(function (js) {
+                    let path;
+                    let charset = js.charset ? 'charset="' + js.charset + '"' : '';
+                    if (js.path) {
+                        const isExternal = /^https?:\/\//i.test(js.path);
+                        const relative = !(js.relative === false || isExternal);
+                        path = relative ? '{$path}' + js.path : js.path;
+
+                        if (rtn.indexOf(path) === -1)
+                            rtn += '<script ' + charset + ' type="text/javascript" src="' + path + '?v={$version}"></script>'
+                    } else if (js.import) {
+                        for (let c in js.import) {
+                            if (js.import[c] === 'import.all') {
+                                //console.log('import all')
+                            } else {
+                                if (js.import[c][0]) {
+                                    js.import[c].forEach(function (f) {
+                                        path = '{$path}' + VARS.genPath + '/types/containers/' + c + '/includes/' + f;
+                                        if (rtn.indexOf(path) === -1)
+                                            rtn += '<script ' + charset + ' type="text/javascript" src="' + path + '?v={$version}"></script>';
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
+
+            }
+        }
+        return rtn;
+    };
+
+
+    const containersNameMask = function (name) {
+        const rName = name;
+
+        //if(name == 'graphic') rName = 'chart';
+
+        return rName;
+    };
+
+    const start = function () {
+        $('body').addClass('startin');
+    };
+    GEN.done = function () {
+        $('body').removeClass('startin waiting');
+    }
+
+    GEN.waiting = function (o) {
+        const act = o === false ? 'removeClass' : 'addClass';
+        $('body')[act]('waiting');
+    }
+
+    //subscribe
+    GEN.onImportEnd = function () {
+    };
+
+    GEN.onImportStart = function () {
+    };
+
+    $(window).on('load', function () {
+        //console.log('init');
+        GEN.init();
+    });
+};

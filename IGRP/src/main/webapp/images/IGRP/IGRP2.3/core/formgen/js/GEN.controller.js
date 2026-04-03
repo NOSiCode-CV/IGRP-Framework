@@ -5633,7 +5633,7 @@ const GENERATOR = function (genparams) {
 
         for (let i = max; i >= 1; i--) {
             arr.push({
-                value: i,
+                value: String(i),
                 label: 'col-sm-' + i + '  (' + ((i * 100) / 12).toFixed(0) + '%)'
             });
         }
@@ -5644,14 +5644,14 @@ const GENERATOR = function (genparams) {
 
         const sizeOptions = field.GET.type() === 'texteditor' || field.GET.type() === 'separator' ?
             {
-                value: 12,
-                options: [{value: 12, label: 'col-sm-12 (100%)'}]
+                value: '12',                                    // string
+                options: [{value: '12', label: 'col-sm-12 (100%)'}]
             } :
             {
-                value: field.parent.formOptions ? field.parent.formOptions.lastSize : 12,
+                value: String(field.parent.formOptions ? field.parent.formOptions.lastSize : 12),  // force string
                 options: GEN.getFieldSize()
-                //options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
             };
+
 
         return sizeOptions
     }
@@ -5678,11 +5678,11 @@ const GENERATOR = function (genparams) {
             //var defaultSize = field.GET.type() == 'radiolist' || field.GET.type() == 'checkboxlist' ? 12 : container.formOptions.lastSize;
             const sizeOptions = type === 'texteditor' || type === 'separator' ?
                 {
-                    value: 12,
-                    options: [{value: 12, label: 'col-sm-12 (100%)'}]
+                    value: '12',                                    // string
+                    options: [{value: '12', label: 'col-sm-12 (100%)'}]
                 } :
                 {
-                    value: container.formOptions.lastSize,
+                    value: String(container.formOptions.lastSize),
                     options: GEN.getFieldSize()
                     //options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
                 };

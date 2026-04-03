@@ -1,66 +1,55 @@
-console.log("--------load JS signerCanvas loded ------");
+console.log("--------load JS signerCanvas loaded ------");
+
 try {
-    document.addEventListener('click', function (event) {
+    const controls = document.querySelector('.controls');
+    if (controls) controls.style.position = 'relative';
+
+    document.addEventListener('click', function(event) {
         markClickPoint(event);
     });
+
     function markClickPoint(event) {
-        const canvas = document.getElementById('canvas_frame');
+        const canvas    = document.getElementById('canvas_frame');
         const signature = document.getElementById('signature_holder');
-        const rect = canvas.getBoundingClientRect();        
-        const signatureWidth = 160;
-        const signatureHeight = 80;
-        
-        const realWidth = canvas.width;
-        const realHeight = canvas.height;
+        if (!canvas || !signature) return;
 
-        const displayWidth = rect.width;
-        const displayHeight = rect.height;
+        const controls     = canvas.parentElement;
+        controls.style.position = 'relative';
 
-            
-        const scaleX = realWidth / displayWidth;
-        const scaleY = realHeight / displayHeight;
+        const rect         = canvas.getBoundingClientRect();
+        const controlsRect = controls.getBoundingClientRect();
 
-        // Calcula as coordenadas do clique dentro do canvas
-        const clickX = (event.clientX - rect.left) * scaleX;
-        const clickY = (event.clientY - rect.top) * scaleY;
+        // ✅ Fixed CSS dimensions matching signature_holder HTML
+        const signatureWidth  = 160;
+        const signatureHeight = 60;
 
-        // Ajusta para a escala do PDF e transforma o ponto de clique para o sistema de coordenadas do PDF
-        const adjustedX = clickX / scaleX
-        const adjustedY = displayHeight - (clickY / scaleY);
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
 
-        const context = canvas.getContext('2d');
-        
-        context.strokeStyle = 'red';
-        context.lineWidth = 2;
+        if (clickX < 0 || clickX > rect.width || clickY < 0 || clickY > rect.height) return;
 
-        if(adjustedX >=0 &&
-            adjustedX <= displayWidth - signatureWidth   &&
-            adjustedY >= signatureHeight  &&
-            adjustedY <= displayHeight
-            )
-        {            
-            console.log('Coordenadas ajustadas do clique:', {
-                x: adjustedX,
-                y: adjustedY,
-                
-            });
-            signature.style.display = `flex`;
-            console.log("\n---------------")
+        // Center signature box on click, clamped to canvas edges
+        const posX = Math.min(Math.max(clickX - signatureWidth  / 2, 0), rect.width  - signatureWidth);
+        const posY = Math.min(Math.max(clickY - signatureHeight / 2, 0), rect.height - signatureHeight);
 
-            signature.style.left = `${adjustedX}px`;
-            signature.style.top = `${900 - adjustedY}px`;
-            signature.style.position = `absolute`;     
-            signature.style.border = `1px solid black`;
-            console.log("signature",signature)
+        const canvasInControlsTop  = rect.top  - controlsRect.top;
+        const canvasInControlsLeft = rect.left - controlsRect.left;
 
-        }
+        signature.style.display  = 'flex';
+        signature.style.position = 'absolute';
+        signature.style.left     = `${canvasInControlsLeft + posX}px`;
+        signature.style.top      = `${canvasInControlsTop  + posY}px`;
 
+        canvas.dataset.signX = posX.toString();
+        canvas.dataset.signY = posY.toString();
+
+        console.log('Click:', { posX, posY, canvasInControlsTop, canvasInControlsLeft });
     }
+
+} catch (error) {
+    console.error("Erro no signerCanvas:", error);
 }
 
-catch (error) {
-    console.error("Erro antes do DOMContentLoaded:", error);
-}
-window.onload = function () {
+window.onload = function() {
     console.log("--------window.onload ------");
-}
+};

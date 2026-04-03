@@ -16,7 +16,7 @@
 	}
 })(function($, moment) {
 
-;;
+;
 
 var FC = $.fullCalendar = {
 	version: "3.0.1",

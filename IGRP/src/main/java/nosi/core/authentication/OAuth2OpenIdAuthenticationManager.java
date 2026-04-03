@@ -70,8 +70,10 @@ public final class OAuth2OpenIdAuthenticationManager {
 			user = new User().find().andWhere("cni", "=", uid).one();
 
 		final var env = ConfigCommonMainConstants.IGRP_ENV.environmentValue();
-
+		session.setAttribute("_oidcIdToken", idToken);
+		session.setAttribute("_oidcState", sessionState);
 		if (user != null) {
+
 
 			if (user.getStatus() != 1)
 				throw new IllegalStateException("Este utilizador " + user.getName() + " ("+user.getEmail()+") encontra-se desativado.");
@@ -82,9 +84,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 			
 			AuthenticationManager.createSecurityContext(user, session);
 			AuthenticationManager.afterLogin(profile, user, request);
-			
-			session.setAttribute("_oidcIdToken", idToken);
-			session.setAttribute("_oidcState", sessionState);
 
 			user.setValid_until(refreshToken);
 			user.setOidcIdToken(idToken);
@@ -113,8 +112,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 				throw new IllegalStateException("Ocorreu um erro ao adicionar o utilizador: "+name);
 			AuthenticationManager.createPerfilWhenAutoInvite(newUser);
 			AuthenticationManager.createSecurityContext(newUser, session);
-			session.setAttribute("_oidcIdToken", idToken);
-			session.setAttribute("_oidcState", sessionState);
+
 		} else
 			throw new IllegalStateException("Caro "+((name!=null && !name.equals("null"))?name+" ":"")+email+" não está convidado para para nenhuma aplicação. Contactar o administrador!");
 
