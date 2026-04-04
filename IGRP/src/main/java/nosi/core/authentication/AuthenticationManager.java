@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
 
-import org.apache.logging.log4j.ThreadContext;
+
+import org.slf4j.MDC;
 import org.json.JSONArray;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public final class AuthenticationManager {
 		HttpSession session = request.getSession(false);
 		if(session == null)
 			return false;
-		ThreadContext.put("sessionId", request.getSession().getId());
+		MDC.put("sessionId", request.getSession().getId());
 		Object sessionData = session.getAttribute(User.IDENTITY_PARAM_NAME);
 		if(sessionData != null) {
 			Optional<Identity> optIdentity = getIdentityFromToken(sessionData.toString());
@@ -78,7 +79,7 @@ public final class AuthenticationManager {
 		if(user != null && authenticationKey.equals(user.getAuth_key()) && user.getStatus() == 1) {
 			String uid = user.getUser_name();
 			uid = encryptUid(uid);
-			ThreadContext.put("userId", uid);
+			MDC.put("userId", uid);
 			return Optional.of(user);
 		}
 		return Optional.empty();

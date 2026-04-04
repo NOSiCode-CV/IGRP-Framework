@@ -219,6 +219,13 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-hikaricp</artifactId>
             <version>${hibernate.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
         <!--END
         Hibernate Dependencies -->
@@ -379,12 +386,23 @@
          <type>pom</type>
       </dependency> -->
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- Log4j2 bridge for SLF4J 2.x — note: log4j-slf4j2-impl NOT log4j-slf4j-impl -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j2-impl</artifactId>
+                <version>2.25.4</version>
 
+            </dependency>
         <!-- Web, XML, SOAP ... -->
         <!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2
       <dependency>
@@ -409,12 +427,12 @@
       </dependency>-->
         <!--END
         Apache dependencies -->
-        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${reflections.version}</version>
-        </dependency>
+        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.eclipse.jdt/ecj -->
         <dependency>
             <groupId>org.eclipse.jdt</groupId>
@@ -497,6 +515,14 @@
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -671,6 +697,7 @@
                         <libs>
                             <lib>remove:myfaces</lib>
                             <lib>remove:openjpa-</lib>
+                            <lib>remove:slf4j-jdk14</lib>
                             <!--							<lib>remove:openwebbeans-</lib>-->
                             <!--							<lib>remove:microprofile-</lib>		-->
                             <!--							<lib>remove:smallrye-</lib>					-->

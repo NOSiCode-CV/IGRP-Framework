@@ -43,10 +43,10 @@ public class DatabaseConfigHelper {
 	public static String getHibernateDialect(String type) {
        return switch (type.toLowerCase()) {
           case H2 -> "org.hibernate.dialect.H2Dialect";
-          case MYSQL -> "org.hibernate.dialect.MySQLDialect";
-          case POSTGRESQL -> "org.hibernate.dialect.PostgreSQLDialect";
-          case ORACLE -> "org.hibernate.dialect.OracleDialect";
-          case MSSQL -> "org.hibernate.dialect.SQLServerDialect";
+          case MYSQL -> "org.hibernate.dialect.MySQL8Dialect";
+          case POSTGRESQL -> "org.hibernate.dialect.PostgreSQL10Dialect";
+          case ORACLE -> "org.hibernate.dialect.Oracle10gDialect";
+          case MSSQL -> "org.hibernate.dialect.SQLServer2016Dialect";
           case HSQLDB -> "org.hibernate.dialect.HSQLDialect";
           case SYBASE -> "org.hibernate.dialect.SybaseASEDialect";
           case DERBY -> "org.hibernate.dialect.DerbyDialect";
