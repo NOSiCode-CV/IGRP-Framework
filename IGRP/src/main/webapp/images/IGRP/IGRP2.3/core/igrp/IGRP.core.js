@@ -998,16 +998,24 @@
 			},
 			loading : {
 				show : function(o){
-
-					const obj = o ? o : $('body');
-
+					const obj = o || $('body');
 					$.IGRP.utils.loading.hide(obj);
-
-					obj.addClass('loading').append('<div class="loader"/>');
+					obj.addClass('loading').append(
+						'<div class="loader">' +
+						'<div class="loader-dots">' +
+						'<span bg-color="primary"></span>' +
+						'<span bg-color="primary"></span>' +
+						'<span bg-color="primary"></span>' +
+						'</div>' +
+						'<div class="loader-bar" border-color="primary">' +
+						'<div class="loader-bar-inner" bg-color="primary"></div>' +
+						'</div>' +
+						'</div>'
+					);
 				},
 				hide : function(o){
 
-					const obj = o ? o : $('body');
+					const obj = 	o || $('body');
 
 					if($('.loader',obj)[0]) {
 
@@ -1691,6 +1699,17 @@
 
 			$.IGRP.utils.runMathcal(p);
 
+		});
+	});
+// Remove loader before page is frozen in bfcache or unloaded
+	window.addEventListener('pagehide', function() {
+		document.querySelectorAll('.loader').forEach(function(el) {
+			if (el.parentNode) el.parentNode.removeChild(el);
+		});
+		document.body.classList.remove('loading');
+		// Re-enable any buttons disabled by submit_ajax
+		document.querySelectorAll('[disabled]').forEach(function(el) {
+			el.removeAttribute('disabled');
 		});
 	});
 

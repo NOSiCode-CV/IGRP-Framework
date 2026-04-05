@@ -2613,7 +2613,7 @@ const GENERATOR = function (genparams) {
 
         switch (type) {
             //OPTIONS / comboboxx
-            case 'select':
+            case 'select': {
                 const canAdd = objectProperties.canAdd ? ' can-add="true"' : '';
                 const addCb = objectProperties.onOptionAdd ? objectProperties.onOptionAdd : function () {
                 };
@@ -2669,8 +2669,9 @@ const GENERATOR = function (genparams) {
                 holder.append(select);
 
                 break;
+            }
             //TRUE / FALSE
-            case 'checkbox':
+            case 'checkbox': {
                 const checked = value ? ' checked="true"' : '';
 
                 holder.append('<div class="checkbox form-check-offset">' +
@@ -2679,16 +2680,16 @@ const GENERATOR = function (genparams) {
                     '</label>' +
                     '</div>');
                 break;
+            }
             //LIST FROM ARRAY / in given template
-            case'list':
-
+            case'list': {
                 const items = object.proprieties[propriety].list.items;
                 const iTmpl = object.proprieties[propriety].list.itemTemplate;
                 const hasSearcher = !!object.proprieties[propriety].list.searcher;
                 const onSelect = object.proprieties[propriety].list.onSelect ? object.proprieties[propriety].list.onSelect : function () {
                 };
                 const valueKey = object.proprieties[propriety].list.key ? object.proprieties[propriety].list.key : 'value';
-                const activeValue = object.GET[propriety] && object.GET[propriety]() ? object.GET[propriety]() : '';
+                const activeValue = object.GET[propriety]?.() ? object.GET[propriety]() : '';
                 let searcher = null;
                 const listHolder = $('<div class="gen-edition-list-holder"/>');
 
@@ -2714,15 +2715,15 @@ const GENERATOR = function (genparams) {
 
                 holder.append([label, searcher, listHolder]);
 
-                if (items && items[0]) {
-                    for (let i = 0; i < items.length; i++) {
+                if (items?.[0]) {
+                    for (const element of items) {
                         let iStr = iTmpl;
-                        for (let k in items[i]) {
-                            iStr = iStr.replaceAll('#' + k + '#', items[i][k]);
+                        for (let k in element) {
+                            iStr = iStr.replaceAll('#' + k + '#', element[k]);
                         }
                         const itemHolder = $(iStr);
 
-                        itemHolder.attr('value', items[i][valueKey]).addClass('gen-list-item-setter');
+                        itemHolder.attr('value', element[valueKey]).addClass('gen-list-item-setter');
 
                         if (itemHolder.attr('value') === activeValue)
                             itemHolder.addClass('active');
@@ -2739,6 +2740,7 @@ const GENERATOR = function (genparams) {
                     holder.append('<input type="hidden" value="' + activeValue + '" class="' + VARS.edition.class.propSetter + '" rel="' + propriety + '"/>')
                 }
                 break;
+            }
             //separatorlist
             case 'separatorlist':
 
