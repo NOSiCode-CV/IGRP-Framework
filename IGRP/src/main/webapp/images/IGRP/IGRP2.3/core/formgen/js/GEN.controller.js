@@ -3289,15 +3289,17 @@ const GENERATOR = function (genparams) {
         $(VARS.html.pageCopyContainerList).html('');
 
         if (genType === 'container') {
-            if (GEN.edit.object.copyOptions) {
-                //$(VARS.html.pageCopyContainerList).html('');
-                $(VARS.html.pageCopySelecter)[0].onContainersSet = function () {
-                    const radio = $(VARS.html.pageCopyContainerList).find('input[value="' + GEN.edit.object.copyOptions.container + '"]');
+            if(GEN.edit.object.copyOptions){
+                $(VARS.html.pageCopySelecter)[0].onContainersSet = function(){
+                    const radio = $(VARS.html.pageCopyContainerList).find('input[value="'+GEN.edit.object.copyOptions.container+'"]');
                     radio.prop('checked', true);
                     radio.trigger('change');
                 }
 
-                $(VARS.html.pageCopySelecter).select2('val', GEN.edit.object.copyOptions.id);
+                // FIXED: select2('val', x) is removed in 4.0+ — use native .val().trigger('change')
+                $(VARS.html.pageCopySelecter)
+                    .val(GEN.edit.object.copyOptions.id)
+                    .trigger('change');
             }
         }
 
@@ -3545,7 +3547,7 @@ const GENERATOR = function (genparams) {
         $('.style-setter[rel="id"]', modal).removeAttr('disabled');
 
         //copy
-        $(VARS.html.pageCopySelecter).select2('val', '');
+        $(VARS.html.pageCopySelecter).val('').trigger('change');
         $(VARS.html.pageCopyContainerList).html('');
 
         GEN.edit.copyProperties = null;
