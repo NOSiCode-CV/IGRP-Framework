@@ -963,6 +963,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}catch (Exception e) {
 			this.keepConnection = false;
 			this.setError(e);
+			System.out.println(this.getSql());
 		} finally {
 			this.closeSession(s);
 		}
