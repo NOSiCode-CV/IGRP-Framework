@@ -77,7 +77,7 @@ public class FlashMessage implements Serializable{
 	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
 		// atualizar session  /* Sorry we dont need it */
-		Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
+		Igrp.getInstance().getRequest().getSession().setAttribute("_flash", this.msgs);
 		return this;
 	}
 	
