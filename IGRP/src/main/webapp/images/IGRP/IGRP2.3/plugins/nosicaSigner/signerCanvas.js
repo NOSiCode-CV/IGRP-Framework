@@ -13,6 +13,15 @@ try {
         const signature = document.getElementById('signature_holder');
         if (!canvas || !signature) return;
 
+        if (
+            event.target.closest('.IGRP_vkboard') ||
+            event.target.closest('.vkb_geral') ||
+            event.target.closest('.vkb_input') ||
+            event.target.closest('.vkb_ctrl')
+        ) {
+            return;
+        }
+
         // 🛑 Prevent repositioning when clicking on the signature holder itself
         if (signature.contains(event.target)) {
             return;
