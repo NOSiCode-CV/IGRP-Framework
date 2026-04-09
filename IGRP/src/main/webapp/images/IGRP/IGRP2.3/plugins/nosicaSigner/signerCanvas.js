@@ -13,13 +13,18 @@ try {
         const signature = document.getElementById('signature_holder');
         if (!canvas || !signature) return;
 
+        // 🛑 Prevent repositioning when clicking on the signature holder itself
+        if (signature.contains(event.target)) {
+            return;
+        }
+
         const controls     = canvas.parentElement;
         controls.style.position = 'relative';
 
         const rect         = canvas.getBoundingClientRect();
         const controlsRect = controls.getBoundingClientRect();
 
-        // ✅ Fixed CSS dimensions matching signature_holder HTML
+        // ✅ Dimensions matching the new styled signature block
         const signatureWidth  = 160;
         const signatureHeight = 60;
 
@@ -35,7 +40,7 @@ try {
         const canvasInControlsTop  = rect.top  - controlsRect.top;
         const canvasInControlsLeft = rect.left - controlsRect.left;
 
-        signature.style.display  = 'flex';
+        signature.style.display  = 'block';
         signature.style.position = 'absolute';
         signature.style.left     = `${canvasInControlsLeft + posX}px`;
         signature.style.top      = `${canvasInControlsTop  + posY}px`;

@@ -20,36 +20,36 @@
     $.IGRP.component('nosicaSigner', {
 
         request : function(p){
-			
-			let options = $.extend(true, {
-				data        : {},
-				headers	    : {
-                    'Accept'      : 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin' : '*'
-                },
-                method      : 'POST',
-				success     : function(){},
-				fail        : function(){},
-				complete    : function(){}
-			}, p),
-				req 	= null;
-			
-			if(options.url)
-				req = $.ajax({
-					url      : options.url,
-					data     : options.data,
-					headers	 : options.headers,
-					method	 : options.method,
-                    timeout  : 0
-				})
-				.done(options.success)
-				.fail(options.fail)
-				.always(options.complete);
 
-			return req;
-			
-		},
+            let options = $.extend(true, {
+                    data        : {},
+                    headers	    : {
+                        'Accept'      : 'application/json',
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin' : '*'
+                    },
+                    method      : 'POST',
+                    success     : function(){},
+                    fail        : function(){},
+                    complete    : function(){}
+                }, p),
+                req 	= null;
+
+            if(options.url)
+                req = $.ajax({
+                    url      : options.url,
+                    data     : options.data,
+                    headers	 : options.headers,
+                    method	 : options.method,
+                    timeout  : 0
+                })
+                    .done(options.success)
+                    .fail(options.fail)
+                    .always(options.complete);
+
+            return req;
+
+        },
 
         html : {
 
@@ -82,193 +82,330 @@
                 </div>`;
             },
 
-
-            filesigner : function(){
+            filesigner: function() {
                 return `<div class="row mb-5" id="holder-fields-nosicasigner">
-                    <div class="form-group col-sm-3" id="nosicasigner_file" item-name="nosicasigner_file" item-type="file">
-                        <label for="p_nosicasigner_file">Documento</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control not-form" readonly="readonly"/>
-                            <span class="input-group-btn">
-                                <span class="btn btn-primary file-btn-holder">
-                                <i class="fa fa-upload"></i>
-                                    <input id="p_nosicasigner_file" nosicasigner-control="nosicasigner_base64" value="" class="transparent file2base64" target-rend="nosicasigner_iframe" type="file" accept="application/pdf" maxlength="250">
+                        <div class="form-group col-sm-3" id="nosicasigner_file" item-name="nosicasigner_file" item-type="file">
+                            <label for="p_nosicasigner_file">Documento</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control not-form" readonly="readonly"/>
+                                <span class="input-group-btn">
+                                    <span class="btn btn-primary file-btn-holder">
+                                    <i class="fa fa-upload"></i>
+                                        <input id="p_nosicasigner_file" nosicasigner-control="nosicasigner_base64" value="" class="transparent file2base64" target-rend="nosicasigner_iframe" type="file" accept="application/pdf" maxlength="250">
+                                    </span>
                                 </span>
-                            </span>
-                        </div>
-                        <span class="desc_label text-muted">Carregue o documento que pretende assinar</span>
-                    </div>
-                    <div class="col-sm-3 form-group holder_select nosicasigner_available_tokens hidden" id="holder_nosicasigner_available_tokens" item-name="nosicasigner_available_tokens" item-type="select">
-                        <label for="p_nosicasigner_available_tokens">Tokens Disponíveis</label>
-                        <select class="form-control select2" id="nosicasigner_available_tokens"></select>
-                        <span class="desc_label text-muted">Escolher uns dos tokens para poder assinar o documento</span>
-                    </div>
-                    <div class="col-sm-3 form-group holder_select nosicasigner_available_certificates hidden" id="holder_nosicasigner_available_certificates" item-name="nosicasigner_available_certificates" item-type="select">
-                        <label for="p_nosicasigner_available_certificates">Certificados Disponíveis</label>
-                        <select class="form-control select2" id="nosicasigner_available_certificates"></select>
-                        <span class="desc_label text-muted">Escolher uns dos certificates para poder assinar o documento</span>
-                    </div>
-                    <div class="form-group col-sm-2 hidden btn_nosica" id="btn_nosica_signer" item-name="btn_nosica_signer" item-type="link">
-                        <a href="#" class="link btn btn-primary form-link">
-                            <i class="fa fa-pencil"></i><span>Assinar</span>
-                        </a>
-                    </div>
-                    <div class="form-group col-sm-2 hidden btn_nosica" id="btn_nosica_save" item-name="btn_nosica_save" item-type="link">
-                        <a href="?r=igrp/DigitalSignature/saveSignature" class="link btn btn-success form-link">
-                            <i class="fa fa-send"></i><span>Enviar</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="igrp-iframe nosicasigner_iframe gen-container-item hidden" gen-class="" item-name="nosicasigner_iframe">  
-                    <div class="box-body">
-                        <div style="margin-bottom: 10px;">
-                            <button class="btn btn-primary" id="prevPage">Previous Page</button>
-                            <span>Page: <span id="currentPage">1</span> / <span id="totalPages">1</span></span>
-                            <button class="btn btn-primary" id="nextPage">Next Page</button> 
-                        </div>                                                     
-                            <div class="controls">                                    
-                                <canvas id="canvas_frame" class="pdfCanvas" style="border:1px solid black;height: 750px;width: 600px;"></canvas>  
-                                <div id="signature_holder" style="display:none;height:60px;width:160px;position:relative;border:1px solid;background-color: rgba(104, 97, 97, 0.568);color:black">
-                                    <h3>
-                                      X_______
-                                    </h3>
-                                    <h6>Assinatura</h6>
-
-                                </div>
-    
                             </div>
+                            <span class="desc_label text-muted">Carregue o documento que pretende assinar</span>
+                        </div>
+                        <div class="col-sm-3 form-group holder_select nosicasigner_available_tokens hidden" id="holder_nosicasigner_available_tokens" item-name="nosicasigner_available_tokens" item-type="select">
+                            <label for="p_nosicasigner_available_tokens">Tokens Disponíveis</label>
+                            <select class="form-control select2" id="nosicasigner_available_tokens"></select>
+                            <span class="desc_label text-muted">Escolher uns dos tokens para poder assinar o documento</span>
+                        </div>
+                        <div class="col-sm-3 form-group holder_select nosicasigner_available_certificates hidden" id="holder_nosicasigner_available_certificates" item-name="nosicasigner_available_certificates" item-type="select">
+                            <label for="p_nosicasigner_available_certificates">Certificados Disponíveis</label>
+                            <select class="form-control select2" id="nosicasigner_available_certificates"></select>
+                            <span class="desc_label text-muted">Escolher uns dos certificates para poder assinar o documento</span>
+                        </div>
+                        <div class="form-group col-sm-2 hidden btn_nosica" id="btn_nosica_signer" item-name="btn_nosica_signer" item-type="link">
+                            <a href="#" class="link btn btn-primary form-link">
+                                <i class="fa fa-pencil"></i><span>Assinar</span>
+                            </a>
+                        </div>
+                        <div class="form-group col-sm-2 hidden btn_nosica" id="btn_nosica_save" item-name="btn_nosica_save" item-type="link">
+                            <a href="?r=igrp/DigitalSignature/saveSignature" class="link btn btn-success form-link">
+                                <i class="fa fa-send"></i><span>Enviar</span>
+                            </a>
+                        </div>
                     </div>
-                </div> 
-                <script>
-                    (function() {
+                    <div class="igrp-iframe nosicasigner_iframe gen-container-item hidden" gen-class="" item-name="nosicasigner_iframe">  
+                        <div class="box-body">
+                            <div style="margin-bottom: 10px;">
+                                <button class="btn btn-primary" id="prevPage">Previous Page</button>
+                                <span>Page: <span id="currentPage">1</span> / <span id="totalPages">1</span></span>
+                                <button class="btn btn-primary" id="nextPage">Next Page</button> 
+                            </div>                                                     
+                            <div class="controls" style="position: relative; display: inline-block;">                                    
+                                <canvas id="canvas_frame" class="pdfCanvas" style="border:1px solid black;height:750px;width:600px;"></canvas>  
+                                <!-- signature_holder estilizado conforme a imagem fornecida -->
+                                <div id="signature_holder" style="display:none; position: absolute; height:60px; width: 160px; background-color: rgba(104, 97, 97, 0.568); border: 1px solid #2d2f36; color: black; font-family: 'Courier New', 'SF Mono', monospace; font-size: 0.7rem; border-radius: 0px; z-index: 100; cursor: move; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                    <div style="font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; margin-bottom: 6px; border-bottom: 1px dashed #4a4545; text-transform: uppercase;">ESPÉCI  MEN- Teste</div>
+                                    <div style="margin: 5px 0 4px;">
+                                        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin: 2px 0;">
+                                            <span style="font-weight: bold;">🔏 Digitally signed by</span>
+                                            <span style="font-weight: 600;">ESPECIMEN-Teste</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin: 2px 0;">
+                                            <span>📅 Date: 2026.03.28</span>
+                                            <span>⏱️ 21:53:01 -01:00</span>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 2px;  border-top: 0.5px dotted #413c3c; display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                        <span style="font-size: 0.45rem;">✓ Concordo com o conteúdo do documento</span>
+                                        <span style="font-size: 0.45rem;">📍 Location</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <style>
+                        /* Estilos adicionais para a signature_holder */
+                        #signature_holder {
+                            transition: box-shadow 0.2s ease;
+                        }
+                        #signature_holder.dragging {
+                            opacity: 0.8;
+                            cursor: grabbing;
+                            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                        }
+                        #signature_holder:hover {
+                            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+                            cursor: grab;
+                        }
+                        #signature_holder:active {
+                            cursor: grabbing;
+                        }
+                        /* Ajuste para o container dos controles permitir posicionamento absoluto */
+                        .controls {
+                            position: relative;
+                            display: inline-block;
+                        }
+                        /* Garantir que o canvas e a assinatura fiquem alinhados corretamente */
+                        #canvas_frame {
+                            display: block;
+                        }
+                    </style>
+                    <script>
+                        (function() {
 
-                    // --- Step 1: load pdf.js dynamically, then init ---
-                    function loadScript(src, onload) {
-                        // If already loaded, run immediately
-                        if (window.pdfjsLib) { onload(); return; }
+                        // --- Step 1: load pdf.js dynamically, then init ---
+                        function loadScript(src, onload) {
+                            if (window.pdfjsLib) { onload(); return; }
+                            const script = document.createElement('script');
+                            script.src = src;
+                            script.onload = onload;
+                            document.head.appendChild(script);
+                        }
 
-                        const script = document.createElement('script');
-                        script.src = src;
-                        script.onload = onload;
-                        document.head.appendChild(script);
-                    }
+                        function init() {
+                            // Polyfill
+                            if (!Promise.allSettled) {
+                                Promise.allSettled = function(promises) {
+                                    return Promise.all(promises.map(p =>
+                                        Promise.resolve(p).then(
+                                            value  => ({ status: 'fulfilled', value }),
+                                            reason => ({ status: 'rejected', reason })
+                                        )
+                                    ));
+                                };
+                            }
 
-                    function init() {
-                    // Polyfill
-                    if (!Promise.allSettled) {
-                    Promise.allSettled = function(promises) {
-                    return Promise.all(promises.map(p =>
-                    Promise.resolve(p).then(
-                    value  => ({ status: 'fulfilled', value }),
-                    reason => ({ status: 'rejected', reason })
-                    )
-                    ));
-                };
-                }
+                            // Worker
+                            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-                    // Worker
-                    pdfjsLib.GlobalWorkerOptions.workerSrc =
-                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                            // --- Step 2: canvas and signature positioning code ---
+                            const fileInput = document.getElementById('p_nosicasigner_file');
+                            let canvas      = document.getElementById('canvas_frame');
+                            const context   = canvas.getContext('2d');
+                            const nextBtn   = document.getElementById('nextPage');
+                            const prevBtn   = document.getElementById('prevPage');
+                            let currentPage = 1;
+                            let pdfDoc      = null;
+                            let totalPages  = 1;
+                            
 
-                    // --- Step 2: rest of your canvas code ---
-                    const fileInput = document.getElementById('p_nosicasigner_file');
-                    let canvas      = document.getElementById('canvas_frame');
-                    const context   = canvas.getContext('2d');
-                    const nextBtn   = document.getElementById('nextPage');
-                    const prevBtn   = document.getElementById('prevPage');
-                    let currentPage = 1;
-                    let pdfDoc      = null;
-                    let totalPages  = 1;
+                            
+                            let signatureHolder = document.getElementById('signature_holder');
+                            let signaturePosition = { x: null, y: null };
+                            let isDragging = false;
+                            let dragStartX = 0, dragStartY = 0;
 
-                    function base64ToArrayBuffer(base64) {
-                    const binaryString = atob(base64);
-                    const bytes = new Uint8Array(binaryString.length);
-                    for (let i = 0; i < binaryString.length; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
-                }
-                    return bytes.buffer;
-                }
+                            function base64ToArrayBuffer(base64) {
+                                const binaryString = atob(base64);
+                                const bytes = new Uint8Array(binaryString.length);
+                                for (let i = 0; i < binaryString.length; i++) {
+                                    bytes[i] = binaryString.charCodeAt(i);
+                                }
+                                return bytes.buffer;
+                            }
 
-                    function renderPage(pageNum) {
-                    console.log("---------renderPage---------");
-                    pdfDoc.getPage(pageNum).then(page => {
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    canvas.width  = viewport.width;
-                    canvas.height = viewport.height;
-                    canvas.dataset.pdfWidth   = page.view[2]; // PDF width in points
-                    canvas.dataset.pdfHeight  = page.view[3]; // PDF height in points
-                     // ✅ Adapt CSS display size for landscape/portrait
-                    const isLandscape = viewport.width > viewport.height;
-                    if (isLandscape) {
-                        canvas.style.width  = '750px';
-                        canvas.style.height = '500px';
-                    } else {
-                        canvas.style.width  = '600px';
-                        canvas.style.height = '750px';
-                    }
-                    page.render({ canvasContext: context, viewport });
-                });
-                    document.getElementById('currentPage').textContent = pageNum;
-                }
+                            function renderPage(pageNum) {
+                                console.log("---------renderPage---------");
+                                pdfDoc.getPage(pageNum).then(page => {
+                                    const viewport = page.getViewport({ scale: 1.5 });
+                                    
+                                    canvas.width = viewport.width;
+                                    canvas.height = viewport.height;
+                                    
+                                    canvas.dataset.pdfWidth = page.view[2];
+                                    canvas.dataset.pdfHeight = page.view[3];
+                                    
+                                    // Maintain CSS dimensions
+                                    const isLandscape = viewport.width > viewport.height;
+                                    if (isLandscape) {
+                                        canvas.style.width = '750px';
+                                        canvas.style.height = '600px';
+                                    } else {
+                                        canvas.style.width = '600px';
+                                        canvas.style.height = '750px';
+                                    }
+                                    
+                                    page.render({ canvasContext: context, viewport });
+                                    
+                                    setTimeout(() => {
+                                        if (signaturePosition.x !== null && signaturePosition.y !== null) {
+                                            signatureHolder.style.left = signaturePosition.x + 'px';
+                                            signatureHolder.style.top = signaturePosition.y + 'px';
+                                            signatureHolder.style.right = 'auto';
+                                            signatureHolder.style.bottom = 'auto';
+                                        }
+                                    }, 50);
+                                });
+                                document.getElementById('currentPage').textContent = pageNum;
+                            }
 
-                    function loadPDF(arrayBuffer) {
-                    console.log("---------loadPDF---------");
-                    pdfjsLib.getDocument(arrayBuffer).promise.then(pdf => {
-                    pdfDoc      = pdf;
-                    totalPages  = pdf.numPages;
-                    currentPage = 1;
-                    document.getElementById('totalPages').textContent = totalPages;
-                    renderPage(currentPage);
-                }).catch(error => {
-                    console.error('Erro ao carregar o PDF: ', error);
-                });
-                }
+                            function loadPDF(arrayBuffer) {
+                                console.log("---------loadPDF---------");
+                                pdfjsLib.getDocument(arrayBuffer).promise.then(pdf => {
+                                    pdfDoc      = pdf;
+                                    totalPages  = pdf.numPages;
+                                    currentPage = 1;
+                                    document.getElementById('totalPages').textContent = totalPages;
+                                    renderPage(currentPage);
+                                }).catch(error => {
+                                    console.error('Erro ao carregar o PDF: ', error);
+                                });
+                            }
 
-                    function loadSignedPDF(base64Pdf) {
-                    console.log('--------loadSignedPDF ---------');
-                    loadPDF(base64ToArrayBuffer(base64Pdf));
-                }
+                            function loadSignedPDF(base64Pdf) {
+                                console.log('--------loadSignedPDF ---------');
+                                loadPDF(base64ToArrayBuffer(base64Pdf));
+                            }
 
-                    fileInput.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file && file.type === 'application/pdf') {
-                    const reader = new FileReader();
-                    reader.onload = e => loadPDF(e.target.result);
-                    reader.readAsArrayBuffer(file);
-                } else {
-                    alert('Por favor, selecione um arquivo PDF.');
-                }
-                });
+                            fileInput.addEventListener('change', function(event) {
+                                const file = event.target.files[0];
+                                if (file && file.type === 'application/pdf') {
+                                    const reader = new FileReader();
+                                    reader.onload = e => loadPDF(e.target.result);
+                                    reader.readAsArrayBuffer(file);
+                                    
+                                    if (signatureHolder) {
+                                        signatureHolder.style.display = 'block';
+                                        signaturePosition = { x: null, y: null };
+                                        signatureHolder.style.right = 'auto';
+                                        signatureHolder.style.bottom = 'auto';
+                                        signatureHolder.style.left = 'auto';
+                                        signatureHolder.style.top = 'auto';
+                                    }
+                                } else {
+                                    alert('Por favor, selecione um arquivo PDF.');
+                                }
+                            });
 
-                    prevBtn.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    if (currentPage <= 1) return;
-                    currentPage--;
-                    renderPage(currentPage);
-                });
+                            prevBtn.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                if (currentPage <= 1) return;
+                                currentPage--;
+                                renderPage(currentPage);
+                            });
 
-                    nextBtn.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    if (currentPage >= totalPages) return;
-                    currentPage++;
-                    renderPage(currentPage);
-                });
+                            nextBtn.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                if (currentPage >= totalPages) return;
+                                currentPage++;
+                                renderPage(currentPage);
+                            });
 
-                    document.addEventListener('click', function (event) {
-                        markClickPoint(event);
-                    });
-                    window.loadSignedPDF = loadSignedPDF;
-                }
+                            // Drag and Drop for signature
+                            function initDragAndDrop() {
+                                if (!signatureHolder) return;
+                                
+                                signatureHolder.addEventListener('mousedown', function(e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    isDragging = true;
+                                    
+                                    const rect = signatureHolder.getBoundingClientRect();
+                                    const parentRect = signatureHolder.parentElement.getBoundingClientRect();
+                                    
+                                    dragStartX = e.clientX - rect.left;
+                                    dragStartY = e.clientY - rect.top;
+                                    
+                                    signatureHolder.style.cursor = 'grabbing';
+                                    signatureHolder.classList.add('dragging');
+                                });
+                                
+                                document.addEventListener('mousemove', function(e) {
+                                    if (!isDragging) return;
+                                    e.preventDefault();
+                                    
+                                    const parentRect = signatureHolder.parentElement.getBoundingClientRect();
+                                    let newLeft = e.clientX - parentRect.left - dragStartX;
+                                    let newTop = e.clientY - parentRect.top - dragStartY;
+                                    
+                                    const holderRect = signatureHolder.getBoundingClientRect();
+                                    const maxLeft = parentRect.width - holderRect.width;
+                                    const maxTop = parentRect.height - holderRect.height;
+                                    
+                                    newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                                    newTop = Math.max(0, Math.min(newTop, maxTop));
+                                    
+                                    signatureHolder.style.left = newLeft + 'px';
+                                    signatureHolder.style.top = newTop + 'px';
+                                    signatureHolder.style.right = 'auto';
+                                    signatureHolder.style.bottom = 'auto';
+                                    signaturePosition = { x: newLeft, y: newTop };
+                                    
+                                    // Update canvas dataset for sign position (for signerCanvas compatibility)
+                                    const canvasRect = canvas.getBoundingClientRect();
+                                    const controlsRect = signatureHolder.parentElement.getBoundingClientRect();
+                                    const canvasInControlsLeft = canvasRect.left - controlsRect.left;
+                                    const canvasInControlsTop = canvasRect.top - controlsRect.top;
+                                    
+                                    const posX = newLeft - canvasInControlsLeft;
+                                    const posY = newTop - canvasInControlsTop;
+                                    canvas.dataset.signX = posX.toString();
+                                    canvas.dataset.signY = posY.toString();
+                                });
+                                
+                                document.addEventListener('mouseup', function(e) {
+                                    if (isDragging) {
+                                        isDragging = false;
+                                        signatureHolder.style.cursor = 'grab';
+                                        signatureHolder.classList.remove('dragging');
+                                    }
+                                });
+                            }
+                            
+                            setTimeout(initDragAndDrop, 100);
+                            
+                            window.loadSignedPDF = loadSignedPDF;
+                            window.showSignature = function() {
+                                if (signatureHolder) signatureHolder.style.display = 'block';
+                            };
+                            window.hideSignature = function() {
+                                if (signatureHolder) signatureHolder.style.display = 'none';
+                            };
+                            window.resetSignaturePosition = function() {
+                                if (signatureHolder) {
+                                    signaturePosition = { x: null, y: null };
+                                    signatureHolder.style.right = 'auto';
+                                    signatureHolder.style.bottom = 'auto';
+                                    signatureHolder.style.left = 'auto';
+                                    signatureHolder.style.top = 'auto';
+                                }
+                            };
+                        }
 
-                    // --- Kick it off ---
-                    loadScript(
-                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
-                    init
-                    );
+                        loadScript(
+                            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+                            init
+                        );
 
-                })();
-                </script>`;
-}
+                        })();
+                    </script>`;
+            }
         },
 
         setBase64Result : function(p){
@@ -798,122 +935,130 @@
             }
         },
 
-        toSign : function(p) {
+       toSign : function(p) {
             const base64    = $('#nosicasigner_base64').val();
             const canvas    = document.getElementById('canvas_frame');
             const signature = document.getElementById('signature_holder');
-            const rect      = canvas.getBoundingClientRect();
+
+            if (!canvas || !signature) {
+                $.IGRP.notify({
+                    message: defaultError,
+                    type   : 'danger'
+                });
+                return;
+            }
+
+            const currentPage = Number.parseInt(
+                document.getElementById('currentPage')?.textContent,
+                10
+            ) || 1;
+
+            const rect = canvas.getBoundingClientRect();
+
+            const signX = Number.parseFloat(canvas.dataset.signX);
+            const signY = Number.parseFloat(canvas.dataset.signY);
+
+            if (Number.isNaN(signX) || Number.isNaN(signY)) {
+                $.IGRP.notify({
+                    message: 'Defina a posição da assinatura antes de assinar.',
+                    type   : 'info'
+                });
+                return;
+            }
+
+            const pageWidth  = Number.parseFloat(canvas.dataset.pdfWidth)  || canvas.width;
+            const pageHeight = Number.parseFloat(canvas.dataset.pdfHeight) || canvas.height;
+
+            // Optional small correction in CSS pixels.
+            // Use this only if you still see the signature a few px too high.
+            const yCalibrationPx = Number.parseFloat(canvas.dataset.signYCalibration) || 0;
+
+            const signatureRect = signature.getBoundingClientRect();
+
+            const cssToPdfX = pageWidth / rect.width;
+            const cssToPdfY = pageHeight / rect.height;
+
+            // Convert the top-left of the signature holder from CSS space to PDF space
+            let pdfX = signX * cssToPdfX;
+
+            // PDF origin is bottom-left, so convert from top-left CSS coordinates
+            // and keep the full visible height of the signature holder.
+            let pdfY = (rect.height - signY - signatureRect.height + yCalibrationPx) * cssToPdfY;
+
+            // If the signature is at the bottom edge, keep it aligned to the bottom.
+            // This also prevents the "slightly above" effect caused by rounding / border differences.
+            pdfX = Math.max(0, Math.round(pdfX * 1000) / 1000);
+            pdfY = Math.max(0, Math.round(pdfY * 1000) / 1000);
 
             console.log('--- DIMENSÕES ---');
             console.log('canvas.width / height:', canvas.width, canvas.height);
             console.log('canvas CSS (rect):', rect.width, rect.height);
-
-            const isLandscape = canvas.width > canvas.height;
-
-            const pdfWidth  = isLandscape ? 842 : 595;
-            const pdfHeight = isLandscape ? 595 : 842;
-
-            console.log('PDF size:', pdfWidth, pdfHeight, 'landscape?', isLandscape);
-
-            const signatureRect = signature.getBoundingClientRect();
-
-            signature.style.display = 'none';
-
-            const signX = Number.parseFloat(canvas.dataset.signX) || 0;
-            const signY = Number.parseFloat(canvas.dataset.signY) || 0;
-
+            console.log('PDF page size:', pageWidth, pageHeight);
+            console.log('currentPage:', currentPage);
             console.log('CSS coords:', { signX, signY });
-
-            const cssToCanvasX = canvas.width  / rect.width;
-            const cssToCanvasY = canvas.height / rect.height;
-
-            const xCanvas = signX * cssToCanvasX;
-            const yCanvas = signY * cssToCanvasY;
-
-            console.log('Canvas coords:', { xCanvas, yCanvas });
-
-            const signatureWidthCanvas  = signatureRect.width  * cssToCanvasX;
-            const signatureHeightCanvas = signatureRect.height * cssToCanvasY;
-
-            console.log('Signature size (canvas):', {
-                width: signatureWidthCanvas,
-                height: signatureHeightCanvas
+            console.log('Signature size (CSS):', {
+                width: signatureRect.width,
+                height: signatureRect.height
             });
-
-            const scaleX = pdfWidth  / canvas.width;
-            const scaleY = pdfHeight / canvas.height;
-
-            console.log('Scale:', { scaleX, scaleY });
-
-            let pdfX = xCanvas * scaleX;
-            let pdfY = (canvas.height - yCanvas - signatureHeightCanvas) * scaleY;
-
+            console.log('Scale:', { cssToPdfX, cssToPdfY });
+            console.log('Calibration Y (px):', yCalibrationPx);
             console.log('PDF coords FINAL:', { pdfX, pdfY });
 
-            if (pdfX === 0) pdfX += 1;
-            if (pdfY === 0) pdfY += 1;
+            if (!base64) {
+                $.IGRP.notify({
+                    message: defaultError,
+                    type   : 'danger'
+                });
+                return;
+            }
+           pdfX = pdfX || 1;
+           pdfY = pdfY || 1;
+            const data = {
+                tokenId                 : ((p.tokenId * 1) - 1),
+                certificateSerialNumber : p.certSerNum,
+                pin                     : p.pin,
+                data                    : base64,
+                pageNumberToSign        : currentPage,
+                xPosition               : pdfX,
+                yPosition               : pdfY
+            };
 
+            $.IGRP.utils.loading.show();
 
-            console.log('TESTE RÁPIDO:');
-            console.log('- topo canvas → y ~', pdfHeight);
-            console.log('- fundo canvas → y ~ 0');
+            com.request({
+                url  : `${baseUrl}/${typeSigner}`,
+                data : JSON.stringify(data)
 
-            if(base64){
-                const data = {
-                    "tokenId"                : ((p.tokenId * 1) - 1),
-                    "certificateSerialNumber": p.certSerNum,
-                    "pin"                    : p.pin,
-                    "data"                   : base64,
-                    "pageNumberToSign"       : document.getElementById('currentPage').innerHTML,
-                    "xPosition"              : pdfX,
-                    "yPosition"              : pdfY,
-                };
+            }).done(function(resp){
 
-                $.IGRP.utils.loading.show();
-
-                com.request({
-                    url  : `${baseUrl}/${typeSigner}`,
-                    data : JSON.stringify(data)
-
-                }).done(function(resp){
-
-                    if(resp){
-                        com.responseToSign(resp);
-                        console.log("resp.result",resp.result);
-                        loadSignedPDF(resp.result);
-                    }
-                    else{
-                        $.IGRP.notify({
-                            message: 'Não foi possível obter resposta.',
-                            type   : 'danger'
-                        });
-                    }
-
-                }).fail(function(e){
-
-                    console.log("error : ",e);
-
+                if (resp) {
+                    com.responseToSign(resp);
+                    console.log("resp.result", resp.result);
+                    loadSignedPDF(resp.result);
+                } else {
                     $.IGRP.notify({
-                        message: defaultError,
+                        message: 'Não foi possível obter resposta.',
                         type   : 'danger'
                     });
+                }
 
-                    $.IGRP.utils.loading.hide();
+            }).fail(function(e){
 
-                    if(signerbeforsave)
-                        objModal.modal('hide');
-
-                    com.resetNosicasigner();
-
-                });
-
-            }else{
+                console.log("error : ", e);
 
                 $.IGRP.notify({
                     message: defaultError,
                     type   : 'danger'
                 });
-            }
+
+                $.IGRP.utils.loading.hide();
+
+                if (signerbeforsave) {
+                    objModal.modal('hide');
+                }
+
+                com.resetNosicasigner();
+            });
         },
 
         signerBeforeSubmit : function(p) {
@@ -933,7 +1078,7 @@
                 com.setBase64Result({
                     id    : 'nosicasigner_base64',
                     data  : xmlPage
-                });
+    });
 
                 com.getAvailableTokens();
 
@@ -949,12 +1094,12 @@
 
                 const message = 'Certifique que o url é de um ficheiro formato PDF.';
 
-                reader.onload = function(){ 
+                reader.onload = function(){
 
                     const result = this.result;
 
                     if(result.indexOf('data:text/html;base64') === -1){
-                    
+
                         com.setBase64Result({
                             id    : 'nosicasigner_base64',
                             data  : this.result
@@ -1125,7 +1270,7 @@
                 });
 
                 return false;
-                
+
             });
 
             $('.close',objModal).on("click", function(){
@@ -1158,10 +1303,10 @@
                                     return false;
                                 }
                             }
-                        ] 
+                        ]
                     });
 
-                }else{   
+                }else{
                     com.resetNosicasigner();
                     objModal.modal('hide');
                 }
