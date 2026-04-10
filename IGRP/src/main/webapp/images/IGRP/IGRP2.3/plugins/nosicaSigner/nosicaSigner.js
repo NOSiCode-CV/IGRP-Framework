@@ -121,10 +121,25 @@
                         <div class="igrp-iframe nosicasigner_iframe gen-container-item hidden" gen-class="" item-name="nosicasigner_iframe">  
                             <div class="box-body" style="justify-self: center;">
                                 <div style="justify-self: center; margin-bottom: 10px;">
-                                    <button class="btn btn-primary" id="prevPage">Previous Page</button>
-                                    <span>Page: <span id="currentPage">1</span> / <span id="totalPages">1</span></span>
-                                    <button class="btn btn-primary" id="nextPage">Next Page</button> 
-                                </div>
+                             <div style="display: flex; align-items: center; justify-content: center; gap: 16px; background: #f8f9fa; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); font-family: 'Roboto', sans-serif;">
+    <!-- Previous Button -->
+    <button id="prevPage" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #1f59c3; color: white; border: none; border-radius: 8px; font-weight: 500; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(31, 89, 195, 0.2); font-size: 14px; cursor: pointer;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Previous
+    </button>
+
+    <!-- Page Indicator -->
+    <span style="display: inline-block; font-weight: 600; color: #495057; font-size: 15px; min-width: 100px; text-align: center; background: white; padding: 8px 16px; border-radius: 20px; border: 1px solid #dee2e6;">
+        Page: <span id="currentPage">1</span> / <span id="totalPages">1</span>
+    </span>
+
+    <!-- Next Button -->
+    <button id="nextPage" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #1f59c3; color: white; border: none; border-radius: 8px; font-weight: 500; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(31, 89, 195, 0.2); font-size: 14px; cursor: pointer;">
+        Next
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+</div>         </div>
+                                
                                 <div class="controls" style="position: relative; display: inline-block;">
                                     <canvas id="canvas_frame" class="pdfCanvas" style="border:1px solid black;height:750px;width:600px;"></canvas>
                                 <!-- signature_holder estilizado conforme a imagem fornecida -->
@@ -294,6 +309,8 @@
                                             currentPage = 1;
                                         }
 
+                                        setSignButtonEnabled(false);
+
                                         document.getElementById('totalPages').textContent = totalPages;
                                         renderPage(currentPage);
                                     }).catch(error => {
@@ -344,21 +361,22 @@
                                     if (currentPage >= totalPages) return;
                                     currentPage++;
                                     renderPage(currentPage);
+                                    
                                 });
 
                             /* Drag and Drop for signature*/
                                 function initDragAndDrop() {
                                     if (!signatureHolder) return;
-
+                               
                                     signatureHolder.addEventListener('mousedown', function(e) {
                                         e.preventDefault();
                                         e.stopPropagation();
                                         isDragging = true;
-
+                                      
                                         const rect = signatureHolder.getBoundingClientRect();
                                         dragStartX = e.clientX - rect.left;
                                         dragStartY = e.clientY - rect.top;
-
+                               
                                         signatureHolder.style.cursor = 'grabbing';
                                         signatureHolder.classList.add('dragging');
                                     });
@@ -397,6 +415,7 @@
 
                                     document.addEventListener('mouseup', function() {
                                         if (isDragging) {
+                                               
                                             isDragging = false;
                                             signatureHolder.style.cursor = 'grab';
                                             signatureHolder.classList.remove('dragging');
@@ -424,13 +443,28 @@
                                 };
                             }
 
+                            function setSignButtonEnabled(enabled) {
+                                const holder = $('#btn_nosica_signer');
+                                const link = $('#btn_nosica_signer a');
+
+                                if (!holder[0] || !link[0]) return;
+
+                                holder.toggleClass('hidden', !enabled);
+                                link.toggleClass('disabled', !enabled);
+                                link.css('pointer-events', enabled ? 'auto' : 'none');
+                                link.attr('aria-disabled', enabled ? 'false' : 'true');
+                            }
+
+                            window.setSignButtonEnabled = setSignButtonEnabled;
+
                             loadScript(
                                 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
                                 init
                             );
 
                             })();
-                        </script>`;
+                        </script>
+                        `;
                 }
         },
 
@@ -816,7 +850,7 @@
                                 xml : xml
                             });
                         }
-
+                        setSignButtonEnabled(false);
                         com.resetNosicasigner();
 
                         $.IGRP.utils.loading.hide();
@@ -909,6 +943,15 @@
 
         responseToSign : function(p){
 
+            function setSignButtonEnabled(enabled) {
+                const btn = $('#btn_nosica_signer a');
+                if (!btn[0]) return;
+
+                btn.prop('disabled', !enabled);
+                btn.toggleClass('disabled', !enabled);
+                $('#btn_nosica_signer').toggleClass('hidden', !enabled);
+            }
+
             const signatureHolder = document.getElementById('signature_holder');
 
             if (signatureHolder) {
@@ -991,6 +1034,7 @@
             const signY = Number.parseFloat(canvas.dataset.signY);
 
             if (Number.isNaN(signX) || Number.isNaN(signY)) {
+                $.IGRP.utils.loading.hide();
                 $.IGRP.notify({
                     message: 'Defina a posição da assinatura antes de assinar.',
                     type   : 'info'
@@ -1021,20 +1065,7 @@
             // This also prevents the "slightly above" effect caused by rounding / border differences.
             pdfX = Math.max(0, Math.round(pdfX * 1000) / 1000);
             pdfY = Math.max(0, Math.round(pdfY * 1000) / 1000);
-
-            console.log('--- DIMENSÕES ---');
-            console.log('canvas.width / height:', canvas.width, canvas.height);
-            console.log('canvas CSS (rect):', rect.width, rect.height);
-            console.log('PDF page size:', pageWidth, pageHeight);
-            console.log('currentPage:', currentPage);
-            console.log('CSS coords:', { signX, signY });
-            console.log('Signature size (CSS):', {
-                width: signatureRect.width,
-                height: signatureRect.height
-            });
-            console.log('Scale:', { cssToPdfX, cssToPdfY });
-            console.log('Calibration Y (px):', yCalibrationPx);
-            console.log('PDF coords FINAL:', { pdfX, pdfY });
+            
 
             if (!base64) {
                 $.IGRP.notify({
@@ -1072,6 +1103,7 @@
                         message: 'Não foi possível obter resposta.',
                         type   : 'danger'
                     });
+                    $.IGRP.utils.loading.hide();
                 }
 
             }).fail(function(e){

@@ -6,6 +6,7 @@ try {
 
     document.addEventListener('click', function(event) {
         markClickPoint(event);
+
     });
 
     function markClickPoint(event) {
@@ -56,7 +57,7 @@ try {
 
         canvas.dataset.signX = posX.toString();
         canvas.dataset.signY = posY.toString();
-
+        window.setSignButtonEnabled(true);
         console.log('Click:', { posX, posY, canvasInControlsTop, canvasInControlsLeft });
     }
 
