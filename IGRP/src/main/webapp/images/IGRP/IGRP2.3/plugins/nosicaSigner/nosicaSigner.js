@@ -187,6 +187,14 @@
                             #canvas_frame {
                                 display: block;
                             }
+                            
+                                #btn_nosica_signer a.disabled,
+                                #btn_nosica_signer a[aria-disabled="true"] {
+                                    opacity: 0.55;
+                                    cursor: not-allowed !important;
+                                    pointer-events: none !important;
+                                    box-shadow: none !important;
+                                }
                         </style>
                         <script>
                             (function() {
@@ -308,9 +316,13 @@
                                         } else if (currentPage < 1 || currentPage > totalPages) {
                                             currentPage = 1;
                                         }
-
-                                        setSignButtonEnabled(false);
-
+                                        
+                                        /* Always reset signing state whenever a PDF is loaded/reloaded*/
+                                        canvas.dataset.signX = '';
+                                        canvas.dataset.signY = '';
+                                        if (window.setSignButtonEnabled) {
+                                            window.setSignButtonEnabled(false);
+                                        }
                                         document.getElementById('totalPages').textContent = totalPages;
                                         renderPage(currentPage);
                                     }).catch(error => {
@@ -443,17 +455,40 @@
                                 };
                             }
 
-                            function setSignButtonEnabled(enabled) {
-                                const holder = $('#btn_nosica_signer');
-                                const link = $('#btn_nosica_signer a');
+                          function setSignButtonEnabled(enabled) {
+                                        const holder = $('#btn_nosica_signer');
+                                        const link = $('#btn_nosica_signer a');
+                                        const canvas = document.getElementById('canvas_frame');
 
-                                if (!holder[0] || !link[0]) return;
+                                        if (!holder[0] || !link[0] || !canvas) return;
 
-                                holder.toggleClass('hidden', !enabled);
-                                link.toggleClass('disabled', !enabled);
-                                link.css('pointer-events', enabled ? 'auto' : 'none');
-                                link.attr('aria-disabled', enabled ? 'false' : 'true');
-                            }
+                                        const selectedCertificate = document.getElementById('nosicasigner_available_certificates')?.value;
+                                        const hasCertificate = !!selectedCertificate;
+
+                                        if (!hasCertificate) {
+                                            holder.addClass('hidden');
+                                   
+                                            link.css('pointer-events', 'none');
+                                            link.attr('aria-disabled', 'true');
+                                            return;
+                                        }
+
+                                        holder.removeClass('hidden');
+
+                                        const hasSignaturePosition =
+                                            canvas.dataset.signX !== undefined &&
+                                            canvas.dataset.signY !== undefined &&
+                                            canvas.dataset.signX !== null &&
+                                            canvas.dataset.signY !== null &&
+                                            canvas.dataset.signX !== '' &&
+                                            canvas.dataset.signY !== '';
+
+                                        const isDisabled = !enabled && !hasSignaturePosition;
+
+                                        link.toggleClass('disabled', isDisabled);
+                                        link.css('pointer-events', isDisabled ? 'none' : 'auto');
+                                        link.attr('aria-disabled', isDisabled ? 'true' : 'false');
+                                    }
 
                             window.setSignButtonEnabled = setSignButtonEnabled;
 
@@ -867,8 +902,8 @@
 
             $('body').on('click','#btn_nosica_save a', function(e){
                 e.preventDefault();
-
-                const url = $(this).attr('href');
+                const dad = $('body').attr('app');
+                const url = $(this).attr('href')+'&dad=' + encodeURIComponent(dad);
 
                 if(url){
 
@@ -943,14 +978,6 @@
 
         responseToSign : function(p){
 
-            function setSignButtonEnabled(enabled) {
-                const btn = $('#btn_nosica_signer a');
-                if (!btn[0]) return;
-
-                btn.prop('disabled', !enabled);
-                btn.toggleClass('disabled', !enabled);
-                $('#btn_nosica_signer').toggleClass('hidden', !enabled);
-            }
 
             const signatureHolder = document.getElementById('signature_holder');
 
@@ -1005,7 +1032,9 @@
                 $.IGRP.utils.loading.hide();
 
                 successProcesso = true;
-
+                if (window.setSignButtonEnabled) {
+                    window.setSignButtonEnabled(false);
+                }
                 com.signerPdfSave(p);
             }
         },
@@ -1316,9 +1345,14 @@
 
                 if(idCert){
                     obj.removeClass('hidden');
-
+                    if (objclicked === null) {
+                        setSignButtonEnabled(false);
+                    }
                 }else{
                     obj.addClass('hidden');
+                    if (objclicked === null) {
+                        setSignButtonEnabled(false);
+                    }
                 }
             });
 

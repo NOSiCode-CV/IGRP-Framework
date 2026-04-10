@@ -46,11 +46,30 @@ public class DigitalSignatureServices {
 		s.setMime_type( signed.getMime_type());
 		s.setData(signed.getSignerdata());
 		s.setCertificate(signed.getSignerkey());
+		s.setEnvId(Core.getParam("dad"));
+		if(Core.getCurrentUser()!=null)
+			s.setUserId(Core.getCurrentUser().getUser_name());
+		s.setUserIp(getClientIpAddr(Igrp.getInstance().getRequest()));
 		s.insert();
 
-		log.info("[uuid=] {}", s.getUuid().toString());
+		log.info("[uuid=] {}", s.getUuid());
 
 		return s;
+	}
+
+	private static String getClientIpAddr(jakarta.servlet.http.HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip))
+			ip = request.getHeader("Proxy-Client-IP");
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip))
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip))
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip))
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip))
+			ip = request.getRemoteAddr();
+		return ip;
 	}
 
 	public String verifySignatureByUuid(String uuid) {

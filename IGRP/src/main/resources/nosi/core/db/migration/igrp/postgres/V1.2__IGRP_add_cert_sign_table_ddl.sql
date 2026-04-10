@@ -11,13 +11,6 @@ CREATE TABLE IF NOT EXISTS public.tbl_cert_signs
     data text ,
     data_hash text,
     status text ,
-    cert_sn text ,
-    user_context text ,
-    user_id text ,
-    user_ip text ,
-    env_id text ,
-    name text ,
-    mime_type text ,
     updated_at timestamp without time zone,
     CONSTRAINT tbl_cert_signs_pkey PRIMARY KEY (uuid)
 );

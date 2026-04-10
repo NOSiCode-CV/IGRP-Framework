@@ -78,12 +78,8 @@ public class NamedParameterStatement implements AutoCloseable {
 					c = '?'; // replace the parameter with a question mark
 					i += name.length(); // skip past the end if the parameter
 
-					List<Integer> indexList = indexes.get(name);
-					if (indexList == null) {
-						indexList = new LinkedList<>();
-						indexes.put(name, indexList);
-					}
-					indexList.add(index);
+                    List<Integer> indexList = indexes.computeIfAbsent(name, k -> new LinkedList<>());
+                    indexList.add(index);
 
 					index++;
 				}
