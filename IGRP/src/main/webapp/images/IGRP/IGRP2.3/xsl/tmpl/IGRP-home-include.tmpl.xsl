@@ -451,8 +451,17 @@
         </div>
         <div class="modal-content">
           <iframe id="igrp-right-panel-iframe"/>
+          <div class="loader">
+            <div class="loader-dots">
+              <span bg-color="primary"></span>
+              <span bg-color="primary"></span>
+              <span bg-color="primary"></span>
+            </div>
+            <div class="loader-bar" border-color="primary">
+              <div class="loader-bar-inner" bg-color="primary"></div>
+            </div>
+          </div>
         </div>
-        <div class="loader"/>
       </div>
     </div>
     <!--/RIGHT PANEL MODAL -->
@@ -567,9 +576,19 @@
       
       <div class="modal-dialog">
         <iframe></iframe>
+        <div class="loader">
+          <div class="loader-dots">
+            <span bg-color="primary"></span>
+            <span bg-color="primary"></span>
+            <span bg-color="primary"></span>
+          </div>
+          <div class="loader-bar" border-color="primary">
+            <div class="loader-bar-inner" bg-color="primary"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="loader"></div>
+
 
     </div>
   </xsl:template>

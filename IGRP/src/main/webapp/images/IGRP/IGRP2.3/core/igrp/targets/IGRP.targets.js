@@ -201,65 +201,95 @@ let mWindow = null,
 
 			p.clicked.attr("disabled", "disabled");
 
-			const sform = $.IGRP.utils.getForm(),
-				fields = $.IGRP.utils.getFieldsValidate(sform),
-
-				action = $.IGRP.utils.getUrl(
+			const sform  = $.IGRP.utils.getForm(),
+				fields   = $.IGRP.utils.getFieldsValidate(sform),
+				action   = $.IGRP.utils.getUrl(
 					$.IGRP.utils.getSubmitParams(p.url, sform, p.scrollTo)
 				),
-				events = p.clicked[0].events,
-				valid = p?.validate ? p.validate : fields.valid();
+				events   = p.clicked[0].events,
+				valid    = p?.validate ? p.validate : fields.valid();
 
 			if (valid) {
 
 				clearErrors(sform);
 
 				ev.execute('submit-ajax', {
-					clicked: p.clicked,
-					url: action,
-					valid: valid
+					clicked : p.clicked,
+					url     : action,
+					valid   : valid
+				});
+
+				// ── Calcular nodes ANTES do pedido para poder mostrar loading ──────────
+				const hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+					refreshComps     = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
+
+				let nodes = (hasRefreshAttr && refreshComps) ? refreshComps.split(',') : [];
+
+				if (!nodes[0]) {
+					$('.table, .IGRP-highcharts', sform).each(function (id, el) {
+						nodes.push($(el).parents('.gen-container-item').attr('item-name'));
+					});
+				}
+
+				// ── Mostrar loading em cada node alvo ANTES do pedido AJAX ────────────
+				nodes.forEach(function(nodeName) {
+					$.IGRP.utils.loading.showOnNode(
+						$('.gen-container-item[item-name="' + nodeName + '"]')
+					);
 				});
 
 				const arrayFiles = $.IGRP.utils.submitPage2File.getFiles(),
-					pArrayItem = sform.find('*').not(".notForm").serializeArray();
+					pArrayItem   = sform.find('*').not(".notForm").serializeArray();
 
 				if (events) {
 					events.execute('before-submit_ajax', {
-						pArrayItem: pArrayItem,
-						clicked: p.clicked,
-						url: action
+						pArrayItem : pArrayItem,
+						clicked    : p.clicked,
+						url        : action
 					});
 				}
 
 				$.IGRP.utils.submitStringAsFile({
 					pParam: {
-						pArrayFiles: arrayFiles,
-						pArrayItem: pArrayItem
+						pArrayFiles : arrayFiles,
+						pArrayItem  : pArrayItem
 					},
-					pUrl: action,
-					pNotify: false,
+					pUrl     : action,
+					pNotify  : false,
 					pComplete: function (resp) {
+
 						if (resp.status !== 200) {
 							$.IGRP.notify({
-								message: 'Erro do servidor (' + resp.status + '). Verifique os logs do servidor.',
-								type: 'danger'
+								message : 'Erro do servidor (' + resp.status + '). Verifique os logs do servidor.',
+								type    : 'danger'
+							});
+							// ── Esconder loading em caso de erro HTTP ──────────────────
+							nodes.forEach(function(nodeName) {
+								$.IGRP.utils.loading.hideOnNode(
+									$('.gen-container-item[item-name="' + nodeName + '"]')
+								);
 							});
 							p.clicked.removeAttr("disabled");
 							return;
 						}
-						//$.IGRP.utils.loading.hide();
 
 						const responseText = resp.response || resp.responseText || '';
-						// ── XML path (has xml-stylesheet PI) ─────────────────────────────
 						const xslURL = $.IGRP.utils.getXMLStylesheet(responseText);
 
+						// ── Caminho XSL: afterSubmitAjax → XMLTransform gere o seu próprio loading ──
 						if (xslURL) {
+							// Esconder o nosso loading antes — XMLTransform vai criar o dele
+							nodes.forEach(function(nodeName) {
+								$.IGRP.utils.loading.hideOnNode(
+									$('.gen-container-item[item-name="' + nodeName + '"]')
+								);
+							});
 							try {
 								const xml = resp.responseXML || $($.parseXML(responseText));
 								$.IGRP.utils.afterSubmitAjax({
-									xml: xml,
-									clicked: p.clicked,
-									sform: sform
+									xml     : xml,
+									clicked : p.clicked,
+									sform   : sform
 								});
 							} catch (e) {
 								p.clicked.removeAttr("disabled");
@@ -267,51 +297,48 @@ let mWindow = null,
 							return;
 						}
 
-						// ── HTML path (server-side XSLT transform) ────────────────────────
-						const hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
-							refreshComps = hasRefreshAttr ? p.clicked.attr("refresh-components") : null,
-							nodes = (hasRefreshAttr && refreshComps) ? refreshComps.split(',') : [];
-
-						if (!nodes[0]) {
-							$('.table, .IGRP-highcharts', sform).each(function (id, el) {
-								nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-							});
-						}
-
+						// ── Caminho HTML: transformXMLNodes → _applyHtmlNodes esconde o loading ──
 						if (nodes[0]) {
 							$.IGRP.utils.transformXMLNodes({
-								nodes: nodes,
-								rawHtml: responseText,
-								success: function (c) {
+								nodes   : nodes,
+								rawHtml : responseText,
+								success : function (c) {
 									if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 										$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
+								},
+								error: function () {
+									nodes.forEach(function(nodeName) {
+										$.IGRP.utils.loading.hideOnNode(
+											$('.gen-container-item[item-name="' + nodeName + '"]')
+										);
+									});
 								}
 							});
 						}
-						// ← this was missing
+
 						$.IGRP.utils.message.handleXML(responseText);
 
 						ev.execute('submit-ajax-complete', {
-							clicked: p.clicked,
-							url: action,
-							valid: valid
+							clicked : p.clicked,
+							url     : action,
+							valid   : valid
 						});
 
 						if (events) {
-
 							events.execute('success-submit_ajax', {
-								clicked: p.clicked,
-								url: action,
-								valid: valid
+								clicked : p.clicked,
+								url     : action,
+								valid   : valid
 							});
 						}
-						$.IGRP.events.execute('submit-complete', {clicked: p.clicked, valid: valid});
+
+						$.IGRP.events.execute('submit-complete', { clicked: p.clicked, valid: valid });
 						p.clicked.removeAttr("disabled");
 					}
 				});
+
 			} else {
 				$.IGRP.components.form.hasFieldsError();
-
 				p.clicked.removeAttr("disabled");
 			}
 		};

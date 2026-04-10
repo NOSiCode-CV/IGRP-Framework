@@ -984,7 +984,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 					nodeNames.push($(f).attr('item-name'));
 				});
 
-
+				$.each(p.targetFields, function(i, f) {
+					$.IGRP.utils.loading.showOnNode($(f));
+				});
 				$.IGRP.utils.transformXMLNodes({
 					nodes : nodeNames,
 					url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
