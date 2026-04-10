@@ -1028,7 +1028,7 @@ body.iframe-nav-holder .content {
 
 body.iframe-nav-holder #igrp-sidebar,
 #igrp-iframe-nav:not(.loadingmodal) .loader,
-#igrp-right-panel.fade.in .loader {
+#igrp-right-panel.fade.in:not(.loading) .loader {
 	display: none;
 }
 
