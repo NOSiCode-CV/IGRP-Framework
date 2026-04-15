@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.icons_list;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -15,9 +13,10 @@ import nosi.core.webapp.Response;//
 		
 public class Icons_listController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Icons_list model = new Icons_list();
+		var model = new Icons_list();
 		model.load();
-		Icons_listView view = new Icons_listView();
+		var view = new Icons_listView();
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		
 		
@@ -25,9 +24,7 @@ public class Icons_listController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
 
