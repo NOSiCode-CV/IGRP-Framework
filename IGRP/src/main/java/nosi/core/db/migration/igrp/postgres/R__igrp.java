@@ -17,7 +17,7 @@ public class R__igrp extends IgrpMigrationTemplate {
 
    @Override
    public void pages() {
-      this.actions.add(new Action("Task", "index", "nosi.webapps.igrp.pages", "igrp/task/Task.xsl", "Task", "Task", "2.3", 1, this.app, (short) 0, null, null, (short) 0));
+      this.actions.add(new Action("Task", "index", "nosi.webapps.igrp.pages", "igrp/task/Task.xsl", "Ordenar Etapas/Task BPM", "Task", "2.3", 1, this.app, (short) 0, null, null, (short) 0));
    }
 
    @Override
