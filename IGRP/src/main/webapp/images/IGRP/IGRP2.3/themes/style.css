@@ -937,6 +937,7 @@ body.loading:after {
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
+	background-color: var(--color-primary, #1f59c3);
 	/* no color here — bg-color="primary" handles it */
 	animation: igrp-dot 1.4s cubic-bezier(.36,.07,.19,.97) infinite;
 }
@@ -2583,7 +2584,7 @@ input[type="email"] {
         height: 36px;
         border-radius: 50%;
         border: 3px solid rgba(0, 0, 0, 0.10);
-        border-top-color: var(--color-primary, #3b82f6);  /* picks up IGRP theme color */
+        border-top-color: var(--color-primary, #1f59c3);  /* picks up IGRP theme color */
         animation: xsl-spin 0.7s linear infinite;
     }
 

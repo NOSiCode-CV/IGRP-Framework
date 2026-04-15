@@ -136,35 +136,40 @@
 							
 							$(th).removeClass('is-grouped');
 
-							const infoHolder = $('<div class="table-info-holder" item-name="' + thName + '">' +
-								'<div class="table-info-th ' + $(th).attr('class') + '">' + $(th).html() + '</div>' +
-								'<div class="table-info-td ' + tdInfo.attr('class') + '">' + tdInfo.html() + '</div>' +
-								'</div>');
-							let tdMainHolder;
+							const tdInfoHtml = tdInfo.html();
+
+							if (tdInfoHtml && $.trim(tdInfoHtml) !== "") {
+
+								if (tdHolder.find('.table-info-holder[item-name="' + thName + '"]')[0])
+									tdHolder.find('.table-info-holder[item-name="' + thName + '"]').remove();
+
+								const tdInfoClass = tdInfo.attr('class').replace('is-grouped', '');
+								
+								const infoHolder = $('<div class="table-info-holder" item-name="' + thName + '">' +
+									'<div class="table-info-th ' + $(th).attr('class') + '">' + $(th).html() + '</div>' +
+									'<div class="table-info-td ' + tdInfoClass + '">' + tdInfoHtml + '</div>' +
+									'</div>');
+								let tdMainHolder;
 
 
-							if(!tdHolder.find('.table-info-group-main')[0]){
+								if(!tdHolder.find('.table-info-group-main')[0]){
+									
+									tdMainHolder = $('<div class="table-info-group-main"></div>');
+									
+									tdHolder.append( tdMainHolder );
+									
+									tdHolder.find('>*').not('.table-info-holder').appendTo( tdMainHolder );
+								}
 								
-								tdMainHolder = $('<div class="table-info-group-main"></div>');
+						
+								tdHolder.append( infoHolder );
 								
-								tdHolder.append( tdMainHolder );
+								$(th).addClass('is-grouped');
 								
-								tdHolder.find('>*').appendTo( tdMainHolder );
+								tdInfo.addClass('is-grouped');
+
+								$('tfoot td[td-name="'+thName+'"]',table).addClass('is-grouped');
 							}
-							
-					
-							tdHolder.append( infoHolder );
-							
-							$(th).addClass('is-grouped');
-							
-							tdInfo.addClass('is-grouped');
-
-							$('tfoot td[td-name="'+thName+'"]',table).addClass('is-grouped');
-							
-							/*var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
-							
-							if(thFoot[0])
-								thFoot.remove();*/
 							
 						}
 	
@@ -243,55 +248,76 @@
 						options.dom = 'lfBrtip';
 					}
 
-					if (!$.fn.DataTable.isDataTable(t))
-						var datatable = $(t).DataTable(options);
+					$(t).data('igrp-datatable-options', options);
 
-					// ── Função de destruição segura ────────────────────────────────────
-					const safeDestroy = function () {
+					if (!$.fn.DataTable.isDataTable(t))
+						$(t).DataTable(options);
+
+				});
+
+				if (!$.IGRP.components.tableCtrl.dataTablesEventsInitialized) {
+
+					const safeDestroy = function (t) {
 						if (!$.fn.DataTable.isDataTable(t)) return;
 						if (!$.contains(document.documentElement, t)) return;
 
-						// Último recurso: verificar o nó interno que DataTables usa
 						try {
-							const dtSettings = $(t).DataTable().settings()[0];
+							const datatable = $(t).DataTable();
+							const dtSettings = datatable.settings()[0];
 							if (!dtSettings || !dtSettings.nTable || !dtSettings.nTable.parentNode) return;
 							datatable.destroy();
 						} catch (e) {
 							// Silencioso — já foi destruído ou nó inválido
 						}
 					};
-					// ──────────────────────────────────────────────────────────────────
 
 					$.IGRP.on('submit', function(o){
-						if(o.valid && o.target.includes('submit'))
-							safeDestroy();
+						if(o.valid && o.target.includes('submit')) {
+							$('.igrp-data-table').each(function () {
+								safeDestroy(this);
+							});
+						}
 					});
 
 					$.IGRP.events.on('iframe-modal-hide', function(o){
-						if (!$.fn.DataTable.isDataTable(t))
-							datatable = $(t).DataTable(options);
+						$('.igrp-data-table').each(function () {
+							if (!$.fn.DataTable.isDataTable(this)) {
+								const options = $(this).data('igrp-datatable-options');
+								if (options)
+									$(this).DataTable(options);
+							}
+						});
 					});
 
 					$.IGRP.events.on('submit-ajax', function(o){
-						if(o.valid && $.fn.DataTable.isDataTable( t ))
-							safeDestroy();
+						if(o.valid) {
+							$('.igrp-data-table').each(function () {
+								if ($.fn.DataTable.isDataTable(this))
+									safeDestroy(this);
+							});
+						}
 					});
 
 					$.IGRP.events.on('before-element-transform', function(p){
-						if($(t).parents('.gen-container-item').first().attr('item-name') === p.itemName){
-							safeDestroy();
-							$(t).removeData('igrp-datatable-init');
-						}
+						$('.igrp-data-table').each(function () {
+							if($(this).parents('.gen-container-item').first().attr('item-name') === p.itemName){
+								safeDestroy(this);
+								$(this).removeData('igrp-datatable-init');
+							}
+						});
 					});
 
 					$.IGRP.events.on('element-transform', function(p){
 						const table = $('.table:not(.IGRP_formlist)', p.content);
-						if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') === $(t).attr('id')){
-							$(t).removeData('igrp-datatable-init');
+						if(table[0] && table.hasClass('igrp-data-table')){
+							table.each(function () {
+								$(this).removeData('igrp-datatable-init');
+							});
 						}
 					});
 
-				});
+					$.IGRP.components.tableCtrl.dataTablesEventsInitialized = true;
+				}
 			}
 		},
 		
