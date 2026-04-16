@@ -16,6 +16,7 @@
         <xsl:param name="views"/>
         <xsl:param name="header"/>
         <xsl:param name="refreshonedit"/>
+        <xsl:param name="noeventclick" select="'false'"/>
         
         <div class="igrp-calendar-holder">
             <div id="{$id}" class="igrp-calendar"></div>
@@ -80,7 +81,8 @@
                         views           : '<xsl:value-of select="$views"/>',
                         daysoff         : '<xsl:value-of select="$daysoff"/>',
                         header          : '<xsl:value-of select="$header"/>',
-                        refreshonedit   : '<xsl:value-of select="$refreshonedit"/>'
+                        refreshonedit   : '<xsl:value-of select="$refreshonedit"/>',
+                        noeventclick   :<xsl:value-of select="$noeventclick"/>
                     });
                 });
             </script>

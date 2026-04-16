@@ -110,8 +110,9 @@
                 cal     		= $('.igrp-calendar#'+id),
                 view    		= p.defaultview ? p.defaultview : 'month',
                 ebeforetoday    = p.ebeforetoday && p.ebeforetoday == 'false' ? true : false,
-                daysoff         = p.daysoff ? p.daysoff.split(',') : [],
-                date    		= p.defaultdate ? p.defaultdate : new Date().toJSON().slice(0,10).replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1');
+                daysoff         =p.daysoff ? p.daysoff.split(',') : [],
+                noeventclick     =options.noeventclick ?? false,
+                date             =p.defaultdate ? p.defaultdate : new Date().toJSON().slice(0,10).replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1');
             
             cal.on('contextmenu', function (e) {
                 e.preventDefault();
@@ -292,16 +293,16 @@
                         index = $(jsEvent.target).parents('.fc-event-container').index(),
                         edit  = p.alleditevents ? p.alleditevents : p.addevents,
                         param = 'p_date='+$('table thead tr td:eq('+index+')',table).attr('data-date').igrpDateFormat();*/
-                    var edit  = p.alleditevents ? p.alleditevents : p.addevents,
+                    var url  = p.alleditevents ? p.alleditevents : p.addevents,
                     	data  = {
-                            url : $.IGRP.utils.getUrl(edit)+'p_event_id='+event.id
+                            url : $.IGRP.utils.getUrl(url)+'p_event_id='+event.id
                         };
                     
                     if(p.refreshonedit && p.refreshonedit == 'true')
                     	data['clicked'] = $('<a close="refresh"/>');
 
-                    if (edit) {
-                        $.IGRP.components.iframeNav.set(data);
+                   if (url &&!noeventclick) {
+                            $.IGRP.components.iframeNav.set(data);
                     }
                 },
                 eventDrop : function(event, delta, revertFunc, jsEvent) {
