@@ -57,7 +57,10 @@
                 return `
                 <div class="vkb_geral input-group IGRP-${id}" id="${id}" vkbonload="true" rel="${id}" vkbtype="vkb_aznum">
                     <input type="password" name="${id}" class="vkb_input form-control" id="inp_${id}" readonly="readonly" rel="${id}" post="vkb_aznum" />
-                    <span class="input-group-addon vkb_ctrl" rel="${id}"><i class="fa fa-keyboard-o"></i></span>
+                    <span class="input-group-addon vkb_toggle_password" rel="${id}" title="Mostrar/Ocultar PIN">
+                            <i class="fa fa-eye"></i>
+                        </span>
+         
                 </div>`
             },
 
@@ -100,17 +103,18 @@
                             <div class="col-sm-3 form-group holder_select nosicasigner_available_tokens hidden" id="holder_nosicasigner_available_tokens" item-name="nosicasigner_available_tokens" item-type="select">
                                 <label for="p_nosicasigner_available_tokens">Tokens Disponíveis</label>
                                 <select class="form-control select2" id="nosicasigner_available_tokens"></select>
-                                <span class="desc_label text-muted">Escolher uns dos tokens para poder assinar o documento</span>
+                                <span class="desc_label text-muted">Escolha um token 1º</span>
                             </div>
                             <div class="col-sm-3 form-group holder_select nosicasigner_available_certificates hidden" id="holder_nosicasigner_available_certificates" item-name="nosicasigner_available_certificates" item-type="select">
                                 <label for="p_nosicasigner_available_certificates">Certificados Disponíveis</label>
                                 <select class="form-control select2" id="nosicasigner_available_certificates"></select>
-                                <span class="desc_label text-muted">Escolher uns dos certificates para poder assinar o documento</span>
+                                <span class="desc_label text-muted">Escolha para assinar o documento</span>
                             </div>
                             <div class="form-group col-sm-2 hidden btn_nosica" id="btn_nosica_signer" item-name="btn_nosica_signer" item-type="link">
                                 <a href="#" class="link btn btn-primary form-link">
                                     <i class="fa fa-pencil"></i><span>Assinar</span>
                                 </a>
+                                 <span class="desc_label text-muted">Para ativar, escolha onde assinar</span>
                             </div>
                             <div class="form-group col-sm-2 hidden btn_nosica" id="btn_nosica_save" item-name="btn_nosica_save" item-type="link">
                                 <a href="?r=igrp/DigitalSignature/saveSignature" class="link btn btn-success form-link">
@@ -1278,14 +1282,30 @@
 
         events : function() {
 
-            $(document).on('click','.btn-filesigner', function(e){
-                e.preventDefault();
+    $('body').on('click', '.vkb_toggle_password', function(e) {
+        e.preventDefault();
 
-                com.resetNosicasigner();
+        const rel = $(this).attr('rel');
+        const input = $(`#inp_${rel}`);
+        const icon = $('i', this);
 
-                $('.modal-body',objModal).html(com.html.filesigner());
+        if (input.attr('type') === 'password') {
+            input.attr('type', 'text');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            input.attr('type', 'password');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
 
-                signerbeforsave = $(this).hasClass('signerbeforsave');
+    $(document).on('click','.btn-filesigner', function(e){
+        e.preventDefault();
+
+        com.resetNosicasigner();
+
+        $('.modal-body',objModal).html(com.html.filesigner());
+
+        signerbeforsave = $(this).hasClass('signerbeforsave');
 
                 if(signerbeforsave){
 

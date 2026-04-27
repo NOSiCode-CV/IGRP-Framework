@@ -18,7 +18,7 @@ try {
             event.target.closest('.IGRP_vkboard') ||
             event.target.closest('.vkb_geral') ||
             event.target.closest('.vkb_input') ||
-            event.target.closest('.vkb_ctrl')
+            event.target.closest('.vkb_toggle_password')
         ) {
             return;
         }

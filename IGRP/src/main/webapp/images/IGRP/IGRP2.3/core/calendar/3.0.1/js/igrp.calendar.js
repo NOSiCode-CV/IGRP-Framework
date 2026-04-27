@@ -111,6 +111,7 @@
                 view = p.defaultview ? p.defaultview : 'month',
                 ebeforetoday = !!(p.ebeforetoday && p.ebeforetoday === 'false'),
                 daysoff = p.daysoff ? p.daysoff.split(',') : [],
+                noeventclick     =options.noeventclick ?? false,
                 date = p.defaultdate ? p.defaultdate : new Date().toJSON().slice(0, 10).replace(/(\d*)-(\d*)-(\d*)/, '$3-$2-$1');
 
             cal.on('contextmenu', function (e) {
@@ -295,15 +296,15 @@
                         index = $(jsEvent.target).parents('.fc-event-container').index(),
                         edit  = p.alleditevents ? p.alleditevents : p.addevents,
                         param = 'p_date='+$('table thead tr td:eq('+index+')',table).attr('data-date').igrpDateFormat();*/
-                    const edit = p.alleditevents ? p.alleditevents : p.addevents,
+                    const url = p.alleditevents ? p.alleditevents : p.addevents,
                         data = {
-                            url: $.IGRP.utils.getUrl(edit) + 'p_event_id=' + event.id
+                            url: $.IGRP.utils.getUrl(url) + 'p_event_id=' + event.id
                         };
 
                     if (p.refreshonedit && p.refreshonedit === 'true')
                         data['clicked'] = $('<a close="refresh"/>');
 
-                    if (edit) {
+                    if (url &&!noeventclick) {
                         $.IGRP.components.iframeNav.set(data);
                     }
                 },
