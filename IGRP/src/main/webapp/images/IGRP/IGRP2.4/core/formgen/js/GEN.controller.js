@@ -2336,7 +2336,8 @@ const GENERATOR = function (genparams) {
                     radio.trigger('change');
                 }
 
-                $(VARS.html.pageCopySelecter).select2('val', GEN.edit.object.copyOptions.id);
+                $(VARS.html.pageCopySelecter).val(GEN.edit.object.copyOptions.id)
+                    .trigger('change');
             }
 
 
@@ -2571,7 +2572,7 @@ const GENERATOR = function (genparams) {
 
         //copy
         //console.log( $(VARS.html.pageCopySelecter). )
-        $(VARS.html.pageCopySelecter).select2('val', '');
+        $(VARS.html.pageCopySelecter).val('').trigger('change');
         $(VARS.html.pageCopyContainerList).html('');
 
         GEN.edit.copyProperties = null;

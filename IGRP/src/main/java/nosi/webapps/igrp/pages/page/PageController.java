@@ -24,7 +24,7 @@ import nosi.core.webapp.ApplicationManager;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.logging.log4j.util.Strings;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -879,15 +879,14 @@ public class PageController extends Controller {
 
 
 	public Response actionGenerateLink() throws IllegalArgumentException {
-
 		final int app_id = Core.getParamInt("p_env_fk");
 		final String page = Core.getParam("p_page");
 		final Application app = Core.findApplicationById(app_id);
-		final String dad = Core.isNotNull(app) ? app.getDad() : Strings.EMPTY;
+		final String dad = Core.isNotNull(app) ? app.getDad() : "";
 		final String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 
-		final String publicLink = Core.isNotNull(app) ? baseUrl + "?r=" + dad + "/" + page + "/index&dad=" + dad + "&target=_blank&isPublic=1&lang=pt_PT" : Strings.EMPTY;
-		final String encryptedLink = Core.isNotNull(app) ? baseUrl.replace("webapps", "") + Route.getResolveUrl(dad, page, "index", dad, 2).replace(" ", "+") : Strings.EMPTY;
+		final String publicLink = Core.isNotNull(app) ? baseUrl + "?r=" + dad + "/" + page + "/index&dad=" + dad + "&target=_blank&isPublic=1&lang=pt_PT" : "";
+		final String encryptedLink = Core.isNotNull(app) ? baseUrl.replace("webapps", "") + Route.getResolveUrl(dad, page, "index", dad, 2).replace(" ", "+") : "";
 
 		final XMLWritter xml = new XMLWritter();
 		xml.startElement("content");

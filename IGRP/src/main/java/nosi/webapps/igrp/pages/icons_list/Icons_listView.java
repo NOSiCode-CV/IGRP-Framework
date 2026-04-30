@@ -15,17 +15,17 @@ public class Icons_listView extends View {
 
 	public Icons_listView(){
 
-		this.setPageTitle("Icons List");
+		this.setPageTitle("Icons list");
 			
 		icon_form = new IGRPForm("icon_form","");
 
 		fwl_search = new HiddenField(model,"fwl_search");
 		fwl_search.setLabel(gt(""));
-		fwl_search.propertie().add("name","p_fwl_search").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","fwl_search");
+		fwl_search.propertie().add("name","p_fwl_search").add("type","hidden").add("maxlength","250").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","fwl_search");
 		
 		choose_icon = new HiddenField(model,"choose_icon");
 		choose_icon.setLabel(gt(""));
-		choose_icon.propertie().add("name","p_choose_icon").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","choose_icon");
+		choose_icon.propertie().add("name","p_choose_icon").add("type","hidden").add("maxlength","250").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","choose_icon");
 		
 
 

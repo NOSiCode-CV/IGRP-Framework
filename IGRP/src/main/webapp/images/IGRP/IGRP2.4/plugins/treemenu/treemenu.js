@@ -3,20 +3,20 @@
 	$.IGRP.component('tm',{// tm = tree menu
 		toolTip   : function(){
 			$('body').tooltip({
-			    selector: '[data-toggle="tooltip"]'
-			});	
+				selector: '[data-toggle="tooltip"]'
+			});
 		},
 		transform : function(p){
 			var parent  = p.holder,
-			xslParams 	= {},
-			name		= parent.attr('name'),
-			gentype		= parent.attr('gentype') ? parent.attr('gentype') : 'plsql',
-			separator   = gentype == 'java' ? '/' : '.',
-			package 	= parent.attr('package-db') ? parent.attr('package-db') : null,
-			app	 		= parent.attr('app') ? parent.attr('app') : '',
-			url 		= package ? app+separator+package+separator+'remote_'+name : $.IGRP.utils.getPageUrl(),
-			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name,
-			parser		= parent.attr('parser') && parent.attr('parser') == 'true' ? 'true' : 'false';
+				xslParams 	= {},
+				name		= parent.attr('name'),
+				gentype		= parent.attr('gentype') ? parent.attr('gentype') : 'plsql',
+				separator   = gentype == 'java' ? '/' : '.',
+				package 	= parent.attr('package-db') ? parent.attr('package-db') : null,
+				app	 		= parent.attr('app') ? parent.attr('app') : '',
+				url 		= package ? app+separator+package+separator+'remote_'+name : $.IGRP.utils.getPageUrl(),
+				params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name,
+				parser		= parent.attr('parser') && parent.attr('parser') == 'true' ? 'true' : 'false';
 
 			xslParams.name 				= name;
 			xslParams.target  			= parent.attr('target');
@@ -36,38 +36,38 @@
 
 			if (active)
 				params += '&p_active='+active;
-			
+
 			/*if(parser){
 				var lookup = $('.lookup-parser:first',parent);
 				if(lookup[0]){*/
-					
-					var jsonLookup = $('#jsonLookup');
-					
-					if(jsonLookup[0])
-						params += '&jsonLookup='+jsonLookup.val();
-				/*}
-			 }*/
-			
+
+			var jsonLookup = $('#jsonLookup');
+
+			if(jsonLookup[0])
+				params += '&jsonLookup='+jsonLookup.val();
+			/*}
+         }*/
+
 			params += '&dad='+$('body').attr('app');
-			
+
 			if(p.id){
 				var a = $('li#'+p.id+' .nav-header a',parent);
-				
+
 				if(a[0] && a.attr('ctx_param_count')){
 					var cont  = a.attr('ctx_param_count')*1;
-	
+
 					for (var i = 1; i <= cont; i++) {
 						params += '&'+a.attr('ctx_p'+i);
 					}
 				}
 			}
-			
+
 			$.ajax({
 				url : $.IGRP.utils.getUrl(url)+params+'&ir_cf=xml',
 				dataType:'xml',
 				headers : {
-		        	'X-IGRP-REMOTE' : 1
-		    	},
+					'X-IGRP-REMOTE' : 1
+				},
 				error : function(e,status,ex){
 					p.error();
 					$.IGRP.notify({
@@ -77,22 +77,22 @@
 				},
 				success: function(data){
 					var xmlData = package ? $.parseXML(data) : data,
-					 	xmlPath = package ? 'table' : 'rows content '+name;
+						xmlPath = package ? 'table' : 'rows content '+name;
 
 					data = xmlData ? xmlData : data;
 
 					data = $(data).find(xmlPath).getXMLDocument();
-					
+
 					if (p.id == '')
 						xslParams.id = $(data).find('table value row '+name+'_parent').eq(0).text();
-					
+
 					p.transform.XMLTransform({
-				    	xml 	  : data,
-				    	xsl 	  : path+'/xsl/tmpl/IGRP-treemenu.tmpl.xsl',
-				    	xslParams : xslParams,
-				    	complete  : p.complete,
-				    	error     : p.error
-				    });
+						xml 	  : data,
+						xsl 	  : path+'/xsl/tmpl/IGRP-treemenu-remote.tmpl.xsl',
+						xslParams : xslParams,
+						complete  : p.complete,
+						error     : p.error
+					});
 				}
 			}).always(function(e){
 				p.error();
@@ -115,7 +115,7 @@
 					onError = function(){
 						$.IGRP.utils.loading.hide(holder);
 					};
-				
+
 				$.IGRP.utils.loading.show(holder);
 
 				com.transform({
@@ -148,8 +148,8 @@
 							f.removeClass('load').removeAttr('type');
 						}
 					});
-			    } else 
-			    	com.toggle.live(f);
+				} else
+					com.toggle.live(f);
 			},
 			live : function(f){
 				var rel = f.attr('rel');
@@ -174,7 +174,7 @@
 
 			$('.box-tm').on('click','a[tree-target]',function(e){
 				e.preventDefault();
-				
+
 				var target 		= $(this).attr('tree-target'),
 					id 			= $(this).parents('li:first').attr('id'),
 					holderName 	= $(this).parents('.box-tm:first').attr('name'),
@@ -190,13 +190,13 @@
 					$('input[name="'+name+'"]').val(id);
 				else
 					$.IGRP.utils.createHidden({name : name, value : id, class : 'submittable'});
-				
+
 				itarget.action({
 
 					url 	: $(this).attr('href'),
 					target 	: target,
 					clicked : $(this)
-					
+
 				});
 			});
 		}

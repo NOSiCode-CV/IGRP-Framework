@@ -4853,30 +4853,8 @@ public final class Core {
 		return new Geografia().geoGetParentsById(id, level);
 	}
 
-	/**
-	 * Get Session to programming custom CRUD
-	 * 
-	 * @param connectionName
-	 * @return
-	 */
 	public static Session getSession(String connectionName) {
-		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName);
-		if (sessionFactory != null) {
-			Session s;
-			if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
-					&& sessionFactory.getCurrentSession().isOpen()) {
-				s = sessionFactory.getCurrentSession();
-				return s;
-			}
-			sessionFactory.close();
-			HibernateUtils.removeSessionFactory(connectionName);
-			sessionFactory = HibernateUtils.getSessionFactory(connectionName);
-			if (sessionFactory != null) {
-				s = sessionFactory.getCurrentSession();
-				return s;
-			}
-		}
-		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
+		return HibernateUtils.getSession(connectionName);
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
@@ -4886,7 +4864,6 @@ public final class Core {
 	public static Session getSession() {
 		return Core.getSession(Core.defaultConnection());
 	}
-
 	public static SessionFactory getSessionFactory() {
 		return Core.getSessionFactory(Core.defaultConnection());
 	}

@@ -14,6 +14,7 @@ import nosi.core.integration.autentika.dto.ClaimDTO;
 import nosi.core.integration.autentika.dto.RemoteUserStoreManagerServiceConstants;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
 
@@ -59,6 +60,8 @@ public final class LdapAuthenticationManager {
                       newUser.setEmail(p.getMail().toLowerCase());
                    }
 				}
+				if(Core.isNull(newUser.getName()))
+					newUser.setName(newUser.getUser_name());
 				newUser.setStatus(1);
 				newUser.setCreated_at(System.currentTimeMillis());
 				newUser.setUpdated_at(System.currentTimeMillis());

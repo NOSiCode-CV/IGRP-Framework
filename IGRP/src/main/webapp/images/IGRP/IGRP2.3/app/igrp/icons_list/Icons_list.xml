@@ -36,11 +36,11 @@
     <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Icons List</title>
+        <title>Icons list</title>
         <icon_form type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <hidden name="p_fwl_search" type="hidden" maxlength="250" java-type="" tag="fwl_search"/>
-                <hidden name="p_choose_icon" type="hidden" maxlength="250" java-type="" tag="choose_icon"/>
+                <hidden name="p_fwl_search" type="hidden" maxlength="250" java-type="" tooltip="false" disable_copy_paste="false" tag="fwl_search"/>
+                <hidden name="p_choose_icon" type="hidden" maxlength="250" java-type="" tooltip="false" disable_copy_paste="false" tag="choose_icon"/>
             </fields>
         </icon_form>
     </content>

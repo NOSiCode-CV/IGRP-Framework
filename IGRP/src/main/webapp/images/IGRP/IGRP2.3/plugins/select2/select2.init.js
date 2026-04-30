@@ -152,19 +152,17 @@
         },
 
         setClear: function (select) {
-
-            $.each(select, function (i, s) {
-
-                const holder = $(s).parent(),
-
-                    clearBtn = $('<div class="select2-clear"><i class="fa fa-times"></i></div>').on('click', function () {
-
-                        $(s).select2('val', '');
-
-                    });
-
-                holder.addClass('select2-holder');
-
+                $.each(select, function (i, s) {
+                    const $select = $(s),
+                        holder = $select.parent(),
+                        clearBtn = $('<div class="select2-clear"><i class="fa fa-times"></i></div>').on('click', function () {
+                            if ($select.is('[multiple]')) {
+                                $select.val([]).trigger('change');
+                            } else {
+                                $select.val('').trigger('change');
+                            }
+                        });
+                    holder.addClass('select2-holder');
                 holder.append(clearBtn);
             });
         },

@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import jakarta.servlet.http.HttpSession;
+
 import java.io.Serial;
 import java.util.Map;
 
@@ -49,14 +51,25 @@ public class FlashMessage implements Serializable{
 
 	public static final String CONFIRM = "confirm";
 
-	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class 
-		// "_flash" is the reserved name for messages in session
-		if(Igrp.getInstance().getRequest().getSession() != null) {
-			if(Igrp.getInstance().getRequest().getSession().getAttribute("_flash") == null){
+	protected FlashMessage(){
+
+		final HttpSession session = Igrp.getInstance().getRequest().getSession();
+
+		if(session != null) {
+
+			Object obj = session.getAttribute("_flash");
+
+			if(obj == null){
 				this.msgs = new Message();
-				Igrp.getInstance().getRequest().getSession().setAttribute("_flash", this.msgs);
-			}else
-				this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("_flash");
+			} else {
+				if(obj instanceof Message messages){
+					this.msgs = messages;
+				} else {
+					this.msgs = new Message();
+				}
+			}
+			// 🔥 ALWAYS rebind (IMPORTANT)
+			session.setAttribute("_flash", this.msgs);
 		}
 	}
 	
@@ -64,7 +77,7 @@ public class FlashMessage implements Serializable{
 	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
 		// atualizar session  /* Sorry we dont need it */
-		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
+		Igrp.getInstance().getRequest().getSession().setAttribute("_flash", this.msgs);
 		return this;
 	}
 	
@@ -79,11 +92,19 @@ public class FlashMessage implements Serializable{
 	}
 	
 	public String getMessagesAsString(String name){
-		return this.msgs.getMessagesAsString(name);
+		final String messagesAsString = this.msgs.getMessagesAsString(name);
+		Igrp.getInstance().getRequest()
+				.getSession()
+				.setAttribute("_flash", this.msgs);
+		return messagesAsString;
 	}
 	
 	public List<String> getMessages(String name){
-		return this.msgs.getMessages(name);
+		final List<String> messages = this.msgs.getMessages(name);
+		Igrp.getInstance().getRequest()
+				.getSession()
+				.setAttribute("_flash", this.msgs);
+		return messages;
 	}
 
 	// Please dont uncomment this method below ... (because it is only for test purpose)

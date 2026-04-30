@@ -293,7 +293,8 @@
                 
         
             <div class="side-bar-ctrl visible-xs clearfix" >
-                <i class="fa fa-navicon pull-right"></i>
+              <img src="{$path}/assets/img/menu_icon.png" width="20" height="14" alt="Menu Hamburguer to collapse"
+                   loading="lazy"/>
             </div>
          
             <div class="igrp-sidebar-menu-search-wrapper igrp-sidebar-menu-search-container">
@@ -451,8 +452,17 @@
         </div>
         <div class="modal-content">
           <iframe id="igrp-right-panel-iframe"/>
+          <div class="loader">
+            <div class="loader-dots">
+              <span bg-color="primary"></span>
+              <span bg-color="primary"></span>
+              <span bg-color="primary"></span>
+            </div>
+            <div class="loader-bar" border-color="primary">
+              <div class="loader-bar-inner" bg-color="primary"></div>
+            </div>
+          </div>
         </div>
-        <div class="loader"/>
       </div>
     </div>
     <!--/RIGHT PANEL MODAL -->
@@ -489,7 +499,47 @@
       <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
       <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </xsl:if>
-    
+      <script>
+        (function() {
+        function isMobile() {
+
+        return window.innerWidth &lt; 768;
+        }
+
+        // Handle clicking outside to close the sidebar (Mobile only)
+        document.addEventListener('click', function(e) {
+        if (!isMobile()) return;
+
+        var sidebar = document.getElementById('igrp-sidebar');
+        var ctrl = document.getElementById('side-bar-ctrl');
+        var target = e.target;
+
+        // 1. Check if clicking inside the sidebar
+        var isInsideSidebar = sidebar &amp;&amp; sidebar.contains(target);
+
+        // 2. Check if clicking the hamburger icon (or any of its children)
+        var isCtrl = ctrl &amp;&amp; ctrl.contains(target);
+
+        // If clicking the sidebar or the hamburger icon, do nothing.
+        // Let the framework handle the opening/closing.
+        if (isInsideSidebar || isCtrl) {
+        return;
+        }
+
+        // 3. If clicking anywhere else, close the sidebar (add 'sidebar-off' class)
+        if (!document.body.classList.contains('sidebar-off')) {
+        document.body.classList.add('sidebar-off');
+        }
+        });
+
+        // Ensure 'sidebar-off' class is removed when resizing to desktop
+        window.addEventListener('resize', function() {
+        if (!isMobile()) {
+        document.body.classList.remove('sidebar-off');
+        }
+        });
+        })();
+      </script>
   </xsl:template>
   <!-- DEBUG -->
   <xsl:template name="IGRP-debug">
@@ -567,9 +617,19 @@
       
       <div class="modal-dialog">
         <iframe></iframe>
+        <div class="loader">
+          <div class="loader-dots">
+            <span bg-color="primary"></span>
+            <span bg-color="primary"></span>
+            <span bg-color="primary"></span>
+          </div>
+          <div class="loader-bar" border-color="primary">
+            <div class="loader-bar-inner" bg-color="primary"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="loader"></div>
+
 
     </div>
   </xsl:template>

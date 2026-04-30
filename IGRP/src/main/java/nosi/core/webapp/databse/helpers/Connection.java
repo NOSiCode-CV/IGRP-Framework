@@ -86,53 +86,37 @@ public class Connection {
 	}
 
 
-	
-	public static java.sql.Connection getConnection(String driver,String url, String user, String password) {
-		if(Core.isNotNullMultiple(driver,url,user,password)) {
-			java.sql.Connection conn = null;
-		    Properties connectionProps = new Properties();
-		    connectionProps.put("user", user);
-		    connectionProps.put("password", password);
-		    boolean isConnect = true;
-		    try {
-		    		Class.forName(driver); 
-				conn = DriverManager.getConnection(url,connectionProps);
-			} catch (SQLException | ClassNotFoundException e) {
-				isConnect = false;
-				Core.setMessageError(e.getMessage());
-				Core.log(e.getMessage());
-				e.printStackTrace();
-			}
-		    if(isConnect)
-		    		return conn;
-		    else {
-			    	if(conn!=null) {
-			    		try {
-							conn.close();
-						} catch (SQLException e) {
-							Core.setMessageError(e.getMessage());
-							Core.log(e.getMessage());
-							e.printStackTrace();
-						}
-			    	}
-		    }
+
+	public static java.sql.Connection getConnection(String driver, String url, String user, String password) {
+		if (!Core.isNotNullMultiple(driver, url, user, password))
+			return null;
+
+		try {
+			Class.forName(driver);
+			Properties props = new Properties();
+			props.put("user", user);
+			props.put("password", password);
+			return DriverManager.getConnection(url, props);
+		} catch (ClassNotFoundException e) {
+			Core.setMessageError(e.getMessage());
+			Core.log("JDBC driver not found: " + driver + " — " + e.getMessage());
+			e.printStackTrace();
+		} catch (SQLException e) {
+			Core.setMessageError(e.getMessage());
+			Core.log("Connection failed: " + url + " — " + e.getMessage());
+			e.printStackTrace();
 		}
-	    return null;
+		return null;
 	}
-	
-	public static boolean validate(String url,String driver,String username,String password) {
-		java.sql.Connection conn = Connection.getConnection(driver, url, username, password);
-		if(conn!=null) {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				Core.setMessageError(e.getMessage());
-				Core.log(e.getMessage());
-				return false;
-			}
-			return true;
+
+	public static boolean validate(String url, String driver, String username, String password) {
+		try (java.sql.Connection conn = Connection.getConnection(driver, url, username, password)) {
+			return conn != null;
+		} catch (SQLException e) {
+			Core.setMessageError(e.getMessage());
+			Core.log(e.getMessage());
+			return false;
 		}
-		return false;
 	}
 	
 	public static java.sql.Connection getConnection(Config_env config_env){
@@ -146,14 +130,14 @@ public class Connection {
 			return connectionTestName;
 		}
 		String result = "";
-		Config_env configEnv = new Config_env().find()
+		Map<String, Object> configEnv = new Config_env().find()
 				.where("isdefault", "=", (short) 1)
 				.andWhere("application.dad", "=", dad)
 				.setApplicationName("igrp")
-				.one();
+				.oneColumns("name");
 	
 		if (configEnv != null)
-			result = configEnv.getName();
+			result = (String) configEnv.get("name");
 		return result;
 	}
 }

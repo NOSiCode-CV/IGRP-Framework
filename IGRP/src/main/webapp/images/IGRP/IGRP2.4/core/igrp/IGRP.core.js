@@ -998,16 +998,24 @@
 			},
 			loading : {
 				show : function(o){
-
-					const obj = o ? o : $('body');
-
+					const obj = o || $('body');
 					$.IGRP.utils.loading.hide(obj);
-
-					obj.addClass('loading').append('<div class="loader"/>');
+					obj.addClass('loading').append(
+						'<div class="loader">' +
+						'<div class="loader-dots">' +
+						'<span bg-color="primary"></span>' +
+						'<span bg-color="primary"></span>' +
+						'<span bg-color="primary"></span>' +
+						'</div>' +
+						'<div class="loader-bar" border-color="primary">' +
+						'<div class="loader-bar-inner" bg-color="primary"></div>' +
+						'</div>' +
+						'</div>'
+					);
 				},
 				hide : function(o){
 
-					const obj = o ? o : $('body');
+					const obj = 	o || $('body');
 
 					if($('.loader',obj)[0]) {
 
@@ -1016,6 +1024,24 @@
 						$('.loader',obj).remove();
 					}
 
+				},
+				// ── Overlay spinner inside the node itself (mirrors XMLTransform prepareElement) ──
+				showOnNode: function($el) {
+					if (!$el || !$el[0]) return;
+					$.IGRP.utils.loading.hideOnNode($el);
+					$el.css({
+						position: $el.css('position') === 'static' ? 'relative' : $el.css('position')
+					});
+					$el.addClass('xml-xsl-loading');
+					if ($el.height() > 30) {
+						$('<div class="xml-xsl-loader">').appendTo($el);
+					}
+				},
+
+				hideOnNode: function($el) {
+					if (!$el || !$el[0]) return;
+					$el.removeClass('xml-xsl-loading');
+					$el.find('> .xml-xsl-loader').remove();
 				}
 			},
 			string:{
@@ -1529,6 +1555,11 @@
 				rawHtml : null
 			}, params);
 
+			options.nodes.forEach(function(nodeName) {
+				$.IGRP.utils.loading.showOnNode(
+					$('.gen-container-item[item-name="' + nodeName + '"]')
+				);
+			});
 			// ── Skip AJAX if HTML already provided ───────────────────────────
 			if(options.rawHtml){
 				_applyHtmlNodes(options.rawHtml, options);
@@ -1547,6 +1578,11 @@
 					const xslURL = $.IGRP.utils.getXMLStylesheet(responseText);
 
 					if (xslURL) {
+						options.nodes.forEach(function(nodeName) {
+							$.IGRP.utils.loading.hideOnNode(
+								$('.gen-container-item[item-name="' + nodeName + '"]')
+							);
+						});
 						$.IGRP.utils.xsl.transform({
 							xsl    : xslURL,
 							xml    : xml,
@@ -1562,6 +1598,11 @@
 				},
 				error : function(xhr) {
 					console.warn('[transformXMLNodes] Request failed', xhr.status, xhr.statusText);
+					options.nodes.forEach(function(nodeName) {
+						$.IGRP.utils.loading.hideOnNode(
+							$('.gen-container-item[item-name="' + nodeName + '"]')
+						);
+					});
 					if (options.error) options.error({ xhr: xhr });
 				}
 			});
@@ -1598,12 +1639,10 @@
 				}
 
 				if (!$new[0]) {
+					// node not found — hide loading and skip
+					$.IGRP.utils.loading.hideOnNode($current);
 					console.warn('[transformXMLNodes] Componente não encontrado na resposta do servidor - ', nodeName);
-					// $.IGRP.notify({
-					// 	message : '[transformXMLNodes] Componente "' + nodeName + '" não encontrado na resposta do servidor.',
-					// 	type    : 'warning'
-					// });
-					return; // skip this node
+					return;
 				}
 
 				// ── Fire before-element-transform BEFORE replaceWith ─────────────────
@@ -1618,7 +1657,7 @@
 				if (oldStyle) {
 					$new.attr('style', (oldStyle + ' ' + ($new.attr('style') || '')).trim());
 				}
-
+				$.IGRP.utils.loading.hide($new);
 				$('a[target], button[target]', $new).each(function(i, e) {
 					e.events = $.EVENTS(['submit-ajax-complete', 'submit-ajax-error']);
 					const target = $(e).attr('target');
@@ -1691,6 +1730,17 @@
 
 			$.IGRP.utils.runMathcal(p);
 
+		});
+	});
+// Remove loader before page is frozen in bfcache or unloaded
+	window.addEventListener('pagehide', function() {
+		document.querySelectorAll('.loader').forEach(function(el) {
+			if (el.parentNode) el.parentNode.removeChild(el);
+		});
+		document.body.classList.remove('loading');
+		// Re-enable any buttons disabled by submit_ajax
+		document.querySelectorAll('[disabled]').forEach(function(el) {
+			el.removeAttribute('disabled');
 		});
 	});
 

@@ -44,7 +44,7 @@ public class DigitalSignatureController extends Controller {
 		String uuid = Core.getParam("uuid");
 		if (uuid != null) {
 			DigitalSignatureServices ds = new DigitalSignatureServices();
-			CertificatedSignatures cs = new CertificatedSignatures();
+			CertificatedSignatures cs;
 
 			cs = ds.getSignedByUuid(uuid);
 
@@ -64,7 +64,7 @@ public class DigitalSignatureController extends Controller {
 		String uuid = Core.getParam("uuid");
 		if (uuid != null) {
 			DigitalSignatureServices ds = new DigitalSignatureServices();
-			CertificatedSignatures cs = new CertificatedSignatures();
+			CertificatedSignatures cs;
 
 			cs = ds.getSignedByUuid(uuid);
 
