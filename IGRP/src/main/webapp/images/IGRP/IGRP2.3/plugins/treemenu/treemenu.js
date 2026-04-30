@@ -88,7 +88,7 @@
 					
 					p.transform.XMLTransform({
 				    	xml 	  : data,
-				    	xsl 	  : path+'/xsl/tmpl/IGRP-treemenu.tmpl.xsl',
+				    	xsl 	  : path+'/xsl/tmpl/IGRP-treemenu-remote.tmpl.xsl',
 				    	xslParams : xslParams,
 				    	complete  : p.complete,
 				    	error     : p.error
