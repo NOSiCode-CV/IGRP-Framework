@@ -7,22 +7,7 @@
     <xsl:param name="tooltip" select="'false'"/>
     <xsl:param name="parser" select="'false'"/>
 
-    <!--    <xsl:template match="/" priority="0">-->
-    <!--        <ul class="nav nav-list {$class}">-->
-    <!--            <xsl:if test="$id">-->
-    <!--                <xsl:attribute name="rel">list-<xsl:value-of select="$id"/></xsl:attribute>-->
-    <!--            </xsl:if>-->
-    <!--            <xsl:call-template name="recorTreeMenu">-->
-    <!--                <xsl:with-param name="treeMenu" select="*/value/row"/>-->
-    <!--                <xsl:with-param name="id" select="$id"/>-->
-    <!--                <xsl:with-param name="name" select="$name"/>-->
-    <!--                <xsl:with-param name="target" select="$target"/>-->
-    <!--                <xsl:with-param name="target_fields" select="$target_fields"/>-->
-    <!--                <xsl:with-param name="tooltip" select="$tooltip"/>-->
-    <!--                <xsl:with-param name="parser" select="$parser"/>-->
-    <!--            </xsl:call-template>-->
-    <!--        </ul>-->
-    <!--    </xsl:template>-->
+
 
     <xsl:template name="treemenu" match="*" mode="treemenu">
         <xsl:param name="target" select="'_self'"/>
@@ -493,5 +478,23 @@
                 </li>
             </xsl:if>
         </xsl:for-each>
+    </xsl:template>
+
+
+    <xsl:template match="/" priority="0">
+        <ul class="nav nav-list {$class}">
+            <xsl:if test="$id">
+                <xsl:attribute name="rel">list-<xsl:value-of select="$id"/></xsl:attribute>
+            </xsl:if>
+            <xsl:call-template name="recorTreeMenu">
+                <xsl:with-param name="treeMenu" select="*/value/row"/>
+                <xsl:with-param name="id" select="$id"/>
+                <xsl:with-param name="name" select="$name"/>
+                <xsl:with-param name="target" select="$target"/>
+                <xsl:with-param name="target_fields" select="$target_fields"/>
+                <xsl:with-param name="tooltip" select="$tooltip"/>
+                <xsl:with-param name="parser" select="$parser"/>
+            </xsl:call-template>
+        </ul>
     </xsl:template>
 </xsl:stylesheet>
