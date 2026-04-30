@@ -334,6 +334,7 @@
 															$.IGRP.utils.transformXMLNodes({
 																nodes   : refreshComponents,
 																url     : $.IGRP.utils.getUrl(liStep.attr('action')) + 'ir_cf=xml',
+																url     : $.IGRP.utils.getUrl(liStep.attr('action')),
 																data    : objSubmit.find(':input').not('.notForm').serialize(),
 																headers : { 'X-IGRP-REMOTE': 1 },
 																success : function(c){
