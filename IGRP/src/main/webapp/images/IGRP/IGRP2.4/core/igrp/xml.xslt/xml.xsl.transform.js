@@ -21,266 +21,100 @@
 		19.06.15  - IE FIX  . WILLIAM LIMA - NOSi
 */
 
-var __XSLTemplatesInc = {};
+const __XSLTemplatesInc = {};
 
 $.fn.XMLTransform = function(params) {
-	var element 	 = this;
-	var xml 		 = null;
-	var xsl 		 = null;
-	var loader 		 = !params.loading ? false : true;
-	var loadingClass = params.loadingClass ? params.loadingClass : 'xml-xsl-loading';
-	var loadingb64   = null;
-	var tmplSplitter = params.xslBasePath ? params.xslBasePath+'/' : path+'/xsl/tmpl/';
-	var IEincludes   = [];
+	const element = this;
+	let xml = null;
+	let xsl = null;
+	const loader = params.loading;
+	const loadingClass = params.loadingClass ? params.loadingClass : 'xml-xsl-loading';
+	let loadingb64 = null;
+	const tmplSplitter = params.xslBasePath ? params.xslBasePath + '/' : path + '/xsl/tmpl/';
+	let IEincludes = [];
 
-	//SET DIV CONTENT FROM TRANSFORMATION
-	var setContent = function(content){
+	//GOOGLE/FIREFOX TRANSFORM
+	//GOOGLE/FIREFOX TRANSFORM
+	const Transform = function(){
 
-		setTimeout(function(){
-			if(params.method && params.method == 'replace'){
-			   if(params.replaceSelector)
-				   element.find(params.replaceSelector).replaceWith(  $(content).find(params.replaceSelector) )
-			   else
-				element.replaceWith(content);
-		   }
-			else
-				element.html(content);
+		// ── Use native XSLTProcessor while it exists ────────────────────────────
+		if (typeof XSLTProcessor !== 'undefined') {
 
+			try {
+				const xsltProcessor = new XSLTProcessor();
+				xsltProcessor.flags = 0;
+				xsltProcessor.importStylesheet(xsl);
 
-			done(content);
-
-		},150);
-	}
-	//TRANSFORM
-	var start = function(){
-		try{
-			if(xml && xsl){
-				var isIE11    = window.navigator.userAgent.match(/rv:11.0/i);
-				var isIE      = window.ActiveXObject  || isIE11 ? true : false;
-				var callback  = isIE ? IETransform : Transform;
-
-				includeTemplates({
-					callback:function(){
-						if(isIE && params.excludePrefix )
-							excludePrefix(params.excludePrefix);
-
-						callback();
-					}
-				});
-
-			}
-		}catch(startError){
-			errorHandler(startError)
-		}
-	}
-	//DONE CALLBACK
-	var done = function(content,c){
-
-		var complete = c == false ? false : true;
-
-		element.removeClass(loadingClass);
-
-		element.find('.xml-xsl-loader').remove();
-
-		if(params.loader)
-			params.loader.hide();
-
-		if(complete){
-			if(params.complete){
-				params.complete(element,content);
-			}
-		}
-
-	}
-
-	var loadTemplate = function(p){
-		var i       = p.index > 0 ? p.index : 0;
-		var content = p.content ? p.content : "";
-
-		if(i < p.includes.length){
-
-			var includeFile = p.includes[i].global ? tmplSplitter+p.includes[i].name : p.includes[i].name;
-
-			var baseWay = includeFile.split('/').slice(0,-1).join('/');
-
-			if(!baseWay)
-				includeFile=tmplSplitter+'/'+includeFile;
-
-			includeFile = includeFile.split('?v=')[0];
-
-			if(!__XSLTemplatesInc[ includeFile ])
-
-				__XSLTemplatesInc[ includeFile ] = {
-
-					request : null
-
-				}
-
-			var AfterLoadCallback = function(data){
-
-				var contents = $(data).clone()[0];
-
-				for(var x = 0; x < contents.childNodes.length;x++){
-					if(contents.childNodes[x].tagName && contents.childNodes[x].tagName != 'xsl:include' && contents.childNodes[x].tagName != 'xsl:import'){
-						IEincludes.push(contents.childNodes[x]);
+				if (params.xslParams) {
+					for (let p in params.xslParams) {
+						xsltProcessor.setParameter(null, p, params.xslParams[p]);
 					}
 				}
+				setContent(xsltProcessor.transformToFragment(xml, document));
+			} catch (e) {
+				console.error('[XMLTransform] XSLTProcessor failed:', e.message || e);
+				errorHandler(e);
+			}
 
-				loadTemplate({
-					includes:getIncludesArr(data,baseWay),
-					callback:function(){
-						loadTemplate({
-							includes:p.includes,
-							index   :i+1,
-							callback:p.callback
-						});
+			// ── Server-side fallback (for when XSLTProcessor is eventually removed) ─
+		} else {
+			try {
+				// At this point includeTemplates() has already run, so xsl has all
+				// includes inlined — we can safely serialize and send to the server.
+				const xmlStr = new XMLSerializer().serializeToString(xml);
+
+				const payload = {
+					xml: xmlStr,
+					xslParams: params.xslParams || {}
+				};
+
+// Prefer cached server-side XSL path
+				if (params.xslPath) {
+					payload.xslPath = params.xslPath;
+				} else if (typeof params.xsl === 'string') {
+					payload.xslPath = params.xsl;
+				} else {
+					// fallback for dynamic XSL object
+					payload.xsl = new XMLSerializer().serializeToString(xsl);
+				}
+
+				$.ajax({
+					url: '../app/webapps?r=igrp/Generator/transform&target=_blank',
+					method: 'POST',
+					contentType: 'application/json; charset=UTF-8',
+					dataType: 'html',
+					processData: false,
+					data: JSON.stringify(payload),
+
+					success: function (html) {
+						setContent(html);
+					},
+
+					error: function (xhr, status, err) {
+						console.error('[XMLTransform] Server-side transform failed:', status, err);
+						console.error('[XMLTransform] Response text:', xhr.responseText);
+						errorHandler({message: 'Server transform failed: ' + status});
 					}
 				});
 
-			};
-
-
-			if(__XSLTemplatesInc[ includeFile ].data){
-
-				AfterLoadCallback( __XSLTemplatesInc[ includeFile ].data );
-
-			}else{
-
-				if(__XSLTemplatesInc[ includeFile ].request)
-
-					__XSLTemplatesInc[ includeFile ].request.then(function(data){
-
-						var contents = data.documentElement,
-
-							clone    = $(data.documentElement).clone(true)[0];
-
-						AfterLoadCallback( clone );
-
-						__XSLTemplatesInc[ includeFile ].data = clone;
-
-					});
-
-				else
-
-					__XSLTemplatesInc[ includeFile ].request = $.ajax({
-						url:includeFile,
-						cache:true,
-						success:function(data){
-
-							var contents = data.documentElement,
-
-								clone    = $(data.documentElement).clone(true)[0];
-
-							AfterLoadCallback( clone );
-
-							__XSLTemplatesInc[ includeFile ].data = clone;
-
-							__XSLTemplatesInc[ includeFile ].request = false;
-
-
-						},
-						error:function(e){
-							errorHandler(e)
-						}
-					});
-
+			} catch (e) {
+				console.error('[XMLTransform] Fallback serialization failed:', e.message || e);
+				if (typeof XSLTProcessor !== 'undefined') {
+					console.log('[XMLTransform] Falling back to client-side XSLTProcessor');
+					// retry with client-side XSLTProcessor here
+				} else {
+					errorHandler(e);
+				}
 			}
-
-
-
-
-		}else{
-			if(p.callback) p.callback(i)
 		}
 	};
-
-	var getIncludesArr = function(doc,base){
-		var rtn = [];
-		var xslPath = typeof params.xsl == 'string' ?  params.xsl : null;
-		var baseWay = '';
-
-		if(xslPath){
-			var arr = xslPath.split('/')
-			arr.pop();
-			baseWay = arr.join('/');
-		}
-
-		$.each($(doc).find('*'),function(){
-			if(this.tagName == 'xsl:include' || this.tagName == 'xsl:import'){
-
-				var href   = $(this).attr('href');
-
-				href = base ? base+'/'+href : href;
-
-				var isGlobal = href.indexOf(tmplSplitter) != -1 ? true : false;
-
-				var name = isGlobal ? href.split(tmplSplitter)[1] : href;
-
-				if(name) rtn.push({
-					global:isGlobal,
-					name:name
-				});
-
-
-			}
-		});
-
-		//console.log(rtn)
-		return rtn;
-	};
-
-	var removeIncludes = function(xsl){
-		$.each($(xsl).find('xsl\\:include,xsl\\:import'),function(){
-			$(this).remove()
-		});
-	}
-
-	var excludePrefix = function(pref){
-		var xslStr    = $(xsl).getXMLStr();
-		var newXslStr = xslStr.replaceAll(pref,'');
-		var xmlStr    = $(xml).getXMLStr();
-		var newXmlStr = xmlStr.replaceAll(pref,'');
-
-		try {
-			xsl = $.parseXML(newXslStr);
-			xml = $.parseXML(newXmlStr);
-		}catch(e){
-			console.log('Exclude Prefix Error: '+ pref);
-			console.log(e);
-		}
-	}
-	//include templates manually
-	var includeTemplates =function(p){
-
-		var includesArr = getIncludesArr(xsl);
-
-		var stylesheet = xsl.documentElement;
-
-		loadTemplate({
-			includes: includesArr,
-			callback:function(){
-				IEincludes.forEach(function(include,i){
-					$(stylesheet).append(include); // include all templates and vars
-				});
-
-				xsl = $(stylesheet).getXMLDocument(); // assume the new xsl
-
-				removeIncludes(xsl); //remove all includes / imports
-
-				IEincludes = []; //reset Includes Array
-
-				if(p.callback) p.callback(xsl); //transform
-			}
-		});
-	}
-
-	//IE TRANSFORMATION
-	var IETransform = function(){
+//IE TRANSFORMATION
+	const IETransform = function(){
 		try{
-			var xslTemplate,xslproc;
+			let xslTemplate, xslproc;
 
 			/*GET IE XSL*/
-			var xsldoc = new ActiveXObject("Msxml2.FreeThreadedDOMDocument.6.0");
+			const xsldoc = new ActiveXObject("Msxml2.FreeThreadedDOMDocument.6.0");
 			xsldoc.async = false;
 			xsldoc.preserveWhiteSpace = true;
 			xsldoc.setProperty("AllowDocumentFunction", true);//allow xsl to load files (document())
@@ -292,7 +126,7 @@ $.fn.XMLTransform = function(params) {
 			}
 
 			/*GET IE XML*/
-			var xmldoc = new ActiveXObject("Msxml2.DOMDocument.6.0");
+			let xmldoc = new ActiveXObject("Msxml2.DOMDocument.6.0");
 
 			xmldoc.async           = false;
 
@@ -316,7 +150,7 @@ $.fn.XMLTransform = function(params) {
 				xslproc.input = xmldoc;
 
 				if(params.xslParams){
-					for(var p in params.xslParams){
+					for(let p in params.xslParams){
 						xslproc.addParameter(p, params.xslParams[p]);
 					}
 				}
@@ -327,70 +161,240 @@ $.fn.XMLTransform = function(params) {
 		}catch(IEError){
 			console.log(IEError)
 		}
-	}
-	//GOOGLE/FIREFOX TRANSFORM
-	//GOOGLE/FIREFOX TRANSFORM
-	var Transform = function(){
+	};
+//include templates manually
+	const includeTemplates =function(p){
 
-		// ── Use native XSLTProcessor while it exists ────────────────────────────
-		if (typeof XSLTProcessor !== 'undefined') {
+		const includesArr = getIncludesArr(xsl);
 
-			try {
-				var xsltProcessor = new XSLTProcessor();
+		const stylesheet = xsl.documentElement;
 
-				xsltProcessor.flags = 0;
+		loadTemplate({
+			includes: includesArr,
+			callback:function(){
+				IEincludes.forEach(function(include,i){
+					$(stylesheet).append(include); // include all templates and vars
+				});
 
-				xsltProcessor.importStylesheet(xsl);
+				xsl = $(stylesheet).getXMLDocument(); // assume the new xsl
 
-				if (params.xslParams) {
-					for (var p in params.xslParams) {
-						xsltProcessor.setParameter(null, p, params.xslParams[p]);
-					}
-				}
+				removeIncludes(xsl); //remove all includes / imports
 
-				setContent(xsltProcessor.transformToFragment(xml, document));
+				IEincludes = []; //reset Includes Array
 
-			} catch (e) {
-				console.error('[XMLTransform] XSLTProcessor failed:', e.message || e);
-				errorHandler(e);
+				if(p.callback) p.callback(xsl); //transform
 			}
+		});
+	};
+	const excludePrefix = function(pref){
+		const xslStr = $(xsl).getXMLStr();
+		const newXslStr = xslStr.replaceAll(pref, '');
+		const xmlStr = $(xml).getXMLStr();
+		const newXmlStr = xmlStr.replaceAll(pref, '');
 
-			// ── Server-side fallback (for when XSLTProcessor is eventually removed) ─
+		try {
+			xsl = $.parseXML(newXslStr);
+			xml = $.parseXML(newXmlStr);
+		}catch(e){
+			console.log('Exclude Prefix Error: '+ pref);
+			console.log(e);
+		}
+	};
+	const getIncludesArr = function(doc, base){
+		const rtn = [];
+		const xslPath = typeof params.xsl == 'string' ? params.xsl : null;
+		let baseWay = '';
+
+		if(xslPath){
+			const arr = xslPath.split('/');
+			arr.pop();
+			baseWay = arr.join('/');
+		}
+
+		$.each($(doc).find('*'),function(){
+			if(this.tagName == 'xsl:include' || this.tagName == 'xsl:import'){
+
+				let href = $(this).attr('href');
+
+				href = base ? base+'/'+href : href;
+
+				const isGlobal = href.indexOf(tmplSplitter) != -1 ? true : false;
+
+				const name = isGlobal ? href.split(tmplSplitter)[1] : href;
+
+				if(name) rtn.push({
+					global:isGlobal,
+					name:name
+				});
+
+
+			}
+		});
+
+		//console.log(rtn)
+		return rtn;
+	};
+//DONE CALLBACK
+	const done = function(content,c){
+
+		const complete = c != false;
+
+		element.removeClass(loadingClass);
+
+		element.find('.xml-xsl-loader').remove();
+
+		if(params.loader)
+			params.loader.hide();
+
+		if(complete){
+			if(params.complete){
+				params.complete(element,content);
+			}
+		}
+
+	};
+
+
+	//SET DIV CONTENT FROM TRANSFORMATION
+	const setContent = function (content) {
+		if (params.method === 'replace') {
+			element.replaceWith(content);
 		} else {
+			element.html(content);
+		}
 
-			try {
-				// At this point includeTemplates() has already run, so xsl has all
-				// includes inlined — we can safely serialize and send to the server.
-				var xmlStr = new XMLSerializer().serializeToString(xml);
-				var xslStr = new XMLSerializer().serializeToString(xsl);
+		done(content);
+	};
 
-				$.ajax({
-					url         : 'app/webapps/igrp/generator/transform',
-					method      : 'POST',
-					contentType : 'application/json',
-					data        : JSON.stringify({
-						xml       : xmlStr,
-						xsl       : xslStr,
-						xslParams : params.xslParams || {}
-					}),
-					success : function(html) {
-						var wrapper = document.createElement('div');
-						wrapper.innerHTML = html;
-						setContent(html);
-					},
-					error : function(xhr, status, err) {
-						console.error('[XMLTransform] Server-side transform failed:', status, err);
-						errorHandler({ message: 'Server transform failed: ' + status });
+	//TRANSFORM
+	const start = function () {
+		try {
+			if (xml && xsl) {
+				const isIE11 = window.navigator.userAgent.match(/rv:11.0/i);
+				const isIE = !!(window.ActiveXObject || isIE11);
+				const callback = isIE ? IETransform : Transform;
+
+				includeTemplates({
+					callback: function () {
+						if (isIE && params.excludePrefix)
+							excludePrefix(params.excludePrefix);
+
+						callback();
 					}
 				});
 
-			} catch (e) {
-				console.error('[XMLTransform] Fallback serialization failed:', e.message || e);
-				errorHandler(e);
 			}
+		} catch (startError) {
+			errorHandler(startError)
 		}
-	}
-	var prepareElement = function() {
+	};
+
+	const loadTemplate = function (p) {
+		const i = p.index > 0 ? p.index : 0;
+		const content = p.content ? p.content : "";
+
+		if (i < p.includes.length) {
+
+			let includeFile = p.includes[i].global ? tmplSplitter + p.includes[i].name : p.includes[i].name;
+
+			const baseWay = includeFile.split('/').slice(0, -1).join('/');
+
+			if (!baseWay)
+				includeFile = tmplSplitter + '/' + includeFile;
+
+			includeFile = includeFile.split('?v=')[0];
+
+			if (!__XSLTemplatesInc[includeFile])
+
+				__XSLTemplatesInc[includeFile] = {
+
+					request: null
+
+				}
+
+			const AfterLoadCallback = function (data) {
+
+				const contents = $(data).clone()[0];
+
+				for (let x = 0; x < contents.childNodes.length; x++) {
+					if (contents.childNodes[x].tagName && contents.childNodes[x].tagName !== 'xsl:include' && contents.childNodes[x].tagName !== 'xsl:import') {
+						IEincludes.push(contents.childNodes[x]);
+					}
+				}
+
+				loadTemplate({
+					includes: getIncludesArr(data, baseWay),
+					callback: function () {
+						loadTemplate({
+							includes: p.includes,
+							index: i + 1,
+							callback: p.callback
+						});
+					}
+				});
+
+			};
+
+
+			if (__XSLTemplatesInc[includeFile].data) {
+
+				AfterLoadCallback(__XSLTemplatesInc[includeFile].data);
+
+			} else {
+
+				if (__XSLTemplatesInc[includeFile].request)
+
+					__XSLTemplatesInc[includeFile].request.then(function (data) {
+
+						const contents = data.documentElement,
+
+							clone = $(data.documentElement).clone(true)[0];
+
+						AfterLoadCallback(clone);
+
+						__XSLTemplatesInc[includeFile].data = clone;
+
+					});
+
+				else
+
+					__XSLTemplatesInc[includeFile].request = $.ajax({
+						url: includeFile,
+						cache: true,
+						success: function (data) {
+
+							const contents = data.documentElement,
+
+								clone = $(data.documentElement).clone(true)[0];
+
+							AfterLoadCallback(clone);
+
+							__XSLTemplatesInc[includeFile].data = clone;
+
+							__XSLTemplatesInc[includeFile].request = false;
+
+
+						},
+						error: function (e) {
+							errorHandler(e)
+						}
+					});
+
+			}
+
+
+		} else {
+			if (p.callback) p.callback(i)
+		}
+	};
+
+
+	const removeIncludes = function (xsl) {
+		$.each($(xsl).find('xsl\\:include,xsl\\:import'), function () {
+			$(this).remove()
+		});
+	};
+	const prepareElement = function () {
 		if (loader) {
 			loadingb64 = $('<div>').addClass('xml-xsl-loader'); // CSS handles the rest
 			element.css({
@@ -404,26 +408,26 @@ $.fn.XMLTransform = function(params) {
 		element.addClass(loadingClass);
 	};
 	//XML SETTER
-	var setXML = function(_xml){
+	const setXML = function (_xml) {
 		xml = _xml;
 		start();
-	}
+	};
 	//XSL SETTER
-	var setXSL = function(_xsl){
+	const setXSL = function (_xsl) {
 		xsl = _xsl;
 		start();
-	}
+	};
 	//GET XML OBJCT
-	var getXML = function(){
-		if(params.xml)
-			switch(typeof params.xml){
+	const getXML = function () {
+		if (params.xml)
+			switch (typeof params.xml) {
 				case 'string':
 
 					getContentFromUrl({
-						url      :params.xml,
-						data     :params.xmlData,
-						method : 'POST',
-						callback :setXML
+						url: params.xml,
+						data: params.xmlData,
+						method: 'POST',
+						callback: setXML
 					});
 
 					break;
@@ -432,16 +436,16 @@ $.fn.XMLTransform = function(params) {
 					break;
 			}
 		else
-			errorHandler({ message:'No XML' })
-	}
+			errorHandler({message: 'No XML'})
+	};
 	//GET XSL OBJCT
-	var getXSL = function(){
-		if(params.xsl)
-			switch(typeof params.xsl){
+	const getXSL = function () {
+		if (params.xsl)
+			switch (typeof params.xsl) {
 				case 'string':
 					getContentFromUrl({
-						url      :params.xsl,
-						callback :setXSL
+						url: params.xsl,
+						callback: setXSL
 					});
 
 					break;
@@ -450,11 +454,11 @@ $.fn.XMLTransform = function(params) {
 					break;
 			}
 		else
-			errorHandler({ message:'No XSL' })
-	}
+			errorHandler({message: 'No XSL'})
+	};
 	//AJAX LOAD CONTENT
 	var getContentFromUrl = function(p){
-		var base = p.url.split('/').slice(0,-1).join('/');
+		const base = p.url.split('/').slice(0, -1).join('/');
 
 		$.ajax({
 			url     : p.url,
@@ -474,10 +478,10 @@ $.fn.XMLTransform = function(params) {
 		return false;
 	}
 	//INITIALIZATION
-	var init = function(){
+	const init = function () {
 		prepareElement();
 		getXML();
 		getXSL();
-	}
+	};
 	init();
 };

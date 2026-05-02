@@ -904,24 +904,33 @@ public class Controller {
 // Templates is thread-safe per JAXP spec — safe to share across threads.
 // ─────────────────────────────────────────────────────────────────────────
     private static Templates getOrCompileTemplates(String xslWebPath, ServletContext ctx) {
-        return XSL_TEMPLATE_CACHE.computeIfAbsent(xslWebPath, path -> {
-            try (InputStream xslStream = ctx.getResourceAsStream(path)) {
-                if (xslStream == null) {
-                    LOGGER.warn("XSL not found in webapp: {}", path);
-                    return null;
-                }
-                TransformerFactory tf = TransformerFactory.newInstance();
-                tf.setURIResolver(new CachingWebAppXslUriResolver(ctx));
+        Templates cached = XSL_TEMPLATE_CACHE.get(xslWebPath);
 
-                StreamSource xslSource = new StreamSource(xslStream);
-                xslSource.setSystemId("webapp:" + path);
+        if (cached != null) {
+            return cached;
+        }
 
-                return tf.newTemplates(xslSource); // compiles once, reused forever
-            } catch (Exception ex) {
-                LOGGER.warn("Failed to compile XSL template: {}", path, ex);
-                return null;
+        try (InputStream xslStream = ctx.getResourceAsStream(xslWebPath)) {
+            if (xslStream == null) {
+                throw new IllegalStateException("XSL not found in webapp: " + xslWebPath);
             }
-        });
+
+            TransformerFactory tf = TransformerFactory.newInstance();
+            tf.setURIResolver(new CachingWebAppXslUriResolver(ctx));
+
+            StreamSource xslSource = new StreamSource(xslStream);
+            xslSource.setSystemId("webapp:" + xslWebPath);
+
+            Templates compiled = tf.newTemplates(xslSource);
+
+            Templates existing = XSL_TEMPLATE_CACHE.putIfAbsent(xslWebPath, compiled);
+
+            return existing != null ? existing : compiled;
+
+        } catch (Exception ex) {
+            LOGGER.warn("Failed to compile XSL template: {}", xslWebPath, ex);
+            throw new RuntimeException("Failed to compile XSL template: " + xslWebPath, ex);
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════════════════════
@@ -941,28 +950,68 @@ public class Controller {
      * @return          transformed output (HTML) as a String
      * @throws Exception if the XML/XSL is malformed or the transform fails
      */
-    public static String performXsltTransform(String xmlStr,
-                                              String xslStr,
-                                              Map<String, String> xslParams) throws Exception {
+    public static String performXsltTransform(
+            String xmlStr,
+            String xslStr,
+            Map<String, String> xslParams
+    ) throws Exception {
 
         TransformerFactory factory = TransformerFactory.newInstance();
-        // Compile the stylesheet
+
         Source xslSource = new StreamSource(new StringReader(xslStr));
         Transformer transformer = factory.newTransformer(xslSource);
 
-        // Apply any XSL parameters
+        // Forçar output HTML
+        transformer.setOutputProperty(OutputKeys.METHOD, "html");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+
         if (xslParams != null) {
-            for (Map.Entry<String, String> entry : xslParams.entrySet()) {
-                transformer.setParameter(entry.getKey(), entry.getValue());
+            for (Map.Entry<String, String> e : xslParams.entrySet()) {
+                transformer.setParameter(e.getKey(), e.getValue());
             }
         }
 
-        // Run the transform
-        Source  xmlSource = new StreamSource(new StringReader(xmlStr));
-        StringWriter out  = new StringWriter();
-        transformer.transform(xmlSource, new StreamResult(out));
+        Source xmlSource = new StreamSource(new StringReader(xmlStr));
+        StringWriter writer = new StringWriter();
 
-        return out.toString();
+        transformer.transform(xmlSource, new StreamResult(writer));
+
+        return writer.toString();
+    }
+
+    public static String performXsltTransformFromPath(
+            String xmlStr,
+            String xslWebPath,
+            ServletContext ctx,
+            Map<String, String> xslParams
+    ) throws Exception {
+
+        Templates templates = getOrCompileTemplates(xslWebPath, ctx);
+
+        if (templates == null) {
+            throw new IllegalStateException("XSL template not found: " + xslWebPath);
+        }
+
+        Transformer transformer = templates.newTransformer();
+
+        transformer.setOutputProperty(OutputKeys.METHOD, "html");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+
+        if (xslParams != null) {
+            for (Map.Entry<String, String> e : xslParams.entrySet()) {
+                transformer.setParameter(e.getKey(), e.getValue());
+            }
+        }
+
+        StringWriter writer = new StringWriter();
+        transformer.transform(
+                new StreamSource(new StringReader(xmlStr)),
+                new StreamResult(writer)
+        );
+
+        return writer.toString();
     }
 
     // ─────────────────────────────────────────────────────────────────────────
