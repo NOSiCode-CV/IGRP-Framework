@@ -317,17 +317,18 @@
                 return false;
             },
 
-            getHiddenFields : function(xml){
-
-                $(xml).find('rows content >* hidden').each(function(){
-                    var name = $(this).attr('name');
-
-                    $.IGRP.utils.createHidden({
-                        name : name,
-                        id 	 : name,
-                        value: $(this).text(),
-                        class: 'submittable'
-                    });
+            // In IGRP_core.js or wherever getHiddenFields lives — add HTML fallback
+            getHiddenFields: function(xmlOrHtml) {
+                const $doc  = $(xmlOrHtml);
+                // XSL output uses <hidden name="...">value</hidden>
+                $doc.find('hidden[name]').each(function() {
+                    $.IGRP.utils.createHidden({ name: $(this).attr('name'), value: $(this).text() });
+                });
+                // HTML output uses <input type="hidden" name="..." value="...">
+                $doc.find('input[type="hidden"][name]').each(function() {
+                    const $i = $(this);
+                    if (!$i.hasClass('notForm') && !$i.hasClass('submittable'))
+                        $.IGRP.utils.createHidden({ name: $i.attr('name'), value: $i.val() });
                 });
             },
 
