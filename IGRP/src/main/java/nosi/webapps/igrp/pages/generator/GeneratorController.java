@@ -12,6 +12,8 @@ import jakarta.servlet.ServletContext;
 import nosi.core.webapp.*;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,6 +115,7 @@ public class GeneratorController extends Controller{
 					String html;
 
 				if (xslPath != null && !xslPath.isBlank()) {
+					xslPath=keepFromImages(xslPath);
 					ServletContext ctx = Igrp.getInstance().getRequest().getServletContext();
 
 					html = Controller.performXsltTransformFromPath(
@@ -151,6 +154,20 @@ public class GeneratorController extends Controller{
 		return resp;
 	}
 
+
+	public static String keepFromImages(String path) {
+		if (StringUtils.isBlank(path)) {
+			return path;
+		}
+
+		int idx = Strings.CS.indexOf(path, "/images/");
+
+		if (idx >= 0) {
+			return StringUtils.substring(path, idx);
+		}
+
+		return path;
+	}
 
 	private String escapeHtmlComment(String s) {
 		if (s == null) return "";
