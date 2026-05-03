@@ -1,19 +1,22 @@
 package nosi.core.webapp.activit.rest.services;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.webapp.activit.rest.entities.ResourceService;
 import nosi.core.webapp.activit.rest.entities.ResourcesService;
 import nosi.core.webapp.activit.rest.request.RestRequest;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Emanuel
@@ -61,26 +64,60 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		return contentResp;
 	}
 
+	private static final Logger log = LogManager.getLogger(ResourceServiceRest.class);
+	private static final int MAX_REDIRECTS = 5;
+
 	public String getResourceData(String link) {
 		RestRequest request = this.getRestRequest();
 		request.userBaseUrl(false);
 		request.setAccept_format(MediaType.APPLICATION_XML);
-		String contentResp = "";
 
+		String currentLink = link;
+		int redirectCount = 0;
 
-        try (Response response = request.get(link)) {
-			if (response != null && response.getStatus() == 200) {
-//				InputStream entity = (InputStream) response.getEntity();
-//                contentResp = new FileHelper().convertToString(entity);
-				contentResp = response.readEntity(String.class);
-            }
-		} catch (Exception e) {
-			// Handle exception
-			e.printStackTrace();
+		while (redirectCount <= MAX_REDIRECTS) {
+			try (Response response = request.get(currentLink)) {
+				if (response == null) return "";
+
+				int status = response.getStatus();
+
+				if (isRedirect(status)) {
+					String location = response.getHeaderString("Location");
+					if (location == null) {
+						log.warn("Redirect with no Location header for: {}", currentLink);
+						return "";
+					}
+					currentLink = normalizeUrl(location);
+					redirectCount++;
+					continue;
+				}
+
+				if (status == 200) {
+					return response.readEntity(String.class);
+				}
+
+				log.warn("Unexpected status {} for: {}", status, currentLink);
+				return "";
+
+			} catch (Exception e) {
+				log.error("Failed to fetch resource data from: {}", currentLink, e);
+				return "";
+			}
 		}
 
-		return contentResp;
+		log.error("Too many redirects ({}+) starting from: {}", MAX_REDIRECTS, link);
+		return "";
 	}
+
+	private boolean isRedirect(int status) {
+		return status == 301 || status == 302 || status == 303
+				|| status == 307 || status == 308;
+	}
+
+	private String normalizeUrl(String url) {
+		return url.startsWith("http://") ? url.replaceFirst("http://", "https://") : url;
+	}
+
 
 	@SuppressWarnings("unchecked")
 	public List<ResourceService> getResources(String id_deployment) {
