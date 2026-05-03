@@ -278,92 +278,96 @@
 
 											$.IGRP.utils.loading.show();
 
+
+
 											$.IGRP.utils.submitStringAsFile({
-												 pParam 		: {
-                                                        pArrayFiles : $.IGRP.utils.submitPage2File.getFiles(objSubmit),
-                                                        pArrayItem 	: objSubmit.find(':input').not(".notForm").serializeArray()
-                                                    },
-                                                    pUrl   		: $.IGRP.utils.getUrl(liStep.attr('action')) + 'ir_cf=xml',  // ← only change
-                                                    pNotify 	: false,
-												pComplete 	: function(resp){
+												pParam: {
+													pArrayFiles: $.IGRP.utils.submitPage2File.getFiles(objSubmit),
+													pArrayItem:  objSubmit.find(':input').not(".notForm").serializeArray()
+												},
+												pUrl:      $.IGRP.utils.getUrl(liStep.attr('action')),  // ← removed ir_cf=xml
+												pNotify:   false,
+												pComplete: function(resp) {
 
 													$.IGRP.utils.loading.hide();
 
-													const xml = resp.responseXML || $($.parseXML(resp.response));
+													// Server now returns HTML — parse it as a document fragment
+													const responseText = resp.response || resp.responseText || '';
+													const $html = $('<div>').append($.parseHTML(responseText, document, true));
 
-													let alert = '';
-
-													$.each($(xml).find('messages message'),function(i,row){
-
-														const type = $(row).attr('type');
-							
-														if (type === 'error') {
-						
-															alert += $.IGRP.utils.message.alert({
-																type : 'danger',
-																text : $(row).text()
-															});
-							
-														}
-													});
-
-													if(alert !== ''){
-														$('.igrp-msg-wrapper').html(alert);
+													// ── 1. Detect errors from rendered alert HTML ──────────────────────
+													const $errors = $html.find('.dynamic-alert.alert-danger, .alert.alert-danger');
+													if ($errors.length) {
+														$('.igrp-msg-wrapper').html($errors);   // show them in the page wrapper
 														return false;
+													}
 
-													}else{
+													// ── 2. Also handle the classic XML <messages> path (backward compat)
+													//       handleXML already does both HTML and XML gracefully
+													$.IGRP.utils.message.handleXML(responseText);
 
-														const viewOnly  = `p_fwl_${rel}_viewonly`,
-															viewonlyObj = $(xml).find(`rows content >* hidden[name="${viewOnly}"]`);
+													// ── 3. Extract viewOnly hidden from the HTML fragment ──────────────
+													const viewOnly    = `p_fwl_${rel}_viewonly`;
+													const $viewInput  = $html.find(`input[name="${viewOnly}"]`);
+													if ($viewInput.length) {
+														const val = isNaN($viewInput.val()) ? 0 : $viewInput.val() * 1;
+														com.controllVieWonly(viewOnly, val);
+													}
 
-														if(viewonlyObj[0]){
-															
-															const val = isNaN(viewonlyObj.text()) ? 0 : viewonlyObj.text() * 1;
+													// ── 4. Sync hidden fields back into the live form ──────────────────
+													//       getHiddenFields accepts either an XML document or an HTML fragment
+													$.IGRP.components.form.getHiddenFields($html);
 
-															com.controllVieWonly(viewOnly, val);
-														}
+													// ── 5. Component refresh (if the step declares refresh_components) ─
+													let refreshComponents = liStep.is('[refresh_components]')
+														? liStep.attr('refresh_components')
+														: null;
 
-														$.IGRP.components.form.getHiddenFields(xml);
+													if (refreshComponents) {
+														refreshComponents = refreshComponents.split(',');
 
-														let refreshComponents = liStep.is('[refresh_components]') ? liStep.attr('refresh_components') : null;
+														// Pass rawHtml so transformXMLNodes skips the extra AJAX round-trip
+														// when the server already returned full HTML
+														const xslURL = $.IGRP.utils.getXMLStylesheet(responseText);
 
-														if(refreshComponents){
+														if (xslURL) {
+															// Edge-case: page still returns XML+PI (mixed deployment)
+															$.IGRP.utils.xsl.transform({
+																xsl    : xslURL,
+																xml    : $($.parseXML(responseText)),
+																nodes  : refreshComponents,
+																success: function(c) {
+																	if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
+																		$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
 
-															refreshComponents = refreshComponents.split(',');
+																	com.controllChangeBeforeSubmitNext({
+																		currentIndex, newIndex, obj, valid, currentObj
+																	});
+																}
+															});
+														} else {
+															// Normal path: server returned HTML — use it directly
+															$.IGRP.utils.transformXMLNodes({
+																nodes   : refreshComponents,
+																rawHtml : responseText,          // ← skip re-fetch, reuse response
+																success : function(c) {
+																	if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
+																		$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
 
-															    $.IGRP.utils.transformXMLNodes({
-                                                                    nodes   : refreshComponents,
-                                                                    url     : $.IGRP.utils.getUrl(liStep.attr('action')),
-                                                                    data    : objSubmit.find(':input').not('.notForm').serialize(),
-                                                                    headers : { 'X-IGRP-REMOTE': 1 },
-                                                                    success : function(c){
-                                                                       if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
-                                                                            $.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-
-                                                                        com.controllChangeBeforeSubmitNext({
-                                                                            currentIndex : currentIndex,
-                                                                            newIndex     : newIndex,
-                                                                            obj          : obj,
-                                                                            valid        : valid,
-                                                                            currentObj   : currentObj
-                                                                        });
-                                                                    },
-                                                                    error : function(){
-                                                                        console.warn('[igrp.steps] transformXMLNodes failed');
-                                                                    }
-                                                                });
-
-														}else{
-
-															com.controllChangeBeforeSubmitNext({
-																currentIndex : currentIndex,
-																newIndex 	 : newIndex,
-																obj 		 : obj,
-																valid 		 : valid,
-																currentObj 	 : currentObj
+																	com.controllChangeBeforeSubmitNext({
+																		currentIndex, newIndex, obj, valid, currentObj
+																	});
+																},
+																error: function() {
+																	console.warn('[igrp.steps] transformXMLNodes failed');
+																}
 															});
 														}
-														
+
+													} else {
+														com.controllChangeBeforeSubmitNext({
+															currentIndex, newIndex, obj, valid, currentObj
+														});
 													}
 												}
 											});
