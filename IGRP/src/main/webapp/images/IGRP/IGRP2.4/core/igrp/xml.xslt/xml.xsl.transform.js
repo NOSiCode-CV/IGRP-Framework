@@ -257,26 +257,28 @@ $.fn.XMLTransform = function(params) {
 
 	//SET DIV CONTENT FROM TRANSFORMATION
 	const setContent = function (content) {
-		if (params.method === 'replace') {
-			element.replaceWith(content);
-		} else {
-			element.html(content);
-		}
 
-		done(content);
-	};
+		setTimeout(function(){
+			if(params.method && params.method === 'replace')
+				element.replaceWith(content);
+			else
+				element.html(content);
 
+			done(content);
+
+		},5);
+	}
 	//TRANSFORM
 	const start = function () {
-		try {
-			if (xml && xsl) {
+		try{
+			if(xml && xsl){
 				const isIE11 = window.navigator.userAgent.match(/rv:11.0/i);
 				const isIE = !!(window.ActiveXObject || isIE11);
 				const callback = isIE ? IETransform : Transform;
 
 				includeTemplates({
-					callback: function () {
-						if (isIE && params.excludePrefix)
+					callback:function(){
+						if(isIE && params.excludePrefix )
 							excludePrefix(params.excludePrefix);
 
 						callback();
@@ -284,7 +286,7 @@ $.fn.XMLTransform = function(params) {
 				});
 
 			}
-		} catch (startError) {
+		}catch(startError){
 			errorHandler(startError)
 		}
 	};
@@ -293,22 +295,22 @@ $.fn.XMLTransform = function(params) {
 		const i = p.index > 0 ? p.index : 0;
 		const content = p.content ? p.content : "";
 
-		if (i < p.includes.length) {
+		if(i < p.includes.length){
 
 			let includeFile = p.includes[i].global ? tmplSplitter + p.includes[i].name : p.includes[i].name;
 
 			const baseWay = includeFile.split('/').slice(0, -1).join('/');
 
-			if (!baseWay)
-				includeFile = tmplSplitter + '/' + includeFile;
+			if(!baseWay)
+				includeFile=tmplSplitter+'/'+includeFile;
 
 			includeFile = includeFile.split('?v=')[0];
 
-			if (!__XSLTemplatesInc[includeFile])
+			if(!__XSLTemplatesInc[ includeFile ])
 
-				__XSLTemplatesInc[includeFile] = {
+				__XSLTemplatesInc[ includeFile ] = {
 
-					request: null
+					request : null
 
 				}
 
@@ -323,12 +325,12 @@ $.fn.XMLTransform = function(params) {
 				}
 
 				loadTemplate({
-					includes: getIncludesArr(data, baseWay),
-					callback: function () {
+					includes:getIncludesArr(data,baseWay),
+					callback:function(){
 						loadTemplate({
-							includes: p.includes,
-							index: i + 1,
-							callback: p.callback
+							includes:p.includes,
+							index   :i+1,
+							callback:p.callback
 						});
 					}
 				});
@@ -336,46 +338,46 @@ $.fn.XMLTransform = function(params) {
 			};
 
 
-			if (__XSLTemplatesInc[includeFile].data) {
+			if(__XSLTemplatesInc[ includeFile ].data){
 
-				AfterLoadCallback(__XSLTemplatesInc[includeFile].data);
+				AfterLoadCallback( __XSLTemplatesInc[ includeFile ].data );
 
-			} else {
+			}else{
 
-				if (__XSLTemplatesInc[includeFile].request)
+				if(__XSLTemplatesInc[ includeFile ].request)
 
-					__XSLTemplatesInc[includeFile].request.then(function (data) {
+					__XSLTemplatesInc[ includeFile ].request.then(function(data){
 
 						const contents = data.documentElement,
 
-							clone = $(data.documentElement).clone(true)[0];
+							clone    = $(data.documentElement).clone(true)[0];
 
-						AfterLoadCallback(clone);
+						AfterLoadCallback( clone );
 
-						__XSLTemplatesInc[includeFile].data = clone;
+						__XSLTemplatesInc[ includeFile ].data = clone;
 
 					});
 
 				else
 
-					__XSLTemplatesInc[includeFile].request = $.ajax({
-						url: includeFile,
-						cache: true,
-						success: function (data) {
+					__XSLTemplatesInc[ includeFile ].request = $.ajax({
+						url:includeFile,
+						cache:true,
+						success:function(data){
 
 							const contents = data.documentElement,
 
-								clone = $(data.documentElement).clone(true)[0];
+								clone    = $(data.documentElement).clone(true)[0];
 
-							AfterLoadCallback(clone);
+							AfterLoadCallback( clone );
 
-							__XSLTemplatesInc[includeFile].data = clone;
+							__XSLTemplatesInc[ includeFile ].data = clone;
 
-							__XSLTemplatesInc[includeFile].request = false;
+							__XSLTemplatesInc[ includeFile ].request = false;
 
 
 						},
-						error: function (e) {
+						error:function(e){
 							errorHandler(e)
 						}
 					});
@@ -383,14 +385,16 @@ $.fn.XMLTransform = function(params) {
 			}
 
 
-		} else {
-			if (p.callback) p.callback(i)
+
+
+		}else{
+			if(p.callback) p.callback(i)
 		}
 	};
 
 
 	const removeIncludes = function (xsl) {
-		$.each($(xsl).find('xsl\\:include,xsl\\:import'), function () {
+		$.each($(xsl).find('xsl\\:include,xsl\\:import'),function(){
 			$(this).remove()
 		});
 	};
@@ -419,15 +423,15 @@ $.fn.XMLTransform = function(params) {
 	};
 	//GET XML OBJCT
 	const getXML = function () {
-		if (params.xml)
-			switch (typeof params.xml) {
+		if(params.xml)
+			switch(typeof params.xml){
 				case 'string':
 
 					getContentFromUrl({
-						url: params.xml,
-						data: params.xmlData,
-						method: 'POST',
-						callback: setXML
+						url      :params.xml,
+						data     :params.xmlData,
+						method : 'POST',
+						callback :setXML
 					});
 
 					break;
@@ -436,16 +440,16 @@ $.fn.XMLTransform = function(params) {
 					break;
 			}
 		else
-			errorHandler({message: 'No XML'})
+			errorHandler({ message:'No XML' })
 	};
 	//GET XSL OBJCT
 	const getXSL = function () {
-		if (params.xsl)
-			switch (typeof params.xsl) {
+		if(params.xsl)
+			switch(typeof params.xsl){
 				case 'string':
 					getContentFromUrl({
-						url: params.xsl,
-						callback: setXSL
+						url      :params.xsl,
+						callback :setXSL
 					});
 
 					break;
@@ -454,7 +458,7 @@ $.fn.XMLTransform = function(params) {
 					break;
 			}
 		else
-			errorHandler({message: 'No XSL'})
+			errorHandler({ message:'No XSL' })
 	};
 	//AJAX LOAD CONTENT
 	var getContentFromUrl = function(p){
