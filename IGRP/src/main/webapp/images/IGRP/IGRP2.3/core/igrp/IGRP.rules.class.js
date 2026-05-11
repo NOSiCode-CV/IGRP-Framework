@@ -883,7 +883,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 				const row = p.isTable === true ? p.sourceField.parents('tr:first') : null;
 
 				$.ajax({
-					url 	: $.IGRP.rules.getRemoteUrl(p)+'&ir_cf=xml',
+					url 	: $.IGRP.rules.getRemoteUrl(p)+'&ir_cf=xml&target=_blank',
 					headers : {
 				       	'X-IGRP-REMOTE' : 1
 				   	},

@@ -15,7 +15,7 @@
 //por William Lima NOSi 2013
 function PORTON_ajaxLoad(url,success,error,cache){
 	$.ajax({
-		url: url+'&ir_cf=xml',
+		url: url+'&amp;ir_cf=xml&amp;target=_blank',
 		type: 'GET',
 		dataType: 'xml',
 		error: function(){
@@ -63,7 +63,7 @@ function XmlXslTransform(xml_path,xsl_path,params,div,loadedFunction,loading_ele
 						var xslproc = xslt.createProcessor();
 						xslproc.input = xmldoc;
 						if(params != null){
-							for(i=0; i < params.length; i=i+2){
+							for(i=0; i &lt; params.length; i=i+2){
 							xslproc.addParameter(params[i], params[i+1]);
 							}
 						}  
@@ -111,7 +111,7 @@ function XmlXslTransform(xml_path,xsl_path,params,div,loadedFunction,loading_ele
 									 xsltProcessor=new XSLTProcessor();
 									  xsltProcessor.importStylesheet(xsl);
 									  if(params != null){
-										  for(i=0; i < params.length; i=i+2){
+										  for(i=0; i &lt; params.length; i=i+2){
 											 xsltProcessor.setParameter(null,params[i], params[i+1]);
 										  }
 									  }
@@ -145,7 +145,7 @@ function XmlXslTransform(xml_path,xsl_path,params,div,loadedFunction,loading_ele
 								 xsltProcessor=new XSLTProcessor();
 								 xsltProcessor.importStylesheet(xsl);
 								 if(params != null){
-									  for(i=0; i < params.length; i=i+2){
+									  for(i=0; i &lt; params.length; i=i+2){
 										 xsltProcessor.setParameter(null,params[i], params[i+1]);
 									  }
 								  }

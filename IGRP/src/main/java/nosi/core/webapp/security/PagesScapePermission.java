@@ -24,7 +24,7 @@ public final class PagesScapePermission {
               "igrp/page/getpagejson", "inps_porton/pagamento_de_servico/index", "inps_porton/pagamento_de_servico/pagar",
               "igrp_studio/web-report/get-link-report", "igrp_studio/web-report/get-contraprova", "igrp_studio/webreport/get-image",
               "igrp_studio/webreport/preview", "igrp_studio/web-report/get-xsl", "portondinosilha/pagamento_de_donativo/index",
-              "portondinosilha/pagamento_de_servico/index"
+              "portondinosilha/pagamento_de_servico/index","igrp/generator/transform"
       );
 
       PAGES_SCAPE_ENCRYPT = Set.of(

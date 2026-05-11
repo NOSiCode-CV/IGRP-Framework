@@ -183,16 +183,16 @@
               codes : [
                   {
                       name : 'CONTROLLER',
-                      xsl  : '/mvc/XSL_CONTROLLER.xsl'
+                      xsl  : 'mvc/XSL_CONTROLLER.xsl'
                   },
                   {
                       name : 'MODEL',
-                      xsl  : '/mvc/XSL_MODEL.xsl'
+                      xsl  : 'mvc/XSL_MODEL.xsl'
                   },
 
                   {
                       name : 'VIEW',
-                      xsl  : '/mvc/XSL_VIEW.xsl'
+                      xsl  : 'mvc/XSL_VIEW.xsl'
                   }
 
                   

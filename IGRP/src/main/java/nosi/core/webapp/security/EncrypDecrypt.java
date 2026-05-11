@@ -4,6 +4,7 @@ package nosi.core.webapp.security;
  * 17 Nov 2017
  */
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ import nosi.core.webapp.Igrp;
 public class EncrypDecrypt {
 
 	private static final String ALGO = "AES/ECB/PKCS5Padding";// "AES/ECB/PKCS5PADDING"
-	private static final String CHARTSET = "UTF-8";
+	private static final Charset CHARTSET = StandardCharsets.UTF_8;
 	private static final String SECRET_KEY_SPEC = "AES";
 	private static final String SECRET_KEY_ALGO = "SHA-1";
 	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
