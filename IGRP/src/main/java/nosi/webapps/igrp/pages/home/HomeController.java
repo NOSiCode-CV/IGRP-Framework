@@ -107,7 +107,7 @@ public class HomeController extends Controller {
 		}else {
 			try { // Eliminar
 				final User currentUser = Core.getCurrentUser();
-				if(Core.isNull(dad) || currentUser ==null)
+				if(currentUser ==null)
 					return redirectToUrl("webapps?r=igrp/login/login");
 				new Permission().changeOrgAndProfile("igrp"); 
 			}catch(Exception ignored) {
