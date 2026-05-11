@@ -105,8 +105,8 @@ public class HomeController extends Controller {
 			return redirect("igrp_studio", "Env", "openApp", this.queryString()); 
 		}else {
 			try { // Eliminar
-				final User currentUser = Core.getCurrentUser();
-				if(currentUser ==null)
+			
+				if(Core.getCurrentUser() ==null)
 					return redirectToUrl("webapps?r=igrp/login/login");
 				new Permission().changeOrgAndProfile("igrp"); 
 			}catch(Exception ignored) {
