@@ -61,7 +61,7 @@ public class DisplayDocmentType{
 		formlist_documento_task.getProperties().add("no-delete", "true").add("no-add", "true");
 		this.addField(formlist_documento_task);
 		List<Formlist_documento_task> l = this.getInputDocsData();
-		if(l != null) l.addAll(this.getOutputDocsData());
+        l.addAll(this.getOutputDocsData());
 		formlist_documento_task.addData(l);
 		return formlist_documento_task.getData() !=null && !formlist_documento_task.getData().isEmpty() ? formlist_documento_task.toString() : "";
 	
@@ -122,7 +122,8 @@ public class DisplayDocmentType{
 					ft.setFormlist_documento_task_documento(new Pair(td.getTipo(),td.getTipo()));
 					if(td.getLink()!=null && Core.isNotNull(td.getLink().getLink())){
 						ft.setFormlist_documento_task_mostrar(new Pair(td.getLink().getLink(),td.getLink().getLink_desc()));
-						ft.setFormlist_documento_user(new Pair(td.getUser(),td.getUser()));
+						if(Core.isNotNull(td.getUser()))
+							ft.setFormlist_documento_user(new Pair(td.getUser(),td.getUser()));
 					}
 					else
 						ft.setFormlist_documento_task_mostrar(new Pair("#",""));
@@ -156,7 +157,8 @@ public class DisplayDocmentType{
 					ft.setFormlist_documento_output_task_descricao(new Pair(descricao,descricao));
 					if(td.getLink()!=null && Core.isNotNull(td.getLink().getLink())){
 						ft.setFormlist_documento_output_task_mostrar(new Pair(td.getLink().getLink(),td.getLink().getLink_desc()));
-						ft.setFormlist_documento_output_user(new Pair(td.getUser(),td.getUser()));
+						if(Core.isNotNull(td.getUser()))
+							ft.setFormlist_documento_output_user(new Pair(td.getUser(),td.getUser()));
 					}else
 						ft.setFormlist_documento_output_task_mostrar(new Pair("#",""));
 					ft.setFormlist_documento_output_task_nome(new Pair(nome,nome));
