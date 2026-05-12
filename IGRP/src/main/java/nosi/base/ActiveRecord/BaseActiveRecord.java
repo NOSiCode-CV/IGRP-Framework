@@ -576,10 +576,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 
 	private T andWhereObject(String name, String operator, Object[] values) {
-		if(values!=null) {
-			String value = this.applyToInCondition(values);
+		if (values != null) {
 			this.and();
-			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
+			if (values.length == 0) {
+				// IN () is invalid SQL — short-circuit with false predicate
+				// NOT IN () would be a true predicate (1=1)
+				boolean isNotIn = operator.trim().toUpperCase().contains("NOT");
+				this.filterWhere(isNotIn ? "1=1 " : "1=0 ");
+			} else {
+				String value = this.applyToInCondition(values);
+				this.filterWhere(recq.resolveColumnName(this.getAlias(), name) + " " + operator + " " + value + " ");
+			}
 		}
 		return (T) this;
 	}
