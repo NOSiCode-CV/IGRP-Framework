@@ -99,13 +99,13 @@ public class ExecucaoTarefasController extends Controller {
 				model.setLimite_maximo_de_registos_minhas_taref(100);
 			myTasks = this.getMyTasks(model, view);
 			if(view.gerir_tarefas.isVisible()){
-				addTaskManage(taskManage);
+				addTaskManage(taskManage, this.applyFiler(model, MY_TASK));
 			}
 			if(Core.isNull(model.getLimite_maximo_de_registos_dist_taref()))
 				model.setLimite_maximo_de_registos_dist_taref(300);
 			tasksDisponiveis = this.getAvailableTask(model, view);
 			if(view.gerir_tarefas.isVisible()){
-				addTaskManage(taskManage);
+				addTaskManage(taskManage, this.applyFiler(model, AVAILABLE));
 			}
 
 		}
@@ -117,6 +117,11 @@ public class ExecucaoTarefasController extends Controller {
 		view.table_gerir_tarefas.addData(taskManage);
 		view.table_disponiveis.addData(tasksDisponiveis);
 		view.table_minhas_tarefas.addData(myTasks);
+
+		Map<String, String> listProc = new ProcessDefinitionIGRP().mapToComboBoxByKey(Core.getCurrentDad());
+		Map<Object, Object> userAtrib = Core.toMap(Core.getUsersByApplication(Core.getCurrentDad()), "user_name", "name", "-- Selecionar --");
+		Map<Object, Object> tasksMap = Core.toMap(new TaskAccess().getTaskAccess(), "taskName", "taskDescription", "-- Selecionar --");
+
 		view.prioridade_colaborador.setValue(listPrioridade);
 		view.prioridade_estatistica.setValue(listPrioridade);
 		view.prioridade_minhas_tarefas.setValue(listPrioridade);
@@ -785,8 +790,8 @@ public class ExecucaoTarefasController extends Controller {
 		List<Table_gerir_tarefas> taskManage = new ArrayList<>();
 		// Verifica se é perfil pai
 		if (view.gerir_tarefas.isVisible()) {
-			tasks = this.applyFiler(model,MANAGE_TASK); // apply new filter
-			addTaskManage(taskManage);
+			List<TaskService> tasks = this.applyFiler(model, MANAGE_TASK);
+			addTaskManage(taskManage, tasks);
 			//this.showTabManage(view, true);// show tab when user is manager
 		}
 		return taskManage;
@@ -795,8 +800,7 @@ public class ExecucaoTarefasController extends Controller {
 	/**
 	 * @param taskManage
 	 */
-	private void addTaskManage(List<Table_gerir_tarefas> taskManage) {
-		
+	private void addTaskManage(List<Table_gerir_tarefas> taskManage, List<TaskService> tasks) {
 		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
 			t.setAtribuido_a(task.getAssignee());
@@ -818,8 +822,8 @@ public class ExecucaoTarefasController extends Controller {
 	// Get all tasks of current user
 	private List<Table_minhas_tarefas> getMyTasks(ExecucaoTarefas model, ExecucaoTarefasView view) {
 		List<Table_minhas_tarefas> myTasks = new ArrayList<>();
-		 tasks = this.applyFiler(model,MY_TASK); // apply new filter
- 		for (TaskService task : tasks) {
+		List<TaskService> tasks = this.applyFiler(model, MY_TASK);
+		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
 			t.setData_entrada_tabela_minhas_tarefas(Core.isNotNull(task.getCreateTime())
@@ -841,7 +845,7 @@ public class ExecucaoTarefasController extends Controller {
 	private List<Table_disponiveis> getAvailableTask(ExecucaoTarefas model, ExecucaoTarefasView view) {
 		List<Table_disponiveis> tasksDisponiveis = new ArrayList<>();
 		if(view.disponiveis.isVisible()) {
-			tasks = this.applyFiler(model,AVAILABLE); // apply new filter
+			List<TaskService> tasks = this.applyFiler(model, AVAILABLE);
 			for (TaskService task : tasks) {
 				ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
 				t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
@@ -868,10 +872,6 @@ public class ExecucaoTarefasController extends Controller {
 		return "";
 	}
 
-	private Map<String, String> listProc = new ProcessDefinitionIGRP().mapToComboBoxByKey(Core.getCurrentDad());
-	private Map<Object, Object> userAtrib = Core.toMap(Core.getUsersByApplication(Core.getCurrentDad()), "user_name", "name","-- Selecionar --");
-	private Map<Object, Object> tasksMap =  Core.toMap(new TaskAccess().getTaskAccess(), "taskName", "taskDescription","-- Selecionar --");
-	List<TaskService> tasks;
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;
 	private static final int MY_TASK = 3;
