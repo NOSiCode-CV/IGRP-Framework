@@ -5,6 +5,8 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -539,6 +541,84 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		this.parametersMap.add(c);
 	}
 
+	private Class<?> resolveBetweenClassType(String columnName, Object value) {
+		if (value instanceof Number) {
+			return value.getClass();
+		}
+		if (value instanceof Date) {
+			return Date.class;
+		}
+		if (value instanceof LocalDate) {
+			return LocalDate.class;
+		}
+		if (value instanceof LocalDateTime) {
+			return LocalDateTime.class;
+		}
+		Class<?> fieldType = this.getEntityFieldType(columnName);
+		if (fieldType != null) {
+			if (LocalDate.class.isAssignableFrom(fieldType)) {
+				return LocalDate.class;
+			}
+			if (LocalDateTime.class.isAssignableFrom(fieldType)) {
+				return LocalDateTime.class;
+			}
+			if (Date.class.isAssignableFrom(fieldType) || java.util.Date.class.isAssignableFrom(fieldType)) {
+				return Date.class;
+			}
+			if (Number.class.isAssignableFrom(fieldType)) {
+				return fieldType;
+			}
+		}
+		if (value instanceof String) {
+			return String.class;
+		}
+		return Object.class;
+	}
+
+	private String inferDateFormat(String dateStr) {
+		if (dateStr.matches("\\d{4}-\\d{2}-\\d{2}.*")) {
+			return dateStr.contains("T") || dateStr.contains(" ") ? "yyyy-MM-dd HH:mm:ss" : "yyyy-MM-dd";
+		}
+		if (dateStr.matches("\\d{2}/\\d{2}/\\d{4}.*")) {
+			return "dd/MM/yyyy";
+		}
+		if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}.*")) {
+			return Core.DD_MM_YYYY;
+		}
+		return "yyyy-MM-dd";
+	}
+
+	private Class<?> getEntityFieldType(String columnName) {
+		if (this.className == null) {
+			return null;
+		}
+		String fieldName = this.recq.removeAlias(columnName);
+		for (Field field : this.className.getDeclaredFields()) {
+			if (field.getName().equals(fieldName)) {
+				return field.getType();
+			}
+		}
+		return null;
+	}
+
+	private Object resolveBetweenValue(Object value, Class<?> classType) {
+		if (!(value instanceof String)) {
+			return value;
+		}
+		String dateStr = value.toString().trim();
+		String format = this.inferDateFormat(dateStr);
+		if (Date.class.equals(classType)) {
+			return Core.ToDate(dateStr, format);
+		}
+		if (LocalDate.class.equals(classType)) {
+			return Core.convertStringToLocalDate(dateStr, format);
+		}
+		if (LocalDateTime.class.equals(classType)) {
+			return Core.convertStringToLocalDateTime(dateStr, format);
+		}
+		return value;
+	}
+
 	private String[] normalizeStringValues(String[] values) {
 		for (int i = 0; i < values.length; i++) {
 			values[i] = QUOTE + values[i] +QUOTE;
@@ -970,7 +1050,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}catch (Exception e) {
 			this.keepConnection = false;
 			this.setError(e);
-			System.out.println(this.getSql());
 		} finally {
 			this.closeSession(s);
 		}
