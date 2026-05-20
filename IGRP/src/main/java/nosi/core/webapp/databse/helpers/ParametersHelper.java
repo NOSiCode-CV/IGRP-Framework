@@ -2,6 +2,8 @@ package nosi.core.webapp.databse.helpers;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -42,6 +44,16 @@ public class ParametersHelper {
 				query.setParameter(columnName,Core.ToDate(value.toString(), col.getFormat()));
 			else
 				query.setParameter(columnName,value);
+		}else if(col.getType().equals(LocalDate.class)){
+			if((value instanceof String) && Core.isNotNull(value))
+				query.setParameter(columnName, Core.convertStringToLocalDate(value.toString(), col.getFormat()));
+			else
+				query.setParameter(columnName, value);
+		}else if(col.getType().equals(LocalDateTime.class)){
+			if((value instanceof String) && Core.isNotNull(value))
+				query.setParameter(columnName, Core.convertStringToLocalDateTime(value.toString(), col.getFormat()));
+			else
+				query.setParameter(columnName, value);
 		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
 			query.setParameter(columnName,value!=null?value.toString():null);
 		}else {
