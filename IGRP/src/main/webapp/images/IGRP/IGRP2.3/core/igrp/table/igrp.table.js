@@ -1,61 +1,108 @@
 (function(){
 
-	var com;
+	let com;
+	if ($.fn.DataTable) {
+		// Strip accents from index
+		$.fn.DataTable.ext.type.search.string = function(data) {
+			return !data ? '' : typeof data === 'string'
+				? data.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+				: data;
+		};
+		$.fn.DataTable.ext.type.search.html = $.fn.DataTable.ext.type.search.string;
 
-	var lang = document.cookie.split(';');
+		$.fn.DataTable.ext.search.push(function(settings, data, dataIndex) {
+			// Use our stored original term, not the one DataTables sees
+			const rawTerm = settings.oApi._fnEscapeRegex
+				? (settings._igrpRawSearch || settings.oPreviousSearch.sSearch)
+				: settings.oPreviousSearch.sSearch;
 
-	var stripHtml = function(html){
-		var tmp = document.createElement("DIV");
+			if (rawTerm === '') return true;
+
+			const termHasAccents = /[\u0300-\u036f]/.test(rawTerm.normalize('NFD'));
+			const api = new $.fn.dataTable.Api(settings);
+			const row = api.row(dataIndex).node();
+			const rowText = $(row).text();
+
+			if (!termHasAccents) {
+				const normalizedTerm = rawTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+				const normalizedRow  = rowText.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+				return normalizedRow.indexOf(normalizedTerm) !== -1;
+			} else {
+				const term   = rawTerm.normalize('NFC').toLowerCase();
+				const rowNFC = rowText.normalize('NFC').toLowerCase();
+				return rowNFC.indexOf(term) !== -1;
+			}
+		});
+
+		// Hook into DataTables search: store raw term, feed stripped term
+		$(document).on('keyup', '.dataTables_filter input', function() {
+			const rawTerm = $(this).val();
+			const table = $(this).closest('.dataTables_wrapper').find('table.dataTable');
+
+			if ($.fn.DataTable.isDataTable(table)) {
+				const api = table.DataTable();
+				// Store original term for our ext.search.push to read
+				api.settings()[0]._igrpRawSearch = rawTerm;
+				// Feed DataTables a stripped version so it never pre-filters
+				const strippedTerm = rawTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+				api.search(strippedTerm).draw();
+			}
+		});
+	}
+	const lang = document.cookie.split(';');
+
+	const stripHtml = function (html) {
+		const tmp = document.createElement("DIV");
 		tmp.innerHTML = html;
-		var str = tmp.textContent || tmp.innerText || "";
+		const str = tmp.textContent || tmp.innerText || "";
 
 		return $.trim(str);
 	};
 
-	var exportOptionsFormat = function(data, node){
-		return $('.table-info-group-main',$(node))[0] ? $('.table-info-group-main',$(node)).text() : stripHtml(data);
-	}
-	
-	var exportOptions = {
+	const exportOptionsFormat = function (data, node) {
+		return $('.table-info-group-main', $(node))[0] ? $('.table-info-group-main', $(node)).text() : stripHtml(data);
+	};
 
-			pdf : {
-	           extend          : 'pdfHtml5',
-	           text            : '<i class="fa fa-file-pdf-o"></i> PDF',
-	           titleAttr       : 'Exportar para PDF',
-	           className 	   : 'btn btn-danger btn-xs',
-	           exportOptions   : {
-	               columns     : ':not(.igrp-table-ctx-th)',
-				   format	   : {
-						body : function ( data, row, column, node ) {
-							return exportOptionsFormat(data,node);
-						}
+	const exportOptions = {
+
+		pdf: {
+			extend: 'pdfHtml5',
+			text: '<i class="fa fa-file-pdf-o"></i> PDF',
+			titleAttr: 'Exportar para PDF',
+			className: 'btn btn-danger btn-xs',
+			exportOptions: {
+				columns: ':not(.igrp-table-ctx-th)',
+				format: {
+					body: function (data, row, column, node) {
+						return exportOptionsFormat(data, node);
 					}
-	           },
-	           customize: function (doc) {
-	        	   var tcontent = doc.content[1] || doc.content[0];
-	        	   
-	        	   if(tcontent && tcontent.table)
-	        		   tcontent.table.widths = Array(tcontent.table.body[0].length + 1).join('*').split('');
-	           }
-	       },
+				}
+			},
+			customize: function (doc) {
+				const tcontent = doc.content[1] || doc.content[0];
 
-	       excel : {
-	           extend          : 'excelHtml5',
-	           text            : '<i class="fa fa-file-excel-o"></i> Excel',
-	           titleAttr       : 'Exportar para Excel',
-	           className 	   : 'btn btn-success btn-xs',
-	           exportOptions   : {
-	                columns    : ':not(.igrp-table-ctx-th)',
-				    format	   : {
-						body : function ( data, row, column, node ) {
-							return exportOptionsFormat(data,node);
-						}
+				if (tcontent && tcontent.table)
+					tcontent.table.widths = Array(tcontent.table.body[0].length + 1).join('*').split('');
+			}
+		},
+
+		excel: {
+			extend: 'excelHtml5',
+			text: '<i class="fa fa-file-excel-o"></i> Excel',
+			titleAttr: 'Exportar para Excel',
+			className: 'btn btn-success btn-xs',
+			exportOptions: {
+				columns: ':not(.igrp-table-ctx-th)',
+				format: {
+					body: function (data, row, column, node) {
+						return exportOptionsFormat(data, node);
 					}
-	           }
-	       }
+				}
+			}
+		}
 
-		};
-	
+	};
+
 	$.IGRP.component('tableCtrl',{
 		ordertable : function(selector){
 
@@ -63,7 +110,7 @@
 
 			if ($(selector)[0] && $.fn.sortable) {
 
-				var form = $.IGRP.utils.getForm();
+				const form = $.IGRP.utils.getForm();
 
 				$(selector+' tbody').sortable({
 					containment 	: "parent",
@@ -72,17 +119,17 @@
 					distance 		: 5,
 		            stop  			: function(e){
 
-		            	var id 	 = $(e.target).parents('table').attr('id'),
+						const id = $(e.target).parents('table').attr('id'),
 
-		            		name = 'p_fwl_'+id+'_order';
+							name = 'p_fwl_' + id + '_order';
 
-		              	$('input[name="'+name+'"]').remove();
+						$('input[name="'+name+'"]').remove();
 
 		              	$('tr',$(e.target)).each(function(){
-		              		
-		              		var obj = $('input[name="p_'+id+'_id"]',$(this));
 
-		              		obj = obj[0] ? obj : $('input[name="p_'+id+'_id_fk"]',$(this));
+							let obj = $('input[name="p_' + id + '_id"]', $(this));
+
+							obj = obj[0] ? obj : $('input[name="p_'+id+'_id_fk"]',$(this));
 
 		              		if (obj.val()) 
 		              			form.append('<input type="hidden" class="submittable" name="'+name+'" value="'+obj.val()+'"/>');
@@ -93,20 +140,20 @@
 		},
 		
 		configGroups : function(op){
-			
-			var o = $.extend({
-				thSelector : 'th[group-in != ""]',
-				parent : 'body'
+
+			const o = $.extend({
+				thSelector: 'th[group-in != ""]',
+				parent: 'body'
 			}, op);
-			
-			var rows = $('table.table[id] tbody tr', o.parent);
-			
+
+			const rows = $('table.table[id] tbody tr', o.parent);
+
 			if(!rows[0] && $('table.table[id] thead tr th[group-in]', o.parent)[0]){
 				
 				$('table.table[id] thead tr th[group-in]', o.parent).each(function(i, th){
-					
-					var thFoot = $('tfoot td[td-name="'+$(this).attr('td-name')+'"]',$(this).parents('table'));
-					
+
+					const thFoot = $('tfoot td[td-name="' + $(this).attr('td-name') + '"]', $(this).parents('table'));
+
 					$(th).remove();
 					
 					if(thFoot[0])
@@ -117,54 +164,59 @@
 			else{
 				
 				rows.each(function(trIndex, tr){
-					
-					var table = $(tr).parents('table');
-					
-					var tdContent;
-	
+
+					const table = $(tr).parents('table');
+
+					let tdContent;
+
 					$(o.thSelector, table).each(function(i, th){
-						
-						var thName    = $(this).attr('td-name'),
-						
+
+						const thName = $(this).attr('td-name'),
+
 							groupName = $(this).attr('group-in'),
-							
-							tdHolder = $('td[item-name="'+groupName+'"]', tr),
-							
-							tdInfo   = $('td[item-name="'+thName+'"]',tr);
-						
+
+							tdHolder = $('td[item-name="' + groupName + '"]', tr),
+
+							tdInfo = $('td[item-name="' + thName + '"]', tr);
+
 						if(tdHolder[0] && tdInfo[0]){
 							
 							$(th).removeClass('is-grouped');
-							
-							var infoHolder = $('<div class="table-info-holder" item-name="'+thName+'">'+
-													'<div class="table-info-th '+$(th).attr('class')+'">'+$(th).html()+'</div>'+
-													'<div class="table-info-td '+tdInfo.attr('class')+'">'+tdInfo.html()+'</div>'+
-											   '</div>'),
-								tdMainHolder;
-											   
-						
-							if(!tdHolder.find('.table-info-group-main')[0]){
-								
-								tdMainHolder = $('<div class="table-info-group-main"></div>');
-								
-								tdHolder.append( tdMainHolder );
-								
-								tdHolder.find('>*').appendTo( tdMainHolder );
-							}
-							
-					
-							tdHolder.append( infoHolder );
-							
-							$(th).addClass('is-grouped');
-							
-							tdInfo.addClass('is-grouped');
 
-							$('tfoot td[td-name="'+thName+'"]',table).addClass('is-grouped');
-							
-							/*var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
-							
-							if(thFoot[0])
-								thFoot.remove();*/
+							const tdInfoHtml = tdInfo.html();
+
+							if (tdInfoHtml && $.trim(tdInfoHtml) !== "") {
+
+								if (tdHolder.find('.table-info-holder[item-name="' + thName + '"]')[0])
+									tdHolder.find('.table-info-holder[item-name="' + thName + '"]').remove();
+
+								const tdInfoClass = tdInfo.attr('class').replace('is-grouped', '');
+								
+								const infoHolder = $('<div class="table-info-holder" item-name="' + thName + '">' +
+									'<div class="table-info-th ' + $(th).attr('class') + '">' + $(th).html() + '</div>' +
+									'<div class="table-info-td ' + tdInfoClass + '">' + tdInfoHtml + '</div>' +
+									'</div>');
+								let tdMainHolder;
+
+
+								if(!tdHolder.find('.table-info-group-main')[0]){
+									
+									tdMainHolder = $('<div class="table-info-group-main"></div>');
+									
+									tdHolder.append( tdMainHolder );
+									
+									tdHolder.find('>*').not('.table-info-holder').appendTo( tdMainHolder );
+								}
+								
+						
+								tdHolder.append( infoHolder );
+								
+								$(th).addClass('is-grouped');
+								
+								tdInfo.addClass('is-grouped');
+
+								$('tfoot td[td-name="'+thName+'"]',table).addClass('is-grouped');
+							}
 							
 						}
 	
@@ -177,142 +229,143 @@
 		},
 
 		dataTable : function(op){
-
-			var o = $.extend({
-
-				selector 		: '.igrp-data-table',
-				language 		: getCookie("igrp_lang"),
-				parent          : 'body'
-
+			const o = $.extend({
+				selector: '.igrp-data-table',
+				language: getCookie("igrp_lang"),
+				parent: 'body'
 			}, op);
 
-			var tables = o.obj && o.obj[0] ? o.obj : $(o.selector,o.parent);
+			const tables = o.obj && o.obj[0] ? o.obj : $(o.selector, o.parent);
 
 			if(tables[0] && $.fn.DataTable){
-				
-				var PageInfo = $.IGRP.info;
 
-				tables.each(function(i,t){
-					
-					var headerContents = $(t).parents('.box-table-contents').first().find('.table-contents-head'),
+				const PageInfo = $.IGRP.info;
 
-						tableTitle 	   = $(t).parents('.box').first().find('.box-title').text() || $('#gen-page-title').text(),
+				tables.each(function(i, t){
 
-						exprts 		   = $(t).attr('exports'),
-						
-						getInfo        = function(instance){
-							
-							return 'IGRP-datatable-'+instance+'-'+PageInfo.app+'-'+PageInfo.page;
-						
+					// ── GUARD: se já tem listeners registados, não re-inicializa ──────
+					// Evita listeners duplicados de element-transform que causam
+					// "Cannot read properties of null (reading 'parentNode')"
+					if ($(t).data('igrp-datatable-init')) {
+						return;
+					}
+					$(t).data('igrp-datatable-init', true);
+					// ──────────────────────────────────────────────────────────────────
+
+					const headerContents = $(t).parents('.box-table-contents').first().find('.table-contents-head'),
+						tableTitle = $(t).parents('.box').first().find('.box-title').text() || $('#gen-page-title').text(),
+						exprts = $(t).attr('exports'),
+
+						getInfo = function (instance) {
+							return 'IGRP-datatable-' + instance + '-' + PageInfo.app + '-' + PageInfo.page;
 						},
 
-						options 	   = {
-
+						options = {
 							dom: 'lfrtip',
-
 							language: {
-
-					            url: path+'/core/igrp/table/datatable/language/'+o.language+'.json'	
-
-					        },
-					        stateSave   : true,
-					        
-					        stateSaveCallback: function(settings,data) {
-					        	
-					            localStorage.setItem( getInfo( settings.sInstance ) , JSON.stringify(data) )
-					            
-					        },
-					        stateLoadCallback: function(settings) {
-					        	
-					          return JSON.parse( localStorage.getItem( getInfo( settings.sInstance ) ) )
-					          
-					        },
-
+								url: path + '/core/igrp/table/datatable/language/' + o.language + '.json'
+							},
+							stateSave: true,
+							stateSaveCallback: function (settings, data) {
+								localStorage.setItem(getInfo(settings.sInstance), JSON.stringify(data));
+							},
+							stateLoadCallback: function (settings) {
+								return JSON.parse(localStorage.getItem(getInfo(settings.sInstance)));
+							},
 							order: [],
-
-							columnDefs	: [{
-
-						      	targets   : 'no-sort',
-
-						      	orderable : false
-
-						    }],
-						    lengthMenu: [[20, 50, -1], [20, 50, "All"]],
-					        initComplete:function(){}
-
+							columnDefs: [{
+								targets: 'no-sort',
+								orderable: false
+							}],
+							lengthMenu: [[20, 50, -1], [20, 50, "All"]],
+							initComplete: function () {
+							}
 						};
 
 					if(exprts){
-
-						var expArr = exprts.split(',');
-
+						const expArr = exprts.split(',');
 						options.buttons = [];
-
 						expArr.forEach(function(e){
-
-							var eOpts = exportOptions[e];
-
+							const eOpts = exportOptions[e];
 							if(eOpts){
-								
 								eOpts.title = tableTitle;
-
-								options.buttons.push( eOpts );
-
+								options.buttons.push(eOpts);
 							}
-							
 						});
-
 						options.dom = 'lfBrtip';
+					}
 
-					};
+					$(t).data('igrp-datatable-options', options);
 
-					var datatable = $(t).DataTable(options);
+					if (!$.fn.DataTable.isDataTable(t))
+						$(t).DataTable(options);
 
-					$.IGRP.on('submit',function(o){
-						
-						if(o.valid && o.target.includes('submit')){
-							datatable.destroy();
-						}
-					
-	            	});
-
-					$.IGRP.events.on('iframe-modal-hide', (o)=>{
-						if ( ! $.fn.DataTable.isDataTable( t ) ) 
-							datatable = $(t).DataTable(options);
-					});
-					
-					$.IGRP.events.on('submit-ajax',function(o){
-						
-						if(o.valid)
-							
-							datatable.destroy();
-	            	});
-					
-					/*$.IGRP.events.on('before-element-transform',function(p){
-
-						if( $(t).parents('.gen-container-item').first().attr('item-name') == p.itemName )
-							
-							datatable.destroy();
-							
-		        	});*/
-					
-					$.IGRP.events.on('element-transform',function(p){
-
-	            	 	var table = $('.table:not(.IGRP_formlist)',p.content);
-
-		        		if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') == $(t).attr('id'))
-		        			datatable.destroy();
-					});
-					
-					/*$(t).on('checkall', function (i, p) {
-						if(p.tableId && p.tableId === $(t).attr('id'))
-							datatable.destroy();
-					});*/
-					
 				});
 
-			}
+				if (!$.IGRP.components.tableCtrl.dataTablesEventsInitialized) {
 
+					const safeDestroy = function (t) {
+						if (!$.fn.DataTable.isDataTable(t)) return;
+						if (!$.contains(document.documentElement, t)) return;
+
+						try {
+							const datatable = $(t).DataTable();
+							const dtSettings = datatable.settings()[0];
+							if (!dtSettings || !dtSettings.nTable || !dtSettings.nTable.parentNode) return;
+							datatable.destroy();
+						} catch (e) {
+							// Silencioso — já foi destruído ou nó inválido
+						}
+					};
+
+					$.IGRP.on('submit', function(o){
+						if(o.valid && o.target.includes('submit')) {
+							$('.igrp-data-table').each(function () {
+								safeDestroy(this);
+							});
+						}
+					});
+
+					$.IGRP.events.on('iframe-modal-hide', function(o){
+						$('.igrp-data-table').each(function () {
+							if (!$.fn.DataTable.isDataTable(this)) {
+								const options = $(this).data('igrp-datatable-options');
+								if (options)
+									$(this).DataTable(options);
+							}
+						});
+					});
+
+					$.IGRP.events.on('submit-ajax', function(o){
+						if(o.valid) {
+							$('.igrp-data-table').each(function () {
+								if ($.fn.DataTable.isDataTable(this))
+									safeDestroy(this);
+							});
+						}
+					});
+
+					$.IGRP.events.on('before-element-transform', function(p){
+						$('.igrp-data-table').each(function () {
+							if($(this).parents('.gen-container-item').first().attr('item-name') === p.itemName){
+								safeDestroy(this);
+								$(this).removeData('igrp-datatable-init');
+							}
+						});
+					});
+
+					$.IGRP.events.on('element-transform', function(p){
+						const table = $('.table:not(.IGRP_formlist)', p.content);
+						if(table[0] && table.hasClass('igrp-data-table')){
+							table.each(function () {
+								$(this).removeData('igrp-datatable-init');
+							});
+						}
+					});
+
+					$.IGRP.components.tableCtrl.dataTablesEventsInitialized = true;
+				}
+			}
 		},
 		
 		setTableStyle : function(wrapper){
@@ -320,21 +373,20 @@
 			wrapper = wrapper || $('.box-table-contents');
 			
 			wrapper.each(function(i,t){
-				
-				var legend = $(t).find('.box-table-legend');
-				
+
+				const legend = $(t).find('.box-table-legend');
+
 				if(legend[0]){
-					
-					var itemName = $(t).attr('item-name'),
-						
-						style= '<style id="'+itemName+'">';
-						
+
+					const itemName = $(t).attr('item-name');
+					let style = '<style id="' + itemName + '">';
+
 					legend.find('.legend-holder').each(function(i,l){
-						
-						var color = $(l).attr('legend-color'),
-						
-							value = $(l).attr('value');
-						
+
+						const color = $(l).attr('legend-color'),
+
+							value = $(l).val;
+
 						style+='[item-name="'+itemName+'"] table td.tdcolor span.tdcolor-item[value="'+value+'"] { background-color: '+color+' }'
 						
 					});
@@ -355,12 +407,12 @@
 		},
 			
 		checkdControl : function(p){
-			
-			var inp     = $('input[type="hidden"].'+p.rel,p.o),
-				table   = p.o.parents('table'),
-				hidden  = '<input type="hidden" class="'+p.rel+'" value="'+p.value+'" name="p_'+p.rel+'_fk"/>',
-				inpcheck = p.o.find( '.'+p.rel+'_check');
-	
+
+			const inp = $('input[type="hidden"].' + p.rel, p.o),
+				table = p.o.parents('table'),
+				hidden = '<input type="hidden" class="' + p.rel + '" value="' + p.value + '" name="p_' + p.rel + '_fk"/>',
+				inpcheck = p.o.find('.' + p.rel + '_check');
+
 			if(p.check){
 	
 				inpcheck.val( p.value );
@@ -376,11 +428,11 @@
 	                p.o.append(hidden);
 	        }
 	
-	        if(p.type == 'radio'){
+	        if(p.type === 'radio'){
 	    		$('tbody tr td input[check-rel="'+p.rel+'"]',table).each(function(){
-	    			var td = $(this).parents('td:first');
-	
-	    			if(!$('input[type="hidden"].'+p.rel,td)[0] && !$(this).is(':checked')){
+					const td = $(this).parents('td:first');
+
+					if(!$('input[type="hidden"].'+p.rel,td)[0] && !$(this).is(':checked')){
 	    				td.append(hidden);
 	    				td.find( '.'+p.rel+'_check').val('');
 	    			}
@@ -393,13 +445,13 @@
 
 			$('th.igrp-table-ctx-th').each(function(i,th){
 
-				var table   = $(th).parents('table').first(),
+				const table = $(th).parents('table').first(),
 
-					tds     = table.find('tbody>tr').first().find('td.igrp-table-ctx-td'),
+					tds = table.find('tbody>tr').first().find('td.igrp-table-ctx-td'),
 
 					buttons = tds.find('.table-ctx-holder>li'),
 
-					mr 		= 4;//margin-right
+					mr = 4;//margin-right
 
 				if(buttons.length>=3)
 
@@ -414,8 +466,8 @@
 		},
 		
 		exportRow : function(row, attrs){
-			
-			var response = {};
+
+			const response = {};
 
 			if(row[0]){
 				
@@ -426,10 +478,10 @@
 					if(attrs[0]){
 						
 						attrs.forEach(function(a){
-							
-							var label =  row.find('td[item-name="'+a+'"]').attr('data-title') || a,
-							
-								value = row.find('td[item-name="'+a+'"]>span').text() || row.find('input[name="p_'+a+'"]').val();
+
+							const label = row.find('td[item-name="' + a + '"]').attr('data-title') || a,
+
+								value = row.find('td[item-name="' + a + '"]>span').text() || row.find('input[name="p_' + a + '"]').val();
 
 							response[label] = value;
 							
@@ -448,15 +500,15 @@
 		resetTableConfigurations : function(contents){
 			
 			contents.each(function(i,tholder){
-				
-				var tableHolder = $(tholder);
-				
+
+				const tableHolder = $(tholder);
+
 				if($('.table:not(.IGRP_formlist)',tableHolder)[0]){
-					
-		        	
-		            var table = tableHolder.find('table'),
-		            
-						id    = table.attr('id');
+
+
+					const table = tableHolder.find('table'),
+
+						id = table.attr('id');
 
 					if($.IGRP.components.contextMenu)
 
@@ -488,8 +540,8 @@
 		},
 		
 		setEvents : function(){
-			
-			var _self = this;
+
+			const _self = this;
 
 			//CheckAll
 			$(document).on('change', 'table .IGRP_checkall', function() {
@@ -506,8 +558,8 @@
 				
 				
 				checkers.each(function(i,e){
-					var parent = $(e).parents('div[item-name="'+checkrel+'"]')[0] ? $(e).parents('div[item-name="'+checkrel+'"]') : $(e).parents('td');
-					
+					const parent = $(e).parents('div[item-name="' + checkrel + '"]')[0] ? $(e).parents('div[item-name="' + checkrel + '"]') : $(e).parents('td');
+
 					com.checkdControl({
 						rel 	: checkrel,
 						o   	: parent,
@@ -523,12 +575,12 @@
 			});
 
 			$(document).on('change','table [item-type="checkbox"] input[type="checkbox"][name], table .checkdcontrol',function(e){
-				
-                var o   = $(this),
-                    rel = o.attr('check-rel'),
-                    obj = $('td[item-name="'+rel+'"]',o.parents('tr:first'));
 
-                com.checkdControl({
+				const o = $(this),
+					rel = o.attr('check-rel'),
+					obj = $('td[item-name="' + rel + '"]', o.parents('tr:first'));
+
+				com.checkdControl({
                     rel     : rel,
                     o       : obj,
                     check   : o.is(':checked'),
@@ -551,9 +603,9 @@
 		    });*/
 			
 			$.IGRP.events.on('submit-complete',function(p){
-				
-				var content = p && p.item && p.item[0] ? p.item : $('.gen-container-item.box-table-contents');
-				
+
+				const content = p && p.item && p.item[0] ? p.item : $('.gen-container-item.box-table-contents');
+
 				_self.resetTableConfigurations(content);
 				
 			})
@@ -568,9 +620,9 @@
 	            allrow : function(p){
 	                p.obj.each(function(i,tr){
 
-						var total = 0;
-						
-	                    $(p.field,tr).each(function(io,o){
+						let total = 0;
+
+						$(p.field,tr).each(function(io,o){
 	                        total += com.operation.isNum($(o).val());
 						});
 
@@ -589,9 +641,9 @@
 
 	            row : function(p){
 
-					var total = 0;
-					
-	                $(p.field,p.obj).each(function(io,o){
+					let total = 0;
+
+					$(p.field,p.obj).each(function(io,o){
 	                    total += com.operation.isNum($(o).val());
 					});
 					
@@ -608,10 +660,10 @@
 	                return total;
 	            },
 	            col : function(p){
-					var total = 0,
-						obj   = null;
-					
-	                p.obj.each(function(i,tr){
+					let total = 0,
+						obj = null;
+
+					p.obj.each(function(i,tr){
 						if(i === 0)
 							obj = $(p.field,$(tr));
 
@@ -633,10 +685,10 @@
 	                return total;
 	            },
 	            allcol : function(p){
-					
-					var total = {};
-					
-	                p.obj.each(function(i,tr){
+
+					const total = {};
+
+					p.obj.each(function(i,tr){
 	                    total[i] = com.operation.sum.col({
 	                        obj     : p.obj,
 	                        field   : $(p.field,'td:eq('+i+')'),
@@ -670,26 +722,27 @@
 	},true);
 
 	function getCookie(cname) {
-	    var name = cname + "=";
-	    var decodedCookie = decodeURIComponent(document.cookie);
-	    var ca = decodedCookie.split(';');
-	    for(var i = 0; i <ca.length; i++) {
-	        var c = ca[i];
-	        while (c.charAt(0) == ' ') {
+		const name = cname + "=";
+		const decodedCookie = decodeURIComponent(document.cookie);
+		const ca = decodedCookie.split(';');
+		for(let i = 0; i <ca.length; i++) {
+			let c = ca[i];
+			while (c.charAt(0) === ' ') {
 	            c = c.substring(1);
 	        }
-	        if (c.indexOf(name) == 0) {
+	        if (c.indexOf(name) === 0) {
 	            return c.substring(name.length, c.length);
 	        }
 	    }	    
-	    return "en_US";
+	    return "pt_PT";
 	}
 	
 	$.extend({
 	    replaceTag: function (currentElem, newTagObj, keepProps) {
-	        var $currentElem = $(currentElem);
-	        var i, $newTag = $(newTagObj).clone();
-	        if (keepProps) {//{{{
+			const $currentElem = $(currentElem);
+			let i;
+			const $newTag = $(newTagObj).clone();
+			if (keepProps) {//{{{
 	            newTag = $newTag[0];
 	            newTag.className = currentElem.className;
 	            $.extend(newTag.classList, currentElem.classList);
