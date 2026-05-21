@@ -62,10 +62,10 @@ public class _CONS_PROCController extends Controller {
       	
       	if(!Core.getParam("btnPesq").equals("true")){ 
       		model.setData_de("DI");
-      		model.setDt_ini(LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(Core.DD_MM_YYYY)));
+      		model.setDt_ini(LocalDate.now().minusDays(3).format(DateTimeFormatter.ofPattern(Core.DD_MM_YYYY)));
       		Core.setMessageInfo("Usar o botão pesquisar para listar.");
 			Core.setMessageWarning("Atenção! Etapas desde: "+model.getDt_ini()+". Modificar o filtro em ''Intervalo de datas - De'' para mais etapas de processos.");
-			model.setSize_registos(10000);
+			model.setSize_registos(500);
       	}else {      		
 	       	
 			List<_CONS_PROC.Table_1> data = new ArrayList<>();
@@ -89,10 +89,10 @@ public class _CONS_PROCController extends Controller {
 					taskQuery.addFilterBody("finished", model.getStatus());
 				
 				if(Core.isNotNull(model.getDt_ini())) 			
-					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedAfter":"taskCompletedAfter", ""+DateHelper.toDateTime(model.getDt_ini())); 
+					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedAfter":"taskCompletedAfter", DateHelper.toDateTime(model.getDt_ini()));
 							
 				if(Core.isNotNull(model.getDt_fim())) 				
-					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedBefore":"taskCompletedBefore", ""+DateHelper.toDateTime(model.getDt_fim(),1)); 
+					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedBefore":"taskCompletedBefore", DateHelper.toDateTime(model.getDt_fim(), 1));
 				
 				if(Core.isNotNullOrZero(model.getSize_registos()))
 					taskQuery.addFilterBody("size", ""+model.getSize_registos());
