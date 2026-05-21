@@ -187,7 +187,7 @@ public class LookupListPageController extends Controller {
 										result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "tipo_documento_fk");
 									}else 
 										if(row.getTipo().getKey().equalsIgnoreCase("OUT")) { 
-											RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", row.getNome().getValue()).one();
+											RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", row.getNome().getKey()).one();
 											if(repTemplate != null) 
 												result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "report_fk");
 											else 
