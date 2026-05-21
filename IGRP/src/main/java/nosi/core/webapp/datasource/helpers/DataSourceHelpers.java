@@ -225,7 +225,7 @@ public class DataSourceHelpers {
 		String column_name = param.getName().contains("p_") ? param.getName().substring(2) : param.getName();
 		type = Core.isNull(type) ? parameters.get(column_name) : type;
         if (type == null) {
-            System.out.println("type is null of "+column_name+". Please choose this in Report Builder for "+query);
+            System.out.println("type is null of "+column_name+". Please choose this in Report Builder for "+query+" or will be consider string value");
             query.setParameter(param.getName(), Core.isNotNull(value) ? value.toString() : "");
         } else {
             switch (type) {
