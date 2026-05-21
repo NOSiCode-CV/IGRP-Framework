@@ -81,20 +81,20 @@ public class ExecucaoTarefasController extends Controller {
 		default:
 			if(view.gerir_tarefas.isVisible()) {
 				Core.setMessageInfo("Em <b>Gerir tarefas</b> usar o filtro e pesquisar por favor porque a lista é só de disponíveis e minhas.");
-				model.setLimite_maximo_de_registos_gerir_tarefa(1000);
+				model.setLimite_maximo_de_registos_gerir_tarefa(500);
 			}
 
 			if(Core.isNull(model.getLimite_maximo_de_registos_minhas_taref()))
-				model.setLimite_maximo_de_registos_minhas_taref(100);
+				model.setLimite_maximo_de_registos_minhas_taref(50);
 			myTasks = this.getMyTasks(model);
 			if(view.gerir_tarefas.isVisible())
-				addTaskManage(taskManage, this.applyFiler(model, MY_TASK));
+				addTaskManage(taskManage);
 
 			if(Core.isNull(model.getLimite_maximo_de_registos_dist_taref()))
-				model.setLimite_maximo_de_registos_dist_taref(300);
+				model.setLimite_maximo_de_registos_dist_taref(100);
 			tasksDisponiveis = this.getAvailableTask(model, view);
 			if(view.gerir_tarefas.isVisible())
-				addTaskManage(taskManage, this.applyFiler(model, AVAILABLE));
+				addTaskManage(taskManage);
 
 		}
 		
@@ -768,8 +768,8 @@ public class ExecucaoTarefasController extends Controller {
 		List<Table_gerir_tarefas> taskManage = new ArrayList<>();
 		// Verifica se é perfil pai
 		if (view.gerir_tarefas.isVisible()) {
-			List<TaskService> tasks = this.applyFiler(model, MANAGE_TASK);
-			addTaskManage(taskManage, tasks);
+			tasks = this.applyFiler(model,MANAGE_TASK); // apply new filter
+			addTaskManage(taskManage);
 			//this.showTabManage(view, true);// show tab when user is manager
 		}
 		return taskManage;
@@ -778,7 +778,7 @@ public class ExecucaoTarefasController extends Controller {
 	/**
 	 * @param taskManage
 	 */
-	private void addTaskManage(List<Table_gerir_tarefas> taskManage, List<TaskService> tasks) {
+	private void addTaskManage(List<Table_gerir_tarefas> taskManage) {
 		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
 			t.setAtribuido_a(task.getAssignee());
@@ -800,7 +800,7 @@ public class ExecucaoTarefasController extends Controller {
 	// Get all tasks of current user
 	private List<Table_minhas_tarefas> getMyTasks(ExecucaoTarefas model) {
 		List<Table_minhas_tarefas> myTasks = new ArrayList<>();
-		List<TaskService> tasks = this.applyFiler(model, MY_TASK);
+		 tasks = this.applyFiler(model,MY_TASK); // apply new filter
 		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
@@ -823,7 +823,7 @@ public class ExecucaoTarefasController extends Controller {
 	private List<Table_disponiveis> getAvailableTask(ExecucaoTarefas model, ExecucaoTarefasView view) {
 		List<Table_disponiveis> tasksDisponiveis = new ArrayList<>();
 		if(view.disponiveis.isVisible()) {
-			List<TaskService> tasks = this.applyFiler(model, AVAILABLE);
+			tasks = this.applyFiler(model,AVAILABLE); // apply new filter
 			for (TaskService task : tasks) {
 				ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
 				t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
@@ -863,6 +863,7 @@ public class ExecucaoTarefasController extends Controller {
 
 	private static final String DATE_HOUR_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
+	List<TaskService> tasks;
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;
 	private static final int MY_TASK = 3;
