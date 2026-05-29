@@ -95,11 +95,11 @@ public enum ConfigCommonMainConstants {
         return obj == null ? defaultValue : obj;
     }
 
+
     public String environmentValue() {
-        if (IS_ENVIRONMENT_VARIABLE_SCAN_ACTIVE) {
-            if (this.environmentValue != null)
+        if (IS_ENVIRONMENT_VARIABLE_SCAN_ACTIVE && this.environmentValue != null)
                 return this.environmentValue;
-        }
+
         return mainXmlProperties.getProperty(this.value());
     }
 

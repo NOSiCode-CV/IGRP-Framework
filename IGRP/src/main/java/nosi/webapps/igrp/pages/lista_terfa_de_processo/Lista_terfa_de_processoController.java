@@ -41,8 +41,8 @@ public class Lista_terfa_de_processoController extends Controller {
 				Lista_terfa_de_processo.Table_1 t = new Lista_terfa_de_processo.Table_1();
 				t.setN_tarefa(task.getId());				
 				t.setDescricao_tarefa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());
-				t.setData_inicio(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
-				t.setData_fim(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
+				t.setData_inicio(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX","yyyy-MM-dd HH:mm:ss"));
+				t.setData_fim(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX","yyyy-MM-dd HH:mm:ss"));
 				t.setEstado(this.getStatusTask(task)); 
 				t.setProcessdefinitionkey(task.getProcessDefinitionKey());
 				t.setTaskdefinitionkey(task.getTaskDefinitionKey());
