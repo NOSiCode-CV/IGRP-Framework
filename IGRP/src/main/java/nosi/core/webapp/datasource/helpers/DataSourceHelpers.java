@@ -288,8 +288,9 @@ public class DataSourceHelpers {
 	 * 
 	 */
 	private Map<Properties,String> mappingColumnValue(Set<Properties> columns,List<Tuple> data){
-		if(data!=null) {			
-			Map<Properties,String> mapping = new HashMap<>();
+		Map<Properties,String> mapping = new HashMap<>();
+		if(data!=null) {
+
 			Record r = new Record();
 			r.rowList = new ArrayList<>();
 			data.forEach(l->{
@@ -312,9 +313,9 @@ public class DataSourceHelpers {
                }
 				this.xmlRows.endElement();
 			});
-			return mapping;
+
 		}
-		return null;
+		return mapping;
 	}
 	
 	private void appendTag(String tag, String name, String value) {
