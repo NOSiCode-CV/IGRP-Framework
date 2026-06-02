@@ -31,7 +31,7 @@ public class Transferir_tarefasController extends Controller {
 			if(task!=null){
 				ProcessDefinitionService process = new ProcessDefinitionIGRP().getProcessDefinitionServiceRest().getProcessDefinition(task.getProcessDefinitionId());
 				ProcessInstancesService history = new ProcessInstanceServiceRest().historicProcess(task.getProcessInstanceId());
-				model.setData_inicio(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				model.setData_inicio(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX","yyyy-MM-dd HH:mm:ss"):"");
 				model.setCriado_por_(history.getStartUserId());
 				model.setId(id);
 				model.setAtribuido_a(task.getAssignee());
