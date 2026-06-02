@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
@@ -13,8 +12,6 @@ import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.User;
 		
 public class Transferir_tarefasController extends Controller {
@@ -31,7 +28,7 @@ public class Transferir_tarefasController extends Controller {
 			if(task!=null){
 				ProcessDefinitionService process = new ProcessDefinitionIGRP().getProcessDefinitionServiceRest().getProcessDefinition(task.getProcessDefinitionId());
 				ProcessInstancesService history = new ProcessInstanceServiceRest().historicProcess(task.getProcessInstanceId());
-				model.setData_inicio(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				model.setData_inicio(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX","yyyy-MM-dd HH:mm:ss"):"");
 				model.setCriado_por_(history.getStartUserId());
 				model.setId(id);
 				model.setAtribuido_a(task.getAssignee());
