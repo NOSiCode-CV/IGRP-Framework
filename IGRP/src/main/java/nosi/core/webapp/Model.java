@@ -163,31 +163,33 @@ public abstract class Model { // IGRP super model
 				.orElse(field.getName()); // default case use the name of field;
 	}
 
-	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className)  {
+	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
 		if (query != null) {
-			final List<Tuple> queryResult = query.getResultList();
+			List<Tuple> queryResult = query.getResultList();
 			if (queryResult != null) {
-				final List<T> list = new ArrayList<>();
-				final Field[] declaredFields = className.getDeclaredFields();
+				List<T> list = new ArrayList<>();
 				for (Tuple tuple : queryResult) {
+					final T t;
 					try {
-						final T t = className.getDeclaredConstructor().newInstance();
-						for (Field field : declaredFields) {
-							final Object value = tuple.get(field.getName());
-							if (value != null) {
-								final String vString = value.toString();
-								BeanUtils.setProperty(t, field.getName(), new Pair(vString, vString));
+						t = className.getDeclaredConstructor().newInstance();
+						for (Field field : className.getDeclaredFields()) {
+							try {
+								Object value = tuple.get(field.getName());
+								if (value != null)
+									BeanUtils.setProperty(t, field.getName(),
+											new Pair(value.toString(), value.toString()));
+							} catch (java.lang.IllegalArgumentException | IllegalAccessException
+							         | InvocationTargetException e) {
+								e.printStackTrace();
 							}
 						}
 						list.add(t);
-					} catch (SecurityException | NoSuchMethodException | InvocationTargetException
-							 | IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
+					} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
 						e1.printStackTrace();
 					}
-				}
+                }
 				return list;
 			}
-
 		}
 		return null;
 	}
