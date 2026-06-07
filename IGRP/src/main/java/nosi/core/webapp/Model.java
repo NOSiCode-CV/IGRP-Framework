@@ -190,21 +190,30 @@ public abstract class Model implements Serializable { // IGRP super model
 			return list;
 
 		final var declaredFields = clazz.getDeclaredFields();
-
+		boolean showWhere=false;
 		for (var tuple : tuples) {
 			try {
 				final T newInstance = constructor.newInstance();
 				for (var field : declaredFields) {
-					final var tupleValue = tuple.get(field.getName());
-					if (tupleValue != null) {
-						final var value = tupleValue.toString();
-						BeanUtils.setProperty(newInstance, field.getName(), new Pair(value, value));
+					try{
+						final var tupleValue = tuple.get(field.getName());
+						if (tupleValue != null) {
+							final var value = tupleValue.toString();
+							BeanUtils.setProperty(newInstance, field.getName(), new Pair(value, value));
+						}
+					} catch (java.lang.IllegalArgumentException  e){
+						showWhere=true;
+						System.err.println("Model.loadFormList: "+e.getMessage());
 					}
+
 				}
 				list.add(newInstance);
-			} catch (SecurityException | InvocationTargetException | IllegalArgumentException | InstantiationException | IllegalAccessException e) {
+			}catch (SecurityException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
+		}
+		if(showWhere) {
+			System.out.println("Model.loadFormList: Class - "+clazz.getName());
 		}
 		return list;
 	}
