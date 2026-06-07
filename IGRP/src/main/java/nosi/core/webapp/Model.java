@@ -168,19 +168,21 @@ public abstract class Model { // IGRP super model
 			List<Tuple> queryResult = query.getResultList();
 			if (queryResult != null) {
 				List<T> list = new ArrayList<>();
+				boolean showWhere=false;
 				for (Tuple tuple : queryResult) {
 					final T t;
 					try {
 						t = className.getDeclaredConstructor().newInstance();
 						for (Field field : className.getDeclaredFields()) {
 							try {
-								Object value = tuple.get(field.getName());
+								final Object value = tuple.get(field.getName());
 								if (value != null)
 									BeanUtils.setProperty(t, field.getName(),
 											new Pair(value.toString(), value.toString()));
 							} catch (java.lang.IllegalArgumentException | IllegalAccessException
 							         | InvocationTargetException e) {
-								e.printStackTrace();
+								showWhere=true;
+								System.err.println("Model.loadFormList: "+e.getMessage());
 							}
 						}
 						list.add(t);
@@ -188,6 +190,9 @@ public abstract class Model { // IGRP super model
 						e1.printStackTrace();
 					}
                 }
+				if(showWhere) {
+					System.out.println("Model.loadFormList: Class - "+className.getName());
+				}
 				return list;
 			}
 		}
