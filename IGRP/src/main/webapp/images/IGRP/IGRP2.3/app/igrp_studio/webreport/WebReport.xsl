@@ -17,7 +17,11 @@
                 <!--SELECT CSS INCLUDES-->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css"/>
-                <style/>
+                <style>
+                    #cke_head-wr:not(.cke_focus) .cke_top {
+                    display: none;
+                    }
+                </style>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/webreport/css/webreport.css"/>
             </head>
             <body class="{$bodyClass} white-sidebar">
@@ -189,7 +193,7 @@
                                                             <div role="form">
                                                                 <div class="row">
                                                                     <div class="form-group col-md-12  gen-fields-holder" item-name="head-wr" item-type="texteditor">
-                                                                        <div id="head-wr" name="head" contenteditable="true" class="texteditor editor">
+                                                                        <div id="head-wr" name="head" class="gen-texteditor editor">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -258,9 +262,16 @@
                 <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js"/>
                 <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js"/>
                 <script type="text/javascript">
-                    CKEDITOR.on( 'instanceCreated', function( event ) {
-                        var editor = event.editor,
-                            element = editor.element;
+                    CKEDITOR.on('instanceCreated', function(event) {
+                    var editor = event.editor;
+                    var element = editor.element;
+
+                    if (element.getAttribute('id') === 'head-wr') {
+                    editor.config.height = 150;
+
+                    } else {
+                    editor.config.height = 600;
+                    }
                     });
                 </script>
                 <!--TABCONTENT JS INCLUDES-->
