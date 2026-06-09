@@ -3,15 +3,16 @@
     let com,
         availableTokens = [],
         availableCertes = [],
-        pinToken        = null,
-        idToken         = null,
-        idCert          = null,
-        typeSigner      = 'SignPdf',
+        pinToken = null,
+        idToken = null,
+        idCert = null,
+        typeSigner = 'SignPdf',
         signerbeforsave = false,
-        objclicked      = null,
+        objclicked = null,
+        signerBeforeDownloadTarget = null,
         successProcesso = false,
-        defaultError    = 'Ocorreu um erro inesperado! Por favor recarregue o seu ecrã e tenta novamente.',
-        defaultSuccess  = 'Opera&ccedil;&atilde;o finalizada com sucesso.';
+        defaultError = 'Ocorreu um erro inesperado! Por favor recarregue o seu ecrã e tenta novamente.',
+        defaultSuccess = 'Opera&ccedil;&atilde;o finalizada com sucesso.';
 
     const baseUrl = 'https://nosica-signer.gov.cv:4444/api/Signer';
 
@@ -19,29 +20,32 @@
 
     $.IGRP.component('nosicaSigner', {
 
-        request : function(p){
+        request: function (p) {
 
             let options = $.extend(true, {
-                    data        : {},
-                    headers	    : {
-                        'Accept'      : 'application/json',
+                    data: {},
+                    headers: {
+                        'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin' : '*'
+                        'Access-Control-Allow-Origin': '*'
                     },
-                    method      : 'POST',
-                    success     : function(){},
-                    fail        : function(){},
-                    complete    : function(){}
+                    method: 'POST',
+                    success: function () {
+                    },
+                    fail: function () {
+                    },
+                    complete: function () {
+                    }
                 }, p),
-                req 	= null;
+                req = null;
 
-            if(options.url)
+            if (options.url)
                 req = $.ajax({
-                    url      : options.url,
-                    data     : options.data,
-                    headers	 : options.headers,
-                    method	 : options.method,
-                    timeout  : 0
+                    url: options.url,
+                    data: options.data,
+                    headers: options.headers,
+                    method: options.method,
+                    timeout: 0
                 })
                     .done(options.success)
                     .fail(options.fail)
@@ -51,9 +55,9 @@
 
         },
 
-        html : {
+        html: {
 
-            virtualkeyboard: function(id) {
+            virtualkeyboard: function (id) {
                 return `
                 <div class="vkb_geral input-group IGRP-${id}" id="${id}" vkbonload="true" rel="${id}" vkbtype="vkb_aznum">
                     <input type="password" name="${id}" class="vkb_input form-control" id="inp_${id}" readonly="readonly" rel="${id}" post="vkb_aznum" />
@@ -64,7 +68,7 @@
                 </div>`
             },
 
-            submitsigner : function(){
+            submitsigner: function () {
                 return `<div class="box-modal-signer row">
                     <div class="col-sm-12 form-group holder_select mb-5" id="holder_modal_signer_available_tokens" item-name="modal_signer_available_tokens" item-type="select">
                         <label>Tokens Disponíveis</label>
@@ -85,8 +89,8 @@
                 </div>`;
             },
 
-            filesigner: function() {
-                    return `<div class="row mb-5" id="holder-fields-nosicasigner">
+            filesigner: function () {
+                return `<div class="row mb-5" id="holder-fields-nosicasigner">
                             <div class="form-group col-sm-3" id="nosicasigner_file" item-name="nosicasigner_file" item-type="file">
                                 <label for="p_nosicasigner_file">Documento</label>
                                 <div class="input-group">
@@ -504,32 +508,32 @@
                             })();
                         </script>
                         `;
-                }
+            }
         },
 
-        setBase64Result : function(p){
+        setBase64Result: function (p) {
             const obj = $(`#${p.id}`),
                 regex = 'data:application/pdf;base64,';
-            let data  = p.data;
-                
+            let data = p.data;
+
             data = data.indexOf(regex) !== -1 ? data.split(regex)[1] : data;
 
-            if(!obj[0]){
+            if (!obj[0]) {
 
                 const $textarea = $('<textarea></textarea>');
 
-                $textarea.addClass('hidden').attr('id',p.id).val(data);
+                $textarea.addClass('hidden').attr('id', p.id).val(data);
 
                 $('form').append($textarea);
 
-            }else{
+            } else {
                 obj.val(data);
             }
         },
 
-        setSelectOptions : function (p) {
-            const holderSelect  = $(`#${p.holder}`),
-                    select      = $('.select2',holderSelect);
+        setSelectOptions: function (p) {
+            const holderSelect = $(`#${p.holder}`),
+                select = $('.select2', holderSelect);
 
             holderSelect.removeClass('hidden');
 
@@ -541,22 +545,22 @@
             select.removeClass('hidden');
         },
 
-        onReadAsDataURL : function (p) {
+        onReadAsDataURL: function (p) {
 
             p.target.removeClass('hidden');
-					
-            if(p.field.is('[nosicasigner-control]')){
+
+            if (p.field.is('[nosicasigner-control]')) {
 
                 com.setBase64Result({
-                    id    : p.field.attr('nosicasigner-control'),
-                    data  : p.result
+                    id: p.field.attr('nosicasigner-control'),
+                    data: p.result
                 });
 
                 com.getAvailableTokens();
             }
         },
 
-        resetNosicasigner : function(){
+        resetNosicasigner: function () {
             const holderSelect = $('.holder_select');
 
             holderSelect.addClass('hidden');
@@ -567,17 +571,18 @@
             $('#nosicasigner_base64').remove();
 
             pinToken = null;
-            idToken  = null;
-            idCert   = null;
-            
+            idToken = null;
+            idCert = null;
+
             availableCertes = [];
             availableTokens = [];
 
-            typeSigner  = 'SignPdf';
-            objclicked     = null;
+            typeSigner = 'SignPdf';
+            objclicked = null;
+            signerBeforeDownloadTarget = null;
 
             $.IGRP.components.select2.setOptions({
-                select : $('.select2',holderSelect),
+                select: $('.select2', holderSelect),
                 options: []
             });
 
@@ -588,39 +593,39 @@
             $.IGRP.utils.loading.hide();
         },
 
-        nosicasignerModal : function (p) {
+        nosicasignerModal: function (p) {
 
             $.IGRP.components.globalModal.set({
-                rel    : 'confirm-target',
-                title  : p.title,
+                rel: 'confirm-target',
+                title: p.title,
                 content: p.content,
-                afterShow : function(){
-                    if($.fn.IGRP_vkboard && pinToken === null){
+                afterShow: function () {
+                    if ($.fn.IGRP_vkboard && pinToken === null) {
 
                         $('.IGRP-vkb_pin_token').IGRP_vkboard({
-                            onOk : function(val, vkb){
+                            onOk: function (val, vkb) {
 
-                                if(val){
-        
+                                if (val) {
+
                                     pinToken = val;
-        
-                                    try{ 
-        
+
+                                    try {
+
                                         p.onConfirm({
-                                            pin   : pinToken,
-                                            token : p.token
+                                            pin: pinToken,
+                                            token: p.token
                                         });
 
                                         $('.vkb_input', vkb).val('');
-        
-                                    }catch(err){ 
-                                        console.log(err); 
+
+                                    } catch (err) {
+                                        console.log(err);
                                     }
-                                    
-                                }else{
+
+                                } else {
                                     $.IGRP.notify({
                                         message: 'PIN é obrigatorio',
-                                        type   : 'info'
+                                        type: 'info'
                                     });
                                 }
                             }
@@ -630,76 +635,147 @@
             });
 
         },
-        
-        modalSignerBeforeSubmitOrDownload : function(){
+
+        modalSignerBeforeSubmitOrDownload: function () {
             $.IGRP.components.globalModal.set({
-                rel    : 'holder_modal_signer',
-                title  : 'Assinatura',
+                rel: 'holder_modal_signer',
+                title: 'Assinatura',
                 content: com.html.submitsigner(),
                 buttons: [
                     {
-                        class :'danger',
-                        icon  :'times',
-                        text  :'Cancelar',
-                        attr  :{ "data-dismiss":"modal" }
+                        class: 'danger',
+                        icon: 'times',
+                        text: 'Cancelar',
+                        attr: {"data-dismiss": "modal"}
                     },
                     {
-                        class   :'success hidden modal_signer_ok',
-                        icon    :'check',
-                        text    :'OK',
-                        onClick :function(e){
-                            
-                            if(idToken){
+                        class: 'success hidden modal_signer_ok',
+                        icon: 'check',
+                        text: 'OK',
+                        onClick: function (e) {
+                            // Check if we're dealing with PDF signing
+                            if (typeof com.signerBeforeSubmit === 'function' &&
+                                com.signerBeforeSubmit.options &&
+                                com.signerBeforeSubmit.options.pdfUrl) {
+
+                                // PDF signing flow
+                                var pdfUrl = com.signerBeforeSubmit.options.pdfUrl;
+                                var signedPdfUrl = null;
+
+                                // Show file signer interface
+                                com.showFileSigner();
+
+                                // Sign the PDF using SignPdf
+                                com.signPdf(pdfUrl, function (signedUrl) {
+                                    signedPdfUrl = signedUrl;
+
+                                    // Update the submit button to use the signed PDF
+                                    $('.modal_signer_ok').off('click').on('click', function () {
+                                        // Submit the signed PDF
+                                        com.submitSignedPdf(signedPdfUrl);
+                                    });
+
+                                    // Show the OK button
+                                    $('.modal_signer_ok').removeClass('hidden');
+                                });
+                            } else if (idToken) {
 
                                 com.toSign({
-                                    tokenId     : idToken,
-                                    certSerNum  : idCert,
-                                    pin         : pinToken,
+                                    tokenId: idToken,
+                                    certSerNum: idCert,
+                                    pin: pinToken,
                                 });
 
                                 $.IGRP.components.globalModal.hide();
-                        
-                            }else{
+
+                            } else {
                                 $.IGRP.notify({
                                     message: defaultError,
-                                    type   : 'danger'
+                                    type: 'danger'
                                 });
                             }
-
 
                             return false;
                         }
                     }
                 ],
+                signPdf: function (pdfUrl, callback) {
+                    // This would typically involve:
+                    // 1. Downloading the PDF
+                    // 2. Using SignPdf library to sign it
+                    // 3. Uploading the signed PDF
+                    // 4. Returning the URL of the signed PDF
 
-                afterShow : function(){
+                    // Placeholder implementation - in real scenario this would use SignPdf library
+                    // and handle the actual signing process
 
-                    if($.fn.IGRP_vkboard && pinToken === null){
+                    // Simulate signing process
+                    setTimeout(function () {
+                        // In a real implementation, this would be the URL of the signed PDF
+                        var signedPdfUrl = pdfUrl.replace('.pdf', '_signed.pdf');
+                        if (typeof callback === 'function') {
+                            callback(signedPdfUrl);
+                        }
+                    }, 1000);
+                },
+
+                // New function to show file signer interface
+                showFileSigner: function () {
+                    // This would show the file signing interface
+                    // For now, we'll just log that it's being called
+                    console.log('Showing file signer interface');
+                },
+
+                // New function to submit signed PDF
+                submitSignedPdf: function (signedPdfUrl) {
+                    // This would submit the signed PDF
+                    console.log('Submitting signed PDF:', signedPdfUrl);
+
+                    // Close modal after submission
+                    $.IGRP.components.globalModal.close();
+
+                    // Add actual submission logic here
+                    // This might involve:
+                    // - Making an AJAX request to submit the signed PDF
+                    // - Handling the response
+                    // - Redirecting or showing success message
+
+                    // Call the original signerBeforeSubmit callback with the signed PDF URL
+                    if (typeof com.signerBeforeSubmit === 'function') {
+                        com.signerBeforeSubmit({
+                            signedPdfUrl: signedPdfUrl
+                        });
+                    }
+                },
+
+                afterShow: function () {
+
+                    if ($.fn.IGRP_vkboard && pinToken === null) {
 
                         $('.IGRP-vkb_pin_token_signer').IGRP_vkboard({
-                            onOk : function(val, vkb){
-                                
-                                if(val){
-        
+                            onOk: function (val, vkb) {
+
+                                if (val) {
+
                                     pinToken = val;
-        
-                                    try{ 
-        
+
+                                    try {
+
                                         com.getAvailableCertificates({
-                                            pin    : pinToken,
-                                            token : idToken
+                                            pin: pinToken,
+                                            token: idToken
                                         });
 
                                         $('.vkb_input', vkb).val('');
-        
-                                    }catch(err){ 
-                                        console.log(err); 
+
+                                    } catch (err) {
+                                        console.log(err);
                                     }
-                                    
-                                }else{
+
+                                } else {
                                     $.IGRP.notify({
                                         message: 'PIN é obrigatorio',
-                                        type   : 'info'
+                                        type: 'info'
                                     });
                                 }
                             }
@@ -709,38 +785,38 @@
             });
         },
 
-        getAvailableTokens : function(p) {
+        getAvailableTokens: function (p) {
 
             com.request({
-                url    : `${baseUrl}/GetAvailableTokens`,
-                method : 'GET'
+                url: `${baseUrl}/GetAvailableTokens`,
+                method: 'GET'
 
-            }).done(function(resp){
-                
-                if(resp[0]){
+            }).done(function (resp) {
+
+                if (resp[0]) {
 
                     let holderTokens = 'holder_nosicasigner';
 
                     availableTokens[0] = {
-                        text              : '---Escolher---',
-                        value             : '',
-                        tokenManufacturer : ''
+                        text: '---Escolher---',
+                        value: '',
+                        tokenManufacturer: ''
                     }
-                
+
                     resp.map((o, i) => {
-                        
+
                         const {tokenId, tokenManufacturer, tokenDescription} = o;
 
-                        idToken = ((tokenId * 1) +1);
+                        idToken = ((tokenId * 1) + 1);
 
-                        availableTokens[(i+1)] = {
-                            text   : tokenDescription,
-                            value  : ((tokenId * 1) +1),
+                        availableTokens[(i + 1)] = {
+                            text: tokenDescription,
+                            value: ((tokenId * 1) + 1),
                             tokenManufacturer
                         }
                     });
 
-                    if(objclicked !== null){
+                    if (objclicked !== null) {
 
                         holderTokens = 'holder_modal_signer';
 
@@ -748,60 +824,60 @@
                     }
 
                     com.setSelectOptions({
-                        holder  : `${holderTokens}_available_tokens`,
-                        options : availableTokens
+                        holder: `${holderTokens}_available_tokens`,
+                        options: availableTokens
                     });
 
-                }else{
+                } else {
 
                     $.IGRP.notify({
                         message: 'Não há token(s) disponívei(s).',
-                        type   : 'danger'
+                        type: 'danger'
                     });
                 }
 
-            }).fail(function(e){
+            }).fail(function (e) {
 
-                console.log("error : ",e);
+                console.log("error : ", e);
 
                 $.IGRP.notify({
                     message: 'Não foi possível identificar token.',
-                    type   : 'danger'
+                    type: 'danger'
                 });
             });
 
         },
 
-        getAvailableCertificates : function(p){
+        getAvailableCertificates: function (p) {
 
             const data = {
-                "tokenId"       : ((p.token*1) -1),
-                "allowedIssuer" : "",
-                "pin"           : p.pin
+                "tokenId": ((p.token * 1) - 1),
+                "allowedIssuer": "",
+                "pin": p.pin
             };
 
             com.request({
-                url  : `${baseUrl}/GetAvailableCertificates`,
-                data : JSON.stringify(data)
+                url: `${baseUrl}/GetAvailableCertificates`,
+                data: JSON.stringify(data)
 
-            }).done(function(resp){
+            }).done(function (resp) {
 
-                if(resp){
+                if (resp) {
 
                     availableCertes[0] = {
-                        text        : '---Escolher---',
-                        value       : '',
-                        subject     : '',
-                        issuerName  : ''
+                        text: '---Escolher---',
+                        value: '',
+                        subject: '',
+                        issuerName: ''
                     }
 
                     resp.map((o, i) => {
-                        
+
                         const {serialNumber, label, subject, issuerName} = o;
 
-                        availableCertes[(i+1)] = {
-                            text   : issuerName,
-                            value  : serialNumber,
+                        availableCertes[(i + 1)] = {
+                            text: issuerName,
+                            value: serialNumber,
                             subject,
                             issuerName
                         }
@@ -810,36 +886,36 @@
                     let holderTokens = objclicked !== null ? 'holder_modal_signer' : 'holder_nosicasigner';
 
                     com.setSelectOptions({
-                        holder  : `${holderTokens}_available_certificates`,
-                        options : availableCertes
+                        holder: `${holderTokens}_available_certificates`,
+                        options: availableCertes
                     });
 
-                    if(objclicked === null)
+                    if (objclicked === null)
                         $.IGRP.components.globalModal.hide();
                     else
                         $('#holder_vkb_pin_token_signer').addClass('hidden');
 
-                }else{
+                } else {
 
                     $.IGRP.notify({
                         message: 'Não há certificados(s) disponívei(s)',
-                        type   : 'danger'
+                        type: 'danger'
                     });
                 }
 
-            }).fail(function(e){
+            }).fail(function (e) {
 
                 $.IGRP.notify({
                     message: 'PIN errado.',
-                    type   : 'danger'
+                    type: 'danger'
                 });
 
-                console.log("error : ",e);
+                console.log("error : ", e);
             });
 
         },
 
-        subimtData : function(p){
+        subimtData: function (p) {
 
             const xmlSignerResult = `<?xml version="1.0" encoding="UTF-8"?>
             <content>
@@ -849,44 +925,44 @@
                 <content_name>${p.contentName}</content_name>
             </content>`;
 
-            let arrayFiles 	= [];
+            let arrayFiles = [];
 
-            if(p?.getFiles)
+            if (p?.getFiles)
                 arrayFiles = $.IGRP.utils.submitPage2File.getFiles();
 
-            arrayFiles.push({name : 'p_fwl_signedresult', value : xmlSignerResult});
+            arrayFiles.push({name: 'p_fwl_signedresult', value: xmlSignerResult});
 
             $.IGRP.utils.submitStringAsFile({
-                pParam 		: {
-                    pArrayFiles : arrayFiles,
-                    pArrayItem 	: $.IGRP.utils.submitPage2File.getUrlParam(p.url),
+                pParam: {
+                    pArrayFiles: arrayFiles,
+                    pArrayItem: $.IGRP.utils.submitPage2File.getUrlParam(p.url),
                     pContentType: 'plain/xml',
-                    pFormat     : 'xml',
+                    pFormat: 'xml',
                 },
-                pUrl   		: p.url,
-                pNotify 	: false,
-                pComplete 	: function(resp){
+                pUrl: p.url,
+                pNotify: false,
+                pComplete: function (resp) {
 
-                    try{
+                    try {
                         const xml = resp.responseXML || $($.parseXML(resp.response));
 
-                        if(p.transform){
+                        if (p.transform) {
 
                             $.IGRP.utils.afterSubmitAjax({
-                                xml 	: xml,
-                                clicked : p.clicked,
-                                sform   : $.IGRP.utils.getForm()
+                                xml: xml,
+                                clicked: p.clicked,
+                                sform: $.IGRP.utils.getForm()
                             });
                         }
 
-                        if(typeof p?.complete === 'function'){
+                        if (typeof p?.complete === 'function') {
                             p.complete(xml);
                         }
 
-                        if(p.clicked[0].events){
+                        if (p.clicked[0].events) {
 
-                            p.clicked[0].events.execute('success-signer_before_submit',{
-                                xml : xml
+                            p.clicked[0].events.execute('success-signer_before_submit', {
+                                xml: xml
                             });
                         }
                         setSignButtonEnabled(false);
@@ -894,85 +970,87 @@
 
                         $.IGRP.utils.loading.hide();
 
-                    }catch(e){ console.log(e)}
+                    } catch (e) {
+                        console.log(e)
+                    }
                 }
             });
         },
 
-        signerPdfSave : function(p){
+        signerPdfSave: function (p) {
 
             $('#btn_nosica_signer').addClass('hidden');
             $('#btn_nosica_save').removeClass('hidden');
 
-            $('body').on('click','#btn_nosica_save a', function(e){
+            $('body').on('click', '#btn_nosica_save a', function (e) {
                 e.preventDefault();
                 const dad = $('body').attr('app');
-                const url = $(this).attr('href')+'&dad=' + encodeURIComponent(dad);
+                const url = $(this).attr('href') + '&dad=' + encodeURIComponent(dad);
 
-                if(url){
+                if (url) {
 
                     $.IGRP.utils.loading.show();
 
                     const contentName = objModal.is('[input-rel]') ? objModal.attr('input-rel') : 'signedresult';
 
                     com.subimtData({
-                        getFiles    : false,
-                        transform   : false,
-                        url         : url,
-                        clicked     : $(this),
-                        result      : p.result,
-                        verify      : p.verify,
-                        contentName : contentName,
-                        contentType : 'application/pdf',
-                        complete : function(xml){
-                            
-                            if(objModal.is('[input-rel]')){
+                        getFiles: false,
+                        transform: false,
+                        url: url,
+                        clicked: $(this),
+                        result: p.result,
+                        verify: p.verify,
+                        contentName: contentName,
+                        contentType: 'application/pdf',
+                        complete: function (xml) {
 
-                                let objholder   =  $('body');
+                            if (objModal.is('[input-rel]')) {
 
-                                if(objModal.is('[idtabel]')){
+                                let objholder = $('body');
+
+                                if (objModal.is('[idtabel]')) {
                                     const parentTable = $(`table#${objModal.attr('idtabel')}`);
 
-                                    if(parentTable[0]){
+                                    if (parentTable[0]) {
 
                                         const trIdx = objModal.attr('tridx') * 1;
 
                                         objholder = $(`tbody tr:eq(${trIdx})`, parentTable);
                                     }
                                 }
-                            
-                                let objInput    = $(`#${objModal.attr('input-rel')}`,objholder),
-                                    objUuid     = $(xml).find('signedUuid');
 
-                                if(objInput[0] && objUuid[0]){
-                                    
+                                let objInput = $(`#${objModal.attr('input-rel')}`, objholder),
+                                    objUuid = $(xml).find('signedUuid');
+
+                                if (objInput[0] && objUuid[0]) {
+
                                     const val = objUuid.text();
 
-                                    objInput.val(val).attr('value',val);
+                                    objInput.val(val).attr('value', val);
 
                                     $.IGRP.notify({
                                         message: defaultSuccess,
-                                        type   : 'success'
+                                        type: 'success'
                                     });
 
-                                }else{
+                                } else {
 
                                     $.IGRP.notify({
                                         message: defaultError,
-                                        type   : 'danger'
+                                        type: 'danger'
                                     });
                                 }
-                                
+
                                 objModal.modal('hide');
                             }
                         }
                     });
 
-                }else{
+                } else {
 
                     $.IGRP.notify({
                         message: 'URL não definido.',
-                        type   : 'danger'
+                        type: 'danger'
                     });
                 }
 
@@ -980,7 +1058,7 @@
             });
         },
 
-        responseToSign : function(p){
+        responseToSign: function (p) {
 
 
             const signatureHolder = document.getElementById('signature_holder');
@@ -989,12 +1067,31 @@
                 signatureHolder.style.display = 'none';
             }
 
-            if(objclicked !== null){
+            if (signerBeforeDownloadTarget !== null && typeSigner === 'SignPdf') { // signerBeforeDownload
 
-                if(typeSigner === 'SignPdf'){ //signerBeforeDownload
+                const a = document.createElement('a');
+
+                a.setAttribute('href', `data:application/pdf;base64,${p.result}`);
+                a.setAttribute('download', 'signerfiledownload.pdf');
+
+                const download = $(a);
+
+                download.appendTo('body');
+                download[0].click();
+                download.remove();
+
+                $.IGRP.utils.loading.hide();
+
+                objModal.modal('hide');
+
+                com.resetNosicasigner();
+
+            } else if (objclicked !== null) {
+
+                if (typeSigner === 'SignPdf') { //signerBeforeDownload
 
                     const a = document.createElement('a');
-                    
+
                     a.setAttribute('href', `data:application/pdf;base64,${p.result}`);
                     a.setAttribute('download', 'signerfiledownload');
 
@@ -1008,30 +1105,30 @@
 
                     com.resetNosicasigner();
 
-                }else{ // signerBeforeSubmit
+                } else { // signerBeforeSubmit
 
                     const _clicked = objclicked;
 
-                    if(objclicked?.url){
+                    if (objclicked?.url) {
 
                         com.subimtData({
-                            getFiles : true,
+                            getFiles: true,
                             transform: true,
-                            url      : objclicked.url,
-                            clicked  : _clicked.clicked,
-                            result   : p.result,
-                            verify   : p.verify,
-                            contentName : 'signedresult',
-                            contentType : 'plain/xml',
+                            url: objclicked.url,
+                            clicked: _clicked.clicked,
+                            result: p.result,
+                            verify: p.verify,
+                            contentName: 'signedresult',
+                            contentType: 'plain/xml',
                         });
                     }
                 }
 
-            }else if(typeSigner === 'SignPdf'){ //signer PDF
+            } else if (typeSigner === 'SignPdf') { //signer PDF
 
                 const pdf = `data:application/pdf;base64,${p.result}`;
 
-                $('#id-nosicasigner_iframe').attr('src',pdf);
+                $('#id-nosicasigner_iframe').attr('src', pdf);
 
                 $.IGRP.utils.loading.hide();
 
@@ -1043,332 +1140,363 @@
             }
         },
 
-       toSign : function(p) {
-            const base64    = $('#nosicasigner_base64').val();
-            const canvas    = document.getElementById('canvas_frame');
-            const signature = document.getElementById('signature_holder');
+            toSign: function (p) {
+                const base64 = $('#nosicasigner_base64').val();
 
-            if (!canvas || !signature) {
-                $.IGRP.notify({
-                    message: defaultError,
-                    type   : 'danger'
-                });
-                return;
-            }
-
-            const currentPage = Number.parseInt(
-                document.getElementById('currentPage')?.textContent,
-                10
-            ) || 1;
-
-            const rect = canvas.getBoundingClientRect();
-
-            const signX = Number.parseFloat(canvas.dataset.signX);
-            const signY = Number.parseFloat(canvas.dataset.signY);
-
-            if (Number.isNaN(signX) || Number.isNaN(signY)) {
-                $.IGRP.utils.loading.hide();
-                $.IGRP.notify({
-                    message: 'Defina a posição da assinatura antes de assinar.',
-                    type   : 'info'
-                });
-                return;
-            }
-
-            const pageWidth  = Number.parseFloat(canvas.dataset.pdfWidth)  || canvas.width;
-            const pageHeight = Number.parseFloat(canvas.dataset.pdfHeight) || canvas.height;
-
-            // Optional small correction in CSS pixels.
-            // Use this only if you still see the signature a few px too high.
-            const yCalibrationPx = Number.parseFloat(canvas.dataset.signYCalibration) || 0;
-
-            const signatureRect = signature.getBoundingClientRect();
-
-            const cssToPdfX = pageWidth / rect.width;
-            const cssToPdfY = pageHeight / rect.height;
-
-            // Convert the top-left of the signature holder from CSS space to PDF space
-            let pdfX = signX * cssToPdfX;
-
-            // PDF origin is bottom-left, so convert from top-left CSS coordinates
-            // and keep the full visible height of the signature holder.
-            let pdfY = (rect.height - signY - signatureRect.height + yCalibrationPx) * cssToPdfY;
-
-            // If the signature is at the bottom edge, keep it aligned to the bottom.
-            // This also prevents the "slightly above" effect caused by rounding / border differences.
-            pdfX = Math.max(0, Math.round(pdfX * 1000) / 1000);
-            pdfY = Math.max(0, Math.round(pdfY * 1000) / 1000);
-            
-
-            if (!base64) {
-                $.IGRP.notify({
-                    message: defaultError,
-                    type   : 'danger'
-                });
-                return;
-            }
-           pdfX = pdfX || 1;
-           pdfY = pdfY || 1;
-            const data = {
-                tokenId                 : ((p.tokenId * 1) - 1),
-                certificateSerialNumber : p.certSerNum,
-                pin                     : p.pin,
-                data                    : base64,
-                pageNumberToSign        : currentPage,
-                xPosition               : pdfX,
-                yPosition               : pdfY
-            };
-
-            $.IGRP.utils.loading.show();
-
-            com.request({
-                url  : `${baseUrl}/${typeSigner}`,
-                data : JSON.stringify(data)
-
-            }).done(function(resp){
-
-                if (resp) {
-                    com.responseToSign(resp);
-                    console.log("resp.result", resp.result);
-                    loadSignedPDF(resp.result);
-                } else {
+                if (!base64) {
                     $.IGRP.notify({
-                        message: 'Não foi possível obter resposta.',
-                        type   : 'danger'
+                        message: defaultError,
+                        type: 'danger'
+                    });
+                    return;
+                }
+
+                // Build the common payload
+                const data = {
+                    tokenId: ((p.tokenId * 1) - 1),
+                    certificateSerialNumber: p.certSerNum,
+                    pin: p.pin,
+                    data: base64
+                };
+
+                // ── PDF-ONLY: page number and visual signature coordinates ──
+                if (typeSigner === 'SignPdf') {
+                    const canvas = document.getElementById('canvas_frame');
+                    const signature = document.getElementById('signature_holder');
+
+                    if (!canvas || !signature) {
+                        $.IGRP.notify({ message: defaultError, type: 'danger' });
+                        return;
+                    }
+
+                    const currentPage = Number.parseInt(
+                        document.getElementById('currentPage')?.textContent,
+                        10
+                    ) || 1;
+
+                    const rect = canvas.getBoundingClientRect();
+                    const signX = Number.parseFloat(canvas.dataset.signX);
+                    const signY = Number.parseFloat(canvas.dataset.signY);
+
+                    if (Number.isNaN(signX) || Number.isNaN(signY)) {
+                        $.IGRP.utils.loading.hide();
+                        $.IGRP.notify({
+                            message: 'Defina a posição da assinatura antes de assinar.',
+                            type: 'info'
+                        });
+                        return;
+                    }
+
+                    const pageWidth  = Number.parseFloat(canvas.dataset.pdfWidth)  || canvas.width;
+                    const pageHeight = Number.parseFloat(canvas.dataset.pdfHeight) || canvas.height;
+                    const yCalibrationPx = Number.parseFloat(canvas.dataset.signYCalibration) || 0;
+                    const signatureRect = signature.getBoundingClientRect();
+
+                    const cssToPdfX = pageWidth / rect.width;
+                    const cssToPdfY = pageHeight / rect.height;
+
+                    let pdfX = signX * cssToPdfX;
+                    let pdfY = (rect.height - signY - signatureRect.height + yCalibrationPx) * cssToPdfY;
+
+                    pdfX = Math.max(0, Math.round(pdfX * 1000) / 1000);
+                    pdfY = Math.max(0, Math.round(pdfY * 1000) / 1000);
+                    pdfX = pdfX || 1;
+                    pdfY = pdfY || 1;
+
+                    data.pageNumberToSign = currentPage;
+                    data.xPosition = pdfX;
+                    data.yPosition = pdfY;
+                }
+                // ── END PDF-ONLY ──
+
+                $.IGRP.utils.loading.show();
+
+                com.request({
+                    url: `${baseUrl}/${typeSigner}`,
+                    data: JSON.stringify(data)
+
+                }).done(function (resp) {
+                    if (resp) {
+                        com.responseToSign(resp);
+                        console.log("resp.result", resp.result);
+                        // Only reload PDF viewer if we were in PDF mode
+                        if (typeSigner === 'SignPdf' && typeof window.loadSignedPDF === 'function') {
+                            window.loadSignedPDF(resp.result);
+                        }
+                    } else {
+                        $.IGRP.notify({
+                            message: 'Não foi possível obter resposta.',
+                            type: 'danger'
+                        });
+                        $.IGRP.utils.loading.hide();
+                    }
+
+                }).fail(function (e) {
+                    console.log("error : ", e);
+                    $.IGRP.notify({
+                        message: defaultError,
+                        type: 'danger'
                     });
                     $.IGRP.utils.loading.hide();
-                }
 
-            }).fail(function(e){
-
-                console.log("error : ", e);
-
-                $.IGRP.notify({
-                    message: defaultError,
-                    type   : 'danger'
+                    if (signerbeforsave) {
+                        objModal.modal('hide');
+                    }
+                    com.resetNosicasigner();
                 });
+            },
 
-                $.IGRP.utils.loading.hide();
+        signerBeforeSubmit: function (p) {
+            typeSigner = 'Sign';
+            objclicked = p;
+            const form = $.IGRP.utils.getForm(),
+                serializeArray = form.find('*').not(".notForm").serializeArray();
 
-                if (signerbeforsave) {
-                    objModal.modal('hide');
-                }
-
-                com.resetNosicasigner();
-            });
-        },
-
-        signerBeforeSubmit : function(p) {
-            typeSigner     = 'Sign';
-            objclicked     = p;
-            const form     = $.IGRP.utils.getForm(),
-            serializeArray = form.find('*').not(".notForm").serializeArray();
-
-            let xmlPage    = $.IGRP.utils.submitPage2File.json2xml(serializeArray);
+            let xmlPage = $.IGRP.utils.submitPage2File.json2xml(serializeArray);
 
             xmlPage = `<?xml version="1.0" encoding="UTF-8"?><content>${xmlPage}</content>`;
 
             xmlPage = $.IGRP.utils.str2base64(xmlPage);
 
-            if(xmlPage){
+            if (xmlPage) {
 
                 com.setBase64Result({
-                    id    : 'nosicasigner_base64',
-                    data  : xmlPage
-    });
+                    id: 'nosicasigner_base64',
+                    data: xmlPage
+                });
 
                 com.getAvailableTokens();
 
             }
         },
 
-        fetchFileToBlod : function(p){
+        fetchFileToBlod: function (p) {
 
-            fetch(p.url).then( response => response.blob() )
-            .then( blob =>{
+            fetch(p.url).then(response => response.blob())
+                .then(blob => {
 
-                var reader = new FileReader();
+                    var reader = new FileReader();
 
-                const message = 'Certifique que o url é de um ficheiro formato PDF.';
+                    const message = 'Certifique que o url é de um ficheiro formato PDF.';
 
-                reader.onload = function(){
+                    reader.onload = function () {
 
-                    const result = this.result;
+                        const result = this.result;
 
-                    if(result.indexOf('data:text/html;base64') === -1){
+                        if (result.indexOf('data:text/html;base64') === -1) {
 
-                        com.setBase64Result({
-                            id    : 'nosicasigner_base64',
-                            data  : this.result
-                        });
+                            com.setBase64Result({
+                                id: 'nosicasigner_base64',
+                                data: this.result
+                            });
 
-                        if(typeof p.complete === 'function')
-                            p.complete();
+                            if (typeof p.complete === 'function')
+                                p.complete();
 
-                        else
-                            com.getAvailableTokens();
+                            else
+                                com.getAvailableTokens();
 
-                    }else{
+                        } else {
+                            $.IGRP.notify({
+                                message: message,
+                                type: 'danger'
+                            });
+                        }
+                    };
+
+                    reader.onerror = function (error) {
                         $.IGRP.notify({
                             message: message,
-                            type   : 'danger'
+                            type: 'danger'
                         });
+                    };
+
+                    reader.readAsDataURL(blob);
+                });
+
+        },
+
+        signerBeforeDownload: function (p) {
+            typeSigner = 'SignPdf';
+            objclicked = null;
+            signerBeforeDownloadTarget = p;
+
+            $('.modal-body', objModal).html(com.html.filesigner());
+
+            $('#nosicasigner_file').addClass('hidden');
+
+            if (p.url) {
+                com.fetchFileToBlod({
+                    url: p.url,
+                    clicked: p.clicked,
+                    complete: function () {
+                        const iframeSigner = $('.nosicasigner_iframe');
+                        iframeSigner.removeClass('hidden');
+
+                        const base64Data = $('#nosicasigner_base64').val();
+
+                        // Poll until pdf.js finishes loading and exposes loadSignedPDF
+                        function tryLoad(attempts) {
+                            if (typeof window.loadSignedPDF === 'function') {
+                                window.loadSignedPDF(base64Data);
+                            } else if (attempts > 0) {
+                                setTimeout(() => tryLoad(attempts - 1), 100);
+                            } else {
+                                console.error('loadSignedPDF not available after timeout');
+                            }
+                        }
+
+                        tryLoad(20); // retries every 100ms, up to 2 seconds
+
+                        objModal.modal('show');
+
+                        com.getAvailableTokens();
                     }
-                };
-
-                reader.onerror = function (error) {
-					$.IGRP.notify({
-                        message: message,
-                        type   : 'danger'
-                    });
-				};
-
-                reader.readAsDataURL(blob) ;
-            });
-
+                });
+            } else {
+                $.IGRP.notify({
+                    message: 'URL n&atilde;o definido.',
+                    type: 'danger'
+                });
+            }
         },
 
-        signerBeforeDownload : function(p) {
-            objclicked = p;
+        signerFileBeforSave: function (p) {
+            $('#nosicasigner_file').addClass('hidden');
 
-            com.fetchFileToBlod(p);
+            if (p.url) {
+                com.fetchFileToBlod({
+                    url: p.url,
+                    clicked: p.clicked,
+                    complete: function () {
+                        const iframeSigner = $('.nosicasigner_iframe');
+                        iframeSigner.removeClass('hidden');
+
+                        const base64Data = $('#nosicasigner_base64').val();
+
+                        // Poll until pdf.js finishes loading and exposes loadSignedPDF
+                        function tryLoad(attempts) {
+                            if (typeof window.loadSignedPDF === 'function') {
+                                window.loadSignedPDF(base64Data);
+                            } else if (attempts > 0) {
+                                setTimeout(() => tryLoad(attempts - 1), 100);
+                            } else {
+                                console.error('loadSignedPDF not available after timeout');
+                            }
+                        }
+
+                        tryLoad(20); // retries every 100ms, up to 2 seconds
+
+                        com.controllModalAsigner(p.clicked);
+                        com.getAvailableTokens();
+                    }
+                });
+            }
         },
 
-           signerFileBeforSave : function(p){
-               $('#nosicasigner_file').addClass('hidden');
-
-               if(p.url){
-                   com.fetchFileToBlod({
-                       url      : p.url,
-                       clicked  : p.clicked,
-                       complete : function(){
-                           const iframeSigner = $('.nosicasigner_iframe');
-                           iframeSigner.removeClass('hidden');
-
-                           const base64Data = $('#nosicasigner_base64').val();
-
-                           // Poll until pdf.js finishes loading and exposes loadSignedPDF
-                           function tryLoad(attempts) {
-                               if (typeof window.loadSignedPDF === 'function') {
-                                   window.loadSignedPDF(base64Data);
-                               } else if (attempts > 0) {
-                                   setTimeout(() => tryLoad(attempts - 1), 100);
-                               } else {
-                                   console.error('loadSignedPDF not available after timeout');
-                               }
-                           }
-                           tryLoad(20); // retries every 100ms, up to 2 seconds
-
-                           com.controllModalAsigner(p.clicked);
-                           com.getAvailableTokens();
-                       }
-                   });
-               }
-           },
-
-        controllModalAsigner : function(obj){
+        controllModalAsigner: function (obj) {
 
             const trParent = obj.parents('tr:first');
 
-            objModal.attr('input-rel',obj.attr('rel'));
+            objModal.attr('input-rel', obj.attr('rel'));
 
-            if(trParent[0]){
+            if (trParent[0]) {
                 const idTabel = trParent.parents('table').attr('id');
-                objModal.attr('tridx',(trParent[0].rowIndex -1)).attr('idtable',idTabel);
+                objModal.attr('tridx', (trParent[0].rowIndex - 1)).attr('idtable', idTabel);
             }
 
             objModal.modal('show');
         },
 
-        events : function() {
+        events: function () {
 
-    $('body').on('click', '.vkb_toggle_password', function(e) {
-        e.preventDefault();
+            $('body').on('click', '.vkb_toggle_password', function (e) {
+                e.preventDefault();
 
-        const rel = $(this).attr('rel');
-        const input = $(`#inp_${rel}`);
-        const icon = $('i', this);
+                const rel = $(this).attr('rel');
+                const input = $(`#inp_${rel}`);
+                const icon = $('i', this);
 
-        if (input.attr('type') === 'password') {
-            input.attr('type', 'text');
-            icon.removeClass('fa-eye').addClass('fa-eye-slash');
-        } else {
-            input.attr('type', 'password');
-            icon.removeClass('fa-eye-slash').addClass('fa-eye');
-        }
-    });
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                    input.attr('type', 'password');
+                    icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            });
 
-    $(document).on('click','.btn-filesigner', function(e){
-        e.preventDefault();
+            $(document).on('click', '.btn-filesigner', function (e) {
+                e.preventDefault();
 
-        com.resetNosicasigner();
+                com.resetNosicasigner();
 
-        $('.modal-body',objModal).html(com.html.filesigner());
+                $('.modal-body', objModal).html(com.html.filesigner());
 
-        signerbeforsave = $(this).hasClass('signerbeforsave');
+                signerbeforsave = $(this).hasClass('signerbeforsave');
 
-                if(signerbeforsave){
+                if (signerbeforsave) {
 
                     const href = $(this).attr('href');
 
-                    if(href){
+                    if (href) {
                         com.signerFileBeforSave({
-                            url     : href,
-                            clicked : $(this)
+                            url: href,
+                            clicked: $(this)
                         });
 
-                    }else{
+                    } else {
                         $.IGRP.notify({
                             message: 'URL n&atilde;o definido.',
-                            type   : 'danger'
+                            type: 'danger'
                         });
                     }
 
-                }else
+                } else
                     com.controllModalAsigner($(this));
 
 
                 return false;
             });
 
-           $('body').on('change','#nosicasigner_available_tokens',function(){
+            $('body').on('change', '#nosicasigner_available_tokens', function () {
 
                 idToken = $(this).val();
 
-                if(idToken){
+                if (idToken) {
 
                     com.nosicasignerModal({
-                        title     : 'Recolha PIN do Token',
-                        content   : com.html.virtualkeyboard('vkb_pin_token'),
-                        token     : idToken,
-                        onConfirm : function (p) {
+                        title: 'Recolha PIN do Token',
+                        content: com.html.virtualkeyboard('vkb_pin_token'),
+                        token: idToken,
+                        onConfirm: function (p) {
                             com.getAvailableCertificates(p)
                         }
                     });
                 }
-           });
+            });
 
-           $('body').on('change','#modal_signer_available_tokens',function(){
+            $('body').on('change', '#modal_signer_available_tokens', function () {
 
                 idToken = $(this).val();
 
-                if(idToken){
+                if (idToken) {
                     $('#holder_vkb_pin_token_signer').removeClass('hidden');
                 }
-           });
+            });
 
-           $('body').on('change','.nosicasigner_available_certificates select',function(){
+            $('body').on('change', '.nosicasigner_available_certificates select', function () {
 
                 idCert = $(this).val();
 
                 const obj = objclicked !== null ? $('.modal_signer_ok') : $('#btn_nosica_signer');
 
-                if(idCert){
+                if (idCert) {
                     obj.removeClass('hidden');
                     if (objclicked === null) {
                         setSignButtonEnabled(false);
                     }
-                }else{
+                } else {
                     obj.addClass('hidden');
                     if (objclicked === null) {
                         setSignButtonEnabled(false);
@@ -1376,41 +1504,41 @@
                 }
             });
 
-            $('body').on('click','#btn_nosica_signer a',function(e){
+            $('body').on('click', '#btn_nosica_signer a', function (e) {
                 e.preventDefault();
 
                 $.IGRP.utils.loading.show();
 
                 com.toSign({
-                    tokenId     : idToken,
-                    certSerNum  : idCert,
-                    pin         : pinToken,
+                    tokenId: idToken,
+                    certSerNum: idCert,
+                    pin: pinToken,
                 });
 
                 return false;
 
             });
 
-            $('.close',objModal).on("click", function(){
+            $('.close', objModal).on("click", function () {
 
-                if(successProcesso){
+                if (successProcesso) {
 
                     $.IGRP.components.globalModal.set({
-                        rel    : 'confirm-target',
-                        title  : 'Atenção',
+                        rel: 'confirm-target',
+                        title: 'Atenção',
                         content: 'Tens processo de assinatura iniciada, deseja continuar com essa ação?',
                         buttons: [
                             {
-                                class :'danger',
-                                icon  :'times',
-                                text  :'Não',
-                                attr  :{ "data-dismiss":"modal" }
+                                class: 'danger',
+                                icon: 'times',
+                                text: 'Não',
+                                attr: {"data-dismiss": "modal"}
                             },
                             {
-                                class   :'success',
-                                icon    :'check',
-                                text    :'Sim',
-                                onClick :function(e){
+                                class: 'success',
+                                icon: 'check',
+                                text: 'Sim',
+                                onClick: function (e) {
 
                                     com.resetNosicasigner();
 
@@ -1424,21 +1552,21 @@
                         ]
                     });
 
-                }else{
+                } else {
                     com.resetNosicasigner();
                     objModal.modal('hide');
                 }
             });
         },
 
-        init : function () {
+        init: function () {
             com = this;
             com.events();
         }
     }, true);
 
     $(document).on('document:file2base64', function (i, p) {
-		$.IGRP.components.nosicaSigner.onReadAsDataURL(p)
-	});
+        $.IGRP.components.nosicaSigner.onReadAsDataURL(p)
+    });
 
 })();

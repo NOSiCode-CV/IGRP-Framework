@@ -1158,13 +1158,13 @@ let mWindow = null,
 
 			if (valid) {
 				if ($.IGRP.components?.nosicaSigner) {
-
-					events.execute('before-signer_before_submit', {
-						pArrayItem: fields,
-						clicked: p.clicked,
-						url: action
-					});
-
+					if (events) {
+						events.execute('before-signer_before_submit', {
+							pArrayItem: fields,
+							clicked: p.clicked,
+							url: action
+						});
+					}
 					//p.url = action;
 
 					$.IGRP.components.nosicaSigner.signerBeforeSubmit(p);

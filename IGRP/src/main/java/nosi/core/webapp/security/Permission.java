@@ -240,8 +240,9 @@ public class Permission {
 
 	public  void changeOrgAndProfile(String dad){
         final User currentUser = Core.getCurrentUser();
-        if(Core.isNull(dad) || currentUser ==null)
-			return;
+
+        if(Core.isNull(dad) || currentUser ==null) return;
+
 		Application appDAD = Core.findApplicationByDad(dad);
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();

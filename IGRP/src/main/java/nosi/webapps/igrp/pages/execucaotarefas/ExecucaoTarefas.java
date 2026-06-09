@@ -168,12 +168,12 @@ public class ExecucaoTarefas extends Model{
 	}
 
 	
-	private List<Table_minhas_tarefas> table_minhas_tarefas = new ArrayList<>();	
-	public void setTable_minhas_tarefas(List<Table_minhas_tarefas> table_minhas_tarefas){
-		this.table_minhas_tarefas = table_minhas_tarefas;
+	private List<Table_estatistica> table_estatistica = new ArrayList<>();	
+	public void setTable_estatistica(List<Table_estatistica> table_estatistica){
+		this.table_estatistica = table_estatistica;
 	}
-	public List<Table_minhas_tarefas> getTable_minhas_tarefas(){
-		return this.table_minhas_tarefas;
+	public List<Table_estatistica> getTable_estatistica(){
+		return this.table_estatistica;
 	}
 
 	
@@ -186,21 +186,21 @@ public class ExecucaoTarefas extends Model{
 	}
 
 	
+	private List<Table_minhas_tarefas> table_minhas_tarefas = new ArrayList<>();	
+	public void setTable_minhas_tarefas(List<Table_minhas_tarefas> table_minhas_tarefas){
+		this.table_minhas_tarefas = table_minhas_tarefas;
+	}
+	public List<Table_minhas_tarefas> getTable_minhas_tarefas(){
+		return this.table_minhas_tarefas;
+	}
+
+	
 	private List<Table__colaboradores> table__colaboradores = new ArrayList<>();	
 	public void setTable__colaboradores(List<Table__colaboradores> table__colaboradores){
 		this.table__colaboradores = table__colaboradores;
 	}
 	public List<Table__colaboradores> getTable__colaboradores(){
 		return this.table__colaboradores;
-	}
-
-	
-	private List<Table_estatistica> table_estatistica = new ArrayList<>();	
-	public void setTable_estatistica(List<Table_estatistica> table_estatistica){
-		this.table_estatistica = table_estatistica;
-	}
-	public List<Table_estatistica> getTable_estatistica(){
-		return this.table_estatistica;
 	}
 
 	
@@ -613,77 +613,53 @@ public class ExecucaoTarefas extends Model{
 		}
 
 	}
-	public static class Table_minhas_tarefas extends IGRPTable.Table{
-		private String prioridade_m;
-		private String n_tarefa_m;
-		private String desc_tarefa_tabela_minhas_tarefas;
-		private String tipo_tabela_minhas_tarefas;
-		private String data_entrada_tabela_minhas_tarefas;
-		private String data_fim_m;
-		private String atribuido_por_tabela_minhas_tarefas;
-		private String espera_tabela_minhas_tarefas;
-		private String prm_taskid;
-		public void setPrioridade_m(String prioridade_m){
-			this.prioridade_m = prioridade_m;
+	public static class Table_estatistica extends IGRPTable.Table{
+		private String n_processo_estat_tabela;
+		private String desc_tarefa_estat_tabela;
+		private String tipo_estatistica_tabela;
+		private String data_entrada_estat_tabela;
+		private String data_conclusao_estat_tabela;
+		private String p_id_e;
+		public void setN_processo_estat_tabela(String n_processo_estat_tabela){
+			this.n_processo_estat_tabela = n_processo_estat_tabela;
 		}
-		public String getPrioridade_m(){
-			return this.prioridade_m;
+		public String getN_processo_estat_tabela(){
+			return this.n_processo_estat_tabela;
 		}
 
-		public void setN_tarefa_m(String n_tarefa_m){
-			this.n_tarefa_m = n_tarefa_m;
+		public void setDesc_tarefa_estat_tabela(String desc_tarefa_estat_tabela){
+			this.desc_tarefa_estat_tabela = desc_tarefa_estat_tabela;
 		}
-		public String getN_tarefa_m(){
-			return this.n_tarefa_m;
-		}
-
-		public void setDesc_tarefa_tabela_minhas_tarefas(String desc_tarefa_tabela_minhas_tarefas){
-			this.desc_tarefa_tabela_minhas_tarefas = desc_tarefa_tabela_minhas_tarefas;
-		}
-		public String getDesc_tarefa_tabela_minhas_tarefas(){
-			return this.desc_tarefa_tabela_minhas_tarefas;
+		public String getDesc_tarefa_estat_tabela(){
+			return this.desc_tarefa_estat_tabela;
 		}
 
-		public void setTipo_tabela_minhas_tarefas(String tipo_tabela_minhas_tarefas){
-			this.tipo_tabela_minhas_tarefas = tipo_tabela_minhas_tarefas;
+		public void setTipo_estatistica_tabela(String tipo_estatistica_tabela){
+			this.tipo_estatistica_tabela = tipo_estatistica_tabela;
 		}
-		public String getTipo_tabela_minhas_tarefas(){
-			return this.tipo_tabela_minhas_tarefas;
-		}
-
-		public void setData_entrada_tabela_minhas_tarefas(String data_entrada_tabela_minhas_tarefas){
-			this.data_entrada_tabela_minhas_tarefas = data_entrada_tabela_minhas_tarefas;
-		}
-		public String getData_entrada_tabela_minhas_tarefas(){
-			return this.data_entrada_tabela_minhas_tarefas;
+		public String getTipo_estatistica_tabela(){
+			return this.tipo_estatistica_tabela;
 		}
 
-		public void setData_fim_m(String data_fim_m){
-			this.data_fim_m = data_fim_m;
+		public void setData_entrada_estat_tabela(String data_entrada_estat_tabela){
+			this.data_entrada_estat_tabela = data_entrada_estat_tabela;
 		}
-		public String getData_fim_m(){
-			return this.data_fim_m;
-		}
-
-		public void setAtribuido_por_tabela_minhas_tarefas(String atribuido_por_tabela_minhas_tarefas){
-			this.atribuido_por_tabela_minhas_tarefas = atribuido_por_tabela_minhas_tarefas;
-		}
-		public String getAtribuido_por_tabela_minhas_tarefas(){
-			return this.atribuido_por_tabela_minhas_tarefas;
+		public String getData_entrada_estat_tabela(){
+			return this.data_entrada_estat_tabela;
 		}
 
-		public void setEspera_tabela_minhas_tarefas(String espera_tabela_minhas_tarefas){
-			this.espera_tabela_minhas_tarefas = espera_tabela_minhas_tarefas;
+		public void setData_conclusao_estat_tabela(String data_conclusao_estat_tabela){
+			this.data_conclusao_estat_tabela = data_conclusao_estat_tabela;
 		}
-		public String getEspera_tabela_minhas_tarefas(){
-			return this.espera_tabela_minhas_tarefas;
+		public String getData_conclusao_estat_tabela(){
+			return this.data_conclusao_estat_tabela;
 		}
 
-		public void setPrm_taskid(String prm_taskid){
-			this.prm_taskid = prm_taskid;
+		public void setP_id_e(String p_id_e){
+			this.p_id_e = p_id_e;
 		}
-		public String getPrm_taskid(){
-			return this.prm_taskid;
+		public String getP_id_e(){
+			return this.p_id_e;
 		}
 
 	}
@@ -769,6 +745,80 @@ public class ExecucaoTarefas extends Model{
 		}
 
 	}
+	public static class Table_minhas_tarefas extends IGRPTable.Table{
+		private String prioridade_m;
+		private String n_tarefa_m;
+		private String desc_tarefa_tabela_minhas_tarefas;
+		private String tipo_tabela_minhas_tarefas;
+		private String data_entrada_tabela_minhas_tarefas;
+		private String data_fim_m;
+		private String atribuido_por_tabela_minhas_tarefas;
+		private String espera_tabela_minhas_tarefas;
+		private String prm_taskid;
+		public void setPrioridade_m(String prioridade_m){
+			this.prioridade_m = prioridade_m;
+		}
+		public String getPrioridade_m(){
+			return this.prioridade_m;
+		}
+
+		public void setN_tarefa_m(String n_tarefa_m){
+			this.n_tarefa_m = n_tarefa_m;
+		}
+		public String getN_tarefa_m(){
+			return this.n_tarefa_m;
+		}
+
+		public void setDesc_tarefa_tabela_minhas_tarefas(String desc_tarefa_tabela_minhas_tarefas){
+			this.desc_tarefa_tabela_minhas_tarefas = desc_tarefa_tabela_minhas_tarefas;
+		}
+		public String getDesc_tarefa_tabela_minhas_tarefas(){
+			return this.desc_tarefa_tabela_minhas_tarefas;
+		}
+
+		public void setTipo_tabela_minhas_tarefas(String tipo_tabela_minhas_tarefas){
+			this.tipo_tabela_minhas_tarefas = tipo_tabela_minhas_tarefas;
+		}
+		public String getTipo_tabela_minhas_tarefas(){
+			return this.tipo_tabela_minhas_tarefas;
+		}
+
+		public void setData_entrada_tabela_minhas_tarefas(String data_entrada_tabela_minhas_tarefas){
+			this.data_entrada_tabela_minhas_tarefas = data_entrada_tabela_minhas_tarefas;
+		}
+		public String getData_entrada_tabela_minhas_tarefas(){
+			return this.data_entrada_tabela_minhas_tarefas;
+		}
+
+		public void setData_fim_m(String data_fim_m){
+			this.data_fim_m = data_fim_m;
+		}
+		public String getData_fim_m(){
+			return this.data_fim_m;
+		}
+
+		public void setAtribuido_por_tabela_minhas_tarefas(String atribuido_por_tabela_minhas_tarefas){
+			this.atribuido_por_tabela_minhas_tarefas = atribuido_por_tabela_minhas_tarefas;
+		}
+		public String getAtribuido_por_tabela_minhas_tarefas(){
+			return this.atribuido_por_tabela_minhas_tarefas;
+		}
+
+		public void setEspera_tabela_minhas_tarefas(String espera_tabela_minhas_tarefas){
+			this.espera_tabela_minhas_tarefas = espera_tabela_minhas_tarefas;
+		}
+		public String getEspera_tabela_minhas_tarefas(){
+			return this.espera_tabela_minhas_tarefas;
+		}
+
+		public void setPrm_taskid(String prm_taskid){
+			this.prm_taskid = prm_taskid;
+		}
+		public String getPrm_taskid(){
+			return this.prm_taskid;
+		}
+
+	}
 	public static class Table__colaboradores extends IGRPTable.Table{
 		private String nome_colab_tabela;
 		private String contacto_colab_tabela;
@@ -851,75 +901,25 @@ public class ExecucaoTarefas extends Model{
 		}
 
 	}
-	public static class Table_estatistica extends IGRPTable.Table{
-		private String n_processo_estat_tabela;
-		private String desc_tarefa_estat_tabela;
-		private String tipo_estatistica_tabela;
-		private String data_entrada_estat_tabela;
-		private String data_conclusao_estat_tabela;
-		private String p_id_e;
-		public void setN_processo_estat_tabela(String n_processo_estat_tabela){
-			this.n_processo_estat_tabela = n_processo_estat_tabela;
-		}
-		public String getN_processo_estat_tabela(){
-			return this.n_processo_estat_tabela;
-		}
-
-		public void setDesc_tarefa_estat_tabela(String desc_tarefa_estat_tabela){
-			this.desc_tarefa_estat_tabela = desc_tarefa_estat_tabela;
-		}
-		public String getDesc_tarefa_estat_tabela(){
-			return this.desc_tarefa_estat_tabela;
-		}
-
-		public void setTipo_estatistica_tabela(String tipo_estatistica_tabela){
-			this.tipo_estatistica_tabela = tipo_estatistica_tabela;
-		}
-		public String getTipo_estatistica_tabela(){
-			return this.tipo_estatistica_tabela;
-		}
-
-		public void setData_entrada_estat_tabela(String data_entrada_estat_tabela){
-			this.data_entrada_estat_tabela = data_entrada_estat_tabela;
-		}
-		public String getData_entrada_estat_tabela(){
-			return this.data_entrada_estat_tabela;
-		}
-
-		public void setData_conclusao_estat_tabela(String data_conclusao_estat_tabela){
-			this.data_conclusao_estat_tabela = data_conclusao_estat_tabela;
-		}
-		public String getData_conclusao_estat_tabela(){
-			return this.data_conclusao_estat_tabela;
-		}
-
-		public void setP_id_e(String p_id_e){
-			this.p_id_e = p_id_e;
-		}
-		public String getP_id_e(){
-			return this.p_id_e;
-		}
-
-	}
 
 	public void loadTable_disponiveis(BaseQueryInterface query) {
 		this.setTable_disponiveis(this.loadTable(query,Table_disponiveis.class));
 	}
 
-	public void loadTable_minhas_tarefas(BaseQueryInterface query) {
-		this.setTable_minhas_tarefas(this.loadTable(query,Table_minhas_tarefas.class));
+	public void loadTable_estatistica(BaseQueryInterface query) {
+		this.setTable_estatistica(this.loadTable(query,Table_estatistica.class));
 	}
 
 	public void loadTable_gerir_tarefas(BaseQueryInterface query) {
 		this.setTable_gerir_tarefas(this.loadTable(query,Table_gerir_tarefas.class));
 	}
 
-	public void loadTable__colaboradores(BaseQueryInterface query) {
-		this.setTable__colaboradores(this.loadTable(query,Table__colaboradores.class));
+	public void loadTable_minhas_tarefas(BaseQueryInterface query) {
+		this.setTable_minhas_tarefas(this.loadTable(query,Table_minhas_tarefas.class));
 	}
 
-	public void loadTable_estatistica(BaseQueryInterface query) {
-		this.setTable_estatistica(this.loadTable(query,Table_estatistica.class));
+	public void loadTable__colaboradores(BaseQueryInterface query) {
+		this.setTable__colaboradores(this.loadTable(query,Table__colaboradores.class));
 	}
 
 }

@@ -109,7 +109,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String taskId = Core.getParamTaskId();
 		if(Core.isNotNullMultiple(this.runtimeTask,taskId)){
 			final HttpServletRequest request = Igrp.getInstance().getRequest();
-			List<Part> parts = (request.getContentType() != null && request.getContentType().startsWith("multipart/"))?(List<Part>) request.getParts():null;
+			List<Part> parts = (request.getContentType() != null && request.getContentType().toLowerCase().startsWith("multipart/"))?(List<Part>) request.getParts():java.util.Collections.emptyList();
 			if(!inputDocsAlreadyValidate && parts !=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask, this.inputDocsErrors)) {
 				if(!this.inputDocsErrors.isEmpty())
 					this.inputDocsErrors.forEach(Core::setMessageError);
@@ -309,7 +309,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		Action action = new Action().find()
 				.andWhere("page", "=",this.page)
 				.andWhere("application.dad", "=",task.getTenantId())
-				.andWhere("processKey", "=", task.getProcessDefinitionKey())
+									 .andWhere("processKey", "=", task.getProcessDefinitionKey().toLowerCase())
 				.one();
 		String json = "";
 		final Object taskVariable = Core.getTaskVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + task.getId());

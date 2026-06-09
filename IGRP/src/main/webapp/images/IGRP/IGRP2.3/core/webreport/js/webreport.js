@@ -18,12 +18,165 @@ $(function ($) {
 		$.WR.pageUrl 		= $('#p_env_frm_url')[0] ? $('#p_env_frm_url').val() : window.location.href;
 
 		$.WR.dataSourcekeys.datasources = [];
+
+		$.WR.response = {
+			html : function(data){
+				return typeof data == 'string' ? $($.parseHTML(data, document, true)) : $(data);
+			},
+			findHtml : function(data, selector){
+				var html = $.WR.response.html(data);
+
+				return html.filter(selector).add(html.find(selector));
+			},
+			fieldValue : function(selector){
+				var el = $(selector),
+					name;
+
+				if(!el[0] && selector && selector.indexOf('#') === 0){
+					name = selector.substring(1);
+					el = $('[name="'+name+'"],#'+name);
+				}
+
+				if(!el[0])
+					return '';
+
+				return el.first().val() || el.first().attr('href') || '';
+			},
+			isXml : function(data){
+				var d = data && data.documentElement ? data.documentElement.nodeName.toLowerCase() : '';
+
+				if(d == 'rows')
+					return true;
+
+				if(typeof data == 'string'){
+					var trimmed = $.trim(data);
+
+					return trimmed.indexOf('<rows') === 0 || trimmed.indexOf('<?xml') === 0;
+				}
+
+				return $(data).is('rows') || $(data).find('rows').length > 0;
+			},
+			field : function(data, fieldName, fallbackSelector){
+				var value = $(data).find('fields '+fieldName+' value').text(),
+					found;
+
+				if(!value)
+					value = $(data).find(fieldName+' value').text();
+
+				if(!value && fallbackSelector){
+					found = $.WR.response.findHtml(data,fallbackSelector);
+					value = found.val() || found.attr('href') || '';
+
+					if(!value)
+						value = $.WR.response.fieldValue(fallbackSelector);
+				}
+
+				return value;
+			},
+			ajaxXmlUrl : function(url){
+				return $.IGRP.utils.getUrl(url)+'ir_cf=xml';
+			},
+			fieldList : function(data, fieldName, fallbackSelector){
+				var list = $(data).find('fields '+fieldName+' list');
+
+				if(!list[0] && fallbackSelector)
+					list = $.WR.response.findHtml(data,fallbackSelector);
+
+				return list;
+			},
+			syncHtml : function(data, selector){
+				if(!$.WR.response.isXml(data)){
+					var content = $.WR.response.findHtml(data,selector).html();
+
+					if(content != undefined)
+						$(selector).html(content);
+				}
+			},
+			renderList : function(p){
+				var loading = p.loading,
+					tab     = p.tab;
+
+				if($.WR.response.isXml(p.data)){
+					p.target.XMLTransform({
+						xsl 	 : p.xsl,
+						xml 	 : $(p.data).getXMLDocument(),
+						complete : function(c){
+							$(loading,tab).remove();
+
+							if(p.complete) p.complete(c);
+						},
+						error 	 : function(c){
+							$(loading,tab).remove();
+
+							if(p.error) p.error(c);
+						}
+					});
+				}else{
+					var content = $.WR.response.findHtml(p.data,p.selector).html();
+
+					p.target.html(content || '');
+					$(loading,tab).remove();
+
+					if(p.complete) p.complete(p.target);
+				}
+			}
+		};
 		
 		$.WR.fieldDataSource = {
 			urlChange:$('#p_link_source')[0] ? $('#p_link_source').val() : 'XXXX',
+			addSourceUrl : $.WR.response ? $.WR.response.fieldValue('#p_link_add_source') : '',
+			getAddSourceUrl : function(data){
+				var url = '';
+
+				if(data)
+					url = $.WR.response.field(data,'link_add_source','#p_link_add_source');
+
+				if(!url)
+					url = $.WR.fieldDataSource.addSourceUrl || '';
+
+				if(!url)
+					url = $.WR.response.fieldValue('#p_link_add_source');
+
+				return url;
+			},
+			setButtons : function(url){
+				var hasApp,
+					hasUrl,
+					hasSelected,
+					linkUrl,
+					linkField;
+
+				if(arguments.length){
+					linkUrl = url || '';
+				}else{
+					linkUrl = $.WR.fieldDataSource.getAddSourceUrl();
+				}
+
+				if(linkUrl){
+					$.WR.fieldDataSource.addSourceUrl = linkUrl;
+					$('.wr-op-datasource .btn').attr('href',linkUrl);
+
+					linkField = $('#p_link_add_source');
+
+					if(linkField.is('input'))
+						linkField.val(linkUrl);
+					else if(linkField.is('a'))
+						linkField.attr('href',linkUrl);
+				}else if(arguments.length){
+					$.WR.fieldDataSource.addSourceUrl = '';
+					$('.wr-op-datasource .btn').removeAttr('href');
+				}
+
+				hasApp 		= !!$.WR.app;
+				hasUrl 		= $('.wr-newdatasource').attr('href') || $.WR.fieldDataSource.addSourceUrl;
+				hasSelected = $.WR.dataSource && $.WR.dataSource.length > 0;
+
+				$('.wr-newdatasource').toggleClass('active', !!(hasApp && hasUrl));
+				$('.wr-editdatasource').toggleClass('active', !!(hasApp && hasSelected));
+			},
 			onChange : function(){
 				$.WR.objDataSource.on('change',function(){
-					$.WR.dataSource = $(this).val();
+					$.WR.dataSource = $(this).val() || [];
 					
 					if($.WR.dataSource[0]){
 						var param = '', 
@@ -50,29 +203,28 @@ $(function ($) {
 								},
 								success : function(data){
 									if(data){
-										var url 	= $(data).find('fields link_add_source value').text(),
-											loading = $('<div/>').addClass('loading loader'),
+										var loading = $('<div/>').addClass('loading loader'),
 											tab 	= $('#tab-tabcontent_1-data_source');
 
 										loading.appendTo(tab);
 
-										$('#wr-list-datasource').XMLTransform({
-											xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
-											xml : $(data).getXMLDocument(),
-											complete : function(c){												
-												$(loading,tab).remove();
-											},
-											error 	 : function(c){
-												$(loading,tab).remove();
+										$.WR.response.renderList({
+											target   : $('#wr-list-datasource'),
+											selector : '#wr-list-datasource',
+											xsl      : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
+											data     : data,
+											loading  : loading,
+											tab      : tab,
+											complete : function(){
+												$.WR.fieldDataSource.setButtons();
 											}
 										});
 									}
 								}
 							});
-							$('.wr-editdatasource').addClass('active');
-							$('.wr-newdatasource').addClass('active');
+							$.WR.fieldDataSource.setButtons();
 						}else{
-							$('.wr-newdatasource').removeClass('active');
+							$.WR.fieldDataSource.setButtons();
 							$.IGRP.notify({
 								message : 'Nenhuma Aplicação Selecionado!',
 								type	: 'info'
@@ -80,6 +232,7 @@ $(function ($) {
 						}
 					}else{
 						$('#wr-list-datasource').html('');
+						$.WR.fieldDataSource.setButtons();
 					}
 				});
 			},
@@ -93,13 +246,15 @@ $(function ($) {
 					$("option",$.WR.objDataSource).remove();
 
 					data.find('option').each(function(i,e){
-						var value = $(e).find("value").text();
+						var value = $(e).find("value").text() || $(e).attr('value') || $(e).val(),
+							text  = $(e).find("text").text() || $(e).attr('label') || $(e).text();
+
 						option = new Option(
-							$(e).find("text").text(),
+							text,
 							value
 						);
 
-						if($(e).attr('selected')){
+						if($(e).attr('selected') || $(e).prop('selected')){
 							option.selected = true;
 							activeEdit		= true;
 						}
@@ -119,10 +274,12 @@ $(function ($) {
 				}else
 					$('.wr-editdatasource').removeClass('active');
 
+				$.WR.dataSource = $.WR.objDataSource.val() || [];
+				$.WR.fieldDataSource.setButtons();
 				$.WR.objDataSource.trigger('change.select2');
 			},
 			getVal : function(){
-				$.WR.dataSource = $.WR.objDataSource.val();
+				$.WR.dataSource = $.WR.objDataSource.val() || [];
 
 				return $.WR.dataSource;
 			},
@@ -145,13 +302,18 @@ $(function ($) {
 				            	var modal = $($.IGRP.components.iframeNav.modal);
 				            	$('.iframe-nav-close',modal).click(function(){
 				            		$.ajax({
-										url  	: $.WR.pageUrl,
+										url  	: $.WR.response.ajaxXmlUrl($.WR.pageUrl),
 										data 	: $.WR.objApp.serializeArray(),
 										type 	: 'POST',
+										dataType: 'xml',
 										success : function(data){
 											if(data){
-												var datasorceXml = $(data).find('fields datasorce_app list');
+												var datasorceXml = $.WR.response.fieldList(data,'datasorce_app','#form_1_datasorce_app'),
+													url          = $.WR.fieldDataSource.getAddSourceUrl(data);
+
 												$.WR.fieldDataSource.setVal(datasorceXml,$.WR.dataSource);
+												$.WR.response.syncHtml(data,'#wr-list-datasource');
+												$.WR.fieldDataSource.setButtons(url);
 											}
 										}
 									});
@@ -225,6 +387,7 @@ $(function ($) {
 			init : function(){
 				$.WR.fieldDataSource.onChange();
 				$.WR.fieldDataSource.getVal();
+				$.WR.fieldDataSource.setButtons();
 				$.WR.fieldDataSource.new();
 				$.WR.fieldDataSource.edit();
 			}
@@ -237,9 +400,10 @@ $(function ($) {
 					$('#form_1_env_fk').next('.select2:first').removeClass('error');
 				
 					$.ajax({
-						url   : $.WR.pageUrl,
+						url   : $.WR.response.ajaxXmlUrl($.WR.pageUrl),
 						data  : $.WR.objApp.serializeArray(),
 						type  : 'POST',
+						dataType: 'xml',
 						error : function(e){
 							$.IGRP.notify({
 								message : 'Not Found',
@@ -248,21 +412,22 @@ $(function ($) {
 						},
 						success : function(data){
 							if(data){
-								var datasorceXml = $(data).find('fields datasorce_app list'),
-									url 		 = $(data).find('fields link_add_source value').text(),
-									upload 		 = $(data).find('fields link_upload_img value').text(),
+								var datasorceXml = $.WR.response.fieldList(data,'datasorce_app','#form_1_datasorce_app'),
+									url 		 = $.WR.fieldDataSource.getAddSourceUrl(data),
+									upload 		 = $.WR.response.field(data,'link_upload_img','#p_link_upload_img'),
 									loading 	 = $('<div/>').addClass('loading loader'),
 									tab 		 = $('#tab-tabcontent_1-reports');
 
 								loading.appendTo(tab);
 
-								$('#wr-list-document').XMLTransform({
+								$.WR.response.renderList({
+									target   : $('#wr-list-document'),
+									selector : '#wr-list-document',
 									xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
-									xml 	 : $(data).getXMLDocument(),
+									data 	 : data,
+									loading  : loading,
+									tab 	 : tab,
 									complete : function(c){
-										
-										$(loading,tab).remove();
-										
 										$.WR.document.info.show();
 										
 										if ($.WR.id)
@@ -273,15 +438,12 @@ $(function ($) {
 									}
 								});
 
-								if(url && url != undefined){
-									$('.wr-op-datasource .btn').attr('href',url);
-									$('.wr-newdatasource').addClass('active');
-								}
-								
 								if(upload && upload != undefined)
 									$('#p_link_upload_img').val(upload);
 
 								$.WR.fieldDataSource.setVal(datasorceXml);
+								$.WR.response.syncHtml(data,'#wr-list-datasource');
+								$.WR.fieldDataSource.setButtons(url);
 
 								if(!$.WR.newDocument && $.WR.id){
 									$.WR.editor.set.data({});
@@ -294,6 +456,7 @@ $(function ($) {
 					$('#wr-list-document').html('');
 					$('.wr-newdocument').addClass('hidden');
 					$.WR.fieldDataSource.clear();
+					$.WR.fieldDataSource.setButtons('');
 					$.WR.objDataSource.trigger('change');
 					$.WR.editor.set.data({});
 				}
@@ -601,10 +764,11 @@ $(function ($) {
 					});
 				});
 			},
-			onLoad : function(url){
+			onLoad : function(url, report){
 				
 				$.ajax({
-					url   : url,
+					url      : url,
+					dataType : 'json',
 					error : function(e){
 						$.IGRP.notify({
 							message : 'Not Found',
@@ -613,32 +777,43 @@ $(function ($) {
 					},
 					success : function(data){
 						if(data){
+							if(typeof data == 'string'){
+								try{
+									data = $.parseJSON(data);
+								}catch(e){
+									try{
+										data = $.parseJSON(data.replace(/\s+/g," "));
+									}catch(e){}
+								}
+							}
+
 							$('#list-reports li').removeClass('active');
-							$(this).addClass('active');
+							if(report)
+								report.addClass('active');
 
 							$('#igrp-app-title').html($.WR.reportTitle);
 
 							//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
 
-							$.WR.document.convert2Do(data.textreport);
+							if(data.textreport)
+								$.WR.document.convert2Do(data.textreport);
 
 							if($.WR.objDataSource[0]){
-								
-								if(data.datasorce_app){
-									
-									$.WR.datasorce = data.datasorce_app.split(',');
-									
-									$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
+								var selected = [];
 
+								if(data.datasorce_app)
+									selected = (''+data.datasorce_app).split(',').filter(function(v){ return v !== ''; });
+
+								$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
+
+								if(selected.length){
 									$.WR.objDataSource.find("option").each(function(i,e){
-										
-										if($.inArray($(e).val(),$.WR.datasorce) != -1)
-											$(e).attr("selected","selected").attr("selected",'selected').prop('selected',true);
+										if($.inArray($(e).val(), selected) != -1)
+											$(e).prop('selected', true);
 									});
+								}
 
-								}else
-									$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
-
+								$.WR.dataSource = $.WR.objDataSource.val() || [];
 								$.WR.objDataSource.trigger('change');
 							}
 						}
@@ -652,7 +827,7 @@ $(function ($) {
 					$.WR.id 		 = parent.attr('id');
 					$.WR.reportTitle = $('span',parent).text();
 
-					$.WR.document.onLoad(parent.attr('rel'));
+					$.WR.document.onLoad(parent.attr('rel'), parent);
 				});
 			},
 			save   : function(p){
@@ -870,7 +1045,7 @@ $(function ($) {
 												if(e.value && e.value != undefined){
 													if(i > 0){
 														keys.value +='&';
-														keys.name +='&'; 
+														keys.name +='&';
 													}
 
 													keys.value +='value_array='+e.value;
@@ -885,7 +1060,7 @@ $(function ($) {
 											$.IGRP.targets.modal.action({
 												url:url
 											});
-											
+
 											$.IGRP.components.globalModal.hide();
 											return false;
 										}
@@ -896,7 +1071,7 @@ $(function ($) {
 										text    : 'Cancelar',
 										onClick : function(){
 											$.IGRP.components.globalModal.hide();
-											return false;	
+											return false;
 										}
 									}
 								]
@@ -951,7 +1126,7 @@ $(function ($) {
 				$.WR.document.footer.has.set(hasfooter);
 
 				$.WR.document.footer.custom.isActive(isActive);
-				
+
 				$.WR.editor.set.data(content);
 			},
 			init : function(){
@@ -1024,7 +1199,7 @@ $(function ($) {
 									group 		= $('#list-group input:checked').val(),
 									grouphtml 	= $('#html-group input:checked').val(),
 									list 		= tag != 'table' ? 'ulol' : 'table';
-								
+
 								p.tag = tag;
 
 								if (tag == 'table') {
@@ -1046,7 +1221,7 @@ $(function ($) {
 							text    : 'Cancelar',
 							onClick : function(){
 								$.IGRP.components.globalModal.hide();
-								return false;	
+								return false;
 							}
 						}
 					]
@@ -1146,7 +1321,7 @@ $(function ($) {
 					$.ajax({
 						url     : $.IGRP.utils.getPageUrl(),
 						success : function(data){
-						
+
 							$('.charts',transCharts).XMLTransform({
 								xsl 		: path+'/xsl/tmpl/IGRP-charts.tmpl.xsl',
 								xml 		: $(data).find('rows content '+p.tag).getXMLDocument(),
@@ -1166,7 +1341,7 @@ $(function ($) {
 											//contenteditable="false"
 						                	var html = '<span  key="'+p.iskey+'" type="'+p.type+'" tag="'+p.tag+'" no="'+p.parentTag+'" pos="'+p.parentPos+'">'+renderCharts.getSVG()+'</span>';
 						                	$.WR.editor.set.html(html);
-						                	
+
 							            },1000);
 						            }
 								},
@@ -1200,7 +1375,7 @@ $(function ($) {
 								th   = '',
 								tdg  = '',
 								thg  = '',
-								vars = ''; 
+								vars = '';
 
 							p.td.item.forEach(function(e,i){
 								var tag = p.grouphtml && p.grouphtml != 'table' ? 'li' : 'td';
@@ -1232,8 +1407,8 @@ $(function ($) {
 										tdg += '<td '+e.style+'>'+
 											'<xsl:value-of select="'+value+'" disable-output-escaping="yes"/>'+
 										'</td>';
-										
-										if (i > 0) 
+
+										if (i > 0)
 											vars += ' and ';
 
 										vars += '$v'+value+' = '+value;
@@ -1306,7 +1481,7 @@ $(function ($) {
 			    		span : function(element){
 			    			var span    = {},
 								arrType = ['radio','radiolist','checkbox','checkboxlist','select'];
-			    			
+
 			    			span.tag  = element.attributes.tag || element.attributes.tag;
 			    			span.pos  = element.attributes.pos;
 			    			span.no   = element.attributes.no;
@@ -1316,12 +1491,12 @@ $(function ($) {
 			    			if (span.tag && span.tag != undefined) {
 			    				var pos 	= '['+$.WR.utils.getContentPositon(span.pos)+']',
 			    					path 	= 'rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/value';
-			    				
-			    				if (element.attributes.footer) 
+
+                            if (element.attributes.footer)
 			    					path = 'rows/'+span.no+'/'+span.tag;
 
 			    				span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'><xsl:value-of  disable-output-escaping="yes" select="'+path+'"/></span>';
-			    				
+
 			    				if(span.type == 'chart'){
 
 			    					span.element  = '<div class="box-body"><xsl:call-template name="igrp-graph">'+
@@ -1333,7 +1508,7 @@ $(function ($) {
 
 			    				}/* else if(span.type == 'select'){
 			    					span.element = '<xsl:value-of select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']/text"/>';
-			    				
+
 			    				}*/ else if ($.inArray(span.type,arrType) !== -1){
 									span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'>'+
 														'<xsl:for-each select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']">'+
@@ -1355,12 +1530,12 @@ $(function ($) {
 			    			}
 			    		},
 			    		table : function(element){
-			    			
+
 			    			var html 		= $(element.getHtml()),
 			    				hasTfoot 	= html.filter('tfoot'),
 			    				table  		= {},
 			    				colgroup 	= element.attributes.colgroup || element.attributes.groupcolitem;
-			    			
+
 			    			table.pos  		= element.attributes.pos;
 			    			table.no   		= element.attributes.no || element.attributes.rel;
 			    			table.group 	= element.attributes.group || '';
@@ -1441,7 +1616,7 @@ $(function ($) {
 			    						}
 			    						index ++;
 			    					}
-			    					
+
 			    				});
 
 			    				idx = 0;
@@ -1461,7 +1636,7 @@ $(function ($) {
 			    		},
 			    		ul : function(element){
 			    			var ul  = {};
-			    			
+
 			    			ul.pos  = element.attributes.pos;
 			    			ul.no   = element.attributes.no || element.attributes.rel;
 
@@ -1471,17 +1646,17 @@ $(function ($) {
 			    				element.forEach(function(node){
 			    					if (node.name == 'li'){
 			    						var tag = node.attributes.tag || node.attributes.rel;
-			    						
+
 			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
 											tag += '_desc';
 										}
-			    						
+
 			    						ul.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of  disable-output-escaping="yes" select="'+tag+'"/></li>';
 			    					}
 			    				});
 
 			    				element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ul.pos)+']/'+ul.no+'/table/value/row">'+ul.element+'</xsl:for-each>');
-			    				
+
 			    				delete element.attributes.pos;
 				    			delete element.attributes.no;
 				    			delete element.attributes.rel;
@@ -1489,7 +1664,7 @@ $(function ($) {
 			    		},
 			    		ol : function(element){
 			    			var ol  = {};
-			    			
+
 			    			ol.pos  = element.attributes.pos;
 			    			ol.no   = element.attributes.no || element.attributes.rel;
 
@@ -1499,17 +1674,17 @@ $(function ($) {
 			    				element.forEach(function(node){
 			    					if (node.name == 'li'){
 			    						var tag = node.attributes.tag || node.attributes.rel;
-			    						
+
 			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
 											tag += '_desc';
 										}
-			    						
+
 			    						ol.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of disable-output-escaping="yes" select="'+tag+'"/></li>';
 			    					}
 			    				});
 
 			    				element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ol.pos)+']/'+ol.no+'/table/value/row">'+ol.element+'</xsl:for-each>');
-			    				
+
 			    				delete element.attributes.pos;
 				    			delete element.attributes.no;
 				    			delete element.attributes.rel;
@@ -1517,7 +1692,7 @@ $(function ($) {
 			    		},
 			    		img : function(element){
 			    			var img  = {};
-			    			
+
 			    			img.tag  = element.attributes.tag || element.attributes.rel;
 			    			img.pos  = element.attributes.pos;
 			    			img.no   = element.attributes.no;
@@ -1525,7 +1700,7 @@ $(function ($) {
 			    			if (img.tag && img.tag != undefined) {
 
 			    				element.attributes.src ='{rows/content['+$.WR.utils.getContentPositon(img.pos)+']/'+img.no+'/fields/'+img.tag+'/value}';
-			    			
+
 			    				delete element.attributes.tag;
 				    			delete element.attributes.pos;
 				    			delete element.attributes.no;
@@ -1583,7 +1758,7 @@ $(function ($) {
 					structure.content.head 	 = $.trim(data.head.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.body 	 = $.trim(data.body.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.footer = $.WR.document.footer.has.val == 'Y' ? $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," ")) : "";
-					
+
 					return structure;
 				},
 				html : function(){
@@ -1599,7 +1774,7 @@ $(function ($) {
 					}
 
 					html += '</div>';
-					
+
 					return html;
 				}
 			},
@@ -1619,7 +1794,7 @@ $(function ($) {
 						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
-							
+
 							CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
 
 							var dataTransfer = evt.data.dataTransfer,
@@ -1644,7 +1819,7 @@ $(function ($) {
 								if(element.type == 'node'){
 									var obj  	= $('ul[tag="'+element.parentTag+'"]')[0] ? $('ul[tag="'+element.parentTag+'"]') : $('ul[tag="'+element.tag+'"]'),
 										seletor = $target.find('input[name="p_'+element.parentTag+'"]',obj).is(':checked') ? $('li input[name="p_'+element.parentTag+'"]:checked',obj) : $('li input[name="p_'+element.parentTag+'"]',obj);
-									
+
 									seletor.each(function(i,e){
 										var item 	= {},
 											parents = $(e).parents('li:first');
@@ -1659,12 +1834,12 @@ $(function ($) {
 										tag  :element.tag,
 										label:target.getText()
 									};
-								} 
+								}
 							}
 
 							if(element.parentType == 'chart')
 								element.type = element.parentType;
-							
+
 							if(element.type == 'img')
 								element.parentType = 'image';
 

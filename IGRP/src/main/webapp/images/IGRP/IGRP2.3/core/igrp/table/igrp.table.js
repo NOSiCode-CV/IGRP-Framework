@@ -1,7 +1,54 @@
 (function(){
 
 	let com;
+	if ($.fn.DataTable) {
+		// Strip accents from index
+		$.fn.DataTable.ext.type.search.string = function(data) {
+			return !data ? '' : typeof data === 'string'
+				? data.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+				: data;
+		};
+		$.fn.DataTable.ext.type.search.html = $.fn.DataTable.ext.type.search.string;
 
+		$.fn.DataTable.ext.search.push(function(settings, data, dataIndex) {
+			// Use our stored original term, not the one DataTables sees
+			const rawTerm = settings.oApi._fnEscapeRegex
+				? (settings._igrpRawSearch || settings.oPreviousSearch.sSearch)
+				: settings.oPreviousSearch.sSearch;
+
+			if (rawTerm === '') return true;
+
+			const termHasAccents = /[\u0300-\u036f]/.test(rawTerm.normalize('NFD'));
+			const api = new $.fn.dataTable.Api(settings);
+			const row = api.row(dataIndex).node();
+			const rowText = $(row).text();
+
+			if (!termHasAccents) {
+				const normalizedTerm = rawTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+				const normalizedRow  = rowText.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+				return normalizedRow.indexOf(normalizedTerm) !== -1;
+			} else {
+				const term   = rawTerm.normalize('NFC').toLowerCase();
+				const rowNFC = rowText.normalize('NFC').toLowerCase();
+				return rowNFC.indexOf(term) !== -1;
+			}
+		});
+
+		// Hook into DataTables search: store raw term, feed stripped term
+		$(document).on('keyup', '.dataTables_filter input', function() {
+			const rawTerm = $(this).val();
+			const table = $(this).closest('.dataTables_wrapper').find('table.dataTable');
+
+			if ($.fn.DataTable.isDataTable(table)) {
+				const api = table.DataTable();
+				// Store original term for our ext.search.push to read
+				api.settings()[0]._igrpRawSearch = rawTerm;
+				// Feed DataTables a stripped version so it never pre-filters
+				const strippedTerm = rawTerm.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+				api.search(strippedTerm).draw();
+			}
+		});
+	}
 	const lang = document.cookie.split(';');
 
 	const stripHtml = function (html) {

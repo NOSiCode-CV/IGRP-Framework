@@ -151,7 +151,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		    	tab_geral.setN_doc_tab(pessoa.getString("NUM_DOCUMENTO"));	
 		    	if(tab_geral.getTipo_documento_tab().equals("PEC"))
 		    		tab_geral.setPassaporte_tab(tab_geral.getN_doc_tab());
-		    	tab_geral.setNic_cni_tab(pessoa.getString("ID_CIVIL"));
+		    	tab_geral.setNic_cni_tab(pessoa.optString("ID_CIVIL"));
 			}
 
 		}catch (org.json.JSONException e) {		
@@ -178,39 +178,39 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		}
 		try {
 			if(tipo_doc) 
-				tab_geral.setEmissor_tab(pessoa.getString("EMISSOR"));
+				tab_geral.setEmissor_tab(pessoa.optString("EMISSOR"));
 		}catch (org.json.JSONException e) {
 			e.printStackTrace();
 			tab_geral.setEmissor_tab(null);
 		}
 		try {
 			if(tipo_doc)
-				tab_geral.setNome_mae_tab(pessoa.getString("NOME_MAE"));
+				tab_geral.setNome_mae_tab(pessoa.optString("NOME_MAE"));
 			else
-				tab_geral.setNome_mae_tab(pessoa.getString("NOME_MAE_PROPRIO")+" "+pessoa.getString("NOME_MAE_APELIDO"));
+				tab_geral.setNome_mae_tab(pessoa.optString("NOME_MAE_PROPRIO")+" "+pessoa.optString("NOME_MAE_APELIDO"));
 		}catch (org.json.JSONException e) {
 			e.printStackTrace();
 			tab_geral.setNome_mae_tab(null);
 		}
 		try {
 			if(tipo_doc)
-				tab_geral.setNome_pai_tab(pessoa.getString("NOME_PAI"));
+				tab_geral.setNome_pai_tab(pessoa.optString("NOME_PAI"));
 			else
-				tab_geral.setNome_pai_tab(pessoa.getString("NOME_PAI_PROPRIO")+" "+pessoa.getString("NOME_PAI_APELIDO"));
+				tab_geral.setNome_pai_tab(pessoa.optString("NOME_PAI_PROPRIO")+" "+pessoa.optString("NOME_PAI_APELIDO"));
 		}catch (org.json.JSONException e) {
 			tab_geral.setNome_pai_tab(null);
 		}
 		try {
 			if(tipo_doc)
-				tab_geral.setNome_tab(pessoa.getString("NOME"));
+				tab_geral.setNome_tab(pessoa.optString("NOME"));
 			else
-				tab_geral.setNome_tab(pessoa.getString("NOME_COMPLETO"));
+				tab_geral.setNome_tab(pessoa.optString("NOME_COMPLETO"));
 		}catch (org.json.JSONException e) {
 			e.printStackTrace();
 			tab_geral.setNome_tab(null);
 		}
 		try {
-			tab_geral.setSexo_tab(pessoa.getString("SEXO"));
+			tab_geral.setSexo_tab(pessoa.optString("SEXO"));
 		}catch (org.json.JSONException e) {
 			e.printStackTrace();
 			tab_geral.setSexo_tab(null);

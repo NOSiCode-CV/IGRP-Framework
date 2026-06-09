@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 		
 public class Pesquisa_nacionalidadeController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -33,10 +34,17 @@ public class Pesquisa_nacionalidadeController extends Controller {
 	
 /*----#start-code(custom_actions)----*/
 
+	private static final ConcurrentHashMap<String, List<Pesquisa_nacionalidade.Treemenu_1>> NACIONALIDADE_CACHE = new ConcurrentHashMap<>();
+
 	public List<Pesquisa_nacionalidade.Treemenu_1>  chamarServico(String id) throws IOException {
+		List<Pesquisa_nacionalidade.Treemenu_1> cached = NACIONALIDADE_CACHE.get(id);
+		if (cached != null) {
+			return cached;
+		}
+
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia_old")+"?id="+id;
-    	
+
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia_old");
 		ConsumeJson json_obj = new ConsumeJson();
 		String json  = json_obj.getJsonFromUrl(url, authorization);
@@ -63,9 +71,10 @@ public class Pesquisa_nacionalidadeController extends Controller {
 			
 		}
 		list_nac.sort(Comparator.comparing(Pesquisa_nacionalidade.Treemenu_1::getTreemenu_1_link_desc));
+		NACIONALIDADE_CACHE.put(id, list_nac);
 		return list_nac;
 	}
-	
+
 
 /*----#end-code----*/
 }

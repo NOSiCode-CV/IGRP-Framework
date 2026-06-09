@@ -58,9 +58,11 @@ public class PesquisarUtilizadorController extends Controller {
           Core.setAttribute("p_aplicacao",idApp);
 		}
 		ProfileType pp = Core.findProfileById(Core.getCurrentProfile());
+		final String nome_filtro = Core.isNotNull(model.getNome_filt(),model.getNome_filt() + "%",null);
+
 		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
 			profiles = prof.find().whereIn("type", PROF,PROF_DIS)
-					.andWhere("user.name", "like", model.getNome_filt()+"%")
+					.andWhere("user.name", "like", nome_filtro)
 					.andWhere("user.user_name", "like", model.getUsername()+"%")
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
@@ -70,7 +72,7 @@ public class PesquisarUtilizadorController extends Controller {
 		} else {
 			Application app = Core.getCurrentApp();
 			profiles = prof.find().whereIn("type", "in", PROF,PROF_DIS)
-					.andWhere("user.name", "like", model.getNome_filt()+"%")
+					.andWhere("user.name", "like", nome_filtro)
 					.andWhere("user.user_name", "like", model.getUsername()+"%")
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
@@ -124,6 +126,7 @@ public class PesquisarUtilizadorController extends Controller {
 		
 		view.table_1.addData(lista);
 		view.btn_assiocar_etapa.setVisible(false);
+		view.btn_pesquisar.setLink("index");
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	

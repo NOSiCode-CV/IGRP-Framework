@@ -11,6 +11,7 @@ import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 
 /*---- End ----*/
 public class HomeController extends Controller {		
@@ -104,7 +105,10 @@ public class HomeController extends Controller {
 			
 			return redirect("igrp_studio", "Env", "openApp", this.queryString()); 
 		}else {
-			try { // Eliminar 
+			try { // Eliminar
+				final User currentUser = Core.getCurrentUser();
+				if(currentUser ==null)
+					return redirectToUrl("webapps?r=igrp/login/login");
 				new Permission().changeOrgAndProfile("igrp"); 
 			}catch(Exception ignored) {
 			}			

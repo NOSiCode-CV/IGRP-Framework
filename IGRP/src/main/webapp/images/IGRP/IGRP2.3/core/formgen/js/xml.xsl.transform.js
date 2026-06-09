@@ -21,7 +21,7 @@
 		19.06.15  - IE FIX  . WILLIAM LIMA - NOSi
 */
 
-const __XSLTemplatesInc = {};
+globalThis.__XSLTemplatesInc = globalThis.__XSLTemplatesInc || {};
 
 $.fn.XMLTransform = function(params) {
 
@@ -164,12 +164,12 @@ $.fn.XMLTransform = function(params) {
 	const getIncludesArr = function(doc, base){
 		const rtn = [];
 		const xslPath = typeof params.xsl == 'string' ? params.xsl : null;
-		let baseWay = '';
+		//let baseWay = '';
 
 		if(xslPath){
 			const arr = xslPath.split('/');
 			arr.pop();
- 			baseWay = arr.join('/');
+ 			//baseWay = arr.join('/');
  		}
 
  		$.each($(doc).find('*'),function(){
@@ -179,7 +179,7 @@ $.fn.XMLTransform = function(params) {
 
 				href = base ? base+'/'+href : href;
 
-				const isGlobal = href.indexOf(tmplSplitter) !== -1 ? true : false;
+				const isGlobal = href.includes(tmplSplitter);
 
 				const name = isGlobal ? href.split(tmplSplitter)[1] : href;
 
@@ -210,45 +210,34 @@ $.fn.XMLTransform = function(params) {
 	const Transform = function(){
 
 	   const startTransform = function () {
-		   if (typeof XSLTProcessor !== 'undefined') {
-			   const xsltProcessor = new XSLTProcessor();
-			   xsltProcessor.flags = 0;
-			   xsltProcessor.importStylesheet(xsl);
-			   if (params.xslParams) {
-				   for (const p in params.xslParams) {
-					   xsltProcessor.setParameter(null, p, params.xslParams[p]);
-				   }
-			   }
-			   setContent(xsltProcessor.transformToFragment(xml, document));
-
-		   } else {
+		   if (typeof XSLTProcessor === 'undefined') {
 			   try {
-				 		// At this point includeTemplates() has already run, so xsl has all
-				// includes inlined — we can safely serialize and send to the server.
-				const xmlStr = new XMLSerializer().serializeToString(xml);
+				   // At this point includeTemplates() has already run, so xsl has all
+				   // includes inlined — we can safely serialize and send to the server.
+				   const xmlStr = new XMLSerializer().serializeToString(xml);
 
-				const payload = {
-					xml: xmlStr,
-					xslParams: params.xslParams || {}
-				};
+				   const payload = {
+					   xml: xmlStr,
+					   xslParams: params.xslParams || {}
+				   };
 
 // Prefer cached server-side XSL path
-				if (params.xslPath) {
-					payload.xslPath = params.xslPath;
-				} else if (typeof params.xsl === 'string') {
-					payload.xslPath = params.xsl;
-				} else {
-					// fallback for dynamic XSL object
-					payload.xsl = new XMLSerializer().serializeToString(xsl);
-				}
+				   if (params.xslPath) {
+					   payload.xslPath = params.xslPath;
+				   } else if (typeof params.xsl === 'string') {
+					   payload.xslPath = params.xsl;
+				   } else {
+					   // fallback for dynamic XSL object
+					   payload.xsl = new XMLSerializer().serializeToString(xsl);
+				   }
 
-				$.ajax({
-					url: '../app/webapps?r=igrp/Generator/transform&target=_blank',
-					method: 'POST',
-					contentType: 'application/json; charset=UTF-8',
-					dataType: 'html',
-					processData: false,
-					data: JSON.stringify(payload),
+				   $.ajax({
+					   url: '../app/webapps?r=igrp/Generator/transform&target=_blank',
+					   method: 'POST',
+					   contentType: 'application/json; charset=UTF-8',
+					   dataType: 'html',
+					   processData: false,
+					   data: JSON.stringify(payload),
 					   success: function (htmlStr) {
 						   setContent(htmlStr);
 					   },
@@ -268,19 +257,30 @@ $.fn.XMLTransform = function(params) {
 
 			   } catch (e) {
 				   console.error('[XMLTransform] Fallback serialization failed:', e.message || e);
-				   if (typeof XSLTProcessor !== 'undefined') {
+				   if (typeof XSLTProcessor === 'undefined') {
+					   errorHandler(e);
+				   } else {
 					   console.log('[XMLTransform] Falling back to client-side XSLTProcessor');
 					   // retry with client-side XSLTProcessor here
-				   } else {
-					   errorHandler(e);
 				   }
 			   }
+		   } else {
+			   const xsltProcessor = new XSLTProcessor();
+			   xsltProcessor.flags = 0;
+			   xsltProcessor.importStylesheet(xsl);
+			   if (params.xslParams) {
+				   for (const p in params.xslParams) {
+					   xsltProcessor.setParameter(null, p, params.xslParams[p]);
+				   }
+			   }
+			   setContent(xsltProcessor.transformToFragment(xml, document));
+
 		   }
 	   };
 
-	   if((!window.XSLTProcessor || window.xsltUsePolyfillAlways) && window.createXSLTTransformModule){
-			window.createXSLTTransformModule().then(function(module){
-				window.XSLTProcessor = module.XSLTProcessor;
+	   if((!globalThis.XSLTProcessor || globalThis.xsltUsePolyfillAlways) && globalThis.createXSLTTransformModule){
+		   globalThis.createXSLTTransformModule().then(function(module){
+			   globalThis.XSLTProcessor = module.XSLTProcessor;
 				startTransform();
 			});
 		}else{
@@ -298,8 +298,8 @@ $.fn.XMLTransform = function(params) {
 	const start = function () {
 		try {
 			if (xml && xsl) {
-				const isIE11 = window.navigator.userAgent.match(/rv:11.0/i);
-				const isIE = !!(window.ActiveXObject || isIE11);
+				const isIE11 = RegExp(/rv:11.0/i).exec(globalThis.navigator.userAgent);
+				const isIE = !!(globalThis.ActiveXObject || isIE11);
 				const callback = isIE ? IETransform : Transform;
 
 				includeTemplates({
@@ -318,8 +318,8 @@ $.fn.XMLTransform = function(params) {
 	};
 
 	const loadTemplate = function (p) {
-		const i = p.index > 0 ? p.index : 0;
-		const content = p.content ? p.content : "";
+		const i = Math.max(p.index, 0);
+		//const content = p.content ? p.content : "";
 
 		if (i < p.includes.length) {
 
@@ -344,9 +344,9 @@ $.fn.XMLTransform = function(params) {
 
 				const contents = $(data).clone()[0];
 
-				for (let x = 0; x < contents.childNodes.length; x++) {
-					if (contents.childNodes[x].tagName && contents.childNodes[x].tagName !== 'xsl:include' && contents.childNodes[x].tagName !== 'xsl:import') {
-						IEincludes.push(contents.childNodes[x]);
+				for (const element of contents.childNodes) {
+					if (element.tagName && element.tagName !== 'xsl:include' && element.tagName !== 'xsl:import') {
+						IEincludes.push(element);
 					}
 				}
 
@@ -368,11 +368,26 @@ $.fn.XMLTransform = function(params) {
 
 				AfterLoadCallback(__XSLTemplatesInc[includeFile].data);
 
-			} else {
+			} else if (__XSLTemplatesInc[includeFile].request)
 
-				if (__XSLTemplatesInc[includeFile].request)
+				__XSLTemplatesInc[includeFile].request.then(function (data) {
 
-					__XSLTemplatesInc[includeFile].request.then(function (data) {
+					//const contents = data.documentElement,
+
+					clone = $(data.documentElement).clone(true)[0];
+
+					AfterLoadCallback(clone);
+
+					__XSLTemplatesInc[includeFile].data = clone;
+
+				});
+
+			else
+
+				__XSLTemplatesInc[includeFile].request = $.ajax({
+					url: includeFile,
+					cache: true,
+					success: function (data) {
 
 						const contents = data.documentElement,
 
@@ -382,43 +397,22 @@ $.fn.XMLTransform = function(params) {
 
 						__XSLTemplatesInc[includeFile].data = clone;
 
-					});
-
-				else
-
-					__XSLTemplatesInc[includeFile].request = $.ajax({
-						url: includeFile,
-						cache: true,
-						success: function (data) {
-
-							const contents = data.documentElement,
-
-								clone = $(data.documentElement).clone(true)[0];
-
-							AfterLoadCallback(clone);
-
-							__XSLTemplatesInc[includeFile].data = clone;
-
-							__XSLTemplatesInc[includeFile].request = false;
+						__XSLTemplatesInc[includeFile].request = false;
 
 
-						},
-						error: function (e) {
-							errorHandler(e)
-						}
-					});
-
-			}
+					},
+					error: function (e) {
+						errorHandler(e)
+					}
+				});
 
 
-		} else {
-			if (p.callback) p.callback(i)
-		}
+		} else if (p.callback) p.callback(i)
 	};
 
 
 	const removeIncludes = function (xsl) {
-		$.each($(xsl).find('xsl\\:include,xsl\\:import'), function () {
+		$.each($(xsl).find(String.raw`xsl\:include,xsl\:import`), function () {
 			$(this).remove()
 		});
 	};
