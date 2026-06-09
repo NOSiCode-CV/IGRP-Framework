@@ -18,23 +18,176 @@ $(function ($) {
 		$.WR.pageUrl 		= $('#p_env_frm_url')[0] ? $('#p_env_frm_url').val() : window.location.href;
 
 		$.WR.dataSourcekeys.datasources = [];
-		
+
+		$.WR.response = {
+			html : function(data){
+				return typeof data == 'string' ? $($.parseHTML(data, document, true)) : $(data);
+			},
+			findHtml : function(data, selector){
+				var html = $.WR.response.html(data);
+
+				return html.filter(selector).add(html.find(selector));
+			},
+			fieldValue : function(selector){
+				var el = $(selector),
+					name;
+
+				if(!el[0] && selector && selector.indexOf('#') === 0){
+					name = selector.substring(1);
+					el = $('[name="'+name+'"],#'+name);
+				}
+
+				if(!el[0])
+					return '';
+
+				return el.first().val() || el.first().attr('href') || '';
+			},
+			isXml : function(data){
+				var d = data && data.documentElement ? data.documentElement.nodeName.toLowerCase() : '';
+
+				if(d == 'rows')
+					return true;
+
+				if(typeof data == 'string'){
+					var trimmed = $.trim(data);
+
+					return trimmed.indexOf('<rows') === 0 || trimmed.indexOf('<?xml') === 0;
+				}
+
+				return $(data).is('rows') || $(data).find('rows').length > 0;
+			},
+			field : function(data, fieldName, fallbackSelector){
+				var value = $(data).find('fields '+fieldName+' value').text(),
+					found;
+
+				if(!value)
+					value = $(data).find(fieldName+' value').text();
+
+				if(!value && fallbackSelector){
+					found = $.WR.response.findHtml(data,fallbackSelector);
+					value = found.val() || found.attr('href') || '';
+
+					if(!value)
+						value = $.WR.response.fieldValue(fallbackSelector);
+				}
+
+				return value;
+			},
+			ajaxXmlUrl : function(url){
+				return $.IGRP.utils.getUrl(url)+'ir_cf=xml';
+			},
+			fieldList : function(data, fieldName, fallbackSelector){
+				var list = $(data).find('fields '+fieldName+' list');
+
+				if(!list[0] && fallbackSelector)
+					list = $.WR.response.findHtml(data,fallbackSelector);
+
+				return list;
+			},
+			syncHtml : function(data, selector){
+				if(!$.WR.response.isXml(data)){
+					var content = $.WR.response.findHtml(data,selector).html();
+
+					if(content != undefined)
+						$(selector).html(content);
+				}
+			},
+			renderList : function(p){
+				var loading = p.loading,
+					tab     = p.tab;
+
+				if($.WR.response.isXml(p.data)){
+					p.target.XMLTransform({
+						xsl 	 : p.xsl,
+						xml 	 : $(p.data).getXMLDocument(),
+						complete : function(c){
+							$(loading,tab).remove();
+
+							if(p.complete) p.complete(c);
+						},
+						error 	 : function(c){
+							$(loading,tab).remove();
+
+							if(p.error) p.error(c);
+						}
+					});
+				}else{
+					var content = $.WR.response.findHtml(p.data,p.selector).html();
+
+					p.target.html(content || '');
+					$(loading,tab).remove();
+
+					if(p.complete) p.complete(p.target);
+				}
+			}
+		};
+
 		$.WR.fieldDataSource = {
 			urlChange:$('#p_link_source')[0] ? $('#p_link_source').val() : 'XXXX',
+			addSourceUrl : $.WR.response ? $.WR.response.fieldValue('#p_link_add_source') : '',
+			getAddSourceUrl : function(data){
+				var url = '';
+
+				if(data)
+					url = $.WR.response.field(data,'link_add_source','#p_link_add_source');
+
+				if(!url)
+					url = $.WR.fieldDataSource.addSourceUrl || '';
+
+				if(!url)
+					url = $.WR.response.fieldValue('#p_link_add_source');
+
+				return url;
+			},
+			setButtons : function(url){
+				var hasApp,
+					hasUrl,
+					hasSelected,
+					linkUrl,
+					linkField;
+
+				if(arguments.length){
+					linkUrl = url || '';
+				}else{
+					linkUrl = $.WR.fieldDataSource.getAddSourceUrl();
+				}
+
+				if(linkUrl){
+					$.WR.fieldDataSource.addSourceUrl = linkUrl;
+					$('.wr-op-datasource .btn').attr('href',linkUrl);
+
+					linkField = $('#p_link_add_source');
+
+					if(linkField.is('input'))
+						linkField.val(linkUrl);
+					else if(linkField.is('a'))
+						linkField.attr('href',linkUrl);
+				}else if(arguments.length){
+					$.WR.fieldDataSource.addSourceUrl = '';
+					$('.wr-op-datasource .btn').removeAttr('href');
+				}
+
+				hasApp 		= !!$.WR.app;
+				hasUrl 		= $('.wr-newdatasource').attr('href') || $.WR.fieldDataSource.addSourceUrl;
+				hasSelected = $.WR.dataSource && $.WR.dataSource.length > 0;
+
+				$('.wr-newdatasource').toggleClass('active', !!(hasApp && hasUrl));
+				$('.wr-editdatasource').toggleClass('active', !!(hasApp && hasSelected));
+			},
 			onChange : function(){
 				$.WR.objDataSource.on('change',function(){
-					$.WR.dataSource = $(this).val();
-					
+					$.WR.dataSource = $(this).val() || [];
+
 					if($.WR.dataSource[0]){
-						var param = '', 
+						var param = '',
 							url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
-					
+
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
 						});
 
 						url += param;
-					
+
 
 						if($.WR.app){
 							if($.WR.id)
@@ -50,29 +203,28 @@ $(function ($) {
 								},
 								success : function(data){
 									if(data){
-										var url 	= $(data).find('fields link_add_source value').text(),
-											loading = $('<div/>').addClass('loading loader'),
+										var loading = $('<div/>').addClass('loading loader'),
 											tab 	= $('#tab-tabcontent_1-data_source');
 
 										loading.appendTo(tab);
 
-										$('#wr-list-datasource').XMLTransform({
-											xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
-											xml : $(data).getXMLDocument(),
-											complete : function(c){												
-												$(loading,tab).remove();
-											},
-											error 	 : function(c){
-												$(loading,tab).remove();
+										$.WR.response.renderList({
+											target   : $('#wr-list-datasource'),
+											selector : '#wr-list-datasource',
+											xsl      : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
+											data     : data,
+											loading  : loading,
+											tab      : tab,
+											complete : function(){
+												$.WR.fieldDataSource.setButtons();
 											}
 										});
 									}
 								}
 							});
-							$('.wr-editdatasource').addClass('active');
-							$('.wr-newdatasource').addClass('active');
+							$.WR.fieldDataSource.setButtons();
 						}else{
-							$('.wr-newdatasource').removeClass('active');
+							$.WR.fieldDataSource.setButtons();
 							$.IGRP.notify({
 								message : 'Nenhuma Aplicação Selecionado!',
 								type	: 'info'
@@ -80,6 +232,7 @@ $(function ($) {
 						}
 					}else{
 						$('#wr-list-datasource').html('');
+						$.WR.fieldDataSource.setButtons();
 					}
 				});
 			},
@@ -93,13 +246,15 @@ $(function ($) {
 					$("option",$.WR.objDataSource).remove();
 
 					data.find('option').each(function(i,e){
-						var value = $(e).find("value").text();
+						var value = $(e).find("value").text() || $(e).attr('value') || $(e).val(),
+							text  = $(e).find("text").text() || $(e).attr('label') || $(e).text();
+
 						option = new Option(
-							$(e).find("text").text(),
+							text,
 							value
 						);
 
-						if($(e).attr('selected')){
+						if($(e).attr('selected') || $(e).prop('selected')){
 							option.selected = true;
 							activeEdit		= true;
 						}
@@ -119,10 +274,12 @@ $(function ($) {
 				}else
 					$('.wr-editdatasource').removeClass('active');
 
+				$.WR.dataSource = $.WR.objDataSource.val() || [];
+				$.WR.fieldDataSource.setButtons();
 				$.WR.objDataSource.trigger('change.select2');
 			},
 			getVal : function(){
-				$.WR.dataSource = $.WR.objDataSource.val();
+				$.WR.dataSource = $.WR.objDataSource.val() || [];
 
 				return $.WR.dataSource;
 			},
@@ -139,26 +296,31 @@ $(function ($) {
 					e.preventDefault();
 					var url = $(this).attr('href');
 					if(url){
-				        $.IGRP.components.iframeNav.set({
-				         	url       : url,
-				          	beforeLoad: function(c){
-				            	var modal = $($.IGRP.components.iframeNav.modal);
-				            	$('.iframe-nav-close',modal).click(function(){
-				            		$.ajax({
-										url  	: $.WR.pageUrl,
+						$.IGRP.components.iframeNav.set({
+							url       : url,
+							beforeLoad: function(c){
+								var modal = $($.IGRP.components.iframeNav.modal);
+								$('.iframe-nav-close',modal).click(function(){
+									$.ajax({
+										url  	: $.WR.response.ajaxXmlUrl($.WR.pageUrl),
 										data 	: $.WR.objApp.serializeArray(),
 										type 	: 'POST',
+										dataType: 'xml',
 										success : function(data){
 											if(data){
-												var datasorceXml = $(data).find('fields datasorce_app list');
+												var datasorceXml = $.WR.response.fieldList(data,'datasorce_app','#form_1_datasorce_app'),
+													url          = $.WR.fieldDataSource.getAddSourceUrl(data);
+
 												$.WR.fieldDataSource.setVal(datasorceXml,$.WR.dataSource);
+												$.WR.response.syncHtml(data,'#wr-list-datasource');
+												$.WR.fieldDataSource.setButtons(url);
 											}
 										}
 									});
-				            	});
-				          	}
-				        });
-				      }
+								});
+							}
+						});
+					}
 					return false;
 				});
 			},
@@ -167,7 +329,7 @@ $(function ($) {
 					e.preventDefault();
 					var url 	= $(this).attr('href'),
 						name 	= $.WR.objDataSource.attr('name');
-					
+
 					if($.WR.dataSource.length > 1){
 						var content = '';
 						$.WR.objDataSource.find("option:selected").each(function(i,e){
@@ -206,10 +368,10 @@ $(function ($) {
 									text    : 'Cancelar',
 									onClick : function(){
 										$.IGRP.components.globalModal.hide();
-										return false;	
+										return false;
 									}
 								}
-							]	
+							]
 						});
 
 					}else{
@@ -225,6 +387,7 @@ $(function ($) {
 			init : function(){
 				$.WR.fieldDataSource.onChange();
 				$.WR.fieldDataSource.getVal();
+				$.WR.fieldDataSource.setButtons();
 				$.WR.fieldDataSource.new();
 				$.WR.fieldDataSource.edit();
 			}
@@ -235,11 +398,12 @@ $(function ($) {
 				if($.WR.app && $.WR.app != undefined){
 					$('.wr-newdocument').removeClass('hidden');
 					$('#form_1_env_fk').next('.select2:first').removeClass('error');
-				
+
 					$.ajax({
-						url   : $.WR.pageUrl,
+						url   : $.WR.response.ajaxXmlUrl($.WR.pageUrl),
 						data  : $.WR.objApp.serializeArray(),
 						type  : 'POST',
+						dataType: 'xml',
 						error : function(e){
 							$.IGRP.notify({
 								message : 'Not Found',
@@ -248,23 +412,24 @@ $(function ($) {
 						},
 						success : function(data){
 							if(data){
-								var datasorceXml = $(data).find('fields datasorce_app list'),
-									url 		 = $(data).find('fields link_add_source value').text(),
-									upload 		 = $(data).find('fields link_upload_img value').text(),
+								var datasorceXml = $.WR.response.fieldList(data,'datasorce_app','#form_1_datasorce_app'),
+									url 		 = $.WR.fieldDataSource.getAddSourceUrl(data),
+									upload 		 = $.WR.response.field(data,'link_upload_img','#p_link_upload_img'),
 									loading 	 = $('<div/>').addClass('loading loader'),
 									tab 		 = $('#tab-tabcontent_1-reports');
 
 								loading.appendTo(tab);
 
-								$('#wr-list-document').XMLTransform({
+								$.WR.response.renderList({
+									target   : $('#wr-list-document'),
+									selector : '#wr-list-document',
 									xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
-									xml 	 : $(data).getXMLDocument(),
+									data 	 : data,
+									loading  : loading,
+									tab 	 : tab,
 									complete : function(c){
-										
-										$(loading,tab).remove();
-										
 										$.WR.document.info.show();
-										
+
 										if ($.WR.id)
 											$('#list-reports #'+$.WR.id+' .linkReports').click();
 									},
@@ -273,27 +438,25 @@ $(function ($) {
 									}
 								});
 
-								if(url && url != undefined){
-									$('.wr-op-datasource .btn').attr('href',url);
-									$('.wr-newdatasource').addClass('active');
-								}
-								
 								if(upload && upload != undefined)
 									$('#p_link_upload_img').val(upload);
 
 								$.WR.fieldDataSource.setVal(datasorceXml);
+								$.WR.response.syncHtml(data,'#wr-list-datasource');
+								$.WR.fieldDataSource.setButtons(url);
 
 								if(!$.WR.newDocument && $.WR.id){
 									$.WR.editor.set.data({});
 									$.WR.document.footer.custom.isActive(false);
 								}
-							}	
+							}
 						}
 					});
 				}else{
 					$('#wr-list-document').html('');
 					$('.wr-newdocument').addClass('hidden');
 					$.WR.fieldDataSource.clear();
+					$.WR.fieldDataSource.setButtons('');
 					$.WR.objDataSource.trigger('change');
 					$.WR.editor.set.data({});
 				}
@@ -311,7 +474,7 @@ $(function ($) {
 				}
 
 				$.WR.fieldApp.onChange();
-			}	
+			}
 		};
 
 		$.WR.document = {
@@ -321,17 +484,17 @@ $(function ($) {
 					hasf   = '';
 				WR.document.config.printsize.options.forEach(function(e,i){
 					var sel = e.selected || '';
-					option += '<option value="'+e.value+'" '+sel+'>'+e.text+'</option>';		
+					option += '<option value="'+e.value+'" '+sel+'>'+e.text+'</option>';
 				});
 
 				WR.document.config.layout.options.forEach(function(e,i){
 					var sel = e.checked || '';
-					wrls += '<div class="col-md-6 radio"><label><input class="radiolist" type="radio" name="'+WR.document.config.layout.name+'" value="'+e.value+'" '+sel+'/><span>'+e.text+'</span></label></div>';		
+					wrls += '<div class="col-md-6 radio"><label><input class="radiolist" type="radio" name="'+WR.document.config.layout.name+'" value="'+e.value+'" '+sel+'/><span>'+e.text+'</span></label></div>';
 				});
 
 				WR.document.config.footer.has.options.forEach(function(e,i){
 					var sel = e.checked || '';
-					hasf += '<div class="col-md-6 radio"><label><input class="radiolist" type="radio" name="'+WR.document.config.footer.has.name+'" value="'+e.value+'" '+sel+'/><span>'+e.text+'</span></label></div>';		
+					hasf += '<div class="col-md-6 radio"><label><input class="radiolist" type="radio" name="'+WR.document.config.footer.has.name+'" value="'+e.value+'" '+sel+'/><span>'+e.text+'</span></label></div>';
 				});
 
 				var content = '<div class="row reporttitle"><div class="col-md-12 form-group">'+
@@ -345,10 +508,10 @@ $(function ($) {
 					'<div class="col-md-8"><select class="form-control" name="'+WR.document.config.printsize.name+'">'+
 					option+'</select></div></div>'+
 					'<div class="col-md-12 form-group radiolist clear"><div class="col-md-4">'+
-						'<label for="'+WR.document.config.layout.name+'">'+WR.document.config.layout.label+'</label></div>'+
+					'<label for="'+WR.document.config.layout.name+'">'+WR.document.config.layout.label+'</label></div>'+
 					'<div class="col-md-8">'+wrls+'</div></div>'+
 					'<div class="col-md-12 form-group radiolist clear"><div class="col-md-4">'+
-						'<label for="'+WR.document.config.footer.has.name+'">'+WR.document.config.footer.has.label+'</label></div>'+
+					'<label for="'+WR.document.config.footer.has.name+'">'+WR.document.config.footer.has.label+'</label></div>'+
 					'<div class="col-md-8">'+hasf+'</div></div>'+
 					/*'<div class="col-md-12 form-group"><div class="col-md-4">'+
 						'<label for="'+WR.document.config.footer.custom.name+'">'+WR.document.config.footer.custom.label+'</label></div>'+
@@ -385,10 +548,10 @@ $(function ($) {
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
-										
+
 										$.WR.document.properties();
 
-										if (p.action == 'edit') 
+										if (p.action == 'edit')
 											data.push({name:'p_id',value:$.WR.id});
 
 										$.WR.document.newOrEdit({
@@ -404,15 +567,15 @@ $(function ($) {
 										//console.log(p.file);
 
 										$.WR.document.save({
-							        		url 	 : p.url,
-							        		file 	 : p.file,
-							        		fields 	 : p.fields,
-							        		action   : 'modal'
-							        	});
+											url 	 : p.url,
+											file 	 : p.file,
+											fields 	 : p.fields,
+											action   : 'modal'
+										});
 									}
 
 									$.IGRP.components.globalModal.hide();
-									
+
 								}else{
 									$('.reporttitle input[name="'+p.titleName+'"]').addClass('error');
 								}
@@ -425,7 +588,7 @@ $(function ($) {
 							text    : 'Cancelar',
 							onClick : function(){
 								$.IGRP.components.globalModal.hide();
-								return false;	
+								return false;
 							}
 						}
 					]
@@ -436,8 +599,8 @@ $(function ($) {
 					var info = $('#wr-list-document .info');
 
 					$('#wr-list-document').on('mouseenter','.infoReport',function(){
-					var li  = $(this).parents('li.treeview:first'),
-						top = li.position().top + 18;
+						var li  = $(this).parents('li.treeview:first'),
+							top = li.position().top + 18;
 
 						info.html(li.attr('info')).css({top:top}).addClass('active');
 					});
@@ -457,18 +620,18 @@ $(function ($) {
 							var objCopy = document.createElement("textarea");
 							objCopy.value = info;
 							document.body.appendChild(objCopy);
-	    					objCopy.select();
+							objCopy.select();
 
-	    					try {
-						      var successful = document.execCommand('copy');
-						      var msg = successful ? 'Copiado!' : 'Não Copiado!';
-						      $('i',$(this)).attr('data-original-title', msg).tooltip('show');
+							try {
+								var successful = document.execCommand('copy');
+								var msg = successful ? 'Copiado!' : 'Não Copiado!';
+								$('i',$(this)).attr('data-original-title', msg).tooltip('show');
 
-						    } catch (err) {
-						      console.log('Oops, unable to copy');
-						    }
+							} catch (err) {
+								console.log('Oops, unable to copy');
+							}
 
-						    document.body.removeChild(objCopy);
+							document.body.removeChild(objCopy);
 						}else
 							window.prompt("Copy to clipboard: Ctrl+C or Command+C, Enter", info);
 					});
@@ -601,10 +764,11 @@ $(function ($) {
 					});
 				});
 			},
-			onLoad : function(url){
-				
+			onLoad : function(url, report){
+
 				$.ajax({
-					url   : url,
+					url      : url,
+					dataType : 'json',
 					error : function(e){
 						$.IGRP.notify({
 							message : 'Not Found',
@@ -613,32 +777,43 @@ $(function ($) {
 					},
 					success : function(data){
 						if(data){
+							if(typeof data == 'string'){
+								try{
+									data = $.parseJSON(data);
+								}catch(e){
+									try{
+										data = $.parseJSON(data.replace(/\s+/g," "));
+									}catch(e){}
+								}
+							}
+
 							$('#list-reports li').removeClass('active');
-							$(this).addClass('active');
+							if(report)
+								report.addClass('active');
 
 							$('#igrp-app-title').html($.WR.reportTitle);
 
 							//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
 
-							$.WR.document.convert2Do(data.textreport);
+							if(data.textreport)
+								$.WR.document.convert2Do(data.textreport);
 
 							if($.WR.objDataSource[0]){
-								
-								if(data.datasorce_app){
-									
-									$.WR.datasorce = data.datasorce_app.split(',');
-									
-									$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
+								var selected = [];
 
+								if(data.datasorce_app)
+									selected = (''+data.datasorce_app).split(',').filter(function(v){ return v !== ''; });
+
+								$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
+
+								if(selected.length){
 									$.WR.objDataSource.find("option").each(function(i,e){
-										
-										if($.inArray($(e).val(),$.WR.datasorce) != -1)
-											$(e).attr("selected","selected").attr("selected",'selected').prop('selected',true);
+										if($.inArray($(e).val(), selected) != -1)
+											$(e).prop('selected', true);
 									});
+								}
 
-								}else
-									$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
-
+								$.WR.dataSource = $.WR.objDataSource.val() || [];
 								$.WR.objDataSource.trigger('change');
 							}
 						}
@@ -652,7 +827,7 @@ $(function ($) {
 					$.WR.id 		 = parent.attr('id');
 					$.WR.reportTitle = $('span',parent).text();
 
-					$.WR.document.onLoad(parent.attr('rel'));
+					$.WR.document.onLoad(parent.attr('rel'), parent);
 				});
 			},
 			save   : function(p){
@@ -674,7 +849,7 @@ $(function ($) {
 					includJs 	= WR.document.includ.js.all,
 					includTmpl 	= ''; //WR.document.includ.tmpl.defoult
 
-						
+
 				if ($.WR.hasCarts && !$.WR.notCartsInclud) {
 					head 		+= WR.document.includ.css.chart;
 					includJs 	+= WR.document.includ.js.chart;
@@ -695,31 +870,31 @@ $(function ($) {
 				p.file.push({name : 'p_textreport', value : files.text});
 
 				$.IGRP.utils.submitStringAsFile({
-		      		pUrl    	: p.url,
-		      		pParam 		: {
-			        	pArrayFiles : p.file,
-			        	pArrayItem  : p.fields
-		      		},
-		      		pComplete 	: function(rq){
-		      			$.WR.keys = [];
-		      			$.WR.dataSourcekeys.datasources = [];
-		      			if (rq.status == 200) {
-			      			if((p.action && p.action == 'modal') || $.WR.newDocument){
-			      				if ($.WR.newDocument)
-			      					$.WR.newDocument = false;
+					pUrl    	: p.url,
+					pParam 		: {
+						pArrayFiles : p.file,
+						pArrayItem  : p.fields
+					},
+					pComplete 	: function(rq){
+						$.WR.keys = [];
+						$.WR.dataSourcekeys.datasources = [];
+						if (rq.status == 200) {
+							if((p.action && p.action == 'modal') || $.WR.newDocument){
+								if ($.WR.newDocument)
+									$.WR.newDocument = false;
 
-			      				$('#igrp-app-title').html($.WR.title);
-			      				$.WR.objApp.change();
-			      				$.WR.id	= $($.parseXML(rq.response)).find('report_id').text();
-			      			}
+								$('#igrp-app-title').html($.WR.title);
+								$.WR.objApp.change();
+								$.WR.id	= $($.parseXML(rq.response)).find('report_id').text();
+							}
 
-			      			/*if($.WR.isPreview){
-			      				$.WR.isPreview = false;
-			      				$('a[target="alert_submit"]').click();
-			      			}*/
-		      			}
-		         	}
-			   	});
+							/*if($.WR.isPreview){
+                                $.WR.isPreview = false;
+                                $('a[target="alert_submit"]').click();
+                            }*/
+						}
+					}
+				});
 			},
 			onSave : function(){
 				$.IGRP.targets['submit'].action = function(p){
@@ -734,84 +909,84 @@ $(function ($) {
 
 						if($.WR.dataSource){//get id datasource
 							$.WR.dataSource.forEach(function(e,i){
-				              saveDoc.fields.push({name:'p_datasorce_app',value:e});
-				            });
+								saveDoc.fields.push({name:'p_datasorce_app',value:e});
+							});
 						}
 
 						$('#datasorce .btn input:checked').each(function(ikey,ekey){// get key
-				          	var val  = $(ekey).val(),
-				          	dk    	 = $(ekey).parents('li[data-source-id]').attr('data-source-id'),
-				          	javaType = $(ekey).attr('java-type');
+							var val  = $(ekey).val(),
+								dk    	 = $(ekey).parents('li[data-source-id]').attr('data-source-id'),
+								javaType = $(ekey).attr('java-type');
 
-				          	//if ($.inArray(val,$.WR.keys) == -1) {
-				          	
-				            	//saveDoc.fields.push({name:'p_key',value:val});
+							//if ($.inArray(val,$.WR.keys) == -1) {
 
-				            	$.WR.keys.push(val);
+							//saveDoc.fields.push({name:'p_key',value:val});
 
-				            	var found = -1;
+							$.WR.keys.push(val);
 
-								$.WR.dataSourcekeys.datasources.forEach(function(arr,idarr){
-							  		if(arr.id == dk)
-							  			found = idarr;
+							var found = -1;
+
+							$.WR.dataSourcekeys.datasources.forEach(function(arr,idarr){
+								if(arr.id == dk)
+									found = idarr;
+							});
+
+							if(found >= 0){
+								$.WR.dataSourcekeys.datasources[found].parameters.push({
+									name : val,
+									type : javaType
 								});
 
-				            	if(found >= 0){
-							  		$.WR.dataSourcekeys.datasources[found].parameters.push({
-				            			name : val,
-				            			type : javaType
-				            		});
+							}else{
+								$.WR.dataSourcekeys.datasources.push({
+									id : dk,
+									parameters : [{
+										name : val,
+										type : javaType
+									}]
+								});
+							}
+							//}
+						});
 
-								}else{
-									$.WR.dataSourcekeys.datasources.push({
-						            	id : dk,
-						            	parameters : [{
-						            		name : val,
-						            		type : javaType
-						            	}]
-						            });
+						if ($.WR.dataSourcekeys.datasources[0])
+							saveDoc.fields.push({name:'p_datasourcekeys',value:JSON.stringify($.WR.dataSourcekeys.datasources)});
+
+
+						try{// get param url
+							if(p.url.indexOf("?")>-1){
+								var param = p.url.substring(vUrl.indexOf("?")+1),
+									p = param.split("&");
+								for(var i=0; i < p.length; i++){
+									var p1 = p[i].split("=");
+									saveDoc.fields.push({name:p1[0],value:p1[1]});
 								}
-				          	//}
-				        });
+							}
+						}catch(e){null;}
 
-				        if ($.WR.dataSourcekeys.datasources[0])
-				        	saveDoc.fields.push({name:'p_datasourcekeys',value:JSON.stringify($.WR.dataSourcekeys.datasources)});
-				        	
+						if ($.WR.id && $.WR.id != undefined) {
+							saveDoc.fields.push({name:'p_id',value:$.WR.id});
 
-				        try{// get param url
-				          if(p.url.indexOf("?")>-1){
-				            var param = p.url.substring(vUrl.indexOf("?")+1),
-				              p = param.split("&");
-				            for(var i=0; i < p.length; i++){
-				              var p1 = p[i].split("=");
-				              saveDoc.fields.push({name:p1[0],value:p1[1]});
-				            }
-				          }
-				        }catch(e){null;}
+							$.WR.document.save({
+								url 	: p.url,
+								file 	: saveDoc.file,
+								fields 	: saveDoc.fields
+							});
+						} else {
+							if ($.WR.title && $.WR.title != undefined) {
+								saveDoc.fields.push({name : wr_nameInputTitle, value : $.WR.title});
 
-				        if ($.WR.id && $.WR.id != undefined) {
-				        	saveDoc.fields.push({name:'p_id',value:$.WR.id});
+								if($.WR.code && $.WR.code != undefined)
+									saveDoc.fields.push({name : wr_nameInputCode, value : $.WR.code});
 
-				        	$.WR.document.save({
-				        		url 	: p.url,
-				        		file 	: saveDoc.file,
-				        		fields 	: saveDoc.fields
-				        	});
-				        } else {
-				        	if ($.WR.title && $.WR.title != undefined) {
-				        		saveDoc.fields.push({name : wr_nameInputTitle, value : $.WR.title});
+								$.WR.document.save({
+									url 	: p.url,
+									file 	: saveDoc.file,
+									fields 	: saveDoc.fields
+								});
+							} else {
 
-				        		if($.WR.code && $.WR.code != undefined)
-				        			saveDoc.fields.push({name : wr_nameInputCode, value : $.WR.code});
-
-				        		$.WR.document.save({
-				        			url 	: p.url,
-				        			file 	: saveDoc.file,
-				        			fields 	: saveDoc.fields
-				        		});
-				        	} else {
-
-				        		$.WR.document.modal({
+								$.WR.document.modal({
 									titleName  	: wr_nameInputTitle,
 									titleLabel 	: wr_labelTitle,
 									codeName   	: wr_nameInputCode,
@@ -822,11 +997,11 @@ $(function ($) {
 									fields 		: saveDoc.fields,
 									url 		: p.url
 								});
-				        	}
-				        }
-				    }else{
-				    	$('#form_1_env_fk').next('.select2:first').addClass('error');
-				    }
+							}
+						}
+					}else{
+						$('#form_1_env_fk').next('.select2:first').addClass('error');
+					}
 					return false;
 				}
 			},
@@ -838,19 +1013,19 @@ $(function ($) {
 							content = '<div class="row reporttitle">';
 
 						$('#datasorce .btn input:checked').each(function(ikey,ekey){// get key
-				          	if ($.inArray($(ekey).val(),$.WR.keys) == -1) {
-				            	content +='<div class="col-md-12 form-group">'+
-								'<div class="col-md-4"><label for="'+$(ekey).attr('name')+'">'+$(ekey).attr('label').capitalizeFirstLetter()+'</label></div>'+
-								'<div class="col-md-8"><input name="'+$(ekey).attr('name')+'" type="text" class="form-control"/>'+
-								'</div></div>';
-				            	$.WR.keys.push($(ekey).val());
-				          	}
-				        });
-				        content +='</div>';
+							if ($.inArray($(ekey).val(),$.WR.keys) == -1) {
+								content +='<div class="col-md-12 form-group">'+
+									'<div class="col-md-4"><label for="'+$(ekey).attr('name')+'">'+$(ekey).attr('label').capitalizeFirstLetter()+'</label></div>'+
+									'<div class="col-md-8"><input name="'+$(ekey).attr('name')+'" type="text" class="form-control"/>'+
+									'</div></div>';
+								$.WR.keys.push($(ekey).val());
+							}
+						});
+						content +='</div>';
 
-				        if ($.WR.keys.length > 0) {
+						if ($.WR.keys.length > 0) {
 
-				        	$.IGRP.components.globalModal.set({
+							$.IGRP.components.globalModal.set({
 								size 		: 'xs',
 								content 	: content,
 								title 		: wr_dialogKeysTitle,
@@ -870,7 +1045,7 @@ $(function ($) {
 												if(e.value && e.value != undefined){
 													if(i > 0){
 														keys.value +='&';
-														keys.name +='&'; 
+														keys.name +='&';
 													}
 
 													keys.value +='value_array='+e.value;
@@ -885,7 +1060,7 @@ $(function ($) {
 											$.IGRP.targets.modal.action({
 												url:url
 											});
-											
+
 											$.IGRP.components.globalModal.hide();
 											return false;
 										}
@@ -896,17 +1071,17 @@ $(function ($) {
 										text    : 'Cancelar',
 										onClick : function(){
 											$.IGRP.components.globalModal.hide();
-											return false;	
+											return false;
 										}
 									}
 								]
 							});
 
-				        } else {
-				        	$.IGRP.targets.modal.action({
+						} else {
+							$.IGRP.targets.modal.action({
 								url:url
 							});
-				        }
+						}
 					} else {
 						//$.WR.isPreview = true;
 						//$('a[target="submit"]').click();
@@ -951,7 +1126,7 @@ $(function ($) {
 				$.WR.document.footer.has.set(hasfooter);
 
 				$.WR.document.footer.custom.isActive(isActive);
-				
+
 				$.WR.editor.set.data(content);
 			},
 			init : function(){
@@ -981,8 +1156,8 @@ $(function ($) {
 
 				content +='</div><div class="row hidden" id="table-group">'+
 					'<div class="col-md-12">'+
-						WR.html.separator('Agrupar por')+
-						'<div class="rowcol" id="list-group">';
+					WR.html.separator('Agrupar por')+
+					'<div class="rowcol" id="list-group">';
 
 				WR.listGroup.forEach(function(e,i){
 					content += WR.html.input({
@@ -996,7 +1171,7 @@ $(function ($) {
 				content +='</div>'+WR.html.separator('Definir Chaves')+
 					'<div id="listcol"></div>'+
 					'<div class="hidden" id="html-group">'+
-						WR.html.separator('Html Groupo')+
+					WR.html.separator('Html Groupo')+
 					'<div class="rowcol">';
 
 				WR.listType.forEach(function(e,i){
@@ -1024,7 +1199,7 @@ $(function ($) {
 									group 		= $('#list-group input:checked').val(),
 									grouphtml 	= $('#html-group input:checked').val(),
 									list 		= tag != 'table' ? 'ulol' : 'table';
-								
+
 								p.tag = tag;
 
 								if (tag == 'table') {
@@ -1046,7 +1221,7 @@ $(function ($) {
 							text    : 'Cancelar',
 							onClick : function(){
 								$.IGRP.components.globalModal.hide();
-								return false;	
+								return false;
 							}
 						}
 					]
@@ -1089,13 +1264,13 @@ $(function ($) {
 						td 			= '',
 						th  		= '';
 
-				    p.list.forEach(function(e,i){
-				      th += '<th tag="'+e.tag+'">'+e.label+'</th>';
-				      td += '<td tag="'+e.tag+'">Text '+(i+1)+'</td>';
-				    });
+					p.list.forEach(function(e,i){
+						th += '<th tag="'+e.tag+'">'+e.label+'</th>';
+						td += '<td tag="'+e.tag+'">Text '+(i+1)+'</td>';
+					});
 
-				    tabel += th+'</tr></thead></tbody><tr>';
-				    tabel += td+'</tr></tbody></table>';
+					tabel += th+'</tr></thead></tbody><tr>';
+					tabel += td+'</tr></tbody></table>';
 
 					return tabel;
 				},
@@ -1104,21 +1279,21 @@ $(function ($) {
 						li  = '';
 
 					p.list.forEach(function(e,i){
-				      li += '<li tag="'+e.tag+'">'+e.label+'</li>';
-				    });
+						li += '<li tag="'+e.tag+'">'+e.label+'</li>';
+					});
 
-				    obj += li+'</'+p.tag+'>';
+					obj += li+'</'+p.tag+'>';
 					return obj;
 				}
 			},
 			onCheckListType : function(){
 				$('body').on('change','.wr-listtype input',function(e,i){
 					if($(this).val() == 'table'){
-				        $('#table-group').removeClass('hidden');
-				    }else{
-				       $('#table-group input:checked').removeAttr('checked');
-				       $('#table-group').addClass('hidden');
-				    }
+						$('#table-group').removeClass('hidden');
+					}else{
+						$('#table-group input:checked').removeAttr('checked');
+						$('#table-group').addClass('hidden');
+					}
 				});
 
 				$('body').on('change','#list-group input[name="grouplist"]',function(){
@@ -1146,7 +1321,7 @@ $(function ($) {
 					$.ajax({
 						url     : $.IGRP.utils.getPageUrl(),
 						success : function(data){
-						
+
 							$('.charts',transCharts).XMLTransform({
 								xsl 		: path+'/xsl/tmpl/IGRP-charts.tmpl.xsl',
 								xml 		: $(data).find('rows content '+p.tag).getXMLDocument(),
@@ -1160,15 +1335,15 @@ $(function ($) {
 
 									if(p.type != 'tablecharts'){
 										$('g.highcharts-button',chart).remove();
-						                $('.highcharts-credits',chart).remove();
+										$('.highcharts-credits',chart).remove();
 
 										setTimeout(function(){
 											//contenteditable="false"
-						                	var html = '<span  key="'+p.iskey+'" type="'+p.type+'" tag="'+p.tag+'" no="'+p.parentTag+'" pos="'+p.parentPos+'">'+renderCharts.getSVG()+'</span>';
-						                	$.WR.editor.set.html(html);
-						                	
-							            },1000);
-						            }
+											var html = '<span  key="'+p.iskey+'" type="'+p.type+'" tag="'+p.tag+'" no="'+p.parentTag+'" pos="'+p.parentPos+'">'+renderCharts.getSVG()+'</span>';
+											$.WR.editor.set.html(html);
+
+										},1000);
+									}
 								},
 								error		: function(c){
 									$.IGRP.notify({
@@ -1200,14 +1375,14 @@ $(function ($) {
 								th   = '',
 								tdg  = '',
 								thg  = '',
-								vars = ''; 
+								vars = '';
 
 							p.td.item.forEach(function(e,i){
 								var tag = p.grouphtml && p.grouphtml != 'table' ? 'li' : 'td';
 
 								td += '<'+tag+' '+e.style+'>'+
 									'<xsl:value-of select="'+e.value+'" disable-output-escaping="yes"/>'+
-								'</'+tag+'>';
+									'</'+tag+'>';
 
 								th += '<th '+e.th.style+'>'+e.th.value+'</th>';
 							});
@@ -1220,20 +1395,20 @@ $(function ($) {
 									if (p.grouphtml && p.grouphtml != 'table'){
 										tdg += '<td '+e.style+'>'+
 											'<div class="row separator">'+
-												'<xsl:value-of select="'+value+'" disable-output-escaping="yes"/>'+
+											'<xsl:value-of select="'+value+'" disable-output-escaping="yes"/>'+
 											'</div>'+
 											'<'+p.grouphtml+'>'+
-												'<xsl:for-each select="//'+p.path+'[$v'+value+' = '+value+']">'+
-													td+
-												'</xsl:for-each>'+
+											'<xsl:for-each select="//'+p.path+'[$v'+value+' = '+value+']">'+
+											td+
+											'</xsl:for-each>'+
 											'</'+p.grouphtml+'>'+
-										'</td>';
+											'</td>';
 									}else{
 										tdg += '<td '+e.style+'>'+
 											'<xsl:value-of select="'+value+'" disable-output-escaping="yes"/>'+
-										'</td>';
-										
-										if (i > 0) 
+											'</td>';
+
+										if (i > 0)
 											vars += ' and ';
 
 										vars += '$v'+value+' = '+value;
@@ -1246,32 +1421,32 @@ $(function ($) {
 									grouphtml = '<tr><td colspan="'+p.td.group.length+'">'+
 										'<table><thead><tr>'+th+'</tr></thead>'+
 										'<tbody>'+
-											'<xsl:for-each select="//'+p.path+'['+vars+']">'+
-												'<tr>'+td+'</tr>'+
-											'</xsl:for-each>'+
+										'<xsl:for-each select="//'+p.path+'['+vars+']">'+
+										'<tr>'+td+'</tr>'+
+										'</xsl:for-each>'+
 										'</tbody></table>'+
-									'</td></tr>';
+										'</td></tr>';
 								}
 
 								table = '<thead><tr>'+thg+'</tr></thead>'+
-								'<tbody>'+
+									'<tbody>'+
 									'<xsl:for-each select="'+path+'">'+
-										p.vars+
-										'<tr>'+tdg+'</tr>'+
-										grouphtml+
+									p.vars+
+									'<tr>'+tdg+'</tr>'+
+									grouphtml+
 									'</xsl:for-each>'+
-								'</tbody>';
+									'</tbody>';
 
 							}else{
 								table = '<thead>'+p.thead+'</thead>'+
-								'<tbody>'+
+									'<tbody>'+
 									'<xsl:for-each select="'+path+'">'+
-										'<tr>'+td+'</tr>'+
+									'<tr>'+td+'</tr>'+
 									'</xsl:for-each>'+
-								'</tbody>';
+									'</tbody>';
 							}
 
-						break;
+							break;
 						default:
 							var td = '',
 								th = '';
@@ -1282,13 +1457,13 @@ $(function ($) {
 							});
 
 							table = '<thead>'+p.thead+'</thead>'+
-							'<tbody>'+
+								'<tbody>'+
 								'<xsl:for-each select="'+p.path+'">'+
-									'<tr>'+td+'</tr>'+
+								'<tr>'+td+'</tr>'+
 								'</xsl:for-each>'+
-							'</tbody>';
+								'</tbody>';
 
-						break;
+							break;
 					}
 
 					if(p.tfoot != null)
@@ -1299,249 +1474,249 @@ $(function ($) {
 			},
 			filter : function(){
 				var filter = new CKEDITOR.htmlParser.filter({
-			      	text: function(value) {
-			        	return value;
-			    	},
-			    	elements:{
-			    		span : function(element){
-			    			var span    = {},
+					text: function(value) {
+						return value;
+					},
+					elements:{
+						span : function(element){
+							var span    = {},
 								arrType = ['radio','radiolist','checkbox','checkboxlist','select'];
-			    			
-			    			span.tag  = element.attributes.tag || element.attributes.tag;
-			    			span.pos  = element.attributes.pos;
-			    			span.no   = element.attributes.no;
-			    			span.key  = element.attributes.key;
-			    			span.type = element.attributes.type;
 
-			    			if (span.tag && span.tag != undefined) {
-			    				var pos 	= '['+$.WR.utils.getContentPositon(span.pos)+']',
-			    					path 	= 'rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/value';
-			    				
-			    				if (element.attributes.footer) 
-			    					path = 'rows/'+span.no+'/'+span.tag;
+							span.tag  = element.attributes.tag || element.attributes.tag;
+							span.pos  = element.attributes.pos;
+							span.no   = element.attributes.no;
+							span.key  = element.attributes.key;
+							span.type = element.attributes.type;
 
-			    				span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'><xsl:value-of  disable-output-escaping="yes" select="'+path+'"/></span>';
-			    				
-			    				if(span.type == 'chart'){
+							if (span.tag && span.tag != undefined) {
+								var pos 	= '['+$.WR.utils.getContentPositon(span.pos)+']',
+									path 	= 'rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/value';
 
-			    					span.element  = '<div class="box-body"><xsl:call-template name="igrp-graph">'+
-		                                '<xsl:with-param name="table" select="rows/content'+pos+'/'+span.tag+'"/>'+
-		                                '<xsl:with-param name="chart_type" select="rows/content'+pos+'/'+span.tag+'/chart_type"/>'+
-		                                '<xsl:with-param name="height" select="rows/content'+pos+'/'+span.tag+'/height"/>'+
-		                                '<xsl:with-param name="title" select="rows/content'+pos+'/'+span.tag+'/caption"/>'+
-		                            '</xsl:call-template></div>';
+								if (element.attributes.footer)
+									path = 'rows/'+span.no+'/'+span.tag;
 
-			    				}/* else if(span.type == 'select'){
+								span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'><xsl:value-of  disable-output-escaping="yes" select="'+path+'"/></span>';
+
+								if(span.type == 'chart'){
+
+									span.element  = '<div class="box-body"><xsl:call-template name="igrp-graph">'+
+										'<xsl:with-param name="table" select="rows/content'+pos+'/'+span.tag+'"/>'+
+										'<xsl:with-param name="chart_type" select="rows/content'+pos+'/'+span.tag+'/chart_type"/>'+
+										'<xsl:with-param name="height" select="rows/content'+pos+'/'+span.tag+'/height"/>'+
+										'<xsl:with-param name="title" select="rows/content'+pos+'/'+span.tag+'/caption"/>'+
+										'</xsl:call-template></div>';
+
+								}/* else if(span.type == 'select'){
 			    					span.element = '<xsl:value-of select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']/text"/>';
-			    				
+
 			    				}*/ else if ($.inArray(span.type,arrType) !== -1){
 									span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'>'+
-														'<xsl:for-each select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']">'+
-															'<xsl:value-of disable-output-escaping="yes" select="text"></xsl:value-of>'+
-															'<xsl:if test="position() != last()"><xsl:text>; &nbsp;</xsl:text>'+
-														'</xsl:if></xsl:for-each>'+
-													'</span>';
+										'<xsl:for-each select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']">'+
+										'<xsl:value-of disable-output-escaping="yes" select="text"></xsl:value-of>'+
+										'<xsl:if test="position() != last()"><xsl:text>; &nbsp;</xsl:text>'+
+										'</xsl:if></xsl:for-each>'+
+										'</span>';
 								}
 
-			    				element.setHtml(span.element);
+								element.setHtml(span.element);
 
-			    				delete element.attributes.tag;
-			    				delete element.attributes.rel;
-				    			delete element.attributes.pos;
-				    			delete element.attributes.no;
-				    			delete element.attributes.key;
-				    			delete element.attributes.type;
-				    			delete element.attributes.footer;
-			    			}
-			    		},
-			    		table : function(element){
-			    			
-			    			var html 		= $(element.getHtml()),
-			    				hasTfoot 	= html.filter('tfoot'),
-			    				table  		= {},
-			    				colgroup 	= element.attributes.colgroup || element.attributes.groupcolitem;
-			    			
-			    			table.pos  		= element.attributes.pos;
-			    			table.no   		= element.attributes.no || element.attributes.rel;
-			    			table.group 	= element.attributes.group || '';
-			    			table.grouphtml = element.attributes.grouphtml || '';
-			    			table.vars 		= '';
-			    			table.cond 		= '';
-			    			table.colgroup 	= colgroup ? colgroup.split(',') : [];
-			    			table.thead 	= element.children[0].getHtml();
-			    			table.footer 	= hasTfoot[0] ? hasTfoot.html() : null;
+								delete element.attributes.tag;
+								delete element.attributes.rel;
+								delete element.attributes.pos;
+								delete element.attributes.no;
+								delete element.attributes.key;
+								delete element.attributes.type;
+								delete element.attributes.footer;
+							}
+						},
+						table : function(element){
 
-			    			if(table.no && table.no != undefined){
-			    				var th   		= [],
-			    				idx  			= 0,
-			    				index 			= 0;
-			    				table.td   		= {};
-			    				table.td.group 	= [];
-			    				table.td.item  	= [];
+							var html 		= $(element.getHtml()),
+								hasTfoot 	= html.filter('tfoot'),
+								table  		= {},
+								colgroup 	= element.attributes.colgroup || element.attributes.groupcolitem;
 
-			    				var path = 'rows/content['+$.WR.utils.getContentPositon(table.pos)+']/'+table.no+'/table/value/row';
+							table.pos  		= element.attributes.pos;
+							table.no   		= element.attributes.no || element.attributes.rel;
+							table.group 	= element.attributes.group || '';
+							table.grouphtml = element.attributes.grouphtml || '';
+							table.vars 		= '';
+							table.cond 		= '';
+							table.colgroup 	= colgroup ? colgroup.split(',') : [];
+							table.thead 	= element.children[0].getHtml();
+							table.footer 	= hasTfoot[0] ? hasTfoot.html() : null;
 
-			    				element.forEach(function(node){
-			    					var notTfoot = node.parent.parent.name != 'tfoot';
+							if(table.no && table.no != undefined){
+								var th   		= [],
+									idx  			= 0,
+									index 			= 0;
+								table.td   		= {};
+								table.td.group 	= [];
+								table.td.item  	= [];
 
-			    					if(node.name == 'th' && notTfoot){
+								var path = 'rows/content['+$.WR.utils.getContentPositon(table.pos)+']/'+table.no+'/table/value/row';
 
-			    						//table.th +='<th '+$.WR.element.getStyle(node)+'>'+node.getHtml().capitalizeFirstLetter()+'</th>'
-			    						th.push({
-			    							value : node.getHtml().capitalizeFirstLetter(),
-			    							style : $.WR.element.getStyle(node)
-			    						});
-			    					}
+								element.forEach(function(node){
+									var notTfoot = node.parent.parent.name != 'tfoot';
 
-			    					if(node.name == 'td' && notTfoot){
-			    						//table.element.value = node.getHtml().replace(/&nbsp;/g, " ").replace(/\s+/g," ");
-			    						var tag   = node.attributes.tag || node.attributes.rel;
+									if(node.name == 'th' && notTfoot){
+
+										//table.th +='<th '+$.WR.element.getStyle(node)+'>'+node.getHtml().capitalizeFirstLetter()+'</th>'
+										th.push({
+											value : node.getHtml().capitalizeFirstLetter(),
+											style : $.WR.element.getStyle(node)
+										});
+									}
+
+									if(node.name == 'td' && notTfoot){
+										//table.element.value = node.getHtml().replace(/&nbsp;/g, " ").replace(/\s+/g," ");
+										var tag   = node.attributes.tag || node.attributes.rel;
 
 										if($.inArray(element.attributes.parentNoType,['separatorlist','formlist']) !==-1){
 											tag += '_desc';
 										}
 
-			    						if(tag && tag != undefined){
-			    							var value = tag,
-			    								style = $.WR.element.getStyle(node);
+										if(tag && tag != undefined){
+											var value = tag,
+												style = $.WR.element.getStyle(node);
 
-			    							if ($.inArray(tag,table.colgroup) != -1){
-		    									if (table.group == 'col'){
-		    										value += '[not(.=preceding::*)]';
+											if ($.inArray(tag,table.colgroup) != -1){
+												if (table.group == 'col'){
+													value += '[not(.=preceding::*)]';
 
-		    										table.td.item.push({
-		    											style : style,
-		    											value : value,
-		    											th    : th[index]
-		    										});
-		    									}
-		    									else{
-		    										if (idx > 0)
-		    											table.cond += ' or ';
+													table.td.item.push({
+														style : style,
+														value : value,
+														th    : th[index]
+													});
+												}
+												else{
+													if (idx > 0)
+														table.cond += ' or ';
 
-		    										table.cond += 'not('+tag+'=preceding::'+tag+')';
-		    										table.vars += '<xsl:variable name="v'+tag+'" select="'+tag+'"/>';
-		    										idx ++;
+													table.cond += 'not('+tag+'=preceding::'+tag+')';
+													table.vars += '<xsl:variable name="v'+tag+'" select="'+tag+'"/>';
+													idx ++;
 
-		    										table.td.group.push({
-		    											style : style,
-		    											value : value,
-		    											th    : th[index]
-		    										});
-		    									}
-		    								}
-		    								else{
-		    									table.td.item.push({
-		    										style : style,
-		    										value : value,
-		    										th    : th[index]
-		    									});
-			    								//table.element.td +='<td '+style+'><xsl:value-of select="'+value+'" disable-output-escaping="yes"/></td>';
-		    								}
-			    						}
-			    						index ++;
-			    					}
-			    					
-			    				});
+													table.td.group.push({
+														style : style,
+														value : value,
+														th    : th[index]
+													});
+												}
+											}
+											else{
+												table.td.item.push({
+													style : style,
+													value : value,
+													th    : th[index]
+												});
+												//table.element.td +='<td '+style+'><xsl:value-of select="'+value+'" disable-output-escaping="yes"/></td>';
+											}
+										}
+										index ++;
+									}
 
-			    				idx = 0;
-			    				table.path = path;
+								});
 
-			    				var value = $.WR.element.template['table'](table);
+								idx = 0;
+								table.path = path;
 
-			    				element.setHtml(value);
+								var value = $.WR.element.template['table'](table);
 
-			    				delete element.attributes.pos;
-				    			delete element.attributes.no;
-				    			delete element.attributes.rel;
-				    			delete element.attributes.group;
-				    			delete element.attributes.colgroup;
-				    			delete element.attributes.grouphtml;
-			    			}
-			    		},
-			    		ul : function(element){
-			    			var ul  = {};
-			    			
-			    			ul.pos  = element.attributes.pos;
-			    			ul.no   = element.attributes.no || element.attributes.rel;
+								element.setHtml(value);
 
-			    			ul.element = '';
+								delete element.attributes.pos;
+								delete element.attributes.no;
+								delete element.attributes.rel;
+								delete element.attributes.group;
+								delete element.attributes.colgroup;
+								delete element.attributes.grouphtml;
+							}
+						},
+						ul : function(element){
+							var ul  = {};
 
-			    			if (ul.no && ul.no != undefined) {
-			    				element.forEach(function(node){
-			    					if (node.name == 'li'){
-			    						var tag = node.attributes.tag || node.attributes.rel;
-			    						
-			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
+							ul.pos  = element.attributes.pos;
+							ul.no   = element.attributes.no || element.attributes.rel;
+
+							ul.element = '';
+
+							if (ul.no && ul.no != undefined) {
+								element.forEach(function(node){
+									if (node.name == 'li'){
+										var tag = node.attributes.tag || node.attributes.rel;
+
+										if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
 											tag += '_desc';
 										}
-			    						
-			    						ul.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of  disable-output-escaping="yes" select="'+tag+'"/></li>';
-			    					}
-			    				});
 
-			    				element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ul.pos)+']/'+ul.no+'/table/value/row">'+ul.element+'</xsl:for-each>');
-			    				
-			    				delete element.attributes.pos;
-				    			delete element.attributes.no;
-				    			delete element.attributes.rel;
-			    			}
-			    		},
-			    		ol : function(element){
-			    			var ol  = {};
-			    			
-			    			ol.pos  = element.attributes.pos;
-			    			ol.no   = element.attributes.no || element.attributes.rel;
+										ul.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of  disable-output-escaping="yes" select="'+tag+'"/></li>';
+									}
+								});
 
-			    			ol.element = '';
+								element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ul.pos)+']/'+ul.no+'/table/value/row">'+ul.element+'</xsl:for-each>');
 
-			    			if (ol.no && ol.no != undefined) {
-			    				element.forEach(function(node){
-			    					if (node.name == 'li'){
-			    						var tag = node.attributes.tag || node.attributes.rel;
-			    						
-			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
+								delete element.attributes.pos;
+								delete element.attributes.no;
+								delete element.attributes.rel;
+							}
+						},
+						ol : function(element){
+							var ol  = {};
+
+							ol.pos  = element.attributes.pos;
+							ol.no   = element.attributes.no || element.attributes.rel;
+
+							ol.element = '';
+
+							if (ol.no && ol.no != undefined) {
+								element.forEach(function(node){
+									if (node.name == 'li'){
+										var tag = node.attributes.tag || node.attributes.rel;
+
+										if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
 											tag += '_desc';
 										}
-			    						
-			    						ol.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of disable-output-escaping="yes" select="'+tag+'"/></li>';
-			    					}
-			    				});
 
-			    				element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ol.pos)+']/'+ol.no+'/table/value/row">'+ol.element+'</xsl:for-each>');
-			    				
-			    				delete element.attributes.pos;
-				    			delete element.attributes.no;
-				    			delete element.attributes.rel;
-			    			}
-			    		},
-			    		img : function(element){
-			    			var img  = {};
-			    			
-			    			img.tag  = element.attributes.tag || element.attributes.rel;
-			    			img.pos  = element.attributes.pos;
-			    			img.no   = element.attributes.no;
+										ol.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of disable-output-escaping="yes" select="'+tag+'"/></li>';
+									}
+								});
 
-			    			if (img.tag && img.tag != undefined) {
+								element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ol.pos)+']/'+ol.no+'/table/value/row">'+ol.element+'</xsl:for-each>');
 
-			    				element.attributes.src ='{rows/content['+$.WR.utils.getContentPositon(img.pos)+']/'+img.no+'/fields/'+img.tag+'/value}';
-			    			
-			    				delete element.attributes.tag;
-				    			delete element.attributes.pos;
-				    			delete element.attributes.no;
-				    			delete element.attributes.rel;
-				    		}
-			    		}
-			    	}
-			    });
+								delete element.attributes.pos;
+								delete element.attributes.no;
+								delete element.attributes.rel;
+							}
+						},
+						img : function(element){
+							var img  = {};
+
+							img.tag  = element.attributes.tag || element.attributes.rel;
+							img.pos  = element.attributes.pos;
+							img.no   = element.attributes.no;
+
+							if (img.tag && img.tag != undefined) {
+
+								element.attributes.src ='{rows/content['+$.WR.utils.getContentPositon(img.pos)+']/'+img.no+'/fields/'+img.tag+'/value}';
+
+								delete element.attributes.tag;
+								delete element.attributes.pos;
+								delete element.attributes.no;
+								delete element.attributes.rel;
+							}
+						}
+					}
+				});
 
 				var fragment = CKEDITOR.htmlParser.fragment.fromHtml($.WR.editor.structures.html()),
-			    	writer 	 = new CKEDITOR.htmlParser.basicWriter();
+					writer 	 = new CKEDITOR.htmlParser.basicWriter();
 
-			    filter.applyTo( fragment );
-			    fragment.writeHtml( writer );
+				filter.applyTo( fragment );
+				fragment.writeHtml( writer );
 
-			    return writer.getHtml();
+				return writer.getHtml();
 			}
 		};
 
@@ -1583,7 +1758,7 @@ $(function ($) {
 					structure.content.head 	 = $.trim(data.head.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.body 	 = $.trim(data.body.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.footer = $.WR.document.footer.has.val == 'Y' ? $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," ")) : "";
-					
+
 					return structure;
 				},
 				html : function(){
@@ -1599,7 +1774,7 @@ $(function ($) {
 					}
 
 					html += '</div>';
-					
+
 					return html;
 				}
 			},
@@ -1619,7 +1794,7 @@ $(function ($) {
 						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
-							
+
 							CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
 
 							var dataTransfer = evt.data.dataTransfer,
@@ -1644,7 +1819,7 @@ $(function ($) {
 								if(element.type == 'node'){
 									var obj  	= $('ul[tag="'+element.parentTag+'"]')[0] ? $('ul[tag="'+element.parentTag+'"]') : $('ul[tag="'+element.tag+'"]'),
 										seletor = $target.find('input[name="p_'+element.parentTag+'"]',obj).is(':checked') ? $('li input[name="p_'+element.parentTag+'"]:checked',obj) : $('li input[name="p_'+element.parentTag+'"]',obj);
-									
+
 									seletor.each(function(i,e){
 										var item 	= {},
 											parents = $(e).parents('li:first');
@@ -1659,12 +1834,12 @@ $(function ($) {
 										tag  :element.tag,
 										label:target.getText()
 									};
-								} 
+								}
 							}
 
 							if(element.parentType == 'chart')
 								element.type = element.parentType;
-							
+
 							if(element.type == 'img')
 								element.parentType = 'image';
 

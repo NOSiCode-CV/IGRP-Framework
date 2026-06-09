@@ -1,5 +1,5 @@
 <xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
     <xsl:template match="/">
         <html>
@@ -35,14 +35,16 @@
                         <i class="fa fa-navicon"></i>
                     </div>
                     <div id="igrp-app-title" class="">
-                 		Report Designer
+                        Report Designer
                     </div>
-                    
-                      
+
+
                 </nav>
                 <form method="POST" class="IGRP-form" name="formular_default">
                     <div class="hidden">
                         <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
+                        <input type="hidden" name="{rows/content/form_1/fields/link_add_source/@name}" id="{rows/content/form_1/fields/link_add_source/@name}" value="{rows/content/form_1/fields/link_add_source/value}"/>
+                        <input type="hidden" name="{rows/content/form_1/fields/link_upload_img/@name}" id="{rows/content/form_1/fields/link_upload_img/@name}" value="{rows/content/form_1/fields/link_upload_img/value}"/>
                     </div>
                     <div class="container-fluid">
                         <div class="row">
@@ -50,13 +52,13 @@
                             <div class="col-md-3 col-sm-4 sidebar tree-list" id="igrp-sidebar">
                                 <xsl:if test="rows/content/form_1/fields/env_fk">
                                     <div class="row">
-                                    <a id="igrp-doc" href="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=report" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
-                                       <!--   <a id="igrp-doc" href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields=""> -->
-					                      <i class="fa fa-question-circle" style="margin-right:5px"></i>Help
-					                      </a>
-					                      <a id="igrp-doc" href="https://gitter.im/igrpweb/report?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
-					                      <i class="fa fa-comments" style="margin-right:5px"></i>Forum
-					                      </a>
+                                        <a id="igrp-doc" href="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=report" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
+                                            <!--   <a id="igrp-doc" href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields=""> -->
+                                            <i class="fa fa-question-circle" style="margin-right:5px"></i>Help
+                                        </a>
+                                        <a id="igrp-doc" href="https://gitter.im/igrpweb/report?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
+                                            <i class="fa fa-comments" style="margin-right:5px"></i>Forum
+                                        </a>
                                         <div class="col-md-12 form-group  gen-fields-holder" item-name="env_fk" item-type="select">
                                             <label for="{rows/content/form_1/fields/env_fk/@name}">
                                                 <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>
@@ -118,9 +120,9 @@
                                             <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-data_source" rel="tab-tabcontent_1-data_source">
                                                 <div class="row">
                                                     <div class="gen-column col-md-12">
-                                                        
+
                                                         <xsl:if test="rows/content/form_1/fields/datasorce_app">
-                                                            <div class="row">    
+                                                            <div class="row">
                                                                 <div class="col-md-12 form-group wr-datasource gen-fields-holder" item-name="datasorce_app" item-type="select">
                                                                     <label for="{rows/content/form_1/fields/datasorce_app/@name}">
                                                                         <xsl:value-of select="rows/content/form_1/fields/datasorce_app/label"/>
@@ -157,7 +159,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12" id="wr-list-datasource">
                                                                 <xsl:if test="count(rows/content/form_1/fields/datasorce_app/list/option[position() != 1]) > 0">
-                                                                  <xsl:call-template name="datasorce"/>
+                                                                    <xsl:call-template name="datasorce"/>
                                                                 </xsl:if>
                                                             </div>
                                                         </div>
@@ -248,16 +250,16 @@
 
                 <script type="text/javascript">
                     var wr_dataSource       = '<xsl:value-of select="rows/content/form_1/fields/datasorce_app/label"/>',
-                        wr_app              = '<xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>',
-                        wr_newDocumentTitle = '<xsl:value-of select="rows/content/form_1/fields/dialog_titulo_report/label"/>',
-                        wr_labelTitle       = '<xsl:value-of select="rows/content/form_1/fields/title_report/label"/>',
-                        wr_nameInputTitle   = '<xsl:value-of select="rows/content/form_1/fields/title_report/@name"/>',
-                        wr_labelCode        = '<xsl:value-of select="rows/content/form_1/fields/codigo_report/label"/>',
-                        wr_nameInputCode    = '<xsl:value-of select="'p_code'"/>',
-                        wr_dialogKeysTitle  = '<xsl:value-of select="rows/content/form_1/fields/dialog_keys_report/label"/>',
-                        wr_tmpl             = '<xsl:value-of select="rows/content/form_1/value/hidden[@name='p_fwl_tmplconfig']"/>';
+                    wr_app              = '<xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>',
+                    wr_newDocumentTitle = '<xsl:value-of select="rows/content/form_1/fields/dialog_titulo_report/label"/>',
+                    wr_labelTitle       = '<xsl:value-of select="rows/content/form_1/fields/title_report/label"/>',
+                    wr_nameInputTitle   = '<xsl:value-of select="rows/content/form_1/fields/title_report/@name"/>',
+                    wr_labelCode        = '<xsl:value-of select="rows/content/form_1/fields/codigo_report/label"/>',
+                    wr_nameInputCode    = '<xsl:value-of select="'p_code'"/>',
+                    wr_dialogKeysTitle  = '<xsl:value-of select="rows/content/form_1/fields/dialog_keys_report/label"/>',
+                    wr_tmpl             = '<xsl:value-of select="rows/content/form_1/value/hidden[@name='p_fwl_tmplconfig']"/>';
                 </script>
-                 <!--TEXTEDITOR JS INCLUDES-->
+                <!--TEXTEDITOR JS INCLUDES-->
                 <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js"/>
                 <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js"/>
                 <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js"/>
@@ -283,7 +285,7 @@
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
                 <!--XML XSL TRANSFORM-->
                 <script type="text/javascript" src="{$path}/core/formgen/js/xml.xsl.transform.js"/>
-                
+
             </body>
         </html>
     </xsl:template>
