@@ -167,7 +167,7 @@ $.fn.alterClass = function ( removals, additions ) {
 };
 
 $.fn.insertAt = function(index, element) {
-  var lastIndex = this.children().size();
+  var lastIndex = this.children().length;
   if (index < 0) {
     index = Math.max(0, lastIndex + 1 + index);
   }

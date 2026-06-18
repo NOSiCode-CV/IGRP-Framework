@@ -43,6 +43,8 @@
                 <form method="POST" class="IGRP-form" name="formular_default">
                     <div class="hidden">
                         <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
+                        <input type="hidden" name="{rows/content/form_1/fields/link_add_source/@name}" id="{rows/content/form_1/fields/link_add_source/@name}" value="{rows/content/form_1/fields/link_add_source/value}"/>
+                        <input type="hidden" name="{rows/content/form_1/fields/link_upload_img/@name}" id="{rows/content/form_1/fields/link_upload_img/@name}" value="{rows/content/form_1/fields/link_upload_img/value}"/>
                     </div>
                     <div class="container-fluid">
                         <div class="row">

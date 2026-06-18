@@ -24,9 +24,18 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import javax.enterprise.inject.spi.CDI;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.URIResolver;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,13 +44,19 @@ import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -65,6 +80,8 @@ public class Controller {
 
     private Response responseWrapper;
     private String qs = "";
+    private static final Pattern XML_STYLESHEET_HREF =
+            Pattern.compile("<\\?xml-stylesheet\\s+[^>]*href\\s*=\\s*\"([^\"]+)\"[^>]*\\?>", Pattern.CASE_INSENSITIVE);
 
     public Response getResponseWrapper() {
         return responseWrapper;
@@ -693,7 +710,23 @@ public class Controller {
                                 }
                                 responseWrapper2.getFile().getContent().close();
                             } else {
-                                Igrp.getInstance().getResponse().getWriter().append(responseWrapper2.getContent());
+                                String content = responseWrapper2.getContent();
+                                HttpServletResponse resp = Igrp.getInstance().getResponse();
+                                resp.setCharacterEncoding(Response.CHARSET_UTF_8);
+
+                                String transformed = tryTransformXmlWithStylesheetPI(content);
+                                if (transformed != null) {
+                                    resp.setContentType("text/html;charset=" + Response.CHARSET_UTF_8);
+                                    resp.getWriter().append(transformed);
+                                } else {
+                                    if ("xml".equals(Core.getParam("ir_cf")) && content != null) {
+                                        content = content
+                                                .replaceFirst("<\\?xml[^>]*\\?>", "")
+                                                .trim();
+                                        content = XML_STYLESHEET_HREF.matcher(content).replaceAll("").trim();
+                                    }
+                                    resp.getWriter().append(content);
+                                }
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -801,6 +834,384 @@ public class Controller {
 			return null;
 		}
 	}
+
+    private static final ConcurrentHashMap<String, Templates> XSL_TEMPLATE_CACHE = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, byte[]> XSL_RESOURCE_CACHE = new ConcurrentHashMap<>();
+
+    private String tryTransformXmlWithStylesheetPI(String xml) {
+        if (xml == null || xml.trim().isEmpty() || "xml".equals(Core.getParam("ir_cf")))
+            return null;
+
+        Matcher matcher = XML_STYLESHEET_HREF.matcher(xml);
+        if (!matcher.find())
+            return null;
+
+        String rawPath = matcher.group(1);
+        if (rawPath == null || rawPath.trim().isEmpty())
+            return null;
+
+        String xslWebPath = rawPath.split("\\?", 2)[0];
+        if (!xslWebPath.startsWith("/"))
+            return null;
+
+        ServletContext ctx = Igrp.getInstance().getServlet().getServletContext();
+        xslWebPath = stripContextPath(ctx, xslWebPath);
+
+        try {
+            Templates templates = getOrCompileTemplates(xslWebPath, ctx);
+            if (templates == null)
+                return null;
+
+            Transformer transformer = templates.newTransformer();
+            transformer.setURIResolver(new WebAppXslUriResolver(ctx));
+
+            StreamSource xmlSource = new StreamSource(new StringReader(xml));
+            xmlSource.setSystemId("webapp:/dynamic.xml");
+
+            StringWriter out = new StringWriter();
+            transformer.transform(xmlSource, new StreamResult(out));
+            return out.toString();
+        } catch (Exception ex) {
+            LOGGER.warn("XSLT server-side transform failed for path=" + xslWebPath, ex);
+            return null;
+        }
+    }
+
+    private static Templates getOrCompileTemplates(String xslWebPath, ServletContext ctx) {
+        Templates cached = XSL_TEMPLATE_CACHE.get(xslWebPath);
+        if (cached != null)
+            return cached;
+
+        try (InputStream xslStream = ctx.getResourceAsStream(xslWebPath)) {
+            if (xslStream == null)
+                throw new IllegalStateException("XSL not found in webapp: " + xslWebPath);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setURIResolver(new CachingWebAppXslUriResolver(ctx));
+
+            StreamSource xslSource = new StreamSource(xslStream);
+            xslSource.setSystemId("webapp:" + xslWebPath);
+
+            Templates compiled = transformerFactory.newTemplates(xslSource);
+            Templates existing = XSL_TEMPLATE_CACHE.putIfAbsent(xslWebPath, compiled);
+            return existing != null ? existing : compiled;
+        } catch (Exception ex) {
+            LOGGER.warn("Failed to compile XSL template: " + xslWebPath, ex);
+            throw new RuntimeException("Failed to compile XSL template: " + xslWebPath, ex);
+        }
+    }
+
+    public static String performXsltTransform(String xmlStr, String xslStr, Map<String, String> xslParams) throws Exception {
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Source xslSource = new StreamSource(new StringReader(xslStr));
+        Transformer transformer = factory.newTransformer(xslSource);
+
+        transformer.setOutputProperty(OutputKeys.METHOD, "html");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+
+        if (xslParams != null) {
+            for (Map.Entry<String, String> entry : xslParams.entrySet()) {
+                transformer.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        StringWriter writer = new StringWriter();
+        transformer.transform(new StreamSource(new StringReader(xmlStr)), new StreamResult(writer));
+        return writer.toString();
+    }
+
+    public static String performXsltTransformFromPath(String xmlStr, String xslWebPath, ServletContext ctx,
+                                                     Map<String, String> xslParams) throws Exception {
+        Templates templates = getOrCompileTemplates(xslWebPath, ctx);
+        if (templates == null)
+            throw new IllegalStateException("XSL template not found: " + xslWebPath);
+
+        Transformer transformer = templates.newTransformer();
+        transformer.setOutputProperty(OutputKeys.METHOD, "html");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+
+        if (xslParams != null) {
+            for (Map.Entry<String, String> entry : xslParams.entrySet()) {
+                transformer.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        StringWriter writer = new StringWriter();
+        transformer.transform(new StreamSource(new StringReader(xmlStr)), new StreamResult(writer));
+        return writer.toString();
+    }
+
+    public static void invalidateXslCache() {
+        XSL_TEMPLATE_CACHE.clear();
+        XSL_RESOURCE_CACHE.clear();
+        LOGGER.info("XSL template cache cleared");
+    }
+
+    public static void invalidateXslCache(String xslWebPath) {
+        XSL_TEMPLATE_CACHE.remove(xslWebPath);
+        XSL_RESOURCE_CACHE.remove(xslWebPath);
+        LOGGER.info("XSL template cache cleared for: " + xslWebPath);
+    }
+
+    private static String stripContextPath(ServletContext ctx, String path) {
+        String ctxPath = ctx.getContextPath();
+        if (ctxPath != null && !ctxPath.trim().isEmpty() && !ctxPath.equals("/")
+                && path.startsWith(ctxPath + "/")) {
+            return path.substring(ctxPath.length());
+        }
+        return path;
+    }
+
+    private static final class CachingWebAppXslUriResolver extends WebAppXslUriResolver {
+
+        CachingWebAppXslUriResolver(ServletContext ctx) {
+            super(ctx);
+        }
+
+        @Override
+        StreamSource openResource(String webPath) {
+            if (webPath == null)
+                return null;
+
+            byte[] cached = XSL_RESOURCE_CACHE.get(webPath);
+            if (cached != null) {
+                StreamSource src = new StreamSource(new ByteArrayInputStream(cached));
+                src.setSystemId("webapp:" + webPath);
+                return src;
+            }
+
+            InputStream input = ctx.getResourceAsStream(webPath);
+            if (input == null)
+                return null;
+
+            try {
+                byte[] bytes = readAllBytes(input);
+                XSL_RESOURCE_CACHE.put(webPath, bytes);
+
+                StreamSource src = new StreamSource(new ByteArrayInputStream(bytes));
+                src.setSystemId("webapp:" + webPath);
+                return src;
+            } catch (Exception ignored) {
+                return null;
+            } finally {
+                try {
+                    input.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+    }
+
+    private static class WebAppXslUriResolver implements URIResolver {
+
+        protected final ServletContext ctx;
+
+        WebAppXslUriResolver(ServletContext ctx) {
+            this.ctx = ctx;
+        }
+
+        @Override
+        public Source resolve(String href, String base) {
+            if (href == null || href.trim().isEmpty())
+                return null;
+
+            String cleanHref = cleanHref(href);
+            String cleanBase = base != null ? cleanHref(base) : null;
+
+            if (isIgrpRoute(cleanHref))
+                return resolveIgrpRoute(href);
+
+            if (cleanHref.matches("(?i)^https?://.*"))
+                return null;
+
+            String resolvedPath = cleanHref.startsWith("/")
+                    ? normalizeWebPath(cleanHref)
+                    : resolveRelative(cleanHref, cleanBase);
+
+            if (resolvedPath == null)
+                return null;
+
+            return firstNonNull(new ResourceSupplier() {
+                @Override
+                public StreamSource get() {
+                    return openResource(resolvedPath);
+                }
+            });
+        }
+
+        private String cleanHref(String raw) {
+            String value = raw.split("\\?", 2)[0];
+            if (value.startsWith("webapp:"))
+                value = value.substring("webapp:".length());
+
+            String ctxPath = ctx.getContextPath();
+            if (ctxPath != null && !ctxPath.trim().isEmpty() && !ctxPath.equals("/")
+                    && value.toLowerCase().startsWith((ctxPath + "/").toLowerCase()))
+                value = value.substring(ctxPath.length());
+
+            return value;
+        }
+
+        private String resolveRelative(String href, String base) {
+            if (base == null)
+                return null;
+
+            int lastSlash = base.lastIndexOf('/');
+            String baseDir = lastSlash >= 0 ? base.substring(0, lastSlash + 1) : "/";
+            return normalizeWebPath(baseDir + href);
+        }
+
+        private static boolean isIgrpRoute(String path) {
+            return path.equals("/webapps") || path.equals("webapps");
+        }
+
+        private static String normalizeWebPath(String path) {
+            Deque<String> stack = new ArrayDeque<>();
+            for (String part : path.split("/")) {
+                if (part.isEmpty() || ".".equals(part))
+                    continue;
+                if ("..".equals(part)) {
+                    if (!stack.isEmpty())
+                        stack.removeLast();
+                } else {
+                    stack.addLast(part);
+                }
+            }
+
+            StringBuilder sb = new StringBuilder("/");
+            Iterator<String> it = stack.iterator();
+            while (it.hasNext()) {
+                sb.append(it.next());
+                if (it.hasNext())
+                    sb.append("/");
+            }
+            return sb.toString();
+        }
+
+        StreamSource openResource(String webPath) {
+            if (webPath == null)
+                return null;
+
+            InputStream input = ctx.getResourceAsStream(webPath);
+            if (input == null)
+                return null;
+
+            StreamSource src = new StreamSource(input);
+            src.setSystemId("webapp:" + webPath);
+            return src;
+        }
+
+        private Source resolveIgrpRoute(String originalHref) {
+            Map<String, List<String>> params = parseQueryString(originalHref);
+            List<String> rList = params.get("r");
+            if (rList == null || rList.isEmpty())
+                return null;
+
+            String resolved = SecurtyCallPage.resolvePage(rList.get(0));
+            if (resolved == null)
+                return null;
+
+            String[] parts = resolved.split("/");
+            if (parts.length < 3)
+                return null;
+
+            String app = parts[0];
+            String page = parts[1];
+            String action = parts[2];
+
+            QueryString<String, Object> qs = new QueryString<>();
+            for (Map.Entry<String, List<String>> entry : params.entrySet()) {
+                if (!"r".equals(entry.getKey())) {
+                    for (String value : entry.getValue()) {
+                        qs.addQueryString(entry.getKey(), value);
+                    }
+                }
+            }
+
+            if (action.contains("&")) {
+                String[] actionParts = action.split("&", 2);
+                action = actionParts[0];
+                Map<String, String> inlineParams = parseInlineParams(actionParts[1]);
+                for (Map.Entry<String, String> entry : inlineParams.entrySet()) {
+                    qs.addQueryString(entry.getKey(), entry.getValue());
+                }
+            }
+
+            Response resp = new Controller().call(app, page, action, qs);
+            return resp != null && resp.getContent() != null
+                    ? new StreamSource(new StringReader(resp.getContent()))
+                    : null;
+        }
+
+        private static Map<String, List<String>> parseQueryString(String href) {
+            Map<String, List<String>> result = new LinkedHashMap<>();
+            int queryStart = href.indexOf('?');
+            if (queryStart < 0)
+                return result;
+
+            for (String pair : href.substring(queryStart + 1).split("&")) {
+                String[] kv = pair.split("=", 2);
+                if (kv.length == 0 || kv[0].isEmpty())
+                    continue;
+
+                String value = kv.length > 1 ? decode(kv[1]) : "";
+                List<String> values = result.get(kv[0]);
+                if (values == null) {
+                    values = new ArrayList<>();
+                    result.put(kv[0], values);
+                }
+                values.add(value);
+            }
+            return result;
+        }
+
+        private static Map<String, String> parseInlineParams(String raw) {
+            Map<String, String> result = new LinkedHashMap<>();
+            for (String pair : raw.split("&")) {
+                String[] kv = pair.split("=", 2);
+                if (kv.length > 0 && !kv[0].isEmpty())
+                    result.put(kv[0], kv.length > 1 ? decode(kv[1]) : "");
+            }
+            return result;
+        }
+
+        private static String decode(String value) {
+            try {
+                return java.net.URLDecoder.decode(value, StandardCharsets.UTF_8.name());
+            } catch (Exception e) {
+                return value;
+            }
+        }
+
+        private static StreamSource firstNonNull(ResourceSupplier... suppliers) {
+            for (ResourceSupplier supplier : suppliers) {
+                StreamSource src = supplier.get();
+                if (src != null)
+                    return src;
+            }
+
+            LOGGER.warn("URIResolver: resource not found after all fallbacks");
+            return new StreamSource(new StringReader(
+                    "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"/>"
+            ));
+        }
+    }
+
+    private interface ResourceSupplier {
+        StreamSource get();
+    }
+
+    private static byte[] readAllBytes(InputStream input) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        byte[] data = new byte[8192];
+        int read;
+        while ((read = input.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, read);
+        }
+        return buffer.toByteArray();
+    }
 
 
 }

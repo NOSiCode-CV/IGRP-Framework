@@ -227,8 +227,8 @@ public class DataSourceHelpers {
 		String type = parameters.get(param.getName());
 		String column_name = param.getName().contains("p_")?param.getName().substring(2):param.getName();
 		type = Core.isNull(type)?parameters.get(column_name) : type;
-		if(Core.isNull(type)){
-			System.out.println("type is null of "+column_name+". Please choose this in Report Builder for "+query);
+        if (type == null) {
+            System.out.println("type is null of "+column_name+". Please choose this in Report Builder for "+query+" or will be consider string value");
 			query.setParameter(param.getName(),Core.isNotNull(value)?value.toString():"");
 		}else
 		if(type.equals("java.math.BigDecimal")) {
