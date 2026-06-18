@@ -439,7 +439,7 @@ body:not(.shown) .io-export, body:not(.shown) .io-zoom-controls {
 }
 .samples .sample {
     display: inline-block;
-    max-width: 100%
+    max-width: 100%;
   padding: 10px;
     vertical-align: top;
     position: relative;

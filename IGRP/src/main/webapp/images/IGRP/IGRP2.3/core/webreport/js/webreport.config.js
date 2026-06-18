@@ -368,7 +368,7 @@ var xslpath = '../../',
   		html : {
   			input : function(p){
   				var label = p.label ? p.label : '',
-  					icon  = p.icon  ? '<i class="fa '+p.icon+'"/> ' : '',
+  					icon  = p.icon  ? '<i class="fa '+p.icon+'"></i> ' : '',
   					size  = p.size  ? p.size : 4,
   					vclas = p.class ? p.class: '';
 

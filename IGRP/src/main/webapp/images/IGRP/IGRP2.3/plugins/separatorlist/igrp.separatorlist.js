@@ -175,7 +175,7 @@ $.fn.separatorList = function(o){
 									field  : object.field
 								});
 
-								if(object.type == 'file'){
+								if(object.type === 'file'){
 									
 									if (value) {
 										
@@ -228,7 +228,7 @@ $.fn.separatorList = function(o){
 														win    : 'IGRP-upload-preview'
 													});
 													
-													win.document.write('<iframe src="' + result  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+													win.document.write('<iframe src="' + result  + '" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>');
 
 
 												    
@@ -321,16 +321,16 @@ $.fn.separatorList = function(o){
 
 			if(f){
 				const ftag    = $(f).prop('tagName').toLowerCase(),
-				 	ftype     = ftag == 'select' || ftag == 'textarea' ? ftag : $(f).attr('type'),
+				 	ftype     = ftag === 'select' || ftag === 'textarea' ? ftag : $(f).attr('type'),
 				 	rowVal    = val;
 
 				if(rowVal)
 					$(f).attr('item-value',rowVal);
 
 
-				if(ftype != 'file'){
+				if(ftype !== 'file'){
 					
-					if(ftype == 'select'){
+					if(ftype === 'select'){
 						$(f).val(rowVal.split(','));
 
 						if($(f).is('[load_service_data]')){

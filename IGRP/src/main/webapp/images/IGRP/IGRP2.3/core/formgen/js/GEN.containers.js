@@ -1186,18 +1186,17 @@ var CONTAINER = function(name,params){
 		if(!container.receiving && !container.tranforming){
 
 			var tXSL, tXML;
-			//try{
+
+			try {
 			tXSL    = container.XSLT(container.getXSL());
 			
 			tXML    = $.parseXML(GEN.getXML({
 				containersIDs:[container.GET.id()]
 			}));
-
-			console.log(tXML);
-			console.log(tXSL)
-			/*}catch(err){
-				console.log(err);
-			}*/
+			} catch(err) {
+				console.error('[GEN.containers] Error building XML/XSL:', err);
+				return;
+			}
 
 			if(tXML && tXSL){
 				container.tranforming = true;
@@ -1229,10 +1228,18 @@ var CONTAINER = function(name,params){
 					},
 					error:function(e){
 						container.tranforming = false;
-						console.log('failed transformation');
-						console.log(e);
+						// Surface the actual XSLTProcessor error visibly
+						console.error('[GEN.containers] XSLTProcessor transform failed:', e);
+						console.error('[GEN.containers] container type:', container.GET.type(), 'tag:', container.GET.tag());
+						// Show the XSL and XML that failed so you can debug
+						try {
+							console.error('[GEN.containers] XSL:', new XMLSerializer().serializeToString(tXSL));
+							console.error('[GEN.containers] XML:', new XMLSerializer().serializeToString(tXML));
+						} catch(se) {}
 					}
 				});
+			} else {
+				console.warn('[GEN.containers] Transform skipped — tXML:', !!tXML, 'tXSL:', !!tXSL);
 			}
 		}
 	}

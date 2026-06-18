@@ -182,7 +182,8 @@
 	<xsl:include href="tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
 	<xsl:include href="tmpl/IGRP-functions.tmpl.xsl?v=1463090556311"/>
 	<xsl:include href="tmpl/IGRP-utils.tmpl.xsl?v=1463090556312"/>
-	<xsl:include href="tmpl/IGRP-process-utils.tmpl.xsl?v=1463090556312"/>
 	<xsl:include href="tmpl/IGRP-formgen.tmpl.xsl?v=1463090556312"/>
 	<xsl:include href="tmpl/IGRP-form-utils.tmpl.xsl?v=1507204691038"/>
+	<xsl:include href="tmpl/IGRP-process-utils.tmpl.xsl?v=1463090556312"/>
+
 </xsl:stylesheet>

@@ -501,6 +501,7 @@ public class Controller {
 
     public final Response xSend(byte[] file, String name, String contentType, boolean download, String url) {
         Igrp igrpApp = Igrp.getInstance();
+        String secTimeCache = Core.getParam("cache","10");
         if (file == null)
             throw new ServerErrorHttpException();
         Response response = new Response();
@@ -519,10 +520,14 @@ public class Controller {
             }
         }
         igrpApp.getResponse().addHeader("Content-Description", "File Transfer");
-        if (download)
-            igrpApp.getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
-        else
-            igrpApp.getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+        igrpApp.getResponse().setHeader("Cache-Control", "public, max-age="+secTimeCache); // 1 year
+        if (download) {
+            igrpApp.getResponse().setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+        }
+        else {
+            igrpApp.getResponse().setHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+        }
+
         response.setType(1);
         response.setContentLength(file.length);
         response.setContentType(contentType);

@@ -13,9 +13,7 @@
               <xsl:with-param name="selected" select="$#tag#_val"/>
               <xsl:with-param name="delimiter" select="'#[delimiter]#'"/>
             </xsl:call-template>
-            <span>
               <xsl:value-of select="text"/>
-            </span>
           </option>
         </xsl:for-each>
       </select>

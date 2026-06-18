@@ -406,8 +406,7 @@
 @-webkit-keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }}
 @-moz-keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }}
 @-o-keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }}
-@keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 };
-}
+@keyframes targetLinkOpacity{ 0%{ opacity: 0 } 100%{ opacity: 1 }}
 .cke_contents .content h1:target a,
 .cke_contents .content h2:target a,
 .cke_contents .content h3:target a,

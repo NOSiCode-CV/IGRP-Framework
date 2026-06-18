@@ -277,13 +277,13 @@
 
                     $('thead',element).append( '<th class="table-btn add">'+
                         '<a class="formlist-row-add btn btn-primary" rel="'+rel+'">'+
-                            '<i class="fa fa-plus"/>'+
+                            '<i class="fa fa-plus"></i>'+
                         '</a>'+
                     '</th>' );
 
                     $('tbody tr',element).append( '<td class="table-btn delete" data-row="0">'+
                         '<span class="formlist-row-remove btn btn-danger" rel="'+rel+'">'+
-                            '<i class="fa fa-times"/>'+
+                            '<i class="fa fa-times"></i>'+
                         '</span>'+
                     '</td>' );
 

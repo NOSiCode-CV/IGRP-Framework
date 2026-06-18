@@ -34,7 +34,7 @@
                                     <i class="fa fa-search"></i>
                                   </button>
                                 </span>
-                                <input type="text" class="form-control" id="" placeholder="Pesquisar" style="padding-top:3px;padding-bottom:0px"/>
+                                <input type="text" class="form-control" id="home_pesquisar" placeholder="Pesquisar" style="padding-top:3px;padding-bottom:0px"/>
                                 <span class="input-group-btn">
                                   <button type="button" class="btn btn-default searcher-clean">
                                     <i class="fa fa-times"></i>

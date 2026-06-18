@@ -9,11 +9,11 @@
         <xsl:with-param name="field" select="#path#"/>
       </xsl:call-template>
       <xsl:for-each select="#list.path#/option">
-          <option value="{value}" label="{text}">
+          <option value="{value}">
             <xsl:if test="@selected='true'">
               <xsl:attribute name="selected">selected</xsl:attribute>
             </xsl:if>
-            <span><xsl:value-of select="text"/></span>
+            <xsl:value-of select="text"/>
           </option>
         </xsl:for-each>
     </select>

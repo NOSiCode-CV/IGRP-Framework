@@ -167,7 +167,7 @@
 
 		SetEvents();
 
-		console.log(  $.browser)
+		//console.log(  $.browser)
 
 	};
 

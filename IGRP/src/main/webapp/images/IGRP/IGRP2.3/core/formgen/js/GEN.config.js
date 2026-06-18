@@ -705,7 +705,7 @@ $.fn.switchToSpan  = function(p){
 
 $.fn.insertAt = function(elements, index){
 	var children = this.children();
-	if(index >= children.size()){
+	if(index >= children.length){
 		this.append(elements);
 		return this;
 	}

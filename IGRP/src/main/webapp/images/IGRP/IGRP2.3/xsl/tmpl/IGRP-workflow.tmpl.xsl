@@ -1,9 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:template match="/" priority="0">
-        <xsl:apply-templates select="." mode="workflow"/>
-    </xsl:template>
-
     <xsl:template name="workflow" match="*" mode="workflow">
         <xsl:if test=".">
             <xsl:variable name="tag" select="local-name(.)"></xsl:variable>
