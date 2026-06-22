@@ -270,6 +270,7 @@ public class EnvController extends Controller {
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
+		view.plsql_codigo.setVisible(this.configApp.isActiveGlobalACL());
 		view.plsql_codigo.setLabel("IGRP (code)");
 		view.img_src.setValue(this.getIcons());
 		view.templates.setValue(this.getThemes());
@@ -385,8 +386,11 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
-		if(permission.isPermition(app, p[0], p[1], p[2])) { 
-			Application env = Core.findApplicationByDad(app);
+		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) {
+			//deve ver se a aplicacao da pagina é nao tutorial e ver o que acontece se for diferentes...
+			Application env = Core.findApplicationByDad(p[0]);
+			if(env.getExternal()==0)
+				 env = Core.findApplicationByDad(app);
 			// 2 - custom dad 
 			String url = null; 
 			if(env.getExternal() == 2)  
@@ -394,7 +398,7 @@ public class EnvController extends Controller {
 			// 1 External 
 			if(env.getExternal() == 1) 
 				url = env.getUrl(); 
-			if(url != null) 
+			if(url != null && (env.getExternal() == 2 || !url.contains("app/webapps")))
 				return redirectToUrl(url); 
 			
 			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
@@ -408,7 +412,8 @@ public class EnvController extends Controller {
 						p[0] = action.getApplication().getDad();
 						p[1] = action.getPage();
 						p[2] = action.getAction();
-						if(!permission.isPermition(app,p[0], p[1], p[2])) {
+						if(!permission.hasMenuPagPermition(Igrp.getInstance().getRequest(),app,p[0], p[1], p[2])) {
+							Core.setMessageInfo("Não tem permissão para página principal do perfil! No permission to the home page of this profile! Page: "+p[0]+"/"+p[1]);
 							p[0]="tutorial";
 							p[1]="DefaultPage";
 							p[2]="index";
@@ -431,9 +436,9 @@ public class EnvController extends Controller {
 
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
-		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
-		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
-		return this.redirectError();
+		Core.setMessageError(gt("Não tem permissão/partilha para página principal! No permission/share to the home page! Page: ") + page);
+		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão para página principal! No permission to the home page! Page: ") + page);
+		return this.redirectError(app);
 	}
 	
 	/** Integration with IGRP-PLSQL Apps **

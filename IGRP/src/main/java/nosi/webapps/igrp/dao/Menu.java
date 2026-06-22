@@ -22,15 +22,19 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
+import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.Permission;
+import nosi.webapps.igrp.pages.novomenu.NovoMenuController;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static nosi.core.i18n.Translator.gt;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 
@@ -38,6 +42,7 @@ import javax.persistence.Column;
 @Table(name = "tbl_menu")
 public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(Menu.class);
 	/**
 	 * 
 	 */
@@ -219,6 +224,48 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		return m > 0;
 	}
 
+
+
+	public boolean getPermissionMenID(Integer userID, String dad,String page) {
+		//List of ids of menu pointing to the page on the dad specified
+		Integer[] menuIDs = new Menu().find().keepConnection()
+				.where("action.page", "=", page)
+				.andWhere("application.dad", "=", dad)
+				.andWhere("status", "=", 1)
+				.allColumns("id").stream()
+				.flatMap(map -> map.values().stream())
+				.filter(Integer.class::isInstance)
+				.map(Integer.class::cast)
+				.toArray(Integer[]::new);
+
+			// List of profile IDs of the current user
+			Set<Integer> profsUserSet = new Profile().find().keepConnection()
+					.where("type", "=", "PROF")
+					.andWhere("profileType.application.dad", "=", dad)
+					.andWhere("user.id", "=", userID)
+					.allColumns("type_fk").stream()
+					.flatMap(map -> map.values().stream())
+					.filter(Integer.class::isInstance)
+					.map(Integer.class::cast)
+					.collect(Collectors.toSet());
+
+			// List of profiles with the given menu IDs
+			Set<Integer> profileSet = new Profile().find()
+					.whereIn("type_fk", menuIDs)
+					.andWhere("type", "=", "MEN")
+					.andWhere("profileType.application.dad", "=", dad)
+					.andWhere("profileType.id", ">", 1)
+					.allColumns("profileType").stream()
+					.flatMap(map -> map.values().stream())
+					.filter(Integer.class::isInstance)
+					.map(Integer.class::cast)
+					.collect(Collectors.toSet());
+
+			// Check if profsUserSet contains any of the profileSet
+			return !Collections.disjoint(profsUserSet, profileSet);
+	}
+
+
 	public List<Menu> getMyMen_de_env(int env_fk) {
 		// First shows all the app pages than all the public pages in the menu
 		List<Menu> list = new Menu().find().andWhere("action", "notnull").andWhere("status", "=", 1)
@@ -232,22 +279,79 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		}
 		return menus_App;
 	}
+	private String makeSessionKey(String dad, Integer userId) {
+		return "APP_PERM:" + (userId != null ? userId : -1) + ":" + dad;
+	}
 
 	public LinkedHashMap<String, List<MenuProfile>> getMyMenu() {
-		LinkedHashMap<String, List<MenuProfile>> list = new LinkedHashMap<>();
-		final String currentDad = Core.getParam("dad",Core.getCurrentDad());
-		final Integer currentOrganization = Core.getCurrentOrganization();
-		final Integer currentProfile = Core.getCurrentProfile();
+		Permission permission = new Permission();
+		ApplicationPermition applicationPermition = null;
+		final String requestedDad = Core.getParam("dad", Core.getCurrentDad());
+
+		try {
+			applicationPermition = permission.getApplicationPermition();
+
+			if (applicationPermition == null && Core.isNotNull(requestedDad)) {
+				applicationPermition = permission.getApplicationPermition(requestedDad);
+			}
+		} catch (Exception e) {
+			// Centralized logging – adapt to your logging framework
+			LOGGER.error("Failed to load ApplicationPermition (dad={})", requestedDad, e);
+		}
+
+		if (applicationPermition == null) {
+			LOGGER.warn("No ApplicationPermition found (dad={})", requestedDad);
+			return new LinkedHashMap<>();
+		}
+
+		final String currentDad = Core.isNotNull(applicationPermition.getDad()) ? applicationPermition.getDad() : requestedDad;
+		final Integer currentOrganization = applicationPermition.getOgrId();
+		final Integer currentProfile      = applicationPermition.getProfId();
 		final String deployedWarName = Core.getDeployedWarName();
-		final String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-		final Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
-				.addInt("org_fk", currentOrganization).addInt("prof_type_fk", currentProfile)
-				.addString("dad", currentDad).addInt("status", 1).addInt("org_fk", currentOrganization)
-				.addInt("prof_type_fk", currentProfile).addString("dad", currentDad).addInt("status", 1)
-				.addInt("user_fk", Core.getCurrentUser().getId()).orderByAsc("orderby").getRecordList();
-		if (row.RowList != null) {
-			row.RowList.forEach(r -> {
-				// Get Menu Pai
+		final String initLang = Igrp.getInstance().getServlet().getInitParameter("default_language");
+		final String  lang                = Core.isNull(initLang) ? "pt_PT" : initLang;
+
+		final Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union()
+				.select(sqlMenuByUser)
+				.addInt("org_fk", currentOrganization)
+				.addInt("prof_type_fk", currentProfile)
+				.addString("dad", currentDad)
+				.addInt("status", 1)
+				.addInt("org_fk", currentOrganization)
+				.addInt("prof_type_fk", currentProfile)
+				.addString("dad", currentDad)
+				.addInt("status", 1)
+				.addInt("user_fk", Core.getCurrentUser().getId())
+				.orderByAsc("orderby")
+				.getRecordList();
+
+		if (row.RowList == null) return new LinkedHashMap<>();
+
+		final LinkedHashMap<String, List<MenuProfile>> list = new LinkedHashMap<>();
+
+		// Lazy context token — only computed once, only if a row contains $CONTEXT$
+		final String[] contextToken = {null};
+
+		final String currentOrganizationCode =applicationPermition.getCode_organization();
+		final String currentProfileCode = applicationPermition.getCode_profile();
+		row.RowList.stream()
+				.filter(r -> r.getInt("orderby") != NovoMenuController.INVISIVEL_KEY)
+				.forEach(r -> {
+					final String parentKey = r.getString("descr_menu_pai");
+					final MenuProfile ms   = buildMenuProfile(r, currentDad, deployedWarName, lang, contextToken, currentOrganizationCode, currentProfileCode);
+					list.computeIfAbsent(parentKey, k -> new ArrayList<>()).add(ms);
+				});
+
+		return list;
+	}
+
+	private MenuProfile buildMenuProfile(
+			Record r,
+			String currentDad,
+			String deployedWarName,
+			String lang,
+			String[] contextToken, String currentOrganizationCode, String currentProfileCode) {
+
 				MenuProfile ms = new MenuProfile();
 				ms.setId(r.getInt("id"));
 				ms.setOrder(r.getInt("orderby"));
@@ -255,80 +359,55 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				ms.setTarget(r.getString("target"));
 				ms.setStatus(r.getShort("status"));
 				ms.setMenu_icon(r.getString("menu_icon"));
+		ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
+
 				String linky = r.getString("link");
 				if (linky != null && !linky.trim().isEmpty()) {
-					final String currentOrganizationCode = Core.getCurrentOrganizationCode();
-					final String currentProfileCode = Core.getCurrentProfileCode();
-					if (linky.contains("$CONTEXT$"))
-						linky = linky.replace("$CONTEXT$", String.format("%s:%s:%s", currentDad, currentOrganizationCode, currentProfileCode)).replace("$PARAMS$", "");
+			// ── External custom link ─────────────────────────────────────────
+			ms.setType(2);
+			if (linky.contains("$CONTEXT$")) {
+				if (contextToken[0] == null)
+					contextToken[0] = String.format("%s:%s:%s",
+							currentDad,
+							currentOrganizationCode,
+							currentProfileCode);
+
+				linky = linky.replace("$CONTEXT$", contextToken[0])
+						.replace("$PARAMS$", "");
+			}
 					ms.setLink(linky);
-					ms.setType(2);
-				} else {
-					
-					if (r.getString("page") != null) {
-						if (r.getInt("tipo") == 1) { // If it is a public page ...
-							ms.setType(1);
 							
-							ms.setLink(r.getString("dad_app_page") + "/" + r.getString("page") + "/"
-									+ r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="
-									+ (Core.isNull(aux) ? "pt_PT" : aux) /* + "&target=_blank" */);
-						} else {
-
+		} else if (r.getString("page") != null) {
+			// ── Internal / external page link ────────────────────────────────
+			final String r3Path   = r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action");
 							final int external = r.getInt("external");
-							if (!r.getString("dad_app_page").equals("tutorial")
-									&& !r.getString("dad_app_page").equals("igrp_studio")
-									&& !r.getString("dad_app_page").equals("igrp")
-									&& !r.getString("dad_app_page").equals(currentDad)
-									&& external != 0) {
-
-								ms.setType(2);
-
-								
-								// Externo
 								final String url = r.getString("url");
-								if (external == 1) {
-									if (deployedWarName.equals(url)) {
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
-												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
-												+ currentDad);
+			final boolean isSameApp = external == 0
+					|| deployedWarName.equals(url)
+					|| StringUtils.stripStart(Core.getHostName(), ":").equals(StringUtils.stripStart(url, ":"));
+
+			if (isSameApp) {
+				if (r.getInt("tipo") == 1) {
+					ms.setType(1);
+					ms.setLink(r3Path + "&dad=" + currentDad + "&isPublic=1&lang=" + lang);
 									} else {
-										String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"),
-												r.getString("dad_app_page"), r.getString("page"));
-										ms.setLink(_u);
+					ms.setLink(EncrypDecrypt.encrypt(r3Path) + "&dad=" + currentDad);
 									}
-								}
-								// Custom host folder
-								if (external == 2) {
-									if (deployedWarName.equals(url)) {
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
-												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
-												+ currentDad);
 									} else {
-										String _u = buildMenuUrlByDadUsingAutentika(url,
-												r.getString("dad_app_page"), r.getString("page")); // Custom Dad
-										ms.setLink(_u);
-									}
+				ms.setType(2);
+				if (external == 1) {
+					ms.setLink(String.format("%s?r=%s&dad=%s", url, r3Path, currentDad));
+				} else if (external == 2) {
+					ms.setLink(buildCustomHostDADUrl(url,
+							r.getString("dad_app_page"),
+							r.getString("page"),
+							r.getString("action"))
+							+ "&dad=" + currentDad);
 								}
-							} else
-								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page")
-										+ "/" + r.getString("action")) + "&dad=" + currentDad);
-						}
 					}
 				}
-				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
 
-				List<MenuProfile> value = new ArrayList<>();
-				value.add(ms);
-
-				if (list.containsKey(r.getString("descr_menu_pai"))) {
-					value.addAll(list.get(r.getString("descr_menu_pai")));
-				}
-				list.put(r.getString("descr_menu_pai"), value);
-			});
-		}
-		return list;
+		return ms;
 	}
 
 	public Map<Integer, String> getListPrincipalMenus() {
@@ -410,6 +489,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		} catch (Exception ignored) {
 		}
 		return url;
+	}
+	public String buildCustomHostDADUrl(String deployedWarName, String app, String page, String action) {
+        return String.format("/%s/app/webapps?r=%s/%s/%s", deployedWarName, app, page, action);
 	}
 
 	// To integrate with PL-SQL services as a Rest

@@ -20,6 +20,7 @@ import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.pages.page.PageController;
 
 /*----#end-code----*/
 		
@@ -57,8 +58,26 @@ public class SettingsController extends Controller {
 						ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getId(),
 								prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId(),
 								prof.getOrganization().getCode(),prof.getCode());
-						Core.addToSession(appP.getDad(), appP); 
-						new Permission().setCookie(appP); 
+
+						Permission perm = new Permission();
+						perm.resetAppPermission(appP.getDad());
+
+						Core.addToSession(appP.getDad(), appP);
+						//perm.setCookie(appP);
+						try {
+							new Permission(){
+								public void setLastProfileCookiePublic(ApplicationPermition ap){ this.setLastProfileCookie(ap); }
+							}.setLastProfileCookiePublic(appP);
+						}catch(Exception ignored){}
+
+						// Invalida cache de permissão da app para este utilizador (após troca de perfil)
+						try {
+							nosi.webapps.igrp.dao.Application.evictPermissionCache(appP.getAppId(), Core.getCurrentUser().getId());
+						}catch(Exception ignored){}
+
+						try {
+							PageController.clearCache();
+						}catch(Exception ignored){}
 					}
 					if (Core.isNotNull(model.getIdioma())) {
 						Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
@@ -75,15 +94,25 @@ public class SettingsController extends Controller {
 			return redirect("igrp", "Settings", "index", this.queryString());
 		} 
 		// Fetch all cookies 
-		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
-			if (cookie.getName().equals("igrp_lang")) {
+		// Fetch idioma do cookie (apenas idioma)
+		Cookie[] cookies = Igrp.getInstance().getRequest().getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if ("igrp_lang".equals(cookie.getName())) {
 				model.setIdioma(cookie.getValue());
+					break;
 			}
-			if (cookie.getName().equals(Core.getCurrentDad())) {
-				ApplicationPermition appP = new Permission().getApplicationPermition();
-				model.setPerfil(""+appP.getProfId());
 			}
 		}
+		// Perfil: obter da sessão (por DAD atual) ou do fallback interno de Permission
+		try {
+			final String currentDad = Core.getCurrentDad();
+			final Permission permission = new Permission();
+			final ApplicationPermition appP = permission.getApplicationPermition(currentDad);
+			if (appP != null && appP.getProfId() != null) {
+				model.setPerfil(String.valueOf(appP.getProfId()));
+			}
+		} catch (Exception ignored) {}
 		if (Core.isNull(model.getPerfil()))
 			model.setPerfil(Core.getCurrentProfile() + "");
 		view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
