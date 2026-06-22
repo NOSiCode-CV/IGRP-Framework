@@ -192,12 +192,12 @@ public class Permission {
 	public boolean hasApp1PagPermition(String app, String appP, String page, String action){ // check permission on app 
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
 			if(PagesScapePermission.getPagesShared().contains((appP + "/" + page + "/" + action).toLowerCase()))
-				return true; 
+				return true;
+			if(appP.equals("tutorial")) // default page purpose
+				return true;
 			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
 				return (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP, page)); 
-			else { 
-				if(appP.equals("tutorial")) // default page purpose 
-					return true; 
+			else {
 				return new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 			}
 		}
