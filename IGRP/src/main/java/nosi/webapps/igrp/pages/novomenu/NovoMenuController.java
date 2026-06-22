@@ -321,8 +321,10 @@ public class NovoMenuController extends Controller {
 		
 		return ordem;
 	}
-	
-	
+
+
+	public static final String INVISIVEL = "<!-- INVISIVEL -->";
+	public static final int INVISIVEL_KEY = -666;
 	
 
 	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME";

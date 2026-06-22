@@ -105,7 +105,7 @@ public class PesquisarMenuController extends Controller {
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
 					if (menu_db1.getAction().getApplication().getId() != idApp)
-						mdad = menu_db1.getAction().getApplication().getDad() + " / ";
+						mdad = "@["+menu_db1.getAction().getApplication().getDad() + "] / ";
 					table1.setPagina(mdad + gt(menu_db1.getAction().getPage_descr()) + " ("
 							+ menu_db1.getAction().getPage() + ")");
 				} else if (menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {
@@ -126,7 +126,7 @@ public class PesquisarMenuController extends Controller {
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 				table1.setCheckbox(menu_db1.getId());
 				table1.setId("" + menu_db1.getId());
-				table1.setIcon("<i class=\"fa " + menu_db1.getMenu_icon() + "\"/>");
+				table1.setIcon("<i class=\"fa " + menu_db1.getMenu_icon() + "\"></i>");
 				if (menu_db1.getFlg_base() == 1) {
 					table1.setCheckbox_check(menu_db1.getId());
 				}
@@ -277,7 +277,7 @@ public class PesquisarMenuController extends Controller {
 		xmlWritter.startElement("menus");
 		try {
 			if (Igrp.getInstance().getUser().isAuthenticated()) {
-				final LinkedHashMap<String, List<MenuProfile>> menu = new Menu().getMyMenu();
+				final Map<String, List<MenuProfile>> menu = new Menu().getMyMenu();
 				if (menu != null)
 					for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
 						xmlWritter.startElement("menu");
