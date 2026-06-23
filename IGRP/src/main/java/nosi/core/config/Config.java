@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "1.9.0.260622";
+    public static final String VERSION = "1.9.0.260623";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -426,7 +426,7 @@ public class Config {
             RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
 
             Action ac = new Action();
-            if (Core.isNotNull(runtimeTask)) {
+            if (!"igrp".equals(app) && Core.isNotNull(runtimeTask)) {
                 List<Action> actions = new Action().find()
                         .andWhere("application.dad", "=", runtimeTask.getTask().getTenantId())
                         .andWhere("page", "=", Page.resolvePageName(page))
