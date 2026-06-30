@@ -20,15 +20,24 @@ import java.util.Date;
 public class DateHelper {
 
 	private static final StackWalker STACK_WALKER =
-			StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+		StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 
 	private static String getCallerInfo() {
 		return STACK_WALKER.walk(frames -> frames
-				.skip(3) // skip getCallerInfo() and convertDate()
-				.findFirst()
-				.map(frame -> frame.getDeclaringClass().getName() + "." + frame.getMethodName()
-						+ ":" + frame.getLineNumber())
-				.orElse("unknown caller"));
+			.skip(2)
+			.filter(frame -> !isInternalCaller(frame))
+			.findFirst()
+			.map(frame -> frame.getDeclaringClass().getName() + "." + frame.getMethodName()
+					+ ":" + frame.getLineNumber())
+			.orElse("unknown caller"));
+	}
+	
+	private static boolean isInternalCaller(StackWalker.StackFrame frame) {
+		String className = frame.getClassName();
+
+		return className.equals("nosi.core.webapp.helpers.DateHelper")
+				|| className.equals("nosi.core.webapp.Core");
+
 	}
 
 	private static final int CALCULATE_AGE = 1;
@@ -61,7 +70,7 @@ public class DateHelper {
 				}
 				String callerInfo = getCallerInfo();
 
-				System.err.printf("%s- IGRP WARNING convertDate: %n (%s) - FormatoIN (%s) but is (%s) -> FormatoOut (%s)."+auxEn+" %n %s %n",Core.getCurrentDad(),  callerInfo, formatIn, formatDateTimeString(date, formatIn),outputFormat, e.getMessage());
+				System.err.printf("%s- IGRP WARNING convertDate: %n FormatoIN [%s] but is (%s) -> FormatoOut (%s)."+auxEn+" %n %s %n",  callerInfo, formatIn, formatDateTimeString(date, formatIn),outputFormat, e.getMessage());
 
 				try {
 					SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
@@ -115,7 +124,7 @@ public class DateHelper {
 					auxEn=" Check if you wanted to be month 'MM' and not minutes like 'mm'";
 				}
 				String callerInfo = getCallerInfo();
-				System.err.printf("%s- IGRP WARNING formatDate: %n PT- FormatoIN (%s) para esta data (%s)."+aux+"  %n EN- FormatoIN (%s) for this date (%s)."+auxEn+" %n %s %n",callerInfo, inputFormat, formatDateTimeString(data, inputFormat), inputFormat, formatDateTimeString(data, inputFormat), e.getMessage());
+				System.err.printf("%s- IGRP WARNING formatDate: %n PT- FormatoIN [%s] para esta data (%s)."+aux+"  %n EN- FormatoIN [%s] for this date (%s)."+auxEn+" %n %s %n",callerInfo, inputFormat, formatDateTimeString(data, inputFormat), inputFormat, formatDateTimeString(data, inputFormat), e.getMessage());
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
 					return new java.sql.Date(formatter.parse(data).getTime());
@@ -196,14 +205,14 @@ public class DateHelper {
 			LocalDateTime localDateTime = LocalDateTime.parse(str_dateF, formatter);
 			return Timestamp.valueOf(localDateTime);
 		} catch (Exception e) {
-			e.printStackTrace();
+			String callerInfo = getCallerInfo();
+			System.err.printf("%s- IGRP WARNING convertStringToTimestamp:%n PT - Nao estas a usar bem o formatoIN [%s] para esta data (%s).%n EN - You are not using well formatoIN [%s] for this date (%s). %n %s %n",callerInfo,formatIn,str_date,formatIn,str_date,e.getMessage());
 			try {
 				DateFormat formatter = new SimpleDateFormat(formatIn);
 				Date date = formatter.parse(str_date);
 				return new Timestamp(date.getTime());
 			} catch (ParseException ex) {
-				String callerInfo = getCallerInfo();
-				System.err.printf("%s- IGRP WARNING convertStringToTimestamp: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",callerInfo,formatIn,str_date,formatIn,str_date);
+
 				e.printStackTrace();
 				return null;
 			}
