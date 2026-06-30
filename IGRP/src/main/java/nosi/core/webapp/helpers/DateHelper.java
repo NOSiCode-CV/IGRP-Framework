@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -51,12 +52,8 @@ public class DateHelper {
 					aux="Verifica se MM (mês) está minuscula 'mm' (minutos).";
 					auxEn=" Check if you wanted to be month 'MM' and not minutes like 'mm'";
 				}
-				String callerInfo="";
-				if(!(env.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd"))) {
-					StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-					callerInfo = stackTrace[3].getClassName() + ":" + stackTrace[3].getLineNumber();
-				}
-				System.err.printf("%s- IGRP WARNING convertDate: %n (%s) - FormatoIN (%s) but is (%s) -> FormatoOut (%s)."+auxEn+" %n %s %n",Core.getCurrentDad(),  callerInfo, formatIn, formatDateTimeString(date, formatIn),outputFormat, e.getMessage());
+				final String callerInfo = getCallerInfo();
+				System.err.printf("%s- IGRP WARNING convertDate: %n FormatIN [%s] but is (%s) -> FormatOut [%s]."+auxEn+" %n %s %n", callerInfo, formatIn, formatDateTimeString(date, formatIn),outputFormat, e.getMessage());
 
 				try {
 					SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
@@ -109,12 +106,8 @@ public class DateHelper {
 					aux="Verifica se MM (mês) está minuscula 'mm' (minutos).";
 					auxEn=" Check if you wanted to be month 'MM' and not minutes like 'mm'";
 				}
-				String callerInfo=Core.getCurrentDad();
-				if(!(env.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd"))) {
-					StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-					callerInfo= stackTrace[3].getClassName()+":"+stackTrace[3].getLineNumber();
-				}
-				System.err.printf("%s- IGRP WARNING formatDate: %n PT- FormatoIN (%s) para esta data (%s)."+aux+"  %n EN- FormatoIN (%s) for this date (%s)."+auxEn+" %n %s %n",callerInfo, inputFormat, formatDateTimeString(data, inputFormat), inputFormat, formatDateTimeString(data, inputFormat), e.getMessage());
+				final String callerInfo = getCallerInfo();
+				System.err.printf("%s- IGRP WARNING formatDate: %n PT- FormatoIN [%s] para esta data (%s)."+aux+"  %n EN- FormatoIN [%s] for this date (%s)."+auxEn+" %n %s %n",callerInfo, inputFormat, formatDateTimeString(data, inputFormat), inputFormat, formatDateTimeString(data, inputFormat), e.getMessage());
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
 					return new java.sql.Date(formatter.parse(data).getTime());
@@ -144,8 +137,8 @@ public class DateHelper {
 		return new Date(System.currentTimeMillis());
 	}
 
-	public static java.util.Calendar getCurrentDateCalendar() {
-		return java.util.Calendar.getInstance();
+	public static Calendar getCurrentDateCalendar() {
+		return Calendar.getInstance();
 	}
 
 	public static String getCurrentDate(String outputFormat) {
@@ -195,18 +188,13 @@ public class DateHelper {
 			LocalDateTime localDateTime = LocalDateTime.parse(str_dateF, formatter);
 			return Timestamp.valueOf(localDateTime);
 		} catch (Exception e) {
-			e.printStackTrace();
+			final String callerInfo = getCallerInfo();
+			System.err.printf("%s- IGRP WARNING convertStringToTimestamp: %n PT- Nao estas a usar bem o formatoIN [%s] para esta data (%s).%n EN - You are not using well formatoIN [%s] for this date (%s)",callerInfo,formatIn,str_date,formatIn,str_date);
 			try {
 				DateFormat formatter = new SimpleDateFormat(formatIn);
 				Date date = formatter.parse(str_date);
 				return new Timestamp(date.getTime());
 			} catch (ParseException ex) {
-				String callerInfo=Core.getCurrentDad();
-				if(!(env.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd"))) {
-					StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-					callerInfo= stackTrace[3].getClassName()+":"+stackTrace[3].getLineNumber();
-				}
-				System.err.printf("%s- IGRP WARNING convertStringToTimestamp: PT- Não estás a usar bem o formatoIN (%s) para esta data (%s). EN - You are not using well formatoIN (%s) for this date (%s)",callerInfo,formatIn,str_date,formatIn,str_date);
 				e.printStackTrace();
 				return null;
 			}
@@ -241,6 +229,21 @@ public class DateHelper {
 		}
 
 		return result;
+	}
+
+	private static String getCallerInfo() {
+		String callerInfo=Core.getCurrentDad();
+		if(!(env.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd"))) {
+			StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+			int i=3;
+			if(stackTrace[i].getFileName() != null && stackTrace[i].getFileName().equals("DateHelper.java"))
+				i++;
+			if(stackTrace[i].getFileName() != null && stackTrace[i].getFileName().equals("Core.java"))
+				i++;
+
+			callerInfo= stackTrace[i].getClassName()+":"+stackTrace[i].getLineNumber();
+		}
+		return callerInfo;
 	}
 
 	public static long calculateYears(String data) {

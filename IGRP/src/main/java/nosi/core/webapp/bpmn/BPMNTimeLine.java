@@ -115,7 +115,7 @@ public class BPMNTimeLine {
 			e.printStackTrace();
 		}
 		ProcessDefinitionService p = new ProcessDefinitionServiceRest().getProcessDefinition(processDefinition);
-		String link = p.getResource().replace("/resources/", "/resourcedata/");	
+		String link =Core.isNotNull(p.getResource())? p.getResource().replace("/resources/", "/resourcedata/"):"";
 		String resource = new ResourceServiceRest().getResourceData(link);
 		BpmnXMLConverter bpmn = new BpmnXMLConverter();
 		XMLInputFactory xif = XMLInputFactory.newInstance();
