@@ -354,7 +354,7 @@
                     </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
-                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!-- LOOKUP JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/plugins/lookup/igrp.lookup.js?v={$version}"/>
                 <!-- XML XSL TRANSFORM JS INCLUDES -->

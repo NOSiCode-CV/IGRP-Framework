@@ -134,7 +134,7 @@
           <xsl:call-template name="IGRP-bottom"/>
         </form>
         <!-- FORM JS INCLUDES -->
-        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
         <!-- TABLE JS INCLUDES -->
         <script type="text/javascript" src="{$path}/core/igrp/table/bootstrap-contextmenu.js"/>
         <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js"/>

@@ -154,7 +154,7 @@ const GENERATOR = function (genparams) {
 
             caller = GEN.escapeXSLChars(caller);
 
-            rtn = rtn.insert(bodyEnd, '<!-- RULES --><script src="{$path}/core/igrp/IGRP.rules.class.js"></script><script>\n' + caller + '</script>');
+            rtn = rtn.insert(bodyEnd, '<!-- RULES --><script src="{$path}/core/igrp/IGRP.rules.class.js?v={$version}"></script><script>\n' + caller + '</script>');
         }
 
 

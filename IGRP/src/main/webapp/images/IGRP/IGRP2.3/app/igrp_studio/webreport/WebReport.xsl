@@ -279,7 +279,7 @@
                 <!--TABCONTENT JS INCLUDES-->
                 <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js"/>
                 <!--FORM JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!--SELECT JS INCLUDES-->
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>

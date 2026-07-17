@@ -607,7 +607,7 @@
           <script src="{$path}/core/bootstrap/plugins/tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
 
           <!-- RULES -->
-          <script src="{$path}/core/igrp/IGRP.rules.class.js"></script>
+          <script src="{$path}/core/igrp/IGRP.rules.class.js?v={$version}"></script>
           <!-- /RULES -->
 
           <!-- start:LOOKUP JS INCLUDES -->
@@ -625,7 +625,7 @@
           <script type="text/javascript" src="{$path}/plugins/formlist/igrp.formlist.js?v={$version}"/>
 
 
-          <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"></script>
+          <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"></script>
          
           <script src="{$path}/core/bootstrap/plugins/treeview/js/bootstrap-treeview.js"></script>
           <!--code mirror-->

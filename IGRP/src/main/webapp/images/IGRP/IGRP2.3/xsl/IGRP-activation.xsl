@@ -118,7 +118,7 @@
           <xsl:call-template name="IGRP-bottom"/>
           
         </form>
-        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
       </body>
     </html>
   </xsl:template>
@@ -199,7 +199,7 @@
           
         </form>
 
-        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
       </body>
     </html>
   </xsl:template> -->

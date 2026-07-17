@@ -155,7 +155,7 @@
 		</xsl:if>
 
 		<xsl:if test="rows/content/js_validation">
-				<script src="{$path}/core/igrp/IGRP.rules.class.js"/>
+				<script src="{$path}/core/igrp/IGRP.rules.class.js?v={$version}"/>
 			 	<script>
 			 		var Arr = [];
 					<xsl:for-each select="rows/content/js_validation/row[ field != '' ]">
