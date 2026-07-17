@@ -3,6 +3,7 @@ package nosi.core.webapp.databse.helpers;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Properties;
 
 import org.hibernate.cfg.AvailableSettings;
@@ -123,21 +124,44 @@ public class Connection {
 		return Connection.getConnectionWithConfig(config_env);
 	}
 	
+	private static final Map<String, String> DEFAULT_CONNECTION_CACHE = new ConcurrentHashMap<>();
+
 	public String defaultConnection(String dad) {
-		//To make BDD work, this is a forcing bd connection to change for mock use
-		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
+		// To make BDD work, this is a forcing bd connection to change for mock use
+		final String connectionTestName = Core.getParam("igrp.test.bdd", false);
 		if (Core.isNotNull(connectionTestName)) {
 			return connectionTestName;
 		}
+
+		if (Core.isNull(dad)) {
+			return "";
+		}
+
+		return DEFAULT_CONNECTION_CACHE.computeIfAbsent(dad, this::loadDefaultConnection);
+	}
+
+	private String loadDefaultConnection(String dad) {
 		String result = "";
 		Map<String, Object> configEnv = new Config_env().find()
 				.where("isdefault", "=", (short) 1)
 				.andWhere("application.dad", "=", dad)
 				.setApplicationName("igrp")
 				.oneColumns("name");
-	
-		if (configEnv != null)
+
+		if (configEnv != null) {
 			result = (String) configEnv.get("name");
+		}
+
 		return result;
+	}
+
+	public static void clearDefaultConnectionCache(String dad) {
+		if (Core.isNotNull(dad)) {
+			DEFAULT_CONNECTION_CACHE.remove(dad);
+		}
+	}
+
+	public static void clearDefaultConnectionCache() {
+		DEFAULT_CONNECTION_CACHE.clear();
 	}
 }

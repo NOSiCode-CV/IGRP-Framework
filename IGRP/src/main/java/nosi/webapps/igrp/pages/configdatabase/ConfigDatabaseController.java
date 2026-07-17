@@ -616,8 +616,10 @@ public class ConfigDatabaseController extends Controller {
         		}
         		config_env.setIsDefault((short)1);
         		config_env = config_env.update();
-        		if(config_env != null)
+        		if(config_env != null) {
+        			nosi.core.webapp.databse.helpers.Connection.clearDefaultConnectionCache(config_env.getApplication().getDad());
         			response = true;
+        		}
         	}
         }
         JSONObject json = new JSONObject();
