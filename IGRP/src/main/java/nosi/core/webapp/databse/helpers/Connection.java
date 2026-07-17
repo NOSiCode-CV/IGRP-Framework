@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.hibernate.cfg.AvailableSettings;
 
@@ -141,6 +142,8 @@ public class Connection {
 	public static java.sql.Connection getConnection(Config_env config_env){
 		return Connection.getConnectionWithConfig(config_env);
 	}
+
+	private static final Map<String, String> DEFAULT_CONNECTION_CACHE = new ConcurrentHashMap<>();
 	
 	public String defaultConnection(String dad) {
 		//To make BDD work, this is a forcing bd connection to change for mock use
@@ -148,15 +151,36 @@ public class Connection {
 		if (Core.isNotNull(connectionTestName)) {
 			return connectionTestName;
 		}
+
+		if (Core.isNull(dad)) {
+			return "";
+		}
+
+		return DEFAULT_CONNECTION_CACHE.computeIfAbsent(dad, this::loadDefaultConnection);
+	}
+
+	private String loadDefaultConnection(String dad) {
 		String result = "";
-		Config_env configEnv = new Config_env().find()
+		Map<String, Object> configEnv = new Config_env().find()
 				.where("isdefault", "=", (short) 1)
 				.andWhere("application.dad", "=", dad)
 				.setApplicationName("igrp")
-				.one();
-	
-		if (configEnv != null)
-			result = configEnv.getName();
+				.oneColumns("name");
+
+		if (configEnv != null) {
+			result = (String) configEnv.get("name");
+		}
+
 		return result;
+	}
+
+	public static void clearDefaultConnectionCache(String dad) {
+		if (Core.isNotNull(dad)) {
+			DEFAULT_CONNECTION_CACHE.remove(dad);
+		}
+	}
+
+	public static void clearDefaultConnectionCache() {
+		DEFAULT_CONNECTION_CACHE.clear();
 	}
 }
