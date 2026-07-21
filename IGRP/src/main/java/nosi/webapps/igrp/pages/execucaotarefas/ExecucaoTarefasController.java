@@ -742,7 +742,7 @@ public class ExecucaoTarefasController extends Controller {
 			   if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_minhas_taref()))
 				   taskServiceBO.addFilterBody("size", ""+model.getLimite_maximo_de_registos_minhas_taref());
 			   tasksF = taskServiceBO.getMyTasks();
-			   if(tasksF.size()==model.getLimite_maximo_de_registos_minhas_taref())
+				if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_minhas_taref()) && tasksF.size()==model.getLimite_maximo_de_registos_minhas_taref())
 				   Core.setMessageWarning("Minhas tarefas tem mais que o limite de "+model.getLimite_maximo_de_registos_minhas_taref()+" tarefas. Aumentar no filtro esse limite máximo.");
 			   break;
 			case STATISTIC:
