@@ -1390,8 +1390,8 @@ body[has-menu="true"] .content>.row:first-child {
 }
 
 .row.row-fluid>.gen-column>.gen-inner>.box>.box-body {
-	padding-right: 50px;
-	padding-left: 50px;
+	padding-right: 40px;
+	padding-left: 40px;
 	padding-top: 15px;
 }
 

@@ -2,9 +2,10 @@ package nosi.core.webapp.databse.helpers;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.hibernate.cfg.AvailableSettings;
 
@@ -19,6 +20,9 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class Connection {
 
+	public Connection() {
+
+	}
 	public static String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName.toString();
@@ -26,64 +30,81 @@ public class Connection {
 	}
 	
 	public static java.sql.Connection getConnection(String connectionName, String dad){
+		return Connection.getConnectionWithSettings(getConnectionConfigName(connectionName, dad));
+	}
+
+	public static java.sql.Connection getConnection(String connectionName){
+		ConfigApp configApp = ConfigApp.getInstance();
+		if(connectionName.equalsIgnoreCase(configApp.getBaseConnection())) {
+			return Connection.getConnectionWithSettings(HibernateUtils.getSettings());
+		}
+
+		String dad = Core.getCurrentDadParam();
+		return Connection.getConnectionWithSettings(getConnectionConfigName(connectionName, dad));
+	}
+	
+	private static java.sql.Connection getConnectionWithConfig(Config_env config) {
+		if (config == null) {
+			return null;
+		}
+
+		return Connection.getConnectionWithSettings(config.getName() + "." + config.getApplication().getDad() + HibernateUtils.SUFIX_HIBERNATE_CONFIG);
+	}
+
+	private static java.sql.Connection getConnectionWithSettings(String cfgName) {
+		return Connection.getConnectionWithSettings(getConnectionSettings(cfgName));
+	}
+
+	private static java.sql.Connection getConnectionWithSettings(Map<String, Object> settings) {
+		String url = "";
+		String password = "";
+		String user = "";
+		String driver ="";
+		user = getSetting(settings, AvailableSettings.USER, user);
+		password = getSetting(settings, AvailableSettings.PASS, password);
+		url = getSetting(settings, AvailableSettings.URL, url);
+		driver = getSetting(settings, AvailableSettings.DRIVER, driver);
+		return Connection.getConnection(driver,url,user,password);
+	}
+
+	private static Map<String, Object> getConnectionSettings(String cfgName) {
+		if (Core.isNull(cfgName)) {
+			return Collections.emptyMap();
+		}
+		return CONNECTION_SETTINGS_CACHE.computeIfAbsent(cfgName, HibernateUtils::getSettings);
+	}
+
+	private static String getSetting(Map<String, Object> settings, String key, String defaultValue) {
+		if (settings == null) {
+			return defaultValue;
+		}
+		Object value = settings.get(key);
+		return value != null ? value.toString() : defaultValue;
+	}
+
+	private static String getConnectionConfigName(String connectionName, String dad) {
+		if (!Core.isNotNullMultiple(connectionName, dad)) {
+			return null;
+		}
+		return CONNECTION_CONFIG_CACHE.computeIfAbsent(getConnectionCacheKey(connectionName, dad), key -> loadConnectionConfigName(connectionName, dad));
+	}
+
+	private static String loadConnectionConfigName(String connectionName, String dad) {
 		Config_env config = new Config_env().find()
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
 				.setApplicationName("igrp")
 				.one();
-		return Connection.getConnectionWithConfig(config);
-	}
-	
-	public static java.sql.Connection getConnection(String connectionName){		
-		String url = "";
-		String password = "";
-		String user = "";
-		String driver ="";
-		ConfigApp configApp = ConfigApp.getInstance();
-		Map<String, Object> settings;
-		if(connectionName.equalsIgnoreCase(configApp.getBaseConnection())) {
-			settings = HibernateUtils.getSettings();
-			
-		}else {
-			String dad = Core.getCurrentDadParam();
-			settings = HibernateUtils.getSettings(connectionName+"."+dad+HibernateUtils.SUFIX_HIBERNATE_CONFIG);
 
+		if (config == null) {
+			return null;
 		}
-		if(settings!=null) {
-			for(java.util.Map.Entry<String, Object> s:settings.entrySet()) {
-				if(s.getKey().equals(AvailableSettings.USER)) {
-					user = s.getValue().toString();
-				}
-				if(s.getKey().equals(AvailableSettings.PASS)) {
-					password = s.getValue().toString();
-				}
-				if(s.getKey().equals(AvailableSettings.URL)) {
-					url = s.getValue().toString();
-				}
-				if(s.getKey().equals(AvailableSettings.DRIVER)) {
-					driver = s.getValue().toString();
-				}
-			}
-		}
-		return Connection.getConnection(driver,url,user,password);
+
+		return config.getName() + "." + config.getApplication().getDad() + HibernateUtils.SUFIX_HIBERNATE_CONFIG;
 	}
-	
-	private static java.sql.Connection getConnectionWithConfig(Config_env config) {
-		String url = "";
-		String password = "";
-		String user = "";
-		String driver ="";
-		if (config != null) {
-			
-			Map<String, Object> settings = HibernateUtils.getSettings(config.getName()+"."+config.getApplication().getDad()+HibernateUtils.SUFIX_HIBERNATE_CONFIG);
-			if(settings!=null) {
-				user = (String) settings.getOrDefault(AvailableSettings.USER, user);
-				password = (String) settings.getOrDefault(AvailableSettings.PASS, password);
-				url = (String) settings.getOrDefault(AvailableSettings.URL, url);
-				driver = (String) settings.getOrDefault(AvailableSettings.DRIVER, driver);
-			}
-		}
-		return Connection.getConnection(driver,url,user,password);
+
+	private static String getConnectionCacheKey(String connectionName, String dad) {
+		return dad + "|" + connectionName;
 	}
 
 
@@ -125,7 +146,8 @@ public class Connection {
 	}
 	
 	private static final Map<String, String> DEFAULT_CONNECTION_CACHE = new ConcurrentHashMap<>();
-
+	private static final Map<String, String> CONNECTION_CONFIG_CACHE = new ConcurrentHashMap<>();
+	private static final Map<String, Map<String, Object>> CONNECTION_SETTINGS_CACHE = new ConcurrentHashMap<>();
 	public String defaultConnection(String dad) {
 		// To make BDD work, this is a forcing bd connection to change for mock use
 		final String connectionTestName = Core.getParam("igrp.test.bdd", false);
@@ -163,5 +185,42 @@ public class Connection {
 
 	public static void clearDefaultConnectionCache() {
 		DEFAULT_CONNECTION_CACHE.clear();
+	}
+
+	public static void clearConnectionConfigCache(String connectionName, String dad) {
+		if (Core.isNotNullMultiple(connectionName, dad)) {
+			String cfgName = CONNECTION_CONFIG_CACHE.remove(getConnectionCacheKey(connectionName, dad));
+			if (cfgName == null) {
+				cfgName = connectionName + "." + dad + HibernateUtils.SUFIX_HIBERNATE_CONFIG;
+			}
+			clearConnectionSettingsCache(cfgName);
+		}
+	}
+	public static void clearConnectionConfigCache(String dad) {
+		if (Core.isNotNull(dad)) {
+			for (Map.Entry<String, String> entry : CONNECTION_CONFIG_CACHE.entrySet()) {
+				String cfgName = entry.getValue();
+				if (entry.getKey().startsWith(dad + "|") || (cfgName != null && cfgName.endsWith("." + dad + HibernateUtils.SUFIX_HIBERNATE_CONFIG))) {
+					clearConnectionSettingsCache(cfgName);
+					CONNECTION_CONFIG_CACHE.remove(entry.getKey(), cfgName);
+				}
+			}
+			for (String cfgName : CONNECTION_SETTINGS_CACHE.keySet()) {
+				if (cfgName.endsWith("." + dad + HibernateUtils.SUFIX_HIBERNATE_CONFIG)) {
+					clearConnectionSettingsCache(cfgName);
+				}
+			}
+		}
+	}
+
+	public static void clearConnectionConfigCache() {
+		CONNECTION_CONFIG_CACHE.clear();
+		CONNECTION_SETTINGS_CACHE.clear();
+	}
+
+	private static void clearConnectionSettingsCache(String cfgName) {
+		if (Core.isNotNull(cfgName)) {
+			CONNECTION_SETTINGS_CACHE.remove(cfgName);
+		}
 	}
 }
