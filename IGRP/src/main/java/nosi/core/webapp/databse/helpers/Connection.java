@@ -29,12 +29,7 @@ public class Connection {
 	}
 	
 	public static java.sql.Connection getConnection(String connectionName, String dad){
-		Config_env config = new Config_env().find()
-				.andWhere("name", "=", connectionName)
-				.andWhere("application.dad", "=",dad)
-				.setApplicationName("igrp")
-				.one();
-		return Connection.getConnectionWithConfig(config);
+		return Connection.getConnectionWithSettings(getConnectionConfigName(connectionName, dad));
 	}
 	
 	public static java.sql.Connection getConnection(String connectionName){		
@@ -72,54 +67,76 @@ public class Connection {
 	}
 	
 	private static java.sql.Connection getConnectionWithConfig(Config_env config) {
+		if (config == null) {
+			return null;
+		}
+
+		return Connection.getConnectionWithSettings(config.getName() + "." + config.getApplication().getDad() + HibernateUtils.SUFIX_HIBERNATE_CONFIG);
+	}
+
+	private static java.sql.Connection getConnectionWithSettings(String cfgName) {
 		String url = "";
 		String password = "";
 		String user = "";
 		String driver ="";
-		if (config != null) {
-
-			Map<String, Object> settings = HibernateUtils.getSettings(config.getName() + "." + config.getApplication().getDad() + HibernateUtils.SUFIX_HIBERNATE_CONFIG);
-			if (settings != null) {
-				user = (String) settings.getOrDefault(AvailableSettings.USER, user);
-				password = (String) settings.getOrDefault(AvailableSettings.PASS, password);
-				url = (String) settings.getOrDefault(AvailableSettings.URL, url);
-				driver = (String) settings.getOrDefault(AvailableSettings.DRIVER, driver);
-			}
+		if (Core.isNotNull(cfgName)) {
+			Map<String, Object> settings = HibernateUtils.getSettings(cfgName);
+			user = getSetting(settings, AvailableSettings.USER, user);
+			password = getSetting(settings, AvailableSettings.PASS, password);
+			url = getSetting(settings, AvailableSettings.URL, url);
+			driver = getSetting(settings, AvailableSettings.DRIVER, driver);
 		}
 		return Connection.getConnection(driver,url,user,password);
+	}
+
+	private static String getSetting(Map<String, Object> settings, String key, String defaultValue) {
+		if (settings == null) {
+			return defaultValue;
+		}
+		Object value = settings.get(key);
+		return value != null ? value.toString() : defaultValue;
+	}
+
+	private static String getConnectionConfigName(String connectionName, String dad) {
+		if (!Core.isNotNullMultiple(connectionName, dad)) {
+			return null;
+		}
+		return CONNECTION_CONFIG_CACHE.computeIfAbsent(getConnectionCacheKey(connectionName, dad), key -> loadConnectionConfigName(connectionName, dad));
+	}
+
+	private static String loadConnectionConfigName(String connectionName, String dad) {
+		Config_env config = new Config_env().find()
+				.andWhere("name", "=", connectionName)
+				.andWhere("application.dad", "=",dad)
+				.setApplicationName("igrp")
+				.one();
+
+		if (config == null) {
+			return null;
+		}
+
+		return config.getName() + "." + config.getApplication().getDad() + HibernateUtils.SUFIX_HIBERNATE_CONFIG;
+	}
+
+	private static String getConnectionCacheKey(String connectionName, String dad) {
+		return dad + "|" + connectionName;
 	}
 
 
 	
 	public static java.sql.Connection getConnection(String driver,String url, String user, String password) {
 		if(Core.isNotNullMultiple(driver,url,user,password)) {
-			java.sql.Connection conn = null;
 		    Properties connectionProps = new Properties();
 		    connectionProps.put("user", user);
 		    connectionProps.put("password", password);
-		    boolean isConnect = true;
 		    try {
-		    		Class.forName(driver); 
-				conn = DriverManager.getConnection(url,connectionProps);
+		    	Class.forName(driver);
+				return DriverManager.getConnection(url,connectionProps);
 			} catch (SQLException | ClassNotFoundException e) {
-				isConnect = false;
 				Core.setMessageError(e.getMessage());
 				Core.log(e.getMessage());
 				e.printStackTrace();
 			}
-		    if(isConnect)
-		    		return conn;
-		    else {
-			    	if(conn!=null) {
-			    		try {
-							conn.close();
-						} catch (SQLException e) {
-							Core.setMessageError(e.getMessage());
-							Core.log(e.getMessage());
-							e.printStackTrace();
-						}
-			    	}
-		    }
 		}
 	    return null;
 	}
@@ -144,6 +161,7 @@ public class Connection {
 	}
 
 	private static final Map<String, String> DEFAULT_CONNECTION_CACHE = new ConcurrentHashMap<>();
+	private static final Map<String, String> CONNECTION_CONFIG_CACHE = new ConcurrentHashMap<>();
 	
 	public String defaultConnection(String dad) {
 		//To make BDD work, this is a forcing bd connection to change for mock use
@@ -182,5 +200,21 @@ public class Connection {
 
 	public static void clearDefaultConnectionCache() {
 		DEFAULT_CONNECTION_CACHE.clear();
+	}
+
+	public static void clearConnectionConfigCache(String connectionName, String dad) {
+		if (Core.isNotNullMultiple(connectionName, dad)) {
+			CONNECTION_CONFIG_CACHE.remove(getConnectionCacheKey(connectionName, dad));
+		}
+	}
+
+	public static void clearConnectionConfigCache(String dad) {
+		if (Core.isNotNull(dad)) {
+			CONNECTION_CONFIG_CACHE.keySet().removeIf(key -> key.startsWith(dad + "|"));
+		}
+	}
+
+	public static void clearConnectionConfigCache() {
+		CONNECTION_CONFIG_CACHE.clear();
 	}
 }

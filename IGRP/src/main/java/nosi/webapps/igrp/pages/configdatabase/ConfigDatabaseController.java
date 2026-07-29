@@ -220,6 +220,7 @@ public class ConfigDatabaseController extends Controller {
 				if (config != null) {
 					this.saveConfigHibernateFile(config);
 					this.saveHibPropertiesFile(model);
+					clearConnectionCaches(config);
 					Core.setMessageSuccess();
                     Core.setMessageInfo(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+": " + config.getName());
                     this.addQueryString("p_aplicacao",model.getAplicacao()); 
@@ -282,12 +283,14 @@ public class ConfigDatabaseController extends Controller {
 					Config_env aux = all.get(0);
 					aux.setIsDefault((short)1);
 					aux.update();
+					clearConnectionCaches(aux);
 				}
 			}
 			String fileName = obj.getName()+"."+obj.getApplication().getDad().toLowerCase() + ".cfg.xml"; 
 			String path = new Config().getPathConexao() ;
 			if (obj.delete(obj.getId())) {
 				FileHelper.forceDelete(path + File.separator + fileName);
+				clearConnectionCaches(obj);
 				Core.setMessageSuccess();
 			}else
 				Core.setMessageError();
@@ -350,6 +353,8 @@ public class ConfigDatabaseController extends Controller {
 					if(saveProps(config))
 						saveHibPropertiesFile(model);
 					
+					clearConnectionCaches(config);
+					nosi.core.webapp.databse.helpers.Connection.clearConnectionConfigCache(Core.getParam("conn_name"), Core.getParam("app_name"));
 					Core.setMessageSuccess();
                     Core.setMessageInfo(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+": " + config.getName());
                     this.addQueryString("p_aplicacao",model.getAplicacao()); 
@@ -617,13 +622,21 @@ public class ConfigDatabaseController extends Controller {
         		config_env = config_env.update();
         		if(config_env != null){
 					nosi.core.webapp.databse.helpers.Connection.clearDefaultConnectionCache(config_env.getApplication().getDad());
+					clearConnectionCaches(config_env);
 					response = true;
 				}
         	}
         }
         JSONObject json = new JSONObject();
         json.put("status", response);     
-        return this.renderView(json.toString());
+		return this.renderView(json.toString());
+	}
+
+	private void clearConnectionCaches(Config_env config) {
+		if (config != null && config.getApplication() != null) {
+			nosi.core.webapp.databse.helpers.Connection.clearDefaultConnectionCache(config.getApplication().getDad());
+			nosi.core.webapp.databse.helpers.Connection.clearConnectionConfigCache(config.getName(), config.getApplication().getDad());
+		}
 	}
 	
 	public Response actionVer() {
