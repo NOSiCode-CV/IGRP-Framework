@@ -89,18 +89,21 @@ public class RemoteUserStoreManagerServiceSoapClient {
 						userClaimValuesResponseDTO = new UserClaimValuesResponseDTO(); 
 						for(Map<String, Object> nsReturn : nsReturns) { 
 							ClaimDTO claimDTO = new ClaimDTO(); 
-							claimDTO.setClaimUri(nsReturn.get("ax2615:claimUri") instanceof String ? (String)nsReturn.get("ax2615:claimUri") : null);
-							claimDTO.setDescription(nsReturn.get("ax2615:description") instanceof String ? (String) nsReturn.get("ax2615:description") : null);
-							claimDTO.setDialectURI(nsReturn.get("ax2615:dialectURI") instanceof String ? (String)nsReturn.get("ax2615:dialectURI") : null);
-							if(nsReturn.get("ax2615:displayOrder")!=null)
-								claimDTO.setDisplayOrder((int) nsReturn.get("ax2615:displayOrder"));
-							claimDTO.setDisplayTag(nsReturn.get("ax2615:displayTag") instanceof String ? (String)nsReturn.get("ax2615:displayTag") : null);
-							claimDTO.setRegEx(nsReturn.get("ax2615:regEx") instanceof String ? (String)nsReturn.get("ax2615:regEx") : null);
-							if(nsReturn.get("ax2615:required")!=null)
-								claimDTO.setRequired((boolean)nsReturn.get("ax2615:required"));
-							if(nsReturn.get("ax2615:supportedByDefault")!=null)
-								claimDTO.setSupportedByDefault((boolean)nsReturn.get("ax2615:supportedByDefault"));
-							claimDTO.setValue(nsReturn.get("ax2615:value") instanceof String ? (String)nsReturn.get("ax2615:value") : null);
+							claimDTO.setClaimUri(getStringValue(nsReturn, "claimUri"));
+							claimDTO.setDescription(getStringValue(nsReturn, "description"));
+							claimDTO.setDialectURI(getStringValue(nsReturn, "dialectURI"));
+							Integer displayOrder = getIntegerValue(nsReturn, "displayOrder");
+							if(displayOrder != null)
+								claimDTO.setDisplayOrder(displayOrder);
+							claimDTO.setDisplayTag(getStringValue(nsReturn, "displayTag"));
+							claimDTO.setRegEx(getStringValue(nsReturn, "regEx"));
+							Boolean required = getBooleanValue(nsReturn, "required");
+							if(required != null)
+								claimDTO.setRequired(required);
+							Boolean supportedByDefault = getBooleanValue(nsReturn, "supportedByDefault");
+							if(supportedByDefault != null)
+								claimDTO.setSupportedByDefault(supportedByDefault);
+							claimDTO.setValue(getStringValue(nsReturn, "value"));
 							userClaimValuesResponseDTO.getClaimDTOs().add(claimDTO);
 						}
 					}
@@ -110,6 +113,34 @@ public class RemoteUserStoreManagerServiceSoapClient {
 			sc.getErrors().forEach(LOGGER::error);
 
 		return userClaimValuesResponseDTO;
+	}
+
+	private Object getValueByLocalName(Map<String, Object> map, String localName) {
+		if(map == null || localName == null)
+			return null;
+		if(map.containsKey(localName))
+			return map.get(localName);
+		for(Map.Entry<String, Object> entry : map.entrySet()) {
+			String key = entry.getKey();
+			if(key != null && key.endsWith(":" + localName))
+				return entry.getValue();
+		}
+		return null;
+	}
+
+	private String getStringValue(Map<String, Object> map, String localName) {
+		Object value = getValueByLocalName(map, localName);
+		return value instanceof String ? (String) value : null;
+	}
+
+	private Integer getIntegerValue(Map<String, Object> map, String localName) {
+		Object value = getValueByLocalName(map, localName);
+		return value instanceof Number ? ((Number) value).intValue() : null;
+	}
+
+	private Boolean getBooleanValue(Map<String, Object> map, String localName) {
+		Object value = getValueByLocalName(map, localName);
+		return value instanceof Boolean ? (Boolean) value : null;
 	}
 	
 	public boolean authenticate(AuthenticateRequestDTO userClaimValuesRequestDTO) {
