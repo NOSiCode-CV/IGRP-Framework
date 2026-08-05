@@ -3315,7 +3315,9 @@ const GENERATOR = function (genparams) {
         else
             $(modal.find('.modal-header > ul > li')[0]).click();
 
-        $('select', modal).select2();
+        $('select', modal).select2({
+            dropdownParent: modal
+        });
 
         /*$('select',modal).each(function(i,s){
 
