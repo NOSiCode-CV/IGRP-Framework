@@ -135,9 +135,17 @@
 
       });
 
-      targetsFields.select2({
+      targetsFields.each(function(){
 
-        templateResult: function(state) {
+        var targetField = $(this),
+
+            dropdownParent = targetField.closest('[item-type="select"], .form-group');
+
+        targetField.select2({
+
+          dropdownParent: dropdownParent.length ? dropdownParent : modal,
+
+          templateResult: function(state) {
        
           if (!state.id) 
             
@@ -151,8 +159,9 @@
             
           return $state;
 
-        }
+          }
 
+        });
       });
 
       separatorlist.resetAll();
