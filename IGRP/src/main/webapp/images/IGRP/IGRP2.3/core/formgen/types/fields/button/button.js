@@ -14,7 +14,8 @@ var BTNFIELD = function(type,params){
 
 		
 		GEN.setBtnActionAttr(field,{
-			value: proprieties && proprieties.action ? proprieties.action : ''
+			value: proprieties && proprieties.action ? proprieties.action : '',
+			order: 3
 		});
 
 		GEN.service.set(field);

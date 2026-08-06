@@ -3315,8 +3315,13 @@ const GENERATOR = function (genparams) {
         else
             $(modal.find('.modal-header > ul > li')[0]).click();
 
-        $('select', modal).select2({
-            dropdownParent: modal
+        $('select', modal).each(function () {
+            const select = $(this),
+                dropdownParent = select.closest('[item-type="select"], .form-group');
+
+            select.select2({
+                dropdownParent: dropdownParent.length ? dropdownParent : modal
+            });
         });
 
         /*$('select',modal).each(function(i,s){
