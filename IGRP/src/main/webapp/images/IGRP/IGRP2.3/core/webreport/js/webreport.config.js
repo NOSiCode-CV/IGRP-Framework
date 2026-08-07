@@ -339,6 +339,7 @@ var xslpath = '../../',
   				},
   				js   : {
   					all   : '<script type="text/javascript" src="{rows/print_report/link_img}core/jquery/2.1/jquery.min.js"/>'+
+						'<script type="text/javascript" src="{rows/print_report/link_img}core/tether/js/tether.min.js"/>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/bootstrap/'+vbst+'/js/bootstrap.min.js"/>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/qrcode/qrcode.min.js"/>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/webreport/js/jspdf.debug.js"/>'+
