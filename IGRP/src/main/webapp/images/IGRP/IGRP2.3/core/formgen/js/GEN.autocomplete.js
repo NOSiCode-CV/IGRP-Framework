@@ -11,17 +11,34 @@ $(function(){
 	};
 	
 	var SetCoreAutoComplete = function(data){
-		
-		if(data && data[0]){
-			
+
+		if(typeof data === 'string'){
+			try{
+				data = $.parseJSON(data);
+			}catch(err){
+				console.warn('Unable to load the core autocomplete methods.', err);
+				return;
+			}
+		}
+
+		if(!$.isArray(data)){
+			console.warn('Invalid core autocomplete methods response.', data);
+			return;
+		}
+
+		if(data[0]){
+
 			data.forEach(function(d){
-				
+
 				for(var methodName in d){
-					
+
 					var params   = d[methodName],
-						
+
 						paramsStr = "";
-						
+
+					if(!$.isArray(params))
+						params = [];
+
 					params.forEach(function(p,i){
 							
 						paramsStr+=p;
