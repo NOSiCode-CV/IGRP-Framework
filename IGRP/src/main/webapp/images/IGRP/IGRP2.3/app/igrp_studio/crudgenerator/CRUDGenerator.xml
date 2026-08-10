@@ -183,28 +183,28 @@
                 <value>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Magna consectetur sed omnis ut</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Sit elit aliqua sit labore</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ut voluptatem laudantium persp</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Unde sed rem labore rem</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Dolor labore voluptatem natus</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Natus amet omnis dolor aperiam</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Aliqua stract ipsum doloremque</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Mollit omnis ipsum voluptatem</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
-                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Deserunt magna rem totam sed</table_name>
+                        <check_table_check name="p_check_table_check">1</check_table_check>
+                        <table_name name="p_table_name">Ipsum sit mollit unde labore</table_name>
                     </row>
                 </value>
             </table>
@@ -291,10 +291,5 @@
             </item>
         </toolsbar_2>
     </content>
-    <blockly>
-        <imports></imports>
-        <xml>
-            <block type="controller" id="controller" x="388" y="13"></block>
-        </xml>
-    </blockly>
+    <blockly></blockly>
 </rows>
