@@ -100,8 +100,8 @@ public class _CONS_PROCController extends Controller {
 					t.setNum_processo(task.getProcessInstanceId());
 					t.setProcesso(task.getProcessName());
 					t.setEatapa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());
-					t.setDt_inicio_etapa(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
-					t.setDt_fim_etapa(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
+					t.setDt_inicio_etapa(Core.convertTimeStampToDateString(task.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
+					t.setDt_fim_etapa(Core.convertTimeStampToDateString(task.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
 					t.setId_task(task.getId());
 					t.setEstado(""+StatusTask.getStatusTaskValue(task.getEndTime(),task.getAssignee()));
 					t.setAtribuido_a(Core.isNotNull(task.getAssignee())?task.getAssignee():"---");
