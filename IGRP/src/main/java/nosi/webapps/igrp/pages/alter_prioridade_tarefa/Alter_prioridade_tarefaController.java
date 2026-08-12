@@ -57,7 +57,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 				
 				model.setNumero_de_processo(task.getProcessInstanceId());
 				model.setTipo_de_processo(process.getName());
-          		model.setData_inicio_do_processo(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+					model.setData_inicio_do_processo(Core.isNotNull(history.getStartTime())?Core.convertTimeStampToDateString(history.getStartTime(), "yyyy-MM-dd HH:mm:ss"):"");
 				
 				model.setId(id);
               
