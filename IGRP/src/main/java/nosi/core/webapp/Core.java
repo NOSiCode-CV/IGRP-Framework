@@ -4067,11 +4067,11 @@ public final class Core {
 		}
 	}
 
-	public static LocalDate convertStringToLocalDate(String strDate, String outputFormatter) {
+	public static LocalDate convertStringToLocalDate(String strDate, String inputFormatter) {
 		if (Core.isNull(strDate)) {
 			return null;
 		} else {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(inputFormatter);
 			return LocalDate.parse(strDate, formatter);
 		}
 	}

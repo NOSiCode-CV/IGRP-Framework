@@ -153,7 +153,7 @@ public class Detalhes_dashboard_processoController extends Controller {
 				ProcessDefinitionService pds = new ProcessDefinitionServiceRest().getProcessDefinition(hpi.getProcessDefinitionId());
 				Detalhes_dashboard_processo.Table_1 table1 = new Detalhes_dashboard_processo.Table_1();
 				table1.setDescricao(pds.getName()+" v."+pds.getVersion());
-				table1.setIniciado_em(Core.ToChar(hpi.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
+				table1.setIniciado_em(Core.convertTimeStampToDateString(hpi.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
 				table1.setN_processo_desc(txt+" "+hpi.getId());
 				table1.setN_processo("igrp", "Lista_terfa_de_processo", "index")
 						.addParam("target", "_blank")
