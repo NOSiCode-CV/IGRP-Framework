@@ -178,7 +178,7 @@ public class DateHelper {
 
 	public static java.sql.Date convertTimeStampToDate(String timeStampDate) {
 		if(Core.isNotNull(timeStampDate)) {
-			return formatDate(timeStampDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+			return java.sql.Date.valueOf(OffsetDateTime.parse(timeStampDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toLocalDate());
 		}
 		return null;
 	}
