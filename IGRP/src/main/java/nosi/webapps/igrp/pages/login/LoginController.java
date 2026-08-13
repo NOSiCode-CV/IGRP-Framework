@@ -578,13 +578,13 @@ public class LoginController extends Controller {
 	}
 
 	private String getAttributeStringValue(JSONObject obj, String attibute) {
-		log.info("[obj]= %s", obj);
+		//log.info("[obj]= %s", obj);
 
 		String _value = null;
 		try {
 			_value = obj.getString(attibute);
 		} catch (JSONException je) {
-			log.warn(je);
+			//log.warn(je);
 			_value = null;
 		}
 
@@ -627,7 +627,7 @@ public class LoginController extends Controller {
 
 					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : "";
 
-					log.info("email= %s", email);
+					log.info("email= "+email, email);
 					String uid = _r.get("sub");
 					String name = _r.get("name");
 					String phone_number = _r.get("phone_number");
@@ -638,22 +638,20 @@ public class LoginController extends Controller {
 
 					if (uid != null && Pattern.matches(NIC_PATTERN, uid)) {
 						try {
-							log.info("GET USER BY cni");
+							//log.info("GET USER BY cni");
 							user = new User().find().andWhere("cni", "=", uid.toUpperCase()).one();
 
 							if (Core.isNullOrZero(user)) {
-								log.info("GET USER BY email = cni");
+								//log.info("GET USER BY email = cni");
 								user = new User().find().andWhere("email", "=", uid.toUpperCase()).one();
 							}
 						} catch (Exception e) {
 							log.warn(e);
-							user = new User();
-							if (email != null) {
-								user = new User().find().andWhere("email", "=", email).one();
-							}
+							user = new User().find().andWhere("email", "=", email).one();
+
 						}
 
-					} else if (email != null) {
+					} else {
 						user = new User().find().andWhere("email", "=", email).one();
 					}
 
@@ -690,7 +688,7 @@ public class LoginController extends Controller {
 								newUser.setUser_name(uid);
 								if(Core.isNotNullOrZero(email))
 									newUser.setEmail(email);
-								else if(Pattern.matches(NIC_PATTERN, uid))
+								else if(uid!=null && Pattern.matches(NIC_PATTERN, uid))
 									newUser.setEmail(uid.toUpperCase());
 								newUser.setName(name);
 								newUser.setPhone(phone_number);
@@ -820,6 +818,6 @@ public class LoginController extends Controller {
 		return u != null && !u.hasError();
 	}
 
-	private static Logger log = LogManager.getLogger(LoginController.class);
+	private static final Logger log = LogManager.getLogger(LoginController.class);
 	/*----#end-code----*/
 }
