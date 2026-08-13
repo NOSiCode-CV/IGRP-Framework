@@ -84,7 +84,7 @@ public class PesquisarUtilizador extends Model{
 	public String getNome_filt(){
 		return this.nome_filt;
 	}
-
+	
 	public void setUsername(String username){
 		this.username = username;
 	}
