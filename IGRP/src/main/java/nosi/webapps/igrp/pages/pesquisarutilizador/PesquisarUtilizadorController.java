@@ -31,7 +31,7 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Anim deserunt lorem aliqua consectetur iste labore elit voluptatem labore ut labore laudantium labor' as nominho,'4' as range_1,'Sed doloremque perspiciatis dolor lorem laudantium ipsum dolor rem aliqua amet doloremque laudantium' as nome,'Unde doloremque unde voluptatem iste unde perspiciatis labore deserunt dolor ut rem deserunt iste la' as tb_email,'Amet aperiam labore totam adipiscing laudantium al' as perfile,'hidden-5cf7_55d2' as id,'hidden-2ea5_ebb1' as check_email_hidden "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Sit sit omnis mollit omnis ipsum mollit sed deserunt magna natus totam stract ipsum mollit dolor rem' as nominho,'6' as range_1,'Anim sit aperiam magna mollit perspiciatis aliqua totam natus aliqua natus officia sed sit sit sed u' as nome,'Lorem accusantium lorem anim adipiscing iste lorem stract voluptatem rem amet magna omnis magna sit' as tb_email,'Anim iste aliqua ipsum perspiciatis ipsum anim dol' as perfile,'hidden-e25d_ee8e' as id,'hidden-27c5_cd16' as check_email_hidden "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -68,6 +68,7 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
 					.andWhere("user.email", "=", model.getEmail())
+					.limit(MAXIMUM_USER_RECORDS)
 					.all();
 		} else {
 			Application app = Core.getCurrentApp();
@@ -77,7 +78,14 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : app.getId())
-					.andWhere("user.email", "=", model.getEmail()).all();
+					.andWhere("user.email", "=", model.getEmail())
+					.limit(MAXIMUM_USER_RECORDS)
+					.all();
+		}
+
+		if (profiles.size() == MAXIMUM_USER_RECORDS) {
+			Core.setMessageWarning("A pesquisa atingiu o limite máximo de " + MAXIMUM_USER_RECORDS
+					+ " registos. Refine a pesquisa utilizando os filtros disponíveis.");
 		}
 
 		// Preenchendo a tabela
@@ -404,7 +412,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-
+	private static final int MAXIMUM_USER_RECORDS = 500;
 	private static final String PROF_DIS = "PROF_DIS"; //Profile disabled
 	public static final String PROF = "PROF";
     public Response actionChangeStatus(){
@@ -435,9 +443,23 @@ public class PesquisarUtilizadorController extends Controller {
     	      json.put("status", response);     
     	
     	      return this.renderView(json.toString());
-    	    }	
-    
-    
-    
+		}
+	public Response actionOrganica() {
+		this.format = Response.FORMAT_XML;
+		return this.renderView(Core.remoteComboBoxXml(
+				new Organization().getListOrganizations(
+						Core.getParamInt("p_aplicacao")),
+				new PesquisarUtilizadorView().organica,null));
+	}
+	public Response actionPerfil() {
+		this.format = Response.FORMAT_XML;
+		return this.renderView(Core.remoteComboBoxXml(
+				new ProfileType().getListProfiles(
+						Core.getParamInt("p_aplicacao"),
+						Core.getParamInt("p_organica")),
+				new PesquisarUtilizadorView().perfil,
+				null));
+	}
+
 	/*----#end-code----*/
 }
