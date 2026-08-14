@@ -69,13 +69,18 @@ public class Page{
 	private void createTemplate(){
 		Igrp igrpApp = Igrp.getInstance();
 		String path_xsl = "teste";
-		String app = igrpApp.getCurrentAppName();
-		String page = igrpApp.getCurrentPageName();
+		String currentApp = igrpApp.getCurrentAppName();
+		String currentPage = igrpApp.getCurrentPageName();
+		String[] viewContext = this.resolveViewContext(currentApp, currentPage);
+		String app = viewContext[0];
+		String page = viewContext[1];
 		String action = igrpApp.getCurrentActionName();
 		Action ac=null;
         String vTimeStamp="";
 		if (!app.isEmpty() && !page.isEmpty() && !action.isEmpty()) {
 			ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
+			if (ac == null && (!app.equals(currentApp) || !page.equals(currentPage)))
+				ac = new Action().find().andWhere("application.dad", "=", currentApp).andWhere("page", "=", Page.resolvePageName(currentPage)).one();
             vTimeStamp="?v="+ Igrp.getInstance().getRequest().getServletContext().getAttribute("startupUUID");
 
 		}
@@ -103,6 +108,27 @@ public class Page{
 		}
 		xml.endElement();		
 		this.template = String.valueOf(xml);
+	}
+
+	private String[] resolveViewContext(String defaultApp, String defaultPage) {
+		if (this.view == null)
+			return new String[]{defaultApp, defaultPage};
+
+		String packageName = this.view.getClass().getPackageName();
+		String className = this.view.getClass().getSimpleName();
+		String packagePrefix = "nosi.webapps.";
+		int pagesIndex = packageName.indexOf(".pages.", packagePrefix.length());
+
+		if (!packageName.startsWith(packagePrefix) || pagesIndex < 0 || !className.endsWith("View"))
+			return new String[]{defaultApp, defaultPage};
+
+		String resolvedApp = packageName.substring(packagePrefix.length(), pagesIndex);
+		String app = resolvedApp.equalsIgnoreCase(defaultApp) ? defaultApp : resolvedApp;
+		String page = className.substring(0, className.length() - "View".length());
+
+		return app.isEmpty() || page.isEmpty()
+				? new String[]{defaultApp, defaultPage}
+				: new String[]{app, page};
 	}
 	
 	public String renderContent(boolean layout){

@@ -154,7 +154,7 @@ const GENERATOR = function (genparams) {
 
             caller = GEN.escapeXSLChars(caller);
 
-            rtn = rtn.insert(bodyEnd, '<!-- RULES --><script src="{$path}/core/igrp/IGRP.rules.class.js"></script><script>\n' + caller + '</script>');
+            rtn = rtn.insert(bodyEnd, '<!-- RULES --><script src="{$path}/core/igrp/IGRP.rules.class.js?v={$version}"></script><script>\n' + caller + '</script>');
         }
 
 
@@ -3315,7 +3315,14 @@ const GENERATOR = function (genparams) {
         else
             $(modal.find('.modal-header > ul > li')[0]).click();
 
-        $('select', modal).select2();
+        $('select', modal).each(function () {
+            const select = $(this),
+                dropdownParent = select.closest('[item-type="select"], .form-group');
+
+            select.select2({
+                dropdownParent: dropdownParent.length ? dropdownParent : modal
+            });
+        });
 
         /*$('select',modal).each(function(i,s){
 

@@ -40,10 +40,10 @@ public class DetalhesProcessoController extends Controller {
 				ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(task.getProcessDefinitionId());
 				ProcessInstancesService history = new ProcessInstanceServiceRest().historicProcess(task.getProcessInstanceId());
 				DeploymentService deploy = new DeploymentServiceRest().getDeployment(process.getDeploymentId());
-				model.setData_criacao_de_processo(Core.isNotNull(deploy.getDeploymentTime())?Core.ToChar(deploy.getDeploymentTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				model.setData_criacao_de_processo(Core.isNotNull(deploy.getDeploymentTime())?Core.convertTimeStampToDateString(deploy.getDeploymentTime(), "yyyy-MM-dd HH:mm:ss"):"");
 				model.setDescricao(Core.isNotNull(process.getDescription())?process.getDescription():process.getName());
-				model.setData_inicio_de_processo(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
-				model.setData_fim_processo(Core.isNotNull(history.getEndTime())?Core.ToChar(history.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				model.setData_inicio_de_processo(Core.isNotNull(history.getStartTime())?Core.convertTimeStampToDateString(history.getStartTime(), "yyyy-MM-dd HH:mm:ss"):"");
+				model.setData_fim_processo(Core.isNotNull(history.getEndTime())?Core.convertTimeStampToDateString(history.getEndTime(), "yyyy-MM-dd HH:mm:ss"):"");
 				break;
 			}
 			processId = model.getNumero_de_processo();

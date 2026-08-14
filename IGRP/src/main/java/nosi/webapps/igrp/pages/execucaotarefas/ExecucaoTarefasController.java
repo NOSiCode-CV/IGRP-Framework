@@ -726,7 +726,7 @@ public class ExecucaoTarefasController extends Controller {
 				if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_gerir_tarefa()))
 					taskServiceBO.addFilterBody("size", ""+model.getLimite_maximo_de_registos_gerir_tarefa());
 				tasksF = taskServiceBO.getAvailableTasks();
-				if(tasksF.size()==model.getLimite_maximo_de_registos_dist_taref())
+				if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_dist_taref()) && tasksF.size()==model.getLimite_maximo_de_registos_dist_taref())
 					Core.setMessageWarning("Disponíveis tem mais que o limite de "+model.getLimite_maximo_de_registos_dist_taref()+" tarefas. Aumentar no filtro esse limite máximo.");
 
 				break;
@@ -734,7 +734,7 @@ public class ExecucaoTarefasController extends Controller {
 				if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_gerir_tarefa()))
 					taskServiceBO.addFilterBody("size", ""+model.getLimite_maximo_de_registos_gerir_tarefa());
 				tasksF = taskServiceBO.getManageTasks();
-				if(tasksF.size()==model.getLimite_maximo_de_registos_gerir_tarefa())
+				if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_gerir_tarefa()) && tasksF.size()==model.getLimite_maximo_de_registos_gerir_tarefa())
 					Core.setMessageWarning("Gestão de tarefas tem mais que o limite de "+model.getLimite_maximo_de_registos_gerir_tarefa()+" tarefas. Aumentar no filtro esse limite máximo.");
 
 				break;
@@ -742,7 +742,7 @@ public class ExecucaoTarefasController extends Controller {
 			   if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_minhas_taref()))
 				   taskServiceBO.addFilterBody("size", ""+model.getLimite_maximo_de_registos_minhas_taref());
 			   tasksF = taskServiceBO.getMyTasks();
-			   if(tasksF.size()==model.getLimite_maximo_de_registos_minhas_taref())
+				if(Core.isNotNullOrZero(model.getLimite_maximo_de_registos_minhas_taref()) && tasksF.size()==model.getLimite_maximo_de_registos_minhas_taref())
 				   Core.setMessageWarning("Minhas tarefas tem mais que o limite de "+model.getLimite_maximo_de_registos_minhas_taref()+" tarefas. Aumentar no filtro esse limite máximo.");
 			   break;
 			case STATISTIC:

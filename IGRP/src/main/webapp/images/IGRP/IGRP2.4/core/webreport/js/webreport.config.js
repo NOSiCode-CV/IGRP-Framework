@@ -337,9 +337,10 @@ var xslpath = '../../',
   							'<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreport-print.css"></link>',
   					chart : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"></link>',
   				},
-  				js   : {
-  					all   : '<script type="text/javascript" src="{rows/print_report/link_img}core/jquery/2.1/jquery.min.js"/>'+
-  						'<script type="text/javascript" src="{rows/print_report/link_img}core/bootstrap/'+vbst+'/js/bootstrap.min.js"/>'+
+				js   : {
+					all   : '<script type="text/javascript" src="{rows/print_report/link_img}core/jquery/2.1/jquery.min.js"/>'+
+						'<script type="text/javascript" src="{rows/print_report/link_img}core/tether/js/tether.min.js"/>'+
+						'<script type="text/javascript" src="{rows/print_report/link_img}core/bootstrap/'+vbst+'/js/bootstrap.min.js"/>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/qrcode/qrcode.min.js"/>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/webreport/js/jspdf.debug.js"/>'+
   						'<script type="text/javascript">'+ 

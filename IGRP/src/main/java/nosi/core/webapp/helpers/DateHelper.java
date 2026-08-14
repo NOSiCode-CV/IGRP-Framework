@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -179,7 +180,8 @@ public class DateHelper {
 
 	public static String convertTimeStampToDateString(String timeStampDate, String outputFormat) {
 		if(Core.isNotNull(timeStampDate)) {
-			return convertDate(timeStampDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", outputFormat);
+			DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern(outputFormat);
+			return OffsetDateTime.parse(timeStampDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME).format(formatterOut);
 		}
 		return null;
 	}
@@ -193,7 +195,7 @@ public class DateHelper {
 
 	public static java.sql.Date convertTimeStampToDate(String timeStampDate) {
 		if(Core.isNotNull(timeStampDate)) {
-			return formatDate(timeStampDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+			return java.sql.Date.valueOf(OffsetDateTime.parse(timeStampDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toLocalDate());
 		}
 		return null;
 	}

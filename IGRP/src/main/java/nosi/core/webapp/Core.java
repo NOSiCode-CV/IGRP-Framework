@@ -3873,7 +3873,7 @@ public final class Core {
 	 * 
 	 * @param timeStampDate
 	 * @param formatOut
-	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
+	 * @return the ISO offset timestamp formatted with {@code formatOut}
 	 */
 	public static String convertTimeStampToDateString(String timeStampDate, String formatOut) {
 		return DateHelper.convertTimeStampToDateString(timeStampDate, formatOut);
@@ -3884,7 +3884,7 @@ public final class Core {
 	 * 
 	 * @param timeStampDate
 	 * @param formatOut
-	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
+	 * @return the ISO offset timestamp formatted with {@code formatOut}
 	 */
 	@Deprecated
 	public static String convertTimeStampToDate(String timeStampDate, String formatOut) {
@@ -3895,7 +3895,7 @@ public final class Core {
      * @deprecated
 	 * @param timeStampDate
 	 * @param formatOut
-	 * @return return formattDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
+	 * @return the date portion of the ISO offset timestamp
 	 */
     @Deprecated
     public static Date convertTimeStampToDateSQL(String timeStampDate, String formatOut) {
@@ -4067,11 +4067,11 @@ public final class Core {
 		}
 	}
 
-	public static LocalDate convertStringToLocalDate(String strDate, String outputFormatter) {
+	public static LocalDate convertStringToLocalDate(String strDate, String inputFormatter) {
 		if (Core.isNull(strDate)) {
 			return null;
 		} else {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(inputFormatter);
 			return LocalDate.parse(strDate, formatter);
 		}
 	}

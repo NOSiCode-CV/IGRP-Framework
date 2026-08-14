@@ -257,7 +257,6 @@ public class LookupListPageController extends Controller {
 					doc.setTipo(p_tipo_fk);
 					doc.setRequired(p_obrigatorio_fk);
 					doc = doc.update();
-					success = doc != null && !doc.hasError(); 
 				}else { 
 					doc = new TipoDocumentoEtapa(); 
 					doc.setStatus(1); 
@@ -277,9 +276,9 @@ public class LookupListPageController extends Controller {
 					doc.setProcessId(model.getProcessid()); 
 					doc = doc.insert(); 
 					
-					success = doc != null && !doc.hasError(); 
+                }
+					success = doc != null && !doc.hasError();
 				}
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

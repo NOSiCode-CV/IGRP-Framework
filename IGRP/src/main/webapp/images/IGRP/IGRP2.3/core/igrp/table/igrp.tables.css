@@ -293,19 +293,28 @@ table.dataTable th.bs-checkbox{
 }
 
 /* inline ctx menu*/
-.igrp-table-ctx-th{
-  min-width: 125px;
+.igrp-table-ctx-th,
+.igrp-table-ctx-td{
+  width: 1%;
+  max-width: 230px;
+  white-space: nowrap;
 }
 
 th.igrp-table-ctx-th{
-  width: 230px !important;
+  width: 1% !important;
+}
+
+.igrp-table-ctx-td{
+  text-align: right;
 }
 
 .igrp-table-ctx-td>ul{
   margin:0;
   padding: 0;
-  display: block;
-  float: right;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  max-width: 230px;
+  vertical-align: middle;
 }
 .igrp-table-ctx-td>ul>.operationTable, .lavel-menu .operationTable{
   float: left;
@@ -313,6 +322,10 @@ th.igrp-table-ctx-th{
   margin-right: 4px;
   min-width: 28px;
   min-height: 28px;
+}
+
+.igrp-table-ctx-td>ul>.operationTable{
+  flex: 0 0 auto;
 }
 
 /*table.align .igrp-table-ctx-td>ul>.operationTable{

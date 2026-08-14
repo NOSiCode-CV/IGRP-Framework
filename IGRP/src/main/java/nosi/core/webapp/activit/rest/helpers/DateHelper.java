@@ -18,7 +18,7 @@ public class DateHelper {
 	
 	public static boolean compareDate(String date1,String date2,BiFunction<LocalDate, LocalDate, Boolean>  compareDate) {
 		if(Core.isNotNullMultiple(date1,date2)) {
-			String date1_ = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
+			String date1_ = Core.convertTimeStampToDateString(date1, "yyyy-MM-dd");
 			String date2_ = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate d1 = LocalDate.parse(date1_, formatter );
@@ -41,7 +41,7 @@ public class DateHelper {
 	}
 	
 	public static String dateTimeToDate(String dateTime) {
-		return Core.ToChar(dateTime, "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss");
+		return Core.convertTimeStampToDateString(dateTime, "yyyy-MM-dd HH:mm:ss");
 	}
 	
 

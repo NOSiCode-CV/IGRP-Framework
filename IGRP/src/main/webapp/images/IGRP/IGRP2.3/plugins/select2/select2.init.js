@@ -125,6 +125,8 @@
 
                     com.formListSubmit(fl);
 
+               // Check if events property exists to avoid TypeError
+                    if (fl.events && typeof fl.events.on === 'function') {
                     fl.events.on('row-add', function (row) {
 
                         $('.select2-container', row).remove();
@@ -142,10 +144,8 @@
                     fl.events.on('fields-draw', function (row) {
 
                         //console.log(row)
-                        //console.log(row);
-
-
                     }, true);
+                    }
 
                 });
             }
