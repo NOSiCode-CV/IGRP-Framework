@@ -10,6 +10,7 @@ import nosi.core.webapp.Response;//
 
 import java.util.*;
 import nosi.core.config.ConfigCommonMainConstants;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
@@ -31,7 +32,8 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Sit sit omnis mollit omnis ipsum mollit sed deserunt magna natus totam stract ipsum mollit dolor rem' as nominho,'6' as range_1,'Anim sit aperiam magna mollit perspiciatis aliqua totam natus aliqua natus officia sed sit sit sed u' as nome,'Lorem accusantium lorem anim adipiscing iste lorem stract voluptatem rem amet magna omnis magna sit' as tb_email,'Anim iste aliqua ipsum perspiciatis ipsum anim dol' as perfile,'hidden-e25d_ee8e' as id,'hidden-27c5_cd16' as check_email_hidden "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Omnis ut omnis sit magna labore mollit sit amet accusantium anim magna sit elit laudantium officia c' as nominho,'5' as range_1,'Natus ut officia totam anim aliqua sit adipiscing lorem adipiscing ut voluptatem lorem iste adipisci' as nome,'Doloremque amet officia mollit amet sed laudantium sit iste voluptatem unde anim voluptatem deserunt' as tb_email,'Sed lorem ipsum laudantium elit consectetur lorem' as perfile,'hidden-b3e1_a40d' as id,'hidden-e708_be5d' as check_email_hidden "));
+		model.loadUtilizadores_resumo(Core.query(null,"SELECT 'Omnis sed elit aperiam stract deserunt voluptatem rem lorem unde natus officia unde stract lorem str' as estado_utilizador,'Ipsum accusantium stract mollit dolor deserunt ipsum totam dolor sed ipsum magna labore ipsum deserunt stract aliqua ipsum sed voluptatem sit elit ut aperiam sit' as nome_utilizador,'Labore doloremque mollit laudantium anim sed sit doloremque unde anim accusantium mollit laudantium' as username_utilizador,'Officia aliqua laudantium aperiam omnis lorem natus officia magna aliqua lorem labore deserunt magna' as email_utilizador,'Adipiscing aperiam rem sit und' as total_aplicacoes,'Doloremque laudantium natus ac' as total_organicas,'Elit aliqua dolor sit magna un' as perfis_ativos,'Rem amet doloremque deserunt s' as perfis_inativos,'Adipiscing accusantium deserunt doloremque deserunt consectetur accusantium aperiam consectetur totam laudantium natus lorem laudantium deserunt natus amet adipiscing unde voluptatem ipsum ut aperiam deserunt consectetur' as alertas,'Omnis amet adipiscing ut aliqua consectetur accusantium amet magna rem doloremque amet rem elit amet accusantium natus magna officia perspiciatis lorem labore adipiscing ut sit' as acessos "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -68,7 +70,7 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
 					.andWhere("user.email", "=", model.getEmail())
-					.limit(MAXIMUM_USER_RECORDS)
+					.limit(MAXIMUM_PROFILE_RECORDS + 1)
 					.all();
 		} else {
 			Application app = Core.getCurrentApp();
@@ -79,19 +81,40 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : app.getId())
 					.andWhere("user.email", "=", model.getEmail())
-					.limit(MAXIMUM_USER_RECORDS)
+					.limit(MAXIMUM_PROFILE_RECORDS + 1)
 					.all();
 		}
 
-		if (profiles.size() == MAXIMUM_USER_RECORDS) {
-			Core.setMessageWarning("A pesquisa atingiu o limite máximo de " + MAXIMUM_USER_RECORDS
-					+ " registos. Refine a pesquisa utilizando os filtros disponíveis.");
+		if (profiles == null) {
+			profiles = Collections.emptyList();
+		}
+		if (profiles.size() > MAXIMUM_PROFILE_RECORDS) {
+			profiles = new ArrayList<>(profiles.subList(0, MAXIMUM_PROFILE_RECORDS));
+			Core.setMessageWarning("A pesquisa atingiu o limite máximo de " + MAXIMUM_PROFILE_RECORDS
+					+ " atribuições de perfil. Refine a pesquisa para obter um resumo completo.");
+		}
+
+		final AccessOverview accessOverview = buildAccessOverview(profiles);
+		model.setResumo_utilizadores(String.valueOf(accessOverview.totalUsers));
+		model.setResumo_inativos(String.valueOf(accessOverview.inactiveUsers));
+		model.setResumo_perfis_ativos(String.valueOf(accessOverview.activeProfiles));
+		model.setResumo_problemas(accessOverview.problemSummary());
+		model.setUtilizadores_resumo(model.getProblemas_apenas() == 1
+				? accessOverview.problemRows : accessOverview.rows);
+		if (model.getProblemas_apenas() == 1) {
+			profiles = profiles.stream()
+					.filter(profile -> profile.getUser() == null
+							|| accessOverview.problemUserIds.contains(profile.getUser().getId()))
+					.toList();
 		}
 
 		// Preenchendo a tabela
 		for (Profile p : profiles) {
+			if (p.getUser() == null || p.getProfileType() == null) {
+				continue;
+			}
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-			int status = p.getUser()!=null?p.getUser().getStatus():0;
+			int status = p.getUser().getStatus();
 			table1.setAtivo(1);
 			if(status == 0 || p.getType().equals(PROF_DIS)) {
 				table1.setAtivo_check(0);
@@ -102,12 +125,22 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setCheck_email_hidden(p.getUser().getEmail());
 			table1.setNome(p.getUser().getUser_name());
 			table1.setNominho(p.getUser().getName());
-			table1.setPerfile(p.getProfileType().getApplication().getName() + "/"
-					+ p.getProfileType().getOrganization().getName() + "/" + p.getProfileType().getDescr());
+			final Application profileApplication = p.getProfileType().getApplication();
+			final Organization profileOrganization = p.getOrganization() != null
+					? p.getOrganization() : p.getProfileType().getOrganization();
+			table1.setPerfile((profileApplication != null ? profileApplication.getName() : "-") + "/"
+					+ (profileOrganization != null ? profileOrganization.getName() : "-") + "/"
+					+ p.getProfileType().getDescr());
 			table1.setId("" + p.getId());
 
 			lista.add(table1);
-		}	
+		}
+
+		lista.sort(Comparator
+				.comparingInt(PesquisarUtilizador.Table_1::getAtivo_check)
+				.reversed()
+				.thenComparing(PesquisarUtilizador.Table_1::getNominho,
+						Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
 
 		switch (this.getConfig().getAutenticationType()) {
 		case "ldap":
@@ -412,9 +445,183 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-	private static final int MAXIMUM_USER_RECORDS = 500;
+	private static final int MAXIMUM_PROFILE_RECORDS = 5000;
+	private static final int BROAD_ACCESS_PROFILE_THRESHOLD = 10;
+	private static final int BROAD_ACCESS_APPLICATION_THRESHOLD = 5;
+	private static final int BROAD_ACCESS_ORGANIZATION_THRESHOLD = 5;
 	private static final String PROF_DIS = "PROF_DIS"; //Profile disabled
 	public static final String PROF = "PROF";
+
+	private static AccessOverview buildAccessOverview(List<Profile> profiles) {
+		final Map<Integer, UserAccess> users = new LinkedHashMap<>();
+		int orphanProfiles = 0;
+		int activeProfiles = 0;
+
+		for (Profile profile : profiles) {
+			if (profile == null || profile.getUser() == null) {
+				orphanProfiles++;
+				continue;
+			}
+			if (PROF.equals(profile.getType())) {
+				activeProfiles++;
+			}
+			users.computeIfAbsent(profile.getUser().getId(), ignored -> new UserAccess(profile.getUser()))
+					.add(profile);
+		}
+
+		final AccessOverview result = new AccessOverview();
+		result.totalUsers = users.size();
+		result.activeProfiles = activeProfiles;
+		result.orphanProfiles = orphanProfiles;
+		for (UserAccess access : users.values()) {
+			if (access.user.getStatus() == 0) {
+				result.inactiveUsers++;
+			}
+			final PesquisarUtilizador.Utilizadores_resumo row = access.toRow();
+			if (access.hasProblems()) {
+				result.problemUserIds.add(access.user.getId());
+				result.problemRows.add(row);
+			}
+			result.rows.add(row);
+		}
+		result.rows.sort(Comparator.comparing(PesquisarUtilizador.Utilizadores_resumo::getNome_utilizador,
+				Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
+		result.problemRows.sort(Comparator.comparing(PesquisarUtilizador.Utilizadores_resumo::getNome_utilizador,
+				Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
+		return result;
+	}
+
+	private static final class AccessOverview {
+		private int totalUsers;
+		private int inactiveUsers;
+		private int activeProfiles;
+		private int orphanProfiles;
+		private final Set<Integer> problemUserIds = new HashSet<>();
+		private final List<PesquisarUtilizador.Utilizadores_resumo> rows = new ArrayList<>();
+		private final List<PesquisarUtilizador.Utilizadores_resumo> problemRows = new ArrayList<>();
+
+		private String problemSummary() {
+			if (orphanProfiles == 0) {
+				return String.valueOf(problemUserIds.size());
+			}
+			return problemUserIds.size() + " + " + orphanProfiles + " órfão(s)";
+		}
+	}
+
+	private static final class UserAccess {
+		private final User user;
+		private final List<Profile> profiles = new ArrayList<>();
+		private final Set<Integer> applications = new HashSet<>();
+		private final Set<Integer> organizations = new HashSet<>();
+		private final Set<String> warnings = new LinkedHashSet<>();
+		private int activeProfiles;
+		private int disabledProfiles;
+
+		private UserAccess(User user) {
+			this.user = user;
+		}
+
+		private void add(Profile profile) {
+			profiles.add(profile);
+			final ProfileType profileType = profile.getProfileType();
+			final Application application = profileType != null ? profileType.getApplication() : null;
+			final Organization organization = profile.getOrganization() != null
+					? profile.getOrganization()
+					: profileType != null ? profileType.getOrganization() : null;
+
+			if (application != null) {
+				applications.add(application.getId());
+				if (application.getStatus() != 1) {
+					warnings.add("Aplicação inativa");
+				}
+			}
+			if (organization != null) {
+				organizations.add(organization.getId());
+				if (organization.getStatus() != 1) {
+					warnings.add("Orgânica inativa");
+				}
+			}
+			if (profileType == null) {
+				warnings.add("Perfil inválido");
+			} else if (profileType.getStatus() != 1) {
+				warnings.add("Tipo de perfil inativo");
+			}
+
+			if (PROF.equals(profile.getType())) {
+				activeProfiles++;
+				if (user.getStatus() == 0) {
+					warnings.add("Utilizador inativo com acesso ativo");
+				}
+			} else if (PROF_DIS.equals(profile.getType())) {
+				disabledProfiles++;
+				warnings.add("Perfil desativado");
+			}
+		}
+
+		private boolean hasProblems() {
+			return !warnings.isEmpty()
+					|| profiles.size() > BROAD_ACCESS_PROFILE_THRESHOLD
+					|| applications.size() > BROAD_ACCESS_APPLICATION_THRESHOLD
+					|| organizations.size() > BROAD_ACCESS_ORGANIZATION_THRESHOLD;
+		}
+
+		private PesquisarUtilizador.Utilizadores_resumo toRow() {
+			if (profiles.size() > BROAD_ACCESS_PROFILE_THRESHOLD
+					|| applications.size() > BROAD_ACCESS_APPLICATION_THRESHOLD
+					|| organizations.size() > BROAD_ACCESS_ORGANIZATION_THRESHOLD) {
+				warnings.add("Acesso muito abrangente");
+			}
+
+			final PesquisarUtilizador.Utilizadores_resumo row = new PesquisarUtilizador.Utilizadores_resumo();
+			row.setEstado_utilizador(user.getStatus() == 0
+					? "<span class=\"label label-default\">Inativo</span>"
+					: "<span class=\"label label-success\">Ativo</span>");
+			row.setNome_utilizador(user.getName());
+			row.setUsername_utilizador(user.getUser_name());
+			row.setEmail_utilizador(user.getEmail());
+			row.setTotal_aplicacoes(String.valueOf(applications.size()));
+			row.setTotal_organicas(String.valueOf(organizations.size()));
+			row.setPerfis_ativos(String.valueOf(activeProfiles));
+			row.setPerfis_inativos(String.valueOf(disabledProfiles));
+			row.setAlertas(warnings.isEmpty()
+					? "<span class=\"label label-success\">Sem alertas</span>"
+					: warnings.stream()
+							.map(warning -> "<span class=\"label label-warning access-warning\">"
+									+ escape(warning) + "</span>")
+							.collect(java.util.stream.Collectors.joining(" ")));
+			row.setAcessos(renderAccessDetails());
+			return row;
+		}
+
+		private String renderAccessDetails() {
+			final List<String> assignments = profiles.stream()
+					.map(UserAccess::assignmentLabel)
+					.sorted(String.CASE_INSENSITIVE_ORDER)
+					.toList();
+			return "<details class=\"access-details\"><summary>" + assignments.size()
+					+ " atribuição(ões)</summary><ul><li>"
+					+ String.join("</li><li>", assignments)
+					+ "</li></ul></details>";
+		}
+
+		private static String assignmentLabel(Profile profile) {
+			final ProfileType profileType = profile.getProfileType();
+			final Application application = profileType != null ? profileType.getApplication() : null;
+			final Organization organization = profile.getOrganization() != null
+					? profile.getOrganization()
+					: profileType != null ? profileType.getOrganization() : null;
+			final String status = PROF.equals(profile.getType()) ? "Ativo" : "Desativado";
+			return escape(application != null ? application.getName() : "Sem aplicação") + " / "
+					+ escape(organization != null ? organization.getName() : "Sem orgânica") + " / "
+					+ escape(profileType != null ? profileType.getDescr() : "Sem perfil")
+					+ " <span class=\"label " + (PROF.equals(profile.getType()) ? "label-success" : "label-default")
+					+ "\">" + status + "</span>";
+		}
+	}
+
+	private static String escape(String value) {
+		return StringEscapeUtils.escapeHtml4(value == null ? "" : value);
+	}
     public Response actionChangeStatus(){
     	      this.format = Response.FORMAT_JSON;
     	      String email = Core.getParam(new PesquisarUtilizadorView().check_email_hidden.getParamTag());
