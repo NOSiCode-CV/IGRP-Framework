@@ -8,6 +8,8 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
@@ -61,6 +63,16 @@ public class ExecucaoTarefasController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
+		if (Core.isHttpGet()) {
+			final String sixMonthsAgo = LocalDate.now()
+					.minusMonths(6)
+					.format(DateTimeFormatter.ofPattern(Core.DD_MM_YYYY));
+			model.setData_inicio_form_disponiveis(sixMonthsAgo);
+			model.setData_inicio_minhas_tarefas(sixMonthsAgo);
+			model.setData_inicio_gerir_tarefa(sixMonthsAgo);
+			model.setData_inicio_colaborador(sixMonthsAgo);
+			model.setData_inicio_estatistica(sixMonthsAgo);
+		}
 
 		this.showTabManage(view, ProfileType.isPerfilPai());// hide tab when user is not manager
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage =  new ArrayList<>();

@@ -13,9 +13,11 @@ import nosi.core.config.ConfigCommonMainConstants;
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONObject;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
 /*----#end-code----*/
@@ -32,8 +34,8 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Omnis ut omnis sit magna labore mollit sit amet accusantium anim magna sit elit laudantium officia c' as nominho,'5' as range_1,'Natus ut officia totam anim aliqua sit adipiscing lorem adipiscing ut voluptatem lorem iste adipisci' as nome,'Doloremque amet officia mollit amet sed laudantium sit iste voluptatem unde anim voluptatem deserunt' as tb_email,'Sed lorem ipsum laudantium elit consectetur lorem' as perfile,'hidden-b3e1_a40d' as id,'hidden-e708_be5d' as check_email_hidden "));
-		model.loadUtilizadores_resumo(Core.query(null,"SELECT 'Omnis sed elit aperiam stract deserunt voluptatem rem lorem unde natus officia unde stract lorem str' as estado_utilizador,'Ipsum accusantium stract mollit dolor deserunt ipsum totam dolor sed ipsum magna labore ipsum deserunt stract aliqua ipsum sed voluptatem sit elit ut aperiam sit' as nome_utilizador,'Labore doloremque mollit laudantium anim sed sit doloremque unde anim accusantium mollit laudantium' as username_utilizador,'Officia aliqua laudantium aperiam omnis lorem natus officia magna aliqua lorem labore deserunt magna' as email_utilizador,'Adipiscing aperiam rem sit und' as total_aplicacoes,'Doloremque laudantium natus ac' as total_organicas,'Elit aliqua dolor sit magna un' as perfis_ativos,'Rem amet doloremque deserunt s' as perfis_inativos,'Adipiscing accusantium deserunt doloremque deserunt consectetur accusantium aperiam consectetur totam laudantium natus lorem laudantium deserunt natus amet adipiscing unde voluptatem ipsum ut aperiam deserunt consectetur' as alertas,'Omnis amet adipiscing ut aliqua consectetur accusantium amet magna rem doloremque amet rem elit amet accusantium natus magna officia perspiciatis lorem labore adipiscing ut sit' as acessos "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Amet unde voluptatem omnis elit deserunt lorem natus officia deserunt doloremque sit sed voluptatem' as nominho,'8' as range_1,'Perspiciatis iste officia accusantium anim laudantium unde accusantium omnis deserunt elit ut omnis' as nome,'Consectetur omnis stract rem consectetur adipiscing sed aperiam voluptatem unde dolor ut iste ut sed' as tb_email,'Voluptatem mollit omnis officia voluptatem aperiam' as perfile,'hidden-e8de_05e9' as id,'hidden-060b_1428' as check_email_hidden "));
+		model.loadUtilizadores_resumo(Core.query(null,"SELECT 'Ut accusantium iste ipsum mollit ut aliqua ipsum sit amet deserunt aperiam deserunt mollit adipiscin' as estado_utilizador,'Elit labore stract voluptatem deserunt adipiscing perspiciatis laudantium sed perspiciatis labore aperiam laudantium unde mollit sed iste doloremque sit ipsum stract natus labore ipsum deserunt' as nome_utilizador,'Dolor elit lorem aliqua sed aliqua dolor ut sit adipiscing sed iste amet omnis doloremque anim iste' as email_utilizador,'Amet omnis officia anim elit a' as total_aplicacoes,'Lorem laudantium accusantium s' as total_organicas,'Sit iste anim sit natus elit o' as perfis_ativos,'Sed officia amet mollit volupt' as perfis_inativos,'Sed sit omnis stract sed anim perspiciatis sit labore dolor natus adipiscing sit totam aliqua aperiam sit omnis sit lorem adipiscing voluptatem sit sed laudantium' as acessos,'Ut aperiam elit aliqua labore iste anim lorem sit accusantium unde lorem rem laudantium stract ipsum sit ipsum elit dolor ipsum amet accusantium natus aperiam' as menus_fora_perfil,'Officia aperiam officia sit magna labore aperiam aliqua mollit amet accusantium unde officia dolor officia iste natus sit laudantium magna stract amet laudantium unde magna' as transacoes_fora_perfil "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -45,67 +47,86 @@ public class PesquisarUtilizadorController extends Controller {
 		view.btn_editar.setVisible(Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"));
       
    		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
-
-      	int idApp = Core.toInt(model.getAplicacao());
+		int idApp = Core.toInt(model.getAplicacao());
 		int idOrg = Core.toInt(model.getOrganica());
 		int idProf = Core.toInt(model.getPerfil());
+		Map<Object, Object> listApps=new HashMap<>() ;
+		if (Core.isHttpGet()) {
+			model.setMaximo_linhas(DEFAULT_MAXIMUM_ROWS);
+			String dad = Core.getCurrentDad();
+			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+				final Application application =Core.findApplicationByDad(dad);
+				idApp = application.getId();
+				model.setAplicacao(""+idApp);
+				listApps.put(idApp, application.getName());
+				view.aplicacao.propertie().add("disabled","true");
+				Core.setAttribute("p_aplicacao",idApp);
+			}else{
+				listApps = new Application().getListApps();
+				listApps.put(Core.findApplicationByDad("igrp_studio").getId(), "IGRP Studio");
+			}
+			view.aplicacao.setValue(listApps);
+		}
+		final Integer maximumRows = model.getMaximo_linhas();
 
 		Profile prof = new Profile();
 		List<Profile> profiles = null;
-		String dad = Core.getCurrentDad();
-		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
-          model.setAplicacao(""+idApp);
-          view.aplicacao.propertie().add("disabled","true");
-          Core.setAttribute("p_aplicacao",idApp);
-		}
+
 		ProfileType pp = Core.findProfileById(Core.getCurrentProfile());
 		final String nome_filtro = Core.isNotNull(model.getNome_filt(),model.getNome_filt() + "%",null);
 
 		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
-			profiles = prof.find().whereIn("type", PROF,PROF_DIS)
+			profiles = allWithOptionalLimit(prof.find().whereIn("type", PROF,PROF_DIS)
 					.andWhere("user.name", "like", nome_filtro)
 					.andWhere("user.user_name", "like", model.getUsername()+"%")
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
-					.andWhere("user.email", "=", model.getEmail())
-					.limit(MAXIMUM_PROFILE_RECORDS + 1)
-					.all();
+					.andWhere("user.email", "=", model.getEmail()), maximumRows);
 		} else {
 			Application app = Core.getCurrentApp();
-			profiles = prof.find().whereIn("type", "in", PROF,PROF_DIS)
+			profiles = allWithOptionalLimit(prof.find().whereIn("type", "in", PROF,PROF_DIS)
 					.andWhere("user.name", "like", nome_filtro)
 					.andWhere("user.user_name", "like", model.getUsername()+"%")
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : app.getId())
-					.andWhere("user.email", "=", model.getEmail())
-					.limit(MAXIMUM_PROFILE_RECORDS + 1)
-					.all();
+					.andWhere("user.email", "=", model.getEmail()), maximumRows);
 		}
 
 		if (profiles == null) {
 			profiles = Collections.emptyList();
 		}
-		if (profiles.size() > MAXIMUM_PROFILE_RECORDS) {
-			profiles = new ArrayList<>(profiles.subList(0, MAXIMUM_PROFILE_RECORDS));
-			Core.setMessageWarning("A pesquisa atingiu o limite máximo de " + MAXIMUM_PROFILE_RECORDS
+		if (maximumRows != null && profiles.size() > maximumRows) {
+			profiles = new ArrayList<>(profiles.subList(0, maximumRows));
+			Core.setMessageWarning("A pesquisa atingiu o limite configurado de " + maximumRows
 					+ " atribuições de perfil. Refine a pesquisa para obter um resumo completo.");
-		}
+		}else if (Core.isHttpPost())
+			Core.setMessageSuccess();
 
-		final AccessOverview accessOverview = buildAccessOverview(profiles);
+		AccessAudit accessAudit = new AccessAudit();
+		List<Profile> overviewProfiles = profiles;
+		if (model.getAuditar_acessos() == 1) {
+			final boolean isAdminProfile = pp != null && pp.getCode().equalsIgnoreCase("ADMIN");
+			final int effectiveAppId = isAdminProfile || idApp != 0 ? idApp : Core.getCurrentApp().getId();
+			accessAudit = loadAccessAudit(profiles, effectiveAppId, idOrg, idProf);
+			overviewProfiles = accessAudit.profileAssignments;
+		}
+		final AccessOverview accessOverview = buildAccessOverview(overviewProfiles, accessAudit);
 		model.setResumo_utilizadores(String.valueOf(accessOverview.totalUsers));
 		model.setResumo_inativos(String.valueOf(accessOverview.inactiveUsers));
 		model.setResumo_perfis_ativos(String.valueOf(accessOverview.activeProfiles));
 		model.setResumo_problemas(accessOverview.problemSummary());
-		model.setUtilizadores_resumo(model.getProblemas_apenas() == 1
-				? accessOverview.problemRows : accessOverview.rows);
-		if (model.getProblemas_apenas() == 1) {
-			profiles = profiles.stream()
-					.filter(profile -> profile.getUser() == null
-							|| accessOverview.problemUserIds.contains(profile.getUser().getId()))
-					.toList();
+		if (model.getAuditar_acessos() == 1) {
+			final List<PesquisarUtilizador.Utilizadores_resumo> auditRows = model.getProblemas_apenas() == 1
+					? accessOverview.problemRows : accessOverview.rows;
+			model.setUtilizadores_resumo(auditRows);
+			if (model.getProblemas_apenas() == 1) {
+				profiles = profiles.stream()
+						.filter(profile -> profile.getUser() == null
+								|| accessOverview.problemUserIds.contains(profile.getUser().getId()))
+						.toList();
+			}
 		}
 
 		// Preenchendo a tabela
@@ -136,12 +157,8 @@ public class PesquisarUtilizadorController extends Controller {
 			lista.add(table1);
 		}
 
-		lista.sort(Comparator
-				.comparingInt(PesquisarUtilizador.Table_1::getAtivo_check)
-				.reversed()
-				.thenComparing(PesquisarUtilizador.Table_1::getNominho,
-						Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
-
+		lista.sort(Comparator.comparing(PesquisarUtilizador.Table_1::getTb_email,
+				Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
 		switch (this.getConfig().getAutenticationType()) {
 		case "ldap":
 			view.btn_adicionar_utilizador.setLink("igrp", "LdapUser", "index");
@@ -156,11 +173,9 @@ public class PesquisarUtilizadorController extends Controller {
 			view.btn_adicionar_utilizador.setVisible(false);	
 		}
 
-		final Map<Object, Object> listApps = new Application().getListApps();
-		listApps.put(Core.findApplicationByDad("igrp_studio").getId(), "IGRP Studio");
-		view.aplicacao.setValue(listApps);
-		view.organica.setValue(new Organization().getListOrganizations(idApp));
-		view.perfil.setValue(new ProfileType().getListProfiles(idApp, idOrg));
+
+		//view.organica.setValue(new Organization().getListOrganizations(idApp));
+		//view.perfil.setValue(new ProfileType().getListProfiles(idApp, idOrg));
 		
 		view.nome.setLabel("Username");
 		view.nominho.setLabel("Nome");		
@@ -445,14 +460,22 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-	private static final int MAXIMUM_PROFILE_RECORDS = 5000;
+	private static final int DEFAULT_MAXIMUM_ROWS = 100;
 	private static final int BROAD_ACCESS_PROFILE_THRESHOLD = 10;
 	private static final int BROAD_ACCESS_APPLICATION_THRESHOLD = 5;
 	private static final int BROAD_ACCESS_ORGANIZATION_THRESHOLD = 5;
 	private static final String PROF_DIS = "PROF_DIS"; //Profile disabled
 	public static final String PROF = "PROF";
+	private static final String MENU = "MEN";
+	private static final String MENU_USER = "MEN_USER";
+	private static final String TRANSACTION = "TRANS";
+	private static final String TRANSACTION_USER = "TRANS_USER";
 
-	private static AccessOverview buildAccessOverview(List<Profile> profiles) {
+	private static List<Profile> allWithOptionalLimit(Profile query, Integer maximumRows) {
+		return maximumRows == null ? query.orderBy("type").all() : query.orderBy("type").limit(maximumRows + 1).all();
+	}
+
+	private static AccessOverview buildAccessOverview(List<Profile> profiles, AccessAudit accessAudit) {
 		final Map<Integer, UserAccess> users = new LinkedHashMap<>();
 		int orphanProfiles = 0;
 		int activeProfiles = 0;
@@ -467,6 +490,10 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 			users.computeIfAbsent(profile.getUser().getId(), ignored -> new UserAccess(profile.getUser()))
 					.add(profile);
+		}
+		for (UserAudit userAudit : accessAudit.users.values()) {
+			users.computeIfAbsent(userAudit.user.getId(), ignored -> new UserAccess(userAudit.user))
+					.addAudit(userAudit);
 		}
 
 		final AccessOverview result = new AccessOverview();
@@ -484,11 +511,222 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 			result.rows.add(row);
 		}
-		result.rows.sort(Comparator.comparing(PesquisarUtilizador.Utilizadores_resumo::getNome_utilizador,
-				Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
-		result.problemRows.sort(Comparator.comparing(PesquisarUtilizador.Utilizadores_resumo::getNome_utilizador,
-				Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
+		final Comparator<PesquisarUtilizador.Utilizadores_resumo> userOrder = Comparator
+				.comparing(PesquisarUtilizador.Utilizadores_resumo::getEmail_utilizador,
+						Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER));
+		result.rows.sort(userOrder);
+		result.problemRows.sort(userOrder);
 		return result;
+	}
+
+	private static AccessAudit loadAccessAudit(List<Profile> userProfiles, int idApp, int idOrg, int idProf) {
+		final AccessAudit result = new AccessAudit();
+		final Set<Integer> auditedUserIds = userProfiles.stream()
+				.filter(profile -> profile != null && profile.getProfileType() != null)
+				.map(Profile::getUser)
+				.filter(Objects::nonNull)
+				.map(User::getId)
+				.collect(java.util.stream.Collectors.toSet());
+		if (auditedUserIds.isEmpty()) {
+			return result;
+		}
+
+		List<Profile> auditedUserProfiles = new Profile().find().whereIn("type", PROF, PROF_DIS)
+				.andWhere("user", "IN", auditedUserIds.toArray(Integer[]::new))
+				.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
+				.andWhere("profileType", "=", idProf != 0 ? idProf : null)
+				.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
+				.all();
+		if (auditedUserProfiles == null) {
+			auditedUserProfiles = Collections.emptyList();
+		}
+		result.profileAssignments = auditedUserProfiles;
+
+		List<Profile> userPermissions = new Profile().find()
+				.whereIn("type", MENU_USER, TRANSACTION_USER)
+				.andWhere("user", "IN", auditedUserIds.toArray(Integer[]::new))
+				.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
+				.andWhere("profileType", "=", idProf != 0 ? idProf : null)
+				.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
+				.all();
+
+		if (userPermissions == null) {
+			userPermissions = Collections.emptyList();
+		}
+
+		if (userPermissions.isEmpty()) {
+			return result;
+		}
+
+		final Set<Integer> menuIds = userPermissions.stream()
+				.filter(profile -> MENU_USER.equals(profile.getType()))
+				.map(Profile::getType_fk)
+				.filter(Objects::nonNull)
+				.collect(java.util.stream.Collectors.toSet());
+		final Set<Integer> transactionIds = userPermissions.stream()
+				.filter(profile -> TRANSACTION_USER.equals(profile.getType()))
+				.map(Profile::getType_fk)
+				.filter(Objects::nonNull)
+				.collect(java.util.stream.Collectors.toSet());
+		final Set<Integer> auditedPermissionIds = new HashSet<>(menuIds);
+		auditedPermissionIds.addAll(transactionIds);
+		List<Profile> normalPermissions = auditedPermissionIds.isEmpty()
+				? Collections.emptyList()
+				: new Profile().find().whereIn("type", MENU, TRANSACTION)
+						.andWhere("type_fk", "IN", auditedPermissionIds.toArray(Integer[]::new))
+						.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
+						.andWhere("profileType", "=", idProf != 0 ? idProf : null)
+						.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
+						.all();
+		if (normalPermissions == null) {
+			normalPermissions = Collections.emptyList();
+		}
+
+		final Set<String> activeUserProfiles = auditedUserProfiles.stream()
+				.filter(profile -> profile != null && PROF.equals(profile.getType()) && profile.getUser() != null)
+				.map(PesquisarUtilizadorController::userProfileKey)
+				.collect(java.util.stream.Collectors.toSet());
+		final Set<String> disabledUserProfiles = auditedUserProfiles.stream()
+				.filter(profile -> profile != null && PROF_DIS.equals(profile.getType()) && profile.getUser() != null)
+				.map(PesquisarUtilizadorController::userProfileKey)
+				.collect(java.util.stream.Collectors.toSet());
+		final Set<String> inheritedPermissions = normalPermissions.stream()
+				.filter(Objects::nonNull)
+				.map(PesquisarUtilizadorController::permissionKey)
+				.collect(java.util.stream.Collectors.toSet());
+
+		final Map<Integer, Menu> menus = loadMenus(menuIds);
+		final Map<Integer, Transaction> transactions = loadTransactions(transactionIds);
+		for (Profile permission : userPermissions) {
+			if (permission.getUser() == null) {
+				continue;
+			}
+			final Menu menu = MENU_USER.equals(permission.getType())
+					? menus.get(permission.getType_fk()) : null;
+			final Transaction transaction = TRANSACTION_USER.equals(permission.getType())
+					? transactions.get(permission.getType_fk()) : null;
+			if ((menu != null && menu.getStatus() != 1)
+					|| (transaction != null && transaction.getStatus() != 1)) {
+				continue;
+			}
+			final String inheritedType = MENU_USER.equals(permission.getType()) ? MENU : TRANSACTION;
+			final String profileKey = userProfileKey(permission);
+			final boolean userHasActiveProfile = activeUserProfiles.contains(profileKey);
+			if (!userHasActiveProfile && disabledUserProfiles.contains(profileKey)) {
+				continue;
+			}
+			final boolean profileContainsPermission = inheritedPermissions.contains(
+					permissionKey(inheritedType, permission));
+			if (userHasActiveProfile && profileContainsPermission) {
+				continue;
+			}
+
+			final UserAudit userAudit = result.users.computeIfAbsent(permission.getUser().getId(),
+					ignored -> new UserAudit(permission.getUser()));
+			final ProfileType permissionProfile = permission.getProfileType();
+			if (permissionProfile != null && permissionProfile.getApplication() != null) {
+				userAudit.applicationIds.add(permissionProfile.getApplication().getId());
+			}
+			if (permission.getOrganization() != null) {
+				userAudit.organizationIds.add(permission.getOrganization().getId());
+			}
+			if (MENU_USER.equals(permission.getType())) {
+				userAudit.menuExceptions.add(menuAuditLabel(permission, menu, userHasActiveProfile));
+			} else {
+				userAudit.transactionExceptions.add(transactionAuditLabel(permission, transaction,
+						userHasActiveProfile));
+			}
+		}
+		return result;
+	}
+
+	private static Map<Integer, Menu> loadMenus(Set<Integer> ids) {
+		if (ids.isEmpty()) {
+			return Collections.emptyMap();
+		}
+		final List<Menu> values = new Menu().find()
+				.andWhere("id", "IN", ids.toArray(Integer[]::new)).all();
+		return values == null ? Collections.emptyMap() : values.stream()
+				.collect(java.util.stream.Collectors.toMap(Menu::getId, menu -> menu, (first, ignored) -> first));
+	}
+
+	private static Map<Integer, Transaction> loadTransactions(Set<Integer> ids) {
+		if (ids.isEmpty()) {
+			return Collections.emptyMap();
+		}
+		final List<Transaction> values = new Transaction().find()
+				.andWhere("id", "IN", ids.toArray(Integer[]::new)).all();
+		return values == null ? Collections.emptyMap() : values.stream()
+				.collect(java.util.stream.Collectors.toMap(Transaction::getId, transaction -> transaction,
+						(first, ignored) -> first));
+	}
+
+	private static String userProfileKey(Profile profile) {
+		return id(profile.getUser()) + ":" + id(profile.getOrganization()) + ":" + id(profile.getProfileType());
+	}
+
+	private static String permissionKey(Profile profile) {
+		return permissionKey(profile.getType(), profile);
+	}
+
+	private static String permissionKey(String type, Profile profile) {
+		return type + ":" + profile.getType_fk() + ":" + id(profile.getOrganization()) + ":"
+				+ id(profile.getProfileType());
+	}
+
+	private static int id(User value) {
+		return value != null && value.getId() != null ? value.getId() : 0;
+	}
+
+	private static int id(Organization value) {
+		return value != null && value.getId() != null ? value.getId() : 0;
+	}
+
+	private static int id(ProfileType value) {
+		return value != null && value.getId() != null ? value.getId() : 0;
+	}
+
+	private static String menuAuditLabel(Profile permission, Menu menu, boolean userHasActiveProfile) {
+		return auditContext(permission) + " / "
+				+ escape(menu != null ? menu.getDescr() : "Menu #" + permission.getType_fk())
+				+ missingProfileLabel(userHasActiveProfile);
+	}
+
+	private static String transactionAuditLabel(Profile permission, Transaction transaction,
+			boolean userHasActiveProfile) {
+		final String value = transaction != null
+				? transaction.getCode() + " — " + transaction.getDescr()
+				: "Transação #" + permission.getType_fk();
+		return auditContext(permission) + " / " + escape(value) + missingProfileLabel(userHasActiveProfile);
+	}
+
+	private static String auditContext(Profile permission) {
+		final ProfileType profileType = permission.getProfileType();
+		final Application application = profileType != null ? profileType.getApplication() : null;
+		return escape(application != null ? application.getName() : "Sem aplicação") + " / "
+				+ escape(permission.getOrganization() != null ? permission.getOrganization().getName() : "Sem orgânica")
+				+ " / " + escape(profileType != null ? profileType.getDescr() : "Sem perfil");
+	}
+
+	private static String missingProfileLabel(boolean userHasActiveProfile) {
+		return userHasActiveProfile ? "" : " <span class=\"label label-danger\">Perfil não ativo</span>";
+	}
+
+	private static final class AccessAudit {
+		private final Map<Integer, UserAudit> users = new LinkedHashMap<>();
+		private List<Profile> profileAssignments = Collections.emptyList();
+	}
+
+	private static final class UserAudit {
+		private final User user;
+		private final List<String> menuExceptions = new ArrayList<>();
+		private final List<String> transactionExceptions = new ArrayList<>();
+		private final Set<Integer> applicationIds = new HashSet<>();
+		private final Set<Integer> organizationIds = new HashSet<>();
+
+		private UserAudit(User user) {
+			this.user = user;
+		}
 	}
 
 	private static final class AccessOverview {
@@ -514,6 +752,8 @@ public class PesquisarUtilizadorController extends Controller {
 		private final Set<Integer> applications = new HashSet<>();
 		private final Set<Integer> organizations = new HashSet<>();
 		private final Set<String> warnings = new LinkedHashSet<>();
+		private final List<String> menuExceptions = new ArrayList<>();
+		private final List<String> transactionExceptions = new ArrayList<>();
 		private int activeProfiles;
 		private int disabledProfiles;
 
@@ -554,7 +794,19 @@ public class PesquisarUtilizadorController extends Controller {
 				}
 			} else if (PROF_DIS.equals(profile.getType())) {
 				disabledProfiles++;
-				warnings.add("Perfil desativado");
+			}
+		}
+
+		private void addAudit(UserAudit audit) {
+			applications.addAll(audit.applicationIds);
+			organizations.addAll(audit.organizationIds);
+			menuExceptions.addAll(audit.menuExceptions);
+			transactionExceptions.addAll(audit.transactionExceptions);
+			if (!menuExceptions.isEmpty()) {
+				warnings.add("Menu utilizador adicionais");
+			}
+			if (!transactionExceptions.isEmpty()) {
+				warnings.add("Transações utilizador adicionais");
 			}
 		}
 
@@ -574,22 +826,19 @@ public class PesquisarUtilizadorController extends Controller {
 
 			final PesquisarUtilizador.Utilizadores_resumo row = new PesquisarUtilizador.Utilizadores_resumo();
 			row.setEstado_utilizador(user.getStatus() == 0
-					? "<span class=\"label label-default\">Inativo</span>"
+					? "<span class=\"label label-danger\">Inativo</span>"
 					: "<span class=\"label label-success\">Ativo</span>");
 			row.setNome_utilizador(user.getName());
-			row.setUsername_utilizador(user.getUser_name());
 			row.setEmail_utilizador(user.getEmail());
 			row.setTotal_aplicacoes(String.valueOf(applications.size()));
 			row.setTotal_organicas(String.valueOf(organizations.size()));
 			row.setPerfis_ativos(String.valueOf(activeProfiles));
 			row.setPerfis_inativos(String.valueOf(disabledProfiles));
-			row.setAlertas(warnings.isEmpty()
-					? "<span class=\"label label-success\">Sem alertas</span>"
-					: warnings.stream()
-							.map(warning -> "<span class=\"label label-warning access-warning\">"
-									+ escape(warning) + "</span>")
-							.collect(java.util.stream.Collectors.joining(" ")));
 			row.setAcessos(renderAccessDetails());
+			row.setMenus_fora_perfil(renderAuditDetails(menuExceptions,
+					"menu adicional", "menus adicionais"));
+			row.setTransacoes_fora_perfil(renderAuditDetails(transactionExceptions,
+					"transação adicional", "transações adicionais"));
 			return row;
 		}
 
@@ -598,10 +847,29 @@ public class PesquisarUtilizadorController extends Controller {
 					.map(UserAccess::assignmentLabel)
 					.sorted(String.CASE_INSENSITIVE_ORDER)
 					.toList();
+			if (assignments.isEmpty()) {
+				return "<span class=\"label label-default\">Sem perfis ativos</span>";
+			}
+			final String assignmentLabel = assignments.size() == 1 ? " atribuição" : " atribuições";
 			return "<details class=\"access-details\"><summary>" + assignments.size()
-					+ " atribuição(ões)</summary><ul><li>"
+					+ assignmentLabel + "</summary><ul><li>"
 					+ String.join("</li><li>", assignments)
 					+ "</li></ul></details>";
+		}
+
+		private static String renderAuditDetails(List<String> exceptions, String singularLabel,
+				String pluralLabel) {
+			if (exceptions.isEmpty()) {
+				return "<span class=\"label label-success\">OK</span>";
+			}
+			final List<String> sortedExceptions = exceptions.stream()
+					.distinct()
+					.sorted(String.CASE_INSENSITIVE_ORDER)
+					.toList();
+			final String label = sortedExceptions.size() == 1 ? singularLabel : pluralLabel;
+			return "<details class=\"access-details access-audit-details\"><summary>"
+					+ sortedExceptions.size() + " " + label + "</summary><ul><li>"
+					+ String.join("</li><li>", sortedExceptions) + "</li></ul></details>";
 		}
 
 		private static String assignmentLabel(Profile profile) {

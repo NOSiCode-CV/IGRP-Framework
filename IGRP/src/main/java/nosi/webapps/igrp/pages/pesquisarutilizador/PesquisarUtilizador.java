@@ -9,6 +9,8 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+import nosi.core.validator.constraints.*;
+
 public class PesquisarUtilizador extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -51,6 +53,20 @@ public class PesquisarUtilizador extends Model{
 
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
+
+	@Max(value="9999")
+	@RParam(rParamName = "p_sep_extra")
+	private String sep_extra;
+
+	@Max(value="9999")
+	@Min(value="1")
+	@RParam(rParamName = "p_maximo_linhas")
+	private Integer maximo_linhas;
+
+	@RParam(rParamName = "p_auditar_acessos")
+	private int auditar_acessos;
+	@RParam(rParamName = "p_auditar_acessos_check")
+	private int auditar_acessos_check;
 
 	@RParam(rParamName = "p_problemas_apenas")
 	private int problemas_apenas;
@@ -181,6 +197,33 @@ public class PesquisarUtilizador extends Model{
 		return this.perfil;
 	}
 	
+	public void setSep_extra(String sep_extra){
+		this.sep_extra = sep_extra;
+	}
+	public String getSep_extra(){
+		return this.sep_extra;
+	}
+	
+	public void setMaximo_linhas(Integer maximo_linhas){
+		this.maximo_linhas = maximo_linhas;
+	}
+	public Integer getMaximo_linhas(){
+		return this.maximo_linhas;
+	}
+	
+	public void setAuditar_acessos(int auditar_acessos){
+		this.auditar_acessos = auditar_acessos;
+	}
+	public int getAuditar_acessos(){
+		return this.auditar_acessos;
+	}
+	public void setAuditar_acessos_check(int auditar_acessos_check){
+		this.auditar_acessos_check = auditar_acessos_check;
+	}
+	public int getAuditar_acessos_check(){
+		return this.auditar_acessos_check;
+	}
+	
 	public void setProblemas_apenas(int problemas_apenas){
 		this.problemas_apenas = problemas_apenas;
 	}
@@ -271,14 +314,14 @@ public class PesquisarUtilizador extends Model{
 	public static class Utilizadores_resumo extends IGRPTable.Table{
 		private String estado_utilizador;
 		private String nome_utilizador;
-		private String username_utilizador;
 		private String email_utilizador;
 		private String total_aplicacoes;
 		private String total_organicas;
 		private String perfis_ativos;
 		private String perfis_inativos;
-		private String alertas;
 		private String acessos;
+		private String menus_fora_perfil;
+		private String transacoes_fora_perfil;
 		public void setEstado_utilizador(String estado_utilizador){
 			this.estado_utilizador = estado_utilizador;
 		}
@@ -291,13 +334,6 @@ public class PesquisarUtilizador extends Model{
 		}
 		public String getNome_utilizador(){
 			return this.nome_utilizador;
-		}
-
-		public void setUsername_utilizador(String username_utilizador){
-			this.username_utilizador = username_utilizador;
-		}
-		public String getUsername_utilizador(){
-			return this.username_utilizador;
 		}
 
 		public void setEmail_utilizador(String email_utilizador){
@@ -335,18 +371,25 @@ public class PesquisarUtilizador extends Model{
 			return this.perfis_inativos;
 		}
 
-		public void setAlertas(String alertas){
-			this.alertas = alertas;
-		}
-		public String getAlertas(){
-			return this.alertas;
-		}
-
 		public void setAcessos(String acessos){
 			this.acessos = acessos;
 		}
 		public String getAcessos(){
 			return this.acessos;
+		}
+
+		public void setMenus_fora_perfil(String menus_fora_perfil){
+			this.menus_fora_perfil = menus_fora_perfil;
+		}
+		public String getMenus_fora_perfil(){
+			return this.menus_fora_perfil;
+		}
+
+		public void setTransacoes_fora_perfil(String transacoes_fora_perfil){
+			this.transacoes_fora_perfil = transacoes_fora_perfil;
+		}
+		public String getTransacoes_fora_perfil(){
+			return this.transacoes_fora_perfil;
 		}
 
 	}

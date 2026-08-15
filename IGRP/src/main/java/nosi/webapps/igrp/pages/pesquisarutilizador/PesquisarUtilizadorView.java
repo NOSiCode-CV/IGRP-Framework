@@ -22,6 +22,10 @@ public class PesquisarUtilizadorView extends View {
 	public Field aplicacao;
 	public Field organica;
 	public Field perfil;
+	public Field sep_extra;
+	public Field maximo_linhas;
+	public Field auditar_acessos;
+	public Field auditar_acessos_check;
 	public Field problemas_apenas;
 	public Field problemas_apenas_check;
 	public Field ativo;
@@ -35,14 +39,14 @@ public class PesquisarUtilizadorView extends View {
 	public Field check_email_hidden;
 	public Field estado_utilizador;
 	public Field nome_utilizador;
-	public Field username_utilizador;
 	public Field email_utilizador;
 	public Field total_aplicacoes;
 	public Field total_organicas;
 	public Field perfis_ativos;
 	public Field perfis_inativos;
-	public Field alertas;
 	public Field acessos;
+	public Field menus_fora_perfil;
+	public Field transacoes_fora_perfil;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm access_summary;
@@ -73,9 +77,9 @@ public class PesquisarUtilizadorView extends View {
 
 		form_1 = new IGRPForm("form_1","Filtro");
 
-		table_1 = new IGRPTable("table_1","Atribuições de perfil");
+		table_1 = new IGRPTable("table_1","Utilizadores");
 
-		utilizadores_resumo = new IGRPTable("utilizadores_resumo","Utilizadores");
+		utilizadores_resumo = new IGRPTable("utilizadores_resumo","Auditoria dos utilizadores");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -84,7 +88,7 @@ public class PesquisarUtilizadorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=utilizador"));
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=utilizador"));
 		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		resumo_utilizadores = new PlainTextField(model,"resumo_utilizadores");
@@ -130,6 +134,18 @@ public class PesquisarUtilizadorView extends View {
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
 		perfil.propertie().add("remote-index",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		
+		sep_extra = new SeparatorField(model,"sep_extra");
+		sep_extra.setLabel(gt("Extra"));
+		sep_extra.propertie().add("name","p_sep_extra").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
+		
+		maximo_linhas = new NumberField(model,"maximo_linhas");
+		maximo_linhas.setLabel(gt("Máximo de linhas"));
+		maximo_linhas.propertie().add("name","p_maximo_linhas").add("type","number").add("min","1").add("max","").add("calculation","false").add("mathcal","").add("numberformat","").add("maxlength","5").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("100")).add("desclabel","false").add("java-type","Integer").add("tooltip","false").add("disable_copy_paste","false");
+		
+		auditar_acessos = new CheckBoxField(model,"auditar_acessos");
+		auditar_acessos.setLabel(gt("Auditar menus e transações"));
+		auditar_acessos.propertie().add("name","p_auditar_acessos").add("type","checkbox").add("maxlength","1").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","true").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		problemas_apenas = new CheckBoxField(model,"problemas_apenas");
 		problemas_apenas.setLabel(gt("Mostrar apenas problemas"));
@@ -178,10 +194,6 @@ public class PesquisarUtilizadorView extends View {
 		nome_utilizador.setLabel(gt("Nome"));
 		nome_utilizador.propertie().add("name","p_nome_utilizador").add("type","plaintext").add("maxlength","250").add("showLabel","true").add("disable_output_escaping","false").add("html_class","").add("group_in","");
 		
-		username_utilizador = new PlainTextField(model,"username_utilizador");
-		username_utilizador.setLabel(gt("Username"));
-		username_utilizador.propertie().add("name","p_username_utilizador").add("type","plaintext").add("maxlength","100").add("showLabel","true").add("disable_output_escaping","false").add("html_class","").add("group_in","");
-		
 		email_utilizador = new PlainTextField(model,"email_utilizador");
 		email_utilizador.setLabel(gt("Email"));
 		email_utilizador.propertie().add("name","p_email_utilizador").add("type","plaintext").add("maxlength","100").add("showLabel","true").add("disable_output_escaping","false").add("html_class","").add("group_in","");
@@ -202,13 +214,17 @@ public class PesquisarUtilizadorView extends View {
 		perfis_inativos.setLabel(gt("Desativados"));
 		perfis_inativos.propertie().add("name","p_perfis_inativos").add("type","plaintext").add("maxlength","30").add("showLabel","true").add("disable_output_escaping","false").add("html_class","").add("group_in","");
 		
-		alertas = new PlainTextField(model,"alertas");
-		alertas.setLabel(gt("Problemas"));
-		alertas.propertie().add("name","p_alertas").add("type","plaintext").add("maxlength","1000").add("showLabel","true").add("disable_output_escaping","true").add("html_class","").add("group_in","");
-		
 		acessos = new PlainTextField(model,"acessos");
 		acessos.setLabel(gt("Acessos"));
 		acessos.propertie().add("name","p_acessos").add("type","plaintext").add("maxlength","4000").add("showLabel","true").add("disable_output_escaping","true").add("html_class","").add("group_in","");
+		
+		menus_fora_perfil = new PlainTextField(model,"menus_fora_perfil");
+		menus_fora_perfil.setLabel(gt("Menu utilizador adicionais"));
+		menus_fora_perfil.propertie().add("name","p_menus_fora_perfil").add("type","plaintext").add("maxlength","4000").add("showLabel","true").add("disable_output_escaping","true").add("html_class","").add("group_in","");
+		
+		transacoes_fora_perfil = new PlainTextField(model,"transacoes_fora_perfil");
+		transacoes_fora_perfil.setLabel(gt("Transações utilizador adicionais"));
+		transacoes_fora_perfil.propertie().add("name","p_transacoes_fora_perfil").add("type","plaintext").add("maxlength","4000").add("showLabel","true").add("disable_output_escaping","true").add("html_class","").add("group_in","");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -262,6 +278,9 @@ public class PesquisarUtilizadorView extends View {
 		form_1.addField(aplicacao);
 		form_1.addField(organica);
 		form_1.addField(perfil);
+		form_1.addField(sep_extra);
+		form_1.addField(maximo_linhas);
+		form_1.addField(auditar_acessos);
 		form_1.addField(problemas_apenas);
 
 
@@ -277,14 +296,14 @@ public class PesquisarUtilizadorView extends View {
 
 		utilizadores_resumo.addField(estado_utilizador);
 		utilizadores_resumo.addField(nome_utilizador);
-		utilizadores_resumo.addField(username_utilizador);
 		utilizadores_resumo.addField(email_utilizador);
 		utilizadores_resumo.addField(total_aplicacoes);
 		utilizadores_resumo.addField(total_organicas);
 		utilizadores_resumo.addField(perfis_ativos);
 		utilizadores_resumo.addField(perfis_inativos);
-		utilizadores_resumo.addField(alertas);
 		utilizadores_resumo.addField(acessos);
+		utilizadores_resumo.addField(menus_fora_perfil);
+		utilizadores_resumo.addField(transacoes_fora_perfil);
 
 		toolsbar_1.addButton(btn_convidar);
 		toolsbar_1.addButton(btn_adicionar_utilizador);
@@ -318,6 +337,9 @@ public class PesquisarUtilizadorView extends View {
 		aplicacao.setValue(model);
 		organica.setValue(model);
 		perfil.setValue(model);
+		sep_extra.setValue(model);
+		maximo_linhas.setValue(model);
+		auditar_acessos.setValue(model);
 		problemas_apenas.setValue(model);
 		ativo.setValue(model);
 		nominho.setValue(model);
@@ -329,14 +351,14 @@ public class PesquisarUtilizadorView extends View {
 		check_email_hidden.setValue(model);
 		estado_utilizador.setValue(model);
 		nome_utilizador.setValue(model);
-		username_utilizador.setValue(model);
 		email_utilizador.setValue(model);
 		total_aplicacoes.setValue(model);
 		total_organicas.setValue(model);
 		perfis_ativos.setValue(model);
 		perfis_inativos.setValue(model);
-		alertas.setValue(model);
-		acessos.setValue(model);	
+		acessos.setValue(model);
+		menus_fora_perfil.setValue(model);
+		transacoes_fora_perfil.setValue(model);	
 
 		table_1.loadModel(((PesquisarUtilizador) model).getTable_1());
 		utilizadores_resumo.loadModel(((PesquisarUtilizador) model).getUtilizadores_resumo());
