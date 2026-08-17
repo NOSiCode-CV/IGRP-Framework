@@ -24,9 +24,9 @@ import nosi.webapps.igrp.dao.User;
 		
 public class PesquisarUtilizadorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
-		var view = new PesquisarUtilizadorView();
+		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
 		view.nome.setParam(true);
 		view.tb_email.setParam(true);
 		view.id.setParam(true);
@@ -125,7 +125,7 @@ public class PesquisarUtilizadorController extends Controller {
 				profiles = profiles.stream()
 						.filter(profile -> profile.getUser() == null
 								|| accessOverview.problemUserIds.contains(profile.getUser().getId()))
-						.toList();
+						.collect(java.util.stream.Collectors.toList());
 			}
 		}
 
@@ -168,7 +168,8 @@ public class PesquisarUtilizadorController extends Controller {
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 
-		String aux = ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.environmentValue();
+		Properties settings = this.configApp.loadConfig("common", "main.xml");
+		String aux = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
 		if ((aux != null && aux.equals("true"))) {
 			view.btn_adicionar_utilizador.setVisible(false);	
 		}
@@ -189,7 +190,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -222,7 +223,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -243,7 +244,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -268,7 +269,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -297,7 +298,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAssiocar_menu() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -324,7 +325,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAssiocar_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -348,7 +349,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAssiocar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -373,7 +374,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionConvidar_user() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -402,7 +403,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		var model = new PesquisarUtilizador();
+		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -846,7 +847,7 @@ public class PesquisarUtilizadorController extends Controller {
 			final List<String> assignments = profiles.stream()
 					.map(UserAccess::assignmentLabel)
 					.sorted(String.CASE_INSENSITIVE_ORDER)
-					.toList();
+					.collect(java.util.stream.Collectors.toList());
 			if (assignments.isEmpty()) {
 				return "<span class=\"label label-default\">Sem perfis ativos</span>";
 			}
@@ -865,7 +866,7 @@ public class PesquisarUtilizadorController extends Controller {
 			final List<String> sortedExceptions = exceptions.stream()
 					.distinct()
 					.sorted(String.CASE_INSENSITIVE_ORDER)
-					.toList();
+					.collect(java.util.stream.Collectors.toList());
 			final String label = sortedExceptions.size() == 1 ? singularLabel : pluralLabel;
 			return "<details class=\"access-details access-audit-details\"><summary>"
 					+ sortedExceptions.size() + " " + label + "</summary><ul><li>"
