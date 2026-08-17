@@ -312,7 +312,8 @@ th.igrp-table-ctx-th{
   margin:0;
   padding: 0;
   display: inline-flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   max-width: 230px;
   vertical-align: middle;
 }

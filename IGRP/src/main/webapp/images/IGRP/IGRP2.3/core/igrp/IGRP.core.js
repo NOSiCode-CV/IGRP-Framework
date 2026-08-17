@@ -1552,7 +1552,8 @@
 				url: null,
 				headers: {},
 				data: null,
-				rawHtml : null
+				rawHtml : null,
+				complete: null
 			}, params);
 
 			options.nodes.forEach(function(nodeName) {
@@ -1588,7 +1589,8 @@
 							xml    : xml,
 							nodes  : options.nodes,
 							success: options.success,
-							error  : options.error
+							error  : options.error,
+							complete: options.complete
 						});
 						return;
 					}
@@ -1684,6 +1686,10 @@
 					});
 				}
 			});
+
+			if (options.complete) {
+				options.complete();
+			}
 		}
 
 		const containsFunc = function (a, i, m) {
