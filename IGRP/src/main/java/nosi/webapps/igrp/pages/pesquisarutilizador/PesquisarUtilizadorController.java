@@ -157,8 +157,10 @@ public class PesquisarUtilizadorController extends Controller {
 			lista.add(table1);
 		}
 
-		lista.sort(Comparator.comparing(PesquisarUtilizador.Table_1::getTb_email,
-				Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
+		lista.sort(Comparator
+				.comparingInt((PesquisarUtilizador.Table_1 row) -> row.getAtivo_check() == 0 ? 1 : 0)
+				.thenComparing(PesquisarUtilizador.Table_1::getTb_email,
+						Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
 		switch (this.getConfig().getAutenticationType()) {
 		case "ldap":
 			view.btn_adicionar_utilizador.setLink("igrp", "LdapUser", "index");
@@ -501,7 +503,12 @@ public class PesquisarUtilizadorController extends Controller {
 		result.totalUsers = users.size();
 		result.activeProfiles = activeProfiles;
 		result.orphanProfiles = orphanProfiles;
-		for (UserAccess access : users.values()) {
+		final List<UserAccess> orderedUsers = new ArrayList<>(users.values());
+		orderedUsers.sort(Comparator
+				.comparingInt((UserAccess access) -> access.user.getStatus() == 0 ? 1 : 0)
+				.thenComparing(access -> access.user.getEmail(),
+						Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
+		for (UserAccess access : orderedUsers) {
 			if (access.user.getStatus() == 0) {
 				result.inactiveUsers++;
 			}
@@ -512,11 +519,6 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 			result.rows.add(row);
 		}
-		final Comparator<PesquisarUtilizador.Utilizadores_resumo> userOrder = Comparator
-				.comparing(PesquisarUtilizador.Utilizadores_resumo::getEmail_utilizador,
-						Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER));
-		result.rows.sort(userOrder);
-		result.problemRows.sort(userOrder);
 		return result;
 	}
 
