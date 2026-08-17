@@ -533,7 +533,7 @@ public class PesquisarUtilizadorController extends Controller {
 		}
 
 		List<Profile> auditedUserProfiles = new Profile().find().whereIn("type", PROF, PROF_DIS)
-				.andWhere("user", "IN", auditedUserIds.toArray(Integer[]::new))
+				.andWhere("user", "IN", auditedUserIds.toArray(new Integer[0]))
 				.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 				.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 				.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
@@ -545,7 +545,7 @@ public class PesquisarUtilizadorController extends Controller {
 
 		List<Profile> userPermissions = new Profile().find()
 				.whereIn("type", MENU_USER, TRANSACTION_USER)
-				.andWhere("user", "IN", auditedUserIds.toArray(Integer[]::new))
+				.andWhere("user", "IN", auditedUserIds.toArray(new Integer[0]))
 				.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 				.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 				.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
@@ -574,7 +574,7 @@ public class PesquisarUtilizadorController extends Controller {
 		List<Profile> normalPermissions = auditedPermissionIds.isEmpty()
 				? Collections.emptyList()
 				: new Profile().find().whereIn("type", MENU, TRANSACTION)
-						.andWhere("type_fk", "IN", auditedPermissionIds.toArray(Integer[]::new))
+						.andWhere("type_fk", "IN", auditedPermissionIds.toArray(new Integer[0]))
 						.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 						.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 						.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
@@ -646,7 +646,7 @@ public class PesquisarUtilizadorController extends Controller {
 			return Collections.emptyMap();
 		}
 		final List<Menu> values = new Menu().find()
-				.andWhere("id", "IN", ids.toArray(Integer[]::new)).all();
+				.andWhere("id", "IN", ids.toArray(new Integer[0])).all();
 		return values == null ? Collections.emptyMap() : values.stream()
 				.collect(java.util.stream.Collectors.toMap(Menu::getId, menu -> menu, (first, ignored) -> first));
 	}
@@ -656,7 +656,7 @@ public class PesquisarUtilizadorController extends Controller {
 			return Collections.emptyMap();
 		}
 		final List<Transaction> values = new Transaction().find()
-				.andWhere("id", "IN", ids.toArray(Integer[]::new)).all();
+				.andWhere("id", "IN", ids.toArray(new Integer[0])).all();
 		return values == null ? Collections.emptyMap() : values.stream()
 				.collect(java.util.stream.Collectors.toMap(Transaction::getId, transaction -> transaction,
 						(first, ignored) -> first));
