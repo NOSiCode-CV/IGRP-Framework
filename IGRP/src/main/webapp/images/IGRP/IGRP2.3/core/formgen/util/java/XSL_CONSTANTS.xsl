@@ -226,7 +226,7 @@
     	<xsl:if test="count(/rows/content/*[@type = 'formlist' or @type = 'separatorlist'])  &gt; 0">
     		<xsl:text>import javax.validation.Valid;</xsl:text>
     	</xsl:if>
-    	<xsl:if test="count(//validations/validation)  &gt; 0">
+        <xsl:if test="count(//validations/validation) &gt; 0 or count(//fields/*[@min != '' or @max != '']) &gt; 0">
        		<xsl:value-of select="$newline"/>
    			<xsl:value-of select="'import nosi.core.validator.constraints.*;'"/>
        		<xsl:value-of select="$newline"/>
