@@ -339,7 +339,8 @@
 																success: function(c) {
 																	if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 																		$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-
+																},
+																complete: function() {
 																	com.controllChangeBeforeSubmitNext({
 																		currentIndex, newIndex, obj, valid, currentObj
 																	});
@@ -353,7 +354,8 @@
 																success : function(c) {
 																	if ($.IGRP.components.tableCtrl && $.IGRP.components.tableCtrl.resetTableConfigurations)
 																		$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-
+																},
+																complete: function() {
 																	com.controllChangeBeforeSubmitNext({
 																		currentIndex, newIndex, obj, valid, currentObj
 																	});

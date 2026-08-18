@@ -5,6 +5,15 @@
 
         if(this[0]){
 
+            var tablesToInitialize = this.filter(function(){
+                return !$(this).data('igrp-formlist-initialized');
+            });
+
+            if(!tablesToInitialize[0])
+                return this;
+
+            tablesToInitialize.data('igrp-formlist-initialized', true);
+
             var defaults = {
               btnDelete     : true,
               btnAdd        : true,
@@ -21,9 +30,9 @@
               data          : []
             };
 
-            var _this = this;
+            var _this = tablesToInitialize;
             var settings    = $.extend( defaults,options );
-            var TABLE       = $(this);
+            var TABLE       = tablesToInitialize;
             var vRel        = TABLE.attr('rel'),
                 type        = TABLE.attr('type') ? TABLE.attr('type') : 'table',
                 obj         = type == 'table' ? 'tbody tr' : '.fl-box';
@@ -305,7 +314,7 @@
 
             };
 
-            this.on('click',settings.btnObjAdd,function(){
+            _this.on('click',settings.btnObjAdd,function(){
                 vRel  = $(this).attr('rel');
                 TABLE = getObjTable(vRel);
                 var element = type == 'table' ? "tr:first" : '.fl-box';
@@ -324,7 +333,7 @@
 
             };
 
-            this.on('click',settings.btnObjDelete,function(ele){
+            _this.on('click',settings.btnObjDelete,function(ele){
 
                 ele.preventDefault();
                
@@ -348,7 +357,7 @@
                 return str.slice(0, index) + str.slice(index + searchstr.length);
             }
 
-            this.each(function(i,e){
+            _this.each(function(i,e){
 
                 e.events    = new $.EVENTS(["ready","row-add","row-remove","row-reset","row-clone","fields-draw"]);            
 
