@@ -345,6 +345,17 @@
 
 			});
 
+			// Core stylesheets are loaded asynchronously.  Re-run layout listeners once
+			// the page has fully loaded so components that measure their width (such as
+			// the sidebar and top menu) do not retain their pre-style dimensions.
+			$(window).on('load', function(){
+
+				$.IGRP.events.execute('windowResize');
+
+				$.IGRP.screen.check();
+
+			});
+
 			$.IGRP.checkBrowser();
 
 			$.IGRP.screen.check();

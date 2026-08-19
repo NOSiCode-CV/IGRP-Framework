@@ -215,7 +215,7 @@
                     <rules/>
                 </auditar_acessos>
                 <problemas_apenas name="p_problemas_apenas" type="checkbox" maxlength="1" required="false" readonly="false" disabled="false" right="true" java-type="int" switch="true" tooltip="false" disable_copy_paste="false" change="false" check="true">
-                    <label>Mostrar apenas problemas</label>
+                    <label>Mostrar apenas alertas</label>
                     <value>1</value>
                 </problemas_apenas>
             </fields>

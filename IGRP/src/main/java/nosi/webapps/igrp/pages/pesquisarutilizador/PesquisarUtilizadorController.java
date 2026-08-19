@@ -508,9 +508,9 @@ public class PesquisarUtilizadorController extends Controller {
 				.thenComparing(access -> access.user.getEmail(),
 						Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)));
 		for (UserAccess access : orderedUsers) {
-			if (access.user.getStatus() == 0) {
-				result.inactiveUsers++;
-			}
+//			if (access.user.getStatus() == 0) {
+//				result.inactiveUsers++;
+//			}
 			final PesquisarUtilizador.Utilizadores_resumo row = access.toRow();
 			if (access.hasProblems()) {
 				result.problemUserIds.add(access.user.getId());
@@ -629,9 +629,13 @@ public class PesquisarUtilizadorController extends Controller {
 				userAudit.organizationIds.add(permission.getOrganization().getId());
 			}
 			if (MENU_USER.equals(permission.getType())) {
-				userAudit.menuExceptions.add(menuAuditLabel(permission, menu));
+				userAudit.menuExceptions.add(auditEntry(permission,
+						menu != null ? menu.getDescr() : "Menu #" + permission.getType_fk()));
 			} else {
-				userAudit.transactionExceptions.add(transactionAuditLabel(permission, transaction));
+				final String value = transaction != null
+						? transaction.getCode() + " — " + transaction.getDescr()
+						: "Transação #" + permission.getType_fk();
+				userAudit.transactionExceptions.add(auditEntry(permission, value));
 			}
 		}
 		return result;
@@ -683,24 +687,17 @@ public class PesquisarUtilizadorController extends Controller {
 		return value != null && value.getId() != null ? value.getId() : 0;
 	}
 
-	private static String menuAuditLabel(Profile permission, Menu menu) {
-		return auditContext(permission) + " / "
-				+ escape(menu != null ? menu.getDescr() : "Menu #" + permission.getType_fk());
-	}
-
-	private static String transactionAuditLabel(Profile permission, Transaction transaction) {
-		final String value = transaction != null
-				? transaction.getCode() + " — " + transaction.getDescr()
-				: "Transação #" + permission.getType_fk();
-		return auditContext(permission) + " / " + escape(value);
-	}
-
-	private static String auditContext(Profile permission) {
+	private static AuditEntry auditEntry(Profile permission, String item) {
 		final ProfileType profileType = permission.getProfileType();
 		final Application application = profileType != null ? profileType.getApplication() : null;
-		return escape(application != null ? application.getName() : "Sem aplicação") + " / "
-				+ escape(permission.getOrganization() != null ? permission.getOrganization().getName() : "Sem orgânica")
-				+ " / " + escape(profileType != null ? profileType.getDescr() : "Sem perfil");
+		final Organization organization = permission.getOrganization() != null
+				? permission.getOrganization()
+				: profileType != null ? profileType.getOrganization() : null;
+		return new AuditEntry(
+				application != null ? application.getName() : "Sem aplicação",
+				organization != null ? organization.getName() : "Sem orgânica",
+				profileType != null ? profileType.getDescr() : "Sem perfil",
+				item);
 	}
 
 	private static final class AccessAudit {
@@ -710,8 +707,8 @@ public class PesquisarUtilizadorController extends Controller {
 
 	private static final class UserAudit {
 		private final User user;
-		private final List<String> menuExceptions = new ArrayList<>();
-		private final List<String> transactionExceptions = new ArrayList<>();
+		private final List<AuditEntry> menuExceptions = new ArrayList<>();
+		private final List<AuditEntry> transactionExceptions = new ArrayList<>();
 		private final Set<Integer> applicationIds = new HashSet<>();
 		private final Set<Integer> organizationIds = new HashSet<>();
 
@@ -743,8 +740,8 @@ public class PesquisarUtilizadorController extends Controller {
 		private final Set<Integer> applications = new HashSet<>();
 		private final Set<Integer> organizations = new HashSet<>();
 		private final Set<String> warnings = new LinkedHashSet<>();
-		private final List<String> menuExceptions = new ArrayList<>();
-		private final List<String> transactionExceptions = new ArrayList<>();
+		private final List<AuditEntry> menuExceptions = new ArrayList<>();
+		private final List<AuditEntry> transactionExceptions = new ArrayList<>();
 		private int activeProfiles;
 		private int disabledProfiles;
 
@@ -762,27 +759,27 @@ public class PesquisarUtilizadorController extends Controller {
 
 			if (application != null) {
 				applications.add(application.getId());
-				if (application.getStatus() != 1) {
-					warnings.add("Aplicação inativa");
-				}
+//				if (application.getStatus() != 1) {
+//					warnings.add("Aplicação inativa");
+//				}
 			}
 			if (organization != null) {
 				organizations.add(organization.getId());
-				if (organization.getStatus() != 1) {
-					warnings.add("Orgânica inativa");
-				}
+//				if (organization.getStatus() != 1) {
+//					warnings.add("Orgânica inativa");
+//				}
 			}
-			if (profileType == null) {
-				warnings.add("Perfil inválido");
-			} else if (profileType.getStatus() != 1) {
-				warnings.add("Tipo de perfil inativo");
-			}
+//			if (profileType == null) {
+//				warnings.add("Perfil inválido");
+//			} else if (profileType.getStatus() != 1) {
+//				warnings.add("Tipo de perfil inativo");
+//			}
 
 			if (PROF.equals(profile.getType())) {
 				activeProfiles++;
-				if (user.getStatus() == 0) {
-					warnings.add("Utilizador inativo com acesso ativo");
-				}
+//				if (user.getStatus() == 0) {
+//					warnings.add("Utilizador inativo com acesso ativo");
+//				}
 			} else if (PROF_DIS.equals(profile.getType())) {
 				disabledProfiles++;
 			}
@@ -834,47 +831,143 @@ public class PesquisarUtilizadorController extends Controller {
 		}
 
 		private String renderAccessDetails() {
-			final List<String> assignments = profiles.stream()
-					.map(UserAccess::assignmentLabel)
-					.sorted(String.CASE_INSENSITIVE_ORDER)
-					.toList();
-			if (assignments.isEmpty()) {
-				return "<span class=\"label label-default\">Sem perfis ativos</span>";
+			if (profiles.isEmpty()) {
+				return "<span class=\"label label-default\">Sem atribuições</span>";
 			}
-			final String assignmentLabel = assignments.size() == 1 ? " atribuição" : " atribuições";
-			return "<details class=\"access-details\"><summary>" + assignments.size()
-					+ assignmentLabel + "</summary><ul><li>"
-					+ String.join("</li><li>", assignments)
-					+ "</li></ul></details>";
+			final Comparator<String> comparator = String.CASE_INSENSITIVE_ORDER;
+			final Map<String, Map<String, Map<String, AssignmentSummary>>> hierarchy = new TreeMap<>(comparator);
+			for (Profile profile : profiles) {
+				final AssignmentEntry assignment = assignmentEntry(profile);
+				hierarchy.computeIfAbsent(assignment.application, ignored -> new TreeMap<>(comparator))
+						.computeIfAbsent(assignment.organization, ignored -> new TreeMap<>(comparator))
+						.computeIfAbsent(assignment.profile, ignored -> new AssignmentSummary())
+						.add(assignment.active);
+			}
+			final String assignmentLabel = profiles.size() == 1 ? " atribuição" : " atribuições";
+			final StringBuilder html = new StringBuilder("<details class=\"access-details\"><summary>")
+					.append(profiles.size()).append(assignmentLabel)
+					.append("</summary><ul class=\"access-hierarchy\">");
+			for (Map.Entry<String, Map<String, Map<String, AssignmentSummary>>> application : hierarchy.entrySet()) {
+				html.append("<li><strong>").append(escape(application.getKey())).append("</strong><ul>");
+				for (Map.Entry<String, Map<String, AssignmentSummary>> organization : application.getValue().entrySet()) {
+					html.append("<li><strong>").append(escape(organization.getKey())).append("</strong><ul>");
+					for (Map.Entry<String, AssignmentSummary> profile : organization.getValue().entrySet()) {
+						html.append("<li>").append(escape(profile.getKey()))
+								.append(profile.getValue().renderStatus()).append("</li>");
+					}
+					html.append("</ul></li>");
+				}
+				html.append("</ul></li>");
+			}
+			return html.append("</ul></details>").toString();
 		}
 
-		private static String renderAuditDetails(List<String> exceptions, String singularLabel,
+		private static String renderAuditDetails(List<AuditEntry> exceptions, String singularLabel,
 				String pluralLabel) {
 			if (exceptions.isEmpty()) {
 				return "<span class=\"label label-success\">OK</span>";
 			}
-			final List<String> sortedExceptions = exceptions.stream()
-					.distinct()
-					.sorted(String.CASE_INSENSITIVE_ORDER)
-					.toList();
-			final String label = sortedExceptions.size() == 1 ? singularLabel : pluralLabel;
-			return "<details class=\"access-details access-audit-details\"><summary>"
-					+ sortedExceptions.size() + " " + label + "</summary><ul><li>"
-					+ String.join("</li><li>", sortedExceptions) + "</li></ul></details>";
+			final Comparator<String> comparator = String.CASE_INSENSITIVE_ORDER;
+			final Map<String, Map<String, Map<String, Set<String>>>> hierarchy = new TreeMap<>(comparator);
+			for (AuditEntry exception : exceptions) {
+				hierarchy.computeIfAbsent(exception.application, ignored -> new TreeMap<>(comparator))
+						.computeIfAbsent(exception.organization, ignored -> new TreeMap<>(comparator))
+						.computeIfAbsent(exception.profile, ignored -> new TreeSet<>(comparator))
+						.add(exception.item);
+			}
+			final int total = hierarchy.values().stream()
+					.flatMap(organizations -> organizations.values().stream())
+					.flatMap(profiles -> profiles.values().stream())
+					.mapToInt(Set::size)
+					.sum();
+			final String label = total == 1 ? singularLabel : pluralLabel;
+			final StringBuilder html = new StringBuilder("<details class=\"access-details access-audit-details\"><summary>")
+					.append(total).append(" ").append(label)
+					.append("</summary><ul class=\"access-audit-hierarchy\">");
+			for (Map.Entry<String, Map<String, Map<String, Set<String>>>> application : hierarchy.entrySet()) {
+				html.append("<li><strong>").append(escape(application.getKey())).append("</strong><ul>");
+				for (Map.Entry<String, Map<String, Set<String>>> organization : application.getValue().entrySet()) {
+					html.append("<li><strong>").append(escape(organization.getKey())).append("</strong><ul>");
+					for (Map.Entry<String, Set<String>> profile : organization.getValue().entrySet()) {
+						html.append("<li><strong>").append(escape(profile.getKey())).append("</strong><ul><li>")
+								.append(profile.getValue().stream().map(PesquisarUtilizadorController::escape)
+										.collect(java.util.stream.Collectors.joining("</li><li>")))
+								.append("</li></ul></li>");
+					}
+					html.append("</ul></li>");
+				}
+				html.append("</ul></li>");
+			}
+			return html.append("</ul></details>").toString();
 		}
 
-		private static String assignmentLabel(Profile profile) {
+		private static AssignmentEntry assignmentEntry(Profile profile) {
 			final ProfileType profileType = profile.getProfileType();
 			final Application application = profileType != null ? profileType.getApplication() : null;
 			final Organization organization = profile.getOrganization() != null
 					? profile.getOrganization()
 					: profileType != null ? profileType.getOrganization() : null;
-			final String status = PROF.equals(profile.getType()) ? "Ativo" : "Desativado";
-			return escape(application != null ? application.getName() : "Sem aplicação") + " / "
-					+ escape(organization != null ? organization.getName() : "Sem orgânica") + " / "
-					+ escape(profileType != null ? profileType.getDescr() : "Sem perfil")
-					+ " <span class=\"label " + (PROF.equals(profile.getType()) ? "label-success" : "label-default")
-					+ "\">" + status + "</span>";
+			return new AssignmentEntry(
+					application != null ? application.getName() : "Sem aplicação",
+					organization != null ? organization.getName() : "Sem orgânica",
+					profileType != null ? profileType.getDescr() : "Sem perfil",
+					PROF.equals(profile.getType()));
+		}
+	}
+
+	private static final class AuditEntry {
+		private final String application;
+		private final String organization;
+		private final String profile;
+		private final String item;
+
+		private AuditEntry(String application, String organization, String profile, String item) {
+			this.application = application;
+			this.organization = organization;
+			this.profile = profile;
+			this.item = item;
+		}
+	}
+
+	private static final class AssignmentEntry {
+		private final String application;
+		private final String organization;
+		private final String profile;
+		private final boolean active;
+
+		private AssignmentEntry(String application, String organization, String profile, boolean active) {
+			this.application = application;
+			this.organization = organization;
+			this.profile = profile;
+			this.active = active;
+		}
+	}
+
+	private static final class AssignmentSummary {
+		private int active;
+		private int inactive;
+
+		private void add(boolean isActive) {
+			if (isActive) {
+				active++;
+			} else {
+				inactive++;
+			}
+		}
+
+		private String renderStatus() {
+			final StringBuilder html = new StringBuilder();
+			if (active > 0) {
+				html.append(" <span class=\"label label-success\">")
+						.append(active == 1 ? "Ativo" : active + " ativos")
+						.append("</span>");
+			}
+			if (inactive > 0) {
+				html.append(" <span class=\"label label-default\">")
+						.append(inactive == 1 ? "Desativado" : inactive + " desativados")
+						.append("</span>");
+			}
+			return html.toString();
 		}
 	}
 
