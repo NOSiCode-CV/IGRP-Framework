@@ -318,18 +318,63 @@
                 return false;
             },
 
-            getHiddenFields : function(xml){
+            getHiddenFields: function(xmlOrHtml) {
+                const $doc = $(xmlOrHtml);
 
-                $(xml).find('rows content >* hidden').each(function(){
-                    var name = $(this).attr('name');
+                const syncByNameAndPosition = function($sources, getValue) {
+                    const valuesByName = {};
 
-                    $.IGRP.utils.createHidden({
-                        name : name,
-                        id 	 : name,
-                        value: $(this).text(),
-                        class: 'submittable'
+                    $sources.each(function() {
+                        const $source = $(this),
+                            name = $source.attr('name');
+
+                        if (!name)
+                            return;
+
+                        if (!valuesByName[name])
+                            valuesByName[name] = [];
+
+                        valuesByName[name].push(getValue($source));
                     });
+
+                    Object.keys(valuesByName).forEach(function(name) {
+                        const values = valuesByName[name],
+                            $targets = $('input[type="hidden"][name]').filter(function() {
+                                return $(this).attr('name') === name;
+                            });
+
+                        if (values.length === 1 && $targets.length <= 1) {
+                            $.IGRP.utils.createHidden({ name: name, value: values[0] });
+                            return;
+                        }
+
+                        values.forEach(function(value, index) {
+                            if ($targets[index]) {
+                                $($targets[index]).val(value);
+                            } else {
+                                $('<input>', {
+                                    type: 'hidden',
+                                    name: name,
+                                    value: value
+                                }).appendTo($.IGRP.utils.getForm());
+                            }
+                        });
+                    });
+                };
+
+                syncByNameAndPosition($doc.find('hidden[name]'), function($source) {
+                    return $source.text();
                 });
+
+                syncByNameAndPosition(
+                    $doc.find('input[type="hidden"][name]').filter(function() {
+                        const $input = $(this);
+                        return !$input.hasClass('notForm') && !$input.hasClass('submittable');
+                    }),
+                    function($source) {
+                        return $source.val();
+                    }
+                );
             },
 
             placeholder2desc : function(){

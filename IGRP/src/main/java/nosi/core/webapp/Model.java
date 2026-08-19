@@ -668,8 +668,17 @@ public abstract class Model implements Serializable { // IGRP super model
 			final var files = new HashMap<String, List<Part>>();
 			allFiles.stream()
 					.filter(file -> Core.isNotNull(file.getContentType()))
+					// Browsers submit an empty Part for an unselected file input. It is
+					// not an upload and must not replace a file already stored for a
+					// previous form-list row on a subsequent validation request.
+					.filter(file -> file.getSubmittedFileName() != null
+							&& !file.getSubmittedFileName().trim().isEmpty())
 					.forEach(f -> {
-						final var collect = partStream.get().filter(file -> file.getName().equals(f.getName())).toList();
+						final var collect = partStream.get()
+								.filter(file -> file.getName().equals(f.getName()))
+								.filter(file -> file.getSubmittedFileName() != null
+										&& !file.getSubmittedFileName().trim().isEmpty())
+								.toList();
 						files.put(f.getName().toLowerCase(), collect);
 					});
 

@@ -588,10 +588,6 @@ public class PesquisarUtilizadorController extends Controller {
 				.filter(profile -> profile != null && PROF.equals(profile.getType()) && profile.getUser() != null)
 				.map(PesquisarUtilizadorController::userProfileKey)
 				.collect(java.util.stream.Collectors.toSet());
-		final Set<String> disabledUserProfiles = auditedUserProfiles.stream()
-				.filter(profile -> profile != null && PROF_DIS.equals(profile.getType()) && profile.getUser() != null)
-				.map(PesquisarUtilizadorController::userProfileKey)
-				.collect(java.util.stream.Collectors.toSet());
 		final Set<String> inheritedPermissions = normalPermissions.stream()
 				.filter(Objects::nonNull)
 				.map(PesquisarUtilizadorController::permissionKey)
@@ -614,12 +610,12 @@ public class PesquisarUtilizadorController extends Controller {
 			final String inheritedType = MENU_USER.equals(permission.getType()) ? MENU : TRANSACTION;
 			final String profileKey = userProfileKey(permission);
 			final boolean userHasActiveProfile = activeUserProfiles.contains(profileKey);
-			if (!userHasActiveProfile && disabledUserProfiles.contains(profileKey)) {
+			if (!userHasActiveProfile) {
 				continue;
 			}
 			final boolean profileContainsPermission = inheritedPermissions.contains(
 					permissionKey(inheritedType, permission));
-			if (userHasActiveProfile && profileContainsPermission) {
+			if (profileContainsPermission) {
 				continue;
 			}
 
@@ -633,10 +629,9 @@ public class PesquisarUtilizadorController extends Controller {
 				userAudit.organizationIds.add(permission.getOrganization().getId());
 			}
 			if (MENU_USER.equals(permission.getType())) {
-				userAudit.menuExceptions.add(menuAuditLabel(permission, menu, userHasActiveProfile));
+				userAudit.menuExceptions.add(menuAuditLabel(permission, menu));
 			} else {
-				userAudit.transactionExceptions.add(transactionAuditLabel(permission, transaction,
-						userHasActiveProfile));
+				userAudit.transactionExceptions.add(transactionAuditLabel(permission, transaction));
 			}
 		}
 		return result;
@@ -688,18 +683,16 @@ public class PesquisarUtilizadorController extends Controller {
 		return value != null && value.getId() != null ? value.getId() : 0;
 	}
 
-	private static String menuAuditLabel(Profile permission, Menu menu, boolean userHasActiveProfile) {
+	private static String menuAuditLabel(Profile permission, Menu menu) {
 		return auditContext(permission) + " / "
-				+ escape(menu != null ? menu.getDescr() : "Menu #" + permission.getType_fk())
-				+ missingProfileLabel(userHasActiveProfile);
+				+ escape(menu != null ? menu.getDescr() : "Menu #" + permission.getType_fk());
 	}
 
-	private static String transactionAuditLabel(Profile permission, Transaction transaction,
-			boolean userHasActiveProfile) {
+	private static String transactionAuditLabel(Profile permission, Transaction transaction) {
 		final String value = transaction != null
 				? transaction.getCode() + " — " + transaction.getDescr()
 				: "Transação #" + permission.getType_fk();
-		return auditContext(permission) + " / " + escape(value) + missingProfileLabel(userHasActiveProfile);
+		return auditContext(permission) + " / " + escape(value);
 	}
 
 	private static String auditContext(Profile permission) {
@@ -708,10 +701,6 @@ public class PesquisarUtilizadorController extends Controller {
 		return escape(application != null ? application.getName() : "Sem aplicação") + " / "
 				+ escape(permission.getOrganization() != null ? permission.getOrganization().getName() : "Sem orgânica")
 				+ " / " + escape(profileType != null ? profileType.getDescr() : "Sem perfil");
-	}
-
-	private static String missingProfileLabel(boolean userHasActiveProfile) {
-		return userHasActiveProfile ? "" : " <span class=\"label label-danger\">Perfil não ativo</span>";
 	}
 
 	private static final class AccessAudit {

@@ -1115,7 +1115,7 @@ public class Controller {
             if (resolvedPath == null) return null;
 
             // Primary lookup then fallbacks
-            return firstNonNull(
+            return firstNonNull(href, base, resolvedPath,
                     () -> openResource(resolvedPath)
             );
         }
@@ -1249,13 +1249,16 @@ public class Controller {
         // ── Utility: first non-null from suppliers ───────────────────────────
 
         @SafeVarargs
-        private static StreamSource firstNonNull(java.util.function.Supplier<StreamSource>... suppliers) {
+        private static StreamSource firstNonNull(String href, String base, String resolvedPath,
+                                                 java.util.function.Supplier<StreamSource>... suppliers) {
             for (var s : suppliers) {
                 StreamSource src = s.get();
                 if (src != null) return src;
             }
             // Return empty valid XSL to prevent XSLT engine crash on missing includes
-            LOGGER.warn("URIResolver: resource not found after all fallbacks");
+            LOGGER.warn("URIResolver: resource not found after all fallbacks "
+                            + "[href='{}', base='{}', resolvedPath='{}']",
+                    href, base, resolvedPath);
             return new StreamSource(new StringReader(
                     "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"/>"
             ));

@@ -408,13 +408,21 @@ public class EnvController extends Controller {
 
 
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception {
-		String[] p = page.split("/");
+		String[] p = page == null ? new String[0] : page.split("/");
+		if (p.length < 3 || Core.isNull(app)) {
+			Core.setMessageError(gt("Aplicação ou página inválida! Invalid application or page!") + " " + page);
+			return this.redirectError(app);
+		}
 		Permission permission = new Permission();
 		if(permission.hasApp1PagPermition(app, p[0], p[1], p[2])) {
 			//deve ver se a aplicacao da pagina é nao tutorial e ver o que acontece se for diferentes...
 			Application env = Core.findApplicationByDad(p[0]);
-			if(env.getExternal()==0)
+			if(env == null || env.getExternal()==0)
 				 env = Core.findApplicationByDad(app);
+			if (env == null) {
+				Core.setMessageError(gt("Aplicação não encontrada! Application not found!") + " " + app);
+				return this.redirectError(app);
+			}
 			// 2 - custom dad 
 			String url = null; 
 			if(env.getExternal() == 2)

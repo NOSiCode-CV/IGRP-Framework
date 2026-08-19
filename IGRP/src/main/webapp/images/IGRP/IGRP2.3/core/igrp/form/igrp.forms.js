@@ -317,19 +317,63 @@
                 return false;
             },
 
-            // In IGRP_core.js or wherever getHiddenFields lives — add HTML fallback
             getHiddenFields: function(xmlOrHtml) {
-                const $doc  = $(xmlOrHtml);
-                // XSL output uses <hidden name="...">value</hidden>
-                $doc.find('hidden[name]').each(function() {
-                    $.IGRP.utils.createHidden({ name: $(this).attr('name'), value: $(this).text() });
+                const $doc = $(xmlOrHtml);
+
+                const syncByNameAndPosition = function($sources, getValue) {
+                    const valuesByName = {};
+
+                    $sources.each(function() {
+                        const $source = $(this),
+                            name = $source.attr('name');
+
+                        if (!name)
+                            return;
+
+                        if (!valuesByName[name])
+                            valuesByName[name] = [];
+
+                        valuesByName[name].push(getValue($source));
+                    });
+
+                    Object.keys(valuesByName).forEach(function(name) {
+                        const values = valuesByName[name],
+                            $targets = $('input[type="hidden"][name]').filter(function() {
+                                return $(this).attr('name') === name;
+                            });
+
+                        if (values.length === 1 && $targets.length <= 1) {
+                            $.IGRP.utils.createHidden({ name: name, value: values[0] });
+                            return;
+                        }
+
+                        values.forEach(function(value, index) {
+                            if ($targets[index]) {
+                                $($targets[index]).val(value);
+                            } else {
+                                $('<input>', {
+                                    type: 'hidden',
+                                    name: name,
+                                    value: value
+                                }).appendTo($.IGRP.utils.getForm());
+                            }
+                        });
+                    });
+                };
+
+                syncByNameAndPosition($doc.find('hidden[name]'), function($source) {
+                    return $source.text();
                 });
-                // HTML output uses <input type="hidden" name="..." value="...">
-                $doc.find('input[type="hidden"][name]').each(function() {
-                    const $i = $(this);
-                    if (!$i.hasClass('notForm') && !$i.hasClass('submittable'))
-                        $.IGRP.utils.createHidden({ name: $i.attr('name'), value: $i.val() });
-                });
+
+                syncByNameAndPosition(
+                    $doc.find('input[type="hidden"][name]').filter(function() {
+                        const $input = $(this);
+                        return !$input.hasClass('notForm') && !$input.hasClass('submittable');
+                    }),
+                    function($source) {
+                        return $source.val();
+                    }
+                );
             },
 
             placeholder2desc : function(){
