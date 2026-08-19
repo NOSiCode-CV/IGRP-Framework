@@ -104,7 +104,7 @@ public class PesquisarUtilizadorView extends View {
 		resumo_perfis_ativos.propertie().add("name","p_resumo_perfis_ativos").add("type","plaintext").add("maxlength","30").add("disable_output_escaping","false").add("html_class","").add("clear","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		resumo_problemas = new PlainTextField(model,"resumo_problemas");
-		resumo_problemas.setLabel(gt("Utilizadores com problemas"));
+		resumo_problemas.setLabel(gt("Utilizadores com alertas"));
 		resumo_problemas.propertie().add("name","p_resumo_problemas").add("type","plaintext").add("maxlength","60").add("disable_output_escaping","false").add("html_class","").add("clear","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		nome_filt = new TextField(model,"nome_filt");
@@ -125,15 +125,15 @@ public class PesquisarUtilizadorView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("remote-organica",Core.getIGRPLink("igrp","PesquisarUtilizador","organica")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","organica")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("remote-perfil",Core.getIGRPLink("igrp","PesquisarUtilizador","perfil")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		organica.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","perfil")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("remote-index",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		perfil.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		sep_extra = new SeparatorField(model,"sep_extra");
 		sep_extra.setLabel(gt("Extra"));
@@ -153,7 +153,7 @@ public class PesquisarUtilizadorView extends View {
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Utilizador Ativo?"));
-		ativo.propertie().add("remote-changeStatus",Core.getIGRPLink("igrp","PesquisarUtilizador","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","300").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
+		ativo.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","300").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ativo_check = new CheckBoxField(model,"ativo_check");
 		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","300").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");

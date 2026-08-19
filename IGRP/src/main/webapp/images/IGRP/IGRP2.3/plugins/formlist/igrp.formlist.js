@@ -49,6 +49,20 @@
             _this.getRow = function(i){
                 return i?$(obj+"[row='"+i+"']",TABLE):$(obj,TABLE);
             }
+
+            function ensureUniqueSelectIds(row){
+                $('select.select2[id]', row).each(function(){
+                    var select = $(this),
+                        originalId = select.attr('data-igrp-formlist-select-id') || select.attr('id'),
+                        rowNumber = select.closest('[row]').attr('row');
+
+                    if(!rowNumber)
+                        return;
+
+                    select.attr('data-igrp-formlist-select-id', originalId);
+                    select.attr('id', originalId + '__row_' + rowNumber);
+                });
+            }
             
             function resetFildsRow(vObjTr){
 
@@ -153,6 +167,8 @@
                 var vObjTr  = getCloneRow(TABLE);
 
                 resetFildsRow(vObjTr);
+
+                ensureUniqueSelectIds(vObjTr);
 
                 type == 'table' ? $("tbody",TABLE).append(vObjTr) : vObjTr.insertAfter(t);
 
@@ -350,6 +366,8 @@
                 if(settings.fields)
 
                     DrawFields( settings.fields, e );
+
+                ensureUniqueSelectIds($(obj, e));
 
                 e.events.execute('ready');
                 

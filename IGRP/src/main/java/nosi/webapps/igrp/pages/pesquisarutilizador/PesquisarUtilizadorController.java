@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -34,8 +36,8 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Amet unde voluptatem omnis elit deserunt lorem natus officia deserunt doloremque sit sed voluptatem' as nominho,'8' as range_1,'Perspiciatis iste officia accusantium anim laudantium unde accusantium omnis deserunt elit ut omnis' as nome,'Consectetur omnis stract rem consectetur adipiscing sed aperiam voluptatem unde dolor ut iste ut sed' as tb_email,'Voluptatem mollit omnis officia voluptatem aperiam' as perfile,'hidden-e8de_05e9' as id,'hidden-060b_1428' as check_email_hidden "));
-		model.loadUtilizadores_resumo(Core.query(null,"SELECT 'Ut accusantium iste ipsum mollit ut aliqua ipsum sit amet deserunt aperiam deserunt mollit adipiscin' as estado_utilizador,'Elit labore stract voluptatem deserunt adipiscing perspiciatis laudantium sed perspiciatis labore aperiam laudantium unde mollit sed iste doloremque sit ipsum stract natus labore ipsum deserunt' as nome_utilizador,'Dolor elit lorem aliqua sed aliqua dolor ut sit adipiscing sed iste amet omnis doloremque anim iste' as email_utilizador,'Amet omnis officia anim elit a' as total_aplicacoes,'Lorem laudantium accusantium s' as total_organicas,'Sit iste anim sit natus elit o' as perfis_ativos,'Sed officia amet mollit volupt' as perfis_inativos,'Sed sit omnis stract sed anim perspiciatis sit labore dolor natus adipiscing sit totam aliqua aperiam sit omnis sit lorem adipiscing voluptatem sit sed laudantium' as acessos,'Ut aperiam elit aliqua labore iste anim lorem sit accusantium unde lorem rem laudantium stract ipsum sit ipsum elit dolor ipsum amet accusantium natus aperiam' as menus_fora_perfil,'Officia aperiam officia sit magna labore aperiam aliqua mollit amet accusantium unde officia dolor officia iste natus sit laudantium magna stract amet laudantium unde magna' as transacoes_fora_perfil "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Rem totam natus sit perspiciatis lorem ipsum voluptatem omnis deserunt adipiscing magna doloremque m' as nominho,'7' as range_1,'Magna elit dolor elit aperiam mollit adipiscing unde totam accusantium anim iste sit adipiscing iste' as nome,'Unde elit iste perspiciatis omnis officia amet labore perspiciatis sit iste consectetur doloremque l' as tb_email,'Doloremque adipiscing mollit deserunt doloremque t' as perfile,'hidden-aecc_ced2' as id,'hidden-fd98_7bc4' as check_email_hidden "));
+		model.loadUtilizadores_resumo(Core.query(null,"SELECT 'Sit aperiam labore adipiscing totam sed officia accusantium elit natus anim accusantium sed unde ut' as estado_utilizador,'Rem totam mollit perspiciatis omnis rem magna natus stract amet anim sed accusantium consectetur voluptatem omnis laudantium perspiciatis iste anim rem consectetur natus rem natus' as nome_utilizador,'Lorem ipsum elit perspiciatis stract omnis stract deserunt stract mollit doloremque deserunt ut offi' as email_utilizador,'Voluptatem aliqua lorem accusa' as total_aplicacoes,'Accusantium dolor sit aliqua d' as total_organicas,'Unde totam adipiscing sit ut i' as perfis_ativos,'Dolor laudantium amet accusant' as perfis_inativos,'Aliqua stract sed sit perspiciatis ut anim sed voluptatem labore lorem elit anim sit iste sit perspiciatis magna officia mollit omnis iste sed ipsum rem' as acessos,'Natus voluptatem aperiam perspiciatis labore mollit lorem sit doloremque deserunt sed labore unde rem lorem labore consectetur rem accusantium consectetur accusantium anim unde rem consectetur' as menus_fora_perfil,'Consectetur ut lorem amet deserunt rem magna laudantium sed iste voluptatem elit aliqua totam laudantium mollit omnis sed elit aliqua sit elit sit laudantium labore' as transacoes_fora_perfil "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -589,10 +591,6 @@ public class PesquisarUtilizadorController extends Controller {
 				.filter(profile -> profile != null && PROF.equals(profile.getType()) && profile.getUser() != null)
 				.map(PesquisarUtilizadorController::userProfileKey)
 				.collect(java.util.stream.Collectors.toSet());
-		final Set<String> disabledUserProfiles = auditedUserProfiles.stream()
-				.filter(profile -> profile != null && PROF_DIS.equals(profile.getType()) && profile.getUser() != null)
-				.map(PesquisarUtilizadorController::userProfileKey)
-				.collect(java.util.stream.Collectors.toSet());
 		final Set<String> inheritedPermissions = normalPermissions.stream()
 				.filter(Objects::nonNull)
 				.map(PesquisarUtilizadorController::permissionKey)
@@ -615,12 +613,12 @@ public class PesquisarUtilizadorController extends Controller {
 			final String inheritedType = MENU_USER.equals(permission.getType()) ? MENU : TRANSACTION;
 			final String profileKey = userProfileKey(permission);
 			final boolean userHasActiveProfile = activeUserProfiles.contains(profileKey);
-			if (!userHasActiveProfile && disabledUserProfiles.contains(profileKey)) {
+			if (!userHasActiveProfile) {
 				continue;
 			}
 			final boolean profileContainsPermission = inheritedPermissions.contains(
 					permissionKey(inheritedType, permission));
-			if (userHasActiveProfile && profileContainsPermission) {
+			if (profileContainsPermission) {
 				continue;
 			}
 
@@ -634,10 +632,9 @@ public class PesquisarUtilizadorController extends Controller {
 				userAudit.organizationIds.add(permission.getOrganization().getId());
 			}
 			if (MENU_USER.equals(permission.getType())) {
-				userAudit.menuExceptions.add(menuAuditLabel(permission, menu, userHasActiveProfile));
+				userAudit.menuExceptions.add(menuAuditLabel(permission, menu));
 			} else {
-				userAudit.transactionExceptions.add(transactionAuditLabel(permission, transaction,
-						userHasActiveProfile));
+				userAudit.transactionExceptions.add(transactionAuditLabel(permission, transaction));
 			}
 		}
 		return result;
@@ -689,18 +686,16 @@ public class PesquisarUtilizadorController extends Controller {
 		return value != null && value.getId() != null ? value.getId() : 0;
 	}
 
-	private static String menuAuditLabel(Profile permission, Menu menu, boolean userHasActiveProfile) {
+	private static String menuAuditLabel(Profile permission, Menu menu) {
 		return auditContext(permission) + " / "
-				+ escape(menu != null ? menu.getDescr() : "Menu #" + permission.getType_fk())
-				+ missingProfileLabel(userHasActiveProfile);
+				+ escape(menu != null ? menu.getDescr() : "Menu #" + permission.getType_fk());
 	}
 
-	private static String transactionAuditLabel(Profile permission, Transaction transaction,
-			boolean userHasActiveProfile) {
+	private static String transactionAuditLabel(Profile permission, Transaction transaction) {
 		final String value = transaction != null
 				? transaction.getCode() + " — " + transaction.getDescr()
 				: "Transação #" + permission.getType_fk();
-		return auditContext(permission) + " / " + escape(value) + missingProfileLabel(userHasActiveProfile);
+		return auditContext(permission) + " / " + escape(value);
 	}
 
 	private static String auditContext(Profile permission) {
@@ -709,10 +704,6 @@ public class PesquisarUtilizadorController extends Controller {
 		return escape(application != null ? application.getName() : "Sem aplicação") + " / "
 				+ escape(permission.getOrganization() != null ? permission.getOrganization().getName() : "Sem orgânica")
 				+ " / " + escape(profileType != null ? profileType.getDescr() : "Sem perfil");
-	}
-
-	private static String missingProfileLabel(boolean userHasActiveProfile) {
-		return userHasActiveProfile ? "" : " <span class=\"label label-danger\">Perfil não ativo</span>";
 	}
 
 	private static final class AccessAudit {

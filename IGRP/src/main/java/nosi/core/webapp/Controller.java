@@ -1041,7 +1041,7 @@ public class Controller {
             if (resolvedPath == null)
                 return null;
 
-            return firstNonNull(new ResourceSupplier() {
+            return firstNonNull(href, base, resolvedPath, new ResourceSupplier() {
                 @Override
                 public StreamSource get() {
                     return openResource(resolvedPath);
@@ -1193,14 +1193,17 @@ public class Controller {
             }
         }
 
-        private static StreamSource firstNonNull(ResourceSupplier... suppliers) {
+        private static StreamSource firstNonNull(String href, String base, String resolvedPath,
+                                                 ResourceSupplier... suppliers) {
             for (ResourceSupplier supplier : suppliers) {
                 StreamSource src = supplier.get();
                 if (src != null)
                     return src;
             }
 
-            LOGGER.warn("URIResolver: resource not found after all fallbacks");
+            LOGGER.warn("URIResolver: resource not found after all fallbacks "
+                            + "[href='{}', base='{}', resolvedPath='{}']",
+                    href, base, resolvedPath);
             return new StreamSource(new StringReader(
                     "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"/>"
             ));

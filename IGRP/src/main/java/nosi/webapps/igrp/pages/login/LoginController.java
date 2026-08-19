@@ -752,12 +752,10 @@ public class LoginController extends Controller {
 			Class<?> c;
 			try {
 				c = Class.forName(packageName);
-				if(c!=null) {
-					Method method = c.getMethod("afterLogin",User.class);
-					method.invoke(c.getDeclaredConstructor().newInstance(), user);//after login implementation
-				}
-			} catch (Exception e) {
-				log.error("AfterLogin implementation error");
+                Method method = c.getMethod("afterLogin", User.class);
+                method.invoke(c.getDeclaredConstructor().newInstance(), user);//after login implementation
+            } catch (Exception ignored) {
+				//log.error("AfterLogin implementation error");
 
 			}
 		}

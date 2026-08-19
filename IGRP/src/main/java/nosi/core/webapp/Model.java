@@ -676,6 +676,11 @@ public abstract class Model { // IGRP super model
 			if (allFiles != null) {
 				return allFiles.stream()
 						.filter(file -> Core.isNotNull(file.getContentType()))
+						// Browsers submit an empty Part for an unselected file input. It is
+						// not an upload and must not replace a file already stored for a
+						// previous form-list row on a subsequent validation request.
+						.filter(file -> file.getSubmittedFileName() != null
+								&& !file.getSubmittedFileName().trim().isEmpty())
 						.collect(Collectors.groupingBy(file -> file.getName().toLowerCase()));
 			}
 		} catch (ServletException | IOException e1) {
