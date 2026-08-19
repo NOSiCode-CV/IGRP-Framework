@@ -148,7 +148,7 @@ public class PesquisarUtilizadorView extends View {
 		auditar_acessos.propertie().add("name","p_auditar_acessos").add("type","checkbox").add("maxlength","1").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","true").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		problemas_apenas = new CheckBoxField(model,"problemas_apenas");
-		problemas_apenas.setLabel(gt("Mostrar apenas problemas"));
+		problemas_apenas.setLabel(gt("Mostrar apenas alertas"));
 		problemas_apenas.propertie().add("name","p_problemas_apenas").add("type","checkbox").add("maxlength","1").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","true").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		ativo = new CheckBoxField(model,"ativo");
