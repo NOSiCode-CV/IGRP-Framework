@@ -138,7 +138,7 @@ public class Sql_toolsController extends Controller {
     private String removeSpaceSql(String sql) {
         if (Core.isNull(sql))
             return "";
-        return sql.replaceAll("(\r\n|\n|\t)", " ").trim();
+        return sql.replaceAll("(\r\n|\n|\t)", " ").trim().replaceFirst(";+\\s*$", "");
     }
     /*----#end-code----*/
 }
