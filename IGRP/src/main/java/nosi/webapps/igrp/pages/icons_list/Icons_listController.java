@@ -18,6 +18,7 @@ public class Icons_listController extends Controller {
 		Icons_list model = new Icons_list();
 		model.load();
 		Icons_listView view = new Icons_listView();
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		
 		
@@ -25,9 +26,7 @@ public class Icons_listController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
 
