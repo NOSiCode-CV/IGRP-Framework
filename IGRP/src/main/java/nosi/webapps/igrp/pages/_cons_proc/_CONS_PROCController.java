@@ -76,7 +76,8 @@ public class _CONS_PROCController extends Controller {
 				if(Core.isNotNull(model.getTipo_processo()))
 					taskQuery.addFilterBody("processDefinitionKey", model.getTipo_processo());
 				
-				if(Core.isNotNull(model.getNum()))
+				boolean pesquisarPorNumeroProcesso = Core.isNotNull(model.getNum());
+				if(pesquisarPorNumeroProcesso)
 					taskQuery.addFilterBody("processInstanceId", model.getNum());
 				
 				if(Core.isNotNull(model.getCbx_utilizador()))
@@ -88,10 +89,10 @@ public class _CONS_PROCController extends Controller {
 				if(Core.isNotNull(model.getStatus())) 
 					taskQuery.addFilterBody("finished", model.getStatus());
 				
-				if(Core.isNotNull(model.getDt_ini())) 			
+				if(!pesquisarPorNumeroProcesso && Core.isNotNull(model.getDt_ini()))
 					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedAfter":"taskCompletedAfter", DateHelper.toDateTime(model.getDt_ini()));
 							
-				if(Core.isNotNull(model.getDt_fim())) 				
+				if(!pesquisarPorNumeroProcesso && Core.isNotNull(model.getDt_fim()))
 					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedBefore":"taskCompletedBefore", DateHelper.toDateTime(model.getDt_fim(), 1));
 				
 				if(Core.isNotNullOrZero(model.getSize_registos()))

@@ -15,7 +15,6 @@ import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 import com.google.gson.annotations.Expose;
 
-import nosi.core.webapp.activit.rest.request.Credentials;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.CacheControl;
@@ -25,7 +24,7 @@ import javax.ws.rs.core.Response;
 /**
  * @author: Emanuel Pereira
  * 26 Sep 2017
- * @param <T>
+
  */
 
 public class RestRequest{
@@ -154,32 +153,45 @@ public class RestRequest{
 	}
 	
 	public Response put(String url,String content){
+		Client client = null;
 		try{
-			Client client = this.getConfig().bluidClient();
+			client = this.getConfig().bluidClient();
 			this.addUrl(url);
 	        WebTarget target = client.target(this.getConfig().getUrl());
 	        Response response = target.request(this.getAccept_format()).put(Entity.json(content));
-	        client.close();
+	        bufferResponseEntity(response);
 	        return response;
 		}catch(Exception e){
 			e.printStackTrace();
+		}finally {
+			if (client != null)
+				client.close();
 		}
 	   return null;
 	}
 	
 
 	public Response put(String url,String content, Object id){
+		Client client = null;
 		try{
-			Client client = this.getConfig().bluidClient();
+			client = this.getConfig().bluidClient();
 			this.addUrl(url);
 	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
 	        Response response = target.request(this.getAccept_format()).put(Entity.json(content));
-	        client.close();
+	        bufferResponseEntity(response);
 	        return response;
 		}catch(Exception e){
 			e.printStackTrace();
+		}finally {
+			if (client != null)
+				client.close();
 		}
 	   return null;
+	}
+
+	private void bufferResponseEntity(Response response) {
+		if (response != null)
+			response.bufferEntity();
 	}
 	
 	public Response delete(String url,Object id){
