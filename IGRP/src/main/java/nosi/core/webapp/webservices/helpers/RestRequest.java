@@ -214,11 +214,15 @@ public class RestRequest{
 
 	public <T> T put(String url,String content, Class<T> responseType) {
 		Client client = this.getConfig().bluidClient();
-		this.addUrl(url);
-		WebTarget target = client.target(this.getConfig().getUrl());
-		T response = target.request(this.getAccept_format()).put(Entity.json(content), responseType);
-		client.close();
-		return response;
+		try {
+			this.addUrl(url);
+			WebTarget target = client.target(this.getConfig().getUrl());
+			T response = target.request(this.getAccept_format()).put(Entity.json(content), responseType);
+			bufferResponseEntity(response);
+			return response;
+		} finally {
+			client.close();
+		}
 	}
 
 	public Response put(String url,String content, Object id){
@@ -232,11 +236,20 @@ public class RestRequest{
 
 	public <T> T put(String url, String content, Object id, Class<T> responseType) {
 		Client client = this.getConfig().bluidClient();
-		this.addUrl(url);
-		WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
-		T response = target.request(this.getAccept_format()).put(Entity.json(content), responseType);
-		client.close();
-		return response;
+		try {
+			this.addUrl(url);
+			WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+			T response = target.request(this.getAccept_format()).put(Entity.json(content), responseType);
+			bufferResponseEntity(response);
+			return response;
+		} finally {
+			client.close();
+		}
+	}
+
+	private void bufferResponseEntity(Object response) {
+		if (response instanceof Response)
+			((Response) response).bufferEntity();
 	}
 
 	public Response delete(String url,Object id){
