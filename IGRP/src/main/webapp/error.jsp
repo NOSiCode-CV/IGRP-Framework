@@ -1,4 +1,4 @@
-<%@page isErrorPage="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page isErrorPage="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false"%>
 <%@page import="java.io.StringWriter"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.util.Map"%>
