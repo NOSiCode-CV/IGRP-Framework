@@ -716,10 +716,10 @@ public class ExecucaoTarefasController extends Controller {
 		if (Core.isNotNull(prioridade)) {
 			taskServiceBO.addFilterBody("priority", prioridade);
 		}
-		if(Core.isNotNull(data_fim)) 				
+		if(Core.isNull(num_proc) && Core.isNotNull(data_fim))
 			taskServiceBO.addFilterBody("createdBefore", ""+DateHelper.toDateTime(data_fim,1)); 
 		
-		if(Core.isNotNull(data_inicio)) 			
+		if(Core.isNull(num_proc) && Core.isNotNull(data_inicio))
 			taskServiceBO.addFilterBody("createdAfter", ""+DateHelper.toDateTime(data_inicio)); 
 		
 		if(Core.isNotNull(model.getAtribuido_a_gerir_tarefa())) {
