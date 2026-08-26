@@ -6,8 +6,8 @@
     http://www.eclipse.org/org/documents/edl-v10.php.
     SPDX-License-Identifier: BSD-3-Clause
 -->
-<beans version="3.0" bean-discovery-mode="annotated"
+<beans version="4.0" bean-discovery-mode="annotated"
        xmlns="https://jakarta.ee/xml/ns/jakartaee"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/beans_3_0.xsd">
+       xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/beans_4_0.xsd">
 </beans>
