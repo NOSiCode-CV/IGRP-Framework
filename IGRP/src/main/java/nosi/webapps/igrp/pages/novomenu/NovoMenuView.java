@@ -51,74 +51,74 @@ public class NovoMenuView extends View {
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		action_fk = new ListField(model,"action_fk");
 		action_fk.setLabel(gt("Página"));
-		action_fk.propertie().add("remote",Core.getIGRPLink("igrp","NovoMenu","index")).add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		action_fk.propertie().add("remote",Core.getIGRPLink("igrp","NovoMenu","index")).add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		detalhes = new SeparatorField(model,"detalhes");
 		detalhes.setLabel(gt("Detalhes"));
-		detalhes.propertie().add("name","p_detalhes").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		detalhes.propertie().add("name","p_detalhes").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		titulo = new TextField(model,"titulo");
 		titulo.setLabel(gt("Título"));
-		titulo.propertie().add("name","p_titulo").add("type","text").add("maxlength","80").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		titulo.propertie().add("name","p_titulo").add("type","text").add("maxlength","80").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		extra = new SeparatorField(model,"extra");
 		extra.setLabel(gt("Extra"));
-		extra.propertie().add("name","p_extra").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		extra.propertie().add("name","p_extra").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		self_id = new ListField(model,"self_id");
 		self_id.setLabel(gt("Menu pai"));
-		self_id.propertie().add("name","p_self_id").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		self_id.propertie().add("name","p_self_id").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		orderby = new ListField(model,"orderby");
 		orderby.setLabel(gt("Posição"));
-		orderby.propertie().add("name","p_orderby").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","int");
+		orderby.propertie().add("name","p_orderby").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","int").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		target = new ListField(model,"target");
 		target.setLabel(gt("Target"));
-		target.propertie().add("name","p_target").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		target.propertie().add("name","p_target").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		link = new TextField(model,"link");
 		link.setLabel(gt("Link (Procedure)"));
-		link.propertie().add("name","p_link").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		link.propertie().add("name","p_link").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		icone = new LookupField(model,"icone");
 		icone.setLabel(gt("Ícone"));
 		icone.setLookup("igrp","Icons_list","index");
 		icone.addParam("target","_blank");
 		icone.addLookupParam("p_icone","choose_icon");
-		icone.propertie().add("name","p_icone").add("type","lookup").add("lookup_eraser","false").add("lookup_type","LOOKUP").add("class","primary").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		icone.propertie().add("name","p_icone").add("type","lookup").add("lookup_eraser","false").add("lookup_type","LOOKUP").add("class","primary").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("field_param","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		flg_base = new CheckBoxField(model,"flg_base");
 		flg_base.setLabel(gt("Público?"));
-		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("check","true");
+		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		global_acl = new CheckBoxField(model,"global_acl");
 		global_acl.setLabel(gt("Global ACL?"));
-		global_acl.propertie().add("remote",Core.getIGRPLink("igrp","NovoMenu","index_")).add("name","p_global_acl").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","false").add("check","true");
+		global_acl.propertie().add("remote",Core.getIGRPLink("igrp","NovoMenu","index_")).add("name","p_global_acl").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","false").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		area = new HiddenField(model,"area");
 		area.setLabel(gt(""));
-		area.propertie().add("name","p_area").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","area");
+		area.propertie().add("name","p_area").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","area");
 		
 		img_src = new HiddenField(model,"img_src");
 		img_src.setLabel(gt(""));
-		img_src.propertie().add("name","p_img_src").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","img_src");
+		img_src.propertie().add("name","p_img_src").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","img_src");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","int").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("tag","id");
 		
 		app = new HiddenField(model,"app");
 		app.setLabel(gt(""));
-		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","app");
+		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("tag","app");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

@@ -59,7 +59,7 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -81,7 +81,7 @@
                         </option>
                     </list>
                 </env_fk>
-                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Página</label>
                     <list>
                         <option/>
@@ -116,21 +116,21 @@
                         </rule>
                     </rules>
                 </action_fk>
-                <detalhes name="p_detalhes" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
+                <detalhes name="p_detalhes" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label>Detalhes</label>
                 </detalhes>
-                <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Título</label>
-                    <value>Aliqua totam voluptatem consectetur officia</value>
+                    <value>Stract omnis mollit perspiciatis iste</value>
                 </titulo>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" tooltip="false" disable_copy_paste="false" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </status>
-                <extra name="p_extra" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
+                <extra name="p_extra" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label>Extra</label>
                 </extra>
-                <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Menu pai</label>
                     <list>
                         <option/>
@@ -152,7 +152,7 @@
                         </option>
                     </list>
                 </self_id>
-                <orderby name="p_orderby" type="select" multiple="false" tags="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="int">
+                <orderby name="p_orderby" type="select" multiple="false" tags="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="int" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Posição</label>
                     <list>
                         <option/>
@@ -174,7 +174,7 @@
                         </option>
                     </list>
                 </orderby>
-                <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
+                <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Target</label>
                     <list>
                         <option/>
@@ -196,11 +196,11 @@
                         </option>
                     </list>
                 </target>
-                <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Link (Procedure)</label>
-                    <value>Mollit voluptatem consectetur</value>
+                    <value>Rem sit lorem sed sit</value>
                 </link>
-                <icone name="p_icone" type="lookup" action="index" page="Icons_list" app="igrp" lookup_eraser="false" lookup_type="LOOKUP" class="primary" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                <icone name="p_icone" type="lookup" action="index" page="Icons_list" app="igrp" lookup_eraser="false" lookup_type="LOOKUP" class="primary" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" field_param="" tooltip="false" disable_copy_paste="false">
                     <label>Ícone</label>
                     <value/>
                     <lookup>../images/IGRP/IGRP2.3/app/igrp/icons_list/Icons_list.xml</lookup>
@@ -208,11 +208,11 @@
                         <param field-target="p_icone">choose_icon</param>
                     </lookupParams>
                 </icone>
-                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
+                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" tooltip="false" disable_copy_paste="false" check="true">
                     <label>Público?</label>
                     <value>1</value>
                 </flg_base>
-                <global_acl name="p_global_acl" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" switch="false" check="true">
+                <global_acl name="p_global_acl" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" switch="false" tooltip="false" disable_copy_paste="false" check="true">
                     <label>Global ACL?</label>
                     <value>1</value>
                     <rules>
@@ -225,10 +225,10 @@
                         </rule>
                     </rules>
                 </global_acl>
-                <hidden name="p_area" type="hidden" maxlength="30" java-type="" tag="area"/>
-                <hidden name="p_img_src" type="hidden" maxlength="30" java-type="" tag="img_src"/>
-                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
-                <hidden name="p_app" type="hidden" maxlength="250" java-type="int" tag="app"/>
+                <hidden name="p_area" type="hidden" maxlength="30" java-type="" tooltip="false" disable_copy_paste="false" tag="area"/>
+                <hidden name="p_img_src" type="hidden" maxlength="30" java-type="" tooltip="false" disable_copy_paste="false" tag="img_src"/>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tooltip="false" disable_copy_paste="false" tag="id"/>
+                <hidden name="p_app" type="hidden" maxlength="250" java-type="int" tooltip="false" disable_copy_paste="false" tag="app"/>
             </fields>
         </form_1>
     </content>

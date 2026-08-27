@@ -40,6 +40,7 @@ public class NovoMenuController extends Controller {
 		view.orderby.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.target.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
@@ -135,6 +136,7 @@ public class NovoMenuController extends Controller {
 		  return this.forward("igrp","NovoMenu","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		int id = model.getId();
 
@@ -224,9 +226,7 @@ public class NovoMenuController extends Controller {
 		/*----#end-code----*/
 		return this.redirect("igrp","NovoMenu","index", this.queryString());	
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
 		if (Core.isNotNull(model.getAction_fk())) {
