@@ -334,20 +334,22 @@ public abstract class Model implements Serializable { // IGRP super model
 						List<String> fileId = mapFileId.get(m.getName());
 						if (allFiles.containsKey(param)) {
 							List<Part> filesByLine = allFiles.get(param);
-							if (!filesByLine.isEmpty()) {
-								try {
-									String id = "-1";
-									if(("p_"+m.getName().toLowerCase()+"_fk").equalsIgnoreCase(key)) {
-										id = fileId != null && fileId.size() > row ? fileId.get(row) : id;
-									} else {
-										id = fileId != null && fileId.size() > row ? fileId.get(row) : key;
-									}
-									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
-								} catch (Exception e) {
-									e.printStackTrace();
-									m.setAccessible(false);
-									continue;
+							try {
+								String id = "-1";
+								if(("p_"+m.getName().toLowerCase()+"_fk").equalsIgnoreCase(key)) {
+									id = fileId != null && fileId.size() > row ? fileId.get(row) : id;
+								} else {
+									id = fileId != null && fileId.size() > row ? fileId.get(row) : key;
 								}
+								if (filesByLine.size() > row) {
+									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
+								} else {
+									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(id, key,value));
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+								m.setAccessible(false);
+								continue;
 							}
 						} else {
 							try {
@@ -796,6 +798,9 @@ public abstract class Model implements Serializable { // IGRP super model
 							method.setAccessible(true);
 							try {
 								Pair pair = (Pair) method.invoke(obj);
+								if(pair == null) {
+									continue;
+								}
 								if(pair.getFile()!=null) {
 									String paramFileName = Model.getParamFileId(method.getName().replace("get", "").toLowerCase());
 									if(pair.isUploaded()) {
