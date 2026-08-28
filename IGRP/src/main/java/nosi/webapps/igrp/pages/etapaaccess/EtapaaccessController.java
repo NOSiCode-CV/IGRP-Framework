@@ -303,7 +303,7 @@ public class EtapaaccessController extends Controller {
 				t.setProcessid(task.getProcessName());
 				t.setTask_id(task.getTaskName());
 				t.setEnv_fk(prof.getApplication().getId());
-				t.setDescricao(task.getTaskDescription());
+				t.setDescricao(formatTaskDescription(task.getTaskDescription()));
 				if(this.getTaskProfExists(prof.getOrganization().getId(), prof.getId(), task.getProcessName(), task.getTaskName()))
 					t.setId_check(t.getId());
 				table.add(t);
@@ -374,6 +374,22 @@ public class EtapaaccessController extends Controller {
 					.limit(1)
 					.getCount()>0;
 		}
+
+	private String formatTaskDescription(String description) {
+		if (Core.isNull(description)) {
+			return description;
+		}
+		final String separator = " - ";
+		final int nameStart = description.indexOf(separator);
+		final int processStart = description.lastIndexOf(" (");
+		if (nameStart < 0 || processStart <= nameStart + separator.length() || !description.endsWith(")")) {
+			return description;
+		}
+		return description.substring(0, nameStart + separator.length())
+				+ "<b>" + description.substring(nameStart + separator.length(), processStart) + "</b>"
+				+ description.substring(processStart);
+	}
+
 	private static final String SEPARATOR = "---IGRP---";
 	/*----#end-code----*/
 }

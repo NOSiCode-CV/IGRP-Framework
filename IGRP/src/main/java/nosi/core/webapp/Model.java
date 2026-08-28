@@ -323,20 +323,22 @@ public abstract class Model { // IGRP super model
 						final String rowValue = hasSizeGreaterThanRow ? fileId.get(row) : null;
 						if (allFiles != null && allFiles.containsKey(param)) {
 							final List<Part> filesByLine = allFiles.get(param);
-							if (!filesByLine.isEmpty()) {
-								try {
-									String id = "-1";
-									if(("p_" + name.toLowerCase() + "_fk").equalsIgnoreCase(key)) {
-										id = hasSizeGreaterThanRow ? rowValue : id;
-									}else {
-										id = hasSizeGreaterThanRow ? rowValue : key;
-									}
-									BeanUtils.setProperty(obj2, name,new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
-								} catch (Exception e) {
-									e.printStackTrace();
-									m.setAccessible(false);
-									continue;
+							try {
+								String id = "-1";
+								if(("p_" + name.toLowerCase() + "_fk").equalsIgnoreCase(key)) {
+									id = hasSizeGreaterThanRow ? rowValue : id;
+								}else {
+									id = hasSizeGreaterThanRow ? rowValue : key;
 								}
+								if (filesByLine.size() > row) {
+									BeanUtils.setProperty(obj2, name,new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
+								} else {
+									BeanUtils.setProperty(obj2, name,new IGRPSeparatorList.Pair(id, key,value));
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+								m.setAccessible(false);
+								continue;
 							}
 						} else {
 							try {
@@ -795,6 +797,9 @@ public abstract class Model { // IGRP super model
 							method.setAccessible(true);
 							try {
 								final Pair pair = (Pair) method.invoke(obj);
+								if (pair == null) {
+									continue;
+								}
 								final UploadFile file = pair.getFile();
 								if(file != null) {
 									final String paramFileName = Model.getParamFileId(method.getName().replace("get", "").toLowerCase());
