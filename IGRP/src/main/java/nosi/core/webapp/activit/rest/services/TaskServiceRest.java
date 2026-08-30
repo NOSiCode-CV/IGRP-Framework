@@ -204,23 +204,69 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return this.getHistory();
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<HistoricTaskService> getHistory() {
-		List<HistoricTaskService> d = new ArrayList<>();
-		var response = this.getRestRequest()
-				.getHttpClient("history/historic-task-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
+		return this.fetchHistory(ActivitiConstants.SIZE_QUERY);
+	}
+
+	public HistoricTaskService getFinishedHistoricTask(String taskId, boolean includeVar) {
+		this.clearFilterUrl();
+		this.addFilterUrl("taskId", taskId);
+		this.addFilterUrl("includeTaskLocalVariables", String.valueOf(includeVar));
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
+		this.addFilterUrl("finished", "true");
+		return this.getFirstHistory();
+	}
+
+	public HistoricTaskService getLatestFinishedHistoricTask(String taskDefinitionKey, String executionId,
+			boolean includeVar) {
+		this.clearFilterUrl();
+		this.addFilterUrl("taskDefinitionKey", taskDefinitionKey);
+		this.addFilterUrl("executionId", executionId);
+		this.addFilterUrl("includeTaskLocalVariables", String.valueOf(includeVar));
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
+		this.addFilterUrl("finished", "true");
+		this.addFilterUrl("sort", "endTime");
+		this.addFilterUrl("order", "desc");
+		return this.getFirstHistory();
+	}
+
+	public HistoricTaskService getHistoricTask(String taskId) {
+		var response = this.getRestRequest().getHttpClient("history/historic-task-instances", taskId);
 		if (response != null) {
 			String contentResp = response.body();
 			if (Response.Status.OK.getStatusCode() == response.statusCode()) {
-				d = (List<HistoricTaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
+				return ResponseConverter.convertJsonToDao(contentResp, HistoricTaskService.class);
+			}
+			this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+		}
+		return null;
+	}
+
+	private HistoricTaskService getFirstHistory() {
+		List<HistoricTaskService> taskHistory = this.fetchHistory("1");
+		return taskHistory.isEmpty() ? null : taskHistory.get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<HistoricTaskService> fetchHistory(String size) {
+		List<HistoricTaskService> taskHistory = new ArrayList<>();
+		var response = this.getRestRequest()
+				.getHttpClient("history/historic-task-instances?size=" + size + this.getFilterUrl());
+		if (response != null) {
+			String contentResp = response.body();
+			if (Response.Status.OK.getStatusCode() == response.statusCode()) {
+				List<HistoricTaskService> convertedTaskHistory =
+						(List<HistoricTaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<HistoricTaskService>>() {
 						}.getType());
-				
+				if (convertedTaskHistory != null) {
+					taskHistory = convertedTaskHistory;
+				}
 			} else {
 				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return taskHistory;
 	}
 
 	public List<TaskServiceQuery> queryHistoryTask() {
