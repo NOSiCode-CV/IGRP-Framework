@@ -236,11 +236,64 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return this.getHistory();
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<HistoricTaskService> getHistory() {
-		List<HistoricTaskService> d = new ArrayList<>();
+		return this.fetchHistory(ActivitiConstants.SIZE_QUERY);
+	}
+
+	public HistoricTaskService getFinishedHistoricTask(String taskId, boolean includeVar) {
+		this.clearFilterUrl();
+		this.addFilterUrl("taskId", taskId);
+		this.addFilterUrl("includeTaskLocalVariables", String.valueOf(includeVar));
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
+		this.addFilterUrl("finished", "true");
+		return this.getFirstHistory();
+	}
+
+	public HistoricTaskService getLatestFinishedHistoricTask(String taskDefinitionKey, String executionId,
+			boolean includeVar) {
+		this.clearFilterUrl();
+		this.addFilterUrl("taskDefinitionKey", taskDefinitionKey);
+		this.addFilterUrl("executionId", executionId);
+		this.addFilterUrl("includeTaskLocalVariables", String.valueOf(includeVar));
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
+		this.addFilterUrl("finished", "true");
+		this.addFilterUrl("sort", "endTime");
+		this.addFilterUrl("order", "desc");
+		return this.getFirstHistory();
+	}
+
+	public HistoricTaskService getHistoricTask(String taskId) {
+		Response response = this.getRestRequest().get("history/historic-task-instances", taskId);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+					return (HistoricTaskService) ResponseConverter.convertJsonToDao(contentResp,
+							HistoricTaskService.class);
+				}
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			} finally {
+				response.close();
+			}
+		}
+		return null;
+	}
+
+	private HistoricTaskService getFirstHistory() {
+		List<HistoricTaskService> taskHistory = this.fetchHistory("1");
+		return taskHistory.isEmpty() ? null : taskHistory.get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<HistoricTaskService> fetchHistory(String size) {
+		List<HistoricTaskService> taskHistory = new ArrayList<>();
 		Response response = this.getRestRequest()
-				.get("history/historic-task-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
+				.get("history/historic-task-instances?size=" + size + this.getFilterUrl());
 		if (response != null) {
 			String contentResp = "";
 			try {
@@ -249,16 +302,19 @@ public class TaskServiceRest extends GenericActivitiRest {
 				e.printStackTrace();
 			}
 			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
-				d = (List<HistoricTaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
+				List<HistoricTaskService> convertedTaskHistory =
+						(List<HistoricTaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<HistoricTaskService>>() {
 						}.getType());
-				
+				if (convertedTaskHistory != null) {
+					taskHistory = convertedTaskHistory;
+				}
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 			response.close();
 		}
-		return d;
+		return taskHistory;
 	}
 
 	public List<TaskServiceQuery> queryHistoryTask() {

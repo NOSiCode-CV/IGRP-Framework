@@ -3343,9 +3343,9 @@ public final class Core {
 		String taskId = Core.getParamTaskId();
 		String taskExecutionId = Core.getParam(BPMNConstants.PRM_TASK_EXECUTION_ID);
 		if (Core.isNull(taskExecutionId)) {
-			List<HistoricTaskService> task = new TaskServiceIGRP().getTaskServiceRest().getHistory(taskId,false);
-			taskExecutionId = (task != null && !task.isEmpty()) ? task.get(task.size() - 1).getExecutionId()
-					: "";
+			HistoricTaskService task = new TaskServiceIGRP().getTaskServiceRest()
+					.getFinishedHistoricTask(taskId, false);
+			taskExecutionId = task == null ? "" : task.getExecutionId();
 		}
 		Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, taskExecutionId);
 		return taskExecutionId;
@@ -3368,34 +3368,36 @@ public final class Core {
 	}
 
 	public static String getProcessVariable(String processDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
-					.collect(Collectors.toList());
-			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
+		if (Core.isNull(processDefinitionKey) || Core.isNull(variableName)) {
+			return "";
 		}
-		return "";
+		return Core.getLastProcessVariableValue(Core.getProcessVariables(processDefinitionKey), variableName);
 	}
 
 	public static String getProcessVariable(String processDefinitionKey, String processInstanceId,
 											String variableName) {
-		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey, processInstanceId);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
-					.collect(Collectors.toList());
-			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
+		if (Core.isNull(processInstanceId) || Core.isNull(variableName)) {
+			return "";
+		}
+		HistoricVariablesService processVariable = new TaskServiceRest()
+				.getVarByProcId(processInstanceId, variableName);
+		if (processVariable != null && processVariable.getVariable() != null) {
+			return (String) processVariable.getVariable().getValue();
 		}
 		return "";
 	}
-
 	public static String getProcessVariableId(String processDefinitionKey) {
 		String processInstanceId = Core.getProcessInstaceByTask();
-		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey, processInstanceId);
-		if (vars != null) {
-			List<TaskVariables> variav = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_ID))
-					.collect(Collectors.toList());
-			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
+		return Core.getLastProcessVariableValue(
+				Core.getProcessVariables(processDefinitionKey, processInstanceId), BPMNConstants.PRM_PROCESS_ID);
+	}
+
+	private static String getLastProcessVariableValue(List<TaskVariables> processVariables, String variableName) {
+		for (int i = processVariables.size() - 1; i >= 0; i--) {
+			TaskVariables processVariable = processVariables.get(i);
+			if (variableName.equalsIgnoreCase(processVariable.getName())) {
+				return (String) processVariable.getValue();
+			}
 		}
 		return "";
 	}
@@ -3405,13 +3407,8 @@ public final class Core {
 	}
 
 	private static String getProcessInstaceByTask(String taskId) {
-		TaskServiceRest taskRest = new TaskServiceRest();
-		taskRest.addFilterUrl("taskId", taskId);
-		List<HistoricTaskService> taskHistory = taskRest.getHistory();
-		if (taskHistory != null && !taskHistory.isEmpty()) {
-			return taskHistory.get(0).getProcessInstanceId();
-		}
-		return null;
+		HistoricTaskService taskHistory = new TaskServiceRest().getHistoricTask(taskId);
+		return taskHistory == null ? null : taskHistory.getProcessInstanceId();
 	}
 
 	/**
@@ -3422,12 +3419,11 @@ public final class Core {
 	 * @return List of TaskVariables
 	 */
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey, String processInstanceId) {
-		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
-				.getHistoryOfProccessInstanceId(processDefinitionKey, processInstanceId, false,true);
-		if (task1 != null && !task1.isEmpty()) {
-			return task1.get(task1.size() - 1).getVariables();
-		}
-		return null;
+		HistoricProcessInstance processInstance = new ProcessInstanceServiceRest()
+				.getHistoricProcessInstance(processDefinitionKey, processInstanceId, true);
+		return processInstance == null || processInstance.getVariables() == null
+				? Collections.<TaskVariables>emptyList()
+				: processInstance.getVariables();
 	}
 
 	/**
@@ -3436,12 +3432,11 @@ public final class Core {
 	 * @return List of TaskVariables
 	 */
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
-		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
-				.getHistoryOfProccessInstanceId( processDefinitionKey, null,false, true);
-		if (task1 != null && !task1.isEmpty()) {
-			return task1.get(task1.size() - 1).getVariables();
-		}
-		return null;
+		HistoricProcessInstance processInstance = new ProcessInstanceServiceRest()
+				.getLatestHistoricProcessInstance(processDefinitionKey, true);
+		return processInstance == null || processInstance.getVariables() == null
+				? Collections.<TaskVariables>emptyList()
+				: processInstance.getVariables();
 	}
 
 	/**
@@ -3451,13 +3446,8 @@ public final class Core {
 	 */
 	public static HistoricTaskService getTaskHistory(String taskDefinitionKey) {
 		String id = Core.getExecutionId();
-		if (Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new TaskServiceRest().getHistory(taskDefinitionKey, id);
-			if (task1 != null && !task1.isEmpty()) {
-				return task1.get(task1.size() - 1);
-			}
-		}
-		return null;
+		return Core.isNull(id) ? null : new TaskServiceRest()
+				.getLatestFinishedHistoricTask(taskDefinitionKey, id, false);
 	}
 
 	/**

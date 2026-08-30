@@ -121,10 +121,29 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		return this.getHistoryOfProccessInstanceId(processDefinitionKey, null, false,false);
 	}
 
-	@SuppressWarnings("unchecked")
+	public HistoricProcessInstance getLatestHistoricProcessInstance(String processDefinitionKey, boolean includeVar) {
+		this.addFilterUrl("processDefinitionKey", processDefinitionKey);
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
+		this.addFilterUrl("sort", "startTime");
+		this.addFilterUrl("order", "desc");
+		return this.getFirstHistoricProcessInstance();
+	}
+
+	public HistoricProcessInstance getHistoricProcessInstance(String processDefinitionKey, String processInstanceId,
+			boolean includeVar) {
+		this.addFilterUrl("processDefinitionKey", processDefinitionKey);
+		this.addFilterUrl("processInstanceId", processInstanceId);
+		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
+		return this.getFirstHistoricProcessInstance();
+	}
+
+	private HistoricProcessInstance getFirstHistoricProcessInstance() {
+		List<HistoricProcessInstance> processInstances = this.fetchHistoricProcessInstances("1");
+		return processInstances.isEmpty() ? null : processInstances.get(0);
+	}
+
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey,String processInstanceId,
 			boolean isFinished, boolean includeVar) {
-		List<HistoricProcessInstance> d = new ArrayList<>();
 		this.addFilterUrl("processDefinitionKey", processDefinitionKey);
 		this.addFilterUrl("includeProcessVariables", String.valueOf(includeVar));
 		if(Core.isNotNull(processInstanceId)) {
@@ -133,8 +152,14 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		if (isFinished) {
 			this.addFilterUrl("finished", "true");
 		}
+		return this.fetchHistoricProcessInstances(ActivitiConstants.SIZE_QUERY);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<HistoricProcessInstance> fetchHistoricProcessInstances(String size) {
+		List<HistoricProcessInstance> processInstances = new ArrayList<>();
 		Response response = this.getRestRequest()
-				.get("history/historic-process-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
+				.get("history/historic-process-instances?size=" + size + this.getFilterUrl());
 		if (response != null) {
 			String contentResp = "";
 			try (InputStream is = (InputStream) response.getEntity()) {
@@ -143,15 +168,19 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 				e.printStackTrace();
 			}
 			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
-				d = (List<HistoricProcessInstance>) ResponseConverter.convertJsonToListDao(contentResp, "data",
+				List<HistoricProcessInstance> convertedProcessInstances =
+						(List<HistoricProcessInstance>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<HistoricProcessInstance>>() {
 						}.getType());
+				if (convertedProcessInstances != null) {
+					processInstances = convertedProcessInstances;
+				}
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 			response.close();
 		}
-		return d;
+		return processInstances;
 	}
 
 	public Integer totalProccesTerminados(String processKey) {
