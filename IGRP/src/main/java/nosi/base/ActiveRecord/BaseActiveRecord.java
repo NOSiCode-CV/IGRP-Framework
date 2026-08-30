@@ -1769,14 +1769,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T whereBetween(String columnName, Object o1, Object o2) {
 		if (Core.isNotNullMultiple(columnName, o1, o2) && o1.getClass().equals(o2.getClass())) {
-			String between;
-			if(o1 instanceof Number && o2 instanceof Number) {
-				between = o1 + " AND " + o2;
-			}else {
-				between = QUOTE + o1 + "' AND '" + o2 + QUOTE;
-			}
+			int seq = (this.parametersMap != null) ? this.parametersMap.size() : 0;
+			String paramBase = this.recq.removeAlias(columnName) + seq;
+			String startParameter = paramBase + "1";
+			String endParameter = paramBase + "2";
+			Class<?> classType = this.resolveBetweenClassType(columnName, o1);
+			Object startValue = this.resolveBetweenValue(o1, classType);
+			Object endValue = this.resolveBetweenValue(o2, classType);
 			this.where("");
-			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " between "+between);
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " BETWEEN :" + startParameter + " AND :" + endParameter);
+			this.addParameter(columnName, startParameter, startValue, classType);
+			this.addParameter(columnName, endParameter, endValue, classType);
 		}
 		return (T) this;
 	}
