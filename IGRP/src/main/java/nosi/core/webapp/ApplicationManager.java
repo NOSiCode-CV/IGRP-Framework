@@ -34,6 +34,7 @@ public final class ApplicationManager {
 
 	public static final String LOGIN_PAGE = "/app/webapps?r=igrp/login/login";
 	public static final String RETURN_ROUTE_ATTRIBUTE_NAME = "returnRoute";
+	public static final String RETURN_DAD_ATTRIBUTE_NAME = "returnDad";
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationManager.class);
 
@@ -146,7 +147,11 @@ public final class ApplicationManager {
 			return Optional.of(requestUrl(request));
 		try {
 			OAuth2OpenIdAuthenticationManager.authorizationCodeSwap(request);
-			Optional<String> returnUrl = buildAppLinkFromStateParam(request);
+			// An explicit login target (for example, igrp/login/login&dad=dgtr)
+			// must take precedence over the identity provider's state context.
+			Optional<String> returnUrl = buildAppLinkFromDadParam(request);
+			if(returnUrl.isEmpty())
+				returnUrl = buildAppLinkFromStateParam(request);
 			if(returnUrl.isEmpty())
 				returnUrl = buildAppLinkFromSession(request);
 			return returnUrl.isPresent() ? returnUrl : Optional.of(homeUrl(request));
@@ -211,9 +216,9 @@ public final class ApplicationManager {
 			nosi.webapps.igrp.dao.Action ac = application.getAction();
 			String page = String.format("tutorial/DefaultPage/index&dad=%s", dad);
 			if (ac != null && ac.getApplication() != null) {
-				page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
+				page = String.format("%s/%s/index&dad=%s", ac.getApplication().getDad().toLowerCase(), ac.getPage(), dad);
 				if (ac.getAction_descr() != null)
-					page = String.format("%s&dad=%s&title=%s", page, dad, encodeParameterValue(ac.getAction_descr()));
+					page = String.format("%s&title=%s", page, encodeParameterValue(ac.getAction_descr()));
 			}
 			return Optional.of(page);
 		}
@@ -258,18 +263,33 @@ public final class ApplicationManager {
 			}
 		}
 		if(pageRoute != null) {
-			String[] splittedPageRoute = pageRoute.split(Pattern.quote("&"));
-			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getSession(false).getId()).replace(" ", "+");
-			String additionalParams = extractAdditionalParams(pageRoute);
-			return Optional.of(String.format("%s?r=%s%s", requestUrl(request), encryptedPageRoute, additionalParams));
+			return buildAppLinkFromPageRoute(request, pageRoute);
 		}
 		return Optional.empty();
+	}
+
+	public static Optional<String> buildAppLinkFromDadParam(HttpServletRequest request) {
+		String dad = request.getParameter("dad");
+		if(dad == null || dad.trim().isEmpty())
+			return Optional.empty();
+		return buildPageRouteWhenTypeEnv(dad.trim())
+				.flatMap(pageRoute -> buildAppLinkFromPageRoute(request, pageRoute));
+	}
+
+	private static Optional<String> buildAppLinkFromPageRoute(HttpServletRequest request, String pageRoute) {
+		HttpSession session = request.getSession(false);
+		if(session == null)
+			return Optional.empty();
+		String[] splittedPageRoute = pageRoute.split(Pattern.quote("&"));
+		String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], session.getId()).replace(" ", "+");
+		String additionalParams = extractAdditionalParams(pageRoute);
+		return Optional.of(String.format("%s?r=%s%s", requestUrl(request), encryptedPageRoute, additionalParams));
 	}
 	
 	private static String extractAdditionalParams(String pageRoute) {
 		int index = pageRoute.indexOf("&");
 		if(index != -1 && (index + 1 < pageRoute.length()))
-			return pageRoute.substring(pageRoute.indexOf("&") + 1);
+			return pageRoute.substring(index);
 		return "";
 	}
 	
@@ -279,8 +299,16 @@ public final class ApplicationManager {
 			return Optional.empty();
 		HttpSession session = request.getSession(false);
 		String returnRoute = (String) session.getAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
+		String returnDad = (String) session.getAttribute(RETURN_DAD_ATTRIBUTE_NAME);
 		session.removeAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
-		if(returnRoute == null)// || returnRoute == null)
+		session.removeAttribute(RETURN_DAD_ATTRIBUTE_NAME);
+		if(returnDad != null) {
+			Optional<String> targetApplication = buildPageRouteWhenTypeEnv(returnDad)
+					.flatMap(pageRoute -> buildAppLinkFromPageRoute(request, pageRoute));
+			if(targetApplication.isPresent())
+				return targetApplication;
+		}
+		if(returnRoute == null)
 			return Optional.empty();
 		JSONObject json = new JSONObject(returnRoute);
 		String appCode = json.optString("appCode");
@@ -305,6 +333,14 @@ public final class ApplicationManager {
 	public static void rememberRoute(HttpServletRequest request) {
 		String r = request.getParameter("r");
 		String dad = request.getParameter("dad");
+		if(isLoginPage(request) && dad != null && !dad.trim().isEmpty()) {
+			HttpSession session = request.getSession(false);
+			if(session != null) {
+				session.removeAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
+				session.setAttribute(RETURN_DAD_ATTRIBUTE_NAME, dad.trim());
+			}
+			return;
+		}
 		if (r != null && !r.contains("igrp/login/")) {
 			String[] arr = r.split("/");
 			if (arr.length == 3) {

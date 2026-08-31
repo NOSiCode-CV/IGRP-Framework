@@ -25,8 +25,12 @@ public class LoginController extends Controller {
 
 	public Response actionLogin() throws Exception {
 
-		if (Igrp.getInstance().getUser().isAuthenticated())
+		if (Igrp.getInstance().getUser().isAuthenticated()) {
+			Optional<String> targetApplication = ApplicationManager.buildAppLinkFromDadParam(Igrp.getInstance().getRequest());
+			if(targetApplication.isPresent())
+				return redirectToUrl(targetApplication.get());
 			return redirect("igrp", "home", "index");
+		}
 		
 		Optional<Response> optionalResponse = createResponseApplyingActivation();
 		if (optionalResponse.isPresent())
@@ -107,8 +111,9 @@ public class LoginController extends Controller {
 				&& loginWithDb(username, password))
 				|| (authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())
 						&& loginWithLdap(username, password))) {
-//			TODO: see if is possible to remember the previous route
-//
+			final Optional<String> targetApplication = ApplicationManager.buildAppLinkFromDadParam(Igrp.getInstance().getRequest());
+			if(targetApplication.isPresent())
+				return Optional.of(redirectToUrl(targetApplication.get()));
 
 			 final Optional<String> returnRoute = ApplicationManager.buildAppLinkFromSession(Igrp.getInstance().getRequest());
 			if(returnRoute.isPresent())
