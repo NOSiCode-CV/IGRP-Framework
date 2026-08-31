@@ -169,13 +169,8 @@ public class LoginController extends Controller {
 				}
 			}
 
-			// Previous here
-
 			try {
-				String state = Core.getParam("state");
-				if (state != null && !state.isEmpty())
-					this.addQueryString("dad", state);
-				return this.redirect("igrp", "home", "index", this.queryString());
+				return redirectToTargetApplication();
 			} catch (Exception ignored) {
 			}
 		}
@@ -217,21 +212,15 @@ public class LoginController extends Controller {
 		String authenticationType = this.getConfig().getAutenticationType();
 		if (authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
 			if (loginWithDb(username, password)) {
-
-				// Previous here ...
-
 				try {
-					return this.redirect("igrp", "home", "index"); // By default go to home index url
+					return redirectToTargetApplication();
 				} catch (Exception ignored) {
 				}
 			}
 		} else if (authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())) {
 			if (this.loginWithLdap(username, password)) {
-
-				// Previous here
-
 				try {
-					return this.redirect("igrp", "home", "index"); // By default go to home index url
+					return redirectToTargetApplication();
 				} catch (Exception ignored) {
 				}
 			}
@@ -632,8 +621,6 @@ public class LoginController extends Controller {
 					String name = _r.get("name");
 					String phone_number = _r.get("phone_number");
 
-					this.addQueryString("dad", state);
-
 					User user = new User();
 
 					if (uid != null && Pattern.matches(NIC_PATTERN, uid)) {
@@ -671,7 +658,7 @@ public class LoginController extends Controller {
 								
 								user.update();
 
-								return redirect("igrp", "home", "index", this.queryString());
+								return redirectToTargetApplication();
 							} catch (Exception e) {
 								log.error("User update error");
 							}
@@ -710,7 +697,7 @@ public class LoginController extends Controller {
 									newUser.setRefreshToken(refresh_token);
 									newUser.update();
 
-									return redirect("igrp", "home", "index", this.queryString());
+									return redirectToTargetApplication();
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -771,12 +758,26 @@ public class LoginController extends Controller {
 			String warName = Core.getDeployedWarName();
 			redirect_uri = redirect_uri.replace("IGRP", warName);
 			String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri="
+			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=" + getTargetDad() + "&redirect_uri="
 					+ redirect_uri;
 
 			return redirectToUrl(url);
 		}
 		return null;
+	}
+
+	private String getTargetDad() {
+		String dad = Core.getParam("dad");
+		if (dad != null && !dad.trim().isEmpty())
+			return dad.trim();
+		String state = Core.getParam("state");
+		if (state != null && !state.trim().isEmpty())
+			return state.trim();
+		return "igrp";
+	}
+
+	private Response redirectToTargetApplication() throws IOException {
+		return this.redirect("igrp", "home", "index", "&dad=" + getTargetDad());
 	}
 
 	private String createUrlForOAuth2OpenIdRequest() {
