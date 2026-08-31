@@ -49,6 +49,34 @@
 	margin-left: -15px;
 }
 
+#igrp-sidebar .wr-report-search{
+	width: 260px;
+	margin: 0 10px 0 0;
+}
+
+#igrp-sidebar .wr-reports-toolbar{
+	position: relative;
+	min-height: 36px;
+}
+
+#igrp-sidebar .wr-reports-toolbar .wr-report-search{
+	float: none !important;
+	margin: 0 auto;
+}
+
+#igrp-sidebar .wr-reports-toolbar .wr-newdocument{
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	float: none !important;
+	margin: 0;
+}
+
+#igrp-sidebar .wr-report-search-empty{
+	padding: 0 15px;
+	color: #777;
+}
+
 
 #igrp-sidebar #wr-list-datasource .nav-sidebar{
 	margin-right:0px;

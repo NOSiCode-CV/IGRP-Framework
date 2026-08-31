@@ -421,8 +421,8 @@ $(function ($) {
 								loading.appendTo(tab);
 
 								$.WR.response.renderList({
-									target   : $('#wr-list-document'),
-									selector : '#wr-list-document',
+									target   : $('#wr-list-reports'),
+									selector : '#wr-list-reports',
 									xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
 									data 	 : data,
 									loading  : loading,
@@ -453,7 +453,7 @@ $(function ($) {
 						}
 					});
 				}else{
-					$('#wr-list-document').html('');
+					$('#wr-list-reports').html('');
 					$('.wr-newdocument').addClass('hidden');
 					$.WR.fieldDataSource.clear();
 					$.WR.fieldDataSource.setButtons('');
@@ -537,7 +537,7 @@ $(function ($) {
 							icon  	: 'check',
 							text  	: 'Confirmar',
 							onClick : function(){
-								var data = $('.reporttitle *:not([name="wr_printsize"])').serializeArray();
+								var data = $('.reporttitle :input').serializeArray();
 
 								data.forEach(function(e,i){
 									if(e.name == p.codeName)
@@ -724,7 +724,7 @@ $(function ($) {
 							if(type == 'success'){
 								var obj = $('#list-reports li#'+$.WR.id);
 								obj.attr('code',$.WR.code);
-								$('span',obj).html($.WR.title);
+								$('span',obj).text($.WR.title+' ('+$.WR.code+')');
 								$('#igrp-app-title').html($.WR.title);
 							}
 						}
@@ -746,7 +746,14 @@ $(function ($) {
 			},
 			edit : function(){
 				$('body').on('click','.editReport',function(){
-					var parent 	= $(this).parents('li:first');
+					var parent 	= $(this).parents('li:first'),
+						code = parent.attr('code'),
+						title = $('span',parent).text(),
+						suffix = ' ('+code+')';
+
+					while(title.slice(-suffix.length) === suffix)
+						title = title.slice(0,-suffix.length);
+
 					$.WR.id 	= parent.attr('id');
 
 					$('a.linkReports',parent).trigger('click');
@@ -757,8 +764,8 @@ $(function ($) {
 						codeName   	: wr_nameInputCode,
 						codeLabel  	: wr_labelCode,
 						titleModal 	: $(this).attr('title')+' '+wr_newDocumentTitle,
-						title 		: $('span',parent).text(),
-						code 		: parent.attr('code'),
+						title 		: title,
+						code 		: code,
 						url 		: $('#p_edit_name_report').val(),
 						action 	    : 'edit'
 					});
@@ -1864,6 +1871,19 @@ $(function ($) {
 
 		$.WR.init = function(){
 			var h = $(window).height();
+			$('#tab-tabcontent_1-reports').on('input', '#report-search', function(){
+				var query = $.trim($(this).val()).toLowerCase(),
+					reports = $('#list-reports li');
+
+				reports.each(function(){
+					var report = $(this),
+						matches = !query || report.find('.linkReports span').text().toLowerCase().indexOf(query) !== -1;
+
+					report.toggle(matches);
+				});
+
+				$('#report-search-empty').toggle(reports.length > 0 && reports.filter(':visible').length === 0);
+			});
 			CKEDITOR.config.protectedSource.push( /(<xsl:[^\>]+>[\s|\S]*?<\/xsl:[^\>]+>)|(<xsl:[^\>]+\/>)/gi );
 			CKEDITOR.config.forceEnterMode = true;
 			CKEDITOR.config.forcePasteAsPlainText = true;

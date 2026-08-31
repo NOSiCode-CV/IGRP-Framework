@@ -104,14 +104,21 @@
                                     <div class="tab-content">
                                         <xsl:if test="rows/content/tabcontent_1/fields/reports">
                                             <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_1-reports" rel="tab-tabcontent_1-reports">
-                                                <div class="row">
+                                                <div class="row wr-reports-toolbar">
                                                     <a class="wr-newdocument pull-right" title="Novo Documento">
                                                         <i class="fa fa-plus-circle"/>
                                                     </a>
+                                                    <div class="wr-report-search pull-right">
+                                                        <label class="sr-only" for="report-search">Search reports</label>
+                                                        <div class="input-group input-group-sm">
+                                                            <span class="input-group-addon"><i class="fa fa-search"/></span>
+                                                            <input id="report-search" class="form-control" type="search" placeholder="Search reports" autocomplete="off"/>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="gen-column col-md-12" id="wr-list-document">
-                                                        <xsl:call-template name="reports"/>
+                                                        <div id="wr-list-reports"><xsl:call-template name="reports"/></div>
                                                     </div>
                                                 </div>
                                             </div>

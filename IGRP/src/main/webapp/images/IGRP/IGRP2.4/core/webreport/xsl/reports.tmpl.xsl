@@ -22,6 +22,7 @@
       </li>
       </xsl:for-each>
     </ul>
+    <p id="report-search-empty" class="wr-report-search-empty hiddenItem">No reports found.</p>
     <div class="info"></div>
   </xsl:template>
 </xsl:stylesheet>
