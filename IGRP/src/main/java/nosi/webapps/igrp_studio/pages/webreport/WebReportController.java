@@ -11,6 +11,7 @@ import nosi.core.webapp.Response;//
 /*----#start-code(packages_import)----*/
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Report;
@@ -339,22 +342,65 @@ public class WebReportController extends Controller {
 	
 	
 	public Response actionSaveEditTemplate(){
-	
+
           String id = Core.getParam("p_id");
           String code = Core.getParam("p_code");
           String title = Core.getParam("p_title_report");
+          String printSize = Core.getParam("wr_printsize");
+          String layout = Core.getParam("wr_layout");
+          String hasFooter = Core.getParam("wr_hasfooter");
           if(Core.isNotNullMultiple(id,code,title)){
               RepTemplate rt = new RepTemplate();
               rt = rt.findOne(Core.toInt(id));
+			  if(rt == null){
+				  return this.renderView(FlashMessage.MSG_ERROR);
+			  }
               rt.setCode(code);
               rt.setName(title);
               rt.setDt_updated(new Date(System.currentTimeMillis()));
+			  rt.setUser_updated(Core.getCurrentUser());
               rt = rt.update();
-              if(rt!=null){
+			  if(rt != null && !rt.hasError() && saveReportConfig(rt, printSize, layout, hasFooter)){
                   return this.renderView(FlashMessage.MSG_SUCCESS);
               }
           }
 		return this.renderView(FlashMessage.MSG_ERROR);
+	}
+
+	private boolean saveReportConfig(RepTemplate report, String printSize, String layout, String hasFooter){
+		if(report.getXml_content() == null || report.getXml_content().getId() == null){
+			return false;
+		}
+
+		CLob jsonClob = new CLob().findOne(report.getXml_content().getId());
+		if(jsonClob == null || jsonClob.getC_lob_content() == null){
+			return false;
+		}
+
+		try{
+			JsonObject reportJson = JsonParser.parseString(
+					new String(jsonClob.getC_lob_content(), StandardCharsets.UTF_8)).getAsJsonObject();
+			JsonObject config = reportJson.has("config") && reportJson.get("config").isJsonObject()
+					? reportJson.getAsJsonObject("config") : new JsonObject();
+
+			if(Core.isNotNull(printSize)){
+				config.addProperty("printsize", printSize);
+			}
+			if("P".equals(layout) || "L".equals(layout)){
+				config.addProperty("layout", layout);
+			}
+			if("Y".equals(hasFooter) || "N".equals(hasFooter)){
+				config.addProperty("hasfooter", hasFooter);
+			}
+
+			reportJson.add("config", config);
+			jsonClob.setC_lob_content(reportJson.toString().getBytes(StandardCharsets.UTF_8));
+			jsonClob.setDt_updated(new Date(System.currentTimeMillis()));
+			jsonClob = jsonClob.update();
+			return jsonClob != null && !jsonClob.hasError();
+		}catch(RuntimeException e){
+			return false;
+		}
 	}
 		
 	//Get xsl content of report
