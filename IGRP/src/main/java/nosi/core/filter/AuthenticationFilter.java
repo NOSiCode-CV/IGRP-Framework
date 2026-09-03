@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nosi.core.authentication.AuthenticationManager;
+import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
 import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Core;
 
@@ -68,10 +69,10 @@ public class AuthenticationFilter implements Filter {
 					url = ApplicationManager.processCallback(httpServletRequest);
 					if (url.isPresent()) {
 						String destination = url.get();
-						//if (destination.equals(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_PAGE))
+						if (destination.equals(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_PAGE))
 							httpServletRequest.getRequestDispatcher(destination).forward(httpServletRequest, httpServletResponse);
-//						else
-//							httpServletRequest.sendRedirect(destination);
+						else
+							httpServletResponse.sendRedirect(destination);
 						return;
 					}
 					//TODO: db login is not going to the previous route if the session expires
