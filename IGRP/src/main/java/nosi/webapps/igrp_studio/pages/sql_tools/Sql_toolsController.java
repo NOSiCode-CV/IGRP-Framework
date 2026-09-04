@@ -12,7 +12,10 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 
 import javax.persistence.Tuple;
+import javax.persistence.TupleElement;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -68,9 +71,13 @@ public class Sql_toolsController extends Controller {
 
                 final List<Tuple> data = Core.query(sql, configEnv).getResultList();
 
-                Core.setMessageInfo((System.currentTimeMillis() - start) + " ms");
+                final boolean generatedAliases = this.populateTable(view.table_1, data);
 
-                this.populateTable(view.table_1, data);
+                Core.setMessageInfo((System.currentTimeMillis() - start) + " ms");
+                if (generatedAliases) {
+                    Core.setMessageWarning("Foram gerados aliases seguros para colunas sem um nome XML válido. "
+                            + "Para controlar os nomes apresentados, use AS nome_da_coluna no SELECT.");
+                }
 
                 view.table_1.setVisible(true);
             }
@@ -102,25 +109,38 @@ public class Sql_toolsController extends Controller {
 
     /*----#start-code(custom_actions)----*/
 
-    private void populateTable(IGRPTable table, List<Tuple> data) {
+    private boolean populateTable(IGRPTable table, List<Tuple> data) {
 
         if (null == data)
-            return;
+            return false;
 
         // LinkedHashSet to maintain the order of columns in the query and keep unique column names
         final Set<String> columnAliases = new LinkedHashSet<>();
+        final List<String> xmlColumnAliases = new ArrayList<>();
+        final Set<String> usedXmlColumnAliases = new HashSet<>();
+        boolean generatedAliases = false;
 
         final XMLWritter xml = new XMLWritter();
 
-        data.forEach(tuple -> {
+        for (Tuple tuple : data) {
             xml.startElement("row");
-            tuple.getElements().forEach(element -> {
-                        columnAliases.add(element.getAlias());
-                        xml.setElement(element.getAlias(), tuple.get(element.getAlias()));
-                    }
-            );
+            int columnIndex = 0;
+            for (TupleElement<?> element : tuple.getElements()) {
+                final String columnAlias;
+                if (columnIndex < xmlColumnAliases.size()) {
+                    columnAlias = xmlColumnAliases.get(columnIndex);
+                } else {
+                    columnAlias = this.createXmlColumnAlias(element.getAlias(), columnIndex + 1, usedXmlColumnAliases);
+                    xmlColumnAliases.add(columnAlias);
+                    generatedAliases = generatedAliases || !columnAlias.equals(element.getAlias());
+                }
+
+                columnAliases.add(columnAlias);
+                xml.setElement(columnAlias, tuple.get(element));
+                columnIndex++;
+            }
             xml.endElement();
-        });
+        }
 
         columnAliases.forEach(alias -> {
             final Field field = new TextField(null, alias);
@@ -129,6 +149,27 @@ public class Sql_toolsController extends Controller {
         });
 
         table.addRowsXMl(xml.toString());
+        return generatedAliases;
+    }
+
+    private String createXmlColumnAlias(String sourceAlias, int columnIndex, Set<String> usedAliases) {
+        final String originalAlias = sourceAlias == null ? "" : sourceAlias.trim();
+        String alias = originalAlias;
+
+        if (!alias.matches("[A-Za-z_][A-Za-z0-9_]*") || alias.regionMatches(true, 0, "xml", 0, 3)) {
+            alias = alias.replaceAll("[^A-Za-z0-9_]+", "_").replaceAll("^_+|_+$", "");
+            if (alias.isEmpty() || (!Character.isLetter(alias.charAt(0)) && alias.charAt(0) != '_'))
+                alias = "column_" + (alias.isEmpty() ? columnIndex : alias);
+            if (alias.regionMatches(true, 0, "xml", 0, 3))
+                alias = "column_" + alias;
+        }
+
+        final String baseAlias = alias;
+        int suffix = 2;
+        while (!usedAliases.add(alias))
+            alias = baseAlias + "_" + suffix++;
+
+        return alias;
     }
 
     private boolean startWithSelect(String sql) {
