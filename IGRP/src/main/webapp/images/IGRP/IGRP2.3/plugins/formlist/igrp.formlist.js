@@ -66,7 +66,31 @@
             
             function resetFildsRow(vObjTr){
 
-                var row = $.IGRP.utils.resetFields(vObjTr);
+                var selects = $('select', vObjTr);
+
+                // A cloned Select2 keeps the previous row's rendered container and
+                // selected option. Reset the native select before the row-add hook
+                // creates a new Select2 instance for this row.
+                selects.each(function(){
+                    var select = $(this);
+
+                    if(select.data('select2')){
+                        select.val(null).trigger('change');
+                        return;
+                    }
+
+                    select.siblings('.select2-container').remove();
+
+                    select.removeClass('select2-hidden-accessible')
+                        .removeAttr('data-select2-id aria-hidden tabindex');
+
+                    $('option', select).removeAttr('data-select2-id selected')
+                        .prop('selected', false);
+
+                    select.prop('selectedIndex', -1).val(null);
+                });
+
+                $.IGRP.utils.resetFieldsSelector($(':input', vObjTr).not(selects));
 
                 var checkers = vObjTr.find('td input[type="checkbox"],td input[type="radio"] ');
 
