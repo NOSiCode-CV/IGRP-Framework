@@ -46,10 +46,17 @@ public final class ApplicationManager {
 		String dad = request.getParameter("dad");
 		if (page != null && page.split("/").length == 3) {
 			String[] p = page.split("/");
+			String currentUrl = requestUrl(request);
+			String applicationUrl = resolveApplicationUrl(request, p[0], currentUrl);
+			if (!sameApplicationUrl(currentUrl, applicationUrl))
+				return Optional.of(String.format("%s?%s", applicationUrl, request.getQueryString()));
+
+			String routeApplication = p[0];
 			String errorMsg="";
 			if(!new Permission().hasMenuPagPermition(request,dad, p[0], p[1], p[2])) {
 				errorMsg="&errorMsg="+encodeParameterValue(gt("@"+dad+" - Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);
 				page = "igrp/error-page/exception";
+				routeApplication = "igrp";
 			}
 			page = EncrypDecrypt.encryptURL(page, request.getSession(false).getId()).replace(" ", "+");
 			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
@@ -60,9 +67,48 @@ public final class ApplicationManager {
 				if(!"r".equals(paramName) && !"dad".equals(paramName)) // skipping "r" and "dad" param
 					additionalParams.append(String.format("&%s=%s", paramName, encodeParameterValue(request.getParameter(paramName))));
 			}
-			url = Optional.of(String.format("/%s/app/webapps?r=%s%s%s%s", getDeployedHostName(request), page, dad, additionalParams,errorMsg));
+			applicationUrl = resolveApplicationUrl(request, routeApplication, localApplicationUrl(request));
+			url = Optional.of(String.format("%s?r=%s%s%s%s", applicationUrl, page, dad, additionalParams,errorMsg));
 		}
 		return url;
+	}
+
+	private static String resolveApplicationUrl(HttpServletRequest request, String applicationDad, String fallbackUrl) {
+		Application application = new Application().findByDad(applicationDad);
+		if (application == null || (application.getExterno() != 1 && application.getExterno() != 2))
+			return fallbackUrl;
+
+		String configuredUrl = application.getUrl();
+		if (configuredUrl == null || configuredUrl.trim().isEmpty()) {
+			LOGGER.warn("Application {} is configured as external type {}, but has no URL", applicationDad,
+					application.getExterno());
+			return fallbackUrl;
+		}
+
+		configuredUrl = configuredUrl.trim();
+		if (application.getExterno() == 1)
+			return removeTrailingSlash(configuredUrl);
+
+		String currentUrl = requestUrl(request);
+		String currentContextPath = request.getContextPath();
+		String targetContextPath = "/" + configuredUrl.replaceAll("^/+|/+$", "");
+		if (currentContextPath != null && !currentContextPath.isBlank()
+				&& currentUrl.contains(currentContextPath + "/"))
+			return currentUrl.replace(currentContextPath + "/", targetContextPath + "/");
+
+		return fallbackUrl;
+	}
+
+	private static String localApplicationUrl(HttpServletRequest request) {
+		return String.format("/%s/app/webapps", getDeployedHostName(request));
+	}
+
+	private static String removeTrailingSlash(String url) {
+		return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
+	}
+
+	private static boolean sameApplicationUrl(String firstUrl, String secondUrl) {
+		return removeTrailingSlash(firstUrl).equalsIgnoreCase(removeTrailingSlash(secondUrl));
 	}
 
 	private static String getDeployedHostName(HttpServletRequest request) {
@@ -70,8 +116,10 @@ public final class ApplicationManager {
 	}
 
 	public static String buildPublicTargetLink(HttpServletRequest request) {
-		String url = "";
+		String applicationUrl = requestUrl(request);
 		String page = request.getParameter("r");
+		if (page != null && page.split("/").length == 3)
+			applicationUrl = resolveApplicationUrl(request, page.split("/")[0], applicationUrl);
 		String dad = request.getParameter("dad");
 		dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
 		StringBuilder additionalParams = new StringBuilder();
@@ -82,8 +130,7 @@ public final class ApplicationManager {
 				additionalParams.append(String.format("&%s=%s", paramName, encodeParameterValue(request.getParameter(paramName))));
 		}
 		additionalParams.append(String.format("&%s=%s", "target", "_blank"));
-		url = String.format("%s?r=%s%s%s", requestUrl(request), page, dad, additionalParams);
-		return url;
+		return String.format("%s?r=%s%s%s", applicationUrl, page, dad, additionalParams);
 	}
 
 	public static boolean isPublic(HttpServletRequest request) {
@@ -281,9 +328,17 @@ public final class ApplicationManager {
 		if(session == null)
 			return Optional.empty();
 		String[] splittedPageRoute = pageRoute.split(Pattern.quote("&"));
-		String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], session.getId()).replace(" ", "+");
 		String additionalParams = extractAdditionalParams(pageRoute);
-		return Optional.of(String.format("%s?r=%s%s", requestUrl(request), encryptedPageRoute, additionalParams));
+		String[] routeParts = splittedPageRoute[0].split("/");
+		String currentUrl = requestUrl(request);
+		String applicationUrl = routeParts.length == 3
+				? resolveApplicationUrl(request, routeParts[0], currentUrl)
+				: currentUrl;
+		if (!sameApplicationUrl(currentUrl, applicationUrl))
+			return Optional.of(String.format("%s?r=%s%s", applicationUrl, splittedPageRoute[0], additionalParams));
+
+		String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], session.getId()).replace(" ", "+");
+		return Optional.of(String.format("%s?r=%s%s", applicationUrl, encryptedPageRoute, additionalParams));
 	}
 	
 	private static String extractAdditionalParams(String pageRoute) {
@@ -326,8 +381,14 @@ public final class ApplicationManager {
 				if(param != null && param.keySet().stream().anyMatch(p -> p.equals("paramName")))
 					additionalParamsQueryString.append(String.format("&%s=%s", param.optString("paramName"), encodeParameterValue(param.optString("paramValue"))));
 			}
-		String route = EncrypDecrypt.encryptURL(String.format("%s/%s/%s", appCode, pageCode, actionCode), session.getId()).replace(" ", "+");
-		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParamsQueryString));
+		String pageRoute = String.format("%s/%s/%s", appCode, pageCode, actionCode);
+		String currentUrl = requestUrl(request);
+		String applicationUrl = resolveApplicationUrl(request, appCode, currentUrl);
+		if (!sameApplicationUrl(currentUrl, applicationUrl))
+			return Optional.of(String.format("%s?r=%s%s%s", applicationUrl, pageRoute, dad, additionalParamsQueryString));
+
+		String route = EncrypDecrypt.encryptURL(pageRoute, session.getId()).replace(" ", "+");
+		return Optional.of(String.format("%s?r=%s%s%s", applicationUrl, route, dad, additionalParamsQueryString));
 	}
 	
 	public static void rememberRoute(HttpServletRequest request) {
