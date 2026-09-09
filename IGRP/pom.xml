@@ -90,7 +90,7 @@
         <servlet.api.version>3.1.0</servlet.api.version>
         <!-- OPEN HTML TO PDF -->
         <openhtml.version>1.0.10</openhtml.version>
-        <jsoup.version>1.22.1</jsoup.version>
+        <jsoup.version>1.23.1</jsoup.version>
         <model.mapper.version>3.2.6</model.mapper.version>
         <!-- For XSLT and XPATH handling ... -->
         <xalan.version>2.7.3</xalan.version>

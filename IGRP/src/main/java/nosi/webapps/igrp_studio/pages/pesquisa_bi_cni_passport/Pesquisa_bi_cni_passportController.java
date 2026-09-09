@@ -30,6 +30,15 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+		final String lookupSearch = Core.getParam("p_fwl_search");
+		if (Core.isNotNull(lookupSearch)) {
+			final String documentNumber = lookupSearch.trim();
+			if (documentNumber.matches("^[0-9]+$")
+					|| documentNumber.matches("^\\d{8}[MmFf]{1}\\d{3}[a-zA-Z]{1}$")
+					|| documentNumber.matches("^[PEDUpedu][Aa]\\d{6}$"))
+				model.setNumero_do_documento(documentNumber);
+		}
+
 		view.tipo_documento.setValue(getTipoDoc());
    		view.tipo_documento.setVisible(false);
 		view.data_nascimento.setVisible(false);
@@ -136,7 +145,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		tipo_doc.put("pass", "Passaporte");
 		return tipo_doc;
 	}
-	
+
 	private void setList(boolean tipo_doc, List<Pesquisa_bi_cni_passport.Table_1> lista,
 			Pesquisa_bi_cni_passport.Table_1 tab_geral, JSONObject pessoa) {	
 
