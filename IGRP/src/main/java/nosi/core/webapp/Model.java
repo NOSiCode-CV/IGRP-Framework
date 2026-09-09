@@ -36,9 +36,7 @@ import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
 
@@ -665,26 +663,9 @@ public abstract class Model implements Serializable { // IGRP super model
 			if (allFiles == null)
 				return Map.of();
 
-			final Supplier<Stream<Part>> partStream = allFiles::stream;
-
-			final var files = new HashMap<String, List<Part>>();
-			allFiles.stream()
+			return allFiles.stream()
 					.filter(file -> Core.isNotNull(file.getContentType()))
-					// Browsers submit an empty Part for an unselected file input. It is
-					// not an upload and must not replace a file already stored for a
-					// previous form-list row on a subsequent validation request.
-					.filter(file -> file.getSubmittedFileName() != null
-							&& !file.getSubmittedFileName().trim().isEmpty())
-					.forEach(f -> {
-						final var collect = partStream.get()
-								.filter(file -> file.getName().equals(f.getName()))
-								.filter(file -> file.getSubmittedFileName() != null
-										&& !file.getSubmittedFileName().trim().isEmpty())
-								.toList();
-						files.put(f.getName().toLowerCase(), collect);
-					});
-
-			return files;
+					.collect(Collectors.groupingBy(file -> file.getName().toLowerCase()));
 		} catch (ServletException | IOException e1) {
 			e1.printStackTrace();
 		}
