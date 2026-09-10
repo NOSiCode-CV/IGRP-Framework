@@ -671,7 +671,6 @@ public abstract class Model { // IGRP super model
 	}
 
 	private Map<String, List<Part>> getFiles() {
-		System.out.println("bom dja dentra");
 		if (!Core.isUploadedFiles())
 			return new HashMap<>();
 		try {
