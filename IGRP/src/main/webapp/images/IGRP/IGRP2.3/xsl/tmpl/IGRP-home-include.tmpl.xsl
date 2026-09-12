@@ -532,11 +532,15 @@
         }
         });
 
-        // Ensure 'sidebar-off' class is removed when resizing to desktop
+        // Only reset the mobile sidebar when crossing into desktop layout.
+        // Generator tabs manage their own collapsed sidebar state.
+        var wasMobile = isMobile();
         window.addEventListener('resize', function() {
-        if (!isMobile()) {
+        var mobile = isMobile();
+        if (wasMobile &amp;&amp; !mobile &amp;&amp; !document.getElementById('igrp-form-gen')) {
         document.body.classList.remove('sidebar-off');
         }
+        wasMobile = mobile;
         });
         })();
       </script>

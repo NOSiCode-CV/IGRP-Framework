@@ -14639,8 +14639,8 @@ Blockly.BlockSvg.prototype.onMouseDown_ = function(a) {
             this.dragStartXY_ = this.getRelativeToSurfaceXY();
             this.workspace.startDrag(a, this.dragStartXY_.x, this.dragStartXY_.y);
             Blockly.dragMode_ = Blockly.DRAG_STICKY;
-            Blockly.BlockSvg.onMouseUpWrapper_ = Blockly.bindEvent_(document, "mouseup", this, this.onMouseUp_);
-            Blockly.BlockSvg.onMouseMoveWrapper_ = Blockly.bindEvent_(document, "mousemove", this, this.onMouseMove_);
+            Blockly.BlockSvg.onMouseUpWrapper_ = Blockly.bindEvent_(document, "pointerdown" == a.type ? "pointerup" : "mouseup", this, this.onMouseUp_);
+            Blockly.BlockSvg.onMouseMoveWrapper_ = Blockly.bindEvent_(document, "pointerdown" == a.type ? "pointermove" : "mousemove", this, this.onMouseMove_);
             this.draggedBubbles_ = [];
             for (var b = this.getDescendants(), c = 0, d; d = b[c]; c++) {
                 d = d.getIcons();
@@ -16482,14 +16482,16 @@ Blockly.Flyout.prototype.show = function(a) {
         e = Blockly.createSvgElement("rect", {
             "fill-opacity": 0
         }, null);
-        this.workspace_.getCanvas().insertBefore(e, d.getSvgRoot());
+        this.workspace_.getCanvas().insertBefore(e, d.getSvgRoot().nextSibling);
         d.flyoutRect_ = e;
         this.buttons_[c] = e;
         this.autoClose ? this.listeners_.push(Blockly.bindEvent_(h, "mousedown", null, this.createBlockFunc_(d))) : this.listeners_.push(Blockly.bindEvent_(h, "mousedown", null, this.blockMouseDown_(d)));
+        this.autoClose && this.listeners_.push(Blockly.bindEvent_(h, "pointerdown", null, this.createBlockPointerFunc_(d)));
         this.listeners_.push(Blockly.bindEvent_(h, "mouseover", d, d.addSelect));
         this.listeners_.push(Blockly.bindEvent_(h, "mouseout", d, d.removeSelect));
         this.listeners_.push(Blockly.bindEvent_(e,
             "mousedown", null, this.createBlockFunc_(d)));
+        this.autoClose && this.listeners_.push(Blockly.bindEvent_(e, "pointerdown", null, this.createBlockPointerFunc_(d)));
         this.listeners_.push(Blockly.bindEvent_(e, "mouseover", d, d.addSelect));
         this.listeners_.push(Blockly.bindEvent_(e, "mouseout", d, d.removeSelect))
     }
@@ -16538,6 +16540,13 @@ Blockly.Flyout.prototype.blockMouseDown_ = function(a) {
         Blockly.isRightButton(c) ? a.showContextMenu_(c) : (Blockly.Css.setCursor(Blockly.Css.Cursor.CLOSED), Blockly.Flyout.startDownEvent_ = c, Blockly.Flyout.startBlock_ = a, Blockly.Flyout.startFlyout_ = b, Blockly.Flyout.onMouseUpWrapper_ = Blockly.bindEvent_(document, "mouseup", this, Blockly.terminateDrag_), Blockly.Flyout.onMouseMoveBlockWrapper_ = Blockly.bindEvent_(document, "mousemove", this,
             b.onMouseMoveBlock_));
         c.stopPropagation()
+    }
+};
+Blockly.Flyout.prototype.createBlockPointerFunc_ = function(a) {
+    var b = this.createBlockFunc_(a);
+    return function(a) {
+        b(a);
+        a.preventDefault()
     }
 };
 Blockly.Flyout.prototype.onMouseDown_ = function(a) {

@@ -1875,6 +1875,15 @@ $('#active_selenium').on('click', function() {
 
 		});
 
+	},
+
+	error : function(data) {
+		console.log('Error: '+data);
+	},
+
+	complete : function() {
+		// DAO metadata is optional. Blockly must still be initialized when this
+		// request is redirected, returns HTML, or cannot be parsed as XML.
 		if (!blockyInit) {
 			Code.init();
 			blockyInit=true;
@@ -1886,10 +1895,6 @@ $('#active_selenium').on('click', function() {
 			Blockly.mainWorkspace.updateToolbox(toolbox);
 			SetupBlockly();
 		}
-	},
-	
-	error : function(data) {
-		console.log('Error: '+data);
 	}
 	});
 };
