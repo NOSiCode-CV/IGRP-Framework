@@ -165,7 +165,7 @@
 			<sep></sep>			
 		</xml>		
 		<!-- import required blockly and blocks -->		
-		<script type="text/javascript" src="{$path}/core/blockly/blockly/blockly_compressed.js"></script>		
+		<script type="text/javascript" src="{$path}/core/blockly/blockly/blockly_compressed.js?v=pointer-dnd-1"></script>		
 		<script type="text/javascript" src="{$path}/core/blockly/blockly/blocks_compressed.js"></script>		
 		<!-- import code -->		
 		<script type="text/javascript" src="{$path}/core/blockly/blockly/javascript_compressed.js"></script>		
