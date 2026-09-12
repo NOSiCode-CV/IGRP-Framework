@@ -319,7 +319,7 @@
 					};
 
 					$.IGRP.on('submit', function(o){
-						if(o.valid && o.target.includes('submit')) {
+						if(o.valid && o.target.includes('submit') && o.target !== 'submit_ajax') {
 							$('.igrp-data-table').each(function () {
 								safeDestroy(this);
 							});
@@ -336,14 +336,7 @@
 						});
 					});
 
-					$.IGRP.events.on('submit-ajax', function(o){
-						if(o.valid) {
-							$('.igrp-data-table').each(function () {
-								if ($.fn.DataTable.isDataTable(this))
-									safeDestroy(this);
-							});
-						}
-					});
+					// AJAX refreshes destroy only the affected table before its replacement.
 
 					$.IGRP.events.on('before-element-transform', function(p){
 						$('.igrp-data-table').each(function () {
