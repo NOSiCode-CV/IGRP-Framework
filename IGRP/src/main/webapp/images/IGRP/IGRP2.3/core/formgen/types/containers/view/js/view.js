@@ -62,20 +62,25 @@ var GENVIEW = function(name,params){
 		
 		GEN.setBTNClass(f,'default');
 		
-		GEN.setImgAttr(f,{
-			value:''
-		});
-		
+		// Some fields, such as links, already register their own icon property.
+		// Do not register it again here because the empty view default can
+		// overwrite the field icon when the page is saved and reloaded.
+		if (!f.GET.img) {
+			GEN.setImgAttr(f,{
+				value:''
+			});
+		}
+
 		f.setPropriety( {
 			name : 'showlabel',
 			label : 'Show Label',
 			value : true
 		});
-		
-		
+
+
 		/*f.setProperty({
 			name  : 'icon',
-			value : 250 
+			value : 250
 		});*/
 
 	}
