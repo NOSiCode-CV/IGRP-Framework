@@ -55,12 +55,10 @@ public class GenericActivitiIGRP {
 	}
 
 	protected void setMyProccessAccess(String[] filterProcessIDs) {
-		if(this.myproccessId==null) {
-			if(filterProcessIDs.length>0)
-				this.myproccessId = this.getMyProcessAccess(filterProcessIDs);
-			else
-				this.myproccessId =new ArrayList<>();
-		}
+		// Permissions must match this call's IDs, including when the result is empty.
+		this.myproccessId = filterProcessIDs.length > 0
+				? this.getMyProcessAccess(filterProcessIDs)
+				: new ArrayList<>();
 	}
 
 	private List<String> getMyProcessAccess(String[] filterProcessIDs) {
