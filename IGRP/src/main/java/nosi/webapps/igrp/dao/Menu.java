@@ -238,31 +238,46 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				.map(Integer.class::cast)
 				.toArray(Integer[]::new);
 
-			// List of profile IDs of the current user
-			Set<Integer> profsUserSet = new Profile().find().keepConnection()
-					.where("type", "=", "PROF")
-					.andWhere("profileType.application.dad", "=", dad)
-					.andWhere("user.id", "=", userID)
-					.allColumns("type_fk").stream()
-					.flatMap(map -> map.values().stream())
-					.filter(Integer.class::isInstance)
-					.map(Integer.class::cast)
-					.collect(Collectors.toSet());
+		if (menuIDs.length == 0)
+			return false;
 
-			// List of profiles with the given menu IDs
-			Set<Integer> profileSet = new Profile().find()
-					.whereIn("type_fk", menuIDs)
-					.andWhere("type", "=", "MEN")
-					.andWhere("profileType.application.dad", "=", dad)
-					.andWhere("profileType.id", ">", 1)
-					.allColumns("profileType").stream()
-					.flatMap(map -> map.values().stream())
-					.filter(Integer.class::isInstance)
-					.map(Integer.class::cast)
-					.collect(Collectors.toSet());
+		// Menus can be assigned directly to a user (MEN_USER), without being
+		// assigned to any of the user's profiles. getMyMenu() includes these
+		// entries, so the access check must use the same source of permission.
+		Long directUserPermission = new Profile().find().keepConnection()
+				.whereIn("type_fk", menuIDs)
+				.andWhere("type", "=", "MEN_USER")
+				.andWhere("profileType.application.dad", "=", dad)
+				.andWhere("user.id", "=", userID)
+				.getCount();
+		if (directUserPermission > 0)
+			return true;
 
-			// Check if profsUserSet contains any of the profileSet
-			return !Collections.disjoint(profsUserSet, profileSet);
+		// List of profile IDs of the current user
+		Set<Integer> profsUserSet = new Profile().find().keepConnection()
+				.where("type", "=", "PROF")
+				.andWhere("profileType.application.dad", "=", dad)
+				.andWhere("user.id", "=", userID)
+				.allColumns("type_fk").stream()
+				.flatMap(map -> map.values().stream())
+				.filter(Integer.class::isInstance)
+				.map(Integer.class::cast)
+				.collect(Collectors.toSet());
+
+		// List of profiles with the given menu IDs
+		Set<Integer> profileSet = new Profile().find()
+				.whereIn("type_fk", menuIDs)
+				.andWhere("type", "=", "MEN")
+				.andWhere("profileType.application.dad", "=", dad)
+				.andWhere("profileType.id", ">", 1)
+				.allColumns("profileType").stream()
+				.flatMap(map -> map.values().stream())
+				.filter(Integer.class::isInstance)
+				.map(Integer.class::cast)
+				.collect(Collectors.toSet());
+
+		// Check if profsUserSet contains any of the profileSet
+		return !Collections.disjoint(profsUserSet, profileSet);
 	}
 	
 
