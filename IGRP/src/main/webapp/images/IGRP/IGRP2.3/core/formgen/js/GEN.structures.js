@@ -180,6 +180,12 @@ return '..' + subpath.substring(subpath.indexOf('/')) + '/xml/gis/map.xml';
         return str.replaceAll('"', "'");
         //return str.replace(/\\([\s\S])|(")/g,"\\$1$2"); // thanks @slevithan!
     };
+	const escapeXMLText = function (value) {
+        return String(value == null ? '' : value)
+            .replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    };
 	const getAttrsArr = function (field, which) {
 
         let arr = "";
@@ -507,7 +513,7 @@ return '..' + subpath.substring(subpath.indexOf('/')) + '/xml/gis/map.xml';
 
                 const value = field.xml.dataValue || DATA.get({type: type, field: p.field});
 
-                if (p.value && field.xml.value) rtn += '<value>' + value + '</value>';
+                if (p.value && field.xml.value) rtn += '<value>' + escapeXMLText(value) + '</value>';
             }
 
             if (field.xml.lookup || field.GET.type() === 'lookup') {
@@ -707,7 +713,7 @@ return '..' + subpath.substring(subpath.indexOf('/')) + '/xml/gis/map.xml';
                 '<link>' + link + '</link>' +
                 '<target>' + target + '</target>' +
                 '<img>' + _class + img + '</img>' +
-                '<preview>' + actionLINK + '</preview>' +
+                '<preview>' + escapeXMLText(actionLINK) + '</preview>' +
                 map +
                 '</item>';
         });

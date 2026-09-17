@@ -19,6 +19,9 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.pages.novomenu.NovoMenuController;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,7 +84,8 @@ public class PesquisarMenuController extends Controller {
 						.orderByAsc("orderby").all();
 			}
 
-			menus.sort((a, b) -> b.getStatus() - a.getStatus());
+			menus.sort(Comparator.comparingInt(Menu::getOrderby).thenComparing(Menu::getId));
+			Set<Integer> parentIds = menuParentIds(menus);
 
 			final ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 
@@ -100,7 +104,15 @@ public class PesquisarMenuController extends Controller {
 					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
 				table1.setTable_titulo(gt(menu_db1.getDescr()));
-				row.setPagina_order(new Pair(menu_db1.getDescr(), menu_db1.getDescr()));
+				String orderLabel = gt(menu_db1.getDescr());
+				Set<Integer> ancestors = new HashSet<>();
+				ancestors.add(menu_db1.getId());
+				Menu parent = menu_db1.getMenu();
+				while (parent != null && ancestors.add(parent.getId())) {
+					orderLabel = gt(parent.getDescr()) + " / " + orderLabel;
+					parent = parent.getMenu();
+				}
+				row.setPagina_order(new Pair(orderLabel, orderLabel));
 
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
@@ -131,12 +143,10 @@ public class PesquisarMenuController extends Controller {
 					table1.setCheckbox_check(menu_db1.getId());
 				}
 				lista.add(table1);
-				separatorlistDocs.add(row);
+				if (menu_db1.getOrderby() != NovoMenuController.INVISIVEL_KEY && !parentIds.contains(menu_db1.getId()))
+					separatorlistDocs.add(row);
 			}
 			model.setFormlist_1(separatorlistDocs);
-
-			if (!lista.isEmpty())
-				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
 
 			view.table_1.addData(lista);
 		}
@@ -179,35 +189,68 @@ public class PesquisarMenuController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (gravar_ordenacao)  *//* End-Code-Block  */
 		/*----#start-code(gravar_ordenacao)----*/
+		Transaction transaction = null;
 		try {
-			int i = 100;
-			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
-				if (Core.isNotNull(row.getId_pai().getKey()) || Core.isNull(row.getId_do_pai().getKey())) {
-					Menu tblimagelogin = new Menu().findOne(Core.toInt(row.getId_page_ord().getKey()));
-					if (tblimagelogin != null) {
-						tblimagelogin.setOrderby(i);
-						tblimagelogin.update();
-						i++;
-					}
-				}
-			}
-			int j = 1;
-			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
-				if (Core.isNotNull(row.getId_do_pai().getKey())) {
-					Menu tblimagelogin = new Menu().findOne(Core.toInt(row.getId_page_ord().getKey()));
-					if (tblimagelogin != null) {
-						String ordemPai = tblimagelogin.getMenu().getOrderby() + "";
-						String ordem = ordemPai.concat(j + "");
-						tblimagelogin.setOrderby(Core.toInt(ordem));
-						tblimagelogin.update();
-						j++;
-					}
-				}
-			}
-			Core.setMessageSuccess();
+			int appId = Core.toInt(model.getAplicacao());
+			String dad = Core.getCurrentDad();
+			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad))
+				appId = Core.findApplicationByDad(dad).getId();
+			if (appId == 0 || (appId <= 3 && !"igrpweb@nosi.cv".equals(Core.getCurrentUser().getEmail())))
+				throw new IllegalArgumentException("Selecione uma aplicação válida.");
+			if (model.getFormlist_1() == null || model.getFormlist_1().isEmpty())
+				throw new IllegalArgumentException("Não existem menus para ordenar.");
 
+			Session session = Core.getSession(new Menu().getConnectionName());
+			transaction = session.getTransaction();
+			if (!transaction.isActive()) {
+				transaction.begin();
+			}
+			List<Menu> applicationMenus = session.createQuery("from Menu where application.id = :appId", Menu.class)
+					.setParameter("appId", appId).getResultList();
+			Map<Integer, Menu> byId = new HashMap<>();
+			for (Menu item : applicationMenus)
+				byId.put(item.getId(), item);
+			Set<Integer> parentIds = menuParentIds(applicationMenus);
+			Set<Integer> submitted = new HashSet<>();
+			List<Menu> requestedOrder = new ArrayList<>();
+			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
+				int id = row.getId_page_ord() == null ? 0 : Core.toInt(row.getId_page_ord().getKey());
+				Menu item = byId.get(id);
+				if (item == null || parentIds.contains(id) || !submitted.add(id))
+					throw new IllegalArgumentException("A lista de menus é inválida. Atualize a página e tente novamente.");
+				if (item.getOrderby() != NovoMenuController.INVISIVEL_KEY)
+					requestedOrder.add(item);
+			}
+			for (Menu item : applicationMenus)
+				if (item.getOrderby() != NovoMenuController.INVISIVEL_KEY && !parentIds.contains(item.getId()) && !submitted.contains(item.getId()))
+					throw new IllegalArgumentException("A lista de menus foi alterada. Atualize a página e tente novamente.");
+
+			Map<Integer, Integer> parentOrders = new HashMap<>();
+			int order = 1;
+			for (Menu item : requestedOrder) {
+				item.setOrderby(order);
+				Set<Integer> ancestors = new HashSet<>();
+				ancestors.add(item.getId());
+				Menu parent = item.getMenu();
+				while (parent != null && byId.containsKey(parent.getId()) && ancestors.add(parent.getId())) {
+					Integer previousOrder = parentOrders.get(parent.getId());
+					if (previousOrder == null || order < previousOrder)
+						parentOrders.put(parent.getId(), order);
+					parent = byId.get(parent.getId()).getMenu();
+				}
+				order++;
+			}
+			for (Integer parentId : parentIds) {
+				Menu parent = byId.get(parentId);
+				if (parent != null && parent.getOrderby() != NovoMenuController.INVISIVEL_KEY)
+					parent.setOrderby(parentOrders.containsKey(parentId) ? parentOrders.get(parentId) : 0);
+			}
+			transaction.commit();
+			Core.setMessageSuccess();
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
 			Core.setMessageError("Error: " + e.getMessage());
 		}
 		return this.forward("igrp", "PesquisarMenu", "index", this.queryString());
@@ -270,6 +313,16 @@ public class PesquisarMenuController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
+
+	private Set<Integer> menuParentIds(List<Menu> menus) {
+		Set<Integer> parentIds = new HashSet<>();
+		for (Menu item : menus) {
+			Menu parent = item.getMenu();
+			if (parent != null && !Objects.equals(parent.getId(), item.getId()))
+				parentIds.add(parent.getId());
+		}
+		return parentIds;
+	}
 
 	// Menu list I have access to
 	public Response actionMyMenu() {
