@@ -44,39 +44,40 @@ public class NovaOrganicaView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=organica"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("ex: org2")).add("desclabel","false");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("ex: org2")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
-		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
+		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		organizacao_pai = new ListField(model,"organizacao_pai");
 		organizacao_pai.setLabel(gt("Organização pai"));
-		organizacao_pai.propertie().add("name","p_organizacao_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		organizacao_pai.propertie().add("name","p_organizacao_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		sep_igrp_plsql = new SeparatorField(model,"sep_igrp_plsql");
 		sep_igrp_plsql.setLabel(gt(" "));
-		sep_igrp_plsql.propertie().add("name","p_sep_igrp_plsql").add("type","separator").add("maxlength","50").add("placeholder",gt("")).add("desclabel","false");
+		sep_igrp_plsql.propertie().add("name","p_sep_igrp_plsql").add("type","separator").add("maxlength","50").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		plsql_code = new TextField(model,"plsql_code");
 		plsql_code.setLabel(gt("IGRP Code"));
-		plsql_code.propertie().add("name","p_plsql_code").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Codigo de Organica do IGRP (PLSQL)")).add("desclabel","true");
+		plsql_code.propertie().add("name","p_plsql_code").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Codigo de Organica do IGRP (PLSQL)")).add("desclabel","true").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -114,7 +115,6 @@ public class NovaOrganicaView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento.setValue(model);
 		nome.setValue(model);
 		codigo.setValue(model);
 		ativo.setValue(model);

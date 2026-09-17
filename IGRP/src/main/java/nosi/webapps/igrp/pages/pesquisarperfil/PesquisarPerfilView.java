@@ -53,9 +53,8 @@ public class PesquisarPerfilView extends View {
 		
 		help = new LinkField(model,"help");
 		help.setLabel(gt("Help"));
-		help.setValue(Core.getIGRPLink("igrp","Dominio","index"));
-
-									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&isPublic=1&target=_blank&p_id=1136"));
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
@@ -155,7 +154,6 @@ public class PesquisarPerfilView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		help.setValue(model);
 		estado.setValue(model);
 		descricao.setValue(model);
 		codigo.setValue(model);

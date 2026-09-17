@@ -48,9 +48,9 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=organica" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT&amp;p_type=organica" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT&amp;p_type=organica</value>
                 </documento>
             </fields>
         </view_1>
@@ -67,22 +67,22 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <nome name="p_nome" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Nome</label>
-                    <value>Totam labore rem dolor aliqua</value>
+                    <value>Magna lorem ipsum adipiscing lorem</value>
                 </nome>
-                <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false" desclabel="false">
+                <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Código</label>
-                    <value>Voluptatem iste totam dolor sed</value>
+                    <value>Ut anim voluptatem dolor magna</value>
                 </codigo>
-                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
+                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" tooltip="false" disable_copy_paste="false" check="true">
                     <label>Ativo</label>
                     <value>1</value>
                 </ativo>
-                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label></label>
                 </nada>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -103,8 +103,13 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
                 </aplicacao>
-                <organizacao_pai name="p_organizacao_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
+                <organizacao_pai name="p_organizacao_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Organização pai</label>
                     <list>
                         <option/>
@@ -126,12 +131,12 @@
                         </option>
                     </list>
                 </organizacao_pai>
-                <sep_igrp_plsql name="p_sep_igrp_plsql" type="separator" maxlength="50" placeholder="" desclabel="false" right="false">
+                <sep_igrp_plsql name="p_sep_igrp_plsql" type="separator" maxlength="50" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
                     <label></label>
                 </sep_igrp_plsql>
-                <plsql_code name="p_plsql_code" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="Codigo de Organica do IGRP (PLSQL)" desclabel="true" right="false">
+                <plsql_code name="p_plsql_code" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="Codigo de Organica do IGRP (PLSQL)" desclabel="true" right="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>IGRP Code</label>
-                    <value>Aperiam natus aperiam ut voluptatem</value>
+                    <value>Magna lorem sit unde aliqua</value>
                 </plsql_code>
             </fields>
         </form_1>

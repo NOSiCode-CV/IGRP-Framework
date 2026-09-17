@@ -1657,13 +1657,19 @@ var CONTAINER = function(name,params){
 		return cContent ? cContent : '';
 	}
 
+	const escapeInvalidXMLEntities = function (content) {
+		return content.split(/(<!\[CDATA\[[\s\S]*?\]\]>)/).map(function (part, index) {
+			return index % 2 ? part : part.replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/g, '&amp;');
+		}).join('');
+	};
+
 	container.getXML = function(callback){
 		var xml;
 		//try{
-			xml = $.parseXML(GEN.STRUCTURE.GET({
+			xml = $.parseXML(escapeInvalidXMLEntities(GEN.STRUCTURE.GET({
 				object:container,
 				callback:callback
-			}));
+			})));
 
 		/*}catch(err){
 			console.log(err);

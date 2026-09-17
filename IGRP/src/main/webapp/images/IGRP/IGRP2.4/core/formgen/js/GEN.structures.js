@@ -146,6 +146,13 @@ var GENSTRUCTURES = function(GEN){
 
 	}
 
+	var escapeXMLText = function(value){
+		return String(value == null ? '' : value)
+			.replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;');
+	}
+
 	var genFieldStruc = function(p){
 		var rtn           = "";
 		var field 		  = p.field;
@@ -172,7 +179,7 @@ var GENSTRUCTURES = function(GEN){
 
 					var value = field.xml.dataValue || DATA.get({type:type,field:p.field});
 
-					if(p.value && field.xml.value) rtn+='<value>'+value+'</value>';
+					if(p.value && field.xml.value) rtn+='<value>'+escapeXMLText(value)+'</value>';
 				}
 				
 				if(field.xml.lookup || field.GET.type() == 'lookup'){
@@ -563,7 +570,7 @@ var GENSTRUCTURES = function(GEN){
 		            '<link>'+link+'</link>'+
 		            '<target>'+target+'</target>'+
 					'<img position="'+iconPosition+'">'+btnStyle+_class+'|'+img+'</img>'+
-		            '<preview>'+actionLINK+'</preview>'+
+                '<preview>'+escapeXMLText(actionLINK)+'</preview>'+
 		            map+
 		        '</item>';
 		});

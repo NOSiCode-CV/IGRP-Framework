@@ -42,8 +42,8 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Ipsum ut adipiscing sed mollit aliqua magna lorem rem natus omnis anim rem dolor aperiam totam conse' as t1_menu_principal,'1' as ativo,'Amet laudantium doloremque per' as ordem,'Mollit ut perspiciatis elit ma' as icon,'Iste ut dolor sed doloremque deserunt labore iste officia dolor sit totam anim magna adipiscing lore' as table_titulo,'Anim aliqua rem voluptatem totam sit aperiam amet dolor laudantium natus officia ut omnis anim aliqu' as pagina,'1' as checkbox,'hidden-9eb7_c894' as id "));
-		model.loadFormlist_1(Core.query(null,"SELECT 'Amet natus magna anim labore' as pagina_order,'hidden-5074_94de' as id_page_ord,'hidden-cbe5_95f6' as id_pai,'hidden-280d_a1ef' as id_do_pai "));
+		model.loadTable_1(Core.query(null,"SELECT 'Aliqua dolor unde deserunt sit sed labore mollit adipiscing accusantium rem amet aperiam officia acc' as t1_menu_principal,'1' as ativo,'Voluptatem rem doloremque cons' as ordem,'Stract omnis aliqua deserunt r' as icon,'Mollit ipsum amet magna deserunt accusantium sed sit voluptatem aliqua magna adipiscing anim labore' as table_titulo,'Iste sit labore elit unde voluptatem aliqua deserunt sed lorem sit stract adipiscing rem ut aperiam' as pagina,'1' as checkbox,'hidden-0603_9bc6' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Magna mollit lorem deserunt sed' as pagina_order,'hidden-4463_81fc' as id_page_ord,'hidden-59a1_4a59' as id_pai,'hidden-4421_c14f' as id_do_pai "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
@@ -84,7 +84,8 @@ public class PesquisarMenuController extends Controller {
 						.orderByAsc("orderby").all();
 			}
 
-			menus.sort((a, b) -> b.getStatus() - a.getStatus());
+			menus.sort(Comparator.comparingInt(Menu::getOrderby).thenComparing(Menu::getId));
+			Set<Integer> parentIds = menuParentIds(menus);
 
 			final ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 
@@ -103,7 +104,15 @@ public class PesquisarMenuController extends Controller {
 					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
 				table1.setTable_titulo(gt(menu_db1.getDescr()));
-				row.setPagina_order(new Pair(menu_db1.getDescr(), menu_db1.getDescr()));
+				String orderLabel = gt(menu_db1.getDescr());
+				Set<Integer> ancestors = new HashSet<>();
+				ancestors.add(menu_db1.getId());
+				Menu parent = menu_db1.getMenu();
+				while (parent != null && ancestors.add(parent.getId())) {
+					orderLabel = gt(parent.getDescr()) + " / " + orderLabel;
+					parent = parent.getMenu();
+				}
+				row.setPagina_order(new Pair(orderLabel, orderLabel));
 
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
@@ -136,12 +145,10 @@ public class PesquisarMenuController extends Controller {
 					table1.setCheckbox_check(menu_db1.getId());
 				}
 				lista.add(table1);
-				separatorlistDocs.add(row);
+				if (menu_db1.getOrderby() != NovoMenuController.INVISIVEL_KEY && !parentIds.contains(menu_db1.getId()))
+					separatorlistDocs.add(row);
 			}
 			model.setFormlist_1(separatorlistDocs);
-
-			if (!lista.isEmpty())
-				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
 
 			view.table_1.addData(lista);
 		}
@@ -184,35 +191,67 @@ public class PesquisarMenuController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (gravar_ordenacao)  *//* End-Code-Block  */
 		/*----#start-code(gravar_ordenacao)----*/
+		org.hibernate.Transaction transaction = null;
 		try {
-			int i = 100;
-			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
-				if (Core.isNotNull(row.getId_pai().getKey()) || Core.isNull(row.getId_do_pai().getKey())) {
-					Menu tblimagelogin = new Menu().findOne(Core.toInt(row.getId_page_ord().getKey()));
-					if (tblimagelogin != null) {
-						tblimagelogin.setOrderby(i);
-						tblimagelogin.update();
-						i++;
-					}
-				}
-			}
-			int j = 1;
-			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
-				if (Core.isNotNull(row.getId_do_pai().getKey())) {
-					Menu tblimagelogin = new Menu().findOne(Core.toInt(row.getId_page_ord().getKey()));
-					if (tblimagelogin != null) {
-						String ordemPai = tblimagelogin.getMenu().getOrderby() + "";
-						String ordem = ordemPai.concat(j + "");
-						tblimagelogin.setOrderby(Core.toInt(ordem));
-						tblimagelogin.update();
-						j++;
-					}
-				}
-			}
-			Core.setMessageSuccess();
+			int appId = Core.toInt(model.getAplicacao());
+			String dad = Core.getCurrentDad();
+			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad))
+				appId = Core.findApplicationByDad(dad).getId();
+			if (appId == 0 || (appId <= 3 && !"igrpweb@nosi.cv".equals(Core.getCurrentUser().getEmail())))
+				throw new IllegalArgumentException("Selecione uma aplicação válida.");
+			if (model.getFormlist_1() == null || model.getFormlist_1().isEmpty())
+				throw new IllegalArgumentException("Não existem menus para ordenar.");
 
+			var session = Core.getSession(new Menu().getConnectionName());
+			transaction = session.getTransaction();
+			if (!transaction.isActive()) {
+				transaction.begin();
+			}
+			List<Menu> applicationMenus = session.createQuery("from Menu where application.id = :appId", Menu.class)
+					.setParameter("appId", appId).getResultList();
+			Map<Integer, Menu> byId = new HashMap<>();
+			for (Menu item : applicationMenus)
+				byId.put(item.getId(), item);
+			Set<Integer> parentIds = menuParentIds(applicationMenus);
+			Set<Integer> submitted = new HashSet<>();
+			List<Menu> requestedOrder = new ArrayList<>();
+			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
+				int id = row.getId_page_ord() == null ? 0 : Core.toInt(row.getId_page_ord().getKey());
+				Menu item = byId.get(id);
+				if (item == null || parentIds.contains(id) || !submitted.add(id))
+					throw new IllegalArgumentException("A lista de menus é inválida. Atualize a página e tente novamente.");
+				// Parent relationships come from the database; ordering must not reveal hidden menus.
+				if (item.getOrderby() != NovoMenuController.INVISIVEL_KEY)
+					requestedOrder.add(item);
+			}
+			for (Menu item : applicationMenus)
+				if (item.getOrderby() != NovoMenuController.INVISIVEL_KEY && !parentIds.contains(item.getId()) && !submitted.contains(item.getId()))
+					throw new IllegalArgumentException("A lista de menus foi alterada. Atualize a página e tente novamente.");
+			// Only child/standalone entries consume positions; parents inherit their first descendant's position.
+			Map<Integer, Integer> parentOrders = new HashMap<>();
+			int order = 1;
+			for (Menu item : requestedOrder) {
+				item.setOrderby(order);
+				Set<Integer> ancestors = new HashSet<>();
+				ancestors.add(item.getId());
+				Menu parent = item.getMenu();
+				while (parent != null && byId.containsKey(parent.getId()) && ancestors.add(parent.getId())) {
+					parentOrders.merge(parent.getId(), order, Math::min);
+					parent = byId.get(parent.getId()).getMenu();
+				}
+				order++;
+			}
+			for (Integer parentId : parentIds) {
+				Menu parent = byId.get(parentId);
+				if (parent != null && parent.getOrderby() != NovoMenuController.INVISIVEL_KEY)
+					parent.setOrderby(parentOrders.getOrDefault(parentId, 0));
+			}
+			transaction.commit();
+			Core.setMessageSuccess();
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
 			Core.setMessageError("Error: " + e.getMessage());
 		}
 		return this.forward("igrp", "PesquisarMenu", "index", this.queryString());
@@ -276,6 +315,16 @@ public class PesquisarMenuController extends Controller {
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
+
+	private Set<Integer> menuParentIds(List<Menu> menus) {
+		Set<Integer> parentIds = new HashSet<>();
+		for (Menu item : menus) {
+			Menu parent = item.getMenu();
+			if (parent != null && !Objects.equals(parent.getId(), item.getId()))
+				parentIds.add(parent.getId());
+		}
+		return parentIds;
+	}
 	// Menu list I have access to
 	public Response actionMyMenu() {
 		final XMLWritter xmlWritter = new XMLWritter();

@@ -1,11 +1,7 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
-import java.util.Map;
-
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
@@ -17,13 +13,15 @@ import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
-/*----#end-code----*/
+import java.util.Map;
 
+/*----#end-code----*/
+		
 public class NovaOrganicaController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
-		NovaOrganica model = new NovaOrganica();
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		var model = new NovaOrganica();
 		model.load();
-		NovaOrganicaView view = new NovaOrganicaView();
+		var view = new NovaOrganicaView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
@@ -51,11 +49,11 @@ public class NovaOrganicaController extends Controller {
 		view.plsql_code.setVisible(this.configApp.isActiveGlobalACL());
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
-		NovaOrganica model = new NovaOrganica();
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		var model = new NovaOrganica();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -64,7 +62,7 @@ public class NovaOrganicaController extends Controller {
 		  return this.forward("igrp","NovaOrganica","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (gravar) *//* End-Code-Block */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		if (Core.isHttpPost()) {
 
@@ -101,11 +99,10 @@ public class NovaOrganicaController extends Controller {
 		Core.setMessageError("Invalid request ...");
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "NovaOrganica", "index", this.queryString());
+		return this.redirect("igrp","NovaOrganica","index", this.queryString());	
 	}
-
-	/* Start-Code-Block (custom-actions) *//* End-Code-Block */
-	/*----#start-code(custom_actions)----*/
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
+/*----#start-code(custom_actions)----*/
 	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovaOrganica model = new NovaOrganica();

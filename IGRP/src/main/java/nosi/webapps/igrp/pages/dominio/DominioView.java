@@ -61,12 +61,11 @@ public class DominioView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=dominio"));
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&isPublic=1&target=_blank&p_id=1012"));
 		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.setValue(gt("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
 		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments-o").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		aplicacao = new ListField(model,"aplicacao");
@@ -174,6 +173,7 @@ public class DominioView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		forum.setValue(model);
 		aplicacao.setValue(model);
 		lst_dominio.setValue(model);
 		novo_dominio.setValue(model);

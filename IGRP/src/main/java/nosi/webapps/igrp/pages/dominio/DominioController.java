@@ -32,8 +32,8 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Anim doloremque sit accusantium aliqua' as description,'Omnis anim unde ut elit' as key,'1' as estado,'hidden-5faa_5057' as ordem "));
-		model.loadTable_1(Core.query(null,"SELECT 'Rem sed consectetur mollit omn' as dominio,'hidden-ce77_7ac8' as id_dom "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Elit stract sit doloremque totam' as description,'Anim mollit labore aperiam ut' as key,'1' as estado,'hidden-a764_7360' as ordem "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sed lorem dolor elit natus' as dominio,'hidden-069f_d3ae' as id_dom "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */

@@ -5,6 +5,8 @@ import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
+import nosi.core.validator.constraints.*;
+
 public class NovaOrganica extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -29,6 +31,7 @@ public class NovaOrganica extends Model{
 	@RParam(rParamName = "p_nada")
 	private String nada;
 
+	@NotNull()
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 

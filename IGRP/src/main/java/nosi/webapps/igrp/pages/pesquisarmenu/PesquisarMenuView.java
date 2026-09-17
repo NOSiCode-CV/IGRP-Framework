@@ -52,7 +52,7 @@ public class PesquisarMenuView extends View {
 
 		table_1 = new IGRPTable("table_1","");
 
-		box_1 = new IGRPBox("box_1","Ordenar Menú");
+		box_1 = new IGRPBox("box_1","Ordenar Menu");
 
 		formlist_1 = new IGRPFormList("formlist_1","");
 
@@ -108,7 +108,7 @@ public class PesquisarMenuView extends View {
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","id");
 		
 		pagina_order = new TextField(model,"pagina_order");
-		pagina_order.setLabel(gt("Página"));
+		pagina_order.setLabel(gt("Nome"));
 		pagina_order.propertie().add("name","p_pagina_order").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("disablehtml","true").add("inputmask","").add("desc","true");
 		
 		id_page_ord = new HiddenField(model,"id_page_ord");
@@ -163,11 +163,11 @@ public class PesquisarMenuView extends View {
 		table_1.addField(id);
 
 
+
 		formlist_1.addField(pagina_order);
 		formlist_1.addField(id_page_ord);
 		formlist_1.addField(id_pai);
 		formlist_1.addField(id_do_pai);
-
 
 		toolsbar_1.addButton(btn_btn_novo);
 		toolsbar_2.addButton(btn_gravar_ordenacao);

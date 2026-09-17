@@ -16,15 +16,14 @@ import nosi.webapps.igrp.dao.ProfileType;
 		
 public class PesquisarPerfilController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
-		model.setHelp("igrp","Dominio","index");
-		PesquisarPerfilView view = new PesquisarPerfilView();
+		var view = new PesquisarPerfilView();
 		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Anim sed sit deserunt aperiam' as descricao,'Mollit anim adipiscing officia lorem' as codigo,'Magna natus ipsum sit natus' as organica,'Voluptatem dolor rem elit laud' as perfil_pai,'hidden-d324_803b' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Anim officia stract ipsum omnis' as descricao,'Accusantium doloremque aliqua stract sed' as codigo,'Perspiciatis magna deserunt rem aperiam' as organica,'Natus anim officia sit deserun' as perfil_pai,'hidden-b95b_5f92' as id "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
@@ -73,7 +72,7 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -94,7 +93,7 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -116,7 +115,7 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionMenu() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -141,7 +140,7 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionTransacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -161,7 +160,7 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionAssociar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -181,7 +180,7 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -199,7 +198,7 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
+		var model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
