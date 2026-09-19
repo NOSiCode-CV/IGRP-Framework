@@ -88,12 +88,14 @@ public class GenericActivitiIGRP {
 					.andWhere("processid", "in", filterProcessIDs)
 					.andWhere("application.dad", "=", Core.getCurrentDad())
 					.orderByDesc("id");
-            return new ArrayList<>(activityExecute.all().stream()
+            return activityExecute.all().stream()
                     .collect(Collectors.toMap(
                             ActivityExecute::getProcessid, // key - the field on which you want distinct activities
                             Function.identity(),      // value - the activity itself
                             (existing, replacement) -> existing)) // if a value already exists for a key, keep the existing
-                    .values());
+					.values()
+					.stream()
+					.collect(Collectors.toList());
 		}
 		return null;
 	}
@@ -109,7 +111,7 @@ public class GenericActivitiIGRP {
 		if (taskAccessList == null)
 			return new String[] {};
 		
-		return (String[]) taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(Object[]::new);
+		return taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(String[]::new);
 	}	
 	
 	public boolean allowTask(String processKey,ActivityExecute task) {
