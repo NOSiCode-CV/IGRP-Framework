@@ -700,23 +700,24 @@ public class Controller {
                                 Igrp.getInstance().getResponse().getOutputStream().close();
                                 Igrp.getInstance().getResponse().flushBuffer();
                             } else if (responseWrapper2.getFile() != null) {
-                                HttpServletResponse response = Igrp.getInstance().getResponse();
-                                String name = responseWrapper2.getFile().getFileName();
-                                response.setContentType(responseWrapper2.getFile().getContentType());
-                                response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
-                                response.setHeader("Cache-Control", "no-cache");
-                                response.setContentLength(responseWrapper2.getFile().getSize());
-                                try (ServletOutputStream sos = response.getOutputStream();
-                                     BufferedInputStream bis = new BufferedInputStream(
-                                             responseWrapper2.getFile().getContent())) {
-                                    int data;
-                                    while ((data = bis.read()) != -1) {
-                                        sos.write(data);
+                                try (FileRest download = responseWrapper2.getFile()) {
+                                    HttpServletResponse response = Igrp.getInstance().getResponse();
+                                    String name = download.getFileName();
+                                    response.setContentType(download.getContentType());
+                                    response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
+                                    response.setHeader("Cache-Control", "no-cache");
+                                    if (download.getContentLength() >= 0)
+                                        response.setContentLengthLong(download.getContentLength());
+                                    try (ServletOutputStream sos = response.getOutputStream()) {
+                                        byte[] buffer = new byte[64 * 1024];
+                                        int count;
+                                        while ((count = download.getContent().read(buffer)) != -1) {
+                                            sos.write(buffer, 0, count);
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
                                 }
-                                responseWrapper2.getFile().getContent().close();
                             } else {
                                 String content = responseWrapper2.getContent();
                                 HttpServletResponse resp = Igrp.getInstance().getResponse();

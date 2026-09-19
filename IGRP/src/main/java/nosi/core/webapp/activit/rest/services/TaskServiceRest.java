@@ -114,11 +114,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 		Response response = request.get(url);
 		if (response != null) {
 			if (response.getStatus() == 200) {
-				f.setContent((InputStream) response.getEntity());
-				f.setSize(response.getLength());
-				f.setContentType(response.getMediaType().toString());
+				f.setResponse(response);
+			} else {
+				response.close();
 			}
-			response.close();
 		}
 		return f;
 	}

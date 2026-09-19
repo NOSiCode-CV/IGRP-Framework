@@ -56,7 +56,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		if (Core.isNotNull(link)) {
 			RestRequest request = this.getRestRequest();
 			request.userBaseUrl(false);
-			Response response = request.get(link);
+			Response response = request.get(request.resolveActivitiUrl(link));
 			if (response != null) {
 				String contentResp = "";
 				try {

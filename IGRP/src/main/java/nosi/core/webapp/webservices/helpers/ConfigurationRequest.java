@@ -1,80 +1,86 @@
 package nosi.core.webapp.webservices.helpers;
 
-import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import nosi.core.webapp.helpers.UrlHelper;
 
-/**
- * * @author: Emanuel Pereira
- * 22 Jan 2018
- */
 public class ConfigurationRequest {
+    private final RestRequest request;
+    private static Client sharedClient;
 
-	private final RestRequest request;
-	
-	public ConfigurationRequest(RestRequest request) {
-		this.request = request;
-	}
-	public Client bluidClient() {
-		return  ClientBuilder.newBuilder()
-				.sslContext(this.createSslContext())
-				.hostnameVerifier(this.getHostNameVerifier())
-				.register(this.getHttpAuthenticationFeature())
-				.build();
-	}
+    public ConfigurationRequest(RestRequest request) {
+        this.request = request;
+    }
 
-	public String getUrl() {
-		return UrlHelper.urlEncoding(this.request.getFinal_url());
-	}
+    /** Application-owned transport. Callers close responses, never this client. */
+    public Client getSharedClient() {
+        synchronized (ConfigurationRequest.class) {
+            if (sharedClient == null) {
+                sharedClient = new JerseyClientBuilder()
+                        .register(HttpAuthenticationFeature.basicBuilder().build())
+                        .register(MultiPartFeature.class)
+                        .property(ClientProperties.CONNECT_TIMEOUT,
+                                Integer.getInteger("igrp.rest.connectTimeoutMillis", 30000))
+                        .property(ClientProperties.FOLLOW_REDIRECTS, false)
+                        .build();
+            }
+            return sharedClient;
+        }
+    }
 
-	public HttpAuthenticationFeature getHttpAuthenticationFeature() {
-		return HttpAuthenticationFeature.basic(this.request.getUsername(),this.request.getPassword());
-	}
-	
-	public HostnameVerifier getHostNameVerifier() {
-		return new HostnameVerifier() {
-			@Override
-			public boolean verify(String s, SSLSession sslSession) {
-				return s.equalsIgnoreCase(sslSession.getPeerHost());
-			}
-		};
-	}
-	
-	public SSLContext createSslContext() {
-		SSLContext sslContext = null;
-		try {
-			sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, this.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
-		} catch (NoSuchAlgorithmException | KeyManagementException ignored) {
-		}
-		return sslContext;
-	}
-	
-	public TrustManager[] createTrustManager() {
-		return new TrustManager[ ] {
-			    new X509TrustManager() {			    	
-			        @Override
-			        public X509Certificate[] getAcceptedIssuers() {
-			            return null;
-			        }
-			        @Override
-			        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-			        }
-			        @Override
-			        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-			        }
-			    }
-        };
-	}
+    /** Called when the web application is stopped or redeployed. */
+    public static synchronized void closeSharedClient() {
+        if (sharedClient != null) {
+            sharedClient.close();
+            sharedClient = null;
+        }
+    }
+
+    /** Legacy factory: creates a separate client which the caller must close. */
+    public Client bluidClient() {
+        return new JerseyClientBuilder()
+                .sslContext(createSslContext())
+                .hostnameVerifier(getHostNameVerifier())
+                .register(getHttpAuthenticationFeature())
+                .register(MultiPartFeature.class)
+                .property(ClientProperties.CONNECT_TIMEOUT,
+                        Integer.getInteger("igrp.rest.connectTimeoutMillis", 30000))
+                .property(ClientProperties.READ_TIMEOUT,
+                        Integer.getInteger("igrp.rest.readTimeoutMillis", 300000))
+                .property(ClientProperties.FOLLOW_REDIRECTS, false)
+                .build();
+    }
+
+    public String getUrl() {
+        return UrlHelper.urlEncoding(request.getFinal_url());
+    }
+
+    public HttpAuthenticationFeature getHttpAuthenticationFeature() {
+        return HttpAuthenticationFeature.basic(request.getUsername(), request.getPassword());
+    }
+
+    public HostnameVerifier getHostNameVerifier() {
+        return HttpsURLConnection.getDefaultHostnameVerifier();
+    }
+
+    public SSLContext createSslContext() {
+        try {
+            return SSLContext.getDefault();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("Default TLS context is unavailable", e);
+        }
+    }
+
+    /** Null selects the JVM's configured trust managers, including its trust store. */
+    public TrustManager[] createTrustManager() {
+        return null;
+    }
 }

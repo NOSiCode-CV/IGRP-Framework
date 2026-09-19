@@ -1,6 +1,5 @@
 package nosi.core.webapp.activit.rest.business;
 
-import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,14 +88,12 @@ public class GenericActivitiIGRP {
 					.andWhere("processid", "in", filterProcessIDs)
 					.andWhere("application.dad", "=", Core.getCurrentDad())
 					.orderByDesc("id");
-            return activityExecute.all().stream()
-					.collect(Collectors.toMap(
-							ActivityExecute::getProcessid, // key - the field on which you want distinct activities
-							Function.identity(),      // value - the activity itself
-							(existing, replacement) -> existing)) // if a value already exists for a key, keep the existing
-					.values()
-					.stream()
-					.collect(Collectors.toList());
+            return new ArrayList<>(activityExecute.all().stream()
+                    .collect(Collectors.toMap(
+                            ActivityExecute::getProcessid, // key - the field on which you want distinct activities
+                            Function.identity(),      // value - the activity itself
+                            (existing, replacement) -> existing)) // if a value already exists for a key, keep the existing
+                    .values());
 		}
 		return null;
 	}
@@ -112,7 +109,7 @@ public class GenericActivitiIGRP {
 		if (taskAccessList == null)
 			return new String[] {};
 		
-		return taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(String[]::new);
+		return (String[]) taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(Object[]::new);
 	}	
 	
 	public boolean allowTask(String processKey,ActivityExecute task) {
@@ -151,11 +148,10 @@ public class GenericActivitiIGRP {
 		Response response = request.get(url);
 		if(response!=null){
 			if(response.getStatus()==200) {
-				f.setContent((InputStream) response.getEntity());
-				f.setSize(response.getLength());
-				f.setContentType(response.getMediaType().toString());
+				f.setResponse(response);
+			} else {
+				response.close();
 			}
-			response.close();
 		}
 		return f;
 	}

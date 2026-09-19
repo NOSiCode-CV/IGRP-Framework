@@ -30,6 +30,7 @@ public class BasicListener implements ServletContextListener {
 
    @Override
    public void contextDestroyed(ServletContextEvent arg0) {
+      nosi.core.webapp.webservices.helpers.ConfigurationRequest.closeSharedClient();
       HibernateUtils.closeAllConnection();
       HibernateUtils.unregisterAllDrivers();
       System.out.println("||| IGRP: BasicListener will see you soon! Txau |||");
