@@ -20,6 +20,9 @@ import java.util.Base64;
  * 15 May 2019
  */
 public class RestRequest extends nosi.core.webapp.webservices.helpers.RestRequest{
+	// Reuse connections across requests and RestRequest instances.
+	private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
+
 	RestRequestHttpClient restRequestHttpClient;
 
 	@Expose(serialize=false,deserialize=false)
@@ -82,33 +85,49 @@ public class RestRequest extends nosi.core.webapp.webservices.helpers.RestReques
 		var authString = this.getUsername() + ":" + this.getPassword();
 		var encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 
-		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder()
 				.header(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuthString)
-				.uri(URI.create(url))
+				.uri(URI.create(resolveActivitiUrl(url)))
 				.build();
 
 		HttpResponse<String> response;
 		try {
-			response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (IOException | InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 		return response.body();
 	}
+
+	/**
+	 * Activiti can return absolute resource URLs using HTTP even when its endpoint
+	 * is configured behind an HTTPS reverse proxy. Follow the scheme configured in
+	 * tbl_config, without changing installations configured to use HTTP.
+	 */
+	public String resolveActivitiUrl(String url) {
+		if (hasScheme(this.getBase_url(), "https") && hasScheme(url, "http")) {
+			return "https" + url.substring("http".length());
+		}
+		return url;
+	}
+
+	private boolean hasScheme(String url, String scheme) {
+		String schemePrefix = scheme + ":";
+		return url != null && url.regionMatches(true, 0, schemePrefix, 0, schemePrefix.length());
+	}
+
 	public byte[] getBytes(String url){
 		var authString = this.getUsername() + ":" + this.getPassword();
 		var encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 
-		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder()
 				.header(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuthString)
-				.uri(URI.create(url))
+				.uri(URI.create(resolveActivitiUrl(url)))
 				.build();
 
 		HttpResponse<byte[]> response;
 		try {
-			response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+			response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofByteArray());
 		} catch (IOException | InterruptedException e) {
 			throw new RuntimeException(e);
 		}
