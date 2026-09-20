@@ -52,7 +52,10 @@ public class DetalhesProcessoController extends Controller {
 		ProcessDefinitionServiceRest processDefinitionRest =new ProcessDefinitionServiceRest();
 		//Get Diagram in runtime
 		String content = processDefinitionRest.getProcessDiagram(processId);
-		if(content!=null) {
+		if ((content == null || content.isEmpty()) && Core.isNotNull(process_definitionId)) {
+			content = processDefinitionRest.getProcessDefinitionDiagram(process_definitionId);
+		}
+		if(content != null && !content.isEmpty()) {
 			//System.out.println(content);
 			view.img_1.setValue("data:image/png;base64,"+content);
 		}else {

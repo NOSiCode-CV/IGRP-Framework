@@ -72,7 +72,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		request.userBaseUrl(false);
 		request.setAccept_format(MediaType.APPLICATION_XML);
 
-		String currentLink = link;
+		String currentLink = request.resolveActivitiUrl(link);
 		int redirectCount = 0;
 
 		while (redirectCount <= MAX_REDIRECTS) {
@@ -87,7 +87,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 						log.warn("Redirect with no Location header for: {}", currentLink);
 						return "";
 					}
-					currentLink = normalizeUrl(location);
+					currentLink = request.resolveActivitiUrl(location);
 					redirectCount++;
 					continue;
 				}
@@ -113,11 +113,6 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		return status == 301 || status == 302 || status == 303
 				|| status == 307 || status == 308;
 	}
-
-	private String normalizeUrl(String url) {
-		return url.startsWith("http://") ? url.replaceFirst("http://", "https://") : url;
-	}
-
 
 	@SuppressWarnings("unchecked")
 	public List<ResourceService> getResources(String id_deployment) {
@@ -145,7 +140,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 	public ResourcesService getResource(String url) {
 		RestRequest req = this.getRestRequest();
 		req.userBaseUrl(false);
-		Response response = req.get(url);
+		Response response = req.get(req.resolveActivitiUrl(url));
 		ResourcesService resource = new ResourcesService();
 		if (response != null) {
 			String contentResp = "";
@@ -170,7 +165,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		RestRequest req = this.getRestRequest();
 		req.userBaseUrl(false);
 		req.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
-		Response response = req.get(url);
+		Response response = req.get(req.resolveActivitiUrl(url));
 		if (response != null) {
 			if (response.getStatus() == 200) {
 				try {

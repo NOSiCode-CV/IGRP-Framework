@@ -111,7 +111,10 @@ public class GenericActivitiIGRP {
 		if (taskAccessList == null)
 			return new String[] {};
 		
-		return taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(String[]::new);
+		return taskAccessList.stream()
+		        .map(m -> String.valueOf(m.get("processName")))
+		        .distinct()
+		        .toArray(String[]::new);
 	}	
 	
 	public boolean allowTask(String processKey,ActivityExecute task) {

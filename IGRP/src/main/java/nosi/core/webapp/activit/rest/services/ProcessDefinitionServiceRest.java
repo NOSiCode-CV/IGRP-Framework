@@ -219,6 +219,10 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		return this.getDiagram("runtime/process-instances/"+processId+"/diagram");
 	}
 
+	public String getProcessDefinitionDiagram(String processDefinitionId) {
+		return this.getDiagram("repository/process-definitions/" + processDefinitionId + "/diagram");
+	}
+
 	public String getDiagram(String url) {
 		String d = null;
 		RestRequest request = this.getRestRequest();
