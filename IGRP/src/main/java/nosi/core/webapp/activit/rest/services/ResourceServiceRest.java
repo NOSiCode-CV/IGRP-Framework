@@ -2,17 +2,14 @@ package nosi.core.webapp.activit.rest.services;
 
 import com.google.gson.reflect.TypeToken;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import nosi.core.webapp.activit.rest.entities.ResourceService;
 import nosi.core.webapp.activit.rest.entities.ResourcesService;
 import nosi.core.webapp.activit.rest.request.RestRequest;
-import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -74,38 +71,20 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public ResourcesService getResource(String url) {
 		RestRequest req = this.getRestRequest();
-		req.userBaseUrl(false);
-		var response = req.getHttpClient(url);
 		ResourcesService resource = new ResourcesService();
-		if (response != null) {
-			String contentResp = response.body();
-			if (response.statusCode() == 200) {
-				resource = ResponseConverter.convertJsonToDao(contentResp, ResourcesService.class);
-			} else {
-				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
-			}
+		String contentResp = req.getString(url);
+		if (contentResp != null && !contentResp.isEmpty()) {
+			resource = ResponseConverter.convertJsonToDao(contentResp, ResourcesService.class);
 		}
 		return resource;
 	}
 	
 	
 	public String getResourceContent(String url) {
-		String d = null;
 		RestRequest req = this.getRestRequest();
-		req.userBaseUrl(false);
 		req.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
-		Response response = req.get(url);
-		if (response != null) {
-			if (response.getStatus() == 200) {
-				try {
-					d = FileHelper.convertInputStreamToBase64((InputStream) response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			response.close();
-		}
-		return d;
+		byte[] content = req.getBytes(url);
+		return content != null ? Base64.getEncoder().encodeToString(content) : null;
 	}
 
 }

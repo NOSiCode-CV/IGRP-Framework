@@ -125,12 +125,14 @@ public class RestRequest extends nosi.core.webapp.webservices.helpers.RestReques
 				.uri(URI.create(resolveActivitiUrl(url)))
 				.build();
 
-		HttpResponse<byte[]> response;
 		try {
-			response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofByteArray());
-		} catch (IOException | InterruptedException e) {
+			HttpResponse<byte[]> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofByteArray());
+			return response.statusCode() == 200 ? response.body() : null;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			throw new RuntimeException(e);
 		}
-		return response.body();
 	}
 }
