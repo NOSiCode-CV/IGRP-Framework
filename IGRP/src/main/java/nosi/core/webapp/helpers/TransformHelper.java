@@ -3,6 +3,7 @@ package nosi.core.webapp.helpers;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -26,6 +27,8 @@ import org.xml.sax.SAXException;
 import com.openhtmltopdf.objects.zxing.ZXingObjectDrawer;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import com.openhtmltopdf.render.DefaultObjectDrawerFactory;
+import com.openhtmltopdf.swing.NaiveUserAgent;
+import com.openhtmltopdf.svgsupport.BatikSVGDrawer;
 import com.openhtmltopdf.util.XRLog;
 
 import nosi.core.config.Config;
@@ -81,7 +84,26 @@ public class TransformHelper {
 		
 		PdfRendererBuilder builderP = new PdfRendererBuilder();
 		 ByteArrayOutputStream actual = new ByteArrayOutputStream();
-		Path fontDirectory = Paths.get(new Config().basePathServer()+"images/IGRP/IGRP2.3/assets/fonts/");
+		Config config = new Config();
+		Path webRoot = Paths.get(config.basePathServer()).toAbsolutePath().normalize();
+		String contextPath = config.getLinkImgBase();
+		NaiveUserAgent.DefaultUriResolver defaultResolver = new NaiveUserAgent.DefaultUriResolver();
+		// Browser paths such as /SPS/images/... must point into this deployed webapp for PDF rendering.
+		builderP.useUriResolver((resourceBaseUri, uri) -> {
+			if (uri != null && uri.startsWith(contextPath)) {
+				try {
+					String relativePath = URI.create(uri.substring(contextPath.length())).getPath();
+					if (relativePath == null || relativePath.isEmpty())
+						return null;
+					Path resource = webRoot.resolve(relativePath).normalize();
+					return resource.startsWith(webRoot) ? resource.toUri().toString() : null;
+				} catch (IllegalArgumentException e) {
+					return null;
+				}
+			}
+			return defaultResolver.resolveURI(resourceBaseUri, uri);
+		});
+		Path fontDirectory = webRoot.resolve("images/IGRP/IGRP2.3/assets/fonts/");
 		// PERF: Should only be called once, as each font must be parsed for font family name.
 		List<CSSFont> fonts = AutoFont.findFontsInDirectory(fontDirectory);
 
@@ -92,6 +114,7 @@ public class TransformHelper {
 
 				//builder.withUri(outputPdf);
 				builderP.useFastMode();	 
+				builderP.useSVGDrawer(new BatikSVGDrawer());
 				builderP.withW3cDocument(doc, baseUri);
 				//builderP.withHtmlContent(result.getWriter().toString(), baseUri4);
 				builderP.toStream(actual);			

@@ -71,33 +71,30 @@
 
 		var activateMenu = function(){
 
-			var menuParent = $.IGRP.store.get('igrp-sidebar-menu-parent') || false,
+			var currentUrl = window.location.href.split('#')[0];
+			var item = $('#igrp-sidebar .nav-sidebar a[item-id]').filter(function(){
+				return this.href.split('#')[0] === currentUrl;
+			}).first();
 
-				menuItem   = $.IGRP.store.get('igrp-sidebar-menu-item') || false,
-
-				item       = $('#igrp-sidebar [item-id="'+menuItem+'"]'),
-				
-				parent = $('#igrp-sidebar [parent-id="'+menuParent+'"]>a');
-			
-			if(item[0])
-				item.addClass('active');
-			
-//			console.log(item)
-
-			if(parent[0]){
-
-				$('#igrp-sidebar').stop().animate({
-
-					scrollTop : parent.parent().offset().top
-
-				}, '150', 'swing');
-
-				parent.click();
-
+			if(item.length){
+				item.addClass('active').attr('aria-current', 'page');
+				var parent = item.closest('.nav-sidebar > li');
+				var submenu = item.closest('.treeview-menu');
+				parent.addClass('active');
+				if(submenu.length){
+					$('#igrp-sidebar').stop().animate({
+						scrollTop : parent.offset().top
+					}, '150', 'swing');
+					if(!submenu.is(':visible')){
+						parent.children('a').click();
+						submenu.promise('fx').done(function(){
+							item.addClass('active');
+						});
+					}
+				}
 			}
 
 			$.IGRP.store.unset('igrp-sidebar-menu-parent');
-
 			$.IGRP.store.unset('igrp-sidebar-menu-item');
 
 		}
