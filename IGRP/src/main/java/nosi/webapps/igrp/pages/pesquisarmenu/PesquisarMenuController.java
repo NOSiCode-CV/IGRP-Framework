@@ -17,6 +17,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
@@ -69,22 +70,70 @@ public class PesquisarMenuController extends Controller {
 
 		model.setId_app(idApp);
 
-		Menu menu = new Menu();
-		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
-		List<Menu> menus;
-
 		if (idApp != 0) {
-			if (Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv") == 0) {// User master
-				menus = menu.find().andWhere("application.id", "=", idApp).orderByAsc("orderby").all();
-			} else {
-				menus = menu.find().andWhere("application.id", "=", idApp)
-						.andWhere("application", "<>", 1) // Oculta IGRP Core
-						.andWhere("application", "<>", 2) // Oculta IGRP Tutorial
-						.andWhere("application", "<>", 3) // Oculta IGRP Studio
-						.orderByAsc("orderby").all();
+			List<Menu> menus = new ArrayList<>();
+			Map<Integer, Menu> byId = new HashMap<>();
+			Map<Integer, Integer> parentById = new HashMap<>();
+			boolean master = "igrpweb@nosi.cv".equals(Core.getCurrentUser().getEmail());
+			if (master || idApp > 3) {
+				// Scalar projections avoid hydrating eager Menu/Action/Application graphs.
+				List<Object[]> rows = Core.query(new Menu().getConnectionName(),
+						"select m.id, m.descr, m.orderby, m.status, m.flg_base, m.menu_icon, m.link, "
+								+ "parent.id, a.id, a.page, a.page_descr, app.id, app.dad "
+								+ "from Menu m left join m.menu parent left join m.action a "
+								+ "left join a.application app where m.application.id = :appId "
+								+ "order by m.orderby, m.id")
+						.addInt("appId", idApp).getResultList(Object[].class);
+				if (rows != null) {
+					for (Object[] values : rows) {
+						// These detached display objects are never persisted.
+						Menu item = new Menu();
+						item.setId((Integer) values[0]);
+						item.setDescr((String) values[1]);
+						item.setOrderby((Integer) values[2]);
+						item.setStatus((Integer) values[3]);
+						item.setFlg_base((Integer) values[4]);
+						item.setMenu_icon((String) values[5]);
+						item.setLink((String) values[6]);
+						parentById.put(item.getId(), (Integer) values[7]);
+						if (values[8] != null) {
+							Action action = new Action();
+							action.setId((Integer) values[8]);
+							action.setPage((String) values[9]);
+							action.setPage_descr((String) values[10]);
+							Application application = new Application();
+							application.setId((Integer) values[11]);
+							application.setDad((String) values[12]);
+							action.setApplication(application);
+							item.setAction(action);
+						}
+						menus.add(item);
+						byId.put(item.getId(), item);
+					}
+				}
+				// Usually all parents are in this application. Fetch any external ancestors in batches.
+				Set<Integer> attempted = new HashSet<>(byId.keySet());
+				while (true) {
+					Set<Integer> missing = new HashSet<>();
+					for (Integer parentId : parentById.values())
+						if (parentId != null && !attempted.contains(parentId))
+							missing.add(parentId);
+					if (missing.isEmpty())
+						break;
+					attempted.addAll(missing);
+					for (Map<String, Object> ancestor : new Menu().find()
+							.where("id", "in", missing.toArray(new Integer[0]))
+							.allColumns("id", "descr", "menu.id")) {
+						Menu parent = new Menu();
+						parent.setId((Integer) ancestor.get("id"));
+						parent.setDescr((String) ancestor.get("descr"));
+						byId.put(parent.getId(), parent);
+						parentById.put(parent.getId(), (Integer) ancestor.get("menu.id"));
+					}
+				}
+				for (Menu item : byId.values())
+					item.setMenu(byId.get(parentById.get(item.getId())));
 			}
-
-			menus.sort(Comparator.comparingInt(Menu::getOrderby).thenComparing(Menu::getId));
 			Set<Integer> parentIds = menuParentIds(menus);
 
 			final ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
@@ -153,7 +202,33 @@ public class PesquisarMenuController extends Controller {
 			view.table_1.addData(lista);
 		}
 
-		view.aplicacao.setValue(new Application().getListApps());
+		// Match getListApps visibility and ordering without loading complete profile graphs.
+		var currentUser = Core.getCurrentUser();
+		if (currentUser != null) {
+			boolean master = "igrpweb@nosi.cv".equals(currentUser.getEmail());
+			var appQuery = Core.query(new Application().getConnectionName(),
+					"select p.type_fk, app.id, app.name, orgApp.status from Profile p "
+							+ "join p.profileType pt join pt.application app "
+							+ "join p.organization org join org.application orgApp where p.type = 'ENV' "
+							+ (master ? "" : "and p.user.id = :userId and p.type_fk > 3 ")
+							+ "order by p.type_fk");
+			if (!master)
+				appQuery.addInt("userId", currentUser.getId());
+			List<Object[]> appRows = appQuery.getResultList(Object[].class);
+			Map<Object, Object> applications = new LinkedHashMap<>();
+			applications.put(null, gt("-- Selecionar --"));
+			if (appRows != null) {
+				Set<Integer> seen = new HashSet<>();
+				List<Object[]> visibleApps = new ArrayList<>();
+				for (Object[] app : appRows)
+					if (seen.add((Integer) app[0]) && Integer.valueOf(1).equals(app[3]))
+						visibleApps.add(app);
+				visibleApps.sort(Comparator.comparing((Object[] app) -> (Integer) app[1]).reversed());
+				for (Object[] app : visibleApps)
+					applications.put(String.valueOf(app[1]), app[2]);
+			}
+			view.aplicacao.setValue(applications);
+		}
 
 		/*----#end-code----*/
 		view.setModel(model);

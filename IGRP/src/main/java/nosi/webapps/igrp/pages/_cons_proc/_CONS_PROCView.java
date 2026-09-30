@@ -62,7 +62,7 @@ public class _CONS_PROCView extends View {
 		
 		tipo_processo = new ListField(model,"tipo_processo");
 		tipo_processo.setLabel(gt("Tipo Processo"));
-		tipo_processo.propertie().add("remote",Core.getIGRPLink("igrp","_CONS_PROC","etapa")).add("name","p_tipo_processo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		tipo_processo.propertie().add("remote-etapa",Core.getIGRPLink("igrp","_CONS_PROC","etapa")).add("name","p_tipo_processo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		etapa_filtro = new ListField(model,"etapa_filtro");
 		etapa_filtro.setLabel(gt("Etapa"));

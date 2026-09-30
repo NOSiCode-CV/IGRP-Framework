@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -29,14 +27,14 @@ import nosi.webapps.igrp.dao.TaskAccess;
 		
 public class _CONS_PROCController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		_CONS_PROC model = new _CONS_PROC();
+		var model = new _CONS_PROC();
 		model.load();
-		_CONS_PROCView view = new _CONS_PROCView();
+		var view = new _CONS_PROCView();
 		view.id_task.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '3' as estado,'Sit lorem amet accusantium des' as num_processo,'Omnis voluptatem officia totam sit' as processo,'Elit ipsum officia ipsum rem' as eatapa,'Doloremque iste aliqua labore' as dt_inicio_etapa,'Natus sed deserunt mollit cons' as dt_fim_etapa,'Sed stract adipiscing deserunt' as atribuido_a,'hidden-0b91_d910' as id_task "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Aliqua natus rem accusantium l' as num_processo,'Totam ipsum amet consectetur dolor' as processo,'Anim consectetur elit dolor aliqua' as eatapa,'Totam consectetur deserunt ist' as dt_inicio_etapa,'Totam adipiscing elit magna el' as dt_fim_etapa,'Perspiciatis dolor amet mollit' as atribuido_a,'hidden-3c15_8a32' as id_task "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.etapa_filtro.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -134,7 +132,7 @@ public class _CONS_PROCController extends Controller {
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		_CONS_PROC model = new _CONS_PROC();
+		var model = new _CONS_PROC();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -153,7 +151,7 @@ public class _CONS_PROCController extends Controller {
 	}
 	
 	public Response actionVer_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		_CONS_PROC model = new _CONS_PROC();
+		var model = new _CONS_PROC();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -172,7 +170,7 @@ public class _CONS_PROCController extends Controller {
 	}
 	
 	public Response actionVer_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		_CONS_PROC model = new _CONS_PROC();
+		var model = new _CONS_PROC();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
