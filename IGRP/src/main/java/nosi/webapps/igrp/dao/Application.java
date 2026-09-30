@@ -321,7 +321,25 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		User user = Core.getCurrentUser();
 		if(user==null)
 			return null;
-		return Core.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
+
+		Profile profiles = new Profile().find()
+				.where("type", "=", "ENV");
+		if (!"igrpweb@nosi.cv".equals(user.getEmail())) {
+			profiles.andWhere("user", "=", user.getId())
+					.andWhere("type_fk", ">", 3);
+		}
+
+		final String appId = "profileType.application.id";
+		final String appName = "profileType.application.name";
+		List<Map<String, Object>> apps = profiles
+				.andWhere("organization.application.status", "=", 1)
+				.orderByDesc(appId)
+				.allColumns(appId, appName);
+
+		Map<Object, Object> result = new LinkedHashMap<>(apps.size() + 1);
+		result.put(null, gt("-- Selecionar --"));
+		apps.forEach(app -> result.put(String.valueOf(app.get(appId)), String.valueOf(app.get(appName))));
+		return result;
 	}
 
 	public Map<Object, Object> getAllApps() {
