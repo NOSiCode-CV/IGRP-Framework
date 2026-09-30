@@ -76,6 +76,8 @@ public class PesquisarUtilizadorController extends Controller {
 
 		ProfileType pp = Core.findProfileById(Core.getCurrentProfile());
 		final String nome_filtro = Core.isNotNull(model.getNome_filt(),model.getNome_filt() + "%",null);
+		final String emailFiltro = Core.isNotNull(model.getEmail())
+				? model.getEmail().trim().toLowerCase(Locale.ROOT) : null;
 
 		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
 			profiles = allWithOptionalLimit(prof.find().whereIn("type", PROF,PROF_DIS)
@@ -84,7 +86,7 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
-					.andWhere("user.email", "=", model.getEmail()), maximumRows);
+					.andWhere("lower(user.email)", "emailFiltro", "=", emailFiltro), maximumRows);
 		} else {
 			Application app = Core.getCurrentApp();
 			profiles = allWithOptionalLimit(prof.find().whereIn("type", "in", PROF,PROF_DIS)
@@ -93,7 +95,7 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : app.getId())
-					.andWhere("user.email", "=", model.getEmail()), maximumRows);
+					.andWhere("lower(user.email)", "emailFiltro", "=", emailFiltro), maximumRows);
 		}
 
 		if (profiles == null) {
@@ -465,7 +467,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-	private static final int DEFAULT_MAXIMUM_ROWS = 100;
+	private static final int DEFAULT_MAXIMUM_ROWS = 200;
 	private static final int BROAD_ACCESS_PROFILE_THRESHOLD = 10;
 	private static final int BROAD_ACCESS_APPLICATION_THRESHOLD = 5;
 	private static final int BROAD_ACCESS_ORGANIZATION_THRESHOLD = 5;

@@ -41,7 +41,7 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '3' as estado,'Sit lorem amet accusantium des' as num_processo,'Omnis voluptatem officia totam sit' as processo,'Elit ipsum officia ipsum rem' as eatapa,'Doloremque iste aliqua labore' as dt_inicio_etapa,'Natus sed deserunt mollit cons' as dt_fim_etapa,'Sed stract adipiscing deserunt' as atribuido_a,'hidden-0b91_d910' as id_task "));
+		model.loadTable_1(Core.query(null,"SELECT '3' as estado,'Magna dolor sit lorem rem' as num_processo,'Labore totam adipiscing lorem deserunt' as processo,'Sed mollit stract doloremque sed' as eatapa,'Anim iste doloremque anim aper' as dt_inicio_etapa,'Rem officia mollit magna unde' as dt_fim_etapa,'Amet totam perspiciatis totam' as atribuido_a,'hidden-00dc_50fd' as id_task "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.etapa_filtro.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
