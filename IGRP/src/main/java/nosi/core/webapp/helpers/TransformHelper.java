@@ -28,7 +28,7 @@ import com.openhtmltopdf.objects.zxing.ZXingObjectDrawer;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import com.openhtmltopdf.render.DefaultObjectDrawerFactory;
 import com.openhtmltopdf.swing.NaiveUserAgent;
-import com.openhtmltopdf.svgsupport.BatikSVGDrawer;
+//import com.openhtmltopdf.svgsupport.BatikSVGDrawer;
 import com.openhtmltopdf.util.XRLog;
 
 import nosi.core.config.Config;
@@ -113,8 +113,8 @@ public class TransformHelper {
 			//try (OutputStream os = new FileOutputStream(outputPdf)) {
 
 				//builder.withUri(outputPdf);
-				builderP.useFastMode();	 
-				builderP.useSVGDrawer(new BatikSVGDrawer());
+				builderP.useFastMode();
+				//builderP.useSVGDrawer(new BatikSVGDrawer());
 				builderP.withW3cDocument(doc, baseUri);
 				//builderP.withHtmlContent(result.getWriter().toString(), baseUri4);
 				builderP.toStream(actual);			

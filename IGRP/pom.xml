@@ -182,11 +182,11 @@
 	  		<artifactId>openhtmltopdf-objects</artifactId>
 	  		<version>${openhtml.version}</version>
 	  	</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>com.openhtmltopdf</groupId>
 			<artifactId>openhtmltopdf-svg-support</artifactId>
 			<version>${openhtml.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- Barcode... -->
 		<dependency>
 	  		<groupId>com.google.zxing</groupId>

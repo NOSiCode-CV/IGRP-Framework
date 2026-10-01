@@ -44,6 +44,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -616,7 +617,6 @@ public class LoginController extends Controller {
 
 					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : "";
 
-					log.info("email= "+email, email);
 					String uid = _r.get("sub");
 					String name = _r.get("name");
 					String phone_number = _r.get("phone_number");
@@ -643,6 +643,7 @@ public class LoginController extends Controller {
 					}
 
 					if (user != null) {
+						logApplicationAccess(user, email);
 						if (user.getStatus() != 1) {
 							Core.setMessageWarning("Este utilizador " + user.getName() + " encontra-se desativado.");
 							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
@@ -665,6 +666,8 @@ public class LoginController extends Controller {
 						}
 
 					} else {
+						log.warn("OAuth2 login access check: email={}, userFound=false, hasApplicationAccess=false",
+								email);
 						// Caso o utilizador não existir na base de dados fazer auto-invite no quando
 						// env=dev ...
 						if (new Config().getEnvironment()
@@ -729,6 +732,36 @@ public class LoginController extends Controller {
 		}
 
 		return null;
+	}
+
+	private void logApplicationAccess(User user, String email) {
+		try {
+			List<Application> assignedApplications = new Application().getListMyApp(user.getId(), true);
+			List<Application> activeApplications = assignedApplications.stream()
+					.filter(application -> application.getStatus() == 1)
+					.collect(Collectors.toList());
+			String assignedApplicationCodes = assignedApplications.stream()
+					.map(Application::getDad)
+					.collect(Collectors.joining(","));
+			String activeApplicationCodes = activeApplications.stream()
+					.map(Application::getDad)
+					.collect(Collectors.joining(","));
+			boolean hasApplicationAccess = !activeApplications.isEmpty();
+
+			String message = "OAuth2 login access check: email={}, userId={}, userStatus={}, "
+					+ "hasApplicationAccess={}, assignedApplicationCount={}, assignedApplications=[{}], "
+					+ "activeApplicationCount={}, activeApplications=[{}]";
+			Object[] details = { email, user.getId(), user.getStatus(), hasApplicationAccess,
+					assignedApplications.size(), assignedApplicationCodes, activeApplications.size(),
+					activeApplicationCodes };
+
+			if (hasApplicationAccess)
+				log.info(message, details);
+			else
+				log.warn(message, details);
+		} catch (Exception e) {
+			log.warn("OAuth2 login access check failed: email={}, userId={}", email, user.getId(), e);
+		}
 	}
 
 	private void afterLogin(User user) {
