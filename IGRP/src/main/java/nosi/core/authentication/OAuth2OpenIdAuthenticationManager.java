@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
 
@@ -73,7 +74,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		session.setAttribute("_oidcIdToken", idToken);
 		session.setAttribute("_oidcState", sessionState);
 		if (user != null) {
-
+			logApplicationAccess(user, email);
 
 			if (user.getStatus() != 1)
 				throw new IllegalStateException("Este utilizador " + user.getName() + " ("+user.getEmail()+") encontra-se desativado.");
@@ -111,11 +112,44 @@ public final class OAuth2OpenIdAuthenticationManager {
 			if(newUser == null)
 				throw new IllegalStateException("Ocorreu um erro ao adicionar o utilizador: "+name);
 			AuthenticationManager.createPerfilWhenAutoInvite(newUser);
+			logApplicationAccess(newUser, email);
 			AuthenticationManager.createSecurityContext(newUser, session);
 
-		} else
+		} else {
+			LOGGER.warn("OAuth2 login access check: email={}, userFound=false, hasApplicationAccess=false", email);
 			throw new IllegalStateException("Caro "+((name!=null && !name.equals("null"))?name+" ":"")+email+" não está convidado para para nenhuma aplicação. Contactar o administrador!");
+		}
 
+	}
+
+	private static void logApplicationAccess(User user, String email) {
+		try {
+			final var assignedApplications = new Application().getListMyApp(user.getId(), true);
+			final var activeApplications = assignedApplications.stream()
+					.filter(application -> application.getStatus() == 1)
+					.toList();
+			final var assignedApplicationCodes = assignedApplications.stream()
+					.map(Application::getDad)
+					.collect(java.util.stream.Collectors.joining(","));
+			final var activeApplicationCodes = activeApplications.stream()
+					.map(Application::getDad)
+					.collect(java.util.stream.Collectors.joining(","));
+			final var hasApplicationAccess = !activeApplications.isEmpty();
+
+			final var message = "OAuth2 login access check: email={}, userId={}, userStatus={}, "
+					+ "hasApplicationAccess={}, assignedApplicationCount={}, assignedApplications=[{}], "
+					+ "activeApplicationCount={}, activeApplications=[{}]";
+			final Object[] details = { email, user.getId(), user.getStatus(), hasApplicationAccess,
+					assignedApplications.size(), assignedApplicationCodes, activeApplications.size(),
+					activeApplicationCodes };
+
+			if (hasApplicationAccess)
+				LOGGER.info(message, details);
+			else
+				LOGGER.warn(message, details);
+		} catch (Exception e) {
+			LOGGER.warn("OAuth2 login access check failed: email={}, userId={}", email, user.getId(), e);
+		}
 	}
 
 	private static Map<String, String> generateToken(String code) {
