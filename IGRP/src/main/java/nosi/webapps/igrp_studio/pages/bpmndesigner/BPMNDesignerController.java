@@ -36,7 +36,7 @@ import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
-public class BPMNDesignerController extends Controller {		
+public class BPMNDesignerController extends Controller {
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -46,7 +46,7 @@ public class BPMNDesignerController extends Controller {
 		BPMNDesignerView view = new BPMNDesignerView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		//model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=bpmn"));
-		Application app = Core.findApplicationById(Core.toInt(model.getEnv_fk()));		
+		Application app = Core.findApplicationById(Core.toInt(model.getEnv_fk()));
 		if(app!=null) {
 			List<BPMNDesigner.Gen_table> data = new ArrayList<>();
 			for(ProcessDefinitionService process: new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(app.getDad()))
@@ -69,39 +69,51 @@ public class BPMNDesignerController extends Controller {
 		view.linkfile.setLabel("Open File");
 		view.id.setParam(true);
 		return this.renderView(view);
-		
+
 		/*----#END-PRESERVED-AREA----*/
 	}
 
 
-	@SuppressWarnings("resource")
 	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException, TransformerConfigurationException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		String erros;
 		BPMNDesigner model = new BPMNDesigner();
 		model.load();
 		Part data = Core.getFile("p_data");
-		InputStream inputStream = data.getInputStream();
 		DeploymentServiceRest deploy = new DeploymentServiceRest();
 		if(Core.isNotNull(model.getEnv_fk())) {
+			if(data == null) {
+				return this.renderView("<messages><message type=\"error\">Selecione o ficheiro BPMN</message></messages>");
+			}
+			String fileName = data.getSubmittedFileName();
+			if(fileName == null || fileName.isEmpty()) {
+				return this.renderView("<messages><message type=\"error\">Selecione o ficheiro BPMN</message></messages>");
+			}
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
+			if(app == null) {
+				return this.renderView("<messages><message type=\"error\">Aplicação inválida</message></messages>");
+			}
+			String contentType = data.getContentType();
 			String content = FileHelper.convertToString(data);
+			if(content == null || content.isEmpty()) {
+				return this.renderView("<messages><message type=\"error\">O ficheiro BPMN está vazio</message></messages>");
+			}
 			List<TaskService> tasks = new TaskServiceRest().extractTasks(content,true);
 			this.compiler = new Compiler();
 			for(TaskService task:tasks) {
 				this.saveTaskController(task,app);
-			}	
+			}
 			this.saveBPMNTaskPermission(tasks,app);
 			this.compiler.compile();
 			erros = this.compiler.getError();
-			int index = content.indexOf("<process id=\"");
-			String fileName = data.getName();
-			if(index != -1) {
-			  fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+app.getDad()+".bpmn20.xml";
+			if(!tasks.isEmpty() && Core.isNotNull(tasks.get(0).getProcessDefinitionId())) {
+				fileName = tasks.get(0).getProcessDefinitionId()+"_"+app.getDad()+".bpmn20.xml";
 			}
-			DeploymentService d = deploy.create(inputStream ,app.getDad(), fileName,data.getContentType());
-			if(d!=null && Core.isNotNull(d.getId()) && Core.isNull(erros)){
-				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
+			try (InputStream inputStream = FileHelper.convertStringToInputStream(content)) {
+				DeploymentService d = deploy.create(inputStream, app.getDad(), fileName, contentType);
+				if(d!=null && Core.isNotNull(d.getId()) && Core.isNull(erros)){
+					return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
+				}
 			}
 		}else {
 			return this.renderView("<messages><message type=\"error\">Selecione a aplicação</message></messages>");
@@ -117,16 +129,16 @@ public class BPMNDesignerController extends Controller {
 		return this.redirect("igrp_studio","BPMNDesigner","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
+
 
 	public Response actionExporar_imagem() throws IOException{
 		/*----#START-PRESERVED-AREA(EXPORTAR_IMAGEM)----*/
 		return this.redirect("igrp_studio","BPMNDesigner","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
+
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
+
 	public Response actionGetBpmnDesign() {
 		String id = Core.getParam("p_id");
 		ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(id);
@@ -135,7 +147,7 @@ public class BPMNDesignerController extends Controller {
 		resource = resource.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version='1.0' encoding='UTF-8'?>");
 		return this.renderView(resource);
 	}
-	
+
 	private void saveTaskController(TaskService task,Application app) throws TransformerConfigurationException, UnsupportedEncodingException {
 		String taskName = StringHelper.camelCaseFirst(BPMNConstants.PREFIX_TASK+task.getId());
 		Action ac = new Action().find()
@@ -143,7 +155,7 @@ public class BPMNDesignerController extends Controller {
 				.andWhere("page", "=",taskName)
 				.andWhere("processKey", "=",task.getProcessDefinitionId().toLowerCase())
 				.one();
-		
+
 		if(ac==null) {
 			ac = new Action();
 			ac.setApplication(app);
@@ -162,9 +174,9 @@ public class BPMNDesignerController extends Controller {
 			ac.setProcessKey(task.getProcessDefinitionId().toLowerCase());
 			ac.update();
 		}
-		this.saveTaskFileController(task,app,ac);		
+		this.saveTaskFileController(task,app,ac);
 	}
-	
+
 	private void saveTaskFileController(TaskService task, Application app, Action ac) throws TransformerConfigurationException, UnsupportedEncodingException {
 		String classPathWorkspace = this.getClassPathWorkspace(task, app);
 		if(Core.isNotNull(classPathWorkspace)) {
@@ -187,18 +199,18 @@ public class BPMNDesignerController extends Controller {
 	private String transformXMLToController(String xml) throws TransformerConfigurationException, UnsupportedEncodingException {
 		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.getConfig().getLinkXSLBpmnControllerGenerator());
 	}
-	
+
 	private String getClassPathServer(TaskService task,Application app) {
 		return (this.getConfig().getPathServerClass(app.getDad())+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
 	}
-	
+
 	private String getClassPathWorkspace(TaskService task,Application app) {
 		String workSpace =  this.getConfig().getBasePahtClassWorkspace(app.getDad());
 		if(Core.isNotNull(workSpace))
 			return workSpace+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase();
 		return null;
 	}
-	
+
 	private void saveBPMNTaskPermission(List<TaskService> tasks,Application app) {
 		if(tasks!=null && !tasks.isEmpty()) {
 			String proccessKey = tasks.get(0).getProcessDefinitionId().toLowerCase();
@@ -216,7 +228,7 @@ public class BPMNDesignerController extends Controller {
 			}
 		}
 	}
-	
+
 	private Compiler compiler;
 	/*----#END-PRESERVED-AREA----*/
 }

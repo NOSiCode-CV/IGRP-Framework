@@ -51,7 +51,7 @@
                             <!--<xsl:call-template name="IGRP-sidebar"/>-->
                             <div class="col-md-3 col-sm-4 sidebar tree-list" id="igrp-sidebar">
                                 <xsl:if test="rows/content/form_1/fields/env_fk">
-                                    <div class="row">
+                                    <div class="row wr-sidebar-header">
                                         <a id="igrp-doc" href="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=report" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
                                             <!--   <a id="igrp-doc" href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields=""> -->
                                             <i class="fa fa-question-circle" style="margin-right:5px"></i>Help
@@ -104,17 +104,17 @@
                                     <div class="tab-content">
                                         <xsl:if test="rows/content/tabcontent_1/fields/reports">
                                             <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_1-reports" rel="tab-tabcontent_1-reports">
-                                                <div class="row wr-reports-toolbar">
-                                                    <a class="wr-newdocument pull-right" title="Novo Documento">
-                                                        <i class="fa fa-plus-circle"/>
-                                                    </a>
-                                                    <div class="wr-report-search pull-right">
+                                                <div class="wr-reports-toolbar">
+                                                    <div class="wr-report-search">
                                                         <label class="sr-only" for="report-search">Search reports</label>
                                                         <div class="input-group input-group-sm">
                                                             <span class="input-group-addon"><i class="fa fa-search"/></span>
                                                             <input id="report-search" class="form-control" type="search" placeholder="Search reports" autocomplete="off"/>
                                                         </div>
                                                     </div>
+                                                    <button type="button" class="wr-newdocument" title="Novo Documento" aria-label="Novo Documento">
+                                                        <i class="fa fa-plus-circle" aria-hidden="true"/>
+                                                    </button>
                                                 </div>
                                                 <div class="row">
                                                     <div class="gen-column col-md-12" id="wr-list-document">

@@ -10,6 +10,7 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -273,8 +274,8 @@ public class DataSourceController extends Controller {
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
-	//Print data source in xml format
-	public Response actionGetDataSource() {
+	//Print data source in XML format or as a server-rendered WebReport fragment
+	public Response actionGetDataSource() throws Exception {
 		final String [] ids = Igrp.getInstance().getRequest().getParameterValues("p_id");
 		final String templateId = Igrp.getInstance().getRequest().getParameter("p_template_id");
 		final XMLWritter xml = new XMLWritter();
@@ -287,6 +288,21 @@ public class DataSourceController extends Controller {
 			}
 		}
 		xml.endElement();
+		if ("html".equalsIgnoreCase(Core.getParam("p_format"))) {
+			final String requestedVersion = Core.getParam("p_version");
+			final String version = "2.4".equals(requestedVersion) ? "2.4" : "2.3";
+			final String xslPath = "/images/IGRP/IGRP" + version
+					+ "/core/webreport/xsl/datasorce.tmpl.xsl";
+
+			this.format = Response.FORMAT_HTML;
+			final String content = Controller.performXsltTransformFromPath(
+					xml.toString(),
+					xslPath,
+					Igrp.getInstance().getRequest().getServletContext(),
+					Collections.<String, String>emptyMap()
+			);
+			return this.renderView("<div id=\"wr-list-datasource\">" + content + "</div>");
+		}
 		return this.renderView(xml.toString());
 	}
 

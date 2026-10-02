@@ -24,6 +24,7 @@ public class FlashMessage implements Serializable{
 	public static final String INFO = "info";
 	public static final String MSG_ERROR = "<messages><message type=\"error\">Operação falhada!</message></messages>";
 	public static final String MSG_SUCCESS = "<messages><message type=\"success\">Operação efetuada com sucesso!</message></messages>";
+	public static final String MSG_SUCCESS_ALERT = "<messages><message type=\"success\">Rollback do report desde a ultima gravação; Definições gravadas com sucesso!</message></messages>";
     public static final String WARNING_EXPORT_APP = "Esta aplicação não possui conteúdo suficiente para ser exportado";
     
 	public static final String MESSAGE_SUCCESS = "Operação efetuada com sucesso!";
