@@ -10,8 +10,11 @@ import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.TempFile;
 
 /**
- * Emanuel
- * 1 Aug 2019
+ * Application override of the IGRP upload wrapper.
+ *
+ * <p>The framework implementation keeps a stream obtained from {@link Part}
+ * open. On Windows that stream retains a handle to Tomcat's multipart
+ * temporary file and prevents {@code Part.delete()} from deleting it.</p>
  */
 public class UploadFile {
 
@@ -58,17 +61,17 @@ public class UploadFile {
 
 	public UploadFile(Part file) {
 		if(file!=null) {
-			try {
-				this.setBytes(Core.convertInputStreamToByte(file.getInputStream()));
-				this.setContentType(file.getContentType());
-				this.setInputStream(file.getInputStream());
-				this.setName(file.getSubmittedFileName());
-				this.setSubmittedFileName(file.getSubmittedFileName());
-				this.setSize(file.getSize());
+			this.setContentType(file.getContentType());
+			this.setName(file.getSubmittedFileName());
+			this.setSubmittedFileName(file.getSubmittedFileName());
+			this.setSize(file.getSize());
+
+			try (InputStream partInputStream = file.getInputStream()) {
+				this.setBytes(Core.convertInputStreamToByte(partInputStream));
+				this.setInputStream(new ByteArrayInputStream(this.bytes));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
 		}
 	}
 

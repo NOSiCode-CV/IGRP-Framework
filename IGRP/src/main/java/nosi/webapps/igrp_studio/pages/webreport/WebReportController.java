@@ -11,6 +11,7 @@ import nosi.core.webapp.Response;//
 /*----#start-code(packages_import)----*/
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -168,12 +169,9 @@ public class WebReportController extends Controller {
 				//Update report if is exist
 				if(Core.isNotNullMultiple(envFk,id)){
 					rt = rt.findOne(Core.toInt(id));
-					clob_xsl = clob_xsl.findOne(rt.getXsl_content().getId());
-					clob_html = clob_html.findOne(rt.getXml_content().getId());				
-					clob_xsl.setC_lob_content(new FileHelper().convertToString(fileXsl).getBytes());
-					clob_html.setC_lob_content(new FileHelper().convertToString(fileTxt).getBytes());
-					clob_xsl.update();
-					clob_html.update();
+					if(rt == null || !saveReportContent(rt, fileXsl, fileTxt)){
+						return this.renderView(FlashMessage.MSG_ERROR);
+					}
 					rt.update();
 				}
 				
@@ -343,7 +341,7 @@ public class WebReportController extends Controller {
 
 	
 	
-	public Response actionSaveEditTemplate(){
+	public Response actionSaveEditTemplate() throws IOException{
 
           String id = Core.getParam("p_id");
           String code = Core.getParam("p_code");
@@ -351,10 +349,28 @@ public class WebReportController extends Controller {
           String printSize = Core.getParam("wr_printsize");
           String layout = Core.getParam("wr_layout");
           String hasFooter = Core.getParam("wr_hasfooter");
+		  Part fileXsl;
+		  Part fileTxt;
+		  try{
+			  fileXsl = Core.getFile("p_xslreport");
+			  fileTxt = Core.getFile("p_textreport");
+		  }catch(ServletException e){
+			  return this.renderView(FlashMessage.MSG_ERROR);
+		  }
           if(Core.isNotNullMultiple(id,code,title)){
               RepTemplate rt = new RepTemplate();
               rt = rt.findOne(Core.toInt(id));
 			  if(rt == null){
+				  return this.renderView(FlashMessage.MSG_ERROR);
+			  }
+			  boolean hasReportContent = fileXsl != null || fileTxt != null;
+			  if(hasReportContent && (fileXsl == null || fileTxt == null)){
+				  return this.renderView(FlashMessage.MSG_ERROR);
+			  }
+			  boolean contentSaved = hasReportContent
+					  ? saveReportContent(rt, fileXsl, fileTxt)
+					  : saveReportConfig(rt, printSize, layout, hasFooter);
+			  if(!contentSaved){
 				  return this.renderView(FlashMessage.MSG_ERROR);
 			  }
               rt.setCode(code);
@@ -362,11 +378,54 @@ public class WebReportController extends Controller {
 			  rt.setDt_updated(new Date(System.currentTimeMillis()));
 			  rt.setUser_updated(Core.getCurrentUser());
 			  rt = rt.update();
-			  if(rt != null && !rt.hasError() && saveReportConfig(rt, printSize, layout, hasFooter)){
-                  return this.renderView(FlashMessage.MSG_SUCCESS);
+			  if(rt != null && !rt.hasError()){
+                  return this.renderView(FlashMessage.MSG_SUCCESS_ALERT);
               }
           }
 		return this.renderView(FlashMessage.MSG_ERROR);
+	}
+
+	private boolean saveReportContent(RepTemplate report, Part fileXsl, Part fileTxt){
+		if(report.getXsl_content() == null || report.getXsl_content().getId() == null
+				|| report.getXml_content() == null || report.getXml_content().getId() == null){
+			return false;
+		}
+
+		CLob xslClob = new CLob().findOne(report.getXsl_content().getId());
+		CLob jsonClob = new CLob().findOne(report.getXml_content().getId());
+		if(xslClob == null || jsonClob == null){
+			return false;
+		}
+
+		try(InputStream xslInput = fileXsl.getInputStream();
+				InputStream jsonInput = fileTxt.getInputStream()){
+			byte[] xslContent = xslInput.readAllBytes();
+			byte[] jsonContent = jsonInput.readAllBytes();
+			if(xslContent.length == 0 || jsonContent.length == 0){
+				return false;
+			}
+			JsonParser.parseString(new String(jsonContent, StandardCharsets.UTF_8)).getAsJsonObject();
+
+			Date updatedAt = new Date(System.currentTimeMillis());
+			jsonClob.setC_lob_content(jsonContent);
+			jsonClob.setDt_updated(updatedAt);
+			jsonClob = jsonClob.update();
+			if(jsonClob == null || jsonClob.hasError()){
+				return false;
+			}
+
+			xslClob.setC_lob_content(xslContent);
+			xslClob.setDt_updated(updatedAt);
+			xslClob = xslClob.update();
+			if(xslClob == null || xslClob.hasError()){
+				return false;
+			}
+			report.setXml_content(jsonClob);
+			report.setXsl_content(xslClob);
+			return true;
+		}catch(IOException | RuntimeException e){
+			return false;
+		}
 	}
 
 	private boolean saveReportConfig(RepTemplate report, String printSize, String layout, String hasFooter){

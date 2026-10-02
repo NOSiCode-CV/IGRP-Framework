@@ -185,8 +185,8 @@ $(function ($) {
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
 						});
-
 						url += param;
+						url = $.IGRP.utils.getUrl(url)+'p_format=html&p_version=2.3';
 					
 
 						if($.WR.app){
@@ -211,7 +211,6 @@ $(function ($) {
 										$.WR.response.renderList({
 											target   : $('#wr-list-datasource'),
 											selector : '#wr-list-datasource',
-											xsl      : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
 											data     : data,
 											loading  : loading,
 											tab      : tab,
@@ -400,10 +399,10 @@ $(function ($) {
 					$('#form_1_env_fk').next('.select2:first').removeClass('error');
 				
 					$.ajax({
-						url   : $.WR.response.ajaxXmlUrl($.WR.pageUrl),
+						url   : $.WR.pageUrl,
 						data  : $.WR.objApp.serializeArray(),
 						type  : 'POST',
-						dataType: 'xml',
+						dataType: 'html',
 						error : function(e){
 							$.IGRP.notify({
 								message : 'Not Found',
@@ -423,7 +422,6 @@ $(function ($) {
 								$.WR.response.renderList({
 									target   : $('#wr-list-reports'),
 									selector : '#wr-list-reports',
-									xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
 									data 	 : data,
 									loading  : loading,
 									tab 	 : tab,
@@ -481,7 +479,12 @@ $(function ($) {
 			modal : function(p){
 				var option = '',
 					wrls   = '',
-					hasf   = '';
+					hasf   = '',
+					previousConfig = {
+						printsize: $.WR.document.print.size.val,
+						layout: $.WR.document.print.layout.val,
+						hasfooter: $.WR.document.footer.has.val
+					};
 				WR.document.config.printsize.options.forEach(function(e,i){
 					var sel = e.selected || '';
 					option += '<option value="'+e.value+'" '+sel+'>'+e.text+'</option>';		
@@ -523,9 +526,15 @@ $(function ($) {
 					content 	: content,
 					title 		: p.titleModal,
 					beforeShow 	: function(){
-						if($.WR.id){ // if edit
+						if($.WR.id || p.reportId){ // if edit
 							$('input[name="'+p.titleName+'"]').val(p.title);
 							$('input[name="'+p.codeName+'"]').val(p.code);
+							var config = p.report ? (p.report.config || {}) : previousConfig;
+							$('select[name="'+WR.document.config.printsize.name+'"]').val(config.printsize || 'A4');
+							$('input[name="'+WR.document.config.layout.name+'"]').prop('checked',false)
+								.filter('[value="'+(config.layout || 'P')+'"]').prop('checked',true);
+							$('input[name="'+WR.document.config.footer.has.name+'"]').prop('checked',false)
+								.filter('[value="'+(config.hasfooter || 'Y')+'"]').prop('checked',true);
 //							$('#ptsize').addClass('hidden');
 						}
 						//else
@@ -551,12 +560,16 @@ $(function ($) {
 										
 										$.WR.document.properties();
 
-										if (p.action == 'edit') 
-											data.push({name:'p_id',value:$.WR.id});
+										if (p.action == 'edit')
+											data.push({name:'p_id',value:p.reportId});
 
 										$.WR.document.newOrEdit({
 											url 	: p.url,
-											data 	: data
+											data 	: data,
+											action : p.action,
+											report : p.report,
+											reportId : p.reportId,
+											reportElement : p.reportElement
 										});
 									}else{
 										p.fields.push({name:p.titleName,value:$.WR.title});
@@ -587,6 +600,9 @@ $(function ($) {
 							icon    : 'times',
 							text    : 'Cancelar',
 							onClick : function(){
+								$.WR.document.print.size.set(previousConfig.printsize);
+								$.WR.document.print.layout.set(previousConfig.layout);
+								$.WR.document.footer.has.set(previousConfig.hasfooter);
 								$.IGRP.components.globalModal.hide();
 								return false;	
 							}
@@ -643,9 +659,9 @@ $(function ($) {
 						return $('select[name="'+WR.document.config.printsize.name+'"]').val() || $.WR.document.print.size.val || 'A4';
 					},
 					set : function(v){
+						$.WR.document.print.size.val = v || 'A4';
 						var selPrintSize = $('select[name="'+WR.document.config.printsize.name+'"]');
-						$('option[selected]',selPrintSize).removeAttr('selected');
-						$('option[value="'+v+'"]',selPrintSize).attr('selected','selected');
+						selPrintSize.val($.WR.document.print.size.val);
 					}
 				},
 				layout : {
@@ -653,13 +669,16 @@ $(function ($) {
 						return $('input[name="'+WR.document.config.layout.name+'"]:checked').val() || $.WR.document.print.layout.val || 'P';
 					},
 					set : function(v){
-						$('input[name="'+WR.document.config.layout.name+'"]').filter('[value="'+v+'"]').prop('checked',true);
+						$.WR.document.print.layout.val = v == 'L' ? 'L' : 'P';
+						$('input[name="'+WR.document.config.layout.name+'"]').prop('checked',false)
+							.filter('[value="'+$.WR.document.print.layout.val+'"]').prop('checked',true);
 					}
 				}
 			},
 			footer : {
 				custom : {
 					isActive : function(type){
+						$.WR.document.footer.custom.val = type;
 						var obj   = $('#footer-wr').parents('.box-wr'),
 							input = $('input[name="'+WR.document.config.footer.custom.name+'"]');
 
@@ -680,7 +699,9 @@ $(function ($) {
 						return $('input[name="'+WR.document.config.footer.has.name+'"]:checked').val() || $.WR.document.footer.has.val || 'Y';
 					},
 					set : function(v){
-						$('input[name="'+WR.document.config.footer.has.name+'"]').filter('[value="'+v+'"]').prop('checked',true);
+						$.WR.document.footer.has.val = v == 'N' ? 'N' : 'Y';
+						$('input[name="'+WR.document.config.footer.has.name+'"]').prop('checked',false)
+							.filter('[value="'+$.WR.document.footer.has.val+'"]').prop('checked',true);
 					}
 				}
 			},
@@ -691,43 +712,23 @@ $(function ($) {
 				$.WR.document.footer.custom.val = $.WR.document.footer.custom.get();
 			},
 			newOrEdit : function(p){
-				if($.WR.title && !$.WR.id){
+				if(p.action != 'edit' && $.WR.title && !$.WR.id){
 					$('#igrp-app-title').html($.WR.title+' *');
 					$.WR.newDocument = true;
 					//add new documento editor
 					//$.WR.editor.set.data(WR.document.new);
 				}
 
-				if($.WR.id && $.WR.title){// if edit
-					$.ajax({
-						url   : p.url,
-						data  : p.data,
-						type  : 'POST',
-						error : function(e){
-							$.IGRP.notify({
-								message : 'Not Found',
-								type	: 'danger'
-							});
-						},
-						success : function(e,s,r){
-							var xml 	= $(e).find('messages message'),
-								type 	= xml.attr('type') || 'danger',
-								message = xml.text() || 'Erro';
-
-							type = type == 'error' ? 'danger' : type;
-
-							$.IGRP.notify({
-								message : $.IGRP.utils.htmlDecode(message),
-								type	: type
-							});
-
-							if(type == 'success'){
-								var obj = $('#list-reports li#'+$.WR.id);
-								obj.attr('code',$.WR.code);
-								$('span',obj).text($.WR.title+' ('+$.WR.code+')');
-								$('#igrp-app-title').html($.WR.title);
-							}
-						}
+				if((p.reportId || $.WR.id) && $.WR.title){// if edit
+					$.WR.document.save({
+						url    : p.url,
+						file   : [],
+						fields : p.data,
+						action : 'edit',
+						content : p.report && p.report.content,
+						customfooter : p.report && p.report.config && p.report.config.customfooter,
+						reportId : p.reportId,
+						reportElement : p.reportElement
 					});
 				}
 			},
@@ -749,33 +750,36 @@ $(function ($) {
 					var parent 	= $(this).parents('li:first'),
 						code = parent.attr('code'),
 						title = $('span',parent).text(),
-						suffix = ' ('+code+')';
+						suffix = ' ('+code+')',
+						modalTitle = $(this).attr('title')+' '+wr_newDocumentTitle;
 
 					while(title.slice(-suffix.length) === suffix)
 						title = title.slice(0,-suffix.length);
 
-					$.WR.id 	= parent.attr('id');
-
-					$('a.linkReports',parent).trigger('click');
-
-					$.WR.document.modal({
-						titleName	: wr_nameInputTitle,
-						titleLabel 	: wr_labelTitle,
-						codeName   	: wr_nameInputCode,
-						codeLabel  	: wr_labelCode,
-						titleModal 	: $(this).attr('title')+' '+wr_newDocumentTitle,
-						title 		: title,
-						code 		: code,
-						url 		: $('#p_edit_name_report').val(),
-						action 	    : 'edit'
-					});
+					$.WR.document.onLoad(parent.attr('rel'), parent, function(data){
+						$.WR.document.modal({
+							titleName	: wr_nameInputTitle,
+							titleLabel 	: wr_labelTitle,
+							codeName   	: wr_nameInputCode,
+							codeLabel  	: wr_labelCode,
+							titleModal 	: modalTitle,
+							title 		: title,
+							code 		: code,
+							url 		: $('#p_edit_name_report').val(),
+							action 	    : 'edit',
+							report : data.textreport,
+							reportId : parent.attr('id'),
+							reportElement : parent
+						});
+					}, false);
 				});
 			},
-			onLoad : function(url, report){
+			onLoad : function(url, report, onLoaded, applyToEditor){
 				
 				$.ajax({
 					url      : url,
 					dataType : 'json',
+					cache    : false,
 					error : function(e){
 						$.IGRP.notify({
 							message : 'Not Found',
@@ -792,6 +796,12 @@ $(function ($) {
 										data = $.parseJSON(data.replace(/\s+/g," "));
 									}catch(e){}
 								}
+							}
+
+							if(applyToEditor === false){
+								if(onLoaded && data.textreport)
+									onLoaded(data);
+								return;
 							}
 
 							$('#list-reports li').removeClass('active');
@@ -823,6 +833,8 @@ $(function ($) {
 								$.WR.dataSource = $.WR.objDataSource.val() || [];
 								$.WR.objDataSource.trigger('change');
 							}
+							if(onLoaded)
+								onLoaded();
 						}
 					}
 				});
@@ -840,6 +852,9 @@ $(function ($) {
 			save   : function(p){
 
 				$.WR.document.properties();
+
+				if(p.customfooter !== undefined)
+					$.WR.document.footer.custom.val = p.customfooter;
 
 				var size  = $.WR.document.print.size.val,
 					lsize = $.WR.document.print.layout.val,
@@ -865,11 +880,12 @@ $(function ($) {
 					$.WR.notCartsInclud = true;
 				}
 
-				files.text = JSON.stringify($.WR.editor.structures.text());
+				var structure = $.WR.editor.structures.text(p.content);
+				files.text = JSON.stringify(structure);
 
 				files.xsl  = WR.document.xsl.init+head+
 					WR.document.xsl.body.replace(/=:WRLS:=/g,WRLS)+
-					$.WR.element.filter().replace(/=:WRPS:=/g,size).replace(/=:WRPH:=/g,WRLH)+includJs+
+					$.WR.element.filter(p.content).replace(/=:WRPS:=/g,size).replace(/=:WRPH:=/g,WRLH)+includJs+
 					WR.document.xsl.endbody+includTmpl+
 					WR.document.xsl.end;
 
@@ -882,11 +898,27 @@ $(function ($) {
 			        	pArrayFiles : p.file,
 			        	pArrayItem  : p.fields
 		      		},
-		      		pComplete 	: function(rq){
-		      			$.WR.keys = [];
-		      			$.WR.dataSourcekeys.datasources = [];
-		      			if (rq.status == 200) {
-			      			if((p.action && p.action == 'modal') || $.WR.newDocument){
+					pComplete 	: function(rq){
+						$.WR.keys = [];
+						$.WR.dataSourcekeys.datasources = [];
+						if (rq.status == 200) {
+							if(p.action == 'edit'){
+								var response = $($.parseXML(rq.response)).find('messages message'),
+									responseType = response.attr('type') || 'error';
+
+								if(responseType == 'success'){
+									$.WR.id = p.reportId || $.WR.id;
+									$.WR.newDocument = false;
+									var obj = $('#list-reports li#'+$.WR.id);
+									obj.attr('code',$.WR.code);
+									$('span',obj).text($.WR.title+' ('+$.WR.code+')');
+									$('#igrp-app-title').html($.WR.title);
+									$.WR.reportTitle = $.WR.title+' ('+$.WR.code+')';
+									if(p.reportElement)
+										$.WR.document.onLoad(p.reportElement.attr('rel'), p.reportElement);
+								}
+							}
+							if(p.action != 'edit' && ((p.action && p.action == 'modal') || $.WR.newDocument)){
 			      				if ($.WR.newDocument)
 			      					$.WR.newDocument = false;
 
@@ -1105,8 +1137,8 @@ $(function ($) {
 				var isActive  = false,
 					content   = '',
 					printsize = 'A4',
-					hasfooter = 1,
-					layout    = WR.document.config.pagesize[printsize];
+					hasfooter = 'Y',
+					layout    = 'P';
 
 				if(p){
 					if (!p.content) {
@@ -1479,7 +1511,7 @@ $(function ($) {
 					return table;
 				}
 			},
-			filter : function(){
+			filter : function(content){
 				var filter = new CKEDITOR.htmlParser.filter({
 			      	text: function(value) {
 			        	return value;
@@ -1717,7 +1749,7 @@ $(function ($) {
 			    	}
 			    });
 
-				var fragment = CKEDITOR.htmlParser.fragment.fromHtml($.WR.editor.structures.html()),
+				var fragment = CKEDITOR.htmlParser.fragment.fromHtml($.WR.editor.structures.html(content)),
 			    	writer 	 = new CKEDITOR.htmlParser.basicWriter();
 
 			    filter.applyTo( fragment );
@@ -1751,9 +1783,9 @@ $(function ($) {
 				}
 			},
 			structures : {
-				text : function(){
+				text : function(content){
 					var structure  = {},
-						data 	   = $.WR.editor.getData();
+						data 	   = content || $.WR.editor.getData();
 
 					structure.config  			  = {};
 					structure.config.printsize 	  = $.WR.document.print.size.val;
@@ -1768,8 +1800,8 @@ $(function ($) {
 
 					return structure;
 				},
-				html : function(){
-					var data = $.WR.editor.getData(),
+				html : function(content){
+					var data = content || $.WR.editor.getData(),
 						html = '<div class="page" hasfooter="'+$.WR.document.footer.has.val+'" size="=:WRPS:=" height="=:WRPH:=" layout="'+$.WR.document.print.layout.val+'"><div id="header">';
 
 					html += data.head+'</div>';

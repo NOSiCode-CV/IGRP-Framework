@@ -44,32 +44,41 @@
 	overflow-y: auto;
 }
 
+#igrp-sidebar .wr-sidebar-header{
+	margin: 0;
+	padding: 0 15px 5px;
+}
+
+#igrp-sidebar .wr-sidebar-header > .form-group{
+	padding-left: 0;
+	padding-right: 0;
+}
+
 #igrp-sidebar #list-reports.nav-sidebar{
 	margin-right: -15px;
 	margin-left: -15px;
 }
 
-#igrp-sidebar .wr-report-search{
-	width: 260px;
-	margin: 0 10px 0 0;
-}
-
 #igrp-sidebar .wr-reports-toolbar{
-	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 10px;
 	min-height: 36px;
 }
 
 #igrp-sidebar .wr-reports-toolbar .wr-report-search{
-	float: none !important;
-	margin: 0 auto;
+	flex: 1;
+	min-width: 0;
 }
 
 #igrp-sidebar .wr-reports-toolbar .wr-newdocument{
-	position: absolute;
-	right: 10px;
-	top: 8px;
-	float: none !important;
+	flex: 0 0 32px;
+	height: 32px;
 	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
 }
 
 #igrp-sidebar .wr-report-search-empty{

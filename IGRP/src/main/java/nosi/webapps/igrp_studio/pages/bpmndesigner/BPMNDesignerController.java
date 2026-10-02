@@ -77,31 +77,44 @@ public class BPMNDesignerController extends Controller {
 	@SuppressWarnings("resource")
 	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException, TransformerConfigurationException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		String erros = "";
+		String erros;
 		BPMNDesigner model = new BPMNDesigner();
 		model.load();
 		Part data = Core.getFile("p_data");
-		InputStream inputStream = data.getInputStream();
 		DeploymentServiceRest deploy = new DeploymentServiceRest();
 		if(Core.isNotNull(model.getEnv_fk())) {
+			if(data == null) {
+				return this.renderView("<messages><message type=\"error\">Selecione o ficheiro BPMN</message></messages>");
+			}
+			String fileName = data.getSubmittedFileName();
+			if(fileName == null || fileName.isEmpty()) {
+				return this.renderView("<messages><message type=\"error\">Selecione o ficheiro BPMN</message></messages>");
+			}
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
+			if(app == null) {
+				return this.renderView("<messages><message type=\"error\">Aplicação inválida</message></messages>");
+			}
+			String contentType = data.getContentType();
 			String content = new FileHelper().convertToString(data);
+			if(content == null || content.isEmpty()) {
+				return this.renderView("<messages><message type=\"error\">O ficheiro BPMN está vazio</message></messages>");
+			}
 			List<TaskService> tasks = new TaskServiceRest().extractTasks(content,true);
 			this.compiler = new Compiler();
 			for(TaskService task:tasks) {
 				this.saveTaskController(task,app);
-			}	
+			}
 			this.saveBPMNTaskPermission(tasks,app);
 			this.compiler.compile();
 			erros = this.compiler.getError();
-			int index = content.indexOf("<process id=\"");
-			String fileName = data.getName();
-			if(index != -1) {
-			  fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+app.getDad()+".bpmn20.xml";
+			if(!tasks.isEmpty() && Core.isNotNull(tasks.get(0).getProcessDefinitionId())) {
+				fileName = tasks.get(0).getProcessDefinitionId()+"_"+app.getDad()+".bpmn20.xml";
 			}
-			DeploymentService d = deploy.create(inputStream ,app.getDad(), fileName,data.getContentType());
-			if(d!=null && Core.isNotNull(d.getId()) && Core.isNull(erros)){
-				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
+			try (InputStream inputStream = FileHelper.convertStringToInputStream(content)) {
+				DeploymentService d = deploy.create(inputStream, app.getDad(), fileName, contentType);
+				if(d!=null && Core.isNotNull(d.getId()) && Core.isNull(erros)){
+					return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
+				}
 			}
 		}else {
 			return this.renderView("<messages><message type=\"error\">Selecione a aplicação</message></messages>");
