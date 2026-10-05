@@ -229,8 +229,9 @@ public class Report extends Controller{
 		//XML + XSL >> HTML
 			final var transformHelper = new TransformHelper();
 			StreamResult result = transformHelper.transformXMLXSL2HTML(xml, xsl);
-			String baseUri4 = FileSystems.getDefault().getPath(new Config().basePathServer()).toUri().toString();
-			baseUri4 = baseUri4.replace(dadBase, "");
+			// Resolve the deployment parent without removing matching names from ancestor folders.
+			String baseUri4 = FileSystems.getDefault().getPath(new Config().basePathServer())
+					.toAbsolutePath().normalize().getParent().toUri().toString();
 			Document doc = html5ParseDocument(result.getWriter().toString(), baseUri4);	
 			
 			//HTML >> PDF
