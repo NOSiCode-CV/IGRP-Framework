@@ -29,6 +29,11 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -244,13 +249,14 @@ public abstract class Model { // IGRP super model
 			/* End */
 		}
 
-		final Map<String, List<Part>> allFiles = this.getFiles();
+		final Map<String, List<Part>> allParts = this.getSeparatorListParts();
 
 		for (Field obj : fields) {
 
 			final Map<String, List<String>> mapFk = new LinkedHashMap<>();
 			final Map<String, List<String>> mapFkDesc = new LinkedHashMap<>();
 			final Map<String, List<String>> mapFileId = new LinkedHashMap<>();
+			final Map<String, List<Part>> filesPerRow = new LinkedHashMap<>();
 
 			final Class<?> clazz = obj.getDeclaredAnnotation(SeparatorList.class).name();
 
@@ -282,8 +288,14 @@ public abstract class Model { // IGRP super model
 				} else {
 					final String param = "p_" + name + "_fk";
 					String[] values1 = Core.getParamArray(param);
-					if((values1 == null || values1.length == 0) && (allFiles != null && allFiles.containsKey(param)))
-						values1 = allFiles.get(param).stream().map(Part::getName).toArray(String[]::new);
+					final List<Part> parts = allParts.get(param.toLowerCase(Locale.ROOT));
+					if (parts != null && parts.stream().anyMatch(part -> part.getSubmittedFileName() != null)) {
+						// Keep text references and uploads aligned with the separator rows.
+						values1 = parts.stream().map(this::readSeparatorListValue).toArray(String[]::new);
+						filesPerRow.put(name, parts.stream()
+								.map(part -> Core.isNotNull(part.getSubmittedFileName()) ? part : null)
+								.collect(Collectors.toList()));
+					}
 					final String[] values2 = Core.getParamArray(param+ "_desc");
 					mapFk.put(name, values1 != null ? Arrays.asList(values1) : new ArrayList<>());
 					// If the field is checkbox, we don't have _check_desc with value2=null so
@@ -315,23 +327,20 @@ public abstract class Model { // IGRP super model
 					for (Field m : obj2.getClass().getDeclaredFields()) {
 						m.setAccessible(true);
 						final String name = m.getName();
-						final String param = "p_" + name.toLowerCase() + "_fk";
 						final String key = mapFk.get(name).size() > row ? mapFk.get(name).get(row) : "";
 						final String value = mapFkDesc.get(name).size() > row ? mapFkDesc.get(name).get(row): "";
 						final List<String> fileId = mapFileId.get(name);
 						final boolean hasSizeGreaterThanRow = fileId != null && fileId.size() > row;
 						final String rowValue = hasSizeGreaterThanRow ? fileId.get(row) : null;
-						if (allFiles != null && allFiles.containsKey(param)) {
-							final List<Part> filesByLine = allFiles.get(param);
+						if (filesPerRow.containsKey(name)) {
+							final List<Part> filesByLine = filesPerRow.get(name);
+							final Part file = filesByLine.size() > row ? filesByLine.get(row) : null;
 							try {
-								String id = "-1";
-								if(("p_" + name.toLowerCase() + "_fk").equalsIgnoreCase(key)) {
-									id = hasSizeGreaterThanRow ? rowValue : id;
-								}else {
-									id = hasSizeGreaterThanRow ? rowValue : key;
-								}
-								if (filesByLine.size() > row) {
-									BeanUtils.setProperty(obj2, name,new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
+								String id = file != null ? "-1" : key;
+								if (hasSizeGreaterThanRow && Core.isNotNull(rowValue))
+									id = rowValue;
+								if (file != null) {
+									BeanUtils.setProperty(obj2, name,new IGRPSeparatorList.Pair(id, key,value, file));
 								} else {
 									BeanUtils.setProperty(obj2, name,new IGRPSeparatorList.Pair(id, key,value));
 								}
@@ -670,20 +679,38 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	private Map<String, List<Part>> getFiles() {
+	private Map<String, List<Part>> getSeparatorListParts() {
 		if (!Core.isUploadedFiles())
 			return new HashMap<>();
 		try {
-			final Collection<Part> allFiles = Igrp.getInstance().getRequest().getParts();
-			if (allFiles != null) {
-				return allFiles.stream()
-						.filter(file -> Core.isNotNull(file.getContentType()))
-						.collect(Collectors.groupingBy(file -> file.getName().toLowerCase()));
+			final Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
+			if (parts != null) {
+				// Keep multipart encounter order, including placeholders for existing references.
+				return parts.stream()
+						.filter(part -> part.getName().toLowerCase(Locale.ROOT).endsWith("_fk"))
+						.collect(Collectors.groupingBy(part -> part.getName().toLowerCase(Locale.ROOT),
+								LinkedHashMap::new, Collectors.toList()));
 			}
 		} catch (ServletException | IOException e1) {
 			e1.printStackTrace();
 		}
 		return new HashMap<>();
+	}
+
+	private String readSeparatorListValue(Part part) {
+		if (part.getSubmittedFileName() != null)
+			return "";
+		final String encoding = Igrp.getInstance().getRequest().getCharacterEncoding();
+		final Charset charset = encoding != null ? Charset.forName(encoding) : StandardCharsets.UTF_8;
+		try (InputStream input = part.getInputStream(); ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+			byte[] buffer = new byte[8192];
+			int count;
+			while ((count = input.read(buffer)) != -1)
+				output.write(buffer, 0, count);
+			return new String(output.toByteArray(), charset);
+		} catch (IOException e) {
+			throw new UncheckedIOException("Unable to read separator list field " + part.getName(), e);
+		}
 	}
 
 	/**

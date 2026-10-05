@@ -519,11 +519,14 @@ public class MigrationController extends Controller {
 										auxCode.append("\t	tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setCodigo(\"").append(tipoDocumentoEtapa.getTipoDocumento().getCodigo()).append("\");\n");
 										auxCode.append("\t	tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setApplication(this.app);\n");
 										auxCode.append("\t	RepTemplate repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = null;\n");
-									}else {
+									}else if(tipoDocumentoEtapa.getRepTemplate() != null) {
 										auxCode.append("\t	RepTemplate repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = new RepTemplate();\n");
 										auxCode.append("\t	repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setCode(\"").append(tipoDocumentoEtapa.getRepTemplate().getCode()).append("\");\n");
 										auxCode.append("\t	repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setApplication(this.app);\n");
 										auxCode.append("\t	TipoDocumento tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = null;\n");
+									}else {
+										auxCode.append("\t\tRepTemplate repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = null;\n");
+										auxCode.append("\t\tTipoDocumento tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = null;\n");
 									}
 									auxCode.append("\t	this.tipoDocumentoEtapas.add(" + "new TipoDocumentoEtapa(\"").append(tipoDocumentoEtapa.getProcessId()).append("\",").append(" \"").append(tipoDocumentoEtapa.getTaskId()).append("\", \"").append(tipoDocumentoEtapa.getTipo()).append("\", ").append(tipoDocumentoEtapa.getStatus()).append(", ").append(tipoDocumentoEtapa.getRequired()).append(", tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(", repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(")").append(");\n");
 								}

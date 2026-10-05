@@ -15,7 +15,12 @@ public class TempFileHelper {
 			boolean updated = Core.isNotNullMultiple(uploadFile.getId(), uploadFile.getName(), uploadFile.getId())
 					&& !uploadFile.getId().equals("-1") && !uploadFile.getId().startsWith("webapps") && !uploadFile.getId().equals(uploadFile.getName());
 			if(updated) {
-				tempFile = tempFile.findOne(uploadFile.getId());
+				TempFile existing = tempFile.findOne(uploadFile.getId());
+				if (existing != null) {
+					tempFile = existing;
+				} else {
+					updated = false;
+				}
 			}
 			tempFile.setMime_type(uploadFile.getContentType());
 			tempFile.setContent(uploadFile.getBytes());

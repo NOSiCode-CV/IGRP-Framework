@@ -6,6 +6,7 @@ import nosi.core.db.migration.api.MigrationIGRPInitConfig;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.ws.rs.ext.RuntimeDelegate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,10 +31,23 @@ public class BasicListener implements ServletContextListener {
 
    @Override
    public void contextDestroyed(ServletContextEvent arg0) {
-      nosi.core.webapp.webservices.helpers.ConfigurationRequest.closeSharedClient();
-      HibernateUtils.closeAllConnection();
-      HibernateUtils.unregisterAllDrivers();
-      System.out.println("||| IGRP: BasicListener will see you soon! Txau |||");
+      try {
+         nosi.core.webapp.webservices.helpers.ConfigurationRequest.closeSharedClient();
+         HibernateUtils.closeAllConnection();
+         HibernateUtils.unregisterAllDrivers();
+         System.out.println("||| IGRP: BasicListener will see you soon! Txau |||");
+      } finally {
+         releaseRuntimeDelegate();
+      }
+   }
+
+   private static void releaseRuntimeDelegate() {
+      RuntimeDelegate delegate = RuntimeDelegate.getInstance();
+      // TomEE's shared JAX-RS API can retain a provider from this deployment.
+      // Leave container-owned providers and providers from other applications intact.
+      if (delegate.getClass().getClassLoader() == BasicListener.class.getClassLoader()) {
+         RuntimeDelegate.setInstance(null);
+      }
    }
 
    private void printBanner() {
