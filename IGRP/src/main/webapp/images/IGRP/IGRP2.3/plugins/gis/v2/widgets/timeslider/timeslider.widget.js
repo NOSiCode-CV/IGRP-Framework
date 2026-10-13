@@ -665,7 +665,9 @@
 
 			$('div[item-name=attributes]', widget.html).show();
 
-			$("select[name=attributes]", widget.html).select2('destroy');
+			if ($("select[name=attributes]", widget.html).data('select2'))
+
+				$("select[name=attributes]", widget.html).select2('destroy');
 
 			try {
 
@@ -688,9 +690,12 @@
 
 				$('div[item-name=layers]', widget.html).show();
 
-			$(".select2", widget.html).select2();
-
-			$(".select2", widget.html).select2('destroy');
+			// FIX: usar "select.select2" (o seletor ".select2" apanhava os <span class="select2-container">
+			// criados pelo Select2 e o destroy rebentava, impedindo o preenchimento das layers)
+			$("select.select2", widget.html).each(function() {
+				if ($(this).data('select2'))
+					$(this).select2('destroy');
+			});
 
 			try {
 
@@ -713,7 +718,7 @@
 
 			LayerController = $("select[name=layers]", widget.html);
 
-			$(".select2", widget.html).select2();
+			$("select.select2", widget.html).select2();
 
 			$('div[item-name=attributes]', widget.html).hide();
 
@@ -812,9 +817,7 @@
 									path
 											+ '/plugins/datepicker2/IGRP.daterangepicker.config.js',
 									path
-											+ '/plugins/datepicker2/locale/dp.locale.pt.js',
-									path
-											+ '/plugins/datepicker2/locale/dp.locale.pt.js', ],
+											+ '/plugins/datepicker2/locale/dp.locale.pt.js' ],
 
 							css : [
 									path
