@@ -360,19 +360,26 @@
 				});
 			
 			if(dependencies.js && dependencies.js[0]){
-				
-				var jsDependenciesReq = [];
-								
-				dependencies.js.forEach(function(js){
-												
-					jsDependenciesReq.push($.getScript( js ));					
-						
+
+				// FIX: carregar os scripts em sequencia (pela ordem declarada) e sem duplicados.
+				// Em paralelo, um script podia executar antes daquele de que depende
+				// (ex.: dp.locale.pt.js antes de IGRP.daterangepicker.config.js) e o widget nao arrancava.
+				var jsList = dependencies.js.filter(function(js, i, arr){
+					return arr.indexOf(js) === i;
 				});
-				
-				$.when.apply($, jsDependenciesReq).then( function(){
-										
+
+				jsList.reduce(function(prev, js){
+					return prev.then(function(){
+						return $.getScript( js );
+					});
+				}, $.Deferred().resolve().promise()).then( function(){
+
 					Ready( callback );
-					
+
+				}, function(){
+
+					console.error('GIS widget: falha ao carregar dependencias', jsList);
+
 				} );
 				
 			}
