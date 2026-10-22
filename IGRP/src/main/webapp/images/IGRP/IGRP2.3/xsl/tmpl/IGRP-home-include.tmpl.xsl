@@ -1,24 +1,36 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <!-- HEAD -->
   <xsl:template name="IGRP-head">
+    <xsl:param name="scriptsAtBottom" select="false()"/>
+    <xsl:param name="optimizeAssets" select="false()"/>
+    <xsl:variable name="deferHelperStyles" select="$optimizeAssets and $bs-v = '3.4.1' and (not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap != 'false')"/>
    
      <title><xsl:value-of select="rows/title"/></title>
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
 
+    <meta name="description">
+      <xsl:attribute name="content">
+        <xsl:choose>
+          <xsl:when test="normalize-space(rows/content/title) != ''"><xsl:value-of select="normalize-space(rows/content/title)"/></xsl:when>
+          <xsl:when test="normalize-space(rows/description) != ''"><xsl:value-of select="normalize-space(rows/description)"/></xsl:when>
+          <xsl:otherwise><xsl:value-of select="normalize-space(rows/title)"/></xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+    </meta>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <link rel="mask-icon" href="{$path}/themes/default/img/logo2.svg" color="#5bbad5"/>
     
     <!-- Normalize -->
-    <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
+    <xsl:choose><xsl:when test="$deferHelperStyles"><link rel="preload" as="style" href="{$path}/core/normalize/normalize.css" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="{$path}/core/normalize/normalize.css"/></noscript></xsl:when><xsl:otherwise><link rel="stylesheet" href="{$path}/core/normalize/normalize.css"/></xsl:otherwise></xsl:choose>
     <!-- /Normalize -->
 
     <!-- Bootstrap Include CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
-      <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css" media="none" onload="if(media!='all')media='all'"/>
-      <link rel="stylesheet" href="{$path}/themes/bs.columns.css" media="none" onload="if(media!='all')media='all'"/>
-      <link rel="stylesheet" href="{$path}/themes/bs.class.css" media="none" onload="if(media!='all')media='all'"/>
+      <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css"/>
+      <xsl:choose><xsl:when test="$deferHelperStyles"><link rel="preload" as="style" href="{$path}/themes/bs.columns.css" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="{$path}/themes/bs.columns.css"/></noscript></xsl:when><xsl:otherwise><link rel="stylesheet" href="{$path}/themes/bs.columns.css"/></xsl:otherwise></xsl:choose>
+      <xsl:choose><xsl:when test="$deferHelperStyles"><link rel="preload" as="style" href="{$path}/themes/bs.class.css" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="{$path}/themes/bs.class.css"/></noscript></xsl:when><xsl:otherwise><link rel="stylesheet" href="{$path}/themes/bs.class.css"/></xsl:otherwise></xsl:choose>
     </xsl:if> 
     <xsl:if test="$themeConfigData/@version = '4'">
       <link href="{$path}/core/bootstrap/bootstrap-iso.css?v={$version}" rel="stylesheet"/>
@@ -39,11 +51,11 @@
     <!--/right panel-->
 
     <!--roboto font-->
-   	<link href="{$path}/themes/robotofont.css" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
+    <xsl:choose><xsl:when test="$optimizeAssets"><link href="{$path}/themes/robotofont.css" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link href="{$path}/themes/robotofont.css" rel="stylesheet"/></noscript></xsl:when><xsl:otherwise><link href="{$path}/themes/robotofont.css" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" /></xsl:otherwise></xsl:choose>
     <!--/roboto font-->
 
     <!-- allways include forms.css -->
-    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />	  
+    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" />
     <!-- /allways include forms.css -->
 
     <!-- DEFAULT CSS -->
@@ -70,6 +82,13 @@
     </xsl:for-each>
     <!-- /THEME CSS -->
 
+    <!-- Default-theme palette is shared; the active theme may override individual entries below. -->
+    <xsl:if test="$themePath != $themePathDefault">
+      <xsl:for-each select="document(concat($themePathDefault, '/config.xml'))/style[variables/variable[normalize-space(.) != '']]">
+        <style><xsl:call-template name="theme-palette-variables"/></style>
+      </xsl:for-each>
+    </xsl:if>
+
     <!--theme configuration generator-->
     <xsl:if test="$themeConfigData">
       <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
@@ -92,6 +111,22 @@
       	<script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
    	 </xsl:if>
 
+    <script>
+      // Existing generated pages also need a language without regeneration.
+      (function () {
+        if (!document.documentElement.getAttribute('lang')) {
+          var locale = document.cookie.match(/(?:^|;\s*)igrp_lang=([a-z]{2,3})_([a-z]{2})(?:;|$)/i);
+          document.documentElement.lang = locale ? locale[1].toLowerCase() + '-' + locale[2].toUpperCase() : 'pt-PT';
+        }
+      })();
+    </script>
+    <!-- Keep legacy pages synchronous; Settings opts into footer scripts. -->
+    <xsl:if test="not($scriptsAtBottom)">
+      <xsl:call-template name="IGRP-core-scripts"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="IGRP-core-scripts">
     <!-- BS CSS -->    
    <!-- NOT ASYNC JS-->   
     <script src="{$path}/core/promise/promise.min.js" ></script>    
@@ -153,11 +188,21 @@
         $.IGRP.onLoad ? $.IGRP.onLoad() : null;
       });
       $(document).ready( function(){
+        // Preserve custom landmarks; enhance legacy page and login wrappers.
+        var mainContent = document.getElementById('igrp-contents') || document.getElementById('igrp-login-wrapper');
+        if (mainContent &amp;&amp; !document.querySelector('main, [role="main"]')) {
+          mainContent.setAttribute('role', 'main');
+        }
       	$.IGRP.init( );
       });
     </script>
 
     
+  </xsl:template>
+  <!-- Start optional font transfers after the critical page styles. -->
+  <xsl:template name="IGRP-settings-font-preloads">
+
+      <link rel="preload" as="font" fetchpriority="low" type="font/woff2" crossorigin="anonymous" href="{$path}/themes/fonts/roboto/v18/KFOlCnqEu92Fr1MmSU5fBBc4.woff2"/>
   </xsl:template>
   <!-- TOPMENU -->
   <xsl:template name="IGRP-topmenu">
@@ -166,6 +211,18 @@
     <xsl:attribute name="page"><xsl:value-of select="rows/page"/></xsl:attribute>
     <xsl:attribute name="app"><xsl:value-of select="rows/app"/></xsl:attribute>
     <xsl:if test="$hasMenu = 'true'">
+      <script>
+        // Restore the desktop sidebar before content paints; mobile starts closed.
+        if (!document.body.classList.contains('fixed-sidebar')) {
+          var sidebarExpanded = false;
+          try {
+            sidebarExpanded = window.innerWidth &gt;= 768 &amp;&amp; window.localStorage.getItem('igrp-sidebar') === 'true';
+          } catch (e) {
+            // Storage may be unavailable; retain the closed sidebar default.
+          }
+          document.body.classList.toggle('sidebar-off', !sidebarExpanded);
+        }
+      </script>
       <xsl:choose>
         <xsl:when test="$themeConfigData/@version = '4' ">
           <div class="" id="">
@@ -186,14 +243,20 @@
 
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
             <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
+              <xsl:attribute name="aria-label">
+                <xsl:choose>
+                  <xsl:when test="normalize-space(rows/description) != ''"><xsl:value-of select="normalize-space(rows/description)"/></xsl:when>
+                  <xsl:when test="normalize-space(rows/title) != ''"><xsl:value-of select="normalize-space(rows/title)"/></xsl:when>
+                  <xsl:otherwise>IGRP</xsl:otherwise>
+                </xsl:choose>
+              </xsl:attribute>
             <!-- <img src="{$logo}"/>
             <span class=""><b><xsl:value-of select="rows/title"/></b></span> -->
             </a>
 
-            <div id="side-bar-ctrl">
-              <img src="{$path}/assets/img/menu_icon.png" width="20" height="14" alt="Menu Hamburguer to collapse"
-                   loading="lazy"/>
-            </div>
+            <button id="side-bar-ctrl" type="button" aria-label="Menu" aria-controls="igrp-sidebar">
+              <img src="{$path}/assets/img/menu_icon.png" width="20" height="14" alt=""/>
+            </button>
 
             <div id="igrp-app-title" class="">
            		 <a style="color: inherit;" href="{rows/link}" >
@@ -216,8 +279,8 @@
                 <xsl:choose>
                   <xsl:when test="@type='mytask' or @type='availtask'">
                     <li alt="Tasks" title="Tasks">
-                      <a href="{link}" target="{target}">
-                        <i class="fa {$fa-icon}"></i>
+                      <a href="{link}" target="{target}" aria-label="Tasks">
+                        <i class="fa {$fa-icon}" aria-hidden="true"></i>
                         <xsl:if test="title and title!=''">
                           <small class="badge" bg-color="2"><xsl:value-of select="title"/></small>
                         </xsl:if>
@@ -226,8 +289,8 @@
                   </xsl:when>
                   <xsl:otherwise>
                     <li alt="{title}" title="{title}">
-                      <a href="{link}" target="{target}">
-                        <i class="fa {$fa-icon}"></i>
+                      <a href="{link}" target="{target}" aria-label="{normalize-space(title)}">
+                        <i class="fa {$fa-icon}" aria-hidden="true"></i>
                       </a>
                     </li>
                   </xsl:otherwise>
@@ -237,15 +300,15 @@
               <li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
                 <a href="{$settingsURL/link}" target="{$settingsURL/target}" close="refresh">
                 <xsl:if test="$settingsURL/img != ''">             
-                  <img src="{$path}/assets/img/{$settingsURL/img}" width="26px" height="26px" style="margin-right: 4px;"></img>
+                  <img src="{$path}/assets/img/{$settingsURL/img}" width="26" height="26" alt="" style="margin-right: 4px;"></img>
                   </xsl:if>
                   <span class=""><b><xsl:value-of select="rows/site/user_name"/></b></span>         
                 </a>
               </li>
 
               <li alt="{rows/site/button/title}" title="{rows/site/button/title}">
-                <a href="{rows/site/button/link}" target="{rows/site/button/target}">
-                  <i class="fa fa-sign-out"></i>
+                <a href="{rows/site/button/link}" target="{rows/site/button/target}" aria-label="{normalize-space(rows/site/button/title)}">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>
                 </a>
               </li>
 
@@ -301,7 +364,7 @@
                <!-- Dark Logo-->
 				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;padding:  0 4px 0 20px;height: 60px;">
 						<span class="logo-sm">
-							<img src="{$logo}"  style="max-width: 80px;max-height: 55px;min-width: 60px;"/>
+							<img src="{$logo}" alt="" style="max-width: 80px;max-height: 55px;min-width: 60px;"/>
 						</span>
 						<div class="text-center"	style="color:white;font-size: 15px;font-weight: bold;line-height: normal;padding-left: 1rem;">
 							<xsl:value-of select="rows/title" />
@@ -503,7 +566,7 @@
         (function() {
         function isMobile() {
 
-        return window.innerWidth &lt; 768;
+        return window.matchMedia('(max-width: 767px)').matches;
         }
 
         // Handle clicking outside to close the sidebar (Mobile only)
@@ -549,9 +612,9 @@
   <xsl:template name="IGRP-debug">
     <xsl:if test="rows/content/messages/message[@type='debug'] != ''">
       <xsl:variable name="contDebug" select="count(rows/content/messages/message[@type='debug'])"/>
-      <a class="igrp-debug-ctrl">
-        <i class="fa fa-chevron-up"></i>
-      </a>
+      <button type="button" class="igrp-debug-ctrl" aria-label="Debugger" aria-controls="igrp-debugger">
+        <i class="fa fa-chevron-up" aria-hidden="true"></i>
+      </button>
       <div class="modal fade " id="igrp-debugger" role="dialog" >
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -602,9 +665,9 @@
             <i class="fa fa-{$msg-icon} igrp-msg-icon"></i>
             
             <xsl:if test="$dismiss = 'true'">
-              <a class="close" data-dismiss="alert" aria-label="Close">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true"><i class="fa fa-times"></i></span>
-              </a>
+              </button>
             </xsl:if>
             <span class="disable-output-escaping px-4"><xsl:value-of select="." disable-output-escaping="yes"/></span>
           </div>
@@ -670,9 +733,23 @@
 
     </script>
   </xsl:template>
+  <!-- Only known palette variables are emitted; missing/blank values retain CSS defaults. -->
+  <xsl:template name="theme-palette-variables">
+    <xsl:variable name="allowed" select="'|igrp-text-link|igrp-text-link-hover|igrp-button-label|igrp-button-success-bg|igrp-button-success-hover|igrp-button-info-bg|igrp-button-info-hover|igrp-button-danger-bg|igrp-button-danger-hover|igrp-button-warning-bg|igrp-button-warning-hover|igrp-button-primary-outline|igrp-button-success-outline|igrp-button-info-outline|igrp-button-warning-outline|igrp-button-danger-outline|'"/>
+    <xsl:variable name="overrides" select="variables/variable[normalize-space(.) != '' and contains($allowed, concat('|', @name, '|'))]"/>
+    <xsl:if test="$overrides">
+      <xsl:text>:root {</xsl:text>
+      <xsl:for-each select="$overrides">
+        <xsl:text>--</xsl:text><xsl:value-of select="@name"/><xsl:text>: </xsl:text><xsl:value-of select="normalize-space(.)"/><xsl:text>;</xsl:text>
+      </xsl:for-each>
+      <xsl:text>}</xsl:text>
+    </xsl:if>
+  </xsl:template>
+
   <!-- COLORS Config -->
   <xsl:template name="theme-colors-config" mode="theme-colors-config" match="*">
     <style>
+      <xsl:call-template name="theme-palette-variables"/>
       
         <xsl:if test="nav">
 

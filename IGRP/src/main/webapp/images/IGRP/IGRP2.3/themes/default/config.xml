@@ -20,4 +20,25 @@
 		<file>css/gen.css</file>
 	</css> -->
 
+
+	<!-- Optional palette overrides. Omit an entry or leave it empty to use style.css defaults. -->
+	<variables>
+		<variable name="igrp-text-link">#286090</variable>
+		<variable name="igrp-text-link-hover">#204d74</variable>
+		<variable name="igrp-button-label">#fff</variable>
+		<variable name="igrp-button-success-bg">#367c36</variable>
+		<variable name="igrp-button-success-hover">#31a831</variable>
+		<variable name="igrp-button-info-bg">#00838F</variable>
+		<variable name="igrp-button-info-hover">#2da5cc</variable>
+		<variable name="igrp-button-danger-bg">#ce312d</variable>
+		<variable name="igrp-button-danger-hover">#b12a26</variable>
+		<variable name="igrp-button-warning-bg">#C25700</variable>
+		<variable name="igrp-button-warning-hover">#f66705</variable>
+		<variable name="igrp-button-primary-outline">#428bca</variable>
+		<variable name="igrp-button-success-outline">#5cb85c</variable>
+		<variable name="igrp-button-info-outline">var(--igrp-button-info-bg)</variable>
+		<variable name="igrp-button-warning-outline">#f0ad4e</variable>
+		<variable name="igrp-button-danger-outline">#d9534f</variable>
+	</variables>
+
 </style>

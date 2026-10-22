@@ -1,60 +1,42 @@
-$(function(){
-
-	'use strict';
+$(function () {
+    'use strict';
 
     var searcher = $('#searcher input'),
-
-        lists    = $('.apps-col'),
-
-        procs    = $('a',lists),
-
-        clean    = $('.searcher-clean'),
-
         appsHolder = $('#igrp-apps-1'),
+        apps = appsHolder.find('.apps-col a'),
+        appSections = appsHolder.children(),
+        // Keep results under the original holder so theme card styles still apply.
+        searchResults = $('<div id="igrp-home-search-results" class="igrp-home-search-res clearfix" style="display: none;"></div>').appendTo(appsHolder);
 
-        searchResults = $('<div id="igrp-apps-1" class="igrp-home-search-res" style="display: none;"></div>').insertAfter(appsHolder);
+    function cleanResults() {
+        searchResults.empty().hide();
+        appSections.show();
+    }
 
-        console.log( $.IGRP )
-    
-    var cleanResults = function(){
-        
-       searchResults.html('').hide();
+    function search() {
+        var text = searcher.val().trim().toLocaleLowerCase();
+        if (text.length < 2) {
+            cleanResults();
+            return;
+        }
+        // Treat search text as text, including quotes and selector characters.
+        var results = apps.filter(function () {
+            return $(this).text().toLocaleLowerCase().indexOf(text) !== -1;
+        });
+        appSections.hide();
+        searchResults.empty();
+        results.parent().clone(true).appendTo(searchResults);
+        searchResults.show();
+    }
 
-       appsHolder.show();
-
-    };
-
-    searcher.on('keyup',function(){
-
-      var text = $(this).val();
-
-	    if(text.length >= 2){
-
-	        var results = procs.filter(":contains('"+text+"')");
-
-	        appsHolder.hide();
-
-	        searchResults.html('');
-
-	        results.parent().clone(true).appendTo(searchResults);
-
-	        searchResults.show();
-
-	    }else
-	        
-	        cleanResults();
-
-
+    searcher.on('input keyup', search);
+    $('#searcher button:not(.searcher-clean)').on('click', function () {
+        search();
+        searcher.trigger('focus');
     });
-
-    clean.on('click',function(){
-      
-      cleanResults();
-
-      searcher.val('');
-
+    $('.searcher-clean').on('click', function () {
+        searcher.val('');
+        cleanResults();
+        searcher.trigger('focus');
     });
-
-        
-
-})
+});

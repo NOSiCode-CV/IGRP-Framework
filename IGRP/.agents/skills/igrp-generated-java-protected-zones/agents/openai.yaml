@@ -1,0 +1,4 @@
+interface:
+  display_name: "IGRP Java Protected Zones"
+  short_description: "Keep custom Java code safe from regeneration"
+  default_prompt: "Use $igrp-generated-java-protected-zones when editing generated IGRP Java controllers."

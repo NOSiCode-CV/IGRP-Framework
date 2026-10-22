@@ -123,14 +123,16 @@ public class SettingsController extends Controller {
 		model.setCni(currentUser.getCni());
 		model.setPassword_expira_em(currentUser.getValid_until());
 		if(Core.isNotNull(currentUser.getSignature_id()))
-			view.assinatura.setValue( Core.getLinkFileByUuid(currentUser.getSignature_id()));
+			view.assinatura.setValue(Core.getLinkFileByUuid(currentUser.getSignature_id())
+					+ "&v=" + currentUser.getUpdated_at());
 		else
 		{
 			 view.s_as.setVisible(false);
 		     view.assinatura.setVisible(false);
 		}
 		if(Core.isNotNull(currentUser.getPhoto_id()))
-			model.setView_1_img( Core.getLinkFileByUuid(currentUser.getPhoto_id()));
+			model.setView_1_img(Core.getLinkFileByUuid(currentUser.getPhoto_id())
+					+ "&v=" + currentUser.getUpdated_at());
 		
 		//hidden the fields for now
 		view.ultimo_acesso_rede_estado.setVisible(false);

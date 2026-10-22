@@ -18,7 +18,7 @@
                     <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#outras_apps">
                        
                         <span>
-                            <xsl:value-of select="subtitle"/>
+                            <xsl:choose><xsl:when test="normalize-space(subtitle) != ''"><xsl:value-of select="subtitle"/></xsl:when><xsl:otherwise>Outras aplicações</xsl:otherwise></xsl:choose>
                         </span>
                     </a>
                 </li>
@@ -37,10 +37,10 @@
                                             <div class="app-img">
                                                 <xsl:choose>
                                                     <xsl:when test="path_acl!=''">
-                                                        <img src="{path_acl}/assets/img/iconApp/{img}"/>
+                                                        <img src="{path_acl}/assets/img/iconApp/{img}" alt=""/>
                                                     </xsl:when>
                                                     <xsl:otherwise>
-                                                        <img src="{$path}/assets/img/iconApp/{img}"/>
+                                                        <img src="{$path}/assets/img/iconApp/{img}" alt=""/>
                                                     </xsl:otherwise>
                                                 </xsl:choose>
                                             </div>
@@ -73,10 +73,10 @@
                                             <div class="app-img">
                                                 <xsl:choose>
                                                     <xsl:when test="path_acl!=''">
-                                                        <img src="{path_acl}/assets/img/iconApp/{img}"/>
+                                                        <img src="{path_acl}/assets/img/iconApp/{img}" alt=""/>
                                                     </xsl:when>
                                                     <xsl:otherwise>
-                                                        <img src="{$path}/assets/img/iconApp/{img}"/>
+                                                        <img src="{$path}/assets/img/iconApp/{img}" alt=""/>
                                                     </xsl:otherwise>
                                                 </xsl:choose>
                                             </div>
@@ -126,7 +126,7 @@
                             <td>
                                 <a href="{link}" class="igrp-app-block clear clearfix">
                                     <div class="app-img">
-                                        <img src="{$path}/assets/img/iconApp/{img}"/>
+                                        <img src="{$path}/assets/img/iconApp/{img}" alt=""/>
                                     </div>
                                     <div class="app-info">
                                         <div class="app-title">
@@ -167,7 +167,7 @@
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <a href="{link}" class="igrp-app-block">
                         <div class="app-img">
-                            <img src="{$path}/assets/img/iconApp/{img}"/>
+                            <img src="{$path}/assets/img/iconApp/{img}" alt=""/>
                         </div>
                         <div class="app-title">
                             <span>
@@ -189,7 +189,7 @@
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <div class="igrp-app-block not-available">
                         <div class="app-img">
-                            <img src="{$path}/assets/img/iconApp/{img}"/>
+                            <img src="{$path}/assets/img/iconApp/{img}" alt=""/>
                         </div>
                         <div class="app-title">
                             <span>

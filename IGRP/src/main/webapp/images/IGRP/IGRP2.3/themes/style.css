@@ -1,3 +1,27 @@
+/* BUTTON PALETTE: edit colors here; all button rules below reference these values. */
+:root {
+    /* Text links on white and striped table backgrounds. */
+    --igrp-text-link: #286090;
+    --igrp-text-link-hover: #204d74;
+    --igrp-button-label: #fff;
+    --igrp-button-success-bg: #367c36;
+    --igrp-button-success-hover: #31a831;
+    /* 00838F 1E7E9A*/
+    --igrp-button-info-bg: #00838F;
+    --igrp-button-info-hover: #2da5cc;
+    --igrp-button-danger-bg: #ce312d;
+    --igrp-button-danger-hover: #b12a26;
+    --igrp-button-warning-bg: #C25700;
+    --igrp-button-warning-hover: #f66705;
+
+    /* Existing outline colors; cyan follows the selected info color above. */
+    --igrp-button-primary-outline: #428bca;
+    --igrp-button-success-outline: #5cb85c;
+    --igrp-button-info-outline: var(--igrp-button-info-bg);
+    --igrp-button-warning-outline: #f0ad4e;
+    --igrp-button-danger-outline: #d9534f;
+}
+
 ::-webkit-scrollbar-thumb {
 	background-color: #00000038;
 	/* border-radius: 5px; */
@@ -349,7 +373,7 @@ body[screen-size="xs"] #igrp-app-title {
 	/*line-height: 53px;*/
 	/*border-bottom: 2px solid transparent;*/
 	padding: 0 15px;
-	color: #888;
+	color: #666;
 	font-size: 16px;
 	border-bottom-color: transparent;
 	border: 0 !important;
@@ -2063,7 +2087,7 @@ height: 40px;*/
 	border: 0;
 	font-size: 14px;
 	line-height: 16px;
-	color: #ccd1da;
+	color: #666;
 }
 
 #igrp-apps-1 .nav.nav-tabs li.active a {
@@ -2139,7 +2163,7 @@ tbody#igrp-apps-1 .app-title {
 }
 
 #igrp-apps-1 a .app-desc span {
-	color: #8c8c8c;
+	color: #666;
 	line-height: 14px;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
@@ -2350,23 +2374,23 @@ border-color: #267199;
 }
 
 .btn-primary.btn-outline {
-	color: #428bca;
+	color: var(--igrp-button-primary-outline);
 }
 
 .btn-success.btn-outline {
-	color: #5cb85c;
+	color: var(--igrp-button-success-outline);
 }
 
 .btn-info.btn-outline {
-	color: #5bc0de;
+	color: var(--igrp-button-info-outline);
 }
 
 .btn-warning.btn-outline {
-	color: #f0ad4e;
+	color: var(--igrp-button-warning-outline);
 }
 
 .btn-danger.btn-outline {
-	color: #d9534f;
+	color: var(--igrp-button-danger-outline);
 }
 
 .btn-primary.btn-outline:hover,
@@ -2374,7 +2398,7 @@ border-color: #267199;
 .btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
-	color: #fff;
+	color: var(--igrp-button-label);
 }
 
 
@@ -2391,23 +2415,23 @@ border-color: #267199;
 }
 
 .btn-primary.btn-outline:not(:hover) {
-	color: #428bca !important;
+	color: var(--igrp-button-primary-outline) !important;
 }
 
 .btn-success.btn-outline:not(:hover) {
-	color: #5cb85c !important;
+	color: var(--igrp-button-success-outline) !important;
 }
 
 .btn-info.btn-outline:not(:hover) {
-	color: #5bc0de !important;
+	color: var(--igrp-button-info-outline) !important;
 }
 
 .btn-warning.btn-outline:not(:hover) {
-	color: #f0ad4e !important;
+	color: var(--igrp-button-warning-outline) !important;
 }
 
 .btn-danger.btn-outline:not(:hover) {
-	color: #d9534f !important;
+	color: var(--igrp-button-danger-outline) !important;
 }
 
 .btn-primary.btn-outline:hover,
@@ -2415,7 +2439,7 @@ border-color: #267199;
 .btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
-	color: #fff;
+	color: var(--igrp-button-label);
 }
 
 .reset-padding {
@@ -2584,7 +2608,7 @@ input[type="email"] {
         height: 36px;
         border-radius: 50%;
         border: 3px solid rgba(0, 0, 0, 0.10);
-        border-top-color: var(--color-primary, #1f59c3);  /* picks up IGRP theme color */
+        border-top-color: var(--color-primary, #114eb8);  /* picks up IGRP theme color */
         animation: xsl-spin 0.7s linear infinite;
     }
 
@@ -2593,4 +2617,118 @@ input[type="email"] {
     }
 
 
+}
+/* Accessible defaults for the legacy page shell and generated controls. */
+#igrp-top-nav > button#side-bar-ctrl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    appearance: none;
+    font: inherit;
+    transition: background-color .15s;
+}
+
+#igrp-top-nav > button#side-bar-ctrl:hover {
+    background-color: transparent;
+}
+
+#igrp-top-nav > button#side-bar-ctrl > img {
+    display: block;
+    flex: none;
+    width: 20px;
+    height: 14px;
+}
+
+/* The absolutely positioned toggle needs its own space before the title. */
+#igrp-top-nav > button#side-bar-ctrl ~ #igrp-app-title {
+    margin-left: 64px;
+}
+
+#igrp-app-title > a {
+    display: inline-block;
+    min-height: 44px;
+    line-height: 44px;
+    vertical-align: middle;
+}
+
+.dataTables_wrapper .pagination > li > a {
+    min-width: 32px;
+    min-height: 32px;
+    padding: 6px 10px;
+    text-align: center;
+}
+
+.igrp-debug-ctrl { min-width: 32px; min-height: 32px; }
+
+@media (max-width: 767px) {
+    /* The app-title link already provides this same home destination. */
+    #igrp-top-nav > .navbar-brand:empty { display: none !important; }
+    #igrp-top-nav > #igrp-app-title { margin-left: 60px; }
+}
+
+#side-bar-ctrl:focus-visible,
+#igrp-app-title > a:focus-visible,
+.igrp-debug-ctrl:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+}
+
+/* Empty legacy brand links duplicate the adjacent app-title link. */
+#igrp-top-nav > .navbar-brand:empty { display: none !important; }
+
+/* Higher-contrast shades for generated filled action buttons. */
+/* Text-link colors exclude buttons, which define their own label contrast. */
+.IGRP-form .view-item a:not(.btn):not(.form-link),
+.IGRP-form .table td.link > a.btn-link {
+    color: var(--igrp-text-link);
+}
+
+.IGRP-form .view-item a:not(.btn):not(.form-link):hover,
+.IGRP-form .view-item a:not(.btn):not(.form-link):focus,
+.IGRP-form .table td.link > a.btn-link:hover,
+.IGRP-form .table td.link > a.btn-link:focus {
+    color: var(--igrp-text-link-hover);
+}
+
+/* Bind each role to the centralized palette. */
+.IGRP-form .btn-success {
+    --igrp-action-bg: var(--igrp-button-success-bg);
+    --igrp-action-hover: var(--igrp-button-success-hover);
+}
+.IGRP-form .btn-info {
+    --igrp-action-bg: var(--igrp-button-info-bg);
+    --igrp-action-hover: var(--igrp-button-info-hover);
+}
+.IGRP-form .btn-danger {
+    --igrp-action-bg: var(--igrp-button-danger-bg);
+    --igrp-action-hover: var(--igrp-button-danger-hover);
+}
+.IGRP-form .btn-warning {
+    --igrp-action-bg: var(--igrp-button-warning-bg);
+    --igrp-action-hover: var(--igrp-button-warning-hover);
+}
+
+/* One shared set of filled-button styles for all four roles. */
+.IGRP-form .form-group > a.form-link:is(.btn-success, .btn-info, .btn-danger, .btn-warning),
+.IGRP-form .toolsbar-holder:not(.clean) .btns-holder > :is(.btn-success, .btn-info, .btn-danger, .btn-warning) {
+    color: var(--igrp-button-label);
+    background-color: var(--igrp-action-bg);
+    border-color: var(--igrp-action-hover);
+}
+.IGRP-form .form-group > a.form-link:is(.btn-success, .btn-info, .btn-danger, .btn-warning):is(:hover, :focus, :active, .active),
+.IGRP-form .toolsbar-holder:not(.clean) .btns-holder > :is(.btn-success, .btn-info, .btn-danger, .btn-warning):is(:hover, :focus, :active, .active) {
+    color: var(--igrp-button-label);
+    background-color: var(--igrp-action-hover);
+    border-color: var(--igrp-action-hover);
+}
+.IGRP-form .form-group > a.form-link:is(.btn-info, .btn-warning),
+.IGRP-form .toolsbar-holder:not(.clean) .btns-holder > :is(.btn-info, .btn-warning) {
+    -webkit-text-stroke: 0;
+    text-shadow: none;
 }

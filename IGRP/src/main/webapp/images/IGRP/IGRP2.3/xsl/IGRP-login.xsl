@@ -52,7 +52,7 @@
               <div class="box-body clearfix">
 
                 <section id="igrp-login-logo" class="content-header gen-container-item text-center">
-                  <img src="{$path}/assets/img/loginLogo.svg"/>
+                  <img src="{$path}/assets/img/loginLogo.svg" alt="IGRP"/>
                 </section>
       
                 <div class="">
