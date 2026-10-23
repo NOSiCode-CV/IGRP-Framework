@@ -21,12 +21,12 @@
             <div class="d-flex flex-column sidebar-wrapper">
                <div class="logo-wrapper d-flex align-items-center px-4">   
                   <div class="app-logo d-flex align-items-center justify-content-center">
-                     <a class="d-flex align-items-center justify-content-center logo text-white"  href="{$top-menus[title='Home']/link}">
+                     <a aria-label="Página inicial" class="d-flex align-items-center justify-content-center logo text-white"  href="{$top-menus[title='Home']/link}">
                         <ion-icon name="finger-print-sharp"></ion-icon>
                      </a>
                   </div>
                   <div class="app-name text-wrap">
-                     <a href="{$top-menus[title='Home']/link}" class="text-reset">
+                     <a href="{$top-menus[title='Home']/link}" class="text-reset"><xsl:attribute name="aria-label"><xsl:choose><xsl:when test="normalize-space(rows/title) != ''"><xsl:value-of select="normalize-space(rows/title)"/></xsl:when><xsl:when test="normalize-space(rows/description) != ''"><xsl:value-of select="normalize-space(rows/description)"/></xsl:when><xsl:otherwise>IGRP</xsl:otherwise></xsl:choose></xsl:attribute>
                         <xsl:value-of select="rows/title"></xsl:value-of>
                      </a>
                   </div>
@@ -149,8 +149,8 @@
                </div>
                <div class="sidebar-footer mt-auto px-0 py-4">
                   <div class="d-flex align-items-center pb-3 px-4">
-                     <a href="{$settings-url}" class="d-block igrp-user-avatar"></a>
-                     <a class="d-flex flex-column ml-2 text-decoration-none user-settings" href="{$settings-url}">
+                     <a href="{$settings-url}" class="d-block igrp-user-avatar" aria-label="Perfil"></a>
+                     <a class="d-flex flex-column ml-2 text-decoration-none user-settings" href="{$settings-url}"><xsl:attribute name="aria-label"><xsl:choose><xsl:when test="normalize-space(rows/site/user_name) != ''"><xsl:value-of select="normalize-space(rows/site/user_name)"/></xsl:when><xsl:when test="normalize-space($top-menus[title = 'Settings']/title) != ''"><xsl:value-of select="normalize-space($top-menus[title = 'Settings']/title)"/></xsl:when><xsl:otherwise>Perfil</xsl:otherwise></xsl:choose></xsl:attribute>
                        <span class="user-name app-username"><xsl:value-of select="//rows/site/user_name"/></span>
                        <span class="user-profile d-none">Perfil</span>
                      </a>

@@ -490,7 +490,7 @@
         <div class="box clearfix view-block" has-img="true">
           <div class="box-body">
             <xsl:if test="rows/content/{name()}/fields/{name()}_img">
-              <img src="{concat('{rows/content/',name(),'/fields/',name(),'_img/value}')}"/>
+              <img alt="" src="{concat('{rows/content/',name(),'/fields/',name(),'_img/value}')}"/>
             </xsl:if>
             <div class="view-body clearfix " gen-id="drop-zone" >
               
@@ -847,7 +847,7 @@
                   <!-- image.form / img.form-->
                   <gen:when test="$type='image' or $type='img' ">
                     <div class="form-group col-sm-4" item-name="{name()}" item-type="{$type}">
-                      <img style="height:auto;width:100%;position:relative;display:block;" src="{concat('{',$valuePath,'}')}"/>
+                      <img alt="{concat('{',$labelPath,'}')}" style="height:auto;width:100%;position:relative;display:block;" src="{concat('{',$valuePath,'}')}"/>
                     </div>
                   </gen:when>
                   <!-- separator.form -->
@@ -982,9 +982,9 @@
                   <xsl:if test="not(rows/content/{name()}/table/value/row[position() = 1]/@noupdate) or not(rows/content/{name()}/table/value/row[position() = 1]/@nodelete)" >
                     <th class="table-btn add">
                       <xsl:if test="not(rows/content/{name()}/table/value/row[position() = 1]/@noupdate)">
-                        <a class="formlist-row-add btn btn-primary" rel="{name()}">
+                        <button type="button" aria-label="Add" class="formlist-row-add btn btn-primary" rel="{name()}">
                           <i class="fa fa-plus"></i>
-                        </a>
+                        </button>
                       </xsl:if>
                     </th>
                   </xsl:if>

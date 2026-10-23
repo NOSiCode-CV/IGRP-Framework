@@ -30,14 +30,14 @@
                             <div class="form-group" id="searcher" style="position: initial;">
                               <div class="input-group" style="position:fixed; display: table;float:right;right: 4%;margin-top: 10px;width: 47%;z-index: 2;border-bottom: 1px solid #ddd;line-height: 0px;">
                                 <span class="input-group-btn">
-                                  <button type="button" class="btn btn-default" style="">
-                                    <i class="fa fa-search"></i>
+                                  <button type="button" class="btn btn-default" aria-label="Pesquisar aplicações">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
                                   </button>
                                 </span>
-                                <input type="text" class="form-control" id="home_pesquisar" placeholder="Pesquisar" style="padding-top:3px;padding-bottom:0px"/>
+                                <input type="text" class="form-control" id="home_pesquisar" aria-label="Pesquisar aplicações" placeholder="Pesquisar" style="padding-top:3px;padding-bottom:0px"/>
                                 <span class="input-group-btn">
-                                  <button type="button" class="btn btn-default searcher-clean">
-                                    <i class="fa fa-times"></i>
+                                  <button type="button" class="btn btn-default searcher-clean" aria-label="Limpar pesquisa">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
                                   </button>
                                 </span>
                               </div>

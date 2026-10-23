@@ -546,11 +546,11 @@
 
 				genXSLStr = hackNamesXSL(genXSLStr);
 
-				var cssExpression = '<xsl:call-template name="IGRP-head"/>',
+				var cssExpression = '</head>',
 
 					cssIndx = genXSLStr.indexOf(cssExpression);
 
-				genXSLStr = genXSLStr.insert( cssIndx+cssExpression.length, cssIncludesStr );
+				genXSLStr = genXSLStr.insert( cssIndx, cssIncludesStr );
 
 				var jsExpression = '</body>',
 

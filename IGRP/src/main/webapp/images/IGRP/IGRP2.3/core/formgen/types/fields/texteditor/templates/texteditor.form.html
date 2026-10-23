@@ -1,5 +1,5 @@
 <div class="form-group col-sm-12 #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
-	<label>#label.val#</label>
+	<label for="#parent.tag#_#tag#">#label.val#</label>
 	<textarea id="#parent.tag#_#tag#" name="{#path#/@name}" class="gen-texteditor #[desclabel]#" #[required]# #[disabled]# #[readonly]#>
 		<xsl:call-template name="setAttributes">
             <xsl:with-param name="field" select="#path#"/>

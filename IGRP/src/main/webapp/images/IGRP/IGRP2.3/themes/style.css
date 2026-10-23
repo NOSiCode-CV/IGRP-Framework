@@ -2446,3 +2446,10 @@ input[type="email"] {
 		width: 80%;
 	}
 }
+/* Preserve the existing menu control appearance after semantic button conversion. */
+#igrp-top-nav > button#side-bar-ctrl {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+}

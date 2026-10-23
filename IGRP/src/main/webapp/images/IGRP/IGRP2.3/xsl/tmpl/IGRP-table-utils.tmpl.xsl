@@ -242,7 +242,7 @@
     <xsl:param name="ctx-params" select="''"/>
     <xsl:param name="view"/>
 
-    <a id="{@id}" class="{$class}" target="{target}">
+    <a id="{@id}" class="{$class}" target="{target}" aria-label="{normalize-space(title)}">
       <xsl:choose>
         <xsl:when test="contains(target, '|')">
           <xsl:call-template name="get-target-params">

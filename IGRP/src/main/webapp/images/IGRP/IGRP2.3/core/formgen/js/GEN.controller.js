@@ -1918,6 +1918,25 @@ const GENERATOR = function (genparams) {
 
     let msgSet = false;
 
+    // Keep core scripts after content, before Bootstrap and component plugins.
+    // Embedded component scripts and custom XSL may require the legacy head order.
+    GEN.configurePageScriptLoading = function (content) {
+        const footer = '<xsl:call-template name="IGRP-core-scripts"/>';
+        const head = '<xsl:call-template name="IGRP-head"><xsl:with-param name="scriptsAtBottom" select="true()"/></xsl:call-template>';
+        const footerIndex = content.indexOf(footer);
+        if (footerIndex < 0 || content.indexOf(head) < 0) return content;
+
+        const earlierScripts = content.slice(0, footerIndex).match(/<script\b[\s\S]*?<\/script\s*>/gi) || [];
+        const hasEarlyScript = earlierScripts.some(function (script) {
+            return /<script\b[^>]*\bsrc\s*=/i.test(script) ||
+                script.replace(/^<script\b[^>]*>|<\/script\s*>$/gi, '').trim() !== '';
+        });
+        if (hasEarlyScript || GEN.files.xsl.length || GEN.SETTINGS.process) {
+            return content.replace(head, '<xsl:call-template name="IGRP-head"/>').replace(footer, '');
+        }
+        return content;
+    };
+
     GEN.getXSL = function (options) {
 
         const o = options ? options : {};
@@ -1942,7 +1961,7 @@ const GENERATOR = function (genparams) {
         if (o.removeGenAttrs)
             _c = removeGenAttrs(_c);
 
-        return _c;
+        return GEN.configurePageScriptLoading(_c);
     }
 
     GEN.tmplProcessUtils = function (c) {
