@@ -3,7 +3,7 @@
   <xsl:template match="/"> 
     <html>
       <head>
-        <xsl:call-template name="IGRP-head"/>
+        <xsl:call-template name="IGRP-head"><xsl:with-param name="scriptsAtBottom" select="true()"/></xsl:call-template>
       </head>
       <body class="{$bodyClass} sidebar-off">
         <xsl:call-template name="IGRP-topmenu"/>
@@ -18,7 +18,7 @@
               </div>
             </div>
           </div>
-          <xsl:call-template name="IGRP-bottom"/>
+          <xsl:call-template name="IGRP-core-scripts"/><xsl:call-template name="IGRP-bottom"/>
         </form>
       </body>
     </html>

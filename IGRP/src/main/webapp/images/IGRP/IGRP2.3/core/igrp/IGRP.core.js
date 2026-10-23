@@ -911,9 +911,9 @@
 
 					return '<div class="dynamic-alert alert alert-'+type+'" role="alert">'+
 						'<i class="fa fa-'+icon+' igrp-msg-icon"></i>'+
-						'<a class="close" data-dismiss="alert" aria-label="Close">'+
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
 						'<span aria-hidden="true"><i class="fa fa-times"></i></span>'+
-						'</a>'+$.IGRP.utils.htmlDecode(p.text)+'</div>';
+						'</button>'+$.IGRP.utils.htmlDecode(p.text)+'</div>';
 				},
 				handleXML : function(xml){
 

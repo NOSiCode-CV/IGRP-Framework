@@ -1,45 +1,29 @@
 (function(){
+    var pending = false;
 
-	var scrollFunction = function(){
-		
-		try{
+    function updateVisibility() {
+        pending = false;
+        var button = document.getElementById('igrp-go-up');
+        if (!button) return;
+        var top = typeof window.pageYOffset === 'number' ? window.pageYOffset : document.documentElement.scrollTop;
+        var display = top > 300 ? 'inline-block' : 'none';
+        if (button.style.display !== display) button.style.display = display;
+    }
 
-			var _scrollTop = document.body &&  document.body.scrollTop ? document.body.scrollTop : document.documentElement.scrollTop || 0;
+    function scheduleVisibility() {
+        if (pending) return;
+        pending = true;
+        window.requestAnimationFrame(updateVisibility);
+    }
 
-			if (_scrollTop > 300) 
+    $.IGRP.targets.scroll_to_top = {
+        label: 'Scroll To Top',
+        action: function(){
+            $('html').animate({scrollTop: '0px'}, 350);
+            return false;
+        }
+    };
 
-		        $('#igrp-go-up').show();
-
-		    else 
-
-		    	$('#igrp-go-up').hide(); 
-
-		}catch(err){
-
-			return;
-
-		}	
-			
-
-	};
-
-	$.IGRP.targets.scroll_to_top = {
-
-		label : 'Scroll To Top',
-
-		action : function(){
-	
-        	$('html').animate({"scrollTop": "0px"}, 350);
-
-   			return false;
- 		}
-	};
-
-	$(window).on('scroll',function(){
-		scrollFunction();
-	});
-
-	$.IGRP.on('init',scrollFunction);
-
-
+    window.addEventListener('scroll', scheduleVisibility, {passive: true});
+    $.IGRP.on('init', scheduleVisibility);
 })();

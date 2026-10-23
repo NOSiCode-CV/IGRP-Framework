@@ -1,7 +1,7 @@
 (function(IGRP){
 
 	var offClass   = 'sidebar-off',
-		initState  = $.IGRP.store.get('igrp-sidebar') === 'true',
+		initState  = window.innerWidth >= 768 && $.IGRP.store.get('igrp-sidebar') === 'true',
 		sClass     = !initState ? offClass :'';
 		
 	$(function(){

@@ -12,6 +12,19 @@
             if(!tablesToInitialize[0])
                 return this;
 
+            // Upgrade existing generated action anchors without changing their styling.
+            tablesToInitialize.find('a.formlist-row-add:not([href])').each(function(){
+                var button = document.createElement('button');
+                Array.prototype.forEach.call(this.attributes, function(attribute){
+                    button.setAttribute(attribute.name, attribute.value);
+                });
+                button.type = 'button';
+                if(!button.getAttribute('aria-label') && !button.getAttribute('aria-labelledby'))
+                    button.setAttribute('aria-label', button.getAttribute('title') || button.getAttribute('data-original-title') || 'Add');
+                while(this.firstChild) button.appendChild(this.firstChild);
+                $(this).replaceWith(button);
+            });
+
             tablesToInitialize.data('igrp-formlist-initialized', true);
 
             var defaults = {
@@ -325,9 +338,9 @@
                     }
 
                     $('thead',element).append( '<th class="table-btn add">'+
-                        '<a class="formlist-row-add btn btn-primary" rel="'+rel+'">'+
+                        '<button type="button" aria-label="Add" class="formlist-row-add btn btn-primary" rel="'+rel+'">'+
                             '<i class="fa fa-plus"></i>'+
-                        '</a>'+
+                        '</button>'+
                     '</th>' );
 
                     $('tbody tr',element).append( '<td class="table-btn delete" data-row="0">'+

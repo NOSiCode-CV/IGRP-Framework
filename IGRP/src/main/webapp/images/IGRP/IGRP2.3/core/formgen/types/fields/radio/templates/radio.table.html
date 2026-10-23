@@ -2,7 +2,7 @@
 	 <xsl:choose>
 	 	<xsl:when test="#tag# != '-0'">
 			<label class="container-box">
-		        <input type="radio" name="p_#tag#_fk" value="{#tag#}">
+		        <input aria-label="{normalize-space(/#label.path#)}" type="radio" name="p_#tag#_fk" value="{#tag#}">
 		            <xsl:if test="#tag#_check=#tag#">
 		                <xsl:attribute name="checked">checked</xsl:attribute>
 		            </xsl:if>

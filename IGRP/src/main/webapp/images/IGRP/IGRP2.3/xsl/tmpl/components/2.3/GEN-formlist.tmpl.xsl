@@ -30,9 +30,9 @@
 							<xsl:if test="not(@no-delete) or not(@no-add)">
 								<th class="table-btn add">
 									<xsl:if test="not(@no-add)">
-										<a class="formlist-row-add btn btn-primary" rel="{$tag}">
+										<button type="button" aria-label="Add" class="formlist-row-add btn btn-primary" rel="{$tag}">
 											<i class="fa fa-plus"/>
-										</a>
+										</button>
 									</xsl:if>
 								</th>
 							</xsl:if>

@@ -4,7 +4,7 @@
         #[tooltip]#
 	</label>
 	<div class="input-group">
-        <input type="text" class="form-control not-form" readonly="">
+        <input aria-label="{normalize-space(/#label.path#)}" type="text" class="form-control not-form" readonly="">
         	<xsl:if test="#path#/@temp-value">
         		<xsl:attribute name="value">
         			<xsl:value-of select="#path#/@temp-value"/>
