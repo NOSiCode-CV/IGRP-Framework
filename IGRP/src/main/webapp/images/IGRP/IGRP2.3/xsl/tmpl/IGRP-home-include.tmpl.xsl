@@ -259,7 +259,7 @@
             </button>
 
             <div id="igrp-app-title" class="">
-           		 <a style="color: inherit;" href="{rows/link}" >
+              <a style="color: inherit;" href="{rows/link}" ><xsl:attribute name="aria-label"><xsl:choose><xsl:when test="normalize-space(rows/description) != ''"><xsl:value-of select="normalize-space(rows/description)"/></xsl:when><xsl:when test="normalize-space(rows/title) != ''"><xsl:value-of select="normalize-space(rows/title)"/></xsl:when><xsl:otherwise>IGRP</xsl:otherwise></xsl:choose></xsl:attribute>
             	<xsl:value-of select="rows/description"/>
             	 </a>
             </div>
@@ -298,7 +298,7 @@
 
               </xsl:for-each>
               <li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
-                <a href="{$settingsURL/link}" target="{$settingsURL/target}" close="refresh">
+                <a href="{$settingsURL/link}" target="{$settingsURL/target}" close="refresh"><xsl:attribute name="aria-label"><xsl:choose><xsl:when test="normalize-space(rows/site/user_name) != ''"><xsl:value-of select="normalize-space(rows/site/user_name)"/></xsl:when><xsl:when test="normalize-space($settingsURL/title) != ''"><xsl:value-of select="normalize-space($settingsURL/title)"/></xsl:when><xsl:otherwise>Perfil</xsl:otherwise></xsl:choose></xsl:attribute>
                 <xsl:if test="$settingsURL/img != ''">             
                   <img src="{$path}/assets/img/{$settingsURL/img}" width="26" height="26" alt="" style="margin-right: 4px;"></img>
                   </xsl:if>
@@ -307,7 +307,7 @@
               </li>
 
               <li alt="{rows/site/button/title}" title="{rows/site/button/title}">
-                <a href="{rows/site/button/link}" target="{rows/site/button/target}" aria-label="{normalize-space(rows/site/button/title)}">
+                <a href="{rows/site/button/link}" target="{rows/site/button/target}"><xsl:attribute name="aria-label"><xsl:choose><xsl:when test="normalize-space(rows/site/button/title) != ''"><xsl:value-of select="normalize-space(rows/site/button/title)"/></xsl:when><xsl:otherwise>Sair</xsl:otherwise></xsl:choose></xsl:attribute>
                   <i class="fa fa-sign-out" aria-hidden="true"></i>
                 </a>
               </li>
@@ -362,7 +362,7 @@
          
             <div class="igrp-sidebar-menu-search-wrapper igrp-sidebar-menu-search-container">
                <!-- Dark Logo-->
-				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;padding:  0 4px 0 20px;height: 60px;">
+				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;padding:  0 4px 0 20px;height: 60px;"><xsl:attribute name="aria-label"><xsl:choose><xsl:when test="normalize-space(rows/title) != ''"><xsl:value-of select="normalize-space(rows/title)"/></xsl:when><xsl:when test="normalize-space(rows/description) != ''"><xsl:value-of select="normalize-space(rows/description)"/></xsl:when><xsl:otherwise>IGRP</xsl:otherwise></xsl:choose></xsl:attribute>
 						<span class="logo-sm">
 							<img src="{$logo}" alt="" style="max-width: 80px;max-height: 55px;min-width: 60px;"/>
 						</span>
@@ -1069,7 +1069,7 @@
 
       <div class="dropdown">
 
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="Personalizar tema">
           <span><i class="fa fa-gears"></i></span>
           <span class="caret"></span>
         </button>
@@ -1080,7 +1080,7 @@
             <ul class="clearfix">
               <xsl:for-each select="$palettesXML">
               	<li>
-	                <a href="#"> <span class="igrp-theme-color" color="{.}" text-color="{@bg-text-color}" style="background:{.}"></span> </a>
+	                <a href="#" aria-label="Cor da barra lateral: {normalize-space(.)}"> <span class="igrp-theme-color" color="{.}" text-color="{@bg-text-color}" style="background:{.}"></span> </a>
 	              </li>
               </xsl:for-each>
               <!-- <li>

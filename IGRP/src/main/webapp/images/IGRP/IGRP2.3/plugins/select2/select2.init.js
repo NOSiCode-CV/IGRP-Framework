@@ -1,5 +1,23 @@
 (function(){
 
+    // Plugins replace the native field; keep its accessible name on their controls.
+    function fieldName(field) {
+        const references = (field.attr('aria-labelledby') || '').trim();
+        if (references) {
+            const text = references.split(/\s+/).map(function (id) {
+                const label = document.getElementById(id);
+                return label ? label.textContent.trim() : '';
+            }).filter(Boolean).join(' ');
+            if (text) return text;
+        }
+        const explicit = (field.attr('aria-label') || '').trim();
+        if (explicit) return explicit;
+        return Array.from(field[0].labels || []).map(function (label) {
+            return label.textContent.trim();
+        }).filter(Boolean).join(' ');
+    }
+
+
 
     //open select on TAB click
     $(document).on('focusin', '[item-type="select"]>.select2-container:not(.select2-container--disabled)', function (e) {
@@ -10,6 +28,24 @@
 
             if(!$(container).is('.select2-container--open'))
                 setTimeout(function(){
+
+    // Plugins replace the native field; keep its accessible name on their controls.
+    function fieldName(field) {
+        const references = (field.attr('aria-labelledby') || '').trim();
+        if (references) {
+            const text = references.split(/\s+/).map(function (id) {
+                const label = document.getElementById(id);
+                return label ? label.textContent.trim() : '';
+            }).filter(Boolean).join(' ');
+            if (text) return text;
+        }
+        const explicit = (field.attr('aria-label') || '').trim();
+        if (explicit) return explicit;
+        return Array.from(field[0].labels || []).map(function (label) {
+            return label.textContent.trim();
+        }).filter(Boolean).join(' ');
+    }
+
                     $(container).siblings('select').select2('open');    
                 },150)
             
@@ -131,7 +167,9 @@
 
                         $('.select2-container', row).remove();
 
-                        $('.select2', row).select2();
+                        $('.select2', row).each(function () {
+                            com.select2Init({ field: $(this) });
+                        });
 
                     }, true);
 
@@ -165,6 +203,19 @@
                     holder.addClass('select2-holder');
                 holder.append(clearBtn);
             });
+        },
+
+        syncAccessibleName: function (field) {
+            const instance = field.data('select2'), name = fieldName(field);
+            if (!instance || !name) return;
+            // Select2 otherwise labels a single combobox with its current value,
+            // which becomes empty when the selection is cleared.
+            instance.$container.find('[role="combobox"]')
+                .removeAttr('aria-labelledby').attr('aria-label', name);
+            instance.$container.find('.select2-search__field').attr('aria-label', name);
+            if (instance.dropdown && instance.dropdown.$dropdown) {
+                instance.dropdown.$dropdown.find('.select2-search__field').attr('aria-label', name);
+            }
         },
 
         select2Init: function (p) {
@@ -257,6 +308,10 @@
 
 
             p.field.select2(properties);
+            com.syncAccessibleName(field);
+            field.off('.igrpAccessibleName').on('select2:open.igrpAccessibleName change.igrpAccessibleName', function () {
+                com.syncAccessibleName(field);
+            });
 
         },
         init: function (parent) {
