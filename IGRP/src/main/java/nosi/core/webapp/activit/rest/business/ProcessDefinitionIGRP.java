@@ -5,6 +5,7 @@ import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import nosi.core.webapp.activit.rest.request.Credentials;
 
 import java.util.*;
 
@@ -67,6 +68,12 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
    }
 
    public boolean hasBPMN(String dad) {
-      return !processDefinitionServiceRest.getProcessDefinitionsAtivos(dad).isEmpty();
+      return AvailabilityHolder.CHECK.hasProcesses(dad);
+   }
+
+   private static class AvailabilityHolder {
+      private static final Credentials CREDENTIALS = Credentials.getInstance();
+      private static final ActivitiProcessAvailability CHECK = new ActivitiProcessAvailability(
+              CREDENTIALS.getUrl(), CREDENTIALS.getUserName(), CREDENTIALS.getPassword());
    }
 }

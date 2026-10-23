@@ -40,6 +40,7 @@ public class GestaodeacessoController extends Controller {
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
+		view.btn_associar_etapa.setVisible(false);
 		//model.setDocumento_link(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=acesso"));
 
       
