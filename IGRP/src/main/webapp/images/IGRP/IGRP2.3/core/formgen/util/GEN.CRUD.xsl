@@ -186,7 +186,7 @@
         <div class="box clearfix view-block" has-img="true">
           <div class="box-body">
             <xsl:if test="rows/content/{name()}/fields/{name()}_img">
-              <img src="{concat('{rows/content/',name(),'/fields/',name(),'_img/value}')}"/>
+              <img alt="" src="{concat('{rows/content/',name(),'/fields/',name(),'_img/value}')}"/>
             </xsl:if>
             <div class="view-body clearfix " gen-id="drop-zone" >
               
@@ -539,7 +539,7 @@
                   <!-- image.form / img.form-->
                   <gen:when test="$type='image' or $type='img' ">
                     <div class="form-group col-sm-4" item-name="{name()}" item-type="{$type}">
-                      <img style="height:auto;width:100%;position:relative;display:block;" src="{concat('{',$valuePath,'}')}"/>
+                      <img alt="{concat('{',$labelPath,'}')}" style="height:auto;width:100%;position:relative;display:block;" src="{concat('{',$valuePath,'}')}"/>
                     </div>
                   </gen:when>
                   <!-- separator.form -->
