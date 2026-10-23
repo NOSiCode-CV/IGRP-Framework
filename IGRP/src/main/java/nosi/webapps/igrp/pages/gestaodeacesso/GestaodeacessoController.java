@@ -1,7 +1,9 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
-import java.io.IOException;
-
+import nosi.core.webapp.Controller;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -19,23 +21,23 @@ import java.util.List;
 import java.util.ArrayList;
 /*----#end-code----*/
 		
-public class GestaodeacessoController extends Controller { 
-	
+public class GestaodeacessoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Gestaodeacesso model = new Gestaodeacesso();
+		var model = new Gestaodeacesso();
 		model.load();
 		model.setAdicionar_organica("igrp","NovaOrganica","index");
 		model.setGestao_de_utilizadores("igrp","PesquisarUtilizador","index");
 		model.setGestao_de_menu("igrp","PesquisarMenu","index");
-		GestaodeacessoView view = new GestaodeacessoView();
+		var view = new GestaodeacessoView();
 		view.estado.setParam(true);
 		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Totam lorem amet unde mollit' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-7521_6b78' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Consectetur omnis officia sed' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-6c56_572f' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
 		//model.setDocumento_link(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=acesso"));
@@ -78,7 +80,7 @@ public class GestaodeacessoController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Gestaodeacesso model = new Gestaodeacesso();
+		var model = new Gestaodeacesso();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -89,6 +91,7 @@ public class GestaodeacessoController extends Controller {
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (editar)  *//* End-Code-Block  */
 		/*----#start-code(editar)----*/
 			return this.forward("igrp", "NovaOrganica", "editar",this.queryString());
 		/*----#end-code----*/
@@ -96,7 +99,7 @@ public class GestaodeacessoController extends Controller {
 	}
 	
 	public Response actionMenu() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Gestaodeacesso model = new Gestaodeacesso();
+		var model = new Gestaodeacesso();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -107,6 +110,7 @@ public class GestaodeacessoController extends Controller {
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (menu)  *//* End-Code-Block  */
 		/*----#start-code(menu)----*/
   		Organization org = new Organization().findOne(Core.getParamInt("p_id"));	
         this.addQueryString("p_type","org");   
@@ -120,7 +124,7 @@ public class GestaodeacessoController extends Controller {
 	}
 	
 	public Response actionTransacti_org() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Gestaodeacesso model = new Gestaodeacesso();
+		var model = new Gestaodeacesso();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -131,6 +135,7 @@ public class GestaodeacessoController extends Controller {
 		  return this.forward("igrp","TransacaoOrganica","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (transacti_org)  *//* End-Code-Block  */
 		/*----#start-code(transacti_org)----*/
 	  //don't need to add p_id because its declared view.id.setParam(true);
       
@@ -141,7 +146,7 @@ public class GestaodeacessoController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Gestaodeacesso model = new Gestaodeacesso();
+		var model = new Gestaodeacesso();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -152,6 +157,7 @@ public class GestaodeacessoController extends Controller {
 		  return this.forward("igrp","Gestaodeacesso","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (eliminar)  *//* End-Code-Block  */
 		/*----#start-code(eliminar)----*/
 		int p_id = Core.getParamInt("p_id");
 		if (p_id != 0) {
@@ -169,7 +175,7 @@ public class GestaodeacessoController extends Controller {
 	}
 	
 	public Response actionAssociar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Gestaodeacesso model = new Gestaodeacesso();
+		var model = new Gestaodeacesso();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -180,15 +186,14 @@ public class GestaodeacessoController extends Controller {
 		  return this.forward("igrp","Gestaodeacesso","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (associar_etapa)  *//* End-Code-Block  */
 		/*----#start-code(associar_etapa)----*/
 		this.loadQueryString().addQueryString("type", "org");
       	return this.redirect("igrp","Etapaaccess","index", this.queryString());
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	private void setTable(Gestaodeacesso model, List<Gestaodeacesso.Org_table> data) {			
 		for (Organization org : new Organization().find()
