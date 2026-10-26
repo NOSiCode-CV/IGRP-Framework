@@ -5807,7 +5807,7 @@ const GENERATOR = function (genparams) {
                     },
                     inputMaskInc = false;
 
-                if (!inputMaskInc && field?.proprieties?.inputmask !== undefined) {
+                if (!inputMaskInc && typeof field?.proprieties?.inputmask === 'string' && field.proprieties.inputmask.trim() !== '') {
                     inputMaskIncludes.forEach(function (e) {
                         field.includes.js.unshift(e);
                     });

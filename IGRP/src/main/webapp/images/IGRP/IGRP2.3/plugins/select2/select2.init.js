@@ -47,6 +47,19 @@
  
     });
 
+    // Select2 4.0 groups already have a labelled group role. Their title and
+    // nested HTML list are structural wrappers, not additional ARIA children.
+    function fixGroupedResults(instance) {
+        if (!instance || !instance.results) return;
+        const renderOption = instance.results.option;
+        instance.results.option = function () {
+            const option = renderOption.apply(this, arguments);
+            $(option).find('.select2-results__group').attr('role', 'presentation');
+            $(option).find('.select2-results__options--nested').attr('role', 'presentation');
+            return option;
+        };
+    }
+
     let com = $.IGRP.component('select2', {
      
         setOptions:function(o){
@@ -287,6 +300,19 @@
 
 
             p.field.select2(properties);
+            fixGroupedResults(field.data('select2'));
+            // Optgroups render nested ULs; expose them as ARIA groups, not lists.
+            const accessibilityInstance = field.data('select2');
+            if (accessibilityInstance && accessibilityInstance.results && !accessibilityInstance._igrpAccessibleGroups) {
+                const syncGroups = function () {
+                    accessibilityInstance.results.$results
+                        .find('ul.select2-results__options--nested').attr('role', 'group');
+                };
+                accessibilityInstance.on('results:all', syncGroups);
+                accessibilityInstance.on('results:append', syncGroups);
+                accessibilityInstance._igrpAccessibleGroups = true;
+                syncGroups();
+            }
 
             com.syncAccessibleName(field);
             field.off('.igrpAccessibleName').on('select2:open.igrpAccessibleName change.igrpAccessibleName', function () {
