@@ -18,7 +18,7 @@
         </xsl:for-each>
       </ol>
       <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox">
+      <div class="carousel-inner" role="group" aria-label="Slides">
         <xsl:for-each select="table/value/row">
           <xsl:variable name="pos" select="position()"/>
           <xsl:variable name="isActive">

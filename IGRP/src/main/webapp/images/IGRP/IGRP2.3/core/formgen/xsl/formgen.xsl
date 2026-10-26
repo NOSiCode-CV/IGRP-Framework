@@ -113,13 +113,13 @@
                                       <span class="">Settings</span>
                                   </a>
                               </li>-->
-                              <li class="active col-xs-6">
+                              <li role="presentation" class="active col-xs-6">
                                   <a class="txt-ellipsis" href="#gen-list-components" role="tab" data-toggle="tab">
                                       <i class="fa fa-cube"></i>
                                       <span class="">Components</span>
                                   </a>
                               </li> 
-                              <li class="col-xs-6">
+                              <li role="presentation" class="col-xs-6">
                                   <a class="txt-ellipsis" href="#gen-list-fields" role="tab" data-toggle="tab">
                                       <i class="fa fa-dot-circle-o"></i>
                                       <span class="">Fields</span>
