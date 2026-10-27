@@ -911,9 +911,25 @@ public class Controller {
     }
 
     public static String performXsltTransform(String xmlStr, String xslStr, Map<String, String> xslParams) throws Exception {
+        return performXsltTransform(xmlStr, xslStr, xslParams, null);
+    }
+
+    /** Transforms a stored stylesheet, resolving its includes from the deployed webapp. */
+    public static String performXsltTransform(String xmlStr, String xslStr, Map<String, String> xslParams,
+                                              ServletContext ctx) throws Exception {
         TransformerFactory factory = TransformerFactory.newInstance();
+        URIResolver resolver = ctx != null ? new WebAppXslUriResolver(ctx) : null;
+        if (resolver != null) {
+            factory.setURIResolver(resolver);
+        }
         Source xslSource = new StreamSource(new StringReader(xslStr));
+        if (ctx != null) {
+            xslSource.setSystemId("webapp:/app/webapps");
+        }
         Transformer transformer = factory.newTransformer(xslSource);
+        if (resolver != null) {
+            transformer.setURIResolver(resolver);
+        }
 
         transformer.setOutputProperty(OutputKeys.METHOD, "html");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");

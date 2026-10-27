@@ -255,6 +255,18 @@ public class WebReportController extends Controller {
 			if(type.equals(Report.PDF_SAVE))
 				return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
 			
+			if (!"xml".equals(Core.getParam("ir_cf"))) {
+				try {
+					String html = Controller.performXsltTransform(genXml,
+							new String(rt.getXsl_content().getC_lob_content(), StandardCharsets.UTF_8),
+							null, Igrp.getInstance().getServlet().getServletContext());
+					this.format = Response.FORMAT_HTML;
+					return this.renderView(html);
+				} catch (Exception e) {
+					throw new IOException("Unable to render report preview " + id, e);
+				}
+			}
+
 			this.format = Response.FORMAT_XML;			
 			return this.renderView(genXml);
 		}
