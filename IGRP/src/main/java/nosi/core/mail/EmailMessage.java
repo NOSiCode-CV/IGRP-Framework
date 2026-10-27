@@ -315,7 +315,7 @@ public class EmailMessage {
 	 * @param cc the cc to set
 	 */
 	public EmailMessage setCc(String cc) {
-		this.cc = cc.replace(";", ",");
+		this.cc = cc == null ? null : cc.replace(";", ",");
 		return this;
 	}
 
@@ -323,7 +323,7 @@ public class EmailMessage {
 	 * @param bcc the bcc to set
 	 */
 	public EmailMessage setBcc(String bcc) {
-		this.bcc = bcc.replace(";", ",");
+		this.bcc = bcc == null ? null : bcc.replace(";", ",");
 		return this;
 	}
 
