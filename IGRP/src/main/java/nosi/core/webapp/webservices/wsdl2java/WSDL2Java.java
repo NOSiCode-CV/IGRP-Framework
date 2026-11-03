@@ -30,7 +30,12 @@ public class WSDL2Java {
 				FileHelper.createDiretory(destinationPath);
 			}
 			packageName = new Config().getBasePackage(dad)+"."+OptionsImportExport.SERVICE.getFileName()+"."+packageName;
-			Runtime.getRuntime().exec("wsimport -Xnocompile -p "+packageName+ " -keep -verbose "+urlWsdl+" -d "+Path.getBasePath());
+			if(!packageName.matches("[a-zA-Z0-9_.]+")) {
+				r = false;
+				Core.setMessageError(Core.gt("Nome de package inválido: ")+packageName);
+				return;
+			}
+			Runtime.getRuntime().exec(new String[]{"wsimport", "-Xnocompile", "-p", packageName, "-keep", "-verbose", urlWsdl, "-d", Path.getBasePath()});
 			Compiler compiler = new Compiler();
 			compiler.addFileName(destinationPath);
 			compiler.compile();
