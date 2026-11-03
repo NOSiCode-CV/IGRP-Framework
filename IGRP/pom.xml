@@ -64,7 +64,7 @@
 
 		<gson.version>2.11.0</gson.version>
 		<json.version>20240303</json.version>
-		<jsoup.version>1.18.1</jsoup.version>
+		<jsoup.version>1.23.2</jsoup.version>
 		
 		<model.mapper.version>3.2.3</model.mapper.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
