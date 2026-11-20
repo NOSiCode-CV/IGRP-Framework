@@ -8,6 +8,8 @@
     <xsl:include href="XSL_MODEL.xsl" />
     <xsl:include href="XSL_VIEW.xsl" />
     <xsl:include href="XSL_CONTROLLER.xsl" />
+    <!-- XSL_CONTROLLER calls blockly.* templates; server-side XSLT (Xalan) needs them declared -->
+    <xsl:include href="IGRP.blockly.java.xsl" />
 
     <xsl:template match="/">
         <xsl:call-template name="create-model"></xsl:call-template>

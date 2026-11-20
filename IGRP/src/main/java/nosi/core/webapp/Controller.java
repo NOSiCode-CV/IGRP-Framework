@@ -852,6 +852,27 @@ public class Controller {
     private static final ConcurrentHashMap<String, byte[]> XSL_RESOURCE_CACHE =
             new ConcurrentHashMap<>();
 
+    /**
+     * Xalan's default listener only prints fatal stylesheet errors and then returns a half-built
+     * Templates (later failing with "getOutputComposed() is null"). Fail the compilation instead.
+     */
+    private static final ErrorListener STRICT_XSL_ERROR_LISTENER = new ErrorListener() {
+        @Override
+        public void warning(TransformerException e) {
+            LOGGER.debug("XSL warning: {}", e.getMessageAndLocation());
+        }
+
+        @Override
+        public void error(TransformerException e) {
+            LOGGER.warn("XSL error: {}", e.getMessageAndLocation());
+        }
+
+        @Override
+        public void fatalError(TransformerException e) throws TransformerException {
+            throw e;
+        }
+    };
+
     // ─────────────────────────────────────────────────────────────────────────
 // tryTransformXmlWithStylesheetPI  — with template cache
     /**
@@ -904,7 +925,17 @@ public class Controller {
 // Templates is thread-safe per JAXP spec — safe to share across threads.
 // ─────────────────────────────────────────────────────────────────────────
     private static Templates getOrCompileTemplates(String xslWebPath, ServletContext ctx) {
-        Templates cached = XSL_TEMPLATE_CACHE.get(xslWebPath);
+        return getOrCompileTemplates(xslWebPath, null, ctx);
+    }
+
+    /**
+     * @param includeBasePath optional webapp folder used for bare-name includes of the root stylesheet,
+     *                        mirroring the client-side {@code xslBasePath} of xml.xsl.transform.js
+     *                        (e.g. formgen {@code util/java/mvc/*.xsl} include their parts from {@code util/java}).
+     */
+    private static Templates getOrCompileTemplates(String xslWebPath, String includeBasePath, ServletContext ctx) {
+        String cacheKey = includeBasePath == null ? xslWebPath : xslWebPath + "|" + includeBasePath;
+        Templates cached = XSL_TEMPLATE_CACHE.get(cacheKey);
 
         if (cached != null) {
             return cached;
@@ -916,14 +947,15 @@ public class Controller {
             }
 
             TransformerFactory tf = TransformerFactory.newInstance();
-            tf.setURIResolver(new CachingWebAppXslUriResolver(ctx));
+            tf.setErrorListener(STRICT_XSL_ERROR_LISTENER);
+            tf.setURIResolver(new CachingWebAppXslUriResolver(ctx, xslWebPath, includeBasePath));
 
             StreamSource xslSource = new StreamSource(xslStream);
             xslSource.setSystemId("webapp:" + xslWebPath);
 
             Templates compiled = tf.newTemplates(xslSource);
 
-            Templates existing = XSL_TEMPLATE_CACHE.putIfAbsent(xslWebPath, compiled);
+            Templates existing = XSL_TEMPLATE_CACHE.putIfAbsent(cacheKey, compiled);
 
             return existing != null ? existing : compiled;
 
@@ -967,6 +999,7 @@ public class Controller {
     ) throws Exception {
 
         TransformerFactory factory = TransformerFactory.newInstance();
+        factory.setErrorListener(STRICT_XSL_ERROR_LISTENER);
         URIResolver resolver = ctx != null ? new WebAppXslUriResolver(ctx) : null;
         if (resolver != null) {
             factory.setURIResolver(resolver);
@@ -1006,8 +1039,18 @@ public class Controller {
             ServletContext ctx,
             Map<String, String> xslParams
     ) throws Exception {
+        return performXsltTransformFromPath(xmlStr, xslWebPath, null, ctx, xslParams);
+    }
 
-        Templates templates = getOrCompileTemplates(xslWebPath, ctx);
+    public static String performXsltTransformFromPath(
+            String xmlStr,
+            String xslWebPath,
+            String includeBasePath,
+            ServletContext ctx,
+            Map<String, String> xslParams
+    ) throws Exception {
+
+        Templates templates = getOrCompileTemplates(xslWebPath, includeBasePath, ctx);
 
         if (templates == null) {
             throw new IllegalStateException("XSL template not found: " + xslWebPath);
@@ -1044,7 +1087,7 @@ public class Controller {
     }
 
     public static void invalidateXslCache(String xslWebPath) {
-        XSL_TEMPLATE_CACHE.remove(xslWebPath);
+        XSL_TEMPLATE_CACHE.keySet().removeIf(k -> k.equals(xslWebPath) || k.startsWith(xslWebPath + "|"));
         XSL_RESOURCE_CACHE.remove(xslWebPath);
         LOGGER.info("XSL template cache cleared for: {}", xslWebPath);
     }
@@ -1055,8 +1098,8 @@ public class Controller {
 // ─────────────────────────────────────────────────────────────────────────
     private static final class CachingWebAppXslUriResolver extends WebAppXslUriResolver {
 
-        CachingWebAppXslUriResolver(ServletContext ctx) {
-            super(ctx);
+        CachingWebAppXslUriResolver(ServletContext ctx, String rootPath, String includeBasePath) {
+            super(ctx, rootPath, includeBasePath);
         }
 
         @Override
@@ -1108,9 +1151,20 @@ public class Controller {
     private static class WebAppXslUriResolver implements URIResolver {
 
         protected final ServletContext ctx;
+        /** Root stylesheet path, used to recognise its own includes. */
+        private final String rootPath;
+        /** Folder where bare-name includes of the root stylesheet live (client xslBasePath). */
+        private final String includeBasePath;
 
         WebAppXslUriResolver(ServletContext ctx) {
+            this(ctx, null, null);
+        }
+
+        WebAppXslUriResolver(ServletContext ctx, String rootPath, String includeBasePath) {
             this.ctx = ctx;
+            this.rootPath = rootPath != null ? normalizeWebPath(cleanHref(rootPath)) : null;
+            this.includeBasePath = includeBasePath != null && !includeBasePath.isBlank()
+                    ? normalizeWebPath(cleanHref(includeBasePath)) : null;
         }
 
         @Override
@@ -1134,10 +1188,21 @@ public class Controller {
 
             if (resolvedPath == null) return null;
 
+            // Same rule as xml.xsl.transform.js: a bare-name include of the root stylesheet
+            // is loaded from xslBasePath, not from the root stylesheet's own folder.
+            String basePathCandidate = resolveAgainstIncludeBase(cleanHref, cleanBase);
+
             // Primary lookup then fallbacks
             return firstNonNull(href, base, resolvedPath,
+                    () -> basePathCandidate != null ? openResource(basePathCandidate) : null,
                     () -> openResource(resolvedPath)
             );
+        }
+
+        private String resolveAgainstIncludeBase(String href, String base) {
+            if (includeBasePath == null || rootPath == null || href.contains("/")) return null;
+            if (base == null || !rootPath.equals(normalizeWebPath(base))) return null;
+            return normalizeWebPath(includeBasePath + "/" + href);
         }
 
         // ── Path helpers ─────────────────────────────────────────────────────

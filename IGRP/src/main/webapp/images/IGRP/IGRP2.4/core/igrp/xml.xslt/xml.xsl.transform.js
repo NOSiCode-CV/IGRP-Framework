@@ -65,7 +65,8 @@ $.fn.XMLTransform = function(params) {
 
 				const payload = {
 					xml: xmlStr,
-					xslParams: params.xslParams || {}
+					xslParams: params.xslParams || {},
+					xslBasePath: params.xslBasePath // folder for bare-name xsl:include (server resolver)
 				};
 
 // Prefer cached server-side XSL path

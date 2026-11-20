@@ -75,6 +75,7 @@ public class GeneratorController extends Controller{
     		String xmlStr;
 			String xslStr = "";
 			String xslPath = null;
+			String xslBasePath = null;
     		Map<String, String> xslParams = new LinkedHashMap<>();
     		String contentType = Igrp.getInstance().getRequest().getContentType();
     		if (contentType != null && contentType.contains("application/json")) {
@@ -100,6 +101,8 @@ public class GeneratorController extends Controller{
 					xslStr = root.get("xsl").asText();
 				else
 					xslPath =  root.get("xslPath").asText();
+				if (root.hasNonNull("xslBasePath"))
+					xslBasePath = root.get("xslBasePath").asText();
 				xslParams =
 						mapper.convertValue(root.get("xslParams"),
 								new TypeReference<Map<String,String>>(){});
@@ -108,6 +111,7 @@ public class GeneratorController extends Controller{
     			xmlStr = Core.getParam("xml");
     			xslStr = Core.getParam("xsl");
 				xslPath = Core.getParam("xslPath");
+				xslBasePath = Core.getParam("xslBasePath");
     		}
 
     		try {
@@ -121,6 +125,7 @@ public class GeneratorController extends Controller{
 					html = Controller.performXsltTransformFromPath(
 							xmlStr,
 							xslPath,
+							includeBaseFromImages(xslBasePath),
 							ctx,
 							xslParams
 					);
@@ -167,6 +172,16 @@ public class GeneratorController extends Controller{
 		}
 
 		return path;
+	}
+
+	/** Client xslBasePath as a webapp folder under /images/, or null when absent/outside it. */
+	public static String includeBaseFromImages(String basePath) {
+		if (StringUtils.isBlank(basePath)) {
+			return null;
+		}
+		String base = keepFromImages(basePath.split("\\?", 2)[0]);
+		base = StringUtils.stripEnd(base, "/");
+		return base.startsWith("/images/") ? base : null;
 	}
 
 	private String escapeHtmlComment(String s) {
