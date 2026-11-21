@@ -170,7 +170,7 @@
 								</xsl:choose>
 							</xsl:when>
 							<xsl:when test="$vtype = 'img'">
-								<img class="table-img img-rounded " src="{text()}"/>
+								<img alt="" class="table-img img-rounded " src="{text()}"/>
 							</xsl:when>
 							<xsl:when test="$vtype = 'color'">
 								

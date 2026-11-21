@@ -638,6 +638,11 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>${maven.war.plugin.version}</version>
                     <configuration>
+                        <!-- node_modules (dev tooling, git-ignored) added ~13k files to the WAR and made
+                             TomEE's extraction take minutes on Windows. Never needed at runtime.
+                             warSourceExcludes also skips copying them into target/IGRP on every build. -->
+                    <warSourceExcludes>**/node_modules/**</warSourceExcludes>
+                    <packagingExcludes>**/node_modules/**</packagingExcludes>
                         <webResources>
                             <resource>
                                 <directory>

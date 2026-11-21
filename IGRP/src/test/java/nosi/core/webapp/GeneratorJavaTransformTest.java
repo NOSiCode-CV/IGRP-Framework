@@ -1,6 +1,7 @@
 package nosi.core.webapp;
 
 import jakarta.servlet.ServletContext;
+import nosi.webapps.igrp.pages.generator.GeneratorController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +62,7 @@ class GeneratorJavaTransformTest {
 
     private static void assertGenerates(String base, Map<String, String> expectedByXsl) throws Exception {
         for (Map.Entry<String, String> e : expectedByXsl.entrySet()) {
-            String out = Controller.performXsltTransformFromPath(XML, base + "/mvc/" + e.getKey(),
+            String out = Controller.performClientXsltTransformFromPath(XML, base + "/mvc/" + e.getKey(),
                     base, webappContext(), Map.of());
 
             assertTrue(out.contains(e.getValue()), base + "/mvc/" + e.getKey() + " ->\n" + out);
@@ -76,15 +77,52 @@ class GeneratorJavaTransformTest {
 
         assertFalse(ex instanceof NullPointerException, String.valueOf(ex));
         assertTrue(ex.getMessage().contains("Failed to compile XSL template"), ex.getMessage());
+
+        // The log line is the root cause only: one line, no Xalan/Xerces nesting.
+        String summary = Controller.rootCauseSummary(ex);
+        assertTrue(summary.contains("including itself"), summary);
+        assertFalse(summary.contains("\n") || summary.contains("\r"), summary);
+        assertTrue(summary.length() <= 503, summary);
     }
 
     @Test
-    void normalisesClientXslBasePath() {
-        assertEquals(JAVA_BASE, nosi.webapps.igrp.pages.generator.GeneratorController
-                .includeBaseFromImages("https://host/IGRP" + JAVA_BASE + "/?v=3"));
-        assertEquals(JAVA_BASE, nosi.webapps.igrp.pages.generator.GeneratorController
-                .includeBaseFromImages(".." + JAVA_BASE));
-        assertNull(nosi.webapps.igrp.pages.generator.GeneratorController.includeBaseFromImages("/WEB-INF/classes"));
-        assertNull(nosi.webapps.igrp.pages.generator.GeneratorController.includeBaseFromImages(null));
+    void rootCauseSummaryIsBoundedAndSafeForOddExceptions() {
+        assertEquals("IllegalStateException", Controller.rootCauseSummary(new IllegalStateException()));
+        assertEquals("IllegalStateException: a b",
+                Controller.rootCauseSummary(new RuntimeException("outer", new IllegalStateException("a\r\nb"))));
+
+        StringBuilder huge = new StringBuilder();
+        for (int i = 0; i < 2000; i++) huge.append('x');
+        String capped = Controller.rootCauseSummary(new RuntimeException(huge.toString()));
+        assertEquals(503, capped.length());
+        assertTrue(capped.endsWith("..."), capped);
+    }
+
+    @Test
+    void acceptsOnlyXslFilesUnderImages() {
+        String controller = JAVA_BASE + "/mvc/XSL_CONTROLLER.xsl";
+        assertEquals(controller, GeneratorController.imagesXslPath("https://host/IGRP" + controller + "?v=3"));
+        assertEquals(controller, GeneratorController.imagesXslPath(".." + controller));
+        assertEquals(controller, GeneratorController.imagesXslPath(JAVA_BASE + "/./mvc//XSL_CONTROLLER.xsl"));
+
+        assertNull(GeneratorController.imagesXslPath("/images/../WEB-INF/web.xml"));
+        assertNull(GeneratorController.imagesXslPath("/images/../WEB-INF/evil.xsl"));
+        assertNull(GeneratorController.imagesXslPath("/WEB-INF/classes/x.xsl"));
+        assertNull(GeneratorController.imagesXslPath("/images/IGRP/x.xml"));
+        assertNull(GeneratorController.imagesXslPath("/images/IGRP\\..\\..\\WEB-INF\\x.xsl"));
+        assertNull(GeneratorController.imagesXslPath(null));
+    }
+
+    @Test
+    void acceptsXslBasePathOnlyWhenItIsAParentOfTheStylesheetFolder() {
+        String controller = JAVA_BASE + "/mvc/XSL_CONTROLLER.xsl";
+        assertEquals(JAVA_BASE, GeneratorController.includeBaseFor("https://host/IGRP" + JAVA_BASE + "/?v=3", controller));
+        assertEquals(JAVA_BASE, GeneratorController.includeBaseFor(".." + JAVA_BASE, controller));
+
+        assertNull(GeneratorController.includeBaseFor(JAVA_BASE + "/mvc", controller), "own folder: no-op");
+        assertNull(GeneratorController.includeBaseFor("/images/IGRP/IGRP2.4/xsl", controller), "unrelated folder");
+        assertNull(GeneratorController.includeBaseFor(JAVA_BASE + "/mvc/sub", controller), "child folder");
+        assertNull(GeneratorController.includeBaseFor("/WEB-INF", controller));
+        assertNull(GeneratorController.includeBaseFor(null, controller));
     }
 }

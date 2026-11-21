@@ -33,9 +33,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.XMLConstants;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.*;
+import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 import java.io.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -960,9 +965,22 @@ public class Controller {
             return existing != null ? existing : compiled;
 
         } catch (Exception ex) {
-            LOGGER.warn("Failed to compile XSL template: {}", xslWebPath, ex);
+            // One line (root cause) at WARN; Xalan's long nested trace only at DEBUG.
+            LOGGER.warn("Failed to compile XSL template {}: {}", xslWebPath, rootCauseSummary(ex));
+            LOGGER.debug("Failed to compile XSL template {} (detail)", xslWebPath, ex);
             throw new RuntimeException("Failed to compile XSL template: " + xslWebPath, ex);
         }
+    }
+
+    /** "ExceptionClass: message" of the deepest cause, capped so a hostile message cannot flood the log. */
+    public static String rootCauseSummary(Throwable t) {
+        Throwable root = t;
+        for (int i = 0; i < 20 && root.getCause() != null && root.getCause() != root; i++) {
+            root = root.getCause();
+        }
+        String msg = root.getMessage();
+        String summary = root.getClass().getSimpleName() + (msg == null ? "" : ": " + msg.replaceAll("[\\r\\n]+", " "));
+        return summary.length() > 500 ? summary.substring(0, 500) + "..." : summary;
     }
 
     // ═══════════════════════════════════════════════════════════════════════════════
@@ -1039,10 +1057,25 @@ public class Controller {
             ServletContext ctx,
             Map<String, String> xslParams
     ) throws Exception {
-        return performXsltTransformFromPath(xmlStr, xslWebPath, null, ctx, xslParams);
+
+        Templates templates = getOrCompileTemplates(xslWebPath, ctx);
+
+        if (templates == null) {
+            throw new IllegalStateException("XSL template not found: " + xslWebPath);
+        }
+
+        return runHtmlTransform(templates.newTransformer(),
+                new StreamSource(new StringReader(xmlStr)), xslParams);
     }
 
-    public static String performXsltTransformFromPath(
+    /**
+     * Request-supplied XML against a stylesheet stored in the webapp (public generator/transform endpoint).
+     * The XML is parsed without external entities/DTDs, and document() may only read static files under /images/.
+     *
+     * @param xslWebPath      normalised webapp path of the stylesheet (under /images/)
+     * @param includeBasePath optional folder for bare-name includes of the root stylesheet (client xslBasePath)
+     */
+    public static String performClientXsltTransformFromPath(
             String xmlStr,
             String xslWebPath,
             String includeBasePath,
@@ -1057,6 +1090,49 @@ public class Controller {
         }
 
         Transformer transformer = templates.newTransformer();
+        transformer.setURIResolver(new StaticImagesUriResolver(ctx));
+        return runHtmlTransform(transformer, secureXmlSource(xmlStr), xslParams);
+    }
+
+    /** Same as the 4-argument form with no ServletContext: document() is denied altogether. */
+    public static String performClientXsltTransform(
+            String xmlStr,
+            String xslStr,
+            Map<String, String> xslParams
+    ) throws Exception {
+        return performClientXsltTransform(xmlStr, xslStr, xslParams, null);
+    }
+
+    /**
+     * Request-supplied stylesheet and XML: secure processing (no Java/extension calls), no xsl:include or
+     * xsl:import, and no external entities/DTDs. document() is denied unless a ServletContext is given, in
+     * which case it may read static files under /images/ only (e.g. the Studio's xml/locale/pt.xml); file:/http:
+     * URLs, WEB-INF and IGRP routes stay blocked.
+     * <p>
+     * Uses the JDK's built-in XSLT engine, not Xalan-J: Xalan 2.7.3 drops every attribute of literal result
+     * elements when FEATURE_SECURE_PROCESSING is on, and without it Xalan lets any namespace call Java classes.
+     */
+    public static String performClientXsltTransform(
+            String xmlStr,
+            String xslStr,
+            Map<String, String> xslParams,
+            ServletContext ctx
+    ) throws Exception {
+
+        TransformerFactory factory = TransformerFactory.newDefaultInstance();
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        factory.setErrorListener(CLIENT_XSL_ERROR_LISTENER);
+        factory.setURIResolver(DENY_ALL_URI_RESOLVER);
+
+        Transformer transformer = factory.newTransformer(secureXmlSource(xslStr));
+        transformer.setURIResolver(ctx != null ? new StaticImagesUriResolver(ctx) : DENY_ALL_URI_RESOLVER);
+        return runHtmlTransform(transformer, secureXmlSource(xmlStr), xslParams);
+    }
+
+    private static String runHtmlTransform(Transformer transformer, Source xmlSource,
+                                           Map<String, String> xslParams) throws TransformerException {
 
         transformer.setOutputProperty(OutputKeys.METHOD, "html");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
@@ -1069,12 +1145,58 @@ public class Controller {
         }
 
         StringWriter writer = new StringWriter();
-        transformer.transform(
-                new StreamSource(new StringReader(xmlStr)),
-                new StreamResult(writer)
-        );
+        transformer.transform(xmlSource, new StreamResult(writer));
 
         return writer.toString();
+    }
+
+    /** SAX source that never loads external entities or external DTDs (XXE-safe). */
+    private static SAXSource secureXmlSource(String content) throws Exception {
+        if (content == null) {
+            throw new IllegalArgumentException("Missing XML content");
+        }
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        spf.setNamespaceAware(true);
+        spf.setXIncludeAware(false);
+        spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        spf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
+        XMLReader reader = spf.newSAXParser().getXMLReader();
+        reader.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+        return new SAXSource(reader, new InputSource(new StringReader(content)));
+    }
+
+    /** Client stylesheets: any error (e.g. a blocked include) fails the transform. */
+    private static final ErrorListener CLIENT_XSL_ERROR_LISTENER = new ErrorListener() {
+        @Override
+        public void warning(TransformerException e) {
+            LOGGER.debug("Client XSL warning: {}", e.getMessageAndLocation());
+        }
+
+        @Override
+        public void error(TransformerException e) throws TransformerException {
+            throw e;
+        }
+
+        @Override
+        public void fatalError(TransformerException e) throws TransformerException {
+            throw e;
+        }
+    };
+
+    /** Blocks every xsl:include, xsl:import and document() lookup. */
+    private static final URIResolver DENY_ALL_URI_RESOLVER = (href, base) -> {
+        throw new TransformerException("External resource not allowed: " + href);
+    };
+
+    /** "/a/./b/../c" to "/a/c"; null for paths with backslashes or NUL characters. */
+    public static String normalizeXslWebPath(String path) {
+        if (path == null || path.indexOf('\\') >= 0 || path.indexOf('\0') >= 0) {
+            return null;
+        }
+        return WebAppXslUriResolver.normalizeWebPath(path);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -1148,6 +1270,28 @@ public class Controller {
      * Resolves XSL includes/imports inside the web application (ServletContext).
      * Supports relative hrefs like "../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=19".
      */
+    /** Runtime document() resolver for request-driven transforms: static files under /images/ only. */
+    private static final class StaticImagesUriResolver implements URIResolver {
+
+        private final WebAppXslUriResolver paths;
+
+        StaticImagesUriResolver(ServletContext ctx) {
+            this.paths = new WebAppXslUriResolver(ctx);
+        }
+
+        @Override
+        public Source resolve(String href, String base) throws TransformerException {
+            String path = paths.staticImagesPath(href, base);
+            StreamSource src = path != null ? paths.openResource(path) : null;
+            if (src == null) {
+                throw new TransformerException("Resource not allowed or not found: " + href);
+            }
+            return src;
+        }
+    }
+
+    private static final Pattern URI_SCHEME = Pattern.compile("^[a-zA-Z][a-zA-Z0-9+.-]*:");
+
     private static class WebAppXslUriResolver implements URIResolver {
 
         protected final ServletContext ctx;
@@ -1203,6 +1347,24 @@ public class Controller {
             if (includeBasePath == null || rootPath == null || href.contains("/")) return null;
             if (base == null || !rootPath.equals(normalizeWebPath(base))) return null;
             return normalizeWebPath(includeBasePath + "/" + href);
+        }
+
+        /**
+         * Webapp path under /images/ designated by href (relative to base), or null for anything else:
+         * URI schemes (file:, http:, jar:...), IGRP routes, backslashes or paths outside /images/.
+         */
+        String staticImagesPath(String href, String base) {
+            if (href == null || href.isBlank() || href.indexOf('\\') >= 0 || href.indexOf('\0') >= 0) return null;
+            String raw = href.startsWith("webapp:") ? href.substring("webapp:".length()) : href;
+            if (URI_SCHEME.matcher(raw).find()) return null;
+
+            String cleanHref = cleanHref(href);
+            if (isIgrpRoute(cleanHref)) return null;
+
+            String path = cleanHref.startsWith("/")
+                    ? normalizeWebPath(cleanHref)
+                    : resolveRelative(cleanHref, base != null ? cleanHref(base) : null);
+            return path != null && path.startsWith("/images/") ? path : null;
         }
 
         // ── Path helpers ─────────────────────────────────────────────────────

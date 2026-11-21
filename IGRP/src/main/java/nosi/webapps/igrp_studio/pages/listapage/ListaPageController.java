@@ -1,9 +1,6 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
-
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -34,7 +31,7 @@ import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 		
 public class ListaPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		model.setInfopanel_1_title("Report designer");
 		model.setInfopanel_1_val("");
@@ -43,8 +40,8 @@ public class ListaPageController extends Controller {
 		model.setInfopanel_1_icn("fa-file-text");
 		model.setInfopanel_2_title("BPMN designer");
 		model.setInfopanel_2_val(" ");
-		model.setInfopanel_2_url(Core.getIGRPLink("igrp_studio","BPMNDesigner","index"));
-		model.setInfopanel_2_bg("cp-lavendar");
+		model.setInfopanel_2_url(Core.getIGRPLink("igrp_studio","Migration","index"));
+		model.setInfopanel_2_bg("cp-ink");
 		model.setInfopanel_2_icn("fa-sitemap");
 		model.setInfopanel_3_title("Application builder");
 		model.setInfopanel_3_val(" ");
@@ -54,17 +51,18 @@ public class ListaPageController extends Controller {
 		model.setBtn_import("igrp_studio","ImportArquivo","index");
 		model.setCrud_generator("igrp_studio","CRUDGenerator","index");
 		model.setLink_btn_nova_pagina("undefined","undefined","undefined");
-		ListaPageView view = new ListaPageView();
+		var view = new ListaPageView();
 		view.id_page.setParam(true);
 		view.env_fk.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Lorem dolo' as modulo_tab,'Voluptatem sed unde totam sit' as descricao_page,'hidden-7a09_e8e3' as id_page,'hidden-e2f7_3fb9' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-a550_a411' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Totam ut u' as modulo_tab,'Sit amet accusantium unde ut' as descricao_page,'hidden-ef3b_d236' as id_page,'hidden-3b43_f4b0' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-6816_0041' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
 		// model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=studio"));
@@ -92,7 +90,7 @@ public class ListaPageController extends Controller {
 			}
 		} else {
 			final Application appExt = Core.findApplicationById(Core.toInt(model.getApplication()));
-			if (Core.isNotNull(appExt) && appExt.getExterno() > 0 && !appExt.getUrl().equals("IGRP")) {
+			if (Core.isNotNull(appExt) && appExt.getExterno() > 0 && !"IGRP".equals(appExt.getUrl())) {
 				Core.setMessageError(
 						"ESTÁ NA PASTA PRINCIPAL /IGRP/app/. ESTA APLICAÇÃO É DO TIPO CUSTOM HOST. MUDAR DE DAD POR FAVOR!");
 				// nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
@@ -224,7 +222,7 @@ public class ListaPageController extends Controller {
 	}
 	
 	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -235,6 +233,7 @@ public class ListaPageController extends Controller {
 		  return this.forward("igrp_studio","Env","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (nova_aplicacao)  *//* End-Code-Block  */
 		/*----#start-code(nova_aplicacao)----*/
 
 		/*----#end-code----*/
@@ -242,7 +241,7 @@ public class ListaPageController extends Controller {
 	}
 	
 	public Response actionHistorico() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -253,6 +252,7 @@ public class ListaPageController extends Controller {
 		  return this.forward("igrp_studio","Historico_page","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (historico)  *//* End-Code-Block  */
 		/*----#start-code(historico)----*/
 		
 		this.addQueryString("p_id_page", Core.getParam("p_id_page"));
@@ -261,7 +261,7 @@ public class ListaPageController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -272,6 +272,7 @@ public class ListaPageController extends Controller {
 		  return this.forward("igrp_studio","Historico_page","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (editar)  *//* End-Code-Block  */
 		/*----#start-code(editar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -285,7 +286,7 @@ public class ListaPageController extends Controller {
 	}
 	
 	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -296,6 +297,7 @@ public class ListaPageController extends Controller {
 		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (visualizar)  *//* End-Code-Block  */
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -308,7 +310,7 @@ public class ListaPageController extends Controller {
 	}
 	
 	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -319,6 +321,7 @@ public class ListaPageController extends Controller {
 		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gerar_codigo)  *//* End-Code-Block  */
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -334,7 +337,7 @@ public class ListaPageController extends Controller {
 	}
 	
 	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -345,6 +348,7 @@ public class ListaPageController extends Controller {
 		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (download)  *//* End-Code-Block  */
 		/*----#start-code(download)----*/
 		int id = Core.getParamInt(("p_id_page"));
 		if (Core.isNotNullOrZero(id)) {
@@ -372,7 +376,7 @@ public class ListaPageController extends Controller {
 	}
 	
 	public Response actionFile_editor() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
+		var model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -383,14 +387,13 @@ public class ListaPageController extends Controller {
 		  return this.forward("igrp_studio","File_editor","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (file_editor)  *//* End-Code-Block  */
 		/*----#start-code(file_editor)----*/
 		this.addQueryString("p_env_fk", Core.getParam("p_env_fk"));
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","File_editor","index", this.queryString());	
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus()
 			throws IllegalArgumentException, JSONException {

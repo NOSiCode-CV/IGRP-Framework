@@ -145,47 +145,45 @@ public class ListaPageView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=studio"));
 		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.setValue(gt("https://gitter.im/igrpweb/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
 		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
-		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("remote",Core.getIGRPLink("igrp_studio","ListaPage","index")).add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		modulo.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","ListaPage","index")).add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		btn_import = new LinkField(model,"btn_import");
 		btn_import.setLabel(gt("Importar"));
 		btn_import.setValue(Core.getIGRPLink("igrp_studio","ImportArquivo","index"));
 
-									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("class","danger").add("img","fa-upload").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
+									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("class","danger").add("img","fa-upload").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		crud_generator = new LinkField(model,"crud_generator");
 		crud_generator.setLabel(gt("CRUD/DAO generator"));
 		crud_generator.setValue(Core.getIGRPLink("igrp_studio","CRUDGenerator","index"));
 
-									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("class","warning").add("img","fa-gears").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
+									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("class","warning").add("img","fa-gears").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
 		link_btn_nova_pagina.setValue(Core.getIGRPLink("undefined","undefined","undefined"));
 
-									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
+									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Estado"));
-		status_page.propertie().add("remote",Core.getIGRPLink("igrp_studio","ListaPage","changeStatus")).add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","Integer").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
+		status_page.propertie().add("remote-changeStatus",Core.getIGRPLink("igrp_studio","ListaPage","changeStatus")).add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","Integer").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		status_page_check = new CheckBoxField(model,"status_page_check");
 		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","Integer").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
@@ -333,6 +331,8 @@ public class ListaPageView extends View {
 		infopanel_3_url.setValue(model);
 		infopanel_3_bg.setValue(model);
 		infopanel_3_icn.setValue(model);
+		documento.setValue(model);
+		forum.setValue(model);
 		application.setValue(model);
 		modulo.setValue(model);
 		nada.setValue(model);
