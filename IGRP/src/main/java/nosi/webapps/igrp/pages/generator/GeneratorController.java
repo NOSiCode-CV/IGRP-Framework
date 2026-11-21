@@ -130,13 +130,15 @@ public class GeneratorController extends Controller{
 			} else if (xslStr != null) {
 				if (!authenticated)
 					return transformError(HttpStatus.STATUS_403, "Login required");
-				html = Controller.performClientXsltTransform(xmlStr, xslStr, xslParams);
+				html = Controller.performClientXsltTransform(xmlStr, xslStr, xslParams, request.getServletContext());
 			} else {
 				return transformError(HttpStatus.STATUS_400, "Missing xsl or xslPath");
 			}
 			return this.renderView(html.replaceFirst("^<\\?xml[^>]*\\?>", "").trim());
 		} catch (Exception ex) {
-			LOGGER.error("generator/transform failed", ex);
+			// Anonymous callers can trigger this: log one line, keep the stack trace for DEBUG.
+			LOGGER.warn("generator/transform failed: {}", Controller.rootCauseSummary(ex));
+			LOGGER.debug("generator/transform failed (detail)", ex);
 			// Details only for logged-in users (Studio); anonymous callers get a generic message.
 			return transformError(HttpStatus.STATUS_500,
 					authenticated ? "XSLT transform error: " + ex.getMessage() : "XSLT transform error");

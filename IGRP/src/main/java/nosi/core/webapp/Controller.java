@@ -944,9 +944,22 @@ public class Controller {
             Templates existing = XSL_TEMPLATE_CACHE.putIfAbsent(cacheKey, compiled);
             return existing != null ? existing : compiled;
         } catch (Exception ex) {
-            LOGGER.warn("Failed to compile XSL template: " + xslWebPath, ex);
+            // One line (root cause) at WARN; Xalan's long nested trace only at DEBUG.
+            LOGGER.warn("Failed to compile XSL template " + xslWebPath + ": " + rootCauseSummary(ex));
+            LOGGER.debug("Failed to compile XSL template " + xslWebPath + " (detail)", ex);
             throw new RuntimeException("Failed to compile XSL template: " + xslWebPath, ex);
         }
+    }
+
+    /** "ExceptionClass: message" of the deepest cause, capped so a hostile message cannot flood the log. */
+    public static String rootCauseSummary(Throwable t) {
+        Throwable root = t;
+        for (int i = 0; i < 20 && root.getCause() != null && root.getCause() != root; i++) {
+            root = root.getCause();
+        }
+        String msg = root.getMessage();
+        String summary = root.getClass().getSimpleName() + (msg == null ? "" : ": " + msg.replaceAll("[\\r\\n]+", " "));
+        return summary.length() > 500 ? summary.substring(0, 500) + "..." : summary;
     }
 
     public static String performXsltTransform(String xmlStr, String xslStr, Map<String, String> xslParams) throws Exception {
@@ -1016,15 +1029,24 @@ public class Controller {
     /** JDK built-in XSLT engine (XSLTC); reachable by class name on Java 8 and later. */
     private static final String JDK_XSLT_FACTORY = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
 
+    /** Same as the 4-argument form with no ServletContext: document() is denied altogether. */
+    public static String performClientXsltTransform(String xmlStr, String xslStr,
+                                                    Map<String, String> xslParams) throws Exception {
+        return performClientXsltTransform(xmlStr, xslStr, xslParams, null);
+    }
+
     /**
-     * Request-supplied stylesheet and XML: secure processing (no Java/extension calls), no xsl:include,
-     * xsl:import or document(), and no external entities/DTDs.
+     * Request-supplied stylesheet and XML: secure processing (no Java/extension calls), no xsl:include or
+     * xsl:import, and no external entities/DTDs. document() is denied unless a ServletContext is given, in
+     * which case it may read static files under /images/ only (e.g. the Studio's xml/locale/pt.xml); file:/http:
+     * URLs, WEB-INF and IGRP routes stay blocked.
      * <p>
      * Uses the JDK's built-in XSLT engine, not Xalan-J: Xalan 2.7.3 drops every attribute of literal result
      * elements when FEATURE_SECURE_PROCESSING is on, and without it Xalan lets any namespace call Java classes.
      */
     public static String performClientXsltTransform(String xmlStr, String xslStr,
-                                                    Map<String, String> xslParams) throws Exception {
+                                                    Map<String, String> xslParams,
+                                                    ServletContext ctx) throws Exception {
         TransformerFactory factory = TransformerFactory.newInstance(JDK_XSLT_FACTORY, null);
         factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
@@ -1033,7 +1055,7 @@ public class Controller {
         factory.setURIResolver(DENY_ALL_URI_RESOLVER);
 
         Transformer transformer = factory.newTransformer(secureXmlSource(xslStr));
-        transformer.setURIResolver(DENY_ALL_URI_RESOLVER);
+        transformer.setURIResolver(ctx != null ? new StaticImagesUriResolver(ctx) : DENY_ALL_URI_RESOLVER);
         return runHtmlTransform(transformer, secureXmlSource(xmlStr), xslParams);
     }
 

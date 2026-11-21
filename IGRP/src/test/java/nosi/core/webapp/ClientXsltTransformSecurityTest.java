@@ -133,6 +133,38 @@ class ClientXsltTransformSecurityTest {
         assertTrue(out.contains("param"), out);
     }
 
+    // Studio (IGRP2.4) design views send an inline stylesheet that reads its locale file with document().
+    private static String documentStylesheet() {
+        return "<xsl:stylesheet version='1.0' " + XSL_NS + ">"
+                + "<xsl:template match='/'>[<xsl:value-of select='document(/r/f)'/>]</xsl:template></xsl:stylesheet>";
+    }
+
+    @Test
+    void inlineStylesheetCanReadStaticImagesFilesWithDocument() throws Exception {
+        webapp.put("/images/IGRP/IGRP2.4/xml/locale/pt.xml", "<l><t>locale-ok</t></l>");
+
+        for (String href : new String[]{"/IGRP/images/IGRP/IGRP2.4/xml/locale/pt.xml",
+                "/images/IGRP/IGRP2.4/xml/locale/pt.xml?v=1"}) {
+            String out = Controller.performClientXsltTransform("<r><f>" + href + "</f></r>",
+                    documentStylesheet(), NO_PARAMS, context());
+            assertTrue(out.contains("locale-ok"), href + " -> " + out);
+        }
+    }
+
+    @Test
+    void inlineStylesheetDocumentStillBlocksEverythingOutsideStaticImages() {
+        webapp.put("/WEB-INF/web.xml", "<web-app>" + SECRET + "</web-app>");
+        webapp.put("/images/IGRP/IGRP2.4/xml/locale/pt.xml", "<l>" + SECRET + "</l>");
+
+        for (final String href : new String[]{secretFile.toUri().toString(), "/IGRP/WEB-INF/web.xml",
+                "/images/../WEB-INF/web.xml", "http://127.0.0.1:1/x.xml", "webapps?r=igrp/login/logout",
+                "/IGRP/images/IGRP/IGRP2.4/xml/locale/pt.xml/../../../../../../WEB-INF/web.xml"}) {
+            String out = transformOrMessage(() -> Controller.performClientXsltTransform(
+                    "<r><f>" + href + "</f></r>", documentStylesheet(), NO_PARAMS, context()));
+            assertFalse(out.contains(SECRET), href + " -> " + out);
+        }
+    }
+
     // ── stylesheet stored in the webapp, XML sent by the client ─────────────
 
     @Test

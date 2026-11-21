@@ -159,7 +159,7 @@
       </xsl:attribute>
     </xsl:if>
     
-    <xsl:if test="$field/@maxlength and ($field/@type != 'radio' or $field/@type != 'checkbox' or not($field/@type))">
+    <xsl:if test="$field/@maxlength and ($field/@type != 'radio' and $field/@type != 'checkbox' or not($field/@type))">
       <xsl:attribute name="maxlength">
         <xsl:value-of select="$field/@maxlength" />
       </xsl:attribute>

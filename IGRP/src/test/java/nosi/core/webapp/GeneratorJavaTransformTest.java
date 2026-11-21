@@ -69,6 +69,25 @@ class GeneratorJavaTransformTest {
 
         assertFalse(ex instanceof NullPointerException, String.valueOf(ex));
         assertTrue(ex.getMessage().contains("Failed to compile XSL template"), ex.getMessage());
+
+        // The log line is the root cause only: one line, no Xalan/Xerces nesting.
+        String summary = Controller.rootCauseSummary(ex);
+        assertTrue(summary.contains("including itself"), summary);
+        assertFalse(summary.contains("\n") || summary.contains("\r"), summary);
+        assertTrue(summary.length() <= 503, summary);
+    }
+
+    @Test
+    void rootCauseSummaryIsBoundedAndSafeForOddExceptions() {
+        assertEquals("IllegalStateException", Controller.rootCauseSummary(new IllegalStateException()));
+        assertEquals("IllegalStateException: a b",
+                Controller.rootCauseSummary(new RuntimeException("outer", new IllegalStateException("a\r\nb"))));
+
+        StringBuilder huge = new StringBuilder();
+        for (int i = 0; i < 2000; i++) huge.append('x');
+        String capped = Controller.rootCauseSummary(new RuntimeException(huge.toString()));
+        assertEquals(503, capped.length());
+        assertTrue(capped.endsWith("..."), capped);
     }
 
     @Test
