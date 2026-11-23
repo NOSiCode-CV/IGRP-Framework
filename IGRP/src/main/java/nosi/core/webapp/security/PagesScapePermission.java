@@ -85,6 +85,9 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/listDomains".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/domainsValues".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/getPageJson".toLowerCase());
+		// Server-side XSLT fallback called by xml.xsl.transform.js with a plain route (Chrome 158+ has no XSLTProcessor).
+		// Not in PAGES_WIDTHOUT_LOGIN: a session is still required.
+		PAGES_SCAPE_ENCRYPT.add("igrp/Generator/transform".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("inps_porton/Pagamento_de_servico/index".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("inps_porton/Pagamento_de_servico/pagar".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("portondinosilha/Pagamento_de_donativo/index".toLowerCase());
