@@ -1,5 +1,8 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  
+  <!-- lookup-tool lives in form-utils. Import (not include): imported templates have lower
+       precedence, so pages that also include form-utils get no duplicate-template error. -->
+  <xsl:import href="IGRP-form-utils.tmpl.xsl?v=1"/>
+
   <xsl:template name="process-flow" mode="process-flow" match="*">
     
     <xsl:variable name="totalRow" select="count(table/value/row)"/>
